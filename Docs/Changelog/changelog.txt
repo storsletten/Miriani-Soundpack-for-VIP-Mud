@@ -1,3 +1,6 @@
+Version 5.4.12, released 2017-07-28:
+* SPKeepAlive will now delay its startup until you have actually chosen your character from the character selection menu. The reason for this is that Miriani fails to respond to soundpack pings until you have actually woken up your character in Miriani, which caused SPKeepAlive to falsely report a broken connection after connecting.
+
 Version 5.4.11:
 * All changes since 5.2.3 that were marked as added to the 1.1 scripts have been tested, and they work as expected at the time of this entry. Thanks to Kendall for testing these things on an ancient computer running the even more ancient Vip 1.1.
 * Updated the credits section, and added it to the 1.1 branch as well.
