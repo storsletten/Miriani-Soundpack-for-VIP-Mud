@@ -125,7 +125,7 @@ Extras|
      }
     };
     SPKeepAlive Start Automated;
-    #Say {Reloading complete}
+    #Say {Reloading complete. Please look in the room with your character so that the soundpack will know the current environment.}
    } {
     #Say {*** Finished loading the @SoundpackName version @Version! ***}
    };
