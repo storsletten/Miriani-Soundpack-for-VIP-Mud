@@ -1,3 +1,6 @@
+Version 5.4.14, released 2017-07-28:
+* Fixed an issue where the option for keep-alive responses would interfere with SPKeepAlive.
+
 Version 5.4.13, released 2017-07-28:
 * Fixed a bug in SoundpackML that prematurely terminated certain code under certain conditions.
 * Gave the SPKeepAlive 2 extra seconds to wait before starting up after you connect, to prevent Miriani from measuring your lag in the middle of lots of client processing which negatively affected the test results.
