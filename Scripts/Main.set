@@ -128,8 +128,7 @@ Extras|
    } {
     #Say {*** Finished loading the @SoundpackName version @Version! ***}
    };
-   #Var LoadedSoundpackVersion {@Version};
-   SPKeepAlive Start Automated
+   #Var LoadedSoundpackVersion {@Version}
   }
  } {
   #If {@ConfVer<>@ConfObjVer} {
@@ -151,6 +150,7 @@ Extras|
  #If {@MainTmp1="Connected"} {
   #GagLine 1 Voice;
   SPConnect 1;
+  SPKeepAlive Start Automated;
   #Abort All
  };
  #If {@MainTmp1="Disconnected"} {
