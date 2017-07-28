@@ -1,3 +1,7 @@
+Version 5.4.15, released 2017-07-28:
+* SPKeepAlive will now restart itself after spreload, as it should.
+* The message that indicates reloading complete after you use spreload will now also tell you to look in the room with your character so that the soundpack can update its environmental variables.
+
 Version 5.4.14, released 2017-07-28:
 * Fixed an issue where the option for keep-alive responses would interfere with SPKeepAlive.
 
