@@ -1,6 +1,7 @@
 Version 5.4.11:
 * All changes since 5.2.3 that were marked as added to the 1.1 scripts have been tested, and they work as expected at the time of this entry. Thanks to Kendall for testing these things on an ancient computer running the even more ancient Vip 1.1.
 * Updated the credits section, and added it to the 1.1 branch as well.
+* Also added the development repository to GitHub! For those of you who would like to contribute code, the repo can be found at: https://github.com/tms88/Miriani-Soundpack-for-VIP-Mud
 
 Version 5.4.10:
 * Addressed an issue that prevented the option "conf PointUnit 2" from working. Thanks Adolin for reporting this, and for even providing me with the solution!

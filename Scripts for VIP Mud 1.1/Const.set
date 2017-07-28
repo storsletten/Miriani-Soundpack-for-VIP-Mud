@@ -1,7 +1,8 @@
-#Var MajorVersion 5
-#Var MinorVersion 4
-#Var PatchVersion 10
-#Var Version {@MajorVersion.@MinorVersion.@PatchVersion}
+#Load {@ScriptPath\Version.set}
+#Var MajorVersion {%Word(@Version,.,1)}
+#Var MinorVersion {%Word(@Version,.,2)}
+#Var PatchVersion {%Word(@Version,.,3)}
+
 #Var SoundpackName {Miriani Soundpack for VIP Mud}
 #Var SoundpackCreators {Ash Henderson, Josh Westen, and Erik Yobi}
 #Var SoundpackContributors {
