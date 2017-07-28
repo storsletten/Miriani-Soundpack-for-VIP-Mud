@@ -1,12 +1,11 @@
 #If {%defined(NumberOfSoundpackMessages)=0} {#var NumberOfSoundpackMessages 0}
-#Alias {soundpack} {
- #If {%1="register"} {#Exec {>#$#register_soundpack @SoundpackName | @Version};#Abort};
- #If {%1="unregister"} {#Exec {>#$#unregister_soundpack};#Abort};
- #If {%1="version"} {#Exec {>#$#soundpack_version_query @SoundpackName};#Abort};
+#Alias soundpack {
+ #If {%1="register"} {#Exec {>#$#register_soundpack @SoundpackName | @Version}};
+ #If {%1="unregister"} {#Exec {>#$#unregister_soundpack}};
+ #If {%1="version"} {#Exec {>#$#soundpack_version_query @SoundpackName}};
  #If {%1="reload"} {
   #Say {Reloading the soundpack... Please remain calm.};
-  SPReload 1;
-  #Abort
+  SPReload 1
  };
  #If {%1="Statistics"} {
   #Var SoundpackStatistics {[Soundpack Statistics]:
@@ -17,10 +16,8 @@
 [Number of ExpPipes performed this session]: @NumberOfExpPipes.
 [Number of messages pushed this session]: @NumberOfMessages.
 [Number of history buffers]: %numwords(@HistoryBuffers,|).};
-  ConfPrint @SoundpackStatistics;
-  #Abort
- };
- #Say {Unknown soundpack command.}
+  ConfPrint {@SoundpackStatistics}
+ }
 } {}
 #Trigger {[#]$[#]soundpack *} {
  #GagLine 1 All;
