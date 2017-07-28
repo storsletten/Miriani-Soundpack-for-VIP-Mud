@@ -124,6 +124,7 @@ Extras|
       mrplay @RoomSound Frequency 22050
      }
     };
+    SPKeepAlive Start Automated;
     #Say {Reloading complete}
    } {
     #Say {*** Finished loading the @SoundpackName version @Version! ***}
