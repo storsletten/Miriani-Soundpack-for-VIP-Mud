@@ -148,7 +148,7 @@ Extras|
  #If {@MainTmp1="Connected"} {
   #GagLine 1 Voice;
   SPConnect 1;
-  SPKeepAlive Start Automated;
+  #Alarm 2 {SPKeepAlive Start Automated};
   #Abort
  };
  #If {@MainTmp1="Disconnected"} {
