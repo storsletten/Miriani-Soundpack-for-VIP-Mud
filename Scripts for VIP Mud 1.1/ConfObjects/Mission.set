@@ -1,0 +1,26 @@
+#Exec {
+SetVariable Conf0MissionMode0 {A:Ship0Mission0MissionMode};
+SetVariable Conf0Mission0 {A:Ship0Mission};
+SetVariable Conf0Ship0Mission0 {M:Mission configuration
+MissionMode:Mission mode
+UseHitCounter
+HitCounterFormatString:Configure how hit counter stats should display
+ExtraFiringSound
+UseAlternativeCombatSounds
+};
+SetVariable Conf0Ship0Mission0MissionMode0 {B:MissionMode:Enable or disable mission mode
+Mission mode enabled:Mission mode disabled
+};
+SetVariable Conf0Ship0Mission0UseHitCounter0 {B:UseHitCounter:Count hits during missions
+Hits will now be counted on missions:Hits will no longer be counted on missions
+};
+SetVariable Conf0Ship0Mission0HitCounterFormatString0 {S:HitCounterFormatString:Configure how hit counter reports should look (Use $TOTALHITS for total hits, $DIRECTHITS for direct hits, $PARTIALHITS for partial hits, $DESTROYEDSHIPS for destroyed ships, $TOTALSHIPS for total ships, and $DESTROYEDDEBRIS for destroyed debris)
+The hit counter report format is now set to $V
+};
+SetVariable Conf0Ship0Mission0ExtraFiringSound0 {B:ExtraFiringSound:Play an extra sound when weapons are fired to make them easier to hear
+You will now hear an extra sound when firing the weapons:You will only hear the keyboard click when firing weapons
+};
+SetVariable Conf0Ship0Mission0UseAlternativeCombatSounds0 {B:UseAlternativeCombatSounds:Use alternative combat sounds
+You will now hear alternative combat sounds:You will hear the standard combat sounds
+}
+}

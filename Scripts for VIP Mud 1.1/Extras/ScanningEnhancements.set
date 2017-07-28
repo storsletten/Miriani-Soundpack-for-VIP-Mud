@@ -1,0 +1,15 @@
+#Trigger {Asteroid} {
+ #class asteroidscan enable
+} {}
+#Trigger {Starships: *} {
+ #sub {%1 starships detected.};
+ msplay Ship\Computer\ShipHere@Ext
+} {asteroidscan}
+#Trigger {Coordinates: (*)} {
+ #gagline 1 all;
+SetVariable ScanningEnhancementsAsteroidCoordinates %1
+} {asteroidscan}
+#Trigger {Distance: *} {
+ #sub {%1 units away at @ScanningEnhancementsAsteroidCoordinates.};
+ #class asteroidscan disable
+} {asteroidscan}

@@ -1,0 +1,326 @@
+#Exec {
+ SetVariable OtherTarget {};
+ SetVariable Success 0
+}
+#Alias GunFire {
+ #Var Gun %1;
+ #Var Randomise %2;
+ #Class GunFired Enable
+} {}
+#Trigger {* points * at * and fires!} {
+ #if  {%Pos(insect,%3)>0 AND @MissionMode=1} {
+  ExpPipe {:Voice:%0} {:Voice:%0} {:Voice:%0}
+ } {
+  #var TargetString {%1 shoots %3 with %2.};
+  #ForAll @OtherTarget {
+   #if {%I<>"" AND @Success<>1} {
+    #if {%Word(%i,:,1)=%1 AND %Word(%i,:,2)=%3} {
+     #var TargetString {%1 fires.};
+     #Var Success 1;
+     #Var OtherTarget {%DelItem(@OtherTarget,%i)}
+    }
+   }
+  };
+  #Var Success 0;
+  ExpPipe {%0} {%1 fires at %3 with %2.} {@TargetString};
+  #Var OtherTarget {%1:%3|@OtherTarget}
+ };
+ #Sub {@ExpString};
+ GunFire %2 1
+} {Main}
+#TRIGGER {You slide a* out of a pulse emitter clip.} {
+ msplay General\Combat\DrawEMPulse*3@Ext;
+ ExpPipe {%0} {%0} {You draw a%1};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {A* * to have run out of energy.} {
+ msplay General\Combat\EmptyEmitter@Ext
+} {Main}
+#TRIGGER {* slides a* out of a pulse emitter clip.} {
+ msplay General\Combat\DrawEMPulse*3@Ext;
+ ExpPipe {%0} {%0} {%1 draws a%2};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {You deftly draw a* from a*.} {
+ msplay General\Combat\DrawGun*3@Ext;
+ ExpPipe {%0} {%0} {You draw a%1 from a%2};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {* deftly draws a* from a*.} {
+ msplay General\Combat\DrawGun*3@Ext;
+ ExpPipe {%0} {%0} {%1 draws a%2 from a%3};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {A loud clicking is followed by the clatter of an empty cartridge to the floor.} {
+ msplay empty@Ext;
+ ExpPipe {%0} {:Voice:%0} {:Voice:Empty};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {* aims a* at * and activates it.} {
+ msplay General\Combat\EMPulse@Ext;
+ ExpPipe {%0} {%0} {%1 aims a%2 at %3 and activates it};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {You deftly insert a* into a*.} {
+ msplay holster@Ext;
+ ExpPipe {%0} {%0} {You insert a%1 into a%2};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {* deftly inserts a* into a*.} {
+ msplay holster@Ext;
+ ExpPipe {%0} {%0} {%1 inserts a%2 into a%3};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {You slide * into a* where it settles into place with a small click.} {
+ msplay holster@Ext;
+ ExpPipe {%0} {%0} {You slide %1 into a%2};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {* slides * into a*, where it snaps into place with a click.} {
+ msplay holster@Ext;
+ ExpPipe {%0} {%0} {%1 slides %2 into a%3};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {You carefully discharge a* into a*.} {
+ msplay General\Combat\LoadEMPulse*3@Ext;
+ ExpPipe {%0} {You discharge a%1 into a%2} {A%2 energized.};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {* carefully discharges a* into a*.} {
+ msplay General\Combat\LoadEMPulse*3@Ext;
+ ExpPipe {%0} {%0} {%1 discharges a%2 into a%3};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {You hastily slam a* into the open ammo slot of a*.} {
+ msplay General\Combat\LoadGun*3@Ext;
+ ExpPipe {%0} {%0} {You load a%1 into a%2};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {* hastily slams a* into the open ammo slot of a*.} {
+ msplay General\Combat\LoadGun*3@Ext;
+ ExpPipe {%0} {%0} {%1 loads a%2 into a%3};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {A* clicks oddly. It must be out of ammo.} {
+ msplay emptygun@Ext;
+ ExpPipe {%0} {A%1 is out of ammo.} {A%1 is empty};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {The shot hits *'s *.} {
+ msplay General\Combat\OtherShot@Ext;
+ #If {@MissionMode=1 AND %Pos(insect,%1)>0} {
+  #Gagline 1 all
+ };
+ ExpPipe {%0} {%0} {The shot hits %1's %2};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {* points * at * head and fires!} {
+ msplay General\Combat\OtherShot@Ext;
+ GunFire %2 1;
+ ExpPipe {%0} {%0} {%1 points %2 at %3 head and fires};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {The shot misses!} {
+ mrandomplay General\Combat\ShotMisses@Ext;
+ ExpPipe {%0} {Missed!} {:Voice:Missed!};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {* suddenly begins to power down.} {
+ msplay General\Combat\Shutdown*4@Ext;
+ ExpPipe {%0} {%0} {%1 powers down};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {* suddenly slumps over as * mechanical systems begin to shut down.} {
+ msplay General\Combat\Shutdown*5@Ext;
+ ExpPipe {%0} {%0} {%1 shuts down};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {A * falls to the ground, disabled.} {
+ msplay General\Combat\Shutdown*4@Ext;
+ ExpPipe {%0} {%0} {%1 disabled};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {You crouch behind *, using * for cover.} {
+ msplay crouch@Ext;
+ ExpPipe {%0} {%0} {You use %1 for cover};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {You unload * from *} {msplay General\Combat\UnloadAmmo*5@Ext} {Main}
+#TRIGGER {* unloads * from *} {msplay General\Combat\UnloadAmmo*5@Ext} {Main}
+#TRIGGER {You depress the cartridge release lever on a*, causing the loaded cartridge to slide out of the weapon, and into your hand.} {
+ msplay General\Combat\UnloadGun*2@Ext;
+ ExpPipe {%0} {%0} {You unload a%1};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {* depresses the cartridge release lever on a*, causing the loaded cartridge to slide out of the weapon, and into * hand.} {
+ msplay General\Combat\UnloadGun*2@Ext;
+ ExpPipe {%0} {%0} {%1 unloads a%2};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {The shot hits your *.} {
+ msplay General\Combat\YouShot@Ext;
+ ExpPipe {%0} {%0} {The shot hits your %1};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {* skillfully dodges the shot.} {
+ msplay General\Combat\ShotMisses@Ext;
+ ExpPipe {%0} {%0} {%1 dodges the shot};
+ #Sub {@ExpString}
+} {Main}
+#trigger {* takes aim at you*} {msplay General\Combat\DrawEMPulse*3@Ext} {Main}
+#TRIGGER {* begins following you.*} {msplay joins@Ext} {Main}
+#trigger {* take*control of*group*} {msplay joins@Ext} {Main}
+
+#trigger {* insectoid creature scurries in*} {mrandomplay General\Combat\PraelorScurry*2@Ext} {Main}
+#trigger {*You see * insectoid creature*here*} {msplay General\Combat\PraelorScurry*2@Ext} {Main}
+#trigger {A* insectoid creature crouches low to the ground and hisses, expelling a large quantity of an acidic compound at *.} {
+ msplay General\Combat\PraelorSpit*3@Ext;
+ ExpPipe {%0} {%0} {%2 is attacked by a%1 insectoid creature.};
+ #Sub {@ExpString};
+ PushMessage Attacks {@ExpString}
+} {Main}
+#trigger {A* insectoid creature starts shrieking loudly, the pitch ramping up as it succumbs to the effects of the alkalines. Sections of its exoskeleton begin to swell, tiny bumps forming on the swelling sections*} {
+ msplay General\Combat\PraelorDeath@Ext;
+ ExpPipe {%0} {%0} {A%1 is dead.};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {The shot blows a hole in *'s *.} {
+ msplay General\Combat\PraelorHit@Ext;
+ #If {@MissionMode=1} {
+  #GagLine 1 All
+ }
+} {Main}
+#Trigger {A* lets out a * screech before collapsing to the ground. It lifts its head weakly, staring at * with black, beady, *, completing its life.} {
+ mwplay General\Combat\FuzzyDeath@Ext;
+ ExpPipe {%0} {A%1 is dead.} {A%1 is dead.};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {  *: * (*.*~%)} {
+ #If {@AlterArmor=1} {
+  #Sub {  %1: %3  (%2)}
+ }
+} {Main}
+#Trigger {The shot impacts luminescent orifice with no noticeable effect.} {
+ msplay General\Combat\YouShot@Ext;
+ ExpPipe {%0} {%0} {No noticeable effect};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {The shot impacts the edge of the orifice, sending a thick stream of acid outward.} {msplay General\Combat\PraelorHit@Ext} {Main}
+#TRIGGER {The orifice, unable to withstand further fire, begins expanding outward, creating an entry point large enough for a human to fit through.} {
+ msplay General\Combat\PraelorSpit*3@Ext
+} {Main}
+#TRIGGER {* suddenly powers back up.} {mwplay General\Combat\PowerUp@Ext} {Main}
+#TRIGGER {* suddenly rises back into the air.} {mwplay General\Combat\PowerUp@Ext} {Main}
+#TRIGGER {You take a quick glance at a* *, noting that the effective stun power is * and that it is loaded with a* * and has * left.} {
+ speech stop;
+ ExpPipe {%0} {%5 with %6 left, each with a power of %3} {%5 with %6 left (Power: %3)};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {Your communicator reports an error sending *.} {msplay General\Comm\CommInactive@Ext} {Main}
+#TRIGGER {* conjures up some mighty force and slams a * stun baton into *'s *! You notice a surge of energy seems to be coursing through * body.} {msplay General\Combat\StunBatonHit@Ext} {Main}
+#TRIGGER {* conjures up some mighty force and slams a * stun baton into your *! *} {msplay General\Combat\StunBatonHit@Ext} {Main}
+#TRIGGER {You seem to have difficulty steadying your hand. You watch in dismay as your shot shoots wildly past *.} {ExpPipe {%0} {You watch in dismay as your shot shoots wildly past %1.} {You miss %1.};
+#sub {@ExpString};
+msplay General\Combat\ShotMisses@Ext} {Main}
+#Trigger {* shot *ses *across * armor.} {
+ #if {%4="your"} {
+  msplay General\Combat\StunArmor@Ext
+ } {
+  mwplay General\Combat\StunArmor@Ext
+ }
+} {Main}
+#Trigger {* begin* carefully *ing pieces of armor * bulky stun armor battery pack.} {
+ #if {%Word(%1, ,1)="You"} {
+  Msplay General\Combat\ArmorConnectStart@Ext
+ } {
+  mwplay General\Combat\ArmorConnectStart@Ext
+ }
+} {Main}
+#Trigger {* finish* *ing armor * bulky stun armor battery pack.} {
+ #if {%Word(%1, ,1)="You"} {
+  msplay General\Combat\ArmorConnectFinish@Ext
+ } {
+  mwplay General\Combat\ArmorConnectFinish@Ext
+ }
+} {Main}
+#Trigger {* press* a small * button on the top of * stun armor battery pack.} {
+ #If {%3="red"} {
+  Msplay General\Combat\BatteryPackOff@Ext;
+  #If {%1="You"} {
+   ExpPipe {%0} {%0} {Battery disabled}
+  } {
+   ExpPipe {%0} {%0} {%1 disables %4 stun armor battery.}
+  }
+ } {
+  Msplay General\Combat\BatteryPackOn@Ext;
+  #If {%1="You"} {
+   ExpPipe {%0} {%0} {Battery enabled}
+  } {
+   ExpPipe {%0} {%0} {%1 enables %4 stun armor battery.}
+  }
+ };
+ #Sub {@ExpString}
+} {Main}
+#Trigger {A bulky stun armor battery pack} {#Class BatteryPackScanner Enable} {Main}
+#Trigger {It appears to be *.} {
+ #if {@ExperienceLevel>1} {
+  #class BatteryPack Enable;
+  SetVariable BatteryPackTmp1 {%Proper(%1)};
+  #gagline 1 all
+ };
+ #Class BatteryPackScanner Disable
+} {Main|BatteryPackScanner}
+#Trigger {The charge indicator reads *.} {
+ #sub {@BatteryPackTmp1, with %1 power remaining.};
+ #class BatteryPack disable
+} {Main|BatteryPack}
+#Trigger {* carefully place* a bulky stun armor battery pack on a stun armor power pack recharging station, *.} {
+ msplay General\Misc\Belt2@Ext
+} {Main}
+#Trigger {* firmly grip* the top of a bulky stun armor battery pack and press* a small release button. *.} {
+ msplay General\Misc\Belt1@Ext
+} {Main}
+#Trigger {* the shot disburses harmlessly across * armor.} {
+ #if {%2="your"} {
+  Msplay General\Combat\StunArmor@Ext
+ } {
+  Mwplay General\Combat\StunArmor@Ext
+ }
+} {Main}
+#Trigger {A bulky stun armor battery pack emits * before suddenly powering down.} {
+ msplay Ship\Computer\Abort@Ext
+} {Main}
+#Trigger {Nothing happens. The batteries must be dead.} {Msplay General\Rooms\Beep9@Ext} {Main}
+#Trigger {Sparks fly from the ground as an electrical current shocks you painfully!} {Msplay Ship\Combat\Electricity@Ext} {Main}
+#Trigger {* bursts from a duct panel with an incredibly loud howl!} {mrandomplay General\Combat\PraelorScurry*2@Ext} {Main}
+#Trigger {* begin to glow faintly as they are electrically charged.} {
+ ExpPipe {%0} {%1.} {};
+ #Sub @ExpString
+} {Main}
+#Trigger {The faint glow emanating from * slowly fades.} {
+ ExpPipe {%0} {%1} {};
+ #Sub @ExpString
+} {Main}
+#Trigger {Your power pack beeps alarmingly, indicating that an emergency shutdown failsafe has been triggered.} {msplay Ship\Computer\LowCharge*3@Ext} {Main}
+#Trigger {The shot hits squarely in the center of the orifice with no noticeable effect on the outside.} {
+ ExpPipe {%0} {No noticeable effect.} {:Voice:No noticeable effect.};
+ mwplay General\Combat\ShotBounces@Ext;
+ #Sub @ExpString
+} {Main}
+#Trigger {You point * at * and fire!} {
+ GunFire %1 0;
+ ExpPipe {%0} {You shoot %2 with %1.} {:Voice:You shoot %2 with %1.};
+ #Sub @ExpString
+} {Main}
+#Trigger {*} {
+ #if {%0=*"A* clicks oddly. It must be out of ammo."} {} {
+  MGunPlay @Gun @Randomise
+ };
+ #UnVar Gun;
+ #UnVar Randomise;
+ #Class GunFired Disable
+} {GunFired}
+#Trigger {An automated stun turret fires at *.} {
+ msplay General\Combat\OtherShot@Ext;
+ msplay General\Combat\EMPulse@Ext
+} {Main}

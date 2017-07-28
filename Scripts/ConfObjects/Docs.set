@@ -1,0 +1,32 @@
+#Exec {
+SetVariable Conf0Doc0 {A:Documentation};
+SetVariable Conf0Help0 {A:Documentation0Help};
+SetVariable Conf0Readme0 {A:Documentation0Readme};
+SetVariable Conf0Changelog0 {A:Documentation0Changelog};
+SetVariable Conf0Documentation0 {M:Documentation menu
+About:View version and contact information <Shift-F1>
+ReadMe:View Readme file
+ChangeLog:View Changelog file
+Help:View setup instructions
+Keystrokes:View a list of available shortcut keys
+Developer:View developer documentation
+};
+SetVariable Conf0Documentation0About0 {E:
+AboutScripts
+};
+SetVariable Conf0Documentation0Readme0 {E:
+#edit {~@DocsPath/../Readme.txt}
+};
+SetVariable Conf0Documentation0ChangeLog0 {E:
+wn
+};
+SetVariable Conf0Documentation0Help0 {E:
+#edit {~@DocsPath/Help.txt}
+};
+SetVariable Conf0Documentation0Keystrokes0 {E:
+#edit {~@DocsPath/Keys.txt}
+};
+SetVariable Conf0Documentation0Developer0 {E:
+#edit {~@DocsPath/Developer.txt}
+}
+}

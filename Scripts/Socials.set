@@ -1,0 +1,386 @@
+#Var Actions {
+belch:belches:General\Socials\Belch*3
+bop:General\Socials\Bop
+burp:burps:General\Socials\Burp*5
+cheekkiss:General\Socials\Kiss
+collapse:col:coll:colla:collap:collaps:General\Socials\collapse*3
+fall:General\Socials\collapse*3
+fart:farts:General\Socials\Fart*F4|M9
+frenchkiss:french:General\Socials\Kiss
+gag:gags:General\Socials\gag*2
+kick:general\socials\kick*20
+kiss:General\Socials\Kiss
+poke:general\socials\poke
+punch:general\socials\punch*20
+slap:general\socials\slap*5
+snap:General\Socials\snap*3
+spank:General\Socials\Spank
+strangle:General\Socials\strangle*2
+vomit:puke:General\socials\vomit
+whistle:whistles:general\socials\whistle*5
+}
+#Var Socials {
+boo:boos:General\Socials\Boo*4
+cackle:cackles:General\Socials\Cackle*2
+cheer:cheers:General\Socials\Cheer*F3|M5
+chortle:chortles:chortl:chort:chor:cho:General\Socials\chortle
+chuckle:chuckles:chu:chuc:chuck:chuckl:General\Socials\Chuckle*M2
+cough:coughs:General\Socials\cough*5
+cry:cries:General\Socials\Cry*F4|M3
+giggle:giggles:gig:General\Socials\Giggle*F7|M1
+laugh:laughs:General\Socials\Laugh*F8|M6
+lol:General\Socials\lol*F2|M6
+moan:moans:General\Socials\Moan*F5|M2
+orgasm:orgasms:General\Socials\Orgasm*F6|M2
+rofl:General\Socials\rofl*F2|M3
+scream:screams:bellow:bellows:General\Socials\Scream*F9|M5
+shriek:shrieks:General\Socials\Shriek*F2|M0
+sigh:sighs:General\Socials\sigh*6
+snore:snores:General\Socials\Snore*5
+snort:snorts:General\Socials\Snort
+yawn:yawns:General\Socials\yawn*2
+}
+
+#var FerryHandle 0
+#Alias {Main|Socials} {#if {@SocialsOn <> 1} {
+#var SocialsOn 1;
+#class socials enable;
+#say {Socials enabled.}
+} {
+#var SocialsOn 0;
+#class socials disable;
+#say {Socials disabled.}}} {}
+#Alias {ActionsToggle} {#if {@ActionsOn <> 1} {
+#var ActionsOn 1;
+#class actions enable;
+#say {Actions enabled.}
+} {
+#var ActionsOn 0;
+#class actions disable;
+#say {Actions disabled.}}} {}
+#Alias {EmotesToggle} {#if {@EmotesOn <> 1} {
+#var EmotesOn 1;
+#class emotes enable;
+#say {Emotes enabled.}
+} {
+#var EmotesOn 0;
+#class emotes disable;
+#say {Emotes disabled.}}} {}
+#If {@SocialsOn=1} {#Class socials Enable}
+#If {@ActionsOn=1} {#Class actions Enable}
+#If {@EmotesOn=1} {#Class emotes Enable}
+
+#Key Control-F11 {Main|Socials} {}
+
+#Trigger {[#]$[#]soundpack social | * | *} {
+ #If {@ActionsOn=1} {
+  SetVariable SocialsTmp1 {%Pos(%CRLF%1:,@Actions)};
+  #If {@SocialsTmp1=0} {
+   SetVariable SocialsTmp1 {%Pos(:%1:,@Actions)};
+   #If {@SocialsTmp1=0} {
+    SetVariable SocialsTmp1 {}
+   } {
+    SetVariable SocialsTmp2 {%Word(%Delete(@Actions,1,@SocialsTmp1),%CRLF,1)};
+    SetVariable SocialsTmp1 {%Copy(@Actions,1,@SocialsTmp1)};
+    SetVariable SocialsTmp1 {%Word(@SocialsTmp1,%CRLF,%NumWords(@SocialsTmp1,@LF))};
+    SetVariable SocialsTmp1 {@SocialsTmp1@SocialsTmp2}
+   }
+  } {
+   SetVariable SocialsTmp1 {%Word(%Delete(@Actions,1,%Eval(@SocialsTmp1+1)),%CRLF,1)}
+  };
+  #If {@SocialsTmp1<>""} {
+   #If {@BypassActionToggles=0} {
+    SetVariable SocialsTmp2 {%Word(@SocialsTmp1,:,1)ActionToggle};
+    #If {%Defined(@SocialsTmp2)=1} {
+     #If {@{@SocialsTmp2}=0} {#Abort All}
+    }
+   };
+   SetVariable SocialsTmp1 {%Word(@SocialsTmp1,:,%NumWords(@SocialsTmp1,:))};
+   #If {%Pos(*,@SocialsTmp1)>0} {
+    SetVariable SocialsTmp2 {%Word(@SocialsTmp1,*,2)};
+    #If {%IsNumber(@SocialsTmp2)=0} {
+     SetVariable SocialsTmp1 {%Word(@SocialsTmp1,*,1)};
+     SetVariable SocialsTmp4 {%NumWords(@SocialsTmp2,|)};
+     #While {@SocialsTmp4>0} {
+      SetVariable SocialsTmp3 {%Word(@SocialsTmp2,|,@SocialsTmp4)};
+      #If {%Left(@SocialsTmp3,1)=%Left(%2,1)} {
+       SetVariable SocialsTmp4 0
+      } {
+       #Math SocialsTmp4 {@SocialsTmp4-1}
+      }
+     };
+     #If {%IsNumber(%Right(@SocialsTmp3,1))=1} {
+      SetVariable SocialsTmp1 {@SocialsTmp1%Left(@SocialsTmp3,1)*%Copy(@SocialsTmp3,2,2)}
+     } {
+      SetVariable SocialsTmp1 {@SocialsTmp1@SocialsTmp3}
+     }
+    }
+   };
+   #If {%Pos(*,@SocialsTmp1)>0} {
+    #If {%Word(@SocialsTmp1,*,2)="0"} {
+     #Abort All
+    }
+   };
+   maplay {@SocialsTmp1@Ext};
+   #Abort All
+  }
+ };
+ #If {@SocialsOn=1} {
+  SetVariable SocialsTmp1 {%Pos(%CRLF%1:,@Socials)};
+  #If {@SocialsTmp1=0} {
+   SetVariable SocialsTmp1 {%Pos(:%1:,@Socials)};
+   #If {@SocialsTmp1=0} {
+    SetVariable SocialsTmp1 {}
+   } {
+    SetVariable SocialsTmp2 {%Word(%Delete(@Socials,1,@SocialsTmp1),%CRLF,1)};
+    SetVariable SocialsTmp1 {%Copy(@Socials,1,@SocialsTmp1)};
+    SetVariable SocialsTmp1 {%Word(@SocialsTmp1,%CRLF,%NumWords(@SocialsTmp1,@LF))};
+    SetVariable SocialsTmp1 {@SocialsTmp1@SocialsTmp2}
+   }
+  } {
+   SetVariable SocialsTmp1 {%Word(%Delete(@Socials,1,%Eval(@SocialsTmp1+1)),%CRLF,1)}
+  };
+  #If {@SocialsTmp1<>""} {
+   #If {@BypassSocialToggles=0} {
+    SetVariable SocialsTmp2 {%Word(@SocialsTmp1,:,1)SocialToggle};
+    #If {%Defined(@SocialsTmp2)=1} {
+     #If {@{@SocialsTmp2}=0} {#Abort All}
+    }
+   };
+   SetVariable SocialsTmp1 {%Word(@SocialsTmp1,:,%NumWords(@SocialsTmp1,:))};
+   #If {%Pos(*,@SocialsTmp1)>0} {
+    SetVariable SocialsTmp2 {%Word(@SocialsTmp1,*,2)};
+    #If {%IsNumber(@SocialsTmp2)=0} {
+     SetVariable SocialsTmp1 {%Word(@SocialsTmp1,*,1)};
+     SetVariable SocialsTmp4 {%NumWords(@SocialsTmp2,|)};
+     #While {@SocialsTmp4>0} {
+      SetVariable SocialsTmp3 {%Word(@SocialsTmp2,|,@SocialsTmp4)};
+      #If {%Left(@SocialsTmp3,1)=%Left(%2,1)} {
+       SetVariable SocialsTmp4 0
+      } {
+       #Math SocialsTmp4 {@SocialsTmp4-1}
+      }
+     };
+     #If {%IsNumber(%Right(@SocialsTmp3,1))=1} {
+      SetVariable SocialsTmp1 {@SocialsTmp1%Left(@SocialsTmp3,1)*%Copy(@SocialsTmp3,2,2)}
+     } {
+      SetVariable SocialsTmp1 {@SocialsTmp1@SocialsTmp3}
+     }
+    }
+   };
+   #If {%Pos(*,@SocialsTmp1)>0} {
+    #If {%Word(@SocialsTmp1,*,2)="0"} {
+     #Abort All
+    }
+   };
+   #If {@SocialsOn=1} {
+    MirianiSoundPlay {Social} {@SocialsTmp1@Ext}
+   }
+  }
+ }
+} {Main}
+
+#Trigger {* sits down on *} {maplay sit@Ext} {Main|Actions}
+#Trigger {You sit down on *} {maplay sit@Ext} {Main|Actions}
+#Trigger {* stands up.} {maplay stand@Ext} {Main|Actions}
+#Trigger {You stand up.} {maplay stand@Ext} {Main|Actions}
+#Trigger {* pulls * to * feet.} {maplay stand@Ext} {Main|Actions}
+#Trigger {You pull * to * feet.} {maplay stand@Ext} {Main|Actions}
+#Trigger {* yawns suddenly and collapses to the ground, asleep.} {
+ maplay {General\Socials\yawn*2@Ext};
+ maplay {General\Socials\collapse*3@Ext}
+} {Main}
+
+#Trigger {You * a * refrigerator*} {
+ #If {%NumWords(%1, )=1} {
+  #If {%1="open"} {
+   maplay General\Misc\FridgeOpen@Ext;
+   #Abort All
+  };
+  #If {%1="close"} {
+   maplay General\Misc\FridgeClose@Ext;
+   #Abort All
+  }
+ }
+} {Main|Actions}
+#Trigger {You turn*sink* on*} {maplay general\misc\fausset@Ext} {Main|Actions}
+#Trigger {You begin washing*} {maplay general\misc\washinghands@Ext} {Main|Actions}
+#Trigger {You slide open the shower door and enter in to*} {maplay general\misc\showerdoor@Ext} {Main|Actions}
+#Trigger {* enters through the sliding glass door.} {maplay general\misc\showerdoor@Ext} {Main|Actions}
+#Trigger {The * water continues to spray down on you*} {
+ maplay general\misc\shower@Ext;
+ #Var ShowerPlayHandle %PlayHandle
+} {Main|Actions}
+#Trigger {Once finished, you clean yourself and*} {maplay general\misc\loudtoiletflush@Ext} {Main|Actions}
+#Trigger {A * washing machine begins filling with water as the*} {maplay general\misc\washingmachine@Ext} {Main|Actions}
+#Trigger {A * dryer warms up and*} {maplay general\misc\clothesdryer@Ext} {Main|Actions}
+#Trigger {You close the lid on * and wait patiently as it begins*} {maplay general\misc\waffleiron@Ext} {Main|Actions}
+#Trigger {You carefully light a*} {maplay general\misc\candle@Ext} {Main|Actions}
+#Trigger {You neatly shuffle a deck of classic Assault cards and set them down as you wait for the second player*} {maplay general\misc\cardshuffle@Ext} {Main|Actions}
+#Trigger {*neatly stacks a deck of classic Assault cards and waits patiently for another player to arrive*} {maplay general\misc\cardshuffle@Ext} {Main|Actions}
+#Trigger {You wind up and send a ball down the lane*} {maplay general\misc\skeeballrolls@Ext} {Main|Actions}
+#Trigger {Game over.  Your final score is*} {maplay general\misc\skeeballscore@Ext} {Main|Actions}
+#Trigger {You press a button on * blender and watch as the contents are blended together into a delicious concoction of*} {maplay general\misc\blender@Ext} {Main|Actions}
+#Trigger {*pour* into *.} {
+ #Var PourTmp1 {%Replace(%1,~",)};
+ #Var PourTmp1 {%Replace(@PourTmp1,~~,)};
+ #Var PourTmp2 {%Replace(%2,~",)};
+ #Var PourTmp2 {%Replace(@PourTmp2,~~,)};
+ #If {@PourTmp1 =* "You see *" or @PourTmp1 =* "[[]*" or %NumWords(@PourTmp1, ) >= 5 or @PourTmp2 =* "ing *" or %Pos(~",%Right(%3,1)) > 0} {} {
+  maplay {general\misc\pouringliquid@Ext}
+ };
+ #UnVar PourTmp1;
+ #UnVar PourTmp2
+} {Main|Actions}
+#Trigger {You clink * with *.} {maplay general\misc\wineglass@Ext} {Main|Actions}
+#Trigger {* clinks glasses with you*} {maplay general\misc\wineglass@Ext} {Main|Actions}
+#Trigger {Sensing adequate kindling, a bright, warm fire erupts inside*} {maplay general\misc\fireplace@Ext} {Main|Actions}
+#Trigger {*open* a bottle*} {maplay general\misc\openbottle@Ext} {Main|Actions}
+#Trigger {You open * lockbox*.} {maplay general\misc\lockboxopen@Ext} {Main|Actions}
+#Trigger {You close * lockbox *.} {maplay general\misc\lockboxclose@Ext} {Main|Actions}
+#Trigger {*turn* the water off*} {#pc @ShowerPlayHandle stop;
+#unvar ShowerPlayHandle;
+maplay General\Misc\ShowerEnd@Ext} {Main|Actions}
+#Trigger {You hear the soft, soothing sound of water flowing down the fountain and into the rocks at the bottom*} {maplay general\misc\fountain@Ext} {Main|Actions}
+#Trigger {A giant flame suddenly engulfs a * causing it to burn to a crisp*} {maplay general\misc\fireplace@Ext} {Main|Actions}
+#Trigger {*kick* off with * feet and*} {maplay general\misc\swing@Ext} {Main|Actions}
+#Trigger {The table beeps quietly as it resets*} {maplay airhocky\beep@Ext} {Main|Actions}
+#Trigger {*the puck down the center of the table*} {maplay airhocky\hitpuck@Ext} {Main|Actions}
+#Trigger {The puck slides into the goal with a quiet clinking sound*} {maplay airhocky\goal@Ext} {Main|Actions}
+#Trigger {The puck bounces against the edge of the table slightly*} {maplay airhocky\hitside@Ext} {Main|Actions}
+#Trigger {*hit* the puck*} {maplay airhocky\hitpuck@Ext} {Main|Actions}
+#Trigger {*lines up a shot from*} {maplay airhocky\hitpuck@Ext} {Main|Actions}
+#Trigger {*sends the puck flying*} {maplay airhocky\hitpuck@Ext} {Main|Actions}
+#Trigger {With a gentle jolt, the ferry*} {maplay general\misc\ferry@Ext;
+#var FerryHandle %playhandle} {Main|Actions}
+#Trigger {You barely notice as the ferry makes contact with the dock and is securely tied in place*} {maplay general\misc\ferrystop@Ext;
+#var FerryHandle %playhandle} {Main|Actions}
+#Trigger {A * of * slams into *, drenching it in *!} {maplay general\socials\slimemachinehit@Ext} {Main|Actions}
+#Trigger {You smash your foot into a * of * and it forms a large puddle.} {maplay general\socials\slimepuddlesplat@Ext} {Main|Actions}
+#Trigger {You smash a * of * into your face, where it bursts and covers you in *!} {maplay general\socials\slimepuddlesplat@Ext} {Main|Actions}
+#Trigger {You glance at * for a moment before deciding that it's hardly worth keeping. With that in mind, you hurl it to the ground, where it shatters into several pieces.} {maplay general\socials\breakingglass*5@Ext} {Main|Actions}
+#Trigger {* glances at * for a moment before deciding that it's hardly worth keeping. With that in mind, * hurls it to the ground, where it shatters into several pieces.*} {maplay general\socials\breakingglass*5@Ext} {Main|Actions}
+#Trigger {* carefully attach* worm to * fishing pole*} {maplay fishworm@Ext} {Main|Actions}
+#Trigger {*suddenly glances around, seemingly rather embarrassed that the fish got away.*} {maplay fishescape@Ext} {Main|Actions}
+#Trigger {*You feel a mighty lurch and realize in disappointment that the fish got away.*} {maplay fishescape@Ext} {Main|Actions}
+#Trigger {* lazily cast* line of * into the water*} {maplay fishcast@Ext} {Main|Actions}
+#Trigger {*carefully remove*from*fishing pole*} {maplay fishcatch@Ext} {Main|Actions}
+#Trigger {* suddenly begin* to reel * line in*} {maplay fishreel@Ext} {Main|Actions}
+#Trigger {*You suddenly feel a mighty tug on the end of your line.*} {maplay fishreel@Ext} {Main|Actions}
+#Trigger {*remove* spacesuit from * and put it on.} {maplay General\Device\SpacesuitWear@Ext} {Main|Actions}
+#Trigger {*remove* spacesuit and put it in *.} {maplay General\Device\SpacesuitRem@Ext} {Main|Actions}
+#Trigger {*remove* spacesuit and neatly places it in *.} {maplay General\Device\SpacesuitWear@Ext} {Main|Actions}
+#Trigger {*retrieve* spacesuit from *.} {maplay General\Device\SpacesuitRem@Ext} {Main|Actions}
+#Trigger {*remove* armor from * and put it on.} {maplay General\Socials\ArmorWear@Ext} {Main|Actions}
+#Trigger {*remove* armor and place each piece in the designated area in *.} {maplay General\Socials\ArmorRem@Ext} {Main|Actions}
+#Trigger {The shot is absorbed by a massive loudspeaker on *, which seems to become gloriously silent.} {mwplay Ship\Combat\ExtDisable*2@Ext} {Main|Actions}
+#Trigger {A loud burst of static suddenly comes from the loudspeaker on *. You assume it has been reactivated.} {mwplay Ship\Combat\ExtEnable*4@Ext} {Main|Actions}
+#Trigger {*mak* a grab for * electric*.} {maplay General\Combat\StunBatonHit@Ext} {Main|Actions}
+#Trigger {You watch as a ferry arrives and gets secured to the dock.} {maplay general\misc\ferrystop@Ext} {Main|Actions}
+#Trigger {You disembark.} {#if {@FerryHandle > 0} {#pc @FerryHandle stop
+} {
+msplay General\Misc\Disembark@Ext};
+#var FerryHandle 0} {Main|Actions}
+#Trigger {You follow * to * Large Wooden Dock.} {#var Following 1;
+#if {@FerryHandle > 0} {#pc @FerryHandle stop;
+#var FerryHandle 0}} {Main|Actions}
+#Trigger {You put a * up to the tip of a * and light it. It begins to smoulder at the tip.} {maplay general\misc\candle@Ext} {Main|Actions}
+#Trigger {You gleefully puncture a canister of red paint, which explodes in your face.} {maplay GasGiant\GasExplodes*3@Ext} {Main|Actions}
+#Trigger {*strike* match, lighting it.} {maplay general\misc\MatchLight@Ext} {Main|Actions}
+#Trigger {* begins to smolder and tiny tongues of flame begin appearing from within it as it catches fire.} {maplay General\Misc\Fireplace@Ext;
+maplay General\Misc\Fire@Ext} {Main|Actions}
+#Trigger {* is engulfed in a small flickering * fire which snaps loudly as it burns.} {maplay General\Misc\Fire@Ext} {Main|Actions}
+#Trigger {The flames die down, leaving a pile of ash in their wake.} {maplay General\Misc\Fireplace@Ext} {Main|Actions}
+#Trigger {The fire continues to flicker, the * flames producing a small amount of heat.} {maplay General\Misc\Fire@Ext} {Main|Actions}
+#Trigger {The small fire continues to burn*} {maplay General\Misc\Fire@Ext} {Main|Actions}
+#Trigger {The fire crackles merrily as it burns brightly.} {maplay General\Misc\Fire@Ext} {Main|Actions}
+#Trigger {Waves of heat roll off the small fire as it continues to burn.} {maplay General\Misc\Fire@Ext} {Main|Actions}
+#Trigger {The * tips of the fire suddenly flare brightly before returning to normal.} {maplay General\Misc\Fire@Ext} {Main|Actions}
+#Trigger {Tiny streams of white smoke rise from the fire as it snaps loudly.} {maplay General\Misc\Fire@Ext} {Main|Actions}
+#Trigger {The intensity of the flames diminishes as they burn lower to the ground.} {maplay General\Misc\Fire@Ext} {Main|Actions}
+#Trigger {A pleasant * voice announces, "*"} {meplay General\Socials\DroidSpeak@Ext} {Main|Socials}
+#Trigger {You carefully spray a fine mist from * at *.} {maplay Ship\Misc\Scent@Ext} {Main|Actions}
+#Trigger {You suddenly notice the absence of * as the smell of * wafts into the *.} {maplay Ship\Misc\Scent@Ext} {Main|Actions}
+#Trigger {You slam a * into a * punching bag*!} {maplay general\socials\punch*20@Ext} {Main|Actions}
+#Trigger {* slams a * into * punching bag*!} {maplay general\socials\punch*20@Ext} {Main|Actions}
+#Trigger {A * punching bag* swings wildly through the air, slamming into *!} {mrandomplay General\Socials\PunchbagSwings*2@Ext} {Main|Actions}
+#Trigger {A * punching bag* is hurled * from its position. After flying a few feet through the air, it crashes into a wall, where it lands in a heap on the ground.} {mrandomplay General\Socials\PunchbagUnbolt@Ext} {Main|Actions}
+#Trigger {Unable to withstand further punishment, a * punching bag* splits open, the remains falling to the ground in a heap.} {mrandomplay General\Socials\PunchbagBreak@Ext} {Main|Actions}
+#Trigger {* presses a small round button on the front of a *.} {maplay General\Misc\Anomaly@Ext} {Main|Actions}
+#Trigger {You press a small round button on the front of a *.} {maplay General\Misc\Anomaly@Ext} {Main|Actions}
+#Trigger {A * popcorn maker begins to hum slightly as it proceeds to heat the popcorn inside.} {maplay General\Socials\PopcornMachine@Ext} {Main|Actions}
+#Trigger {Small popping and clicking sounds begin to issue from a * popcorn maker as the machine continues to heat the popcorn.} {maplay general\misc\PopcornCooking@Ext} {Main|Actions}
+#Trigger {A * popcorn maker suddenly switches off.} {maplay General\Socials\PopcornMachineOff@Ext} {Main|Actions}
+#Trigger {The popping sounds increase in intensity as a * popcorn maker continues to run. *} {maplay General\Misc\WaffleIron@Ext} {Main|Actions}
+#Trigger {The popping sounds begin to slow as the last of the popcorn is popped.} {maplay General\Socials\PopcornCooking@Ext} {Main|Actions}
+#Trigger {You jump in the pool and begin to swim.} {maplay pool\enterpool@Ext} {Main|Actions}
+#Trigger {You fall to the water with a splash*} {maplay pool\splash1@Ext} {Main|Actions}
+#Trigger {You take a deep breath, dive underwater*} {maplay pool\underwater@Ext} {Main|Actions}
+#Trigger {You emerge from underwater and take a deep breath*} {maplay pool\splash1@Ext} {Main|Actions}
+#Trigger {With a strong jump, you dive into the water with a big splash*} {maplay pool\splash2@Ext} {Main|Actions}
+#Trigger {You push * into the water*} {maplay pool\enterpool@Ext} {Main|Actions}
+#Trigger {* pushes you into the water*} {maplay pool\enterpool@Ext} {Main|Actions}
+#Trigger {* crashes to the water with a splash*} {maplay pool\splash1@Ext} {Main|Actions}
+#Trigger {* takes a deep breath and dives underwater as he fades out of view*} {maplay pool\splash1@Ext} {Main|Actions}
+#Trigger {* emerges from under the water and takes a deep breath*} {maplay pool\splash2@Ext} {Main|Actions}
+#Trigger {* into the pool and it sinks to the bottom*} {maplay pool\splash3@Ext} {Main|Actions}
+#Trigger {* deep into the pool to fetch a * diving toy*} {maplay pool\underwater@Ext} {Main|Actions}
+#Trigger {* jumps off the board and hits the water with a splash*} {maplay pool\splash2@Ext} {Main|Actions}
+#Trigger {*You splash *} {maplay pool\splash1@Ext} {Main|Actions}
+#Trigger {*splashes you*} {maplay pool\splash1@Ext} {Main|Actions}
+#Trigger {You dive deep into *.} {
+ maplay pool\splash*3@Ext
+} {Main|Actions}
+#Trigger {* cries softly.} {meplay baby\babysoftcry@Ext} {Main|Socials}
+#Trigger {* starts crying loudly*} {meplay baby\babycry*6@Ext} {Main|Socials}
+#Trigger {* coos*} {meplay baby\babycoo@Ext} {Main|Socials}
+#Trigger {* babbles*} {meplay baby\babybabble*2@Ext} {Main|Socials}
+#Trigger {* bubbles.} {meplay baby\babybubble*6@Ext} {Main|Socials}
+#Trigger {* begin* to feed * a sucking sound as*} {meplay baby\babyeats@Ext} {Main|Socials}
+#Trigger {You pat * on the back and * lets out a small burp.} {meplay baby\babyburps@Ext} {Main|Socials}
+#Trigger {You offer * a * to *} {meplay baby\babyeats@Ext} {Main|Socials}
+#Trigger {* starts fussing.} {meplay baby\babyfuss*14@Ext} {Main|Socials}
+#Trigger {* groans*} {
+ #If {%Pos(~[,%1)=0 AND %Pos(~#,%1)=0} {
+  meplay baby\babygroan*3@Ext
+ }
+} {Main|Socials}
+#Trigger {* giggles softly.} {meplay baby\babygiggle*9@Ext} {Main|Socials}
+#Trigger {* giggles loudly.} {meplay baby\babygiggle*9@Ext} {Main|Socials}
+#Trigger {* laughs loudly.} {meplay baby\babylaugh*3@Ext} {Main|Socials}
+#Trigger {* grunts loudly.} {meplay baby\babygrunt*2@Ext} {Main|Socials}
+#Trigger {* flails*limbs..} {meplay baby\babywave@Ext} {Main|Socials}
+#Trigger {* hiccups.} {meplay baby\babyhiccups@Ext} {Main|Socials}
+#Trigger {* kicks*feet and waves*arms.} {meplay baby\babywave@Ext} {Main|Socials}
+#Trigger {* kicks one foot.} {meplay baby\babywave@Ext} {Main|Socials}
+#Trigger {* nibbles on*.} {meplay baby\babysucking@Ext} {Main|Socials}
+#Trigger {* rolls over.} {meplay baby\babyrolls@Ext} {Main|Socials}
+#Trigger {* screams loudly.} {meplay baby\babyscreams@Ext} {Main|Socials}
+#Trigger {* shrieks loudly.} {meplay baby\babyscreams@Ext} {Main|Socials}
+#Trigger {* sneezes.} {meplay baby\babysneeze@Ext} {Main|Socials}
+#Trigger {* sucks*thumb.} {meplay baby\babysucking@Ext} {Main|Socials}
+#Trigger {* spits.} {meplay baby\babyspit@Ext} {Main|Socials}
+#Trigger {* spits up.} {meplay baby\babyspitup@Ext} {Main|Socials}
+#Trigger {* sputters.} {meplay baby\babysputter@Ext} {Main|Socials}
+#Trigger {* squeaks.} {meplay baby\babysqueak*6@Ext} {Main|Socials}
+#Trigger {* squeals.} {meplay baby\babysqueal*7@Ext} {Main|Socials}
+#Trigger {* starts sucking on*toes.} {meplay baby\babysucking@Ext} {Main|Socials}
+#Trigger {* toddles.} {meplay baby\babytoddles@Ext} {Main|Socials}
+#Trigger {* wails loudly.} {meplay baby\babywail*3@Ext} {Main|Socials}
+#Trigger {* waves*fist around.} {meplay baby\babywave@Ext} {Main|Socials}
+#Trigger {* waves*hand through the air.} {meplay baby\babywave@Ext} {Main|Socials}
+#Trigger {* whimpers.} {meplay baby\babywhimper*2@Ext} {Main|Socials}
+#Trigger {* whines.} {meplay baby\babywhine*5@Ext} {Main|Socials}
+#Trigger {* push* *'s head under the water in an attempt to drown *.} {maplay Pool\UnderWater@Ext} {Main|Actions}
+#Trigger {You hit the puck at an angle from one corner, aiming it at the goal.} {maplay airhocky\hitpuck@Ext} {Main|Actions}
+#Trigger {You hit the puck at an angle, hoping to deflect it into the goal.} {maplay airhocky\hitpuck@Ext} {Main|Actions}
+#Trigger {ACK! You are now soaked from head to toe with water from the fountain, thanks to *.} {
+ maplay pool\splash1@Ext;
+ ExpPipe {%0} {%0} {%1 splashes you.};
+ #Sub @ExpString
+} {Main|Actions}
+#Trigger {EMOTE: (*)} {
+ #If {@FormatBannedEmotees=1} {
+  #Sub {%1}
+ }
+} {Main}

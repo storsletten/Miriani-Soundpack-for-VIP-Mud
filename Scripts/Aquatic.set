@@ -1,0 +1,32 @@
+#Trigger {A whirlpool forms nearby, sucking the craft downward into its swirling vortex*} {
+ msplay Aquatic/whirlpool@Ext;
+ msplay Aquatic/wave@Ext;
+ #Class Whirlpool Enable
+} {Main|Vehicle}
+#Trigger {The craft spins around and around as it's sucked downward.} {
+ ExpPipe {%0} {} {};
+ #Sub {@ExpString}
+} {Main|Whirlpool|Vehicle}
+#Trigger {The craft manages to stabilize itself and break free from the whirlpool.} {
+ msplay salvagestop@Ext;
+ #Class Whirlpool Disable;
+ ExpPipe {%0} {:Voice:%0} {:Voice:%0};
+ #Sub {@ExpString}
+} {Main|Whirlpool|Vehicle}
+#Trigger {A bubble in the vicinity bursts and you hear the engines strain to keep the craft on course*} {
+ msplay Aquatic/bubble@Ext;
+ ExpPipe {%0} {The engines strain to keep the vehicle on course.} {};
+ #Sub {@ExpString}
+} {Main|Vehicle}
+#trigger {*A disruption in the water near the craft has caused a massive wave which has resulted in the current trajectory being rerouted. Please stand by*} {msplay Aquatic/wave@Ext} {Main|Vehicle}
+#trigger {The craft makes a tremendous splash as it lands in the planet's watery atmosphere. It turns a few times and then the stabilizers kick in, righting the craft*} {
+ msplay Aquatic/landingsplash@Ext;
+ ExpPipe {%0} {The vehicle stops in the planet's atmosphere.} {};
+ #Sub @ExpString
+} {Main|Vehicle}
+#trigger {*The craft has slammed into a massive life form. A breach in the outer hull has been detected*} {msplay Aquatic/fishcrash@Ext} {Main|Vehicle}
+#Trigger {The craft comes to a halt, a plume of bubbles surrounding it before dissipating.} {
+ msplay salvagestop@Ext;
+ ExpPipe {%0} {The vehicle stops.} {};
+ #Sub @ExpString
+} {Main|Vehicle}

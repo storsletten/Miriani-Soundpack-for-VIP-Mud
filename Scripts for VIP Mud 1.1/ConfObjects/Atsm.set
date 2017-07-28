@@ -1,0 +1,25 @@
+#Exec {
+SetVariable Conf0atsm0 {M:Settings for atsm
+BetweenObjects:Object Separator String
+Objects:Objects String
+Info:Info String
+SortObjects:Sort order for objects
+ModifyAcvOutput:Show firing solutions when available while in an atmospheric combat vehicle
+};
+SetVariable Conf0atsm0BetweenObjects0 {S:AtSaBetweenObjects:Object Separator String
+The separator string between objects in the Atsm Starmap is now $V
+};
+SetVariable Conf0atsm0Objects0 {S:AtSaObjectString:Objects String
+The text that will represent objects in the Atsm Starmap is now $V};
+SetVariable Conf0atsm0Info0 {S:AtSaInformationString:Info String
+The text that will represent information in the Atsm Starmap is now $V};
+SetVariable Conf0Atsm0SortObjects0 {C:Choose how to sort objects in the atsm starmap
+-1:AtSaSortOrder:Objects in the atsm starmap will now be sorted in $V
+Default order
+Ascending order
+Descending order
+};
+SetVariable Conf0Atsm0ModifyAcvOutput0 {B:ModifyAcvOutput:Should the soundpack print out firing solutions instead of coordinates for targets
+You will now see firing solutions when scanning potential targets if available:You will only see the coordinates of scanned targets
+}
+}

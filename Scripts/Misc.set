@@ -1,0 +1,427 @@
+#Alias rem {#Exec {remove%RTrim( %0)}}
+#Trigger {A loud buzz sounds.} {
+ #GagLine 1 All;
+ msplay samespace@Ext
+} {Main}
+#Trigger {*--*} {
+ #If {@Main>0 or @Main<-9} {
+  #If {%Trim(%Replace(%Replace(%1%2,~~~~",),-,))="" and @GagDashes=1} {#GagLine 1 All}
+ }
+} {}
+
+#Alias lag {
+ #Exec {>lag%RTrim( %0)};
+ #If {%1<>"more" and %1<>"format" and %1<>"token"} {
+  #Var ShowPingPongLagReport {};
+  #Exec {>#$#soundpack_ping}
+ }
+} {}
+#Alias PassThru {
+#if {@PassThru=1} {
+#Var PassThru 0;
+#configure ExpandCommandLineVars True
+} {
+#var PassThru 1;
+#Configure ExpandCommandLineVars False
+};
+ConfPrint {Bypass mode %if(@PassThru = 1,enabled,disabled).}
+} {}
+#Alias Speech {
+ #If {%1="stop"} {
+  #If {@UseSpeechInterrupts=1 AND @GagEverything=0} {#SetSpeech Incoming Stop}
+ } {
+  #If {%1="off" or %1="on"} {
+   #SetSpeech Incoming %1;
+   #Say {Speech %Proper(%1)} VoiceOnly
+  } {
+   #If {%1="set"} {
+    #If {%IfWord(%2,@SpeechTypes,|)=1} {
+     #If {%2="NVDA"} {
+      #Var SpeechTmp1 {SystemAccess}
+     } {
+      #Var SpeechTmp1 %2
+     };
+     #If {%2="SAPI"} {
+      #ForAll @WindowTypes {#SetSpeech %i @SpeechTmp1 @SAPIVoice @SAPIVolume @SAPIRate}
+     } {
+      #ForAll @WindowTypes {#SetSpeech %i {@SpeechTmp1}}
+     };
+     #If {%3<>1} {#Say {Speech Type set to %2.}};
+     #UnVar SpeechTmp1
+    } {
+     ConfPrint {Syntax: Speech Set @SpeechTypes}
+    }
+   }
+  }
+ }
+} {}
+#Trigger {(* second* roundtime.)} {
+ #If {%IsNumber(%1)=1} {
+  #If {@PlayRoundtimeSound=1} {
+   #Alarm {%eval(%1-1)} {msplay ship\computer\beep@Ext}
+  };
+  #If {%1<@RoundTimeThreshold} {
+   #GagLine 1 Voice
+  };
+  ExpPipe {%0} {(%1 sec%2 roundtime.)} {%1 sec%2 roundtime};
+  #Sub {@ExpString}
+ }
+} {Main}
+#Trigger {Announcement*: *} {
+ msplay General\Misc\Announcement@Ext;
+ PushMessage Announcements {%0}
+} {Main}
+#Trigger {Game Change: *} {
+ #Sub {[Game Change]: %1};
+ msplay General\Misc\GameChange*2@Ext;
+ PushMessage Changelog %0
+} {Main}
+#Trigger {>> Command Aborted <<} {
+ msplay General\Misc\Cancel@Ext;
+ ExpPipe {%0} {Aborted.} {};
+ #sub {@ExpString}
+} {Main}
+#Trigger {Invalid selection.} {
+ #Class MessageBoard Disable;
+ EndMenu;
+ msplay General\Misc\Cancel@Ext
+} {Main}
+#Trigger {That exit appears to be blocked.} {msplay General\Misc\CantGo*5@Ext} {Main}
+#Trigger {* crumples * up and throws it away.} {msplay General\Misc\Paper*3@Ext} {Main}
+#Trigger {* attempts to board *, but is turned away by *.} {msplay General\Misc\CantGo*5@Ext} {Main}
+#Trigger {* suddenly steps from the background.} {msplay General\Misc\HostIn*3@Ext;
+ExpPipe {%0} {%0} {%1 appears};
+#sub {@ExpString}} {Main}
+#Trigger {* coalesces into being nearby.} {msplay General\Misc\HostIn*3@Ext;
+ExpPipe {%0} {%0} {%1 appears};
+#sub {@ExpString}} {Main}
+#Trigger {* suddenly seems to disappear into the background.} {msplay General\Misc\HostOut*3@Ext;
+ExpPipe {%0} {%0} {%1 disappears};
+#sub {@ExpString}} {Main}
+#Trigger {* dissolves into billions of constituent particles and disperses into a hitherto unnoticed breeze.} {msplay General\Misc\HostOut*3@Ext;
+ExpPipe {%0} {%0} {%1 disappears};
+#sub {@ExpString}} {Main}
+#Trigger {I don't understand that.} {#class focus disable;
+#class critical disable;
+#class AtSaStarmap disable;
+msplay General\Misc\Command*10@Ext} {Main}
+#TRIGGER {*[[]Enter "yes" or "no"]} {
+ msplay prompt@Ext;
+ ExpPipe {%0} {%0} {%1[Y/N]};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {[[]Type a line of input or [`]~~@abort' to abort the command.]} {
+ #If {@Menu>1} {#Var Menu 1};
+ #If {@Main=0} {#Abort All};
+ #If {@Main<0} {MainTrigSwitch 1};
+ msplay prompt@Ext;
+ ExpPipe {%0} {%0} {:Voice:Type a line of input, use ~@abort to cancel.};
+ #Sub {@ExpString}
+} {}
+#Trigger {[[]Type lines of input; use [`].' to end or [`]~~@abort' to abort the command.]} {
+ #If {@ConfPrintQuietly=1} {
+  #Var ConfPrintQuietly 0
+ } {
+  #If {@Main=0} {#Abort All};
+  #If {@Main<0} {MainTrigSwitch 1};
+  msplay prompt@Ext;
+  ExpPipe {%0} {%0} {Type lines of input, use a period when done.};
+  #Sub {@ExpString}
+ }
+} {}
+#Trigger {Your choice:} {msplay prompt@Ext} {}
+#Trigger {* gestures for you to join * group, which you promptly do.} {
+ ExpPipe {%0} {%0} {%1 adds you to %2 group.};
+ #sub {@ExpString};
+ msplay joins@Ext
+} {Main}
+#Trigger {You gesture towards *, who promptly joins your group.} {
+ msplay joins@ext;
+ ExpPipe {%0} {%0} {You add %1 to your group.};
+ #sub {@ExpString}
+} {Main}
+#Trigger {* indicates that * no longer wishes you to follow *.*} {msplay disband@Ext} {Main}
+#Trigger {* leaves your group.*} {msplay disband@Ext} {Main}
+#Trigger {The door opens with a soft hiss and admits you into the room.} {
+ msplay {General\Misc\door open@Ext};
+ ExpPipe {%0} {The door admits you into the room.} {};
+ #sub {@ExpString}
+} {Main}
+#Trigger {A small lock destroying explosive suddenly explodes, *.} {msplay Ship\Misc\HatchBomb@Ext} {Main}
+
+#Trigger {*You carefully place * along the edge of * hatch. You press a small button and step back as the charge begins its * second countdown*} {msplay Ship\Misc\HatchBombPlace@Ext} {Main}
+#Trigger {*You hear*strange sound* coming from the airlock*} {msplay Ship\Misc\HatchBombPlaceHere@Ext} {Main}
+#Trigger {*You hear what sounds like an explosion coming from the general area of the airlock*} {msplay Ship\Misc\HatchBombHere@Ext} {Main}
+#Trigger {* hear a deep rumbling as the docking bay door *s.*} {
+#if {%2="open" OR %2="close"} {
+msplay Ship\Misc\DockingBayDoor%{2}@Ext
+}
+} {Main}
+#Trigger {* to the * slides *.} {
+#var DoorTmp1 {%word(%3, ,1)};
+#if {@DoorTmp1="open" OR @DoorTmp1="closed"} {
+msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
+}
+} {Main}
+#Trigger {* leading * slides *.} {
+#var DoorTmp1 {%word(%3, ,1)};
+#if {@DoorTmp1="open" OR @DoorTmp1="closed"} {
+msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
+}
+} {Main}
+
+#Trigger {* The siege begins!} {msplay music\*30@Ext} {Main}
+#Trigger {*, having no army remaining, has failed to defeat *!} {msplay music*30@Ext} {Main}
+#Trigger {Directions from * to *: *.} {expPipe {:0:%0} {:0:%1 to %2: %3.} {:0:%2: %3.};
+#sub @ExpString} {Main}
+#Trigger {* arrives, looking vaguely puzzled.} {msplay General\Misc\DoorChime@Ext} {Main}
+#Trigger {The robotic arms pull the syringes out and you glance into a mirror noticing your new nose size.} {msplay General\Misc\MedicalEnd@Ext} {Main}
+#Trigger {* several automated drones begin healing *.} {msplay General\Misc\ITPNStart@Ext} {Main}
+#Trigger {* stands up, looking much healthier than before.} {msplay Stand@Ext} {Main}
+#Trigger {You follow *.} {
+ #var Following 1;
+ #Var Tmp1 {%Word(%1, ,1) %Word(%1, ,2)};
+ #If {@Tmp1 = @OtherName} {#Var Dir @OtherDir};
+ #if {%pos(into the ship,%1)<>0} {
+  #if {@RoomName<>"Airlock"} {
+   msplay Ship\Misc\AirlockEnter@Ext
+  }
+ } {
+  #if {%ifword(%word(%1, ,%numwords(%1, )),@DirList, )=1} {
+   #Alarm 0 {mstep}
+  }
+ }
+} {Main}
+#Trigger {* in from *.} {
+ #var MovementTmp1 {%Replace(%2,~,,"")};
+ #if {%Pos(%CRLF%word(%1, ,%numwords(%1, ))%CRLF,@EntryStyles)<>0 AND (%ifword(%Word(@MovementTmp1, ,1),@DirList, )<>0 OR %ifword(%Word(@MovementTmp1, ,2),@DirList, )<>0) AND @PlayOtherTreadSound=1} {
+  mstep 1
+ }
+} {Main}
+#Trigger {*.} {#if {%numwords(%1, )>=4 AND @PlayOtherTreadSound=1} {
+#if {%ifword(%word(%1, ,%numwords(%1, )),@DirList, )=1 AND %ifword(%word(%1, ,%eval(%numwords(%1, )-1)),@EntryStyles,%CRLF)=1} {
+SetVariable OtherDir {%word(%1, ,%numwords(%1, ))};
+SetVariable OtherName {%Word(%1, ,1) %Word(%1, ,2)};
+mstep 1
+}
+}} {Main}
+#Trigger {* into the *.} {#if {%ifword(%word(%1, ,%numwords(%1, )),@EntryStyles,%CRLF)=1 AND %ifword(%2,@DirList, )=1 AND @PlayOtherTreadSound=1} {
+mstep 1
+}} {Main}
+#Class SpamAlerts Enable
+#Trigger {Please do not enter so many commands at once.} {msplay spam@Ext} {Main|SpamAlerts}
+#Trigger {Spamming weapon commands will get you nowhere. Please be considerate. If you are experiencing lag, it would be best to wait for one command to successfully go through before attempting another. Thank you.} {msplay spam@Ext} {Main|SpamAlerts}
+#Trigger {*A* sanitation drone arrives.} {mrandomplay General\Misc\DroneEnters*2@Ext} {Main}
+#Trigger {*A * sanitation drone goes *} {mrandomplay General\Misc\DroneLeaves*2@Ext} {Main}
+#Trigger {*A * sanitation drone whirls around.} {mrandomplay General\Misc\DroneWhirls*5@Ext} {Main}
+#Trigger {*A * sanitation drone collects *} {mrandomplay General\Misc\DroneCollects*2@Ext} {Main}
+#Trigger {*A * drone rushes into the room and begins recharging any nearby drones. Just as quickly as it enters, it vanishes.} {ExpPipe {%0} {A %1 drone begins recharging all nearby drones.} {Drones recharged.};
+#sub @ExpString;
+msplay General\Misc\DroneRecharge@Ext} {Main}
+#Trigger {* drags you *} {
+ #If {%Word(%2, ,1)<>"off"} {
+  #Var Following 1
+ }
+} {Main}
+#Trigger {You seem to have left * behind!} {ExpPipe {%0} {You have left %1.} {Left %1 behind.};
+PushMessage Left @ExpString;
+#sub @ExpString;
+#if {@WarnWhenLeft=1} {
+msplay General\Misc\LeftPerson@Ext
+}} {Main}
+#Trigger {Wait *} {
+ #if {%IsNumber(%word(%1, ,1))=1 AND @PlayWhenThwarted=1} {
+  msplay General\Misc\vollimit@Ext 20
+ }
+} {Main}
+#Trigger {I don*t understand that.} {
+ #if {@GagDontUnderstandMessages=1} {
+  #gagline 1 all
+ }
+} {Main}
+
+#Trigger {A * firework launches itself into the air and begins to rapidly expand into a *.} {
+ msplay General\Misc\Firework*2@Ext
+} {Main}
+#Trigger {A bright ring of light emerges from the * and comes to a halt. * steps off.} {
+ ExpPipe {%0} {%2 emerges from a lift which comes through the %1.} {%2 emerges from the %1.};
+ #Sub @ExpString;
+ mwplay General\Misc\HGLift@Ext
+} {Main}
+#Trigger {* steps on to a small platform on the floor. Sensing * presence, a ring of lights along the perimeter of the circle light up as the platform shoots * out of sight.} {
+ ExpPipe {%0} {%1 shoots %3 as the lift senses %2 presence.} {%1 shoots %3.};
+ #Sub @ExpString;
+ mwplay General\Misc\HGLift@Ext
+} {Main}
+#Trigger {As the lift comes to a halt, the lights vanish and you step off.} {
+ ExpPipe {%0} {You step off a lift.} {};
+ #Sub @ExpString
+} {Main}
+#Trigger {*ancient pirate chest*here.} {msplay General\Archaeology\practice@Ext} {Main}
+#Trigger {Unbolting is quite dangerous, and could result in loss of the item. Are you sure you wish to unbolt *} {
+ ExpPipe {%0} {Are you sure you wish to unbolt %1} {Unbolt %1};
+ #Sub @ExpString
+} {Main}
+#Trigger {A small hovering drone flies in front of you, scans you, then photographs your face before floating off into the distance.} {
+ mrandomplay General\Device\CameraOff@Ext
+} {Main}
+#Trigger {* ha* been loaded into your courier ship. Your destination is * in Sector *.} {
+ Speech Stop;
+ ExpPipe {%0} {%0} {%1 for %3 in %4.};
+ #Sub {@ExpString};
+} {Main}
+#Trigger {* pull* a lever on a* and *the reels start to spin!} {Msplay General\Misc\skeeballrolls@Ext} {Main}
+#Trigger {Your droids and drones suddenly stop following you, choicelessly obeying an order programmed into them.} {msplay General\Misc\InstructDrone@Ext} {Main}
+#Trigger {You ascend the stairs and push through a set of rotating glass doors.} {
+ DontStopSpeaking;
+ msplay General\Misc\Door~@Ext
+} {Main}
+#Trigger {You push through a set of rotating glass doors.} {
+ DontStopSpeaking;
+ msplay General\Misc\Door~@Ext
+} {Main}
+
+#Trigger {You push through a metal turnstile.} {DontStopSpeaking} {Main}
+#Trigger {It has been signed by *} {
+ #Sub {(%NumWords(%1,~,)) %1}
+} {Main}
+#trigger {k} {#gagline all} {main}
+
+#Alias typespeed {
+ #Var TypeSpeedTmp1 {%Trim(%0)};
+ #Var TypeSpeedTmp1 {%Replace(@TypeSpeedTmp1,~",)};
+ #Var TypeSpeedTmp1 {%Replace(@TypeSpeedTmp1,~~,)};
+ #If {@TypeSpeedTmp1=""} {
+  #UnAlarm -1;
+  #Alarm 60 {
+   #Say {Time's up! Hit enter to see your result.};
+   msplay {LaserTag\NoTargets@Ext}
+  };
+  #Say {typespeed } Entry|NoReturn;
+  #Say {Start typing!}
+ } {
+  #Var TypeSpeedTmp2 {%Pos(%CRLF,%0%CRLF)};
+  #Math TypeSpeedTmp2 {@TypeSpeedTmp2-2};
+  #Math TypeSpeedTmp3 {@TypeSpeedTmp2/5};
+  #Say {Approximately @TypeSpeedTmp3 words per minute!};
+  #UnVar TypeSpeedTmp2;
+  #UnVar TypeSpeedTmp3
+ };
+ #UnVar TypeSpeedTmp1
+} {}
+#Trigger {To the immediate * you see *} {
+ ExpPipe {%0} {%0} {%1: %2};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {This *} {
+ #Var ShipMiscTmp1 {%Word(%1, ,1)};
+ #Var ShipMiscTmp1 {%Replace(@ShipMiscTmp1,~",)};
+ #Var ShipMiscTmp1 {%Replace(@ShipMiscTmp1,~~,)};
+ #If {%IfWord(@ShipMiscTmp1,moon planet ship station, )=1} {
+  #Var ShipMiscTmp1 {%Word(%1, ,2)};
+  #Var ShipMiscTmp1 {%Replace(@ShipMiscTmp1,~",)};
+  #Var ShipMiscTmp1 {%Replace(@ShipMiscTmp1,~~,)};
+  #Var ShipMiscTmp1 {%Replace(@ShipMiscTmp1,~,,)};
+  #If {%IfWord(@ShipMiscTmp1,demands transmits surrenders, )=1} {
+   msplay Ship\Comm\Sector@Ext
+  };
+  #If {%IfWord(@ShipMiscTmp1,broadcasts, )=1} {
+   msplay Ship\Comm\Broadcast@Ext
+  }
+ }
+} {Main}
+
+#Alias who {
+ #Class StartReadingWhoList Disable;
+ #Class ReadWhoList Disable;
+ #Exec {who%RTrim( %0)}
+} {StartReadingWhoList}
+#Alias whoc {#Exec {whocheck%RTrim( %0)}} {}
+#Alias whocheck {
+ #Class StartReadingWhoList Enable;
+ #Exec {>who}
+} {}
+
+#Trigger {There are * players connected, * of whom have been active recently:} {
+ #GagLine 1 All;
+ #Var WhoOriginalHeader {%0};
+ #Var ConnectedPlayers {};
+ #Class ReadWhoList Enable;
+ #Class StartReadingWhoList Disable
+} {Main|StartReadingWhoList}
+#Trigger {* (*} {
+ #GagLine 1 All;
+ #ForAll {%Replace(%0,~),|)} {
+  #If {%Pos(~(,%i)>0} {
+   #Var WhoTmp1 {%Word(%i,~(,1)};
+   #If {%NumWords(@WhoTmp1,])>1} {
+    #Var WhoTmp1 {%Word(@WhoTmp1,],2)}
+   };
+   #Var WhoTmp1 {%Trim(@WhoTmp1)};
+   #If {%Left(@WhoTmp1,1)="*" or %Left(@WhoTmp1,1)="^"} {
+    #Var WhoTmp1 {%Delete(@WhoTmp1,1,1)}
+   };
+   #If {%Length(@ConnectedPlayers)=0} {#Var ConnectedPlayers {@WhoTmp1}} {#AddItem ConnectedPlayers {@WhoTmp1}}
+  }
+ }
+} {Main|ReadWhoList}
+#Trigger {[*] - Out of communications range.  [^] - Out of local space.} {
+ #Class ReadWhoList Disable;
+ #Var WhoTmp2 {, };
+ #Var WhoTmp3 {};
+ #If {%Defined(LastConnectedPlayers)=1} {
+  #Var DisconnectedPlayers {};
+  #Var NewConnectedPlayers {};
+  #ForAll {@ConnectedPlayers} {
+   #If {%IfWord(%i,@LastConnectedPlayers,|)=0} {
+    #If {%Length(@NewConnectedPlayers)=0} {
+     #Var NewConnectedPlayers {%i}
+    } {
+     #AddItem NewConnectedPlayers {%i}
+    }
+   }
+  };
+  #ForAll {@LastConnectedPlayers} {
+   #If {%IfWord(%i,@ConnectedPlayers,|)=0} {
+    #If {%Length(@DisconnectedPlayers)=0} {
+     #Var DisconnectedPlayers {%i}
+    } {
+     #AddItem DisconnectedPlayers {%i}
+    }
+   }
+  };
+  #If {%Length(@NewConnectedPlayers)>0} {
+   #If {%NumWords(@NewConnectedPlayers,|)=1} {
+    #Var WhoTmp3 {@WhoTmp3%{CRLF}There is 1 player who has connected since last check:}
+   } {
+    #Var WhoTmp3 {@WhoTmp3%{CRLF}There are %NumWords(@NewConnectedPlayers,|) players who have connected since last check:}
+   };
+   #Var WhoTmp1 {%Sort(@NewConnectedPlayers,0)};
+   #Var WhoTmp3 {@WhoTmp3%{CRLF}%Replace(@WhoTmp1,|,@WhoTmp2).}
+  } {
+   #Var WhoTmp3 {@WhoTmp3%{CRLF}No players have connected since last check.}
+  };
+  #If {%Length(@DisconnectedPlayers)>0} {
+   #If {%NumWords(@DisconnectedPlayers,|)=1} {
+    #Var WhoTmp3 {@WhoTmp3%{CRLF}There is 1 player who has disconnected since last check:}
+   } {
+    #Var WhoTmp3 {@WhoTmp3%{CRLF}There are %NumWords(@DisconnectedPlayers,|) players who have disconnected since last check:}
+   };
+   #Var WhoTmp1 {%Sort(@DisconnectedPlayers,0)};
+   #Var WhoTmp3 {@WhoTmp3%{CRLF}%Replace(@WhoTmp1,|,@WhoTmp2).}
+  } {
+   #Var WhoTmp3 {@WhoTmp3%{CRLF}No players have disconnected since last check.}
+  };
+  #UnVar DisconnectedPlayers;
+  #UnVar NewConnectedPlayers
+ };
+ #Var WhoTmp1 {%Sort(@ConnectedPlayers,0)};
+ #Var WhoTmp3 {@WhoTmp3%{CRLF}@WhoOriginalHeader%{CRLF}%Replace(@WhoTmp1,|,@WhoTmp2).};
+ #Sub {%Delete(@WhoTmp3,1,2)};
+ #Var LastConnectedPlayers {@ConnectedPlayers};
+ #UnVar ConnectedPlayers;
+ #UnVar WhoOriginalHeader;
+ #UnVar WhoTmp1;
+ #UnVar WhoTmp2;
+ #UnVar WhoTmp3
+} {Main|ReadWhoList}

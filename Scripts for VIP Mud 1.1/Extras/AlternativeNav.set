@@ -1,0 +1,55 @@
+#Exec {
+ SetVariable AlternativeNavDir 6;
+ SetVariable AlternativeNavDirections {Southwest|South|Southeast|East|Northeast|North|Northwest|West|Vertical};
+ SetVariable AlternativeNavDirectionsNumerical {1|2|3|6|9|8|7|4|5};
+ SetVariable AlternativeNavVertical 2;
+ SetVariable AlternativeNavVerticalDirections {Down|Horizontal|Up}
+}
+
+#alias {AlternativeNavMove} {
+ #if {%1="go"} {
+  #if {@AlternativeNavVertical=1} {
+   SetVariable AlternativeNavTmp1 {-}
+  };
+  #if {@AlternativeNavVertical=2} {
+   SetVariable AlternativeNavTmp1 {}
+  };
+  #if {@AlternativeNavVertical=3} {
+   SetVariable AlternativeNavTmp1 {+}
+  };
+  dir @{AlternativeNavTmp1}%word(@AlternativeNavDirectionsNumerical,|,@AlternativeNavDir)
+ };
+ #if {%1="e"} {
+  #math AlternativeNavDir {@AlternativeNavDir - 1};
+  #if {@AlternativeNavDir<1} {
+   #var AlternativeNavDir {%numwords(@AlternativeNavDirections,|)}
+  };
+  #say {%word(@AlternativeNavDirections,|,@AlternativeNavDir)};
+  #Abort
+ };
+ #if {%1 = "w"} {
+  #math AlternativeNavDir {@AlternativeNavDir + 1};
+  #if {@AlternativeNavDir>%numwords(@AlternativeNavDirections,|)} {
+   #var AlternativeNavDir 1
+  };
+  #say {%word(@AlternativeNavDirections,|,@AlternativeNavDir)};
+  #Abort
+ };
+ #if {%1="+" OR %1="-"} {
+  #math AlternativeNavVertical {@AlternativeNavVertical %1 1};
+  #if {@AlternativeNavVertical>%numwords(@AlternativeNavVerticalDirections,|)} {
+   #var AlternativeNavVertical {%numwords(@AlternativeNavVerticalDirections,|)}
+  };
+  #if {@AlternativeNavVertical<1} {
+   #var AlternativeNavVertical 1
+  };
+  #say {%word(@AlternativeNavVerticalDirections,|,@AlternativeNavVertical)};
+  #Abort
+ };
+ #say {Valid arguments are "go", "w", and "e".}
+} {}
+#Key {Alt-Left} {AlternativeNavMove w} {}
+#Key {Alt-Right} {AlternativeNavMove e} {}
+#Key {Alt-Up} {AlternativeNavMove +} {}
+#Key {Alt-Down} {AlternativeNavMove -} {}
+#Key {Alt-Enter} {AlternativeNavMove go} {}

@@ -1,0 +1,146 @@
+Version 5.4.11:
+* All changes since 5.2.3 that were marked as added to the 1.1 scripts have been tested, and they work as expected at the time of this entry. Thanks to Kendall for testing these things on an ancient computer running the even more ancient Vip 1.1.
+* Updated the credits section, and added it to the 1.1 branch as well.
+
+Version 5.4.10:
+* Addressed an issue that prevented the option "conf PointUnit 2" from working. Thanks Adolin for reporting this, and for even providing me with the solution!
+* Addressed another issue with the display of points stored in memory while out of comms that caused the decimal character to be a vertical bar instead of a period. Cheers again Adolin!
+
+Version 5.4.9:
+* The lag command will no longer send a ping request if you supply one of the following arguments: format, more, or token.
+
+Version 5.4.8:
+* Added a ping command, that allows you to play ping-pong with Miriani for the purpose of testing latency. Hurray! Go wild!
+
+Version 5.4.7:
+* Removed the "updating" alias. It was used for an old updating system that we no longer use. Thanks Josh for bringing it to my attention!
+
+Version 5.4.6:
+* Addressed an issue that caused computer announcements in vehicles (such as atmospheric salvagers) to be completely ignored by the soundpack. Cheers Cara for reporting this!
+
+Version 5.4.5:
+* Changed the default value for SPKeepAlive back to 0, because seeing the pings is annoying for those who have command echoing turned on, and there's currently no way to send commands from a script without them being routed through the same command echo thing. Horrible!
+
+Version 5.4.4:
+* Changed the default value for SPKeepAlive to 120. Better safe than sorry.
+
+Version 5.4.3:
+* Added more classes for specific environments. Also added all environmental classes to the 1.1 version in case I'll ever need it there too.
+
+Version 5.4.2:
+* By persistent demand, I have added the SPKeepAlive feature to the VIP Mud 1.1 compatible version of the soundpack too. And since I don't have VIP Mud 1.1 here, I can't test it myself, so let's just hope it works. If it doesn't, then please consider upgrading to VIP Mud 2.0 before this old 1.1 shit drives me nuts.
+
+Version 5.4.1:
+* Changed the default value for SPKeepAlive from 0 to 200. Yes, this means SPKeepAlive will be enabled by default (in VIP Mud 2.0 only).
+
+Version 5.4.0:
+* Added support for Miriani's new ping-pong mechanism! Hurray!
+* The lag command will now use the new ping-pong mechanism to calculate how much lag you have.
+* Added a keep alive feature to the soundpack (for VIP Mud 2.0 only). It will utilize the new ping-pong mechanism in Miriani, and you can set how often it should send a ping by typing SPKeepAlive. It will alert you if the connection is down.
+
+Version 5.3.6:
+* Tweaked the soundpack's lag command so that it now works in perfect harmony with Miriani's lag command.
+
+Version 5.3.5:
+* Fixed a bug with wormhole travelling. There was a message mentioning sounds of strained metal that should have triggered the sounds of strained metal in the soundpack. Now it does!
+
+Version 5.3.4:
+* Fixed a bug in SoundEngine that could potentially break the soundpack under certain conditions.
+
+Version 5.3.3:
+* More triggers are now using the environment toggles for better performance in VIP Mud 2.0. If you notice anything unusual, please let me know... on the soundpack board, or the soundpack metaf, or something.
+
+Version 5.3.2:
+* Hopefully made conf manager a teeny bit more resilient so it won't damage more configuration files for VIP Mud 2.0 users. Backup is never a bad thing at any rate, though.
+* I've now started to toggle triggers based on environments. I'll keep adding this to more parts of the soundpack, which will result in a significant performance boost. Only for VIP Mud 2.0, though. Yes, it's definitely about time to update if you're still running the extremely ancient VIP Mud 1.1 release.
+
+Version 5.3.1:
+* Fixed a few bugs in the WHOCHECK command.
+
+Version 5.3.0:
+* Added a WHOCHECK command (can be shortened to WHOC), which will process the output from the WHO command and tell you if someone has connected or disconnected since last time you used the WHOCHECK command. It will also display a list of all players connected to the game (in alphabetical order). Currently the WHOCHECK command doesn't accept arguments, but maybe I'll implement some filtering functionality later that will require arguments. And last thing, this WHOCHECK command is only available for VIP Mud 2.0.
+
+Version 5.2.6:
+* Fixed a bug with scanning that was messing with the focused ship name, which caused problems for the enhanced locking sound system thinggymabob.
+
+Version 5.2.5:
+* The soundpack handles whirlpool messages in aquatic salvaging slightly better now.
+
+Version 5.2.4:
+* Added support for the new airlock cycle messages (in the VIP Mud 2.0 compatible version of the soundpack only).
+
+Version 5.2.3:
+* Fixed the ancient bug that caused camera feeds to make it look like the location of the feed itself was firing at the starship. I only fixed it for VIP Mud 2.0, since I had to use 2.0 specific code for this fix and I have no 1.1 installation that I can use for testing with 1.1 code.
+
+Version 5.2.2:
+* Improved the trigger for the pour sound.
+
+Version 5.2.1:
+* Added exception handling to the MStep routine. What this means to the typical end user is that there's even less chance that footsteps will trigger annoying errors under certain undesirable conditions.
+
+Version 5.2.0:
+* Changed the way the soundpack loads during the connecting process. Now it should (hopefully) load properly even with GEN-O 11 enabled! There is a chance I might have fixed other related issues too, and maybe I've even introduced new bugs. Who knows!
+
+Version 5.1.18:
+* The soundpack will now respect your experience level preference for correct processing of more Lore menu titles than ever before.
+
+Version 5.1.17:
+* Possibly addressed an issue where saved social toggles wouldn't load properly.
+
+Version 5.1.16:
+* Added a testing tool for the soundpack in the hope that it might be useful for figuring out which sections of the soundpack are causing the pack to crash. You can run it by typing SPTEST. I'll probably add more checks for the testing tool later.
+
+Version 5.1.15:
+* The soundpack will now forcibly set #Conf Explicit False, because a value of True would crash the soundpack at startup with a 100 percent certainty, and who would want that!?
+* Added a note about Miriani's GEN-O 11 to the Troubleshooting section of the installation instructions.
+
+Version 5.1.14:
+* Added a sound for admin messages. I know it's a weird sound, but it was the best I could find in the soundpack without adding a brand new one and make everybody downloading the entire sounds folder just to get fully up to date.
+
+Version 5.1.13:
+* Added more shortcuts for the sm filters, e.g. A for artifacts, probe/video for satellites, roid for asteroids, etc. Usage: sm <filter>. For example: sm roids.
+* Also fixed conditions where conf gen 16 (update alerts) was being ignored, even when it was not supposed to be ignored. Now the soundpack will abide by your preference unless there's a major update available. I'll only push major updates when the soundpack becomes incompatible with Miriani, just like when starmap and scan stopped working for older versions of this soundpack.
+* That horrible update alert sound will now only play if there's a major update available. There shouldn't be any need to cause heart failure for poor jumpy souls every time I patch an obscure and insignificant bug.
+
+Version 5.1.12:
+* I thought I fixed the soundpack update notifications in version 5.1.4, but apparently it was still buggy. Now it should be more reliable than ever before!
+* The soundpack will now also disregard conf gen 16 (update alerts) if there's a major update to the soundpack.
+
+Version 5.1.11:
+* Fixed a bug that could crashed the soundpack during the startup process. This affected you if you could see the following error message: "Undefined variable or unknown symbol in expression [@LOADIGFILES=] expression @LoadIGFiles=1 in command:"
+
+Version 5.1.10:
+* Added Indoor Pool to the list of room titles that the soundpack will recognize for the room sounds.
+
+Version 5.1.9:
+* Squashed a bug that was recently and inadvertently introduced that meant the soundpack didn't want to play the general sector transmission sound when you sent messages from station's, moon's, and planet's observation centers.
+
+Version 5.1.8:
+* The general sector communication sound should no longer be played if you LOOK inside a mining transport.
+
+Version 5.1.7:
+* Made minor adjustments to the volume of chatter and org channels. Org channels have been reduced from +30% to +20% of normal, and chatter has been increased to +10% of normal soundpack volume.
+
+Version 5.1.6:
+* The soundpack will now override and disable the built-in numpad macros in VIP Mud regardless of your configuration. Previously the soundpack would only do so if you had disabled the soundpack's support for numpad in conf advanced keystrokes.
+
+Version 5.1.5:
+* Removed keystroke Alt+Ctrl+/ since it was sending the COORDS command to the game, and thus would be considered an illegal macro.
+
+Version 5.1.4:
+* Improved the soundpack update notification thinggymabob. It will no longer complain about outdated version if your soundpack is more up to date than the version number registered in the game.
+
+Version 5.1.3:
+* The sc* commands will now bring up a menu of targets to scan if you don't specify a target. Basically, same behavior as the scan command.
+
+Version 5.1.2:
+* Fixed the soundpack update notification thinggymabob so it doesn't crash your life with horrific errors if you're using VIP Mud 2.0 in combination with an outdated version of the soundpack.
+
+Version 5.1.1:
+* Updated Installation instructions.txt. That file now also has a link for the soundpack sounds.
+
+Version 5.1:
+* To make the soundpack more compliant with Miriani's policies, the sc* commands will no longer remember last scanned target.
+
+Version 5.0:
+* The soundpack is now at version 5.0! Major changes for this release include the removal of scanning keystrokes, keystroke for gc, and also the numpad keystrokes should be gone for real this time! Also, we seemed to skip version 4.0 since something tells me it's already been used before in some extremely ancient version of this soundpack.

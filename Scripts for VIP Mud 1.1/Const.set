@@ -1,0 +1,225 @@
+#Var MajorVersion 5
+#Var MinorVersion 4
+#Var PatchVersion 10
+#Var Version {@MajorVersion.@MinorVersion.@PatchVersion}
+#Var SoundpackName {Miriani Soundpack for VIP Mud}
+#Var SoundpackCreators {Ash Henderson, Josh Westen, and Erik Yobi}
+#Var SoundpackContributors {
+Sound contributions by Hector Salvatore, Leon Thomas, Salazar Clayton, and others.
+Special thanks to Kendall Gideon for awesome help with debugging, code snippets, beta testing, motivation boosters, and more!
+Triggers and extra sounds provided by the retired David Kieran, bringing more life than ever before to all the beloved babies!
+}
+#Var CR {%Chr(13)}
+#Var LF {%Chr(10)}
+#var PerCent {~%}
+#var SpeechTypes {None|Sapi|Jaws|SystemAccess|WindowEyes|NVDA}
+
+#var HistoryLogPath {%MudName/}
+
+#Var GunSoundsPath {General\Combat\Guns}
+#Var DefaultGunSound {GunDefault*2@Ext}
+#Var GunList {
+a * stun assault rifle:BulkyAssaultRifle*2@Ext
+a* stun turret:StunTurret@Ext
+*CTN *stun*:Blaster@Ext
+a* hollow cylindrical device:HollowDevice@Ext
+A *stun shotgun:Shotgun@Ext
+*pistol*:Pistol@Ext
+an old fashioned nickle-plated pistol:Shotgun@Ext
+}
+
+#Var Numbers {1|2|3|4|5|6|7|8|9|0}
+#var DirList {north east south west northeast northwest southeast southwest up down out outside}
+#Var WalkStyles {
+Amble
+Bounce
+Canter
+Clomp
+Crawl
+Creep
+Dart
+Dash
+Drag your feet
+Float
+Fly
+Glide
+Hop
+Hover
+Jog
+Leap
+Limp
+Lumber
+March
+Meander
+Moonwalk
+Mosey
+Parade
+Perambulate
+Pirouette
+Prance
+Race
+Run
+Rush
+Sashay
+Saunter
+Scamper
+Scurry
+Scuttle
+Shuffle
+Skip
+Slink
+Slouch
+Sneak
+Sprint
+Stagger
+stagger drunkenly
+Stalk
+Stomp
+Storm
+Stride
+Stroll
+Strut
+Stumble
+Swagger
+Swim
+Tiptoe
+Traipse
+Tramp
+Trot
+Trudge
+Twirl
+Waddle
+Walk
+}
+
+#var EntryStyles {
+ambles
+bounces
+canters
+crawls
+creeps
+darts
+dashes
+drags * feet
+floats
+tiptoes
+glides
+hops
+jogs
+leeps
+limps
+lumbers
+marchs
+meanders
+moonwalks
+moseys
+parades
+perambulates
+prances
+races
+runs
+rushes
+sashays
+saunters
+scuttles
+shuffles
+skips
+slinks
+slouches
+sprints
+staggers
+staggers drunkenly
+stomps
+storms
+strides
+strolls
+struts
+stumbles
+swaggers
+stalks
+traipses
+tramps
+trots
+trudges
+waddles
+twirls
+walks
+}
+
+#var InteligentNumpadDirs {1:sw
+2:s
+3:se
+4:w
+5:go
+6:e
+7:nw
+8:n
+9:ne
+0:out
++:u
+-:d
+}
+
+#if {@SetEntrySpeechOff = 1} {#setspeech entry off}
+#Var ConfFilePath {%MudName/Conf.set}
+#var ChangelogFilePath {/Scripts for VIP Mud 1.1}
+#var DocsPath {%replace(%replace(@ScriptPath,\,/),@ChangelogFilePath,"")/Docs}
+#var ChangelogFilePath {@DocsPath/Changelog/Changelog.txt}
+#var DecimalChar {%If(%IsNumber(1.4),.,~,)}
+#Config slowwalk on // Ensures that global speedwalks don't kick you
+#var And { and }
+
+; Direction definitions:
+; 
+; Ship directions:
+#dir 1 9
+#dir 2 8
+#dir 3 7
+#dir 4 6
+#dir 6 4
+#dir 7 3
+#dir 8 2
+#dir 9 1
+#dir +1 -9
+#dir +2 -8
+#dir +3 -7
+#dir +4 -6
+#dir +5 -5
+#dir +6 -4
+#dir +7 -3
+#dir +8 -2
+#dir +9 -1
+#dir -1 +9
+#dir -2 +8
+#dir -3 +7
+#dir -4 +6
+#dir -5 +5
+#dir -6 +4
+#dir -7 +3
+#dir -8 +2
+#dir -9 +1
+
+; Movement directions:
+#dir n s
+#dir ne sw
+#dir e w
+#dir se nw
+#dir s n
+#dir sw ne
+#dir w e
+#dir nw se
+#dir u d
+#dir d u
+#dir go o
+#dir enter o
+#dir en o
+
+#Alias ASCIICharList {
+ SetVariable ASCIICharList {List of ASCII Character Codes};
+ #255 {
+  SetVariable ASCIITmp1 %I;
+  #AddItem ASCIICharList {[@ASCIITmp1]: (%Chr(@ASCIITmp1)).}
+ };
+ ConfPrint {%Replace(@ASCIICharList,|,%CRLF)};
+ UnsetVariables ASCII*
+} {}

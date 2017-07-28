@@ -1,0 +1,77 @@
+#Exec {
+SetVariable Dir {No dir yet}
+SetVariable ShipDir {No dir yet}
+SetVariable DirTmp1 {}
+}
+
+#Var EnhancedNumpadPrefix {}
+
+#If {@Numpad=1} {#Class Numpad Enable}
+#Alias {numpad} {
+ #If {@numpad<>1} {
+  #If {1=1} {
+   #Var numpad 1;
+   #Var LoadNumpadKeys 1;
+   #Alarm 0 {
+    #Load {@KeyStrokesPath\Numpad.set}
+   };
+   #Class numpad enable;
+   #Say {Number pad enabled. You can now use control alt shift and the keys on the right of the keyboard to access the number pad.}
+  } {
+   #Say {The soundpack does no longer support numpad functionality. Please see Miriani's policies about scripting for more info.}
+  }
+ } {
+  #Var numpad 0;
+  #Var LoadNumpadKeys 0;
+  #Unload {@KeyStrokesPath\Numpad.set};
+  #Class numpad disable;
+  #Say {Number pad disabled.}
+ }
+} {}
+#Alias {dir} {
+ #If {%NumWords(%1, )>1} {
+  #Exec {%1};
+  #Abort All
+ };
+ #If {@UseMenuAliases=1 and @Menu>0} {
+  #Say {%CRLF} Entry|NoReturn;
+  Menus %1;
+  #Abort All
+ };
+ #If {@EnhancedNumpad=1 and @ZoneType="starship" and (%1=*"[1-9+-]" or %1=*"[1-9+-][1-9+-]")} {
+  #If {%IsNumber(%1)=1} {
+   #If {@DirTmp1=""} {
+    #Var TmpShipDir %1
+   } {
+    #Var TmpShipDir {@DirTmp1%1};
+    #Var DirTmp1 {}
+   }
+  } {
+   #If {@DirTmp1=%1} {
+    #Var TmpShipDir {%{1}5};
+    #Var DirTmp1 {}
+   } {
+    #Var DirTmp1 {%1};
+    #Abort All
+   }
+  };
+  #Exec {@EnhancedNumpadPrefix@TmpShipDir};
+  #Abort All
+ } {
+  #If {@IntelligentNumpad=0 or %IfWord(@ZoneType,starship vehicle space, )>0} {
+   #If {%Replace(@RoomName,~",)="Atmospheric Combat Vehicle Control Room"} {
+    #Exec {ACVMove %1}
+   } {
+    #Exec {%1}
+   };
+   #Var DirTmp1 {}
+  } {
+   #If {%IsNumber(%1)=1} {
+    #If {%1>0} {#Exec {%Word(sw s se w go e nw n ne, ,%1)}} {out}
+   } {
+    #If {%1="+" or %1="-"} {#If {%1="+"} {u} {d}} {#Exec {%1}}
+   };
+   #Var DirTmp1 {}
+  }
+ }
+} {Numpad}

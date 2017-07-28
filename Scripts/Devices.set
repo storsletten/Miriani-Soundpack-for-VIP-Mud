@@ -1,0 +1,167 @@
+#Trigger {A* alliance * beeps, notifying you *.} {msplay General\Device\AllianceComputer@Ext} {Main}
+#Trigger {A* beeps quietly, indicating to you that there is a n*. It was p*} {
+ #Var DevicesTmp1 {%Trim(%Word(%Delete(%2,1,14),/,1))};
+ #Var DevicesTmp2 {%Trim(%Word(%Delete(%2,1,14),/,2))};
+ #If {@DevicesTmp1="General"} {
+  #If {@DevicesTmp2="Name Changes"} {
+   msplay {General\Device\New Post1@Ext}
+  } {
+   msplay {General\Device\New Post2@Ext}
+  }
+ } {
+  #If {@DevicesTmp1="OOC"} {
+   msplay {General\Device\New Post3@Ext}
+  } {
+   msplay {General\Device\New Post4@Ext}
+  }
+ };
+ #Var DevicesTmp1 {%Pos(~",%3)};
+ #Var DevicesTmp2 {%Copy(%3,1,%Eval(@DevicesTmp1-2)): %Copy(%3,%Eval(@DevicesTmp1+1),%Eval(%Length(%3)-@DevicesTmp1-2))};
+ ExpPipe {%0} {N%2, p@DevicesTmp2} {N%2, p@DevicesTmp2};
+ #Sub {@ExpString};
+ PushMessage Posts {[%Delete(%2,1,14)] P@DevicesTmp2}
+} {Main}
+#Trigger {* takes a snapshot of *.} {msplay General\Device\Snapshot*5@Ext} {Main}
+#Trigger {You tune a* metafrequency * to *.*.} {
+ msplay General\Comm\Tune@Ext
+} {Main}
+#Trigger {Your communicator reports that the target is unavailable. They might not be awake to hear your transmission or they may have private communications disabled.} {
+ ExpPipe {%0} {The target is not available.} {Not available};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {You*activate *.} {
+ #If {%NumWords(%0,~")=1} {
+  #If {%2="a blast door control"} {
+   #GagLine 1 All
+  } {
+   #Var DevicesTmp1 {%Trim(%1)};
+   #If {@DevicesTmp1=""} {
+    msplay General\Device\Activate@Ext
+   } {
+    #If {@DevicesTmp1="de"} {
+     msplay General\Device\Deactivate@Ext
+    }
+   }
+  }
+ }
+} {Main}
+#Trigger {You turn *.*} {
+ #Var DevicesTmp1 {%Word(%1, ,%NumWords(%1, ))};
+ #Var DevicesTmp1 {%Replace(@DevicesTmp1,~",)};
+ #Var DevicesTmp1 {%Replace(@DevicesTmp1,~,,)};
+ #Var DevicesTmp2 {%Replace(%2,~",)};
+ #If {%IsNumber(@DevicesTmp1)=1} {
+  #If {@DevicesTmp2="00 credits."} {
+   msplay {General\Misc\Credits*4@Ext}
+  }
+ } {
+  #If {@DevicesTmp1="on"} {
+   msplay {General\Device\activate@Ext}
+  } {
+   #If {@DevicesTmp1="off"} {
+    msplay {General\Device\deactivate@Ext}
+   }
+  }
+ }
+} {Main}
+#TRIGGER {* presses a small button on a compact black video camera, deactivating it.} {msplay General\Device\CameraOff@Ext} {Main}
+#Trigger {* indicates that the scan *.} {
+ #If {%NumWords(%0,~")=1} {
+  #Var DevicesTmp1 {%Word(%2, ,%NumWords(%2, ))};
+  #If {@DevicesTmp1="successful"} {
+   ExpPipe {%0} {Scan successful} {};
+   #Sub {@ExpString};
+   msplay General\Device\SurveyComplete@Ext
+  } {
+   #If {@DevicesTmp1="failed"} {
+    ExpPipe {%0} {Scan failed.} {};
+    #Sub {@ExpString};
+    msplay General\Device\ScanFailed@Ext
+   }
+  }
+ }
+} {Main}
+#Trigger {That doesn't seem to contain any useful information out here.} {
+ #If {@ShowPointsOOLS=1} {
+  #Sub {You have %Replace(@LicensePoints,|,.) LP, and %Replace(@CombatPoints,|,.) CP stored in memory.}
+ }
+} {Main}
+#Trigger {Destination *Sector *Coordinates*} {
+ #Var DevicesTmp1 {%Replace(%Trim(%1%2%3),~",)};
+ #If {@DevicesTmp1=""} {
+  #Say {Results:} NoDisplay;
+  ExpPipe {%0} {%0} {:Voice:%0};
+  #Sub {@ExpString}
+ }
+} {Main}
+#Trigger {A small handheld radio receiver beeps twice, indicating the detection of a radio transmission.} {msplay general\device\radioreceiver@ext} {Main}
+#Trigger {A small handheld radio receiver gives a series of beeps and automatically unplugs from the console.} {
+ msplay General\Device\CameraOff@Ext
+} {Main}
+#Trigger {You access * and note you have *.* license points and *.* combat points.} {
+ #If {%NumWords(@LicensePoints,|)<>2} {
+  #If {%IsNumber(@LicensePoints)=1} {#Var LicensePoints {@LicensePoints|0}} {#Var LicensePoints {%2|%3}}
+ };
+ #If {%NumWords(@CombatPoints,|)<>2} {
+  #If {%IsNumber(@CombatPoints)=1} {#Var CombatPoints {@CombatPoints|0}} {#Var CombatPoints {%4|%5}}
+ };
+ #Math DevicesTmp2 {%2-%Word(@LicensePoints,|,1)};
+ #Math DevicesTmp3 {%3-%Word(@LicensePoints,|,2)};
+ #If {@DevicesTmp3<0} {
+  #Math DevicesTmp3 {@DevicesTmp3+100};
+  #If {@DevicesTmp2>0} {#Math DevicesTmp2 {@DevicesTmp2-1}} {
+   #If {@DevicesTmp2=0} {#Var DevicesTmp2 {-@DevicesTmp2}};
+   #Math DevicesTmp3 {100-@DevicesTmp3}
+  }
+ } {
+  #If {@DevicesTmp2<0} {
+   #If {@DevicesTmp3>0} {
+    #Math DevicesTmp2 {@DevicesTmp2+1};
+    #Math DevicesTmp3 {100-@DevicesTmp3}
+   };
+   #If {@DevicesTmp2=0} {#Var DevicesTmp2 {-0}}
+  }
+ };
+ #If {%Eval(@DevicesTmp3\10)=0} {#Math DevicesTmp3 {@DevicesTmp3/10}} {
+  #If {@DevicesTmp3<10} {#Var DevicesTmp3 {0@DevicesTmp3}}
+ };
+ #Var DevicesTmp1 {@DevicesTmp2.@DevicesTmp3};
+ #Math DevicesTmp2 {%4-%Word(@CombatPoints,|,1)};
+ #Math DevicesTmp3 {%5-%Word(@CombatPoints,|,2)};
+ #If {@DevicesTmp3<0} {
+  #Math DevicesTmp3 {@DevicesTmp3+100};
+  #If {@DevicesTmp2>0} {#Math DevicesTmp2 {@DevicesTmp2-1}} {
+   #If {@DevicesTmp2=0} {#Var DevicesTmp2 {-@DevicesTmp2}};
+   #Math DevicesTmp3 {100-@DevicesTmp3}
+  }
+ } {
+  #If {@DevicesTmp2<0} {
+   #If {@DevicesTmp3>0} {
+    #Math DevicesTmp2 {@DevicesTmp2+1};
+    #Math DevicesTmp3 {100-@DevicesTmp3}
+   };
+   #If {@DevicesTmp2=0} {#Var DevicesTmp2 {-0}}
+  }
+ };
+ #If {%Eval(@DevicesTmp3\10)=0} {#Math DevicesTmp3 {@DevicesTmp3/10}} {
+  #If {@DevicesTmp3<10} {#Var DevicesTmp3 {0@DevicesTmp3}}
+ };
+ #Var DevicesTmp2 {@DevicesTmp2.@DevicesTmp3};
+ #Var DevicesTmp3 {%1};
+ #Var DevicesTmp4 {%2.%3};
+ #Var DevicesTmp5 {%4.%5};
+ #Var DevicesTmp6 {%Replace(@PointUnitOutputString,$UNIT,~@DevicesTmp3)};
+ #Var DevicesTmp6 {%Replace(@DevicesTmp6,$LP,~@DevicesTmp4)};
+ #Var DevicesTmp6 {%Replace(@DevicesTmp6,$CP,~@DevicesTmp5)};
+ #Var DevicesTmp6 {%Replace(@DevicesTmp6,$DIFFLP,~@DevicesTmp1)};
+ #Var DevicesTmp6 {%Replace(@DevicesTmp6,$DIFFCP,~@DevicesTmp2)};
+ #Var DevicesTmp6 {%Replace(@DevicesTmp6,$CRLF,%CRLF)};
+ #Sub {%Expand(@DevicesTmp6)};
+ #UnVar DevicesTmp2;
+ #UnVar DevicesTmp3;
+ #UnVar DevicesTmp4;
+ #UnVar DevicesTmp5;
+ #UnVar DevicesTmp6;
+ SetPreservedVariable LicensePoints {%2|%3};
+ SetPreservedVariable CombatPoints {%4|%5}
+} {Main}

@@ -1,0 +1,182 @@
+This is my attempt to document the developer routines and frameworks in place within the soundpack.
+
+I'll try to keep it organised, but there's a lot, so it's quite unlikely.
+
+++ Developer commands:
+WN - open the changelog in your prefered text editor
+
+oscript - open a script from the scripts directory, no extention necessary, to start in your vipmud directory, put a \ in front of the filename.
+So, for example, you could do oscript confmanager to open ConfManager.set from your scripts directory, or you could do oscript \conf to open Conf.set from your %CharInfo(MudName) directory. An unexpected consequence of Vipmud's #edit function, is that you don't need to worry about directories either, so, for example, oscript ConfObjects\Main will quite happily open @ScriptPath/ConfObjects/Main.set.
+lscript - loads a script (see oscript for syntax)
+
+++ ConfManager:
+OK, Eric will need to clarify a lot of this stuff, as ConfManager is his puppy (or bitch, depending on which way you want to look at it), but here's what I know.
+
+ConfManager is quite selective about which variables it stores. Only the variables stored in @ConfObjectVars will get flushed to disc when ConfSaveAll is executed, so, this means that there are usually 3 parts to adding extra conf objects.
+
+Firstly, find which file you want the object in. These naturally, can be anywhere, but for organisation's sake, they are all located in: @ScriptPath/ConfObjects, and are mostly named by their master menu name. For example, Ship.set in this folder contains the stuff found in Conf Ship (or Conf0Ship).
+
+Secondly, add the objects definition to the menu.
+
+If you're creating a new menu, you need to begin by putting the definition in Conf0.
+
+You can do this one of two ways, as seen in the existing conf menu.
+
+Way 1: Simply include the name of the new menu / object, so we'll use new as the name of an imaginary something. Could be an object or a menu.
+
+Way 2: Name:Description.
+So:
+
+SetVariable Conf0 {...
+New:This is a new ConfManager Object
+}
+Then, when you type Conf, you'll get something like:
+[N] This is a new ConfManager object
+
+Next, formatting must be discussed. ConfManager looks for objects in the following way:
+
+If you think of the Conf command, the spaces are replaced with 0's in the variable name which contains the menu. For example, when you type Conf, ConfManager automatically parses the contents of the variable named Conf0
+It also checks through the stuff in the menu, to see if it all exists.
+
+If you typed Conf Ship, you'd be parsing @Conf0Ship0
+
+Objects are the same way. Consider this:
+SetVariable Conf0Ship0FlipSectorInfo0 {B:FlipSectorInfo:Have the ship name appear first when ships enter and exit sectors
+The ship name will now appear when a ship enters or exits the sector:Sector enter and exit messages will now appear nnormally
+}
+
+You'd get to this, either by going through the menus, first through Conf, then ths Ship menu, then toggling the object, or you could type:
+Conf Ship FlipSectorInfo
+Interestingly enough, this is the same as:
+%Replace(Conf0Ship0FlipSectorInfo0,0, )
+So when defining objects, it is helpful to think of it this way. If you're putting something into the ship menu, you can't call it Conf0ASDF0NewObject0, because ConfManager will shit a brick.
+
+Finally, you need to define your object. There are examples of these in the various object files, so I'll not write them down here, mainly because I tend to just look through the object files each time anyhow. But the general idea is:
+SetVariable ObjectName {Type:Variable:Data}
+
+++ Variables
+This brings me nicely onto my next topic, variables.
+
+Short history lesson.
+
+Once there was a client, a vary nice client, a very fine client indeed.
+But when it got fat, data it shat
+And a new framework it did need.
+
+So basically, when two many variables are kept alive in Vipmud, it goes mad, explodes out of your screen, and tries to have sex with your wife. And what do we do to people who do that? we set the watch dog on them.
+
+So Basically, alls SetVariable does is creates a variable with the normal #var command, but it adds it's name to a list of variables, which can be removed at will with the UnsetVariables command, which is exactly what the watchdog code does.
+
+Every @WatchdogTimer soundpack messages, the watchdog removes (hopefully) the unneeded ones, to free up space for new variables.
+Variables that are moved by your friendly neighbourhood watchdog can be found in the file SoundpackML.set, by searching for UnsetVariables.
+
+UnsetVariables has an s on the end for a reason. You can use wildcards in your variable names, so, you could do:
+UnsetVariables *Tmp*
+To remove Tmp1, Tmp2, WhateverTmp1, WhateverTmp2, Tmp, Tmpasdflkjh, etc, etc, etc.
+You could also do UnsetVariables * to remove all variables, but this is a bad idea, as it'll destroy your extras, and probably some other stuffs too.
+
+UnsetVariable also allows exclusions. So, for example, as is used in SoundpackML, you can do:
+UnsetVariables Conf0* Conf0Extra*
+This attempts to preserve the configuration options for your extras.
+
+SetVariable takes two forms. Either simply the same as #var:
+SetVariable Name {Data}
+Or:
+SetVariable Name*n {Data}
+Which makes the variables Name1, Name 2, ... NameN, and populates them all with the data described by the second argument.
+
+Use SetVariable in all instances where you are making use of temp variables. See AtSa.set for a whole bunch of examples of both formats.
+
+++ Unsetting variables:
+It is also good practise to unset your own variables. the Watchdog attempts to crush all the no longer used ones, but it is by no means perfect.
+
+To prevent infinite loop warnings in commands which use a high number of levels (
+#if {Something} {
+  #if {Something else} {
+   #if {Third thing} {
+    Whatever
+   }
+  }
+ }
+}
+) for example, you can take advantage of the DeclaredVariables variable.
+
+This is where the declared variables are listed, and takes the standard vipmud list format, so value1|value2|value3|...
+
+You can add things to it with the #AddItem command (See SmFilter.set).
+
+The same goes for the PreservedVariables variable. A quicker way to do this though, is to use the PreserveVariable command, which adds it for you.
+
+++ Preserving variables.
+You can preserve variables for later loading, with the SetPreservedVariable alias. Then, when you quit, your variables get written to the Variables.set file in your Vipmud/%CharInfo(MudName) directory.
+
+This is useful if you want to save stuff for later, without hacking ConfManager.
+
+++ Experience levels
+This is probably pretty obvious, but I'll write it anyways. To take advantage of the different experience levels, use the ExpPipe command.
+
+This takes 3 arguments, each one, the text to be used for each experience level:
+ExpPipe {Newbie text} {Midbie text} {Oldbie text}
+
+You can also prefix each message with :gag, which allows you to specify a gag type. See Lore.set for examples.
+
+Once you've ExpPiped your text, the result will be stored in the ExpString variable, so a simple
+#Sub @ExpString
+will complete the substitution.
+
+++ Virtual Displays
+These clever little things work on the same principal. DisplayPrint Display {Text}
+
+So:
+DisplayPrint 4 {Hello World.}
+would print "Hello world." to virtual display 4.
+
+ + MirianiSoundPlay integration:
+Virtual displays integrate nicely with the various sound playing routines, with a simple addition to the volume offset.
+
+#TRIGGER {* has fired at *.} {
+ mwplay Ship\Combat\OtherFired*6@Ext 0:1;
+ #If {@MissionMode=1 and %Word(%2, ,1)="Praelor"} {
+  #GagLine 1 Voice
+ };
+ ExpPipe {%0} {%0} {%2 hit by %1};
+ DisplayPrint 1 @ExpString;
+ #Sub {@DisplayString}
+} {Main}
+
+By tying ExpPipe and DisplayPrint together in this way, you can nicely control the stream of output, as well as change the volume of the playing sounds based on the preferences defined in @Conf0Display0.
+
+This is how the intersectoring firing messages can be gagged with Confrol Alt f9, and the intersectoring firing sounds are also reduced in volume.
+
+Virtual displays differ from History Review buffers, in so much as they are designed to handle certain text groups. This is probably better explained with another short history lesson.
+
+I first came up with the idea for Virtual Displays, as a way for a person with multiple screens to sort text. For example, if the user had multiple screens, and let's assume for a moment that the client supported this too, they could pipe different blocks of text to the different screens. For example, they could be reading main output, while having camera output piped to a seperate screen, which they could review at will. This is impossible with Vipmud, so Virtual Displays were born as a way to contextually gag / ungag text.
+
+While history buffers are designed to indiscriminately sort and organise text, Virtual Displays are there to allow you to control the flow. I'm rambling a bit, while I think of a way to better explain it, but I can't, so here it is.
+
+By default, display 1 is the intersector firing messages, so for example, when a ship fires on another, it is passed to virtual dispaly 1 with the DisplayPrint command, as in the trigger above. Also, the sound is passed by putting the display number after the volume offset in the msplay command. Imagine flying an invasion. You are in a sector with 200 starsips, all firing at each other. To cut down on spam, so you can concentrate on flying, focusing, scanning etc, you could toggle the state of the first display to hide, so then, when a ship fires at another, you see no text, and the volume of the sounds, goes up or down, depending on the setting for the volume offset for that display. This allows you to still get the sound, whilst not being bugged with the text.
+
+Each display has it's ownbuffer naturally, and (if logging is enabled with Conf Log 1), it's own log file, so you can still review the output with no problems with the standard control q and control w keys, or, alt and the numbers if you have Conf History 3 enabled.
+
+++ History Review Buffers
+History review buffers are simple. They provide a way of seeing output in an organised fashion. Adding text to them is simple, done with the PushMessage alias.
+
+PushMessage Buffer0Name {Text to be pushed.}
+Use 0's in the buffer name to put spaces, like in PushMessage Mission0Reports, which is used when you get a mission report.
+
+If the buffer does not already exist, it is created, and the messages begin to stack up. Naturally, if the buffer name you use is in the list if ignored history buffers, also accessible through the Conf History menu, the messages will never get there.
+
+Because all your pushing is text, there's no reason you couldn't push the results of an ExpPipe, or anything else:
+ExpPipe {Whatever. You're a newbie.} {Hello, my midbie friend.} {Oldbiew, you are delicious!};
+PushMessage Random0Things @ExpString
+
+You could push the results of CalculateRelativeNumericDir (see below), by passing it's resulting variable, or the contents of %PlayHandle, if that's what took your fancy.
+
+++ Generic aliases:
+ + CalculateRelativeNumericDir:
+This is the backend for sm filters, as well as the acv targeting solutions, and takes the form:
+CalculateRelativeNumericDir TargetX TargetY TargetZ CurrentX CurrentY CurrentZ
+So, for example, if you are sitting at 3 3 3, and you're interested in an object at 2 3 3, you'd do:
+CalculateRelativeNumericDir 2 3 3 3 3 3
+The result is stored in @RelativeNuermicDir
+

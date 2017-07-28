@@ -1,0 +1,9 @@
+#trigger {You remove * from a *sheath*} {msplay General\Blades\Unsheathe@Ext} {Main}
+#trigger {You stab at *'s * with *} {msplay General\Blades\Stab*6@Ext} {Main}
+#trigger {You swipe at *'s * with *} {msplay General\Blades\Swipe*2@Ext} {Main}
+#trigger {* stabs at your * with *} {msplay General\Blades\Stab*6@Ext} {Main}
+#trigger {* swipes at your * with *} {msplay General\Blades\Swipe*2@Ext} {Main}
+#TRIGGER {* slashes you* with *} {msplay General\Blades\Swipe*2@Ext} {Main}
+#trigger {You clean the blood off of *} {msplay General\Blades\Wipe*6@Ext} {Main}
+#trigger {A loud clang fills the air and sparks fly from both weapons as you successfully block *'s attack with *} {msplay General\Blades\Block*4@Ext} {Main}
+#trigger {You carefully sheathe * in a *} {msplay General\Blades\Sheathe@Ext} {Main}

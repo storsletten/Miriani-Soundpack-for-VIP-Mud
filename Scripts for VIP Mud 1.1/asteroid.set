@@ -1,0 +1,175 @@
+#var DrillSounds 9
+#var Surveying 0
+#trigger {Upon finding a suitable location, you press a small button on the side of an asteroid anchor, which forcefully buries itself into the ground.} {#Gagline 1 ALL;
+msplay General\Asteroid\AnchorEnd@Ext} {Main}
+#trigger {A light envelops the room and quickly sucks your asteroid hauling supplies into an asteroid hauling kit.} {#Gagline 1 ALL;
+msplay General\Asteroid\KitRetrieve@Ext} {Main}
+#TRIGGER {You feel a mild vibration as the starship's asteroid anchor buries itself into the asteroid's surface.} {
+ msplay {anchor start@Ext};
+ ExpPipe {:Voice:%0} {:Voice:%0} {:Voice:Asteroid anchor deployed};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {*Lifting anchor and establishing standard dock*} {
+ msplay {anchor end@Ext};
+ ExpPipe {:Voice:%0} {:Voice:%0} {};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {The vehicle halts on the asteroid surface.} {msplay General\Asteroid\RampEnd@Ext;
+ExpPipe {%0} {%0} {};
+#sub {@ExpString}} {Main}
+#TRIGGER {The vehicle is seized by a pair of robotic arms and deposited back into the vehicle bay.} {msplay General\Asteroid\RampEnd@Ext;
+ExpPipe {%0} {%0} {};
+#sub {@ExpString}} {Main}
+#TRIGGER {The vehicle is jarred as a pair of robotic arms clamp around it and lift it into a small chamber above the docking bay.} {#gagline 1 all;
+msplay General\Asteroid\Launch@Ext} {Main}
+#TRIGGER {You accelerate the vehicle *. Navigation instruments instruct you that your coordinates are now *.} {DontStopSpeaking;
+#if {%ifword(%1,@DirList, )= 1} {
+#class asteroid enable;
+ #Var Peers 1;
+ExpPipe {%0} {Moving %1 to %2.} {[%2]};
+#sub {@ExpString}}} {Main}
+#TRIGGER {[[]Asteroid Surface]} {#gagline 1 all} {Main|asteroid}
+#TRIGGER {You are standing on the surface of an asteroid.} {#gagline 1 all;
+#class asteroidsurface disable} {Main|asteroid}
+#TRIGGER {[[]Asteroid Surface] (*, *)*} {
+ SetVariable AsteroidXCoord %1;
+ SetVariable AsteroidYCoord %2
+} {Main}
+#Alias {surveying} {#if {@Surveying = 0} {
+#var Surveying 1;
+#say {Surveying mode enabled. Discovered minerals will now be gagged.};
+#abort
+};
+#if {@Surveying = 1} {
+#var Surveying 2;
+#say {Review mode enabled. Undiscovered objects will now be gagged.};
+#abort
+};
+#var Surveying 0;
+#say {Surveying mode disabled. All objectes will be shown.}} {Main}
+#TRIGGER {[{]*, *} (*)} {#if {@Surveying = 1} {#gagline 1 all}} {Main}
+#TRIGGER {You pull a cord out of a bulky diagnostic device and plug it into an available port on *.} {ExpPipe {%0} {[Diag] %1} {};
+#sub @ExpString} {Main}
+#TRIGGER {You unplug the cord from * and retract it back into a bulky diagnostic device.} {Msplay General\Asteroid\Diag@Ext;
+ExpPipe {%0} {You unplug the cord from %1.} {};
+#sub @ExpString} {Main}
+#TRIGGER {Mineral Pocket Detected: *} {#if {@ExperienceLevel = 3} {
+#gagline 1 all;
+#var MineralPocket %1
+}} {Main}
+#TRIGGER {Mineral Concentration: *} {#if {@ExperienceLevel = 3} {
+#sub {[@MineralPocket]: %1}
+}} {Main}
+#TRIGGER {The commotion from the storage bay stops as the cargo transfer is completed.} {msplay Ship\Misc\TransferEnd@Ext;
+ExpPipe {%0} {%0} {};
+#sub @ExpString} {Main}
+#TRIGGER {The ground shudders underfoot as materials are moved by *.} {ExpPipe {%0} {} {};
+#sub @ExpString;
+msplay General\Asteroid\Drill*@DrillSounds@Ext} {Main}
+#TRIGGER {A cloud of particulate matter floats up from the drilling area of * as it extracts * from a nearby source.} {ExpPipe {%0} {} {};
+#sub @ExpString;
+msplay General\Asteroid\Drill*@DrillSounds@Ext} {Main}
+#TRIGGER {A small light on * suddenly begins to glow as power pours into the unit.} {msplay General\Asteroid\Power@Ext} {Main}
+#TRIGGER {A small light on * suddenly fades as power to the unit is severed.} {msplay General\Asteroid\ReactorDisable@Ext} {Main}
+#TRIGGER {You orient the business end of * away from your face and activate it. A brilliant blue energy beam, carefully controlled to lose energy after about an inch of exposure, begins to issue forth from the barrel. You lean toward * and apply the beam to the nearest tear and begin sealing it.} {msplay General\Asteroid\MicroSealer*4@Ext;
+ExpPipe {%0} {%0} {You use %1 on %2.};
+#sub @ExpString} {Main}
+#TRIGGER {The drill bit of an excavation unit spins aimlessly as it attempts to drill into the area.} {msplay General\Asteroid\BrokenDrillBit@Ext} {Main}
+#TRIGGER {An excavation unit shudders violently as the drill bit, shakier than what seems normal, moves materials from a nearby source.} {msplay General\Asteroid\ShakyDrillBit@Ext} {Main}
+#Trigger {The drill bit of * suddenly catches, seizing up for a moment before drilling resumes.} {msplay General\Asteroid\ShakyDrillBit@Ext} {Main}
+#TRIGGER {The rover shudders violently as the arm * and begins rotating.} {msplay General\Asteroid\Rotating@Ext;
+ExpPipe {%0} {%0} {};
+#sub @ExpString} {Main}
+#TRIGGER {The mechanical whines begin again as the arm retracts back into the front of the rover.} {msplay General\Asteroid\Retract@Ext;
+ExpPipe {%0} {%0} {};
+#sub @ExpString} {Main}
+#TRIGGER {You input a* * command into *.} {#if {%2 = "activation"} {
+msplay General\Asteroid\ReactorEnable@Ext
+};
+#if {%2 = "deactivation"} {
+msplay General\Asteroid\ReactorDisable@Ext
+}} {Main}
+#Trigger {An excavation unit vibrates heavily as it encounters an area of difficulty drilling.} {msplay General\Asteroid\BrokenDrillBit@Ext} {Main}
+#TRIGGER {*You watch as a small ramp is extended from outside the hull to the asteroid surface.} {ExpPipe {%0} {} {};
+#sub @ExpString;
+msplay General\Asteroid\RampDown@Ext} {Main}
+#trigger {The mechanical whines begin again as the arms retract and the top panel begins to close.} {msplay General\Asteroid\Retract@Ext;
+ExpPipe {%0} {} {};
+#sub @ExpString} {Main}
+#Trigger {Several loud banging sounds emanate from the cargo area behind you.} {msplay General\Asteroid\CargoBangs@Ext;
+ExpPipe {%0} {} {};
+#sub @ExpString} {Main}
+#TRIGGER {You carefully secure the end of a length of tubing to *.} {ExpPipe {%0} {%0} {Tubing attached to %1.};
+#sub @ExpString;
+msplay General\Asteroid\TubingAttach@Ext -30} {Main}
+#TRIGGER {You carefully disconnect the end of a length of tubing from *.} {ExpPipe {%0} {%0} {Tubing detached from %1.};
+#sub @ExpString} {Main}
+#TRIGGER {[{]*, *}} {#if {@Surveying = 2} {#gagline 1 all}} {Main}
+#TRIGGER {A large panel on the bottom of * slowly opens, causing a cascade of * to come tumbling out.} {msplay General\Asteroid\Dump@Ext} {Main}
+#TRIGGER {A small amount of * trickles out of a tear in *.} {msplay General\Asteroid\Trickle@Ext} {Main}
+#Trigger {The dusty gray landscape around you is a mass of dips and climbs, each of which is the result of an impact with another body in space. Aside from the occasional rock, little else breaks the monotony of the surface.} {
+#if {@GagRoidDesc=1} {
+#gagline 1 all
+}
+} {Main}
+#Alias AMap {
+ #if {%Pos(Asteroid,@ZoneName)>0} {
+  #Class AMap enable;
+  map
+ } {
+  #say {You must be on an asteroid to use that command.}
+ };
+ #alarm 1 {#class amap disable}
+} {Main}
+#Trigger {Current Coordinates: *} {#Gagline 1 All} {Main|Amap}
+#Trigger {Objects have been detected at (*).} {
+ #var Tmp1 {and};
+ SetVariable AsteroidObjectList {};
+ SetVariable AsteroidObjects {%Replace(%1,@Tmp1,"")};
+ #var AsteroidObjects {%Replace(@AsteroidObjects, ~(,"")};
+ #var AsteroidObjects {%Replace(@AsteroidObjects,~),|)};
+ #var AsteroidObjects {%Replace(@AsteroidObjects,~,,"")};
+ #var AsteroidObjects {%Replace(@AsteroidObjects,| ,|)};
+ #ForAll @AsteroidObjects {
+  SetVariable ObjectXCoord {%Word(%i, ,1)};
+  SetVariable ObjectYCoord {%Word(%i, ,2)};
+  SetVariable AsteroidTmp1 0;
+  SetVariable AsteroidTmp2 0;
+  SetVariable AsteroidTmp3 {};
+  SetVariable AsteroidTmp4 {};
+  #If {@ObjectXCoord<>@AsteroidXCoord} {
+   #If {@ObjectXcoord>@AsteroidXCoord} {
+    #Math AsteroidTmp1 {@ObjectXCoord-@AsteroidXCoord};
+    SetVariable AsteroidTmp3 {e}
+   } {
+    #Math AsteroidTmp1 {@AsteroidXCoord-@ObjectXCoord};
+    SetVariable AsteroidTmp3 {w}
+   }
+  };
+  #If {@ObjectYCoord<>@AsteroidYCoord} {
+   #If {@ObjectYCoord>@AsteroidYCoord} {
+    #Math AsteroidTmp2 {@ObjectYCoord-@AsteroidYCoord};
+    SetVariable AsteroidTmp4 {s}
+   } {
+    #Math AsteroidTmp2 {@AsteroidYCoord-@ObjectYCoord};
+    SetVariable AsteroidTmp4 {n}
+   }
+  };
+  #If {@AsteroidTmp1=0} {
+   #Var AsteroidObjectDirs {@AsteroidTmp2 %Proper(@AsteroidTmp4)}
+  } {
+   #If {@AsteroidTmp2=0} {
+    #Var AsteroidObjectDirs {@AsteroidTmp1 %Proper(@AsteroidTmp3)}
+   } {
+    #var AsteroidObjectDirs {@AsteroidTmp1%Proper(@AsteroidTmp3), @AsteroidTmp2%Proper(@AsteroidTmp4)}
+   }
+  };
+  #if {@AsteroidObjectList=""} {
+   #var AsteroidObjectList {Objects: @AsteroidObjectDirs}
+  } {
+   #var AsteroidObjectList {@@AsteroidObjectList@AtSaBetweenObjects@AsteroidObjectDirs}
+  }
+ };
+ #sub {@AsteroidObjectList.};
+ #Class AMap disable
+} {Main|AMap}

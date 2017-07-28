@@ -1,0 +1,444 @@
+#If {%Defined(Contributed)=0} {#Var Contributed {0.0}}
+#If {%Defined(ContributedTo)=0} {#Var ContributedTo {}}
+#If {%Defined(Contributers)=0} {#Var Contributers {}}
+
+#Alias Contribs {
+ #Var ShipMiscTmp1 0;
+ #Var ShipMiscTmp2 0;
+ #Var ShipMiscTmp3 0;
+ #Var ShipMiscTmp9 {};
+ #Var ShipMiscTmp10 0;
+ #Var ShipMiscTmp11 0;
+ #Var ShipMiscTmp12 0;
+ #Var ShipMiscTmp13 0;
+ #If {%Copy(@Contributers,1,1)="|"} {#Var Contributers {%DelNItem(@Contributers,1)}};
+ #ForAll {@Contributers} {
+  MakeVarName {%i} ShipMiscTmp4;
+  #Var ShipMiscTmp5 {@{Contrib0@ShipMiscTmp4}};
+  #Var ShipMiscTmp8 {%Pos(.,@ShipMiscTmp5)};
+  #If {@ShipMiscTmp8>0} {
+   #Math ShipMiscTmp10 {@ShipMiscTmp10+1};
+   #Var ShipMiscTmp6 {%Word(@ShipMiscTmp5,.,2)};
+   #If {@ShipMiscTmp8>10} {
+    #Var ShipMiscTmp7 {%Copy(@ShipMiscTmp5,1,%Eval(@ShipMiscTmp8-10))};
+    #Var ShipMiscTmp5 {%Copy(@ShipMiscTmp5,%Eval(@ShipMiscTmp8-9),9)}
+   } {
+    #Var ShipMiscTmp7 0;
+    #Var ShipMiscTmp5 {%Word(@ShipMiscTmp5,.,1)}
+   };
+   #If {@ShipMiscTmp7>0} {
+    #Var ShipMiscTmp8 {%i: @ShipMiscTmp7@ShipMiscTmp5.@ShipMiscTmp6}
+   } {
+    #Var ShipMiscTmp8 {%i: @ShipMiscTmp5.@ShipMiscTmp6}
+   };
+   #Math ShipMiscTmp11 {@ShipMiscTmp11+@ShipMiscTmp5};
+   #Math ShipMiscTmp12 {@ShipMiscTmp12+@ShipMiscTmp6};
+   #Math ShipMiscTmp13 {@ShipMiscTmp13+@ShipMiscTmp7};
+   #If {@ShipMiscTmp12>99} {
+    #Math ShipMiscTmp11 {@ShipMiscTmp11+1};
+    #Var ShipMiscTmp12 {%Copy(@ShipMiscTmp12,2,2)}
+   };
+   #If {@ShipMiscTmp11>999999999} {
+    #Math ShipMiscTmp13 {@ShipMiscTmp13+1};
+    #Var ShipMiscTmp11 {%Copy(@ShipMiscTmp11,2,9)}
+   };
+   #If {@ShipMiscTmp7>@ShipMiscTmp3 or (@ShipMiscTmp7=@ShipMiscTmp3 and @ShipMiscTmp5>@ShipMiscTmp1) or (@ShipMiscTmp7=@ShipMiscTmp3 and @ShipMiscTmp5=@ShipMiscTmp1 and @ShipMiscTmp6>@ShipMiscTmp2)} {
+    #Var ShipMiscTmp1 @ShipMiscTmp5;
+    #Var ShipMiscTmp2 @ShipMiscTmp6;
+    #Var ShipMiscTmp3 @ShipMiscTmp7;
+    #Var ShipMiscTmp9 {@ShipMiscTmp8%CRLF@ShipMiscTmp9}
+   } {
+    #Var ShipMiscTmp9 {@ShipMiscTmp9@ShipMiscTmp8%CRLF}
+   }
+  }
+ };
+ #If {@ShipMiscTmp10>0} {
+  #Var ShipMiscTmp5 1;
+  #Var ShipMiscTmp6 {%NumWords(@ShipMiscTmp9,@LF)};
+  #Var ShipMiscTmp8 {};
+  #While {@ShipMiscTmp5<@ShipMiscTmp6} {
+   #Var ShipMiscTmp8 {@ShipMiscTmp8%CRLF[@ShipMiscTmp5] %Word(@ShipMiscTmp9,%CRLF,@ShipMiscTmp5)};
+   #Math ShipMiscTmp5 {@ShipMiscTmp5+1}
+  };
+  #Var ShipMiscTmp9 {%Delete(@ShipMiscTmp8,1,2)}
+ };
+ #If {%1="Clear" or %1="Reset"} {
+  #ForAll {@Contributers} {
+   #Exec {#UnVar {Contrib0%Replace(%i, ,0)}}
+  };
+  #Var Contributers {};
+  #Var ShipMiscTmp5 {Contrib statistics cleared}
+ } {
+  #Var ShipMiscTmp5 {Type 'contribs clear' to reset}
+ };
+ #If {@ShipMiscTmp10>0} {
+  #If {@ShipMiscTmp13=0} {#Var ShipMiscTmp13 {}};
+  #If {@ShipMiscTmp10=1} {
+   ConfPrint {  You have received contributions from:%CRLF@ShipMiscTmp9%CRLF.  @ShipMiscTmp5}
+  } {
+   ConfPrint {  You have received a total of @ShipMiscTmp13@ShipMiscTmp11.@ShipMiscTmp12 credits from @ShipMiscTmp10 people:%CRLF@ShipMiscTmp9%CRLF.  @ShipMiscTmp5}
+  }
+ } {
+  Contributed %1
+ };
+ #13 {#Exec {#UnVar {ShipMiscTmp%i}}}
+} {}
+#Alias Contributed {
+ #Var ShipMiscTmp1 0;
+ #Var ShipMiscTmp2 0;
+ #Var ShipMiscTmp3 0;
+ #Var ShipMiscTmp9 {};
+ #Var ShipMiscTmp10 0;
+ #Var ShipMiscTmp11 0;
+ #Var ShipMiscTmp12 0;
+ #Var ShipMiscTmp13 0;
+ #ForAll {@ContributedTo} {
+  MakeVarName {%i} ShipMiscTmp4;
+  #Var ShipMiscTmp5 {@{ContributedTo0@ShipMiscTmp4}};
+  #Var ShipMiscTmp8 {%Pos(.,@ShipMiscTmp5)};
+  #If {@ShipMiscTmp8>0} {
+   #Math ShipMiscTmp10 {@ShipMiscTmp10+1};
+   #Var ShipMiscTmp6 {%Word(@ShipMiscTmp5,.,2)};
+   #If {@ShipMiscTmp8>10} {
+    #Var ShipMiscTmp7 {%Copy(@ShipMiscTmp5,1,%Eval(@ShipMiscTmp8-10))};
+    #Var ShipMiscTmp5 {%Copy(@ShipMiscTmp5,%Eval(@ShipMiscTmp8-9),9)}
+   } {
+    #Var ShipMiscTmp7 0;
+    #Var ShipMiscTmp5 {%Word(@ShipMiscTmp5,.,1)}
+   };
+   #If {@ShipMiscTmp7>0} {
+    #Var ShipMiscTmp8 {%i: @ShipMiscTmp7@ShipMiscTmp5.@ShipMiscTmp6}
+   } {
+    #Var ShipMiscTmp8 {%i: @ShipMiscTmp5.@ShipMiscTmp6}
+   };
+   #Math ShipMiscTmp11 {@ShipMiscTmp11+@ShipMiscTmp5};
+   #Math ShipMiscTmp12 {@ShipMiscTmp12+@ShipMiscTmp6};
+   #Math ShipMiscTmp13 {@ShipMiscTmp13+@ShipMiscTmp7};
+   #If {@ShipMiscTmp12>99} {
+    #Math ShipMiscTmp11 {@ShipMiscTmp11+1};
+    #Var ShipMiscTmp12 {%Copy(@ShipMiscTmp12,2,2)}
+   };
+   #If {@ShipMiscTmp11>999999999} {
+    #Math ShipMiscTmp13 {@ShipMiscTmp13+1};
+    #Var ShipMiscTmp11 {%Copy(@ShipMiscTmp11,2,9)}
+   };
+   #If {@ShipMiscTmp7>@ShipMiscTmp3 or (@ShipMiscTmp7=@ShipMiscTmp3 and @ShipMiscTmp5>@ShipMiscTmp1) or (@ShipMiscTmp7=@ShipMiscTmp3 and @ShipMiscTmp5=@ShipMiscTmp1 and @ShipMiscTmp6>@ShipMiscTmp2)} {
+    #Var ShipMiscTmp1 @ShipMiscTmp5;
+    #Var ShipMiscTmp2 @ShipMiscTmp6;
+    #Var ShipMiscTmp3 @ShipMiscTmp7;
+    #Var ShipMiscTmp9 {@ShipMiscTmp8%CRLF@ShipMiscTmp9}
+   } {
+    #Var ShipMiscTmp9 {@ShipMiscTmp9@ShipMiscTmp8%CRLF}
+   }
+  }
+ };
+ #If {@ShipMiscTmp10>0} {
+  #Var ShipMiscTmp5 1;
+  #Var ShipMiscTmp6 {%NumWords(@ShipMiscTmp9,@LF)};
+  #Var ShipMiscTmp8 {};
+  #While {@ShipMiscTmp5<@ShipMiscTmp6} {
+   #Var ShipMiscTmp8 {@ShipMiscTmp8%CRLF[@ShipMiscTmp5] %Word(@ShipMiscTmp9,%CRLF,@ShipMiscTmp5)};
+   #Math ShipMiscTmp5 {@ShipMiscTmp5+1}
+  };
+  #Var ShipMiscTmp9 {%Delete(@ShipMiscTmp8,1,2)}
+ };
+ #If {%1="Clear" or %1="Reset"} {
+  #ForAll {@ContributedTo} {
+   #Exec {#UnVar {ContributedTo0%Replace(%i, ,0)}}
+  };
+  #Var Contributed {0.0};
+  #Var ContributedTo {};
+  #Var ShipMiscTmp5 {Contrib statistics cleared}
+ } {
+  #Var ShipMiscTmp5 {Type 'contributed clear' to reset}
+ };
+ #If {@ShipMiscTmp10>0} {
+  #If {@ShipMiscTmp13=0} {#Var ShipMiscTmp13 {}};
+  #If {@ShipMiscTmp10=1} {
+   ConfPrint {  You have contributed to:%CRLF@ShipMiscTmp9%CRLF.  @ShipMiscTmp5}
+  } {
+   ConfPrint {  You have contributed a total of @ShipMiscTmp13@ShipMiscTmp11.@ShipMiscTmp12 credits to @ShipMiscTmp10 ships:%CRLF@ShipMiscTmp9%CRLF.  @ShipMiscTmp5}
+  }
+ } {
+  #Say {No contribs}
+ };
+ #13 {#Exec {#UnVar {ShipMiscTmp%i}}}
+} {}
+#TRIGGER {You press a large * reset button on a * starship simulator.} {msplay General\Misc\Beep*10@Ext;
+ExpPipe {%0} {You reset the %1 starship simulator.} {};
+#sub {@ExpString}} {Main}
+#TRIGGER {* crawls in through a large panel.} {
+ #if {%Pos(stream of light,%1)=0} {
+  msplay Ship\Misc\ExitDucts*2@Ext
+ } {
+  msplay Ship\Misc\EnterDucts*2@Ext;
+  MirianiSoundPlay Footstep General\Footsteps\Duct*7@Ext
+ }
+} {Main|Starship}
+#TRIGGER {* crawls in through a small panel.} {
+msplay Ship\Misc\ExitDucts*2@Ext
+} {Main|Starship}
+#TRIGGER {* lifts a small panel and crawls through it.} {
+  msplay Ship\Misc\EnterDucts*2@Ext
+} {Main|Starship}
+#TRIGGER {You lift a small panel and crawl through *} {
+ msplay Ship\Misc\EnterDucts*2@Ext;
+ ExpPipe {%0} {:Voice:%0} {};
+ #Sub {@ExpString}
+} {Main|Starship}
+#TRIGGER {You flip a heavy switch, *.} {
+ msplay Ship\Misc\Lever*5@Ext;
+ #if {%pos(power systems,%1)>0} {
+  #if {%pos(enabling,%1)>0} {
+   mrplay @RoomSound
+  } {
+   mrplay Ship\Rooms\NoPower@Rext
+  }
+ }
+} {Main}
+#TRIGGER {* pushes a small lever away from *, activating the ship's systems.} {msplay Ship\Misc\Lever*5@Ext} {Main|Starship}
+#TRIGGER {* pulls a small lever toward *, deactivating the ship's systems.} {msplay Ship\Misc\Lever*5@Ext} {Main|Starship}
+#TRIGGER {A small console nearby flashes for your attention. A quick glance reveals that you have new mail waiting for you at*.} {msplay Ship\Misc\NewMail@Ext;
+ExpPipe {%0} {A small console nearbye tells you have new mail waiting for you at %1.} {You have new mail at %1.};
+#sub {@ExpString}} {Main|Starship}
+#TRIGGER {You hear a loud clang as robotic arms seize the ship and transport it to the *.} {#if {%1 = "landing pad"} {
+msplay Ship\Misc\LandingPad@Ext
+};
+#if {%1 = "garage"} {
+msplay Ship\Misc\Garage@Ext
+};
+ExpPipe {%0} {Ship transported to %1.} {};
+#sub {@ExpString}} {Main}
+#trigger {A loud whirring sound comes from the * as * haul cargo *.} {mrandomplay Ship\Misc\Transfer*3@Ext;
+#Gagline 1 all} {Main|Starship}
+#trigger {A loud bang emanates from the * as * haul cargo *.} {mrandomplay Ship\Misc\Transfer*3@Ext;
+#Gagline 1 all} {Main|Starship}
+#trigger {A haunting screech drifts in from the storage room as something heavy is dragged across the floor.} {mrandomplay Ship\Misc\Transfer*3@Ext;
+#Gagline 1 all} {Main|Starship}
+#TRIGGER {The noises coming from the storage room gradually cease until they can be heard no more.} {mrandomplay Ship\Misc\TransferEnd@Ext;
+#Gagline 1 ALL} {Main|Starship}
+#trigger {The sounds cease as the cargo transfer is complete.} {msplay Ship\Misc\TransferEnd@Ext;
+ExpPipe {%0} {Cargo transfer complete.} {};
+#sub {@ExpString}} {Main|Starship}
+#TRIGGER {*A fuzzy creature, appearing momentarily dazed, disengages itself from *.*} {msplay General\Combat\Fuzzy@Ext} {Main|Starship}
+#TRIGGER {* *s through the hatch.} {msplay Ship\Misc\Hatch@Ext} {Main}
+#Alias {music} {cmusic} {}
+#Trigger {A security drone appears and drags you off the ship.} {
+ thememusicfadeout;
+ msplay Ship\Misc\AirlockExit@Ext;
+ ExpPipe {%0} {%0} {:Voice:Booted.};
+ #Sub {@ExpString}
+} {Main|Starship}
+#TRIGGER {A security drone suddenly appears to escort you off the ship*} {thememusicfadeout;
+msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
+#Trigger {Space.} {
+ #Sub {The ship is in space.};
+ InSpace 1
+} {Main|Starship}
+#Trigger {* out of the *-person * "*".} {
+ #If {%Pos(~",%1)=0} {
+  mrandomplay Ship\Misc\AirlockExit@Ext
+ }
+} {Main}
+#Trigger {* through the hatch of the *-person * "*".} {
+ #If {%Pos(~",%1)=0} {
+  #If {%4<>@ZoneName} {
+   mrandomplay Ship\Misc\AirlockEnter@Ext {%Eval(@Vol - 20)}
+  } {
+   msplay Ship\Misc\AirlockEnter@Ext {%Eval(@Vol - 20)}
+  }
+ }
+} {Main}
+#Trigger {You * through *.} {
+ #if {%ifword(%1,@WalkStyles,%CRLF)=1} {
+  #Var ShipMiscTmp1 {%Replace(%2,~",)};
+  #if {%ifword(%word(@ShipMiscTmp1, ,2),unlocked broken, )>0} {
+   DontStopSpeaking;
+   #say {%Word(%2, ,2)};
+   msplay Ship\Misc\AirlockEnter@Ext
+  } {
+   #if {@ShipMiscTmp1 <> "the hatch"} {
+    msplay General\Misc\Door@Ext
+   } {
+    msplay Ship\Misc\Hatch@Ext
+   }
+  }
+ }
+} {Main}
+#Trigger {You * out of the ship.} {
+ thememusicfadeout;
+ #Gagline 1 ALL;
+ msplay Ship\Misc\AirlockExit@Ext
+} {Main|Starship}
+#TRIGGER {*A small light near the airlock of the * "*" flashes briefly.} {msplay General\Rooms\Beep18@RExt} {Main}
+#TRIGGER {* is deposited nearby.} {mrandomplay GasGiant\CargoDeposited@Ext} {Main}
+#trigger {Several drones begin depositing canisters of gas nearby.} {mrandomplay GasGiant\CargoDeposited@Ext} {Main}
+#TRIGGER {* drags you outside the ship.} {thememusicfadeout} {Main}
+#TRIGGER {The * opens and allows you to pass.} {
+ msplay {General\Misc\door open@Ext};
+ ExpPipe {%0} {%0} {:Voice:%0};
+ #Sub {@ExpString}
+} {Main}
+#TRIGGER {A * air freshener freshens the room with the scent of *.} {msplay Ship\Misc\Scent@Ext} {Main}
+#TRIGGER {Power to that system has been cut.} {msplay Ship\Misc\PowerCut@Ext} {Main}
+#TRIGGER {The deck beneath you shudders as a massive explosion rocks the ship.} {ExpPipe {%0} {A massive explosion rocks the ship.} {};
+#sub {@ExpString};
+mwplay Ship\Misc\InternalExpl*12@Ext} {Main|Starship}
+#Trigger {A mechanical groan permeates the room as *.} {
+ #If {%Pos(aside,%1)>0} {
+  ExpPipe {%0} {%0} {:Voice:Door opening.};
+  MirianiSoundPlay Standard {Ship\Misc\DoorOpen@Ext}
+ } {
+  ExpPipe {%0} {%0} {:Voice:Door closing.};
+  MirianiSoundPlay Standard {Ship\Misc\DoorClose@Ext}
+ };
+ #Sub {@ExpString}
+} {Main|Starship}
+#Trigger {A mechanical groan gradually subsides as the *, * the exit *.} {
+ #If {%Pos(block,%2)>0} {
+  ExpPipe {%0} {%0} {%3 closed.};
+  MirianiSoundPlay Standard {General\Pmining\TRExit@Ext}
+ } {
+  ExpPipe {%0} {%0} {%3 open.};
+  MirianiSoundPlay Standard {General\Pmining\TRExit@Ext}
+ };
+ #Sub {@ExpString}
+} {Main|Starship}
+#Trigger {You contribute * credit* to the owner of the ship.} {
+ #Var ShipMiscTmp1 {%Replace(%1,~,,)};
+ #Var ShipMiscTmp2 {%Word(@ShipMiscTmp1,.,2)};
+ #Var ShipMiscTmp8 {%Pos(.,@ShipMiscTmp1)};
+ #If {@ShipMiscTmp8>10} {
+  #Var ShipMiscTmp3 {%Copy(@ShipMiscTmp1,1,%Eval(@ShipMiscTmp8-10))};
+  #Var ShipMiscTmp1 {%Copy(@ShipMiscTmp1,%Eval(@ShipMiscTmp8-9),9)}
+ } {
+  #Var ShipMiscTmp3 0;
+  #Var ShipMiscTmp1 {%Word(@ShipMiscTmp1,.,1)}
+ };
+ MakeVarName {@ZoneName} ShipMiscTmp4;
+ #If {%IfWord(@ZoneName,@ContributedTo,|)=0} {
+  #Var ContributedTo {@ContributedTo|@ZoneName};
+  #Var {ContributedTo0@ShipMiscTmp4} {0.0}
+ };
+ #Var ShipMiscTmp5 {@{ContributedTo0@ShipMiscTmp4}};
+ #Var ShipMiscTmp6 {%Word(@ShipMiscTmp5,.,2)};
+ #Var ShipMiscTmp8 {%Pos(.,@ShipMiscTmp5)};
+ #If {@ShipMiscTmp8>10} {
+  #Var ShipMiscTmp7 {%Copy(@ShipMiscTmp5,1,%Eval(@ShipMiscTmp8-10))};
+  #Var ShipMiscTmp5 {%Copy(@ShipMiscTmp5,%Eval(@ShipMiscTmp8-9),9)}
+ } {
+  #Var ShipMiscTmp7 0;
+  #Var ShipMiscTmp5 {%Word(@ShipMiscTmp5,.,1)}
+ };
+ #Math ShipMiscTmp5 {@ShipMiscTmp1+@ShipMiscTmp5};
+ #Math ShipMiscTmp6 {@ShipMiscTmp2+@ShipMiscTmp6};
+ #Math ShipMiscTmp7 {@ShipMiscTmp3+@ShipMiscTmp7};
+ #If {@ShipMiscTmp6>99} {
+  #Math ShipMiscTmp5 {@ShipMiscTmp5+1};
+  #Var ShipMiscTmp6 {%Copy(@ShipMiscTmp6,2,2)}
+ };
+ #If {@ShipMiscTmp5>999999999} {
+  #Math ShipMiscTmp7 {@ShipMiscTmp7+1};
+  #Var ShipMiscTmp5 {%Copy(@ShipMiscTmp5,2,9)}
+ };
+ #If {@ShipMiscTmp7>0} {
+  #Var {ContributedTo0@ShipMiscTmp4} {@ShipMiscTmp7@ShipMiscTmp5.@ShipMiscTmp6}
+ } {
+  #Var {ContributedTo0@ShipMiscTmp4} {@ShipMiscTmp5.@ShipMiscTmp6}
+ };
+ #If {@ZoneType="starship"} {
+  #Var ShipMiscTmp4 {You contributed %1 credit%2 to the owner of @ZoneName}
+ } {
+  #Var ShipMiscTmp4 {You contributed %1 credit%2 to the owner of the ship}
+ };
+ #Sub {@ShipMiscTmp4};
+ PushMessage Contributions {@ShipMiscTmp4};
+ #7 {#Exec {#UnVar {ShipMiscTmp%i}}}
+} {Main|Starship}
+#Trigger {You have received a contribution of * credits from *.} {
+ #Var ShipMiscTmp1 {%Replace(%1,~,,)};
+ #Var ShipMiscTmp2 {%Word(@ShipMiscTmp1,.,2)};
+ #Var ShipMiscTmp8 {%Pos(.,@ShipMiscTmp1)};
+ #If {@ShipMiscTmp8>10} {
+  #Var ShipMiscTmp3 {%Copy(@ShipMiscTmp1,1,%Eval(@ShipMiscTmp8-10))};
+  #Var ShipMiscTmp1 {%Copy(@ShipMiscTmp1,%Eval(@ShipMiscTmp8-9),9)}
+ } {
+  #Var ShipMiscTmp3 0;
+  #Var ShipMiscTmp1 {%Word(@ShipMiscTmp1,.,1)}
+ };
+ MakeVarName {%2} ShipMiscTmp4;
+ #If {%IfWord(%2,@Contributers,|)=0} {
+  #Var Contributers {@Contributers|%2};
+  #Var {Contrib0@ShipMiscTmp4} {0.0}
+ };
+ #Var ShipMiscTmp5 {@{Contrib0@ShipMiscTmp4}};
+ #Var ShipMiscTmp6 {%Word(@ShipMiscTmp5,.,2)};
+ #Var ShipMiscTmp8 {%Pos(.,@ShipMiscTmp5)};
+ #If {@ShipMiscTmp8>10} {
+  #Var ShipMiscTmp7 {%Copy(@ShipMiscTmp5,1,%Eval(@ShipMiscTmp8-10))};
+  #Var ShipMiscTmp5 {%Copy(@ShipMiscTmp5,%Eval(@ShipMiscTmp8-9),9)}
+ } {
+  #Var ShipMiscTmp7 0;
+  #Var ShipMiscTmp5 {%Word(@ShipMiscTmp5,.,1)}
+ };
+ #Math ShipMiscTmp5 {@ShipMiscTmp1+@ShipMiscTmp5};
+ #Math ShipMiscTmp6 {@ShipMiscTmp2+@ShipMiscTmp6};
+ #Math ShipMiscTmp7 {@ShipMiscTmp3+@ShipMiscTmp7};
+ #If {@ShipMiscTmp6>99} {
+  #Math ShipMiscTmp5 {@ShipMiscTmp5+1};
+  #Var ShipMiscTmp6 {%Copy(@ShipMiscTmp6,2,2)}
+ };
+ #If {@ShipMiscTmp5>999999999} {
+  #Math ShipMiscTmp7 {@ShipMiscTmp7+1};
+  #Var ShipMiscTmp5 {%Copy(@ShipMiscTmp5,2,9)}
+ };
+ #If {@ShipMiscTmp7>0} {
+  #Var {Contrib0@ShipMiscTmp4} {@ShipMiscTmp7@ShipMiscTmp5.@ShipMiscTmp6}
+ } {
+  #Var {Contrib0@ShipMiscTmp4} {@ShipMiscTmp5.@ShipMiscTmp6}
+ };
+ ExpPipe {%0} {%1 credits from %2} {%1 from %2};
+ PushMessage Contributions {@ExpString};
+ #7 {#Exec {#UnVar {ShipMiscTmp%i}}}
+} {Main|Starship}
+#Trigger {Your communicator rapidly beeps three times as it's paired to the ship.} {msplay Ship\Comm\RelayJoin@Ext} {Main|Starship}
+#Trigger {It's already *.} {
+ ExpPipe {%0} {%0} {Already %1.};
+ #Sub @ExpString
+} {Main}
+#trigger {Those coordinates are occupied by this ship.} {
+ msplay General\Misc\Cancel@Ext
+} {Main|Starship}
+#TRIGGER {The *ship is already moving.} {
+ msplay General\Misc\Cancel@Ext
+} {Main|Starship}
+#TRIGGER {The *ship must be * mode.} {
+ msplay General\Misc\Cancel@Ext
+} {Main|Starship}
+#TRIGGER {The ship is already on *.} {
+ #var auto 1;
+ msplay General\Misc\Cancel@Ext
+} {Main|Starship}
+#Trigger {[[]##/##/#### - *:* [ap].m.] (*) *} {
+ ExpPipe {%0} {%0} {%8  [%4:%5 %6.m. - %1/%2/%3]};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {The computer reports no nearby debris.} {
+ DisplayPrint 4 {No nearby debris.};
+ #sub @DisplayString
+} {Main|Starship}
+#Trigger {* instructs the computer to begin scanning for debris.} {
+ DisplayPrint 4 {%0};
+ #sub @DisplayString
+} {Main|Starship}
+#Trigger {There is insufficient sensor bandwidth for additional debris scanning.} {
+ DisplayPrint 4 {%0};
+ #sub @DisplayString
+} {Main|Starship}
+#Trigger {The *-* * "*" is located at *.} {
+ ExpPipe {%0} {%1-%2 %3 %4 at %5} {%4 at %5 (%3)};
+ #Sub @ExpString
+} {Main}
+#Trigger {The * is suddenly seized by several robotic arms and hauled into the starship garage.} {mrandomplay Ship\Misc\Garage@Ext} {Main}
+#Trigger {* pulls a series of straps around * and securely buckles * into*} {msplay General\Misc\Buckle*3@Ext} {Main|Starship}
+#Trigger {* releases the buckle of * seatbelt, causing it to retract back into *} {msplay General\Misc\Unbuckle*3@Ext} {Main|Starship}

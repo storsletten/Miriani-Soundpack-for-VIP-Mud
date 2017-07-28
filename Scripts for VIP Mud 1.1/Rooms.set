@@ -1,0 +1,490 @@
+#var PlanetClassifications {
+Class *:General\Rooms\Rocky*5@Rext|
+EXTREMELY HOSTILE:General\Rooms\Rocky*5@Rext|
+Gas Giant:General\Rooms\Planet@Rext|
+Ice:General\Rooms\Ice@Rext|
+Marine:General\Rooms\Ocean@Rext|
+*Rocky:General\Rooms\Rocky*5@Rext|
+Terrestrial:General\Rooms\Planet@Rext|
+Transterrestrial:General\Rooms\Planet@Rext
+}
+#Var ShipRooms {
+Airlock
+Ship\Rooms\Airlock@Rext
+Bias Drive Housing
+Ship\Rooms\BiasHousing@Rext
+Brig
+Ship\Rooms\Brig@Rext
+Bridge
+Ship\Rooms\Control*3@Rext
+Bzzr Oton Bznit Gran
+Ship\Rooms\Potate*5@Rext
+Cafeteria
+Ship\Rooms\StateRoom@Rext
+Combat Drone Bay
+Ship\Rooms\CombatDroneBay@Rext
+Common Area
+Ship\Rooms\CommonArea@Rext
+Control Room
+Ship\Rooms\Control*3@Rext
+Docking Bay
+Ship\Rooms\DockingBay*2@Rext
+Duct
+Ship\Rooms\Duct@Rext
+Fighter Bay
+Ship\Rooms\VehicleFighterDock@Rext
+Fighter Rearm
+Ship\Rooms\MiscShipRooms@Rext
+Fighter's Lounge
+Ship\Rooms\MiscShipRooms@Rext
+Gym
+Ship\Rooms\StateRoom@Rext
+Hallway
+Ship\Rooms\Corridors@Rext
+Library
+Ship\Rooms\MiscShipRooms@Rext
+Pool
+Ship\Rooms\PoolRoom*3@Rext
+Storage Crawlspace
+Ship\Rooms\Crawlspace@Rext
+Targetting Control Center
+Ship\Rooms\ObservationRoom@Rext
+Vehicle Docking Bay
+Ship\Rooms\VehicleBay@Rext
+}
+
+#Var ShipRoomsW {
+* Battery *
+Ship\Rooms\WeaponsRoom@Rext
+Battle Station*
+Ship\Rooms\WeaponsRoom@Rext
+* Corridor*
+Ship\Rooms\Corridors@Rext
+*Deck*
+Ship\Rooms\Deck@Rext
+Engineering*
+Ship\Rooms\Engineering*5@Rext
+*Hangar*
+General\Rooms\Garage@Rext
+Living Quarters*
+Ship\Rooms\LivingQuarters*2@Rext
+Medical *
+Ship\Rooms\Medical*2@Rext
+Observation *
+Ship\Rooms\ObservationRoom@Rext
+Room *
+Ship\Rooms\LivingQuarters*3@Rext
+Stateroom *
+Ship\Rooms\StateRoom@Rext
+Stateroom Corridor *
+Ship\Rooms\Corridors@Rext
+Storage*
+Ship\Rooms\Storage@Rext
+Weapons Room*
+Ship\Rooms\WeaponsRoom@Rext
+*Repair and Rearm*
+Ship\Rooms\RepAndRearm@Rext
+}
+
+#Var Rooms {
+A Suborbital Pod
+General\Rooms\ITPN@Rext
+Artificial Garden
+General\Rooms\Planet@Rext
+Asteroid Rover Control Center
+General\Rooms\AsteroidRover@Rext
+Asteroid Surface
+General\Rooms\AsteroidSurface@Rext
+Atmospheric Combat Vehicle Control Room
+General\Rooms\ACV@Rext
+Atmospheric Salvager Cockpit
+Ship\Rooms\Salvager@Rext
+Beach
+General\Rooms\Ocean@Rext
+Clearing
+General\Rooms\Planet@Rext
+Crater Rim
+General\Rooms\Volcano@Rext
+Decontamination Chamber
+General\Rooms\DecontaminationRoom@Rext
+Dig Site
+General\Rooms\DigSite@Rext
+Empty Space
+General\Rooms\SpaceSuit@Rext
+Escalator
+General\Rooms\Escalator*2@Rext
+Gas giant Salvager Cockpit
+GasGiant\GasGiantCockpit@Rext
+Idyllic Park
+General\Rooms\Planet@Rext
+Large Wooden Dock
+General\Rooms\Ocean@Rext
+Lower Walkway
+General\Rooms\Deneii@Rext
+Moon Surface
+General\Rooms\Volcano@Rext
+Operating Room
+Ship\Rooms\Medical*2@Rext
+Petunia's Proximity Weapons
+General\Rooms\Shadius@Rext
+Pilot's Lounge
+General\Rooms\PilotsLounge@Rext
+The Gift Garage
+General\Rooms\Planet@Rext
+Pitch Black
+General\Rooms\Cave@Rext
+Pool
+Ship\Rooms\PoolRoom*3@Rext
+Indoor Pool
+Ship\Rooms\PoolRoom*3@Rext
+Outdoor Pool
+Ship\Rooms\PoolRoom*3@Rext
+Swimming Pool
+Ship\Rooms\PoolRoom*3@Rext
+Public Docking Bay
+General\Rooms\LandingPad@Rext
+Recovery Room
+Ship\Rooms\LivingQuarters*3@Rext
+Sandy Clearing
+General\Rooms\Planet@Rext
+Starship Computer Services
+General\Rooms\Shadius@Rext
+Twisty Corridor
+General\Rooms\Shadius@Rext
+Uncle Lyle's Lock Liquidation
+General\Rooms\Shadius@Rext
+}
+#Var RoomsW {
+*Cave*
+General\Rooms\Cave@Rext
+Cell Block *
+Ship\Rooms\Brig@Rext
+* Cockpit
+Ship\Rooms\Salvager@Rext
+*Docking*
+General\Rooms\LandingPad@Rext
+*lake*
+General\Rooms\Lake@Rext
+*river*
+General\Rooms\Lake@Rext
+*River*
+General\Rooms\Lake@Rext
+*Escape Pod
+Ship\Rooms\EscapePod@Rext
+*Garage*
+General\Rooms\Garage@Rext
+*Starship Storage*
+General\Rooms\Garage@Rext
+*Parking*
+General\Rooms\Garage@Rext
+Hangar *
+General\Rooms\Garage@Rext
+*Landing*
+General\Rooms\LandingPad@Rext
+*Mission*
+General\Rooms\Mission@Rext
+Sector *: Central Jumpgate Hub
+General\Rooms\SpaceSuit@Rext
+*Shady*
+General\Rooms\Shadius@Rext
+*Starship Simulators*
+General\Rooms\SimShop@Rext
+Transport Pod * to *
+General\Rooms\ITPN@Rext
+*Tunnel*
+General\Rooms\Cave@Rext
+*Pilo* Lounge
+General\Rooms\PilotsLounge@Rext
+}
+
+#var ZoneList {
+Deneii
+Apartment
+}
+
+#If {%Defined(TempRoomSound)=0} {#Var TempRoomSound {Ship\Rooms\Control*3.wav}}
+#If {%Defined(SoundpackEnvironment)=0} {#Var SoundpackEnvironment {}}
+#If {%Defined(Classification)=0} {#Var Classification {}}
+#If {%Defined(Hostile)=0} {#Var Hostile 0}
+#If {%Defined(InSpace)=0} {#Var InSpace 0}
+#If {%Defined(Light)=0} {#Var Light 1}
+#If {%Defined(RoomReader)=0} {#Var RoomReader 0}
+#If {%Defined(RoomName)=0} {#Var RoomName {}}
+#If {%Defined(RoomSound)=0} {#Var RoomSound {}}
+#If {%Defined(ZoneName)=0} {#Var ZoneName {}}
+#If {%Defined(ZoneType)=0} {#Var ZoneType {}}
+#If {%Defined(GagRoom)=0} {#Var GagRoom 0}
+#If {%Defined(Peers)=0} {#Var Peers 0}
+#If {%Defined(Following)=0} {#Var Following 0}
+
+#Class Starship Enable
+#Class NotStarship Enable
+#Class Vehicle Enable
+#Class Craft Enable
+#Class Ground Enable
+#Class Planet Enable
+#Class Station Enable
+
+#Alias InSpace {
+ #If {%1=*"[01]"} {
+  #Var InSpace %1;
+  #If {@ZoneType="starship"} {
+   #If {@InSpace=1 OR %Pos(Pool,@RoomName)>0} {
+    mrplay Change Frequency 44100
+   } {
+    mrplay Change Frequency 22050
+   }
+  }
+ } {
+  ~InSpace %0
+ }
+} {}
+#Alias Powered {
+ #If {%1=*"[01]"} {
+  #If {%1<>@Powered} {
+   #Var Powered %1;
+   #If {@ZoneType="starship"} {
+    #If {@Powered=1} {
+     #If {@InSpace=1 OR %Pos(Pool,@RoomName)>0} {
+      mrplay @RoomSound Frequency 44100
+     } {
+      mrplay @RoomSound Frequency 22050
+     }
+    } {
+     mrplay stop
+    }
+   }
+  }
+ } {
+  ~Powered %0
+ }
+} {}
+
+#Trigger {[#]$[#]soundpack environment *} {
+ #If {@InterruptOnRoom=1 and (@Following=0 or (@InterruptOnFollow=1 and @SpeakRoomTitleFirst=0)) AND @DontStopSpeaking<>1} {
+  speech stop
+ };
+ #Var DontStopSpeaking 0;
+ #If {@Peers=1} {#Abort};
+ #If {%0<>@SoundpackEnvironment} {
+  #Var SoundpackEnvironment %0;
+  #Var ZoneName {Unknown};
+  #Var RoomName {Unknown};
+  #var OldZoneType @ZoneType;
+  #Var ZoneType {%Word(%1, ,1)};
+  #if {@OldZoneType<>@ZoneType} {
+   #If {@ZoneType="starship" or @ZoneType="vehicle"} {#Class Craft Enable;#Class Ground Disable} {#Class Craft Disable;#Class Ground Enable};
+   #If {@ZoneType="starship"} {#Class Starship Enable;#Class NotStarship Disable} {#Class Starship Disable;#Class NotStarship Enable};
+   #If {@ZoneType="planet"} {#Class Planet Enable} {#Class Planet Disable};
+   #If {@ZoneType="station"} {#Class Station Enable} {#Class Station Disable};
+   #If {@ZoneType="vehicle"} {#Class Vehicle Enable} {#Class Vehicle Disable};
+   UnsetVariables * Conf0Extras0*;
+   BuildExtrasFramework;
+   #if {@OldZoneType="starship" AND %IsNumber(@AlertSoundHandle)=1 AND @AlertSoundHandle>0} {
+   #pc @AlertSoundHandle stop;
+    #var AlertSoundHandle 0
+   }
+  };
+  #If {@ZoneType="starship"} {
+   #if {%Word(%1, ,2)="landed"} {#Var InSpace 0} { #Var InSpace 1};
+   #If {%Word(%1, ,4)="unpowered"} {#Var Powered 0} {#Var Powered 1};
+   #If {%Word(%1, ,6)="safe"} {#Var Hostile 0} {#Var Hostile 1};
+   #If {%Word(%1, ,8)="dark"} {#Var Light 0} {#Var Light 1}
+  } {
+   #If {@ZoneType="planet"} {
+    #Var Classification {%Copy(%1,8,%Eval(%Pos(|,%1)-9))};
+    #If {%Trim(%Word(%1,|,2))="safe"} {#Var Hostile 0} {#Var Hostile 1};
+    #If {%Trim(%Word(%1,|,3))="dark"} {#Var Light 0} {#Var Light 1}
+   } {
+    #If {@ZoneType="room"} {
+     #If {%Word(%1, ,2)="safe"} {#Var Hostile 0} {#Var Hostile 1};
+     #If {%Word(%1, ,4)="dark"} {#Var Light 0} {#Var Light 1}
+    }
+   }
+  }
+ };
+ #Var RoomReader 1;
+ #Class RoomReader Enable
+} {Main}
+#Trigger {[[]*]*} {
+ #If {@InterruptOnRoom=1 and @Following=1 and @InterruptOnFollow=1 and @SpeakRoomTitleFirst=1} {speech stop};
+ #Var Following 0;
+ #Class RoomReader Disable;
+ #Var Sitting {};
+ #ForAll {%DelNItem(%Replace(~%2~,~~~(~,~|),1)} {
+  #Var RoomTmp1 {%Word(%i,~),1)};
+  #If {%IfWord(%Word(@RoomTmp1, ,1),buckled flying lying sitting soaking swimming, )=1} {
+   #If {%Replace(@RoomTmp1,~",)=*"* on the ground"} {
+    #Var Sitting {%Word(@RoomTmp1, ,1)}
+   } {
+    #Var Sitting {@RoomTmp1}
+   }
+  }
+ };
+ #If {@ZoneType="starship"} {
+  #Var ZoneName {%Word(%1,~",2)};
+  #Var RoomName {%LTrim(%Word(~%1,~~~",3))};
+  #Var RoomSound {Ship\Rooms\MiscShipRooms@Rext};
+  #Var RoomTmp1 {%Pos(@LF@RoomName@CR,@ShipRooms)};
+  #If {@RoomTmp1>0} {
+   #Var RoomSound {%Word(%Delete(@ShipRooms,1,@RoomTmp1),%CRLF,2)}
+  } {
+   #Var RoomTmp1 {%Eval(%NumWords(@ShipRoomsW,@CR)-2)};
+   #While {@RoomTmp1>0} {
+    #If {%replace(@RoomName,~",)=*%Word(@ShipRoomsW,%CRLF,@RoomTmp1)} {
+     #Var RoomSound {%Word(@ShipRoomsW,%CRLF,%Eval(@RoomTmp1+1))};
+     #Var RoomTmp1 -1
+    } {
+     #Math RoomTmp1 {@RoomTmp1-2}
+    }
+   }
+  };
+  #If {@Powered=0} {
+   #Var TempRoomSound {@RoomSound};
+   #Var RoomSound {Ship\Rooms\NoPower@Rext};
+   Mrplay @RoomSound
+  } {
+   #If {@InSpace=1 OR %Pos(Pool,@RoomName)>0} {
+    mrplay @RoomSound Frequency 44100
+   } {
+    mrplay @RoomSound Frequency 22050
+   }
+  };
+  #If {@FormatRoomTitles=1} {
+   #Sub {[@RoomName "@ZoneName"]%RTrim( %If(~@Hostile=1~,~~~(Hostile~~~)~,) %If(~@Powered=0~,~~~(Unpowered~~~)~,) @Sitting)}
+  }
+ } {
+  #If {%Pos("; ",%1)>0} {
+   #Var ZoneName {%Word(%1,"; ",1)};
+   #Var RoomName {%Delete(%1,1,%Eval(%Pos("; ",%1)+1))};
+   #If {@FormatRoomTitles=1} {
+    #If {%Replace(%2,~",)=*"*(#*, #*)*"} {
+     #Sub {[@RoomName%2 (@ZoneName)]}
+    } {
+     #Sub {[@RoomName (@ZoneName)]%RTrim( %If(~@Hostile=1~,~~~(Hostile~~~)~,) @Sitting)}
+    }
+   }
+  } {
+   #Var ZoneName {%1};
+   #Var RoomName {%1}
+  };
+  #If {@ZoneType="planet"} {
+   #Var RoomSound {General\Rooms\Planet@Rext};
+   #ForAll {@PlanetClassifications} {
+    #Var TempClassification {%Replace(%Word(%i,:,1),%CRLF,)};
+    #If {@Classification=*@TempClassification} {
+     #Var RoomSound {%Replace(%Word(%i,:,2),%CRLF,)}
+    }
+   };
+   #If {%IfWord(Apartment,@ZoneName, )=1} {
+    #Var RoomSound {Ship\Rooms\LivingQuarters*3@Rext}
+   }
+  } {
+   #If {@ZoneType="station"} {
+    #Var RoomSound {Ship\Rooms\LivingQuarters*3@Rext}
+   } {
+    #If {@ZoneType="space"} {
+     #Var RoomSound {General\Rooms\Spacesuit@Rext}
+    } {
+     #If {@ZoneType="room" and %Pos(%Word(@ZoneName, ,1),@ZoneList)>0} {
+      #Var RoomSound {General\Rooms\Deneii@Rext}
+     } {
+      #Var RoomSound {}
+     }
+    }
+   }
+  };
+  #Var RoomTmp1 {%Pos(@LF@RoomName@CR,@Rooms)};
+  #If {@RoomTmp1>0} {
+   #Var RoomSound {%Word(%Delete(@Rooms,1,@RoomTmp1),%CRLF,2)}
+  } {
+   #Var RoomTmp1 {%Eval(%NumWords(@RoomsW,@CR)-2)};
+   #While {@RoomTmp1>0} {
+    #If {%replace(@RoomName,~",)=*%Word(@RoomsW,%CRLF,@RoomTmp1)} {
+     #Var RoomSound {%Word(@RoomsW,%CRLF,%Eval(@RoomTmp1+1))};
+     #Var RoomTmp1 -1
+    } {
+     #Math RoomTmp1 {@RoomTmp1-2}
+    }
+   }
+  };
+  mrplay @RoomSound Frequency 44100
+ }
+} {Main|RoomReader}
+#Trigger {[[]Planet *]} {#if {%isnumber(%1)=1} {mplanetsounds}} {Main}
+#Trigger {[[]"*" Airlock]*} {mplanetsounds stop} {Main}
+#Trigger {The doors to the pod close and the pod *begins *.} {msplay General\Misc\Pod@Ext} {Main}
+#Trigger {The large metal doors slide open and allow you to pass through.} {msplay Ship\Misc\hatch@Ext} {Main}
+#Trigger {As you enter, the doors slam shut behind you. A loud click echoes through the room as they lock.} {
+ #Sub {The doors lock behind you.};
+ msplay Ship\Misc\DoorLocked@Ext
+} {Main}
+#Trigger {The red light above the door to the * turns on. A pair of ominous-looking stun turrets lower from the ceiling, suggesting that this isn't a regular decontamination.} {
+ msplay Ship\Combat\WeaponsOn@Ext
+} {Main}
+#Trigger {The nozzles on the floor and ceiling start to spray a thick white gas into the room.} {
+ #GagLine 1 All;
+ msplay Ship\Misc\descent@Ext
+} {Main}
+#Trigger {The room is filled with the thick fog. It is surprisingly easy to breathe, and cleanses your lungs as you take a breath of it in.} {
+ #GagLine 1 All;
+ msplay Ship\Misc\AirStart@Ext
+} {Main}
+#Trigger {The fog begins to dissipate just as quickly as it filled the room.} {
+ #GagLine 1 All;
+ msplay Ship\Misc\AirEnd@Ext
+} {Main}
+#Trigger {The red light turns off and the green light activates as the stun turrets retract into the ceiling.} {
+ msplay Ship\Combat\WeaponsOff@Ext
+} {Main}
+#Trigger {A loud click echoes through the room as the doors unlock.} {
+ #GagLine 1 All;
+ mrplay stop;
+ msplay General\Rooms\DecontaminationEnds@Rext
+} {Main}
+#Trigger {A puff of smoke is suddenly expelled from *.} {mrandomplay General\Misc\Smoke*7@Ext} {Main}
+#Trigger {[[]"*" Escape Pod]} {mrplay Ship\Rooms\EscapePod@Rext} {Main}
+#Trigger {The pod's suicidal pace  slows as it reaches *, gently touching down. *} {
+ msplay ACV\ACVStop@Ext;
+ ExpPipe {%0} {} {};
+ #Sub @ExpString
+} {Main}
+#Trigger {The pod starts picking up speed, very quickly reaching top trajectory.} {
+ msplay Ship\Move\BiasStart@Ext;
+ ExpPipe {%0} {} {};
+ #Sub @ExpString
+} {Main}
+#Trigger {The pod is buffeted in all directions in the planet's atmosphere.} {
+ msplay Ship\Move\EnterSector*2@Ext;
+ ExpPipe {%0} {} {};
+ #Sub @ExpString
+} {Main}
+#Trigger {The pod continues its trek at breakneck speed.} {
+ msplay GasGiant\Engine@Ext;
+ ExpPipe {%0} {} {};
+ #Sub @ExpString
+} {Main}
+#Trigger {A guard steps aside, allowing you to pass through.} {
+ DontStopSpeaking
+} {Main}
+#Trigger {The pod quickly slows as it reaches *.*} {DontStopSpeaking} {Main}
+#Trigger {[[]Transport Pod]} {
+ mrplay General\Rooms\ITPN@Rext;
+ #class RoomReader Disable
+} {Main|RoomReader}
+#Key {Control-Alt-Shift-F12} {
+ #Var GagExits {%Eval(NOT @GagExits)};
+ #Say {Exits will now be %If(@GagExits = 1,gagged,shown).}
+} {}
+#Trigger {* is closed.} {
+ msplay General\Misc\CantGo*5@Ext
+} {Main}
+#Key {Alt-SPACE} {
+ speech stop;
+ #say @exits;
+ #if {@ShowExpertExits = 1} {
+  #var AndString {and };
+  #say {(%if(%ifword(@Exits,None),0,%numwords(%replace(@Exits,@AndString,""), )) exits.)};
+  #var AndString {}
+ }
+} {}

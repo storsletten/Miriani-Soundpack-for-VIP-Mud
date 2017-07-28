@@ -1,0 +1,32 @@
+#Class Cannons Enable
+#Var CannonsSalvoSize 2
+#Var CannonsAvailable 2
+#Var CannonsAvailableBard 0
+#Trigger {Available Cannons: *} {
+ #Var CannonsAvailable {%Word(%1, ,1)};
+ #If {%1=*"* (Salvo of *)"} {
+  #Var CannonsSalvoSize {%Word(%1,~),1)};
+  #Var CannonsSalvoSize {%Word(@CannonsSalvoSize, ,%NumWords(@CannonsSalvoSize, ))}
+ } {
+  #Var CannonsSalvoSize {@CannonsAvailable}
+ };
+ #Class CannonsWeaponConfig Enable;
+ #Sub {Active Cannons: @CannonsSalvoSize / @CannonsAvailable}
+} {Cannons|Main}
+#Trigger {*vailable weapons-grade bardenium:} {
+ #If {%Word(%1, ,1)="No"} {#Var CannonsAvailableBard 0}
+} {CannonsWeaponConfig|Main}
+#Trigger {* Bardenium: *} {
+ #Var CannonsAvailableBard {%Trim(%2)};
+ #If {%IsNumber(@CannonsAvailableBard)=0} {
+  #Var CannonsAvailableBard 0;
+  #Say {The cannons extra failed to read how much bardenium is currently loaded into the cannons.}
+ }
+} {CannonsWeaponConfig|Main}
+#Trigger {Locked Coordinates: (*, *, *)} {
+ #Class CannonsWeaponConfig Disable;
+ #Math CannonsTmp1 {@CannonsAvailableBard / %Min(@CannonsAvailable,@CannonsSalvoSize)};
+ #If {@CannonsTmp1=1} {#Var CannonsTmp1 {@CannonsTmp1 shot}} {#Var CannonsTmp1 {@CannonsTmp1 shots}};
+ #Sub {Locked on %1, %2, %3, with @CannonsTmp1 remaining.};
+ #UnVar CannonsTmp1
+} {CannonsWeaponConfig|Main}

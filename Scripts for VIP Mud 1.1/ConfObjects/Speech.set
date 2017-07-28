@@ -1,0 +1,69 @@
+#Exec {
+SetVariable Conf0Sapi0 {A:Speech0SAPI};
+SetVariable Conf0Speech0 {M:Speech and interrupts menu
+UseSpeechInterrupts:Use speech interrupts (usually only useful for people who have typing interrupt disabled)
+InterruptOnFocus
+InterruptOnFollow:Interrupt speech when following or being dragged <Alt-Backspace>
+InterruptOnRoom:Interrupt when entering a room <Control-Alt-Backspace>
+SpeakRoomTitleFirst:When following or being dragged, speak the room title first
+InterruptOnBoards
+InterruptOnPa
+DefaultSpeechType
+SAPI:Configure SAPI settings
+SetEntrySpeechOff:Disable speaking of the entry window on startup
+};
+SetVariable Conf0Speech0UseSpeechInterrupts0 {B:UseSpeechInterrupts:Should the soundpack use speech interrupts (usually only useful for people with typing interrupt turned off in their screen reader)
+The soundpack will now use speech interrupts:The soundpack will no longer use speech interrupts
+};
+SetVariable Conf0Speech0InterruptOnFocus0 {B:InterruptOnFocus:Interrupt when focusing or scanning
+You will now get speech interrupted when you use either focus or scan:You will get no interrupts when using focus and scan
+};
+SetVariable Conf0Speech0InterruptOnFollow0 {B:InterruptOnFollow:Set whether to interrupt while being dragged, or following
+Speech will now be interrupted:Speech will no longer be interrupted
+};
+SetVariable Conf0Speech0InterruptOnRoom0 {B:InterruptOnRoom:Interrupt when entering a room
+Speech will now interrupt when you enter a room:Speech will not interrupt when entering a room
+};
+SetVariable Conf0Speech0SpeakRoomTitleFirst0 {B:SpeakRoomTitleFirst:Interrupt on the room title (won't announce anything before that)
+You will now hear the room title first:Speech will now respect your look-options
+};
+SetVariable Conf0Speech0InterruptOnBoards0 {B:InterruptOnBoards:Interrupt speech when moving through messages and catigories on message boards
+Speech will now be interrupted on messages boards:Speech will be left alone while cycling through message boards
+};
+SetVariable Conf0Speech0InterruptOnPa0 {B:InterruptOnPa:Set whether or not the soundpack should speech interrupt on pa messages received while at red alert
+You will now get a speech interrupt when a pa message is received on red alert:Pa messages will not be interrupted for
+};
+SetVariable Conf0Speech0DefaultSpeechType0 {C:Default Speech Type
+DefaultSpeechType:Default speech type set to $V
+None:No speech
+Sapi:SAPI
+Jaws:Jaws for Windows
+SystemAccess:System Access
+WindowEyes:Window Eyes
+NVDA:Non-Visual Desktop Access
+};
+SetVariable Conf0Speech0SAPI0 {M:SAPI configuration
+SAPIVoice
+SAPIVolume
+SAPIRate
+SpeakComputerMessagesThroughSAPI
+};
+SetVariable Conf0Speech0SAPI0SAPIVoice0 {N:SAPIVoice:voice to use with sapi (0 to the number of installed voices - 1)
+The soundpack will now use voice number $V
+validate:0:100
+};
+SetVariable Conf0Speech0SAPI0SAPIVolume0 {N:SAPIVolume:SAPI volume
+SAPI volume set to $V
+validate:0:100
+};
+SetVariable Conf0Speech0SAPI0SAPIRate0 {N:SAPIRate:SAPI speech rate
+SAPI rate set to $V
+validate:0:100
+};
+SetVariable Conf0Speech0SAPI0SpeakComputerMessagesThroughSAPI0 {B:SpeakComputerMessagesThroughSAPI:Should computer messages be spoken through SAPI (respects, and is different to the speak computer messages when possible option)
+Computer messages will now be spoken using a SAPI voice:Computer messages will be displayed as normal
+};
+SetVariable Conf0Speech0SetEntrySpeechOff0 {B:SetEntrySpeechOff:Disable speaking of the entry window on startup
+Speaking of the entry window will now be disabled on startup:Speaking of the entry window will be enabled on startup
+}
+}

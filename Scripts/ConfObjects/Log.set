@@ -1,0 +1,11 @@
+#Exec {
+SetVariable Conf0Log0 {M:Logs
+LogHistory
+HistoryLoggingInterval
+};
+SetVariable Conf0Log0LogHistory0 {B:LogHistory:Should the soundpack log history items
+History items will now be logged:History items will no longer be logged
+};
+SetVariable Conf0Log0HistoryLoggingInterval0 {N:HistoryLoggingInterval:number of messages between log dumps
+validate:1:1000}
+}

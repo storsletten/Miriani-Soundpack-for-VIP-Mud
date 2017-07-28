@@ -1,0 +1,120 @@
+Miriani Soundpack for Vipmud -> Keystroke Definitions
+
+This file attempts to document the keystrokes used by the soundpack, as people keep asking me for them, and I've not written them in yet.
+
+In an attempt to group the keys, I will put two plus signs (++) in front of each section, and a single plus sign (+) in front of sub headings.
+
+Key - Command or Action
+++ Movement:
+ + Player Movement:
+Alt i - North
+Alt o - Northeast
+Alt l - East
+Alt . - Southeast
+Alt , - South
+Alt m - Southwest
+Alt j - West
+Alt u - Northwest
+Alt y - Up
+Alt n - Down
+Alt / - Speak last moved movement direction
+Alt space - Speak exits (optionally count them with Conf Gen 6 enabled)
+Alt [ - Go (or enter when in a ship airlock)
+Alt ] - Out
+
+ + Starship Movement:
+All numpad keys switch to movement directions when outside a ship or vehicle, assuming Conf Gen Numpad 4 is enabled
+Control alt shift j - 1
+Control alt shift k - 2
+Control alt shift l - 3
+Control alt shift u - 4
+Control alt shift i - 5
+Control alt shift o - 6
+Control alt shift 7 - 7
+Control alt shift 8 - 8
+Control alt shift 9 - 9
+Control alt shift p - - (Or + with Conf Gen Numpad 3 enabled) (Does nothing without another key when Conf Gen Numpad 2 is enabled)
+Control alt shift . - + (Or - with Conf Gen Numpad 3 enabled) (Does nothing without another key when Conf Gen Numpad 2 is enabled)
+Alt shift / - Speak last moved ship direction
+Control alt shift f11 - Silent
+All numpad keys execute their own directions when ConfGen Numpad 1 is enabled, with the exception of:
+Numpad + - + (Or - with Conf Gen Numpad 3 enabled) (Does nothing without another key when Conf Gen Numpad 2 is enabled)
+Numpad - - - (Or + with Conf Gen Numpad 3 enabled) (Does nothing without another key when Conf Gen Numpad 2 is enabled)
+Numpad 0 - AtSm (when in a vehicle)
+Numpad * - SM
+Numpad / - Opens a prompt window where you can type in numpad coordinates without them being treated as regular numpad commands
+
++ Left handed navigation.
+With Conf numpad 4 is disabled, the default behavior is experienced, where the movement commands are on the right hand side, and the ship movement are on the left. If it is enabled, these bindings are shifted.
+
+All these keys will add - when the shift key is added, or + when the control key is added, this behaviour is flipped when Conf Numpad 3 is enabled:
+
+Alt e - 8
+Alt r - 9
+Alt f - 6
+Alt c 3
+Alt x - 2
+Alt z - 1
+Alt s - 4
+Alt w - 7
+Alt d - 5
+Alt t - - (or + when ConfNumpad 3 is enabled)
+Alt v - + (Or - when ConfNumpad 3 is enabled)
+
+++ Sound
+Key - Function - Description
+F11 - MasterMute - Mutes or unmutes the soundpack
+Control f11 - Main|Socials - Enables or disables socials
+Shift f11 - RoomSounds - Enables or disables room sounds
+Alt shift f11 - NULL - Enables or disables theme music (fades out of a theme is playing)
+Control shift f12 - MtPlay - Starts playing a random theme (or shuffles to a new theme if one is already playing)
+Control alt shift f12 - ThemeMusicFadeout - Fades out any playing theme music
+Control alt shift f9 - NULL - Turns any playing theme music down by 5%
+Control alt shift f10 - NULL - Turns any playing theme music up by 5%
+F9 - SetMasterVolume down - Turns the volume of the soundpack down by 5%
+F10 - SetMasterVolume up - Turns the soundpack up by 5%
+
+++ Scanning:
+Note: These keys will only work when you have just scanned a ship, and the information they yield will be removed when something else is scanned.
+Key - Function - Description
+Alt f5 - sh - Speaks hull damage
+Alt f6 - sco - Speaks component damage
+Alt f7 - socc - Speaks occupants (Attempts to count occupants when Conf Ship Scanning 6 is enabled)
+Alt f8 - swe - Speak weapons information
+Alt f9 - sp - Speak power status
+Alt f10 - sca - Speak cargo
+Alt f11 - NULL - Speaks coordinates
+Alft f12 - ses - Speak full ship name
+
+++ Review:
+ + Virtual Displays:
+Control alt f9 - ToggleDisplay 1 - Show or hide the first virtual display
+Control alt f10 - ToggleDisplay 2 - Show or hide the second virtual display
+Control alt f11 - ToggleDisplay 3 - Show or hide the third virtual display
+Control alt f12 - ToggleDisplay 4 - Show or hide the fourth virtual display
+
+ + Standard review:
+Alt 1 to alt 0 - Review the last 1 to 10 lines of output (or the last 1 to 10 lines of the currently selected history review buffer if Conf History 3 is enabled)
+Alt shift 1 to 0 - Read the last 10 spoken messages
+Control alt 1 to 0 - Read the last 10 comms received
+Control shift 1 to 0 - Read the last 10 messages broadcast over ship's pa (both internal and external)
+Control alt shift 1 to 0 - Copy the last 1 to 10 messages from the main output (Or the currently selected history review buffer when Conf History 3 is enabled)
+
+ + Miscellanious:
+Control backspace - Flip alt and the number keys between reading the last 10 lines of the main output, and the last 10 lines of the currently selected history review buffer
+Control e - Cycle forward through the available history review buffers
+Control shift e - Cycle backwards through the available history review buffers
+Control alt shift e - Copy the entire currently selected history buffer
+Control q - Move backwards in the currently selected history review buffer
+Control w - Move forward in the currently selected history review buffer
+Control shift q - Return to the oldest message in the currently selected history buffer
+Control shift w - Return to the most recent message in the currently selected history review buffer
+Control alt shift w - Copy from the current position to the end of the currently selected history buffer
+Control alt shift q - Copy the currently selected message of the currently selected history buffer
+
+++ Miscellanious:
+Alt backspace - Enable and disable speech interrupts when you're being dragged or lead (depends upon Conf Speech 1)
+Control alt backspace - Enable and disable speech interrupts when you enter a room (depends upon Conf Speech 1)
+Control alt l - SCGC - Bring up a list of previously saved galactic destinations for cgc to show you directions too (See Conf SCGC, and AddSCGCItem for more details on scgc)
+Control shift i - Show textual directions using cgc
+Shift f1 - AboutScripts - Shows general version information (See soundpack statistics for more geek-related stats)

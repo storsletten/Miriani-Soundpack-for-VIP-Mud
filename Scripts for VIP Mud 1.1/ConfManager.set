@@ -1,0 +1,909 @@
+#var ConfRetrieveParsedOptions 0
+#var GetConfWaiting 0
+#Var ConfEchoText {}
+#Var ConfEchoTmp {}
+#Var ConfPrintQuietly 0
+
+#Alias Conf {
+ #class ConfDump disable;
+ #class confretrieveinit disable;
+ #class confretrieveparse disable;
+ #If {%Defined(Conf0Exp0)=0} {
+  #Say {Loading..} NoDisplay;
+  LoadConfObjects {Conf %Trim(%0)};
+  #Abort All
+ };
+ #Var ConfInputOffset 1;
+ #Var ConfMenu {Conf0};
+ #Var ConfObject {@ConfMenu};
+ #Var ConfObjectHeader {};
+ #Var ConfObjectType {};
+ #Var ConfResult 0;
+ #Var ConfTmp1 0;
+ #Var ConfTmp2 {};
+ #If {%1=""} {
+  #Var ConfObjectType {M}
+ } {
+  #Var ConfObjectType {};
+  #While {@ConfObjectType=""} {
+   #If {%IsNumber(%{@ConfInputOffset})} {
+    #If {%{@ConfInputOffset}=0} {
+     #Abort All
+    } {
+     #If {%{@ConfInputOffset}>0} {
+      #Var ConfTmp3 {%Word(@{@ConfObject},
+,%Eval(%{@ConfInputOffset}+1))}
+     } {
+      #Var ConfTmp3 {%Word(@{@ConfObject},
+,%Eval(%{@ConfInputOffset}-%{@ConfInputOffset}*2+1))}
+     };
+     #If {@ConfTmp3=""} {
+      ConfPrint {That option does not exist};
+      #Abort All
+     } {
+      #Var ConfObject {@ConfObject%Word(@ConfTmp3,:,1)0};
+      #Var ConfTmp1 @ConfInputOffset
+     }
+    }
+   } {
+    #If {%Pos(0,%{@ConfInputOffset})>0} {
+     ConfPrint {That option does not exist};
+     #Abort All
+    };
+    #Var ConfObject {@ConfObject%{@ConfInputOffset}0}
+   };
+   #If {%Defined(@ConfObject)=0} {
+    ConfPrint {Could not find any option that matches to %RTrim(%Replace(@ConfObject,"0"," "))};
+    #Abort All
+   };
+   #Var ConfObjectType {%Word(@{@ConfObject},:,1)};
+   #While {@ConfObjectType="A"} {
+    #Var ConfObject {Conf0%Trim(%Word(@{@ConfObject},:,2))0};
+    #Var ConfObjectType {%Word(@{@ConfObject},:,1)}
+   };
+   #If {%IsNumber(%{@ConfInputOffset})=1 and %{@ConfInputOffset}<0} {
+    ConfRestoreDefault @ConfObject
+   } {
+    #Math ConfInputOffset {@ConfInputOffset+1};
+    #If {@ConfObjectType="M" and %{@ConfInputOffset}<>"" and %{@ConfInputOffset}<>0} {
+     #Var ConfObjectType {}
+    }
+   }
+  };
+  #If {@ConfObjectType="M" and %{@ConfInputOffset}<>0} {
+   #Var ConfMenu {@ConfObject}
+  } {
+   #Var ConfTmp6 2;
+   #Math ConfTmp7 {%NumWords(@ConfObject,"0")-1};
+   #While {@ConfTmp6<@ConfTmp7} {
+    #Var ConfTmp8 {@ConfMenu%Word(@ConfObject,"0",@ConfTmp6)0};
+    #If {%Word(@{@ConfTmp8},:,1)="M"} {
+     #Var ConfMenu {@ConfTmp8}
+    };
+    #Math ConfTmp6 {@ConfTmp6+1}
+   }
+  };
+  #Var ConfObjectHeader {%Word(@{@ConfObject},
+,1)};
+  #If {@ConfObjectType="E"} {
+   #Var ConfTmp2 @ConfObject;
+   #Var ConfTmp3 @ConfObjectHeader;
+   #If {%NumWords(@ConfObjectHeader,:)>2 and %Word(@ConfObjectHeader,:,2)<>0} {
+    #If {%Word(@ConfObjectHeader,:,3)=""} {
+     #Var ConfObject {ConfEx%Delete(@ConfObject,1,4)}
+    } {
+     #Var ConfObject {ConfEx0%Word(@ConfObjectHeader,:,3)0}
+    };
+    #If {%Defined(@ConfObject)=0} {
+     ConfPrint {ConfManager error: Could not find @ConfObject, requested by @ConfTmp2};
+     #Abort All
+    };
+    #Var ConfObjectHeader {%Word(@{@ConfObject},
+,1)};
+    #Var ConfObjectType {%Word(@ConfObjectHeader,:,1)}
+   };
+   #If {%Word(@ConfTmp3,:,2)<=0 or @ConfTmp3="E:"} {
+    #Exec {%Delete(@{@ConfTmp2},1,%Eval(%Pos(
+,@{@ConfTmp2})+1))}
+   }
+  };
+  #If {@ConfObjectType="B"} {
+   #Var ConfTmp6 {%Word(%Word(@{@ConfObject},
+,1),:,2)};
+   #If {%{@ConfInputOffset}=""} {
+    #If {@{@ConfTmp6}<>0} {#Var ConfTmp7 0} {#Var ConfTmp7 1}
+   } {
+    #If {%{@ConfInputOffset}="ON" or %{@ConfInputOffset}="Enable" or %{@ConfInputOffset}="1"} {
+     #Var ConfTmp7 1
+    } {
+     #If {%{@ConfInputOffset}="OFF" or %{@ConfInputOffset}="Disable" or %{@ConfInputOffset}="0"} {
+      #Var ConfTmp7 0
+     } {
+      #Var ConfTmp7 {}
+     }
+    }
+   };
+   #If {%IsNumber(@ConfTmp7)=1} {
+    #Var {@ConfTmp6} {@ConfTmp7};
+    #Var ConfResult 1;
+    #If {%Pos(
+,@{@ConfObject})>0 and %NumWords(%Word(@{@ConfObject},
+,2),:)>1} {
+     ConfPrint {%Word(%Word(@{@ConfObject},
+,2),:,%If(@ConfTmp7<>0,1,2))}
+    } {
+     ConfPrint {%Word(@{@ConfObject},:,3) is now %If(@ConfTmp7<>0,ON,OFF)}
+    }
+   } {
+    #Var ConfResult -1;
+    ConfPrint {%{@ConfInputOffset} is not a valid value for %Word(%Word(@{@ConfObject},
+,1),:,3)}
+   }
+  };
+  #If {@ConfObjectType="C"} {
+   #If {%{@ConfInputOffset}<>""} {
+    #If {%IsNumber(%{@ConfInputOffset})} {
+     #If {%{@ConfInputOffset}<1} {
+      #If {%{@ConfInputOffset}=0} {
+       #Var ConfTmp8 2
+      } {
+       #Var ConfTmp8 -1
+      }
+     } {
+      #Var ConfTmp6 {%Word(@{@ConfObject},
+,%Eval(%{@ConfInputOffset}+2))};
+      #If {@ConfTmp6=""} {
+       #Var ConfTmp8 -1
+      } {
+       #Var ConfTmp7 {%Word(%Word(@{@ConfObject},
+,2),:,1)};
+       #If {%IsNumber(@ConfTmp7)=1} {
+        #Math ConfTmp7 {%{@ConfInputOffset}+@ConfTmp7-1}
+       } {
+        #Var ConfTmp7 {%Word(@ConfTmp6,:,1)}
+       };
+       #Var ConfTmp8 0;
+       #Var ConfTmp9 {%Word(@ConfTmp6,:,2)}
+      }
+     }
+    } {
+     #Var ConfTmp6 {%Word(@{@ConfObject},
+,2)};
+     #Var ConfTmp7 {%Word(@ConfTmp6,:,1)};
+     #Var ConfTmp8 3;
+     #While {@ConfTmp8>0} {
+      #Var ConfTmp6 {%Word(@{@ConfObject},
+,@ConfTmp8)};
+      #If {@ConfTmp6=""} {
+       #Var ConfTmp8 -1
+      } {
+       #If {%Word(@ConfTmp6,:,2)=%{@ConfInputOffset}} {
+        #If {%IsNumber(@ConfTmp7)=1} {
+         #Math ConfTmp7 {@ConfTmp8-(@ConfTmp7+1)}
+        } {
+         #Var ConfTmp7 {%Word(@ConfTmp6,:,1)}
+        };
+        #Var ConfTmp8 0;
+        #Var ConfTmp9 {%Word(@ConfTmp6,:,2)}
+       } {
+        #Math ConfTmp8 {@ConfTmp8+1}
+       }
+      }
+     }
+    }
+   } {
+    #Var ConfTmp8 1
+   };
+   #If {@ConfTmp8=0} {
+    #Var ConfTmp6 {%Word(@{@ConfObject},
+,2)};
+    #Var ConfTmp8 {%Word(@ConfTmp6,:,1)};
+    #Var ConfResult 1;
+    #If {%IsNumber(@ConfTmp8)=1} {
+     #Var {%Word(@ConfTmp6,:,2)} {@ConfTmp7};
+     #Math ConfTmp8 {%Pos(:,%Delete(@ConfTmp6,%Pos(:,@ConfTmp6),1))+1};
+     ConfPrint {%Replace(%Delete(@ConfTmp6,1,@ConfTmp8),"$V",@ConfTmp9)}
+    } {
+     #Var {@ConfTmp8} {@ConfTmp7};
+     ConfPrint {%Replace(%Delete(@ConfTmp6,1,%Pos(:,@ConfTmp6)),"$V",@ConfTmp9)}
+    }
+   } {
+    #If {@ConfTmp8<2} {
+     #If {@ConfTmp8=-1} {
+      #Var ConfResult -1;
+      #If {%IsNumber(%{@ConfInputOffset})} {
+       ConfPrint {%{@ConfInputOffset} is not a valid option}
+      } {
+       ConfPrint {%{@ConfInputOffset} is not a valid value}
+      }
+     };
+     #Var ConfTmp6 {%Word(@{@ConfObject},
+,2)};
+     #Var ConfTmp7 {%Word(@ConfTmp6,:,1)};
+     #If {%IsNumber(@ConfTmp7)=1} {
+      #Math ConfTmp7 {3+(@{%Word(@ConfTmp6,:,2)}-@ConfTmp7)};
+      #Var ConfTmp6 {%Delete(%Word(@{@ConfObject},
+,1),1,%Pos(:,@{@ConfObject})):};
+      #Var ConfTmp9 3;
+      #While {@ConfTmp9>0} {
+       #Var ConfTmp8 {%Word(@{@ConfObject},
+,@ConfTmp9)};
+       #If {@ConfTmp8=""} {
+        #Var ConfTmp9 0
+       } {
+        #If {@ConfTmp7=@ConfTmp9} {
+         #Var ConfTmp6 {@ConfTmp6
+ [%Eval(@ConfTmp9-2)]* %Word(@ConfTmp8,:,2).}
+        } {
+         #Var ConfTmp6 {@ConfTmp6
+ [%Eval(@ConfTmp9-2)]  %Word(@ConfTmp8,:,2).}
+        };
+        #Math ConfTmp9 {@ConfTmp9+1}
+       }
+      }
+     } {
+      #Var ConfTmp7 {@{@ConfTmp7}};
+      #Var ConfTmp6 {%Delete(%Word(@{@ConfObject},
+,1),1,%Pos(:,@{@ConfObject})):};
+      #Var ConfTmp9 3;
+      #While {@ConfTmp9>0} {
+       #Var ConfTmp8 {%Word(@{@ConfObject},
+,@ConfTmp9)};
+       #If {@ConfTmp8=""} {
+        #Var ConfTmp9 0
+       } {
+        #If {@ConfTmp7=%Word(@ConfTmp8,:,1)} {
+         #Var ConfTmp6 {@ConfTmp6
+ [%Eval(@ConfTmp9-2)]* %Word(@ConfTmp8,:,2).}
+        } {
+         #Var ConfTmp6 {@ConfTmp6
+ [%Eval(@ConfTmp9-2)]  %Word(@ConfTmp8,:,2).}
+        };
+        #Math ConfTmp9 {@ConfTmp9+1}
+       }
+      }
+     };
+     ConfPrint {@ConfTmp6
+ [0] Go back};
+     #If {@ConfTmp1=0} {
+      #Say {%Replace(@ConfObject,"0"," ")} Entry|NoReturn
+     } {
+      #Var ConfTmp6 {Conf };
+      #Var ConfTmp7 1;
+      #Var ConfTmp8 %Eval(%NumWords(@ConfObject,"0")-1);
+      #While {@ConfTmp7<@ConfTmp8} {
+       #If {@ConfTmp1=@ConfTmp7} {
+        #Math ConfTmp7 {@ConfTmp7+1};
+        #Var ConfTmp6 {@ConfTmp6%{@ConfTmp1} }
+       } {
+        #Math ConfTmp7 {@ConfTmp7+1};
+        #Var ConfTmp6 {@ConfTmp6%Word(@ConfObject,"0",@ConfTmp7) }
+       }
+      };
+      #Say {@ConfTmp6} Entry|NoReturn
+     };
+     #Abort All
+    }
+   }
+  };
+  #If {@ConfObjectType="N"} {
+   #Var ConfTmp6 {%Word(@{@ConfObject},
+,3)};
+   #If {@ConfTmp6=""} {
+    #Var ConfTmp6 {%Word(@{@ConfObject},
+,2)}
+   };
+   #Var ConfTmp8 {};
+   #If {@ConfTmp6<>"" and %Word(@ConfTmp6,:,1)="Validate"} {
+    #Var ConfTmp7 %Eval(%Expand(%Word(@ConfTmp6,:,3)));
+    #Var ConfTmp6 %Eval(%Expand(%Word(@ConfTmp6,:,2)));
+    #If {%IsNumber(@ConfTmp6)=0} {
+     #Var ConfTmp6 {}
+    } {
+     #Var ConfTmp8 { less than @ConfTmp6}
+    };
+    #If {%IsNumber(@ConfTmp7)=0} {
+     #Var ConfTmp7 {}
+    } {
+     #If {%IsNumber(@ConfTmp6)=1} {
+      #Var ConfTmp8 { between @ConfTmp6 and @ConfTmp7}
+     } {
+      #Var ConfTmp8 { greater than @ConfTmp7}
+     }
+    }
+   } {
+    #Var ConfTmp6 {};
+    #Var ConfTmp7 {}
+   };
+   #If {%IsNumber(%{@ConfInputOffset})=0 or (%IsNumber(@ConfTmp6)=1 and %{@ConfInputOffset}<@ConfTmp6) or (%IsNumber(@ConfTmp7)=1 and %{@ConfInputOffset}>@ConfTmp7)} {
+    #If {%{@ConfInputOffset}=""} {
+     #If {@ConfTmp6=0 and @ConfTmp7=100} {
+      ConfPrint {Enter a new value@ConfTmp8 for the %Word(%Word(@{@ConfObject},
+,1),:,3):}
+     } {
+      ConfPrint {Enter a new value@ConfTmp8 for the %Word(%Word(@{@ConfObject},
+,1),:,3):}
+     }
+    } {
+     #Var ConfResult -1;
+     ConfPrint {%Word(%Word(@{@ConfObject},
+,1),:,3) must be a value@ConfTmp8:}
+    };
+    #If {@ConfTmp1=0} {
+     #Say {%Replace(@ConfObject,"0"," ")} Entry|NoReturn
+    } {
+     #Var ConfTmp6 {Conf };
+     #Var ConfTmp7 1;
+     #Var ConfTmp8 %Eval(%NumWords(@ConfObject,"0")-1);
+     #While {@ConfTmp7<@ConfTmp8} {
+      #If {@ConfTmp1=@ConfTmp7} {
+       #Math ConfTmp7 {@ConfTmp7+1};
+       #Var ConfTmp6 {@ConfTmp6%{@ConfTmp1} }
+      } {
+       #Math ConfTmp7 {@ConfTmp7+1};
+       #Var ConfTmp6 {@ConfTmp6%Word(@ConfObject,"0",@ConfTmp7) }
+      }
+     };
+     #Say {@ConfTmp6} Entry|NoReturn
+    };
+    #Abort All
+   } {
+    #Var {%Word(%Word(@{@ConfObject},
+,1),:,2)} {%{@ConfInputOffset}};
+    #Var ConfResult 1;
+    #If {%Pos(
+,@{@ConfObject})=0 or %Word(@{@ConfObject},
+,2)=*"Validate:*"} {
+     ConfPrint {%Word(%Word(@{@ConfObject},
+,1),:,3) is now set to %{@ConfInputOffset}}
+    } {
+     ConfPrint {%Replace(%Word(@{@ConfObject},
+,2),"$V",%{@ConfInputOffset})}
+    }
+   }
+  };
+  #If {@ConfObjectType="P"} {
+   #Var ConfTmp6 {%Word(@{@ConfObject},
+,3)};
+   #If {@ConfTmp6=""} {
+    #Var ConfTmp6 {%Word(@{@ConfObject},
+,2)}
+   };
+   #Var ConfTmp8 {};
+   #If {@ConfTmp6<>"" and %Word(@ConfTmp6,:,1)="Validate"} {
+    #Var ConfTmp7 %Eval(%Expand(%Word(@ConfTmp6,:,3)));
+    #Var ConfTmp6 %Eval(%Expand(%Word(@ConfTmp6,:,2)));
+    #If {%IsNumber(@ConfTmp6)=0 or %IsNumber(@ConfTmp7)=0} {
+     #Var ConfTmp6 0;
+     #Var ConfTmp7 100
+    }
+   } {
+    #Var ConfTmp6 0;
+    #Var ConfTmp7 100
+   };
+   #If {%IsNumber(%{@ConfInputOffset})=0 or %{@ConfInputOffset}<@ConfTmp6 or %{@ConfInputOffset}>@ConfTmp7} {
+    #If {%{@ConfInputOffset}=""} {
+     #If {@ConfTmp6=0 and @ConfTmp7=100} {
+      ConfPrint {Enter a new percent value for the %Word(%Word(@{@ConfObject},
+,1),:,3):}
+     } {
+      ConfPrint {Enter a new value between @ConfTmp6 and @ConfTmp7 for the %Word(%Word(@{@ConfObject},
+,1),:,3):}
+     }
+    } {
+     #Var ConfResult -1;
+     ConfPrint {%Word(%Word(@{@ConfObject},
+,1),:,3) must be a value between @ConfTmp6 and @ConfTmp7:}
+    };
+    #If {@ConfTmp1=0} {
+     #Say {%Replace(@ConfObject,"0"," ")} Entry|NoReturn
+    } {
+     #Var ConfTmp6 {Conf };
+     #Var ConfTmp7 1;
+     #Var ConfTmp8 %Eval(%NumWords(@ConfObject,"0")-1);
+     #While {@ConfTmp7<@ConfTmp8} {
+      #If {@ConfTmp1=@ConfTmp7} {
+       #Math ConfTmp7 {@ConfTmp7+1};
+       #Var ConfTmp6 {@ConfTmp6%{@ConfTmp1} }
+      } {
+       #Math ConfTmp7 {@ConfTmp7+1};
+       #Var ConfTmp6 {@ConfTmp6%Word(@ConfObject,"0",@ConfTmp7) }
+      }
+     };
+     #Say {@ConfTmp6} Entry|NoReturn
+    };
+    #Abort All
+   } {
+    #Var {%Word(%Word(@{@ConfObject},
+,1),:,2)} {%{@ConfInputOffset}};
+    #Var ConfResult 1;
+    #If {%Pos(
+,@{@ConfObject})=0 or %Word(@{@ConfObject},
+,2)=*"Validate:*"} {
+     ConfPrint {%Word(%Word(@{@ConfObject},
+,1),:,3) is now set to %{@ConfInputOffset}~%}
+    } {
+     ConfPrint {%Replace(%Word(@{@ConfObject},
+,2),"$V",%{@ConfInputOffset})}
+    }
+   }
+  };
+  #If {@ConfObjectType="S"} {
+   #If {%{@ConfInputOffset}=""} {
+    ConfPrint {Enter a new value for the %Word(%Word(@{@ConfObject},
+,1),:,3):};
+    #If {@ConfTmp1=0} {
+     #Var ConfTmp6 {%Replace(@ConfObject,"0"," ")}
+    } {
+     #Var ConfTmp6 {Conf };
+     #Var ConfTmp7 1;
+     #Var ConfTmp8 %Eval(%NumWords(@ConfObject,"0")-1);
+     #While {@ConfTmp7<@ConfTmp8} {
+      #If {@ConfTmp1=@ConfTmp7} {
+       #Math ConfTmp7 {@ConfTmp7+1};
+       #Var ConfTmp6 {@ConfTmp6%{@ConfTmp1} }
+      } {
+       #Math ConfTmp7 {@ConfTmp7+1};
+       #Var ConfTmp6 {@ConfTmp6%Word(@ConfObject,"0",@ConfTmp7) }
+      }
+     }
+    };
+    #Var ConfTmp7 {%Replace(@{%Word(@{@ConfObject},:,2)},%CRLF,~%CRLF)};
+    #Var ConfTmp7 {%Replace(@ConfTmp7,~~,~~~~)};
+    #Var ConfTmp7 {%Replace(@ConfTmp7,~@,~~~@)};
+    #Var ConfTmp7 {%Replace(@ConfTmp7,~%,~~~%)};
+    #Var ConfTmp7 {%Replace(@ConfTmp7,~{,~~~{)};
+    #Var ConfTmp7 {%Replace(@ConfTmp7,~},~~~})};
+    #Say {@ConfTmp6{@ConfTmp7}} Entry|NoReturn;
+    #Abort All
+   } {
+    #Var {%Word(%Word(@{@ConfObject},
+,1),:,2)} {%{@ConfInputOffset}};
+    #Var ConfResult 1;
+    #If {%Pos(
+,@{@ConfObject})>0} {
+     ConfPrint {%Replace(%Word(@{@ConfObject},
+,2),"$V",%{@ConfInputOffset})}
+    } {
+     ConfPrint {%Word(@{@ConfObject},:,3) is now set to "%{@ConfInputOffset}"}
+    }
+   }
+  };
+  #If {@ConfResult=1 and @ConfTmp2<>""} {
+   #If {%Word(@ConfTmp3,:,2)>0} {
+    #Exec {%Delete(@{@ConfTmp2},1,%Eval(%Pos(
+,@{@ConfTmp2})+1))}
+   }
+  };
+  #If {@ConfShowMenus=0 and @ConfTmp1=0 and @ConfObjectType<>"M"} {
+   #Abort All
+  }
+ };
+ #Var ConfTmp1 {  %Word(%Word(@{@ConfMenu},
+,1),:,2):};
+ #Var ConfTmp9 2;
+ #While {@ConfTmp9>0} {
+  #Var ConfTmp6 {%Word(@{@ConfMenu},
+,@ConfTmp9)};
+  #If {@ConfTmp6=""} {
+   #Var ConfTmp9 0
+  } {
+   #Var ConfTmp7 {@ConfMenu%Word(@ConfTmp6,:,1)0};
+   #If {%Defined(@ConfTmp7)=0} {
+    ConfPrint {ConfManager error, could not find the object: @ConfTmp7};
+    #Abort All
+   };
+   #Var ConfTmp8 {%Word(@{@ConfTmp7},:,1)};
+   #Var ConfTmp10 {%Word(@{@ConfTmp7},
+,1)};
+   #If {@ConfTmp8="E" and %NumWords(@ConfTmp10,:)>2} {
+    #If {%Word(@ConfTmp10,:,3)=""} {
+     #Var ConfTmp7 {ConfEx%Delete(@ConfTmp7,1,4)}
+    } {
+     #Var ConfTmp7 {ConfEx0%Word(@{ConfTmp10},:,3)0}
+    };
+    #If {%Defined(@ConfTmp7)=0} {
+     ConfPrint {ConfManager error: Could not find @ConfTmp7};
+     #Abort All
+    };
+    #Var ConfTmp8 {%Word(@{@ConfTmp7},:,1)}
+   };
+   #If {%NumWords(@ConfTmp6,:)=1} {
+    #If {@ConfTmp8=*"[CM]"} {
+     #Var ConfTmp6 {%Word(%Word(@{@ConfTmp7},
+,1),:,2).}
+    } {
+     #If {@ConfTmp8=*"[BNPS]"} {
+      #Var ConfTmp6 {%Word(%Word(@{@ConfTmp7},
+,1),:,3).}
+     } {
+      #Var ConfTmp6 {.}
+     }
+    }
+   } {
+    #Var ConfTmp6 {%Word(@ConfTmp6,:,2).}
+   };
+   #If {@ConfTmp8="B"} {
+    #If {@{%Word(@{@ConfTmp7},:,2)}<>0} {#Var ConfTmp6 {@ConfTmp6 [ON]}} {#Var ConfTmp6 {@ConfTmp6 [OFF]}}
+   };
+   #If {@ConfTmp8="C"} {
+    #Var ConfTmp10 {%Word(@{@ConfTmp7},
+,2)};
+    #Var ConfTmp11 {%Word(@ConfTmp10,:,1)};
+    #Var ConfTmp12 3;
+    #If {%IsNumber(@ConfTmp11)=1} {
+     #Math ConfTmp10 {3+(@{%Word(@ConfTmp10,:,2)}-@ConfTmp11)};
+     #While {@ConfTmp12>0} {
+      #Var ConfTmp11 {%Word(@{@ConfTmp7},
+,@ConfTmp12)};
+      #If {@ConfTmp11=""} {
+       #Var ConfTmp12 0
+      } {
+       #If {@ConfTmp10=@ConfTmp12} {
+        #Var ConfTmp6 {@ConfTmp6 [%Word(@ConfTmp11,:,2)]};
+        #Var ConfTmp12 0
+       } {
+        #Math ConfTmp12 {@ConfTmp12+1}
+       }
+      }
+     }
+    } {
+     #Var ConfTmp10 {@{@ConfTmp11}};
+     #While {@ConfTmp12>0} {
+      #Var ConfTmp11 {%Word(@{@ConfTmp7},
+,@ConfTmp12)};
+      #If {@ConfTmp11=""} {
+       #Var ConfTmp12 0
+      } {
+       #If {@ConfTmp10=%Word(@ConfTmp11,:,1)} {
+        #Var ConfTmp6 {@ConfTmp6 [%Word(@ConfTmp11,:,2)]};
+        #Var ConfTmp12 0
+       } {
+        #Math ConfTmp12 {@ConfTmp12+1}
+       }
+      }
+     }
+    }
+   };
+   #If {@ConfTmp8="N"} {
+    #Var ConfTmp6 {@ConfTmp6 [@{%Word(@{@ConfTmp7},:,2)}]}
+   };
+   #If {@ConfTmp8="P"} {
+    #Var ConfTmp6 {@ConfTmp6 [@{%Word(@{@ConfTmp7},:,2)}~%]}
+   };
+   #If {@ConfTmp8="S"} {
+    #Var ConfTmp10 {@ConfTmp6 [@{%Word(@{@ConfTmp7},:,2)}};
+    #Var ConfTmp10 {%Replace(@ConfTmp10,%CRLF,~%CRLF)};
+    #Var ConfTmp10 {%Replace(@ConfTmp10,~~,~~~~)};
+    #Var ConfTmp10 {%Replace(@ConfTmp10,~@,~~~@)};
+    #Var ConfTmp10 {%Replace(@ConfTmp10,~%,~~~%)};
+    #Var ConfTmp10 {%Replace(@ConfTmp10,~{,~~~{)};
+    #Var ConfTmp10 {%Replace(@ConfTmp10,~},~~~})};
+    #Var ConfTmp11 {%Left(@ConfTmp10,130)};
+    #If {@ConfTmp10=@ConfTmp11} {
+     #Var ConfTmp6 {@ConfTmp11]}
+    } {
+     #Var ConfTmp6 {@ConfTmp11...]}
+    }
+   };
+   #Var ConfTmp1 {@ConfTmp1
+[%Eval(@ConfTmp9-1)] @ConfTmp6};
+   #Math ConfTmp9 {@ConfTmp9+1}
+  }
+ };
+ #If {%NumWords(@ConfMenu,"0")=2} {
+  ConfPrint {@ConfTmp1
+[0] Exit}
+ } {
+  ConfPrint {@ConfTmp1
+[0] Go back}
+ };
+ #Say {%Replace(@ConfMenu,"0"," ")} Entry|NoReturn;
+ #UnVar ConfInputOffset;
+ #UnVar ConfMenu;
+ #UnVar ConfObject;
+ #UnVar ConfObjectHeader;
+ #UnVar ConfObjectType;
+ #UnVar ConfResult;
+ #12 {#Exec {#UnVar {ConfTmp%i}}}
+} {}
+#Alias ConfPrint {
+ #If {%CharInfo(Connected)=1 and @Connected=1 and @ConfEchoMode=1 and @ConfEchoText=""} {
+  #If {%2=1} {
+   #Var ConfEchoTmp {@ConfEchoTmp%1%CRLF};
+   #Abort All
+  };
+  #Var ConfEchoText {@ConfEchoTmp%1};
+  #Var ConfEchoTmp {};
+  #If {%Pos(%CRLF,@ConfEchoText)=0} {
+   Echo @ConfEchoText;
+   #Var ConfEchoText {}
+  } {
+   #Class ConfEcho Enable;
+   #Var ConfPrintLines {%NumWords(@ConfEchoText,%Chr(13))};
+   #Exec {Echo;#%Min(@ConfPrintLines,10) {~%Eval(~%i-1)};.}
+  }
+ } {
+  #Var ConfPrintQuietly 0;
+  #Say {%1}
+ }
+}
+#Alias ConfRestoreDefault {
+ #Var ConfTmp6 {};
+ #Var ConfTmp7 {};
+ #Var ConfTmp8 {};
+ #Var ConfTmp9 0;
+ #If {%1=""} {
+  #ForAll %Replace(@ConfOptionVars,%CRLF,|) {
+   #Var ConfTmp7 {%i};
+   #If {@ConfTmp7=""} {
+    #Var ConfTmp10 0
+   } {
+    #If {%NumWords(@ConfTmp7,:)>2} {
+     #Var ConfTmp9 {%Pos(:,@ConfTmp7)};
+     #Var ConfTmp8 {%Delete(@ConfTmp7,1,@ConfTmp9)};
+     #Var ConfTmp7 {%Left(@ConfTmp7,%Eval(@ConfTmp9-1))}
+    } {
+     #Var ConfTmp8 {%Word(@ConfTmp7,:,2)};
+     #Var ConfTmp7 {%Word(@ConfTmp7,:,1)}
+    };
+    #Var {@ConfTmp7} {%Replace(%Replace(@ConfTmp8,&CRLF;,%CRLF),&SPC;, )}
+   }
+  };
+  ConfPrint {All soundpack settings have been restored to their default values}
+ } {
+  ConfPrint {Feature not yet implemented.}
+ }
+} {}
+
+#Alias ConfSaveAll {
+ #Var ConfTmp6 {#Var ConfVer @ConfObjVer};
+ #Var ConfTmp7 {};
+ #ForAll %replace(@ConfOptionVars,%CRLF,|) {
+  #Var ConfTmp7 {%i};
+  #If {@ConfTmp7<>""} {
+   #Var ConfTmp7 {%Word(@ConfTmp7,:,1)};
+   #If {%IsNumber(@{@ConfTmp7})=1} {
+    #Var ConfTmp6 {@ConfTmp6
+#Var @ConfTmp7 @{@ConfTmp7}}
+   } {
+    #if {@{@ConfTmp7}="" AND @AutoFill=1} {
+     #var @ConfTmp7 {%Word(%i,:,2)}
+    };
+    #Var ConfTmp10 {%Replace(@{@ConfTmp7},~%,~~~%)};
+    #Var ConfTmp10 {%Replace(@ConfTmp10,~@,~~~@)};
+    #Var ConfTmp10 {%Replace(@ConfTmp10,~{,~~~{)};
+    #Var ConfTmp6 {@ConfTmp6
+#Var @ConfTmp7 {%Replace(@ConfTmp10,~},~~~})}}
+   }
+  }
+ };
+ #If {@ConfTmp6=""} {
+  #Say {An error occurred, could not save}
+ } {
+  #DelFile @ConfFilePath;
+  #File 1 @ConfFilePath;
+  #Write 1 @ConfTmp6;
+  #Close 1;
+  #Var ConfTmp5 {};
+  #Var ConfTmp6 {};
+  #ForAll {@PreservedVariables|PreservedVariables} {
+   #If {%i<>""} {
+    #Var ConfTmp5 {%Replace(@{%i},~~,~~~~)};
+    #Var ConfTmp5 {%Replace(@ConfTmp5,~@,~~~@)};
+    #Var ConfTmp5 {%Replace(@ConfTmp5,~%,~~~%)};
+    #Var ConfTmp5 {%Replace(@ConfTmp5,~},~~~})};
+    #Var ConfTmp6 {#Var %i {@ConfTmp5}%CRLF@ConfTmp6}
+   }
+  };
+  #Var ConfTmp5 {%CharInfo(MudName)/Variables.set};
+  #DelFile @ConfTmp5;
+  #File 1 @ConfTmp5;
+  #Write 1 {@ConfTmp6};
+  #Close 1;
+  #If {@LogHistory=1 and %Defined(HistorySoundHandle)=1} {
+   WriteToLogFile
+  };
+  #If {%1<>"1"} {
+   #Say {Settings saved}
+  }
+ }
+} {}
+#Alias ConfUpgradeConfFile {
+ #If {%Defined(ConfObjVer)=1} {
+  #If {%Defined(ConfVer)=1} {
+   #If {@ConfVer=@ConfObjVer} {
+    #Var ConfTmp10 0
+   } {
+    #Var ConfTmp10 1
+   }
+  } {
+   #Var ConfTmp10 1
+  }
+ } {
+  #Say {ConfManager error: ConfManagerObjects are not loaded at this time, unable to verify version compatibility.};
+  #Var ConfTmp10 -1
+ };
+ #If {@ConfTmp10=1} {
+  #Var ConfTmp6 {};
+  #Var ConfTmp7 {};
+  #Var ConfTmp8 {};
+  #Var ConfTmp9 0;
+  #Var ConfTmp10 2;
+  #ForAll %Replace(@ConfOptionVars,%CRLF,|) {
+   #Var ConfTmp7 {%i};
+   #If {@ConfTmp7<>""} {
+    #If {%NumWords(@ConfTmp7,:)>2} {
+     #Var ConfTmp9 %Pos(:,@ConfTmp7);
+     #Var ConfTmp8 {%Delete(@ConfTmp7,1,@ConfTmp9)};
+     #Var ConfTmp7 {%Left(@ConfTmp7,%Eval(@ConfTmp9-1))}
+    } {
+     #Var ConfTmp8 {%Word(@ConfTmp7,:,2)};
+     #Var ConfTmp7 {%Word(@ConfTmp7,:,1)}
+    };
+    #If {%Defined(@ConfTmp7)=0} {
+     #Var {@ConfTmp7} {%Replace(%Replace(@ConfTmp8,&CRLF;,%CRLF),&SPC;, )}
+    }
+   }
+  };
+  #Var ConfVer @ConfObjVer;
+  #Say {Attempting to update your configuration file...};
+  ConfSaveAll
+ }
+}
+
+#Trigger {What text would you like repeated back to you[?]} {
+ #GagLine 2 All
+} {ConfEcho}
+#Trigger {#} {
+ #If {%1=0 and @ConfPrintLines>10} {
+  #Var ConfTmp6 {};
+  #Exec {#%Eval(@ConfPrintLines-10) {#Var ConfTmp6 {~@ConfTmp6~%Word(~@ConfEchoText,%CRLF,~%i)%CRLF}}};
+  #Say @ConfTmp6 NoReturn
+ };
+ #Sub {%Word(@ConfEchoText,%CRLF,%Eval(1+@ConfPrintLines-(%Min(@ConfPrintLines,10)-%1)))};
+ #If {%Min(@ConfPrintLines,10)=%Eval(%1+1)} {
+  #Class ConfEcho Disable;
+  #Var ConfEchoText {}
+ }
+} {ConfEcho}
+
+#Exec {ConfUpgradeConfFile}
+#Alias {ConfEdit} {#if {@OpenTextExternally = 1} {
+oscript \%1
+} {
+pscript \%1
+}} {}
+
+#Alias ConfDump {
+ #Say {Next, open the file management program of your Lore, and select "Create new file". ConfManager will handle the rest. When you are returned to the Lore folder, your settings will have been saved.};
+ #class confdump enable
+} {}
+#Trigger {Enter a name for * new file:} {
+ #if {%1="the"} {
+  #Exec {ConfDump.Output}
+ }
+} {confdump}
+#Trigger {Enter lines of data for "ConfDump.Output":} {
+ #Exec {><Options>};
+ #var ConfTmp1 0;
+#ForAll %Replace(@ConfOptionVars,%CRLF,|) {
+  #if {%I<>""} {
+   #var ConfTmp7 {%word(%i,:,1)};
+   #if {%pos(@ConfTmp7,@IgnoredConfOptionVars)=0} {
+    #Math ConfTmp1 {@ConfTmp1 + 1};
+    #var ConfTmp8 {@{@ConfTmp7}};
+    #exec {><Option Name="@ConfTmp7">@ConfTmp8</Option>}
+   }
+  }
+ };
+ #Exec {></Options>};
+ #Exec {.};
+ Speech Stop;
+ #sub {Settings saved, ConfDump completed successfully with @ConfTmp1 options stored.};
+ #class confdump disable
+} {confdump}
+
+#Alias ConfRetrieve {
+ #class confretrieveinit enable;
+ #Say {Now, open the ConfDump.Output file on your Lore computer, and the settings should be restored.}
+} {}
+#Trigger {[<]Options>} {
+ #Sub {ConfDump.Output detected, beginning parsing...};
+ #var ConfRetrieveParsedOptions 0;
+ #class confretrieveinit disable;
+ #class confretrieveparse enable;
+ #var ConfRetrieveParsedOptions 0
+} {confretrieveinit}
+#Trigger {[<]Option Name="*">*[<]/Option>} {
+ #Math ConfRetrieveParsedOptions {@ConfRetrieveParsedOptions + 1};
+ #Var %1 {%2};
+ #gagline 1 all
+} {confretrieveparse}
+#Trigger {[<]Options>} {
+ #say {Error: ConfDump.Output seems to be improperly formatted. Please try to ConfDump from the original source.}
+} {confretrieveparse}
+#Trigger {[<]/Options>} {
+ #sub {Conf retrieval complete. @ConfRetrieveParsedOptions %If(@ConfRetrieveParsedOptions = 1,option,options) successfully parsed. ConfRetrieve dismissed.};
+ #class confretrieveparse disable
+} {confretrieveparse}
+
+
+#Alias GetConf {
+ #if {%1="undo"} {
+  #Var {@GetConfTmp1} {@GetConfTmp2};
+  ConfPrint {Returned @GetConfTmp1 to it's previous value of @GetConfTmp2.};
+ #class GetConf disable
+ } {
+  #var GetConfWaiting 1;
+  #class GetConf enable;
+  #alarm 10 {
+   #if {@GetConfWaiting=1} {
+    #var GetConfWaiting 0;
+    ConfPrint {GetConf closed.}
+   };
+   #class GetConf Disable
+  };
+  ConfPrint {You have 10 seconds for another person to say a configuration value in the form
+<option name="variable">string</option>}
+ }
+} {}
+
+#Trigger {* says, "[<]option name="*">*[<]/option>"} {
+ #var GetConfTmp1 {%2};
+ #var GetConfTmp2 {@{%2}};
+ #Var {%2} {%3};
+ #sub {Imported option %2 from %1 with value %3. GetConf closed.};
+ #var GetConfWaiting 0;
+ #class GetConf disable
+} {GetConf}
+#Alias LoadConfObjects {
+ #Exec {#Alarm 0 {
+  #ForAll {%Replace(@ConfObjectFiles,%CRLF,|)} {
+   #If {~%i<>""} {
+    #Load {@ConfObjectsPath\~%i.set}
+   }
+  };
+  #If {"%1"<>""} {
+   #Exec {%1}
+  }
+ }}
+} {}
+
+#Alias BufferConfig {
+ SetVariable BufferConfigTmp2 0;
+ #If {%NumWords(@BuffersForReview,~,)<>5} {
+  ConfPrint {List of buffers is malformed.Resetting to defaults.};
+  SetVariable BufferConfigTmp1 {BuffersForReview:};
+  #Var BuffersForReview {%Word(%Word(@ConfOptionVars,@BufferConfigTmp1,2),%CRLF,1)} 
+ };
+ #if {%IsNumber(1)=1 AND (%1>0 AND %1<6)} {
+  #Var BufferConfigTmp1 {%Replace(@BuffersForReview,~,,|)};
+  #Var BuffersForReview {};
+  #ForAll @BufferConfigTmp1 {
+   #Math BufferConfigTmp2 {@BufferConfigTmp2 + 1};
+   #If {%1=@BufferConfigTmp2} {
+    #If {%2<>""} {
+     #Var SelectedBuffer %2
+    } {
+     PickHistoryBuffer
+    };
+    #Var BuffersForReview {@BuffersForReview,@SelectedBuffer}
+   } {
+    #Var BuffersForReview {@BuffersForReview,%I}
+   }
+  };
+  #Var BuffersForReview {%Delete(@BuffersForReview,1,1)};
+  ConfPrint {Done.}
+ } {
+  SetVariable BufferConfigTmp1 {Choose a buffer to configure
+  [1] Control 1-0: %Word(@BuffersForReview,~,,1)
+  [2] Control Shift 1-0: %Word(@BuffersForReview,~,,2)
+  [3] Alt Shift 1-0: %Word(@BuffersForReview,~,,3)
+  [4] Control Alt 1-0: %Word(@BuffersForReview,~,,4)
+  [5] Control Alt Shift 1-0: %Word(@BuffersForReview,~,,5)
+  [0] Finish};
+  #Say {BufferConfig } Entry|NoReturn;
+  ConfPrint @BufferConfigTmp1
+ }
+} {}

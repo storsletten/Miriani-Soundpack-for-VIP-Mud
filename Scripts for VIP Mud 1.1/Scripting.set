@@ -1,0 +1,80 @@
+; Scripting.set:
+; Version 2.0
+; 
+; Written by Chris Norman
+; 
+; This script file contains several routines
+; to make it easier to deal with scripts, for both
+; players and developers alike.
+
+#var Action {}
+#If {@FileName=""} {
+ #var FileName {Scripting.set}
+} {
+ #Var FileName {@FileName}
+}
+
+#Alias {Script} {
+ #If {%2<>""} {
+  #Var FileName %2
+ };
+ #var HelpText {Syntax:
+ Script <Action> <FileName>
+ Where Action is one of:
+ Load - Loads a script into memory
+ Open - Opens (edits) a script
+ Unload (Unloads a script from memory.
+ Send (Sends a file to the MUD)};
+ #var Action {%proper(%1)};
+ #Var ScriptingTmp1 {%pos(\,@FileName)};
+ #if {@ScriptingTmp1<2} {
+  #If {@ScriptingTmp1=1} {
+   #var FileName {%delete(@FileName,1,1)}
+  } {
+   #var FileName {@ScriptPath\@FileName}
+  }
+ };
+ #if {%numwords(@FileName,.)=1} {
+  #var FileName {@FileName.set}
+ };
+ #if {%ifword(@Action,Unload|Open|Edit|Load|Send,|)=0} {
+  ConfPrint @HelpText
+ } {
+  #if {@Action = "Load"} {
+   #Say {Loading @FileName...};
+   #load @Filename
+  };
+  #if {@Action = "Open"} {
+   #Say {Opening @FileName for editing...};
+   #Edit @FileName
+  };
+  #if {@Action = "Unload"} {
+   #Say {Unloading @FileName from memory...};
+   #unload @FileName
+  };
+  #if {@Action = "Send"} {
+   #if {%numwords(@FileName,:)<>3} {
+    #var HelpText {Syntax:
+    Script Send Filename:[Prefix_Text]:[Suffix_Text]
+    Both prefix and suffix can be omitted, but the colons must be given.};
+    #Say @HelpText
+   } {
+    #var Prefix {%word(@FileName,:,2)};
+    #var Suffix {%word(@FileName,:,3)};
+    #var FileName {%word(@FileName,:,1)};
+    #var Tmp1 {#send @FileName {@Prefix } { @Suffix}};
+    #exec {@Tmp1}
+   }
+  }
+ }
+} {}
+
+#Alias {LScript} {Script Load %1} {}
+
+#Alias {OScript} {Script Open %1} {}
+
+#Alias {RScript} {Script Unload %1;Script Load %1} {}
+
+#Alias {UScript} {Script Unload %1} {}
+
+#Alias {SScript} {script send %1:%2:%3} {}

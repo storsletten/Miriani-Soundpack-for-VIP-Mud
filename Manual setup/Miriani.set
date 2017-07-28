@@ -1,0 +1,6 @@
+#Load {%CharInfo(MudName)/Conf.set}
+#If {%Defined(ScriptPath)=1 and %Defined(SoundsPath)=1} {
+ #Load @ScriptPath/Main.set
+} {
+ #Say {WARNING! The scripts path and/or the sounds path are not defined. Unable to load the soundpack!}
+}

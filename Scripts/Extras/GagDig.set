@@ -1,0 +1,19 @@
+#if {%defined(GagDig)=0} {SetVariable GagDig 0}
+#alias GagDig {
+ #if {@GagDig<>1} {
+  SetVariable GagDig 1;
+  #class gagdig enable
+ } {
+  SetVariable GagDig 0;
+  #class gagdig disable
+ };
+ConfPrint {GagDig %if(@GagDig = 1,enabled,disabled).}
+} {}
+#trigger {* stops digging.} {
+ msplay General\Device\CameraFeed@Ext;
+ #gagline 1 all
+} {gagdig}
+#trigger {* thrusts a small shovel into the ground and begins methodically removing large chunks of dirt.} {
+ msplay General\Device\CameraFeed@Ext;
+ #gagline 1 all
+} {gagdig}

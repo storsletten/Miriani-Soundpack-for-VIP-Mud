@@ -1,0 +1,29 @@
+#Trigger {You hear the sound of the pod's engine as it accelerates toward *.} {
+ msplay Ship\Move\YouLanding@Ext;
+ ExpPipe {%0} {The pod accelerates towards %1.} {};
+ #sub @ExpString
+} {Main}
+#Trigger {With a gentle rock, the pod sets down *.} {
+ msplay General\Misc\ITPNArrive@Ext;
+ ExpPipe {%0} {The pod sets down %1.} {};
+ #sub @ExpString
+} {Main}
+#Trigger {You hear the sound of the pod's engines as it accelerates away from *.} {
+ msplay ACV\ACVStart@Ext;
+ ExpPipe {%0} {The pod accelerates away from %1.} {};
+ #sub @ExpString
+} {Main}
+#Trigger {The pod vibrates slightly as it nears the wormhole's event horizon.} {
+ ExpPipe {%0} {The pod nears the wormhole's event horizon.} {};
+ #Sub @ExpString
+} {Main}
+#Trigger {A bright blue light floods the room as the pod begins traveling through the wormhole.} {
+ ExpPipe {%0} {The pod begins traveling through the wormhole.} {};
+ #sub @ExpString
+} {Main}
+#Trigger {The bright light abruptly vanishes as the pod emerges from the wormhole.} {
+ msplay General\Misc\Beep*10@Ext;
+ msplay Ship\Misc\Background*5@Ext;
+ ExpPipe {%0} {The pod emerges from the wormhole.} {};
+ #sub @ExpString
+} {Main}

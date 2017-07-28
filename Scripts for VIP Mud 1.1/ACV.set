@@ -1,0 +1,185 @@
+; Configuration
+;
+; Should the ACV move up and down by using the direction prompt?
+#Var ACVPromptNavig 0
+
+#Exec {
+ SetVariable RelativeNumericTmpX 0;
+ SetVariable RelativeNumericTmpY 0;
+ SetVariable RelativeNumericTmpZ 0;
+ SetVariable RelativeNumericTmpXDir {Nothing};
+ SetVariable RelativeNumericTmpYDir {Nothing};
+ SetVariable RelativeNumericTmpZDir {}
+}
+
+#Var RelativeNumericDir {Nothing.}
+#Var RelativeNumericDirPrefix {}
+#Var AcvCoordX {}
+#Var AcvCoordY {}
+#Var AcvCoordZ {}
+
+; Syntax: CalculateRelativeNumericDir TargetX TargetY TargetZ CurrentX CurrentY CurrentZ
+#Alias CalculateRelativeNumericDir {
+ #if {%IsNumber(%1)=0 OR %IsNumber(%2)=0 OR %IsNumber(%3)=0 OR %IsNumber(%4)=0 OR %IsNumber(%5)=0 OR %IsNumber(%6)=0} {
+  #Var RelativeNumericDir {%1 %2 %3}
+ } {
+  #Var RelativeNumericDir {};
+  #Var RelativeNumericDirPrefix {};
+  #Math RelativeNumericTmpX {%max(%1,%4) - %min(%1,%4)};
+  #Math RelativeNumericTmpY {%max(%2,%5) - %min(%2,%5)};
+  #Math RelativeNumericTmpZ {%max(%3,%6) - %min(%3,%6)};
+  #If {(@RelativeNumericTmpX>1 OR @RelativeNumericTmpY>1 OR @RelativeNumericTmpZ>1) OR (@RelativeNumericTmpX=0 AND @RelativeNumericTmpY=0 AND @RelativeNumericTmpZ=0)} {
+   #if {@RelativeNumericTmpX>1 OR @RelativeNumericTmpY>1 OR @RelativeNumericTmpZ>1} {
+    #if {@RelativeNumericTmpX>0} {
+     #var RelativeNumericTmpXDir {@RelativeNumericTmpX%if(%4 > %1,W,E)};
+     #If {@RelativeNumericTmpY>0 OR @RelativeNumericTmpZ>0} {
+     #var RelativeNumericTmpXDir {@RelativeNumericTmpXDir, }
+     }
+    } {
+     #var RelativeNumericTmpXDir {}
+    };
+    #if {@RelativeNumericTmpY>0} {
+     #var RelativeNumericTmpYDir {@RelativeNumericTmpY%if(%5 > %2,N,S)};
+     #If {@RelativeNumericTmpZ>0} {
+     #var RelativeNumericTmpYDir {@RelativeNumericTmpYDir, }
+     }
+    } {
+     #var RelativeNumericTmpYDir {}
+    };
+    #if {@RelativeNumericTmpZ>0} {
+     #var RelativeNumericTmpZDir {@RelativeNumericTmpZ%if(%6 > %3,U,D)}
+    } {
+     #var RelativeNumericTmpZDir {}
+    };
+    #var RelativeNumericDir {@RelativeNumericTmpXDir@RelativeNumericTmpYDir@RelativeNumericTmpZDir}
+   } {
+    #var RelativeNumericDir {C}
+   }
+  } {
+   #if {%3>%6} {
+    #var RelativeNumericDirPrefix {Minus }
+   };
+   #if {%3<%6} {
+    #var RelativeNumericDirPrefix {Plus }
+   };
+   #if {%1=%4 AND %2=%5} {
+    #var RelativeNumericDir 5
+   } {
+    #if {%1=%4} {
+     #if {%2>%5} {
+      #var RelativeNumericDir 2
+     } {
+      #var RelativeNumericDir 8
+     }
+    } {
+     #if {%2=%5} {
+      #if {%1>%4} {
+       #var RelativeNumericDir 6
+      } {
+       #var RelativeNumericDir 4
+      }
+     } {
+      #if {%1>%4} {
+       #if {%2>%5} {
+        #var RelativeNumericDir 3
+       } {
+        #var RelativeNumericDir 9
+       }
+      } {
+       #if {%2>%5} {
+        #var RelativeNumericDir 1
+       } {
+        #var RelativeNumericDir 7
+       }
+      }
+     }
+    }
+   };
+   #var RelativeNumericDir {@RelativeNumericDirPrefix@RelativeNumericDir}
+  }
+ }
+} {}
+
+#Alias ACVMove {
+ #If {%IsNumber(%Left(%1,1))=1} {
+  #Var ACVTmp1 {%1};
+  #Var ACVTmp2 {}
+ } {
+  #Var ACVTmp1 {%Right(%1,1)};
+  #Var ACVTmp2 {%Left(%1,1)}
+ };
+ #If {@ACVNextMoveXY=""} {SetVariable ACVNextMoveXY {@ACVTmp1}} {SetVariable ACVNextMoveXY {@ACVNextMoveXY|@ACVTmp1}};
+ #If {@ACVNextMoveZ=""} {SetVariable ACVNextMoveZ {@ACVTmp2}} {SetVariable ACVNextMoveZ {@ACVNextMoveZ|@ACVTmp2}};
+ #If {@ACVTmp2<>""} {
+  #If {@ACVPromptNavig=0} {
+   #Exec {>@ACVTmp2@ACVTmp1}
+  } {
+   #Exec {>@ACVTmp2};
+   #Exec {>@ACVTmp1}
+  }
+ } {
+  #Exec {>@ACVTmp1}
+ }
+} {}
+; Use the following code for all occurrences when your movement command fails:
+#Trigger {This vehicle cannot land here.} {
+ %Pop(ACVNextMoveXY);
+ %Pop(ACVNextMoveZ)
+} {Main}
+
+#TRIGGER {The ship comes to a halt in the planet's atmosphere.} {
+ #var AcvCoordX {};
+ #var AcvCoordY {};
+ #var AcvCoordZ {};
+ #if {@ModifyAcvOutput=1 AND %Pos(atmospheric combat,@RoomName)>0} {
+  #Sub {Now type coords to set your current coordinates.}
+ } {
+  ExpPipe {%0} {} {};
+  #sub {@ExpString}
+ };
+ msplay ACV\ACVStop@Ext
+} {Main}
+#TRIGGER {The tug of acceleration ceases as the vehicle completes its thrust and resumes stationary mode.} {ExpPipe {%0} {} {};
+#sub {@ExpString};
+msplay ACV\ACVStop@Ext} {Main}
+#TRIGGER {The view gradually fades into a view of space.} {#gagline 1 all;
+msplay Ship\Move\YouLanding@Ext} {Main}
+#TRIGGER {With the sickening lurch of acceleration, the vehicle begins accelerating through the atmosphere toward space.} {#gagline 1 all} {Main}
+#TRIGGER {The room shudders violently from the recoil as the automatic weapons begin firing.} {ExpPipe {%0} {The automatic weapons begin firing.} {};
+#sub @ExpString;
+msplay ACV\Weapons*9@Ext} {Main}
+#TRIGGER {Weapon launch sequence initiated. Bomb's away!} {ExpPipe {%0} {Bomb's away!} {};
+#sub @ExpString;
+msplay ACV\Bomb*4@Ext} {Main}
+#Trigger {The vehicle * pelted by automatic weapon fire from *.} {
+ ExpPipe {%0} {%0} {Hit by %2};
+ #If {@MissionMode=1} {#GagLine 1 Voice};
+ #Sub @{ExpString};
+ mwplay Ship\Combat\YouHit*11@Ext
+} {Main}
+#Trigger {The vehicle is jarred as a missile impacts the hull.} {
+ ExpPipe {%0} {%0} {Hit by a missile};
+ #Sub @{ExpString};
+ mwplay Ship\Combat\Projectile*3@Ext
+} {Main}
+#Trigger {Current coordinates: &{AcvCoordX}, &{AcvCoordY}, &{AcvCoordZ}} {
+ #Sub {@AcvCoordX @AcvCoordY @AcvCoordZ}
+} {Main|ACVMoveMode}
+#Trigger {Coordinates: *, *, *} {
+ #var AcvObjectX %1;
+ #var AcvObjectY %2;
+ #var AcvObjectZ %3;
+ #if {@ModifyAcvOutput=1} {
+  CalculateRelativeNumericDir @AcvObjectX @AcvObjectY @AcvObjectZ @AcvCoordX @AcvCoordY @AcvCoordZ;
+  #Sub {@RelativeNumericDir}
+ }
+} {Main|ACVMoveMode}
+#Trigger {* Airspace; Grid *, *} {
+ ExpPipe {%0} {[%1]: %2, %3} {};
+ #Sub @ExpString;
+ #Class ACVAirspace enable
+} {Main}
+#Trigger {Current Coordinates: &{ACVCoordX}, &{ACVCoordY}, &{ACVCoordZ}} {
+ #gagline 1 all;
+ #Class ACVAirspace disable
+} {Main|ACVAirspace}

@@ -1,0 +1,107 @@
+#Exec {
+SetVariable Conf0Focus0 {A:Ship0Scanning0FocusOutputString};
+SetVariable Conf0Scan0 {A:Ship0Scanning};
+SetVariable Conf0Ship0 {M:Set how ships behave
+Mission
+RelDriveFreq
+RelDriveVolume
+RelDriveStyle
+RelDriveBeep
+Scanning:Set scanning options
+GagAvatars:Gag the names of holographic avatars (only affects experience level 3)
+PaPrefix:Text displayed before PA messages
+ExtPrefix:Text to appear before external PA messages
+SoundsOnPipe:Play sounds when objects are reported via pipe
+SpeakWhenPossible:Speak computer messages when possible
+FlipSectorInfo
+MuteAlertContSounds
+MutePraelorIsEnemySound
+PatternFormatString:Set the format for target patterns
+EnhancedAimSoundSystem:Enhanced lock alert system
+ClassDependant
+};
+SetVariable Conf0Ship0RelDriveFreq0 {C:Set the frequency to play the relativity drive sound at (can make it easier to hear)
+RelDriveFreq:The relativity drive frequency will now be set to $V
+22050:Half pitch
+44100:Normal pitch
+88200:Double pitch
+};
+SetVariable Conf0Ship0RelDriveVolume0 {N:RelDriveVolume:Volume of the relativity drive compaired to that of standard sounds
+validate:-100:100
+};
+SetVariable Conf0Ship0RelDriveStyle0 {C:What sort of rel drive sound do you want
+RelDriveStyle:Your rel drive sound is now $V style
+1:Standard Miriani
+2:Standard Star Conquest
+3:Monkeyterm
+};
+SetVariable Conf0Ship0RelDriveBeep0 {B:RelDriveBeep:Beep when rel drive stops and starts
+You will now hear a beep when your rel drive stops and starts:You will no longer hear a beep when rel drive starts and stops
+};
+SetVariable Conf0Ship0Scanning0 {M:Set scanning options
+EnableScanFilters:Enable or disable scan filters
+ScanOutput:Choose the format for scan output
+GagScan:Gag the coordinates line
+DisplayOriginalScanOutput:Display the original scan output in the output window
+FocusOutputString:Set how the focus output appears
+ShortenObjects
+CountOccupants:Show number of life signs aboard a ship when using the occupancy scanner upgrade (Buggy)
+};
+SetVariable Conf0Ship0Scanning0EnableScanFilters0 {B:ScanFilters:Enable or disable the scan filters
+Scan output will now be filtered:Scan output will no longer be filtered
+};
+SetVariable Conf0Ship0Scanning0ScanOutput0 {S:ScanOutputString:Scan formatting. Use $NAME for ship name, $SHORTNAME for the shortened version of the name, $TYPE for the type of ship, $COORDS for coords, $DISTANCE for distance from you to target, $HULL for hull damage, $COMPONENT for component damage, $WEAPONS for weapon status, $POWER for power status, $CARGO for cargo, $NEW for New Pilot and New Courier Ship status, $MATH() for math, and $CRLF for a blank line (only shows in output window)
+New scan output format is $V
+};
+SetVariable Conf0Ship0Scanning0GagScan0 {B:GagScan:See only the custom formatted scan output
+You will now only see the custom scan formatting:You will see the whole of the scan output
+};
+SetVariable Conf0Ship0Scanning0DisplayOriginalScanOutput0 {B:DisplayOriginalScanOutput:Display the original scan output in the output window
+Original scan output will now be shown in the output window:Original scan output will not be visible in the output window
+};
+SetVariable Conf0Ship0Scanning0ShortenObjects0 {B:ShortenObjects:Shorten the display of certain objects when out of local space
+The display of certain objects including stars and debris will now be shortened:All objects will be shown using their default displays
+};
+SetVariable Conf0ship0Scanning0FocusOutputString0 {S:FocusOutputString:Focus output format ($NAME is ship name, $COORDS is ship coords)
+The new focus output is $V
+};
+SetVariable Conf0Ship0Scanning0CountOccupants0 {B:CountOccupants:Count life signs when using the occupancy scanner upgrade
+Number of life signs will now be printed:You will no longer see number of lifesigns when scanning
+};
+SetVariable Conf0Ship0GagAvatars0 {B:GagAvatars:Gag the names of holographic avatars (only takes affect with experience level 3)
+The names of holographic avatars will now be gagged:The names of holographic avatars will now be shown
+};
+SetVariable Conf0Ship0PaPrefix0 {S:PaPrefix:PA prefix
+The text to denote a PA message is now $V
+};
+SetVariable Conf0Ship0ExtPrefix0 {S:ExtPrefix:External PA prefix
+The text now used to denote a message going to the ship's external PA is $V
+};
+SetVariable Conf0Ship0SoundsOnPipe0 {B:PlaySoundsOnPipe:Select whether to play sounds when objects in sectors are reported via pipe
+You will now hear sounds when objects are reported via pipe:You will no longer hear sounds when objects are reported via pipe
+};
+SetVariable Conf0Ship0SpeakWhenPossible0 {B:SpeakWhenPossible:Speak computer messages when possible
+The soundpack will now use recorded speech when possible (replaces realism):Computer messages will just be printed
+};
+SetVariable Conf0Ship0FlipSectorInfo0 {B:FlipSectorInfo:Have the ship name appear first when ships enter and exit sectors
+The ship name will now appear when a ship enters or exits the sector:Sector enter and exit messages will now appear nnormally
+};
+SetVariable Conf0Ship0MuteAlertContSounds0 {B:MuteAlertContSounds:Mute the annoying alert sounds when the lights continue to flash
+Hurray, the alert sounds will now be muted!:Alert sounds will no longer be muted
+};
+SetVariable Conf0Ship0MutePraelorIsEnemySound0 {B:MutePraelorIsEnemySound:Mute the sound that is played when you scan a hostile praelor ship
+The sound that indicates that the target is an enemy will now be muted:The sound that indicates that the target is an enemy will no longer be muted
+};
+SetVariable Conf0Ship0PatternFormatString0 {S:PatternFormatString:pattern format string (Use $NAME for the ship's name, $Pattern for the pattern, and $COORDS for the ship's current coordinates)
+Other peoples' patterns will now appear as $V
+};
+SetVariable Conf0Ship0EnhancedAimSoundSystem0 {C:Toggle the enhanced locking alert system
+0:EnhancedAimSoundSystem:The locking alert level is set to $V
+Off
+Change lock sound for currently focused target
+Mute all lock sounds except for currently focused target
+};
+SetVariable Conf0Ship0ClassDependant0 {B:ClassDependant:Hit volume depends on Praelor Class
+The volume of hit sounds will now depend on ship class:The hit sound will be the same reguardless
+}
+}

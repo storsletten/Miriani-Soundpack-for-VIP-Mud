@@ -1,0 +1,139 @@
+#Exec {SetVariable Tracked 0}
+#Trigger {* makes a selection on* a * Lore computer.} {
+ #If {%Pos(],%1)>0} {
+  SetVariable LoreTmp1 {%Delete(%1,1,%pos(],%1))}
+ } {
+  SetVariable LoreTmp1 {%1}
+ };
+ ExpPipe %0 {@LoreTmp1 makes a selection on a %3 Lore.} {@LoreTmp1 uses a %3 Lore.};
+ #Sub @ExpString
+} {Main}
+#Trigger {You make a selection on a* Lore computer.} {
+ ExpPipe %0 {%Proper(%1) Lore} {:Voice:%Proper(%1) Lore};
+ #Sub @ExpString
+} {Main}
+#Trigger {Your * Lore computer suddenly beeps quietly, indicating a new incoming *.} {
+ msplay General\Lore\Import@Ext;
+ ExpPipe %0 {New incoming %2 in your %1 Lore} {New %2 in your %1 Lore};
+ #Sub @ExpString
+} {Main}
+#Trigger {A* Lore computer beeps quietly, indicating that there * to import.} {
+ msplay General\Lore\FilesWaiting@Ext;
+ ExpPipe %0 {New %Word(%2, ,%NumWords(%2, )) to import in a%1 Lore} {New %Word(%2, ,%NumWords(%2, )) to import in a%1 Lore};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {Several short bleeps emit from a* Lore computer, followed by a* "*"*.} {
+ msplay General\Lore\Print@Ext;
+ ExpPipe %0 {A%1 Lore prints a %2 %3.} {:Voice:A%1 Lore prints a %2 %3.};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {Enter a name for the new file:} {
+ msplay General\Lore\Name@Ext;
+ ExpPipe %0 {:Voice:%0} {:Voice:Filename:};
+ #Sub @ExpString
+} {Main}
+#Trigger {File "*" exported.} {
+ msplay General\Lore\Export@Ext;
+ ExpPipe %0 {:Voice:%0} {:Voice:%1 exported};
+ #Sub @ExpString
+} {Main}
+#Trigger {Via the TransLink network, the LoreTech device "*" reports current location pinpointed *} {
+ msplay General\Lore\Track@Ext;
+ #If {%Word(%2, ,1)="aboard" and %NumWords(%2,~")=3} {
+  #If {%Word(%2,~",2)=%1} {
+   ExpPipe %0 {LoreTech device "%1" %2} {T%Delete(%2,1,8)}
+  } {
+   ExpPipe {%0} {LoreTech device "%1" %2} {%1 %2}
+  }
+ } {
+  ExpPipe %0 {LoreTech device "%1" %2} {%1 %2}
+ };
+ #Sub {@ExpString}
+} {Main}
+#Trigger {The LoreTech device "*" could not be located.} {
+ ExpPipe %0 {LoreTech device "%1" could not be located} {%1 could not be located};
+ #Sub @ExpString
+} {Main}
+#Trigger {No LoreTech devices located on TransLink network with the ID tag of "*."} {
+ ExpPipe %0 {LoreTech device "%1" could not be found} {%1 could not be found};
+ #Sub @ExpString
+} {Main}
+#Trigger {File "*" successfully transmitted to "*."} {
+ msplay General\Lore\Transmit@Ext;
+ ExpPipe {%0} {1 successfully transmitted to %2.} {%1 transmitted to %2.};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {LoreTech Personal Lore Computer - [[]*]} {
+ #Var LoreTmp1 {%Replace(%1,~",)};
+ #Var LoreTmp1 {%Replace(@LoreTmp1,~~,)};
+ #If {@LoreTmp1="Main Menu" or @LoreTmp1="Device Options" or @LoreTmp1="Root Folder" or @LoreTmp1=*"Folder: *" or @LoreTmp1=*"File: *"} {
+  msplay prompt@Ext
+ };
+ #If {@LoreTmp1="Calculator" or @LoreTmp1="Device Options" or @LoreTmp1="Galactic News" or @LoreTmp1="Holographic Imager" or @LoreTmp1="Image Data Extractor" or @LoreTmp1="Lore Tracker" or @LoreTmp1="Main Menu" or @LoreTmp1="Optical Character Recognition" or @LoreTmp1="Shopping Guide" or @LoreTmp1="Starship Upgrade Estimator" or @LoreTmp1="Unit Converter"} {
+  ExpPipe {%0} {:Voice:%0} {};
+  #Sub {@ExpString}
+ };
+ #If {@LoreTmp1="Alliance Bounties" or @LoreTmp1="Scratch Pad" or @LoreTmp1="Root Folder" or @LoreTmp1=*"Folder: *" or @LoreTmp1=*"File: *"} {
+  #If {@ExperienceLevel > 1} {
+   #GagLine 1 Voice;
+   #Say {%1} NoDisplay
+  }
+ }
+} {Main}
+#Trigger {The display blurs suddenly as the current time and date, * * * *:*:* * GST, fades in, shimmers briefly and fades out, letting the display return to normal.} {
+ ExpPipe {%0} {%0} {%4:%5:%6, %1 %2 %3, %7};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {*. A barely visible grid of red and green lights runs along * for the briefest of moments*} {msplay General\Lore\SuccessfulImage@Ext} {Main}
+#Trigger {The result of your equation, *, briefly appears on the display.} {
+ ExpPipe {%0} {The result of your equation, %1.} {%1};
+ #Sub @ExpString
+} {Main}
+#Trigger {Item: *} {
+ #If {@ModifyShoppingGuide=1} {
+  #GagLine 1 All;
+  SetVariable LoreTmpItem %1;
+  #Class shopping enable
+ }
+} {Main}
+#Trigger {Price: *} {
+ SetVariable LoreTmpPrice %1;
+ #GagLine 1 All
+} {Main|Shopping}
+#Trigger {Points: *} {
+ SetVariable LoreTmpPoints %1;
+ #GagLine 1 All
+} {Main|Shopping}
+#Trigger {Combat points: *} {
+ SetVariable LoreTmpCombatPoints %1;
+ #GagLine 1 All
+} {Main|Shopping}
+#Trigger {Location*: *} {
+ SetVariable LoreTmpLocation %2;
+ #GagLine 1 All
+} {Main|Shopping}
+#Trigger {Store*: *} {
+ SetVariable LoreTmpStore %2;
+ SetVariable LoreTmp1 {%Replace(@ShoppingGuideFormatString,$ITEM,@LoreTmpItem)};
+ #Var LoreTmp1 {%Replace(@LoreTmp1,$PRICE,@LoreTmpPrice)};
+ #Var LoreTmp1 {%Replace(@LoreTmp1,$POINTS,@LoreTmpPoints)};
+ #Var LoreTmp1 {%Replace(@LoreTmp1,$COMBATPOINTS,@LoreTmpCombatPoints)};
+ #Var LoreTmp1 {%Replace(@LoreTmp1,$LOCATION,@LoreTmpLocation)};
+ #Var LoreTmp1 {%Replace(@LoreTmp1,$STORE,@LoreTmpStore)};
+ #Sub {@LoreTmp1};
+ #Class Shopping disable
+} {Main|Shopping}
+#Trigger {A* beeps quietly, indicating that its TransLink tracking functionality has been activated.} {
+ #Math Tracked {@Tracked+1};
+ MsPlay General\Lore\Tracked@Ext;
+ ExpPipe {%0} {%1 TransLink tracking functionality has been activated.} {:Voice:A%1 has been tracked};
+ #Sub @ExpString
+} {Main}
+#Alias {tracked} {
+ #If {%1="Clear"} {
+  #variable tracked 0;
+  ConfPrint {Track count cleared.}
+ } {
+  ConfPrint {Track count: @tracked}
+ }
+} {}

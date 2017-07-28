@@ -1,0 +1,21 @@
+#Trigger {* pres* a button on the wall to summon the lift.} {
+ msplay general/lift/LiftButton@Ext
+} {main}
+#Trigger {The lift *stop* and the doors slide * with a hiss.} {
+ ExpPipe {%0} {The lift comes to a stop.} {};
+ #Sub @ExpString;
+ #If {%3="closed"} {
+  msplay general/lift/LiftDoorClose@ext
+ } {
+  msplay general/lift/LiftDoorOpen@ext
+ };
+ #If {@LiftSoundHandle>0} {#PC @LiftSoundHandle Stop}
+} {Main}
+#Trigger {The doors *close* and the lift *s *mov* *.} {
+ ExpPipe {%0} {The lift moves %6.} {};
+ #Sub @ExpString;
+ msplay general/lift/LiftDoorClose@ext;
+ msplay general/lift/LiftStart@Ext;
+ MirianiSoundPlay {@ZoneType lift sound} {l^general/lift/LiftMoving@Ext};
+ SetVariable LiftSoundHandle %PlayHandle
+} {Main}

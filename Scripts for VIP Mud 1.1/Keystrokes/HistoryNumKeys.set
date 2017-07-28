@@ -1,0 +1,41 @@
+#Exec {
+ SetVariable CopyTmp1 {};
+ SetVariable LastKeyPressed {}
+ SetVariable ReviewHistoryTmp1 {Say};
+ SetVariable ReviewHistoryTmp2 {Output};
+ SetVariable ReviewHistoryTmp2 {}
+}
+
+#if {%Pos(PA,@HistoryBuffers)=0} {#AddItem HistoryBuffers {PA}}
+#If {%Pos(Say,@HistoryBuffers)=0} {#AddItem HistoryBuffers {Say}}
+#if {%Pos(Comm,@HistoryBuffers)=0} {#AddItem HistoryBuffers {Comm}}
+
+#Forall {1|2|3|4|5|6|7|8|9|0} {
+ #if {%i=0} {
+  #Var ReviewHistoryTmp3 10
+ } {
+  #Var ReviewHistoryTmp3 %i
+ };
+ #Exec {
+  #key {Alt-%I} {
+   speech stop;
+#if {~@NumbersForReview<>1 OR ~@CurrentHistoryBuffer="Output"} {
+    #Var ReviewHistoryTmp2 {Output}
+   } {
+    #Var ReviewHistoryTmp2 {~@CurrentHistoryBuffer}
+   };
+   #if {~@LastKeyPressed="Alt-%i"} {
+    #Var ReviewHistoryTmp1 {Copy}
+   } {
+    #Var ReviewHistoryTmp1 {Say}
+   };
+   LastKeyPressed {Alt-%I};
+   History ~@ReviewHistoryTmp1 ~@ReviewHistoryTmp2 @ReviewHistoryTmp3
+  } {}
+ };
+ CreateReviewKey {Control-%I} {~%Word(~@BuffersForReview,~~,,1)} @ReviewHistoryTmp3;
+ CreateReviewKey {Control-Shift-%I} {~%Word(~@BuffersForReview,~~,,2)} @ReviewHistoryTmp3;
+ CreateReviewKey {Alt-Shift-%I} {~%Word(~@BuffersForReview,~~,,3)} @ReviewHistoryTmp3;
+ CreateReviewKey {Control-Alt-%I} {~%Word(~@BuffersForReview,~~,,4)} @ReviewHistoryTmp3;
+ CreateReviewKey {Control-Alt-Shift-%I} {~%Word(~@BuffersForReview,~~,,5)} @ReviewHistoryTmp3
+}

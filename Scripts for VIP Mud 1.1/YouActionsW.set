@@ -1,0 +1,215 @@
+#Var YouActionsWAre {
+are forced off of the stairs as the * reaches its destination.^msplay General\Rooms\EscalatorEnd~@Rext
+|
+are escorted to * by *.^
+ msplay General\Misc\Door~@Ext;
+ DontStopSpeaking
+|
+are seated in a chair with several syringes on robotic arms around it.  *^msplay General\Misc\MedicalOpperation~@Ext
+|
+are turned away by the locked hatch of *.^msplay General\Misc\CantGo*5~@Ext
+|
+are suddenly pressed against your seat as the vehicle is catapulted out of the docking bay and into space. *^
+ #gagline 1 all;
+ msplay ACV\ACVLaunch~@Ext;
+ msplay Ship\Move\Subwarp~@Ext
+}
+
+#Var YouActionsWHave {
+have been playing for *. [[]*]^#Class InfoOutputWorkaround Enable;MainTrigSwitch 0
+}
+
+#Var YouActionsW {
+hear a series of loud bangs as * missiles explode on the hull.^
+ MrandomPlay Ship\Combat\Projectile*3@Ext;
+ ExpPipe {%0} {Missiles explode on the hull.} {}
+|
+hear a series of * as the ship fires * missiles.^
+ ExpPipe {~%0} {~%0} {};
+ msplay Ship\Combat\Missiles~@Ext
+|
+flick a switch on *.^msplay General\Device\Switch~@Ext
+|
+step on to a small platform on the floor. Sensing your presence, a ring of lights along the perimeter of the circle light up as the platform *.^
+ ExpPipe {%0} {:Voice:%0} {};
+ msplay General\Misc\HGLift@Ext
+|
+unclip * from *^msplay General\Misc\Belt1@Ext
+|
+clip * to *.^msplay General\Misc\Belt2@Ext
+|
+hear a satisfying click as the ship's docking ring is *.^msplay Ship\Move\RingEnd~@Ext
+|
+decide not to travel through *.^msplay Ship\Move\DontLand~@Ext
+|
+feel mild acceleration as the ship *.^
+ msplay Ship\Move\YouLanding@Ext;
+ #GagLine 1 All
+|
+begin the * sequence.^
+ #GagLine 1 All;
+ msplay General\Misc\Beep*10@Ext
+|
+conjure up some mighty force and slam * into * You watch in satisfaction as a surge of energy courses through * body.^
+ msplay General\Combat\StunBatonHit~@Ext
+|
+unload a * from *^msplay General\Combat\UnloadAmmo*5~@Ext
+|
+hear a loud * sound as a disarmament pulse is fired.^
+ ExpPipe {~%0} {Disarmament pulse fired.} {Disarmament pulse fired};
+ msplay Ship\Combat\disarm~@Ext
+|
+hear * sound as * immobilization pulse *.^
+ msplay Ship\Combat\immobilize~@Ext;
+ ExpPipe {~%0} {Immobilization pulse fired.} {Immobilization pulse fired}
+|
+hear * the starship's CDP launcher.^
+ msplay Ship\Combat\disrupt~@Ext;
+ ExpPipe {~%0} {Computer disruption pulse fired.} {CDP fired}
+|
+hear a sharp * sound as a sensor interruption pulse is fired.^
+ msplay Ship\Combat\interrupt~@Ext;
+ ExpPipe {~%0} {Sensor interruption pulse fired.} {Sensor interruption pulse fired}
+|
+hear a mechanical rumbling sound as the ship*s repair arm goes to work.^
+ ExpPipe {~%0} {Repair arm activated.} {};
+ msplay Ship\Misc\RepairArm~@Ext
+|
+notice a bright flash of light*a starship must be coming in*^
+ mrandomplay Ship\Move\OtherLanding*4~@Ext;
+ ExpPipe {~%0} {Ship coming into land.} {}
+|
+*cease digging.^
+ #gagline 1 all;
+ msplay General\Archaeology\Cease~@Ext
+|
+carefully secure the end of a thick power cable to *.^msplay General\Asteroid\WireAttach~@Ext
+|
+input a command into a docking console and watch as a ramp begins to extend from *.^msplay General\Asteroid\RampDown~@Ext
+|
+manage to seal the breach you were working on and deactivate *.^msplay General\Asteroid\MicroSealerEnd~@Ext
+|
+instruct the rover to begin *.^msplay General\Asteroid\RoverCommand~@Ext
+|
+bang* on the hatch*.^msplay General\Misc\Knock1~@Ext
+|
+stop using * for cover.^msplay uncrouch~@Ext
+|
+carefully replace the film in * camera.^msplay General\Device\LoadFilm~@Ext
+|
+take a snapshot of *.^msplay General\Device\Snapshot*5~@Ext
+|
+press a small button on * and watch as * fades into nothing.^msplay General\Device\ForceFieldSuitOff~@Ext
+|
+press a small button on * and watch as * around you and slowly fades into a barely noticeable haze.^msplay General\Device\ForceFieldSuitOn~@Ext
+|
+hear a loud creak as you * the rusted gate open, stepping through it.^msplay General\Rooms\Gate*3~@Rext
+|
+hear a sudden rumbling as the walls of the room start to crumble and the floor shakes violently. *^msplay General\Rooms\DestroyRoom~@Rext
+|
+step into a pod*.^DontStopSpeaking
+|
+hear a sharp whine as the vehicle accelerates through the*^
+ msplay ship\misc\descent~@Ext;
+ #gagline 1 all
+|
+watch as a * is brought in by several salvage lines.^msplay Ship\Misc\PanelsOff~@Ext
+|
+flick a switch to*mode.^msplay General\Misc\Beep*10~@Ext
+|
+press a large * button.^msplay General\Misc\Beep*10~@Ext
+|
+set a new access code for a * door and lock it.^msplay Ship\Misc\DoorLocked~@Ext
+|
+knock on the *^msplay General\Misc\Knock1~@Ext
+|
+impatiently knock on the *^msplay General\Misc\Knock2~@Ext
+|
+kick furiously on the *^msplay General\Misc\Knock3~@Ext
+|
+follow * outside the ship*^
+ #var Following 1;
+ thememusicfadeout;
+ msplay Ship\Misc\AirlockExit~@Ext
+|
+float out of the ship into space.*^msplay Ship\Misc\AirlockExit~@Ext
+|
+hear somebody knocking on the blast door to the *.^msplay General\Misc\DoorChime~@Ext
+|
+notify flight control of your desire to *.^
+ #GagLine 1 All;
+ msplay commchirp~@Ext
+|
+earn * credits for the successful completion of a combat mission.^
+ SetVariable TotalHits {~%If(~%IsNumber(~@TotalHits)=0,0,~@TotalHits)};
+ SetVariable DirectHits {~%If(~%IsNumber(~@DirectHits)=0,0,~@DirectHits)};
+ SetVariable PartialHits {~%If(~%IsNumber(~@PartialHits)=0,0,~@PartialHits)};
+ SetVariable DestroyedShips {~%If(~%IsNumber(~@DestroyedShips)=0,0,~@DestroyedShips)};
+ SetVariable TotalShips {~%If(~%IsNumber(~@TotalShips)=0,0,~@TotalShips)};
+ SetVariable DestroyedDebris {~%If(~%IsNumber(~@DestroyedDebris)=0,0,~@DestroyedDebris)};
+ msplay General\Misc\Credits*4~@Ext
+|
+pull a series of straps around * and securely buckle * into *^msplay General\Misc\Buckle*3~@Ext
+|
+earn * credits*^msplay General\Misc\Credits*4~@Ext
+|
+receive * credits*^msplay General\Misc\Credits*4~@Ext
+|
+receive a transmission from *: *^
+PushMessage pa ~%0;
+MirianiSoundPlay {Comms Framework} Ship\Comm\pa*9~@Ext
+|
+crumple * up and throw it away.^msplay General\Misc\Paper*3~@Ext
+|
+should probably stop taking cover behind * first.^msplay General\Misc\Command*10~@Ext
+|
+snatch * from the cold, cruel hands of space.^msplay General\Misc\SnatchArtifact*2~@Ext
+|
+release the buckle of * seatbelt, causing it to retract back into *^msplay General\Misc\Unbuckle*3~@Ext
+|
+press a button and quickly retrieve a printout of the ship's*.^msplay Ship\Computer\Print~@Ext
+|
+abort the *.^
+ ExpPipe {~%0} {~%0} {~%1 aborted.};
+ msplay Ship\Computer\Abort~@Ext
+|
+press a small button on the side of a level * archaeological dig site scanner and begin directing it toward several likely locations.^
+ msplay general\archaeology\scanner*4~@Ext;
+ ExpPipe {~%0} {Scanning.} {:Voice:Scanning}
+|
+begin accelerating the vehicle * the ramp.^
+ msplay General\Asteroid\RampStart~@Ext;
+ ExpPipe {~%0} {~%0} {}
+|
+aim a* at * and activate it.^msplay General\Combat\EMPulse~@Ext
+|
+point * at your head and fire!^msplay General\Combat\YouShot~@Ext
+|
+activate a * handheld planetary surveyor and begin scanning the area.^ExpPipe {~%0} {Scanning...} {}
+|
+peer * and see...^
+ #Var Peers 1;
+ ExpPipe {~%0} {} {}
+|
+stagger drunkenly *.^mstep
+|
+instruct * drone to *.^msplay General\Misc\InstructDrone~@Ext
+|
+pass through *.^#var Following 1
+|
+hear a thunk as a salvaging line is deployed into space. You watch as the line slowly winds its way to a piece of debris, *^
+ ExpPipe {~%0} {Salvage line deployed} {};
+ msplay Ship\Misc\Salvage*3~@Ext
+|
+feel a mild vibration as the ship begins maneuvering into the docking area of the *.^
+ msplay Ship\Move\RingStart~@Ext;
+ ExpPipe {~%0} {~%0} {}
+|
+lift a large panel and crawl through it, emerging in the starship's network of ducts.*^msplay Ship\Misc\EnterDucts*2~@Ext
+|
+see the walls begin to crumble and the floor cracking. *^msplay General\Rooms\DestroyRoom~@Rext
+|
+firmly wedge a sleek metallic digging apparatus into the ground and press a trigger on the handle. The attached shovel immediately goes to work, sending debris *.^
+ #gagline 1 all;
+ msplay general\archaeology\shovel*14~@Ext
+}

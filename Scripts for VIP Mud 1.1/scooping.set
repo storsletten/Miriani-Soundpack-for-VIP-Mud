@@ -1,0 +1,61 @@
+#TRIGGER {The pull of acceleration eases off as the ship ceases its *.} {ExpPipe {%0} {Salvager stopped.} {};
+#sub {@ExpString};
+msplay salvagestop@Ext} {Main}
+#TRIGGER {The pull of acceleration eases off as the craft completes its maneuvering.} {ExpPipe {%0} {Salvager stopped.} {};
+#sub {@ExpString};
+msplay salvagestop@Ext} {Main}
+#TRIGGER {You open the hatch of a* and climb inside.} {#if {%Pos(atmospheric combat vehicle,%1)>0} {
+#class ACVMoveMode enable;
+#If {@ACVPromptNavig=1} {#Class ACVPromptNavig Enable} {#Class ACVPromptNavig Disable}
+};
+#var AllowEnhancedNumpad  0;
+msplay Ship\misc\hatchenter@Ext} {Main}
+#Trigger {A gust of atmospheric wind suddenly buffets the ship*} {msplay ship\misc\wind@Ext} {Main}
+#Trigger {The vehicle suddenly hits a pocket of fierce wind*} {msplay ship\misc\wind@Ext} {Main}
+#TRIGGER {The vehicle carefully maneuvers into the docking bay.} {msplay General\Misc\SalvagerReturns@Ext;
+#gagline 1 all} {Main}
+#TRIGGER {The vehicle begins slowly gliding through the atmosphere, occasionally firing thrusters to ensure it stays on course.} {ExpPipe {%0} {The salvager has re-entered the atmosphere.} {};
+#sub {@ExpString}} {Main}
+#TRIGGER {An electromagnetic field suddenly snaps into place as a large docking bay door opens above you. *.} {msplay Ship\Misc\PanelsOn@Ext} {Main}
+#trigger {The vehicle manages to break free from the pocket of wind and stabilize its course.} {#Gagline 1 ALL;
+msplay salvagestop@Ext} {Main}
+#trigger {The vehicle shudders violently as it makes contact with the topmost gas clouds. *} {#gagline 1 all;
+msplay GasGiant\Contact@Ext} {Main}
+#trigger {The planet's atmosphere finally stabilizes and the ship comes to a halt.} {#gagline 1 all;
+msplay salvagestop@Ext} {Main}
+#TRIGGER {The engine spins up briefly to keep the vehicle on course as it enters a different cloud of gasses.} {ExpPipe {%0} {%0} {};
+msplay GasGiant\Engine@Ext} {Main}
+#trigger {A sudden instability in the layer of gasses around the ship causes it to rapidly sink deeper into the atmosphere.} {msplay ship\misc\wind@Ext} {Main}
+#TRIGGER {The vehicle finally reaches a calm level and comes to a stop.} {ExpPipe {%0} {%0} {};
+#sub {@ExpString};
+msplay GasGiant\Stop@Ext} {Main}
+#TRIGGER {The room suddenly tilts as an internal explosion rocks the craft.} {mwplay GasGiant\GasExplodes*3@Ext;
+ExpPipe {%0} {%0} {};
+#sub {@ExpString}} {Main}
+#TRIGGER {The heavy vibration of the running engine ceases as the vehicle glides out of the top levels of the atmosphere and into space. The sound of the thrusters can be heard as the craft orients itself toward the *.} {#gagline 1 all;
+msplay GasGiant\Stop@Ext} {Main}
+#Trigger {The overhead lights suddenly flicker and extinguish altogether as the gentle hum of the engine comes to a gradual halt.} {
+ ExpPipe {%0} {The gentle hum of the engine comes to a gradual halt.} {};
+ #Sub @ExpString;
+ msplay Ship\Combat\Rebound*5@Ext;
+ mrplay
+} {Main}
+#Trigger {Without any warning sign, the ship tilts over and the engine section is quickly detached through a short series of explosions just behind the cockpit, giving what remains a great upwards speed.} {
+ExpPipe {%0} {The remains of the cockpit are blasted away from the damaged engined.} {};
+#Sub @ExpString;
+msplay Ship\Combat\YouDestroyed*3@Ext
+} {Main}
+#Trigger {The improvised escape pod continues to travel through the planet's atmosphere, while the various instruments on the control panel in front of you slowly move into the red zones as your speed decreases.} {
+ExpPipe {%0} {The various instruments on the control panel in front of you slowly move into the red zones as your speed decreases.} {};
+msplay Ship\Move\QVABegin@Ext
+} {Main}
+#Trigger {The clouds of gas get thinner and the haze of violent purple and yellow is replaced by the view of space. Having drained the last of their emergency power, the thrusters burn out and are released through two more short explosions, sending your capsule forward and leaving it in a sickening spin while slowly falling back towards the planet. Moments later the entire cockpit shakes violently as it is caught by a set of salvage lines that abruptly stop the tumbling and rapidly hauled back to *.} {
+ExpPipe {%0} {he thrusters burn out and are released through two more short explosions, sending your capsule forward and leaving it in a sickening spin while slowly falling back towards the planet. Moments later the entire cockpit shakes violently as it is caught by a set of salvage lines that abruptly stop the tumbling and rapidly hauled back to %1.} {You are hauled back to %1.};
+#Sub @ExpString;
+msplay Ship\Misc\Salvage*3@Ext
+} {Main}
+#Trigger {* in from the salvager bay.} {
+ #if {%ifword(%Word(%1, ,%Numwords(%1, )),@EntryStyles,%CRLF)=1} {
+  msplay Ship\Misc\Hatch@Ext
+ }
+} {Main}

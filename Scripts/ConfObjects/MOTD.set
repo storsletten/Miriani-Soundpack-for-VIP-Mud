@@ -1,0 +1,12 @@
+#Exec {
+SetVariable Conf0MOTD0 {M:Message of the day configuration
+DisplayMOTDImmediately:Set whether or not to display the motd as soon as it is received
+MOTDCheckInterval:Set how often you would like to check for the new MOTD
+};
+SetVariable Conf0MOTD0DisplayMOTDImmediately0 {B:DisplayMOTDImmediately:Should the soundpack show you the new motd when it appears or just play a sound
+You will now see the new MOTD as it is found:You will hear a sound when the new motd arrives but you will need to type motd to read it
+};
+SetVariable Conf0MOTD0MOTDCheckInterval0 {N:MOTDCheckInterval:time between motd checks, measured in seconds (requires restart to take affect, set to 0 to disable entirely)
+validate:0:3600
+}
+}

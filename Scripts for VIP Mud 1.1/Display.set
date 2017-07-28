@@ -1,0 +1,66 @@
+; Display.set
+; 
+; This file contains the routines for routing text to the different virtual displays.
+; Usage examples are given, so you can incorperate this framework into your Custom.set file.
+; 
+; VD:
+; This alias exists to show or hide each display, and takes a number as the argument, which must
+; be between 1 and the total number of allowed displays (see Conf Display).
+
+#Alias VD {
+ #If {%1=""} {
+  SetVariable DisplayTmp1 0;
+  SetVariable DisplayTmp2 {};
+  SetVariable DisplayTmp3 {};
+  SetVariable HiddenDisplays 0;
+  #While {@DisplayTmp1<@NumberOfDisplays} {
+   #Math DisplayTmp1 {@DisplayTmp1 + 1};
+   #If {@{HideDisplay@{DisplayTmp1}}=1} {
+    #Var DisplayTmp3 {hidden};
+    #Math HiddenDisplays {@HiddenDisplays + 1}
+   } {
+    #Var DisplayTmp3 {visible}
+   };
+   #Var DisplayTmp2 {@DisplayTmp2[@DisplayTmp1] @{Display@{DisplayTmp1}Label} : @DisplayTmp3.%CRLF}
+  };
+  #Var DisplayTmp2 {@{DisplayTmp2}Hidden displays: @HiddenDisplays.};
+  ConfPrint @DisplayTmp2
+ } {
+  #if {%1<1 OR %1>@NumberOfDisplays} {
+   ConfPrint {Number out of range. @NumberOfDisplays virtual displays are currently implemented.}
+  } {
+   #if {@{HideDisplay%{1}}<>1} {#var HideDisplay%{1} {1}} {#var HideDisplay%{1} {0}};
+   #say {Virtual Display %1 (@{Display%{1}Label}) %if(@{HideDisplay%{1}} = 1,hidden,shown).}
+  }
+ }
+} {}
+
+; DisplayPrint:
+; Syntax:
+; DisplayPrint <Display> {<Text>}
+; 
+; So like:
+; DisplayPrint 1 {Some text for the first Virtual Display.}
+; 
+; The result is stored in @DisplayString.
+; 
+; Here's a more involved example:
+; #Trigger {Some text.} {
+;  ExpPipe {%0} {Some} {Text};
+;  DisplayPrint 1 @ExpString;
+;  #sub @DisplayString
+; } {Main}
+
+#Alias DisplayPrint {
+ #if {%1<1 OR %1>@NumberOfDisplays} {
+  #var DisplayString {Error, argument 1 must be a display number, 1 to @NumberOfDisplays.}
+ } {
+  #if {@{HideDisplay%{1}}=1} {
+   #var DisplayString {%2};
+   #Gagline 1 {@{Display%{1}GagType}};
+   PushMessage Virtual0Display0%1 %2
+  } {
+   #var DisplayString {%2}
+  }
+ }
+} {}

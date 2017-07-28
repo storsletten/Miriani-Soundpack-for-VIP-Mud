@@ -1,0 +1,313 @@
+#var SmAliases {
+a:Artifacts
+ar:Artifacts
+art:Artifacts
+as:Asteroids
+ast:Asteroids
+aster:Asteroids
+b:Blockades
+beacon:Control Beacons
+beacons:Control Beacons
+bl:Blockades
+block:Blockades
+c:Combat Drones
+combat:Combat Drones
+d:Debris
+de:Debris
+deb:Debris
+drone:Combat Drones
+drones:Combat Drones
+I:Interdictors
+In:Interdictors
+Int:Interdictors
+J:Jumpgates
+Jump:Jumpgates
+mis:Missiles
+miss:Missiles
+Mo:Moons
+Moon:Moons
+P:Planets
+Pl:Planets
+Plan:Planets
+Planet:Planets
+pr:Proximity Weapons
+Priv:Private Space Stations
+Private:Private Space Stations
+pro:Proximity Weapons
+prob:Satellites
+probe:Satellites
+probes:Satellites
+prox:Proximity Weapons
+proximity:Proximity Weapons
+roid:Asteroids
+roids:Asteroids
+sat:Satellites
+Sh:Starships
+Ship:Starships
+Ships:Starships
+Starship:Starships
+Star:Stars
+Stat:Space Stations
+Stati:Space Stations
+Statio:Space Stations
+Station:Space Stations
+U:Unknown
+Un:Unknown
+Unk:Unknown
+vid:Satellites
+video:Satellites
+video probe:Satellites
+W:Wormholes
+weapon:Proximity Weapons
+weapons:Proximity Weapons
+Wo:Wormholes
+Worm:Wormholes
+}
+
+#Var SMSPriorityList {potate|ohaxx|muzano|onati|onno|onz|orta}
+#Var SMSRange {1}
+#Alias smp {
+ #Exec {#Alarm 0 {sm ships Praelor}}
+} {}
+#Alias SMPri {
+ #If {%1=""} {
+  #Say {SMS priority list:%CRLF @SMSPriorityList}
+ } {
+  #Var SMSPriorityList {%Trim(%0)};
+  #Say {Done}
+ }
+} {}
+#Alias SMRange {
+ #If {%IsNumber(%1)=0} {
+  #Say {SMS range: @SMSRange}
+ } {
+  #Var SMSRange {%1};
+  #Say {Done}
+ }
+} {}
+
+
+#Exec {
+ SetVariable SmFilter {};
+ SetVariable ObjectDirs {};
+ SetVariable ObjectList {};
+ SetVariable MyCoordsX {};
+ SetVariable MyCoordsY {};
+ SetVariable MyCoordsZ {};
+ SetVariable ObjectTmpString {};
+ SetVariable ObjectCoordsX {};
+ SetVariable ObjectCoordsY {};
+ SetVariable ObjectCoordsZ {};
+ SetVariable SmShips {};
+ SetVariable SmSearchString {};
+ SetVariable AndString {};
+ SetVariable SmFilterTmp1 {}
+}
+
+#class SmFilter Disable
+
+#Var SmShowCoords 0
+#Var SmCount 0
+#Alias {smc} {
+ #Var SmShowCoords 1;
+ #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
+} {}
+#Alias {smf} {
+ #Var SmShowCoords 1;
+ #If {%0<>""} {#Var SmSearchString {%Trim(%0)}};
+ #Exec {#Alarm 0 {sm ships {@SmSearchString}}}
+} {}
+#Alias {SMCount} {
+ #Var SmCount 1;
+ #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
+} {}
+#Alias {sms} {
+ #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
+} {}
+#Alias {sm} {
+ #Var SmFilter {%Proper(%1)};
+ #if {@SmFilter = "Help" OR @SmFilter = "H"} {
+  ConfPrint {You can use aliases with sm filter.
+  The object seperator is the same as that in Atsm, and can be changed in Conf Manager.
+  Here is the entire list of SmFilter aliases:
+  %replace(%Replace(@SmAliases,:, matches to ),%CRLF,. )}
+ } {
+  #if {@SmFilter <> "" AND @ZoneType = "starship" AND @Powered = 1} {
+   #var SmFilterTmp1 {%pos(@SmFilter:,@SmAliases)};
+   #if {@SmFilterTmp1>0} {
+    #var SmFilter {%Delete(@SmAliases,0,@SmFilterTmp1)};
+    #var SmFilter {%Word(@SmFilter,%CRLF,1)};
+    #var SmFilter {%replace(%Word(@SmFilter,:,2),%CRLF,"")}
+   };
+   #Var SmSearchString {%2};
+   #var ObjectDirs {};
+   #var ObjectList {};
+   #class SmFilter Enable
+  };
+  ~sm
+ }
+} {}
+
+#TRIGGER {Uncharted Space: Empty Space*} {#gagline 1 all} {SmFilter}
+#trigger {a * starship simulator (Unclaimed)*} {#gagline 1 all} {SmFilter}
+
+#Trigger {*: *} {
+ #Var SmFilterTmp1 {%Replace(%1,~",)};
+ #if {@SmFilterTmp1="Current Coordinates"} {
+  #if {%replace(@ObjectList,~,,)=""} {
+   ExpPipe {No @SmFilter were found on the starmap. Note: the filters must look exactly like the sections of the starmap, with the exception of their capitalisation.} {No @SmFilter were found on the starmap.} {@SmFilter not found.};
+   #Sub @ExpString;
+   #Var SmShowCoords 0
+  } {
+   #var SmFilterTmp1 {%replace(%word(%2,~~~(,2),~),"")};
+   #var MyCoordsX {%word(@SmFilterTmp1,~, ,1)};
+   #var MyCoordsY {%word(@SmFilterTmp1,~, ,2)};
+   #var MyCoordsZ {%word(@SmFilterTmp1,~, ,3)};
+   #var ObjectCoords {};
+   #var ObjectDirs {};
+   #Var SmSearchTmp1 {@SmSearchString*};
+   #Var SmSearchTmp2 {* @SmSearchTmp1};
+   #Var SmPriorityTmp1 {%NumWords(@SMSPriorityList,|)};
+   #Var SmPriorityTmp5 0;
+   #Var SmRangeTmp1 0;
+   #Var SmFilterTmp2 0;
+   #ForAll {@ObjectList} {
+    #Var SmPriorityTmp2 0;
+    #Var SmPriorityTmp3 {99};
+    #If {@SmShips=1 and %NumWords(%i,])=2} {
+     #Var ObjectTmpString {%Word(%i,],2)};
+     #Var ObjectCoordsX {%Trim(%Word(@ObjectTmpString,~~~,,1))};
+     #Var ObjectCoordsY {%Trim(%Word(@ObjectTmpString,~~~,,2))};
+     #Var ObjectCoordsZ {%Trim(%Word(@ObjectTmpString,~~~,,3))};
+     #Var ObjectTmpString {%Word(%i,],1)] };
+     #If {%IsNumber(@ObjectCoordsX@ObjectCoordsY@ObjectCoordsZ)=1 and (@SmSearchString="" or @ObjectTmpString=*@SmSearchTmp1 or @ObjectTmpString=*@SmSearchTmp2)} {
+      #If {@SMSPriorityList=""} {#Var SmPriorityTmp2 {@SmPriorityTmp1}};
+      #While {@SmPriorityTmp2<@SmPriorityTmp1} {
+       #Math SmPriorityTmp2 {@SmPriorityTmp2+1};
+       #Var SmPriorityTmp4 {%Word(@SMSPriorityList,|,@SmPriorityTmp2)};
+       #If {%Pos(@SmPriorityTmp4,@ObjectTmpString)>0} {
+        #If {@SmPriorityTmp2<10} {#Var SmPriorityTmp3 {0@SmPriorityTmp2}} {#Var SmPriorityTmp3 {@SmPriorityTmp2}};
+        #Var SmPriorityTmp2 {@SmPriorityTmp1}
+       }
+      }
+     } {
+      #Var ObjectTmpString {}
+     }
+    } {
+     #Var ObjectTmpString {};
+     #Var ObjectCoordsX {%word(%i,~,,1)};
+     #Var ObjectCoordsY {%word(%i,~,,2)};
+     #Var ObjectCoordsZ {%word(%i,~,,3)}
+    };
+    CalculateRelativeNumericDir @ObjectCoordsX @ObjectCoordsY @ObjectCoordsZ @MyCoordsX @MyCoordsY @MyCoordsZ;
+    #If {@SmShips=0 or @ObjectTmpString<>""} {
+     #Var SmFilterTmp1 {%Max(@RelativeNumericTmpX,@RelativeNumericTmpY,@RelativeNumericTmpZ)};
+     #If {@SmPriorityTmp2<0} {
+      #Var SmRangeTmp1 {@SmFilterTmp1}
+     };
+     #Math SmFilterTmp2 {@SmFilterTmp2+1};
+     #If {@SmFilterTmp2<10} {
+      #Var SmFilterTmp3 {00@SmFilterTmp2}
+     } {
+      #If {@SmFilterTmp2<100} {
+       #Var SmFilterTmp3 {0@SmFilterTmp2}
+      } {
+       #Var SmFilterTmp3 {@SmFilterTmp2}
+      }
+     };
+     #if {@SmFilterTmp1<10} {#var SmFilterTmp1 {0@SmFilterTmp1}};
+     #Var ObjectDirs {@ObjectDirs|@{SmFilterTmp1}^@SmPriorityTmp3^@SmFilterTmp3^@ObjectCoordsX,@ObjectCoordsY,@ObjectCoordsZ^@{ObjectTmpString}(@{RelativeNumericDir})}
+    }
+   };
+   #UnVar SmSearchTmp1;
+   #UnVar SmSearchTmp2;
+   #UnVar SmPriorityTmp1;
+   #UnVar SmPriorityTmp2;
+   #UnVar SmPriorityTmp3;
+   #UnVar SmPriorityTmp4;
+   #If {@SmFilterTmp2=0} {
+    #If {@SmSearchString=""} {
+     #Var SmFilterTmp1 {Nothing found}
+    } {
+     #Var SmFilterTmp1 {@SmSearchString not found}
+    }
+   } {
+    #If {@SmCount=1} {
+     #Var SmCount 0;
+     #If {@SmSearchString=""} {
+      #Var SmFilterTmp1 {@SmFilterTmp2 @SmFilter}
+     } {
+      #Var SmFilterTmp1 {@SmFilterTmp2 @SmSearchString}
+     }
+    } {
+     #Say {@SmFilter:} NoVoice;
+     #Var ObjectDirs {%Sort(%DelNItem(@ObjectDirs,1),@AtSaSortOrder)};
+     #Var SmFilterTmp1 {%Word(@ObjectDirs,^,4)};
+     #Var SmFilterTmp2 {r%Word(@ObjectDirs,^,1)};
+     #If {@SmFilterTmp2=*"r0#"} {#Var SmFilterTmp2 {%Copy(@SmFilterTmp2,3,1)}} {#Var SmFilterTmp2 {%Copy(@SmFilterTmp2,2,2)}};
+     #If {@SmFilterTmp2<=@SMSRange} {
+      #If {@SmFilterTmp2="0"} {
+       MirianiSoundPlay Standard Ship\Combat\Intruder@Ext
+      } {
+       MirianiSoundPlay Standard General\Misc\Beep10@Ext
+      }
+     };
+     #UnVar SmRangeTmp1;
+     #UnVar SmPriorityTmp5;
+     #Var SmFilterTmp1 {};
+     #ForAll {@ObjectDirs} {
+      #If {@SmShips=1} {
+       #Var SmFilterTmp2 {%Word(%i,^,3)};
+       #If {%Copy(@SmFilterTmp2,1,1)="0"} {
+        #Var SmFilterTmp2 {%Copy(@SmFilterTmp2,2,3)}
+       };
+       #If {%Copy(@SmFilterTmp2,1,1)="0"} {
+        #Var SmFilterTmp2 {%Copy(@SmFilterTmp2,2,3)}
+       };
+       #If {@SmShowCoords=1} {
+        #Var SmFilterTmp3 {%Word(%i,^,4)};
+        #Var SmFilterTmp1 {@SmFilterTmp1%CRLF%Word(@SmFilterTmp3,~,,1) %Word(@SmFilterTmp3,~,,2) %Word(@SmFilterTmp3,~,,3), [@SmFilterTmp2] %Word(%i,^,5).}
+       } {
+        #Var SmFilterTmp1 {@SmFilterTmp1%CRLF [@SmFilterTmp2] %Word(%i,^,5).}
+       }
+      } {
+       #If {@SmShowCoords=1} {
+        #Var SmFilterTmp3 {%Word(%i,^,4)};
+        #Var SmFilterTmp1 {@SmFilterTmp1%CRLF %Word(@SmFilterTmp3,~,,1) %Word(@SmFilterTmp3,~,,2) %Word(@SmFilterTmp3,~,,3), %Word(%i,^,5).}
+       } {
+        #Var SmFilterTmp1 {@SmFilterTmp1  %Word(%i,^,5)}
+       }
+      }
+     };
+     #var SmFilterTmp1 {%Delete(@SmFilterTmp1,1,2)}
+    }
+   };
+   #If {@InterruptOnFocus=1} {speech stop};
+   #Var SmShowCoords 0;
+   #sub {@SmFilterTmp1}
+  };
+  MainTrigSwitch 1;
+  #class SmFilter disable
+ } {
+  MainTrigSwitch 0;
+  #gagline 1 all;
+  #if {@SmFilterTmp1 = @SmFilter} {
+   #var SmShips {%eval(%pos([,%2)>0)};
+   #var AndString { and };
+   #var ObjectDirs {};
+   #var ObjectList {%replace(%2,@AndString,|)};
+   #var ObjectList {%replace(@ObjectList,~(,"")};
+   #var ObjectList {%replace(@ObjectList,~)~, ,|)};
+   #if {@SmShips=0} {
+    #var ObjectList {%replace(@ObjectList, ,"")}
+   } {
+    #var ObjectList {%replace(@ObjectList,] ,])}
+   };
+   #var ObjectList {%replace(@ObjectList,~),"")}
+  }
+ }
+} {SmFilter}
+
+#trigger {I don't understand that.} {#class SmFilter disable;MainTrigSwitch 1} {SmFilter}
+#TRIGGER {Wait * second*.} {#class SmFilter disable;MainTrigSwitch 1} {SmFilter}
+#Trigger {There is nothing to see.} {#class SmFilter disable;MainTrigSwitch 1} {SmFilter}

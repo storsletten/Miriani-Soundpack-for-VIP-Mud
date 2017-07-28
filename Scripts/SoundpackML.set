@@ -1,0 +1,76 @@
+#If {%defined(NumberOfSoundpackMessages)=0} {#var NumberOfSoundpackMessages 0}
+#Alias soundpack {
+ #If {%1="register"} {#Exec {>#$#register_soundpack @SoundpackName | @Version};#Abort All};
+ #If {%1="unregister"} {#Exec {>#$#unregister_soundpack};#Abort All};
+ #If {%1="version"} {#Exec {>#$#soundpack_version_query @SoundpackName};#Abort All};
+ #If {%1="reload"} {
+  #Say {Reloading the soundpack... Please remain calm.};
+  SPReload 1;
+  #Abort All
+ };
+ #If {%1="Statistics"} {
+  #Var SoundpackStatistics {[Soundpack Statistics]:
+[Version]: @Version (ConfManager Objects Index: @ConfObjVer).
+[Number of connections since logging was begun]: @NumberOfConnections.
+[Number of sounds played this session]: @NumberOfSounds.
+[Number of soundpack messages received]: @NumberOfSoundpackMessages.
+[Number of ExpPipes performed this session]: @NumberOfExpPipes.
+[Number of messages pushed this session]: @NumberOfMessages.
+[Number of history buffers]: %numwords(@HistoryBuffers,|).};
+  ConfPrint @SoundpackStatistics;
+  #Abort All
+ };
+ #Say {Unknown soundpack command.}
+} {}
+#Trigger {[#]$[#]soundpack *} {
+ #GagLine 1 All;
+ #Math NumberOfSoundpackMessages {@NumberOfSoundpackMessages + 1}
+} {Main}
+#Trigger {Your soundpack appears to be out of date! You're using version '*', but the most recent version is '*'. You can download the most recent version from: *} {
+ #Var NewVersion {%2};
+ #Var NewMajorVersion {%Word(@NewVersion,.,1)};
+ #Var NewMinorVersion {%Word(@NewVersion,.,2)};
+ #Var NewPatchVersion {%Word(@NewVersion,.,3)};
+ #If {@NewMajorVersion>@MajorVersion or @NewMinorVersion>@MinorVersion or @NewPatchVersion>@PatchVersion} {
+  #If {@AlertOnUpdate=1 or @NewMajorVersion>@MajorVersion} {
+   #If {@NewMajorVersion>@MajorVersion} {msplay UpdateAlert@Ext};
+   #If {@NewPatchVersion>@PatchVersion} {#Var UpdateTmp1 {There's a patch update available for your soundpack.}};
+   #If {@NewMinorVersion>@MinorVersion} {#Var UpdateTmp1 {There's a minor update available for your soundpack.}};
+   #If {@NewMajorVersion>@MajorVersion} {#Var UpdateTmp1 {There's a major update available for your soundpack.}};
+   #Sub {*** @UpdateTmp1 ***%{CRLF}If you're running the soundpack from the actively maintained shared folder in Dropbox, then you should make sure your Dropbox is up to date and then reconnect to Miriani. If not, you should consider downloading the latest version from:%CRLF%3%{CRLF}The latest version is @NewVersion.%{CRLF}You are currently using version @Version of the @SoundpackName.};
+   #UnVar UpdateTmp1
+  } {
+   #GagLine 1 All
+  }
+ } {
+  #GagLine 1 All
+ };
+ #UnVar NewMajorVersion;
+ #UnVar NewMinorVersion;
+ #UnVar NewPatchVersion;
+ #UnVar NewVersion
+} {Main}
+#Trigger {Your soundpack has been updated to version '*'! You can download it here: *} {
+ #Var NewVersion {%1};
+ #Var NewMajorVersion {%Word(@NewVersion,.,1)};
+ #Var NewMinorVersion {%Word(@NewVersion,.,2)};
+ #Var NewPatchVersion {%Word(@NewVersion,.,3)};
+ #If {@NewMajorVersion>@MajorVersion or @NewMinorVersion>@MinorVersion or @NewPatchVersion>@PatchVersion} {
+  #If {@AlertOnUpdate=1 or @NewMajorVersion>@MajorVersion} {
+   #If {@NewMajorVersion>@MajorVersion} {msplay UpdateAlert@Ext};
+   #If {@NewPatchVersion>@PatchVersion} {#Var UpdateTmp1 {There's a patch update available for your soundpack.}};
+   #If {@NewMinorVersion>@MinorVersion} {#Var UpdateTmp1 {There's a minor update available for your soundpack.}};
+   #If {@NewMajorVersion>@MajorVersion} {#Var UpdateTmp1 {There's a major update available for your soundpack.}};
+   #Sub {*** @UpdateTmp1 ***%{CRLF}If you're running the soundpack from the actively maintained shared folder in Dropbox, then you should make sure your Dropbox is up to date and then reconnect to Miriani. If not, you should consider downloading the latest version from:%CRLF%2%{CRLF}The latest version is @NewVersion.%{CRLF}You are currently using version @Version of the @SoundpackName.};
+   #UnVar UpdateTmp1
+  } {
+   #GagLine 1 All
+  }
+ } {
+  #GagLine 1 All
+ };
+ #UnVar NewMajorVersion;
+ #UnVar NewMinorVersion;
+ #UnVar NewPatchVersion;
+ #UnVar NewVersion
+} {Main}

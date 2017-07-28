@@ -1,0 +1,28 @@
+#Key {F11} {MasterMute} {}
+#Key {F9} {SetMasterVolume down} {}
+#Key {F10} {SetMasterVolume up} {}
+#key shift-f11 {roomsounds 1}
+#Key {Shift-Alt-F11} {#if {@ThemeMusic <> 0} {
+thememusicfadeout;
+#var ThemeMusic 0;
+} {
+#var ThemeMusic 1};
+#say {Theme music %if(@ThemeMusic = 1,enabled,disabled).}} {}
+#Key {Shift-Control-Alt-F9} {#if {%Mp3Loop > 0 AND @FadeOut = 0} {
+#if {@ThemeSoundVolumeDiff < @Vol} {
+#math ThemeSoundVolumeDiff {@ThemeSoundVolumeDiff + 5}
+} {
+#var ThemeSoundVolumeDiff @Vol
+};
+setthememusicvolume;
+#say {@ThemeVol per cent.} voiceonly}} {}
+#Key {Shift-Control-Alt-F10} {#if {%Mp3Loop > 0 AND @FadeOut = 0} {
+#if {@ThemeSoundVolumeDiff > %eval(@Vol - 100)} {
+#math ThemeSoundVolumeDiff {@ThemeSoundVolumeDiff - 5}
+} {
+#var ThemeSoundVolumeDiff {%eval(@Vol - 100)}
+};
+setthememusicvolume;
+#say {@ThemeVol per cent.} voiceonly}} {}
+#Key {Shift-Control-F12} {mtplay} {}
+#Key {Shift-Control-Alt-F12} {thememusicfadeout} {}

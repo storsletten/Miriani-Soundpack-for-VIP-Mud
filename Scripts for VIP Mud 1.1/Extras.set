@@ -1,0 +1,109 @@
+; Extras.set
+; This file exists to fascilitate the addition of extras (or add ins if you like)
+; into the soundpack.
+; 
+; Usage:
+; 
+; Add the extra file to the ExtraScriptFiles array, to be parsed by the framework.
+; The syntax is:
+; <FileName>^<File Description>[^<File Path>]
+; 
+; Notice: The File path is optional, but if it is not included, the preceding carrot symbol (;) must
+; also be omited, and @ExtraScriptPath is assumed.
+; 
+; Here is an example of how you could add an extra from your Custom.set file:
+; 
+; #var ExtraScriptFiles {MyScript^My favourite extention ever^C:\Vipmud\Scripts\My Extras@ExtraScriptFiles}
+; 
+; This would load C:\Vipmud\Scripts\My Extras\MyScript.set, with the description My favourite extention ever.
+; It's ConfManager Entry would look like this:
+; [X] MyScript (My favourite extention ever). [Enabled / Disabled]
+; 
+; Where [X], would be replaced by the number in the list where the extra fell.
+; If you did:
+; #var ExtraScriptFiles {History^MT style history review buffers@ExtraScriptFiles}
+; 
+; That would load the standard History.set, which is loaded with the soundpack, and add it to the Conf Extra menu.
+; 
+; Finally, run the LoadExtras alias, to finish the job.
+
+#var ExtraScriptFiles {
+Cannons^Alerts you of how many shots you have remaining, and plays a sound after the last shot is fired
+Dig^Shows you how many feet you have dug when hunting for archaeological artifacts
+ArchaeologyHelper^Makes archaeology a bit easier
+Books^Makes reading books a bit easier (try turnpage after reading a page)
+GagDig^Gives you the ability to gag people digging with the GagDig command
+Blades^For those odd people with swords and stuff in a sci-fi game
+ScanningEnhancements^Adds certain scanning enhancements
+Typing^Allows you to type with only one hand, using the number pad
+}
+
+#Alias BuildExtrasFramework {
+ SetVariable Conf0Extras0 {M:Soundpack Extras
+ReloadAllScripts:Reload the extra script files%CRLF};
+ SetVariable Conf0Extras0ReloadAllScripts0 {E:
+ #alarm 0 {loadextras}
+ };
+ SetVariable Conf0Extra0 {A:Extras};
+ #ForAll %Replace(@ExtraScriptFiles,%CRLF,|) {
+  #if {%i=*"*^*"} {
+   SetVariable ExtraScriptName {%word(%i,^,1)};
+   SetVariable ExtraScriptDescription {%word(%i,^,2)};
+   #if {%numwords(%i,^)=3} {
+    SetVariable ExtraScriptPath {%Replace(%word(%i,^,3),\,/)}
+   } {
+    SetVariable ExtraScriptPath {~@ScriptPath\Extras}
+   };
+   #if {%pos(@ExtraScriptName,@Conf0Extras0)=0} {
+    #var Conf0Extras0 {@Conf0Extras0@ExtraScriptName:@ExtraScriptName (@ExtraScriptDescription)};
+    #If {@{LoadExtraScript@{ExtraScriptName}}=1} {#var Conf0Extras0 {@Conf0Extras0 [Enabled]}} {#var Conf0Extras0 {@Conf0Extras0 [Disabled]}};
+    #var Conf0Extras0 {@Conf0Extras0%CRLF}
+   };
+   #Var Conf0Extras0@{ExtraScriptName}0 {E:
+    #If {~@LoadExtraScript@ExtraScriptName=1} {#Var LoadExtraScript@ExtraScriptName {0}} {#Var LoadExtraScript@ExtraScriptName {1}};
+    #If {~@LoadExtraScript@ExtraScriptName=0} {
+     #Exec {#Alarm 0 {
+      UnsetVariables *@ExtraScriptName*;
+      UnsetPreservedVariables *@ExtraScriptName*
+     }};
+     #Say {The @ExtraScriptName extra script will no longer be loaded.}
+    } {
+     PreserveVariable LoadExtraScript@ExtraScriptName;
+     #Say {The @ExtraScriptName extra script is now enabled.}
+    };
+    ModProbe {@ExtraScriptName} {@ExtraScriptPath}
+   }
+  }
+ }
+} {}
+
+#Alias LoadExtras {
+ #ForAll %Replace(@ExtraScriptFiles,%CRLF,|) {
+  #if {%I=*"*^*"} {
+   #if {%NumWords(%i,^)=3} {
+    ModProbe {%Word(%i,^,1)} {%Word(%I,^,3)}
+   } {
+    ModProbe {%Word(%i,^,1)} {@ScriptPath/Extras}
+   }
+  }
+ }
+} {}
+
+#Alias ModProbe {
+ #if {%1="" OR %2=""} {
+  ConfPrint {Syntax: ModProbe Filename Path};
+  #Abort All
+ };
+ #if {@{LoadExtraScript%{1}}=1} {
+  #If {@GagExtraLoads=0} {#say {Loading %2/%1.set...}};
+  #load {%2/%1.set}
+ } {
+  #unload {%2/%1.set}
+ };
+ #Exec {#Alarm 0 {BuildExtrasFramework}}
+} {}
+
+#exec {
+BuildExtrasFramework;
+LoadExtras
+}

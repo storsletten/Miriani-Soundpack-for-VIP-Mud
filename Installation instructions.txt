@@ -1,0 +1,59 @@
+  Installation instructions using Install.bat
+
+Step 1:
+  Put this soundpack folder where you would prefer it to live. It doesn't matter where it is located on your computer. It could be in your Documents folder, in your Music folder, in the Windows system folder, the VIP Mud folder, the folder containing pictures from your last summer holiday, or keep it where it is now. This is entirely up to you.
+  If you're going to run this soundpack from Dropbox, then please ensure that Dropbox has downloaded the soundpack entirely before proceeding with this installation.
+  The Dropbox icon in the system tray should say "All files up to date".
+
+Step 2:
+  The Miriani Soundpack Sounds come in a separate folder. If you don't have access to the shared Dropbox folder for the sounds, and you haven't already downloaded the zip file containing the sounds for the soundpack, then you should go ahead and download that zip file now before proceeding with this installation. The soundpack will probably be rather useless without the sounds.
+  You should be able to find a download link using @soundpacks in Miriani.
+  When that is done, unzip the zip file to a location of your choice. It does not matter where on your computer you keep the sounds folder.
+  Help with unzipping files is beyond the scope of this installation guide. Please ask a friend or Google or something if you need help with that.
+
+Step 3:
+  Make sure that you have added your Miriani character to the list of characters in VIP Mud, and that you've set the Mud Name to: Miriani.
+  If you are using VIP Mud 1.1, you must run VIP Mud as administrator for the soundpack to work. Always. Every time. Set it to always run as administrator, or upgrade to VIP Mud 2.0. Failure to comply with this instruction will most likely cause errors and other horrible things, including but not limited to upset stomach and the Levodian flu, plus a non-functional soundpack for you to enjoy.
+  You can set it to always run as administrator by doing the following:
+    1. Open up Windows Explorer (e.g. by pressing Win+E).
+    2. Navigate to wherever VIP Mud is installed, e.g. C:\Program Files (x86)\VIP Mud.
+    3. Hit Alt+Enter on the VipMud executable (the vipmud.exe file).
+       I repeat, Alt, plus, Enter. This should bring up the properties for the file.
+    4. Press Ctrl+Tab until you find the Compatibility tab.
+    5. Tab around until you locate the checkbox that says Run this program as administrator.
+       Check it, using the spacebar.
+    6. Tab to the OK button, and click Enter on it.
+
+Step 4:
+  Close VipMud. Make sure it is not running before proceeding with this installation. Just hit Alt+F4 in the VIP Mud window or kill it from task manager or restart your computer or... well, suffice it to say the list of options is extensive, but whatever method you choose, please make sure the end result is that VIP Mud is not running before you proceed with the next step in this installation guide.
+
+Step 5:
+  Run the file called Install.bat.
+  You might need to run it as administrator if you're using VIP Mud 1.1. To do that, you just right click (Shift-F10) on Install.bat, and then choose Run as Administrator.
+  If you're lucky, it will detect a Miriani folder for you and ask you if you would like it to begin the installation right away. If that's the case, you can tell it yes, and then skip to step 8 in this guide.
+  Otherwise, you'll have to manually copy the file called Install.bat from the soundpack folder into the Miriani folder in your VIP Mud folder.
+  Please ask someone for help if you don't know how to copy files.
+  For VIP Mud 1.1, the Miriani folder is typically located in: C:\Program Files (x86)\VIP Mud.
+  For VIP Mud 2.0, the Miriani folder is typically located in: C:\Users\<your user name on the computer>\Documents\VIP Mud.
+  If you are using VIP Mud 1.1 and you can't find the Miriani folder in your VIP Mud folder, then you have contracted a common variant of the Levodian flu, and you need to go back to the beginning of step 3 in this installation guide with the whole thing about "Run as Administrator" in mind.
+  If you are using VIP Mud 2.0 and you can't find the Miriani folder in your VIP Mud folder, then you should also go back to step 3 in this installation guide and hope for better luck next time.
+
+Step 6:  
+  Run the copy of Install.bat that is in the Miriani folder.
+  You might need to run it as administrator if this is located somewhere in the Program Files folder, which is the case for VIP Mud 1.1. To do that, you just right click (Shift-F10) on Install.bat, and then choose Run as Administrator.
+
+Step 7:
+  Now you need to link the scripts folder.
+  To do this, open up the soundpack folder and run the linking script that corresponds to the version of VIP Mud that you're using.
+  You might need to run the linking script as administrator if you're using VIP Mud 1.1. To do that, you just right click (Shift-F10) on it, and then choose Run as Administrator.
+
+Step 8:
+  Now you need to link the sounds folder:
+  To do this, open up the Miriani Soundpack Sounds folder, and run the script called: Link the sounds folder.bat.
+  Alternatively, you could run the linking script for sounds and themes if you want to link both sounds and themes in the same operation.
+  You might need to run the linking script as administrator if you're using VIP Mud 1.1. To do that, you just right click (Shift-F10) on it, and then choose Run as Administrator.
+
+Step 9:
+  Start VIP Mud, and enjoy what should be a fully functional soundpack!
+
+If you encounter trouble with this installation, please see the Troubleshooting file before throwing an uncontrolled tantrum.

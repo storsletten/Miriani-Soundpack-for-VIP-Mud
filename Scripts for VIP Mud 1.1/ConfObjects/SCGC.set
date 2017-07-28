@@ -1,0 +1,20 @@
+#Exec {
+SetVariable Conf0SCGC0 {M:SCGC Menu
+SCGCList:List of galcoords for SCGC to select from
+ShowGalcoords:Show galactic coordinates in the scgc list.
+SendCommandDirectly:Send the command directly to the MUD
+UseSMStyle:Use the SM filters backend instead of the default CGC one
+};
+SetVariable Conf0SCGC0SCGCList0 {S:SCGCList:List of galcoords to select from for scgc (format is <place name>:<galcoords> (without the brackets), and entries are seperated by the | character)
+The SCGC list is now set to $V
+};
+SetVariable Conf0SCGC0ShowGalcoords0 {B:ShowGalcoords:Should SCGC show you the galactic coordinates of your destinations in the scgc list
+SCGC listings will now include galactic coordinates:SCGC lists will no longer show galactic coordinates
+};
+SetVariable Conf0SCGC0SendCommandDirectly0 {B:SendCommandDirectly:Send the cgc commands directly to the MUD
+SCGC will send commands directly to the MUD:SCGC will place cgc commands in your entry window
+};
+SetVariable Conf0SCGC0UseSMStyle0 {B:UseSmStyle:Use the SM filters backend, instead of the default cgc one
+You will now see directions like those found in SM filters:You will now receive the default CGC output
+}
+}

@@ -1,0 +1,13 @@
+#Exec {
+SetVariable Conf0Points0 {A:PointUnit};
+SetVariable Conf0PointUnit0 {M:Point unit configuration
+OutputString:Output format for point units
+ShowPointsOOLS
+};
+SetVariable Conf0PointUnit0OutputString0 {S:PointUnitOutputString:Point unit format (use $UNIT for the point unit name, $LP for license points, $CP for combat points, $DIFFLP for the license point difference since last check, $DIFFCP for the combat point difference since last check, and $CRLF for line breaks.)
+New point unit format is: $V
+};
+SetVariable Conf0PointUnit0ShowPointsOOLS0 {B:ShowPointsOOLS:Should your point unit display any points stored in memory when out of local space
+You will now see your stored points when out of local space:You will no longer see stored points when out of local space
+}
+}

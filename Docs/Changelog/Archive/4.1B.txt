@@ -1,0 +1,6 @@
+Beta 4.1:
+* Added the option to use a custom script file path. [Entered by Cray West]
+* Added an option to shorten the display of certain objects, including stars and debris, when out of local space. [Entered by Cray West]
+* Added several Gas Giant fixes and improvements. [Entered by Cray West]
+* Updated the holographic imaging sound to include groups. [Entered by Cray West]
+* Updated wake on red so you actually hear the red alert sound. [Entered by Cray West]

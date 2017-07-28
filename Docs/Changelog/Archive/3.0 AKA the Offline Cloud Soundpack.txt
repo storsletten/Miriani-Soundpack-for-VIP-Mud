@@ -1,0 +1,455 @@
+Version 3.0 and older:
+* Fixed the bug I inadvertently introduced with the previous change that caused the credit transfer sound to be played whenever you turned the pages in books, journals, etc.
+* Fixed the error that was being triggered when redeeming credit transfer cards, and also added a little sound for it.
+* Fixed the sound for exiting ships.
+* Improved scan filters. You can now use sca for average comps, sch for hull, scc for coords, scd for distance, sco for occupants, scw for weapons, scp for power, and scs for storage AKA cargo hold. These aliases accepts a target as argument just like the scan command, and they will even remember the last thing you scanned. I haven't tested this on VipMud 1.1, so if it crashes on 1.1, then please don't hesitate to upgrade to 2.0.
+* Fixed an ancient bug that meant speech interupts didn't work when you were booted off a ship under certain configuration conditions.
+* You'll now hear the sound of someone yawning and collapsing to the ground if they... well, yawn suddenly and collapse to the ground, asleep.
+* Fixed the copy-to-clipboard feature in the history buffer module for the 2.0 compatible version of the soundpack.
+* Added transfer sounds for atmo salvagers.
+* Fixed the stupid pour sound so it doesn't trigger on light from stars pouring in through the windows. As a matter of fact, I've changed it so that from now on it'll only trigger on cups, glasses, mugs, and chalices. Bite me if your favorite type of container is not listed, and I might add it.
+* Fixed mesage board notifications for Vip 2.0
+* Fountains should no longer trigger the sound of something being poured into a container.
+* You can now use labels with scgc and dcgc.
+* The soundpack now works nicely with VIP Mud 2.0! However, speech interrupts are bugged in VipMud 2.0, so if that's a feature you know you can't live without, then please send an email to GMA Games and tell them that you can't live without a way of programmatically interrupting speech from scripts! Speech interrupts will once again work as expected as soon as they fix that. Also note that the soundpack is no longer compatible with VipMud 1.1, but there is a backup of the Scripts for 1.1 bundled with the soundpack, so if you insist on using 1.1 then just install the soundpack using that folder instead of the normal Scripts folder.
+* The soundpack now loads successfully without errors in VIP Mud 2.0. There might still be more bugs to squash, though.
+* Added somewhat wonky support for the new blast door messages.
+* Oh, I almost forgot to mention that the AlternativeNav extra has been killed by post 83860 as well. RIP extra Alternative Navigation.
+* Alt+Space has been revived.
+* Alt-<letters> key bindings have been removed, see post 83860.
+* Numpad key bindings have been removed, see post 83860.
+* No clue who tried to add support for the leap walk style, but I've corrected the error they created and readded support for the leap social as well. Clap clap for functional things!
+* Added a type speed tester for the soundpack. It's far from fool proof, and its accuracy depends on how honest you are to it, so if you want honest results, you must be honest with it too! You start it by typing typespeed, and as soon as you hit enter to execute that command, you start typing as many words as possible. Just random words, a little story, or whatever you can think of. The length of the words does not matter, since the type speed tester will use a formula to calculate your WPM based on the standard of five characters per word. The important thing is that you keep typing without pausing to think. Try not to exceed the speed at which you can type confidently without making too many accidental spelling mistakes since the soundpack is unable to spell check your words. And finally, use the results from this test only as an approximate indication of your WPM. The accuracy depends on too many factors that the soundpack can't verify.
+* Fixed an obnoxious bug with the belch social.
+* Tweaked the belch social in new and amazing ways for your own pleasure and amusement. Merry Christmas and Happy New Year from the Cloud SP Development Team!
+* Added the error sound for when NAVI gets interrupted.
+* Modified the text you see when establishing links with people. Thanks Albori for pointing this out!
+* More comm socials will be recognized in expressive dialogue now. Hurray clap clap!
+* The soundpack now supports most of the expressive dialogue feature. Maybe I'll fix the rest of it another day, who knows!
+* conf speech 2 (interrupt on focus and scan) will now also interrupt speech when you check the current coordinates.
+* Added a known issue to the readme. Hopefully users will stop asking questions about conf manager errors now. If they do, read the readme!
+* Fixed the bug that caused the soundpack to tell you that you had files waiting to be imported in your Lore computer, when you had, in fact, photos waiting for you.
+* CGC/SCGC will now include the target name in the output if available.
+* I believe I've fixed the dig extra thinggymabob for archaeology so that it works correctly when using an automatic shovel now. If it works, then go crazy and clappity clap clap while shouting hooorray! If it doesn't work, then go crazy and clappity clap clap while shouting hooorray! Sarcastically!
+* ROOC emotes work nicely now! Fucking finally!
+* Updated the credits. Useless log entry, I know.
+* Updated the SP today.
+*Added a conf option (conf gen 15 at the moment) to get your client to respond to the keep-alive messages with the "Q" command. I've been told using this particular command is not against policy.
+* For those of you who hate the squeal sound and other baby related sounds, there's now a nice option in "conf sounds socials" that lets you disable sounds triggered by emotes. Currently it is option 3 in that menu. HTH.
+* Yes yes, I've finally added an alarm sound for entering H II regions.
+* Sorted out a few bugs with the cannons extra.
+* Probably fixed the bug that caused VipMud to send an empty line to the MOO when using the copy feature of the history buffers, otherwise let me know!
+* The soundpack will now play the destruction sound when the computer announces that it has lost sensor contact with the target due to destruction, and the hit counter will consider this to be one direct hit and one kill.
+* Modified the hit counter so that it will only auto reset itself upon landing on a planet, moon, or space station.
+* The hitcounter command will now also tell you how many times you have been hit.
+* Added support for the chime pipe feature.
+* Added new laser sounds for the new Santa box.
+* Fixed that very ancient bug that meant the soundpack believed each entry of tr history <channel> was something that someone said in a hostile environment.
+* Shortened the output of the Lore Sundial for exp level 3.
+* Replaced two old point unit options with a new awesome option to customize the point unit output. You can access it by typing conf points. Thanks to Tom Tucker for suggesting this option!
+* Fixed a bug which prevented you from hearing the powered roomsound after powering down a bc fighter, and probably other types of docked starship.
+* Added two new conf options: conf sounds 11 (Volume offset of weapons fire), and conf ship 14 (Mute the sound that is played when you scan a hostile praelor ship).
+* Fixed a bug which meant pod sounds wouldn't play when ascending on Outreach.
+* The content of $NEW is now prepended to $NAME and $TYPE in the scan output if $NEW is not present in the scan output string.
+* You can now use $NEW in the scan output string for New Pilot status and New Courier Ship status.
+* I also changed the output format of the point calculator. If you don't like it, bite me!
+* The point unit calculator now supports a fractional part consisting of two decimals. I had to make a rather dirty workaround for this to work since VipMud doesn't support numbers with fractional parts natively, so please let me know if you encounter any related oddities.
+* Added sounds for both Beta and Tradesman market channels.
+* Fixed more bugs in the comms framework.
+* Fixed a bug in Scanning.set that caused the starmap to play the "praelor is enemy" sound in praelor space.
+* Added an @MutePraelorIsEnemySound variable, for those who would like to mute that sound. Perhaps someone will care to add it to the conf manager another day.
+* The soundpack now supports the new external PA format. Hurray!
+* The chortle social will now consistently cause the right sound file to be played.
+* Fixed the comms framework so it now supports socials over the PA.
+* You can now use CGC <sector number> to find the distance between you and any of the sector beacons. Hurray! I've also improved the CGCBackend slightly, hopefully without crashing lots of other things, as I'm not entirely sure about how you'd reach me with a bug report.
+* Added a sound for when other ships in the sector perform wavewarp, slip, subwarps and bias jumps.
+* Fixed a bug which set the room sound to that of the airlock sound every time you powered a ship back up in space.
+* Play a different sound for friendly and enemy Praelor.
+* Fixed the cannons extra so it'll work with damaged cannons.
+*Added the ontanka thing so it triggers the praelor inbound sound.
+* Fixed a small bug which meant you parsed any room seen through your droid's camera when using a remote.
+* Made it so peering out of your ship while in a jumpgate does not break the soundpack.
+* Fixed the cannons extra... which I think was borke before hand.
+* Added an extra number pad mode, available through Numpad dot.
+* Shortened ROOC output in expert mode.
+* Added a sound for when starships are transsported to a garage.
+* Added sounds for Empanda's new apartment complex.
+* Made directions not get parsed if they're split across lines because Vipmud is shocking. Now you can tell when you're being shafted!
+* Modified the lag command so it now says you have no lag instead of 0 or 100 ms of lag.
+* Updated ACV.set so it's now aware of the fact that you no longer need to use the stupid prompt for direction when moving up or down.
+*Rewrote the cannons extra. Let me know if it's still buggy.
+*Hopefully fixed some bugs in the sms command.
+*Fixed a bug in the soundpack that triggered an internal VipMud bug, which reordered text in output. 
+*Fixed one of the digging triggers. It said meters instead of feet. Woopsy!
+*added a trigger for  automatic shovels.
+*Updated the archaeological dig site scanner trigger to use feet instead of meters.
+*Fixed a bug in the trigger when grabbing sanitation drones. A/an can make a difference.
+*Best change ever. You will now hear a sound when someone other than your self makes a grab for a sanitation drone.
+* Hopefully fixed the mistake in the text when firing at yourself.
+* Fixed conf social 1.
+*  Made it so one of the shops on miriani no longer sounds like a garage.
+* Fixed moaning over communicators. Now you can enjoy doing... things. Why you would with your communicator, I don't know.
+* Fixed the scanning code.
+* Fixed the coords in salvagers. You'll ownly see two coords instead of three. woot!
+* Edited the point unit output so it doesn't look like you have hundreds of landing pads instead of points when pasting over filtered communicator channels.
+* Fixed stateroom sounds. Hopefully.
+* Put a speech interrupt on coordinates for those who want it.
+* Removed Coordinates: from scans.
+* Tightened up scanning code.
+* You can now issue a command like BufferConfig 4 PA, but there's no error checks, so be careful.
+* Scratched all of that and added a PickHistoryBuffer command, which allows you to select a history buffer, which it stores ina  variable called SelectedBuffer. Tacked that into a BufferConfig command, which is access through control shift alt f11. *deep breaths*
+* Removed the pretty useless control alt shift f11 keystroke, and made it configure which buffer your extra buffer is mapped too.
+* Restored the review of ship directions to their previous glory.
+* Made it possible to configure an "extra buffer", which is the one you get with control alt shift numbers.
+* Fixed theme music.
+* Fixed ConfRetrieve... It now shows options parsed, rather than options changed,since this seems to be impossible.
+* You can configure how fast you need to hit the review key to copy messages.
+* o Almost forgot! You can now press review keys twice quickly, and copy the message to the clipboard.
+* Swung the numerical review keys to use the new CreateReviewKey framework.
+* Added the CreateReviewKey Alias to make adding review keys a snap.
+* Added sounds for lifts.
+* Added the rooc history buffer.
+* added the "Ro <message>" alias to use instead of the rooc command.
+* Changed the tracked alias to accept the clear argument so its ownly one alias.
+* In addition to the last change, added the "trackclear" alias to clear the tracked count.
+* Added the "tracked" alias to check how many times you've been tracked during a vipmud session. Note, this will ownly work if you have the "Beep on Incoming Track Request" setting enabled in lore-o.
+* added a rooc sound.
+* added the new gass deposit from salvager message.
+* Added the new host in and out messages.
+* Rivers should sound like... rivers? enjoy.
+* Woot! Finally fixed the highly obnoxious bug in the GunFire framework that caused blank lines to be sent to the server whenever someone pointed their weapons at a target.
+* changed the sound for when you've been tracked. 
+* updated the landing pad sound, removed some planet sounds and added a lake sound.
+* updated the Atmo sounds.
+* fixed the biolock trigger.
+* Parking rooms should now have garage ambiance. 
+* Tightened up the coordinate code, so control alt / works a bit better, although it's still somewhat buggy.
+* Made a sound play when you lock onto the last coordinates you focused on, so you know if you aimed at the wrong coordinates.
+* Dummy changelog entry for Git's benefit.
+* Prepared the soundpack folder for Git Version Control.
+* Updated the Scripting framework to make it remember file names.
+*  Removed the old, and very clunky alt-control shift number keys... If people really want them, they can make them their selves.
+* Restructured the Numpad.set keystrokes definition file to utilise my looping method of assigning keystrokes.
+* Made combat drones scan properly too!
+* Fixed the scanning code so that HG ships get their names parsed now... Woopsy!
+* Fixed a small typo in the cannons extra.
+* Added a sound for when things appear out of that array in 32.
+* Fixed that super annoying groan thing.
+* okay. Now it definitely shouldn't boot you for using the setup command. woops.
+* fixed a bug in the setup alias so  that miriani shouldn't boot you if you have sight already disabled.
+* Created an Auto Updater. Enjoy!
+* Fixed a bug where the string It appears to be turned off would be gagged.
+* Added scurry to the list of recognized walk styles.
+* All the commands relating to the SCGC list run a cleanup program to ensure no dirt in the SCGC list.
+* SCGC and LCGC now realise when the list is empty.
+* ConfRetrieve now shows the number of options which it altered, rather than the total number of altered options.
+* Changed the syntax of acgc to acgc x y z name of place.
+* You can now press Control Alt Shift F12 to toggle the gagging of exits.
+* Brought ConfManager's understanding of room sounds in line with the rest of the soundpack.
+* Erik made stuff make sounds in space again... There was me thinking space was meant to be silent.
+* Added in sounds and substitutions for Aquatic salvaging (Thanks to Calandria Hartzler for providing the template and sounds!).
+* Made it possible to toggle room sounds by zone names, zone types, or room names with the new and improved roomsounds alias.
+* Made the archaeology helper extra set coordinates that can be reviewed with control alt /.
+* Added the ability to gag exits from the Conf Gag menu.
+* Erik unfucked the shambles I made of the soundpack, and now it should be less laggy, and more glorious than ever before.
+* Fixed a bug with rooms that would occur after peering.
+* Seriously reduced the lag when walking, and hopefully doing anything else involving the word "You".
+* Made lcgc respect the settings in conf scgc a little more.
+* Made a dodgy fix for entitled salvagers. Now they all sound the same.
+* Added the commands lcgc (list destinations), dcgc (delete destinations), and made it possible to type scgc number, like scgc 1, to cgc destinations.
+* cleaned up viewing coords so its quicker to read.
+* Under cover of the last change, added the keystroke control alt / to read your current coordinates. It'll fail if anyone except you fly, so be warey.
+* Added a sound for people manually moved the ship.
+* Lessened the lag when walking, by removing the processing of the soundpack environment and room titles, if they're the same for each room you enter / look at.
+* Added the MissionMode alias, so you can toggle mission mode quickly.
+* Erik added SMCount, SMS, and SMC aliases to the sm filters sweet.
+* Added SMCount.
+* Created a setup alias which can be used to optimise Miriani for use with the Vipmud soundpack.
+* Made the walk sounds play when you're pushing furniture trolleys.
+* Made the dir variable get populated when you're following someone, so you can see what direction they've just taken you in.
+* Fixed a bug which meant you would hear two splashing sounds when splashing in hot tubs. Splash away.
+* Hopefully fixed the hit counter.
+* Made the slocate text more friendly.
+* Fixed yet another bug in the sm filters.
+* Fixed a minor bug in the combat framework, and also added Praelor Ontanka to the list of praelor ship classes for the enhanced sound system.
+* Added Stalk and Trudge to the movement sounds.
+* Removed the rather gross kissing sound.
+* Added a modding sound for advanced combat missions.
+* Fixed more bugs related to the sm filters.
+* Fixed a bug which caused the sm filters to not work under some conditions.
+* Fixed group sounds.
+* Semi fixed santa boxes.
+* Added the sms command.
+* Added different sounds depending on what hand weapon is fired.
+* Fixed a rather severe issue which meant you didn't hear any sound when someone began following you.
+* Added a version.txt so the website script will automaticly update.
+* Wow. I've finally fixed the bug that prevented dig site coordinates from being shown when room title formatting were on. Enjoy digging!
+* The garage ambiance now works for a room name containing "starship storage".
+* Fixed a problem where the courier command would set your courier company wrong. Now only the score command sets it.
+* Removed the mono control room ambiance sound. Because i'm modern like that.
+* fixed the duct sounds. No more sneaking in or out!
+*Fixed a bug where there was no sound for unloading extremely damaged hunks of metal. Don't let them fall apart in your hollow, won't work then.
+* Made stations' gen messages produce the proper sound.
+* Made SAPI read out landing and launching messages too, with the speak computer messages through SAPI option is enabled.
+* Added a Conf SAPI menu to Conf Manager, so you can set your prefered SAPI settings.
+* Added the ability to play computer messages using SAPI (sort of as a consolation prize for removing Realism about 2000000 years ago).
+* Added the ability to set your prefered speech type on startup in the conf speech menu.
+* Sorry, sapi now works properly...
+* You can now Speech Set <Type> to switch between screen readers quickly.
+* Fixed an issue with the character encoding framework which could cause the server to expand portions of encoded words into nonsense crap.
+* As my parting gift to you all, new sounds for the ragequit command (go on, try it), and will only try and connect your character if there is a character to be connected, so if you have no char, it won't automagically go into the character creation thing.
+* You can now enable encoding of special character sets in conf comm. Works only when both the sender and the receiver have this option set to the same value.
+* An attractive woman flicker into existance every so often and tell you things? Never fear, she now looks like a computer avatar! Woop woop!
+* Finally made the DontStopSpeaking alias work properly, woot. As usual, let us know of areas where it falls flat on it's arse.
+* Fixed a bug which would prevent you from hearing the lovely cash register sound when you get money for combat missions.
+* Made the history framework accept a copy argument. So you can do History Copy Buffer 1 4, or History Copy Buffer 4 1, or just History Copy Buffer. History Copy will copy the list of history buffers.
+* Made it so the alert sounds stop when green alert is restored, or when you leave a ship.
+* Allowed the excluding of certain script files from the load routine, with a Conf Advanced option (File1|File2|File3|...).
+* By popular demand, put the planetary mining code and the Laser tag code, back into the main code.
+* Fixed a bug which meant there were two boing sounds played when you lead someone.
+* Put the You * stuff into it's own file, so as not to overload vipmud's ridiculous filesize limit.
+* Eric rewrote the history framework, so now it's faster, and works more ifficiently.
+* Added an amap command, which will show textual directions to objects on asteroids.
+* Cut down over 100 triggers, thus dramatically increasing the load time.
+* Fixed a bug which would throw an error at places with only a room name, like the alliance choosing center when you first start your character.
+* Made hitcounter results preserve if you load the shipcombat.set file (because the current behaviour was pissing me off).
+* Added the pattern command, for tracking where a ship has moved. Patterns clear will clear the buffer, and the buffer will automatically be cleared when a new ship is focused.
+* Fixed a bug in the wildcard framework that could cause error dings when certain ship computer messages appeared.
+* Finally fixed the bug that prevented you from seeing what you salvaged if you also got a fuzzy creature.
+* Fixed another bug with duct enter and exiting sounds.
+* Fixed a minor bug with the footsteps framework, so you now only hear one footstep sound when trudging through ducts.
+* Added a hotkey (control alt shift backspace) to flip the movement keystrokes.
+* Thanks to Cade Roxxan, added a sound for transmitting speech in hostile environments.
+* Added a key (Control Shift Backspace) to toggle the new option.
+* Added an option to remove all information except coordinates in scan output.
+* Added people firing at Praelor to respect the mission mode, to cut down on spam when in advanced combat missions.
+* Added a feature that was requested ages ago. So conf ship 12 will now now make the sound you hear when you get hit by a praelor have it's volume and frequency dependant on it's class.
+* Eric added a left handed ship navigation set, and some more options to Conf Numpad.
+* Fixed a bug which would arise if you changed your script path while logged in, then tried to load an extra.
+* Fixed a few bugs with stun armor.
+* Removed the watchdog timer, and simply done all doggy business when switching zone types.
+* Moved blade sounds and Laser Tag to extras.
+* Redesigned the extras framework, to make it actually work.
+* Fixed the prompt sound for certain Yes/No prompts, like the one when you are asked to land.
+* Made an option to toggle weather to use CGCBackend or CalculateRelativeNumericDir for CGC output.
+* Made CGC and it's accompanying backend a little tighter.
+* Wrote a list of keystrokes, and developer documentation. Read them all from Conf Docs.
+* Made an option to have new pilot status inserted into scanned ship names.
+* Ship scans should now show alliance and org information.
+* Fixed a bug in the hitcounter alias, so it now clears the total number of ships too.
+* Moved the planetary mining code to an extra to save the trigger limit hitting the roof, as not many people use it anyway.
+* Fixed up the backend for ACV directions, and SM filters, so they should now look that little bit nicer.
+* Added a garbage collecter which should clear up everything every so often.
+* Added the option to place CGC commands on the entry line from SCGC, instead of having them sent directly to the mud (useful for copy and paste).
+* Swung a bunch of files over to use the new SetVariable framework, please report any bugs or inconsistancies.
+* Modified the extras framework, to remove it's stuff from ConfManager (if in doubt, pull out, and all that kind of stuff), and instead use the new preserve variables framework.
+* Fixed a bug in the feature that Neal McDermid wanted, muhahahahaha!
+* Made apartments all have the same room ambiance.
+* Fixed a bug in contribs.
+* Fixed ship scanning, so the pilot status is spoken before anything else, even with speech interrupts on.
+* Added a MoveMark command, which allows you to set markers, to see how far your ship has travelled since the last marker. Try MoveMark Help to see it in action.
+* For boring loners that like to planetary mine, you now get a sound no matter where the mining transport dumps you. And looking at those ugly drones isn't so hard anymore.
+* Fixed a bug which would result in you getting booted out of menus when turning sounds on with either the f11 key, or the MasterMute alias. Or even with ConfManager, with ConfEcho off. Wow, I have an amazing brain.
+* Added a Conf Comm menu, to configure how comms should appear, and added a new option to Conf Ship, to toggle sector information placement.
+* Added the control s keystroke to save settings.
+* Ext messages will hopefully no longer be duplicated through exterior cameras.
+* Camera feeds have now a margin consisting of 2 space characters, and output from entertainment centers will be indented by one space character . In that way it might be easier to determine where certain messages came from when reviewing the output window.
+* Fixed an error which arised when people used emote over private comms.
+* You can now view how much you have contributed with the contribs command.
+* The comms framework has been slightly modified. It will now strip off the word "transmits" under certain circumstances. And now there is an additional history buffer for private comms.
+* Added the contribs command to view contribution statistics. Type 'contribs clear' to reset.
+* Text-based menus will now only work in certain menus.
+* Numpad should now work in menus if you have the text-based menu option enabled.
+* Message board controls should now take precedence over posts when using text-based menu navigation.
+* Text-based menu navigation should now work the same way as object matching in Miriani. E.g. you may use 2.next to refer to the second menu entry which contains the word next.
+* Fixed a load of bugs in the new menu navigation framework.
+* Added the ability to make selections in menus by using text, in addition to the numbers.
+* Finally fixed the alter armor option!
+* Added some extra ship combat sounds (thanks to Aiana West). Go to Conf Mission to enable them.
+* Added some invasion-spacific sounds.
+* Fixed a bug which caused the output to look like people were using a y of their lore computers.
+* Fixed pool room sounds to not change frequency when you land.
+* Fixed a bug with mrplay that meant the roomsound handle wasn't 0'd when there was no room sound playing. This was the indirect cause of the pod sounds being cut short on Outreach.
+* Added an option to change the volume of the relativity drive.
+* Added the ability to log the contents of displays when they're being gagged.
+* Added the ability to create limitless displays.
+* Added the hotkeys control alt f9 through f12 to toggle the first 4 virtual displays.
+* Added virtula displays, which allow users to toggle groups of text.
+* Added sounds for the new HG command HQ.
+* The prompt sound should no longer be played twice in certain Lore computer menus.
+* Message board messages should no longer trigger the soundpack. The solution is not fool proof though.
+* Made alt shift / report the ship's last manual direction properly.
+* Fixed a bug which would cause ConfRetrieve to hang it's self and die because of the MOTD.
+* Made a work around for the error which appeared when running out of bard when using the cannons extra. Damn Vipmud!
+* Added a bunch of options to configure the sound review mode.
+* Eric added a sound review mode for the Played Sounds history review buffer.
+* Fixed a bug which occasionally prevented messages from reaching history buffers.
+* Modified the played sounds buffer, so it now plays the sounds as you review them.
+* Majorly overhauled the sound engine, garanteeing crashes and bugs for all.
+* Added a Played Sounds buffer, to show the sounds being played.
+* Made the acv code print out textual directions if the target it out of range.
+* Added a few more burp and belch sounds, and separated the male and female scream sounds.
+* Added sounds for landing at Pirock.
+* Added the ability to see firing solutions rather than coordinates in scans when in atmospheric combat vehicles.
+* Added a sound for combat vehicles for when their host ship is under attack.
+* Fixed an issue which meant people not using Miriani as their mud name would get their configuration files rehashed every time they loaded.
+* Fixed an issue with the normal relativity drive frequency option.
+* Added the option to use Star Conquest style relativity drive sounds, instead of just the standard Miriani ones.
+* Fixed an age old bug which meant when you toggled main sound (or room sounds), the ship landing would not be taken into account.
+* Eric hopefully made sure neither extras, nor social toggles will ever get ditched again.
+* Eric made it possible to see when people say ***connected***, because we know how often you all like to say that.
+* Fixed motd's to not make blank lines when using #say for output.
+* Added a MOTD, type conf motd to configure it.
+* Added configurable hit counter report strings, and rearranged conf ship, and conf mission.
+* Added the sound for people walking out of their ships, and made it pan randomly (Cheers for the suggestion Gazz).
+* Number keys on the numpad should now work as expected when loading of numpad keys are turned off in "conf advanced keystrokes".
+* Hit counter now clears when you land, to get around the lack of reports with dodgy missions.
+* Added an option to automatically fill blank options with their default values, in case of a mess up.
+* Added options to change the way sounds heard from various camera feeds are handled.
+* Completely restructured the way ConfManager's objects are handled, to get around file limitations.
+* Fixed a bug for Kyla.
+* Fixed the ArchaeologyHelper script to save your current coordinates, so if you spreload, or sleep while using the script, when the scripts are reloaded you won't need to look in the room.
+* Think I fixed a bug which meant that social toggles wouldn't save.
+* Made systems 1'ing a ship stop the room ambiance, same as the power command does.
+* Fixed a minor issue which prevented certain droid voices from being recognized by the communication framework.
+* Added sounds for gas giant salvagers getting destroyed.
+* Added a sound for being moved by black holes.
+* Added more sounds for atmospheric combat.
+* It is now possible to turn off individual socials, instead of just the two groups.
+* Eric made a reload command, which you can either get through Soundpack Reload, or SPReload. It reloads the entire soundpack, thus negating the need to close Vipmud all the time.
+* Eric fixed a bug which would boot you out of message board readers and the like if you were dragged while in the menu.
+* To save lazy engineers having to learn to read, I shortened the mission report message for those of them who have hit reports enabled, but don't get any hits. Gunners with cronic brain damage will also benefit from this change.
+* Added an option to Conf Gen, to play a sound when you can't do something because of round time or sutn time.
+* Added an extra which gives you the ArchGoal command, which calculates how many artifacts you need for a certain number of archaeological artifacts.
+* Yeah, whatever, a shit load more social sounds are going in.
+* Added a sound for clipping and unclipping things to and from belts.
+* Added an AddSCGCItem command, which takes the form:
+  AddSCGCItem {Name of place enclosed in braces} X Y Z
+  With no commas. Should add items to your scgc list. They need to be deleted through the ConfManager though.
+* Eric added a bunch more socials.
+* Eric fixed a bug which meant if you were in a menu, and someone spoke or used the PA, you'd get booted out of the menu.
+* Eric dug us up some more laugh sounds, so now girls actually laugh like girls, but they still don't rofl like them, damn shame that.
+* Added an ExpPipe for the somewhat lengthy secure link confirmation text thing.
+* Eric made a spectacular return to fix 1 bug, while helping me figure out a few of my own. As a result of this, blank PA messages will no longer throw errors.
+* Added a way to save configuration options to your Lore computer (ConfDump), and a way to retrieve those options and have them save (ConfRetrieve). Both options are available from the Conf Conf menu.
+* Added an option to gagged the notification of settings saved when idle.
+* Added messages caught with tr history whatever, or metaf whatever to the appropriate history buffers.
+* Fixed a bug which meant that new room ambiances would be triggered by viewing a droid's camera feed.
+* Added the sound for when you're splashed from a fountain.
+* Added pool sounds for pools off starships.
+* Added an option for people who like to use alt f4 rather than sleep to quit their client: Save on Idle will save your settings while you're idle.
+* Fixed a bug where walking into certain doors wouldn't trigger a sound.
+* Fixed scanning triggers to work with the BC test.
+* Added a new gag option, to give you the ability to gag the line "You see nothing special.".
+* Fixed the new ship destroyed sound to make it actually audible.
+* Updated HitCounter to take a clear argument, to reset the stats.
+* Added a hit counter, which can be enabled from the Conf Ship menu, and a HitCounter command, which shows your statistics so far.
+* Fixed the ship destroyed messages.
+* Fixed a couple of Laser Tag bugs.
+* Made doors that lead up and down make open and closing sounds.
+* Triggered the text for when the external pa is used in a vacuum.
+* Added a sound for communicators being added to the starship communication relay channel.
+* Added some options for use with asteroid mining to the conf gag menu (never forget the surveying command).
+* Made airlock chimes sound over cameras too.
+* Rewritten the ConfSaveAll and ConfUpdate routines to use a different kind of loop, hopefully quashing the overflow, and fixing Extras, all at the same time.
+* Fixed a bug which meant pa messages sent via a space suit weren't captured.
+* Fixed a bug which meant extras setting weren't saved properly.
+* Added the ability to hide galactic coordinates in scgc listings.
+* Made SCGC it's own Confmanager menu.
+* Added a new ship destroyed sound.
+* Added the hotkey (Control alt backspace) to toggle interruption of speech when entering a room.
+* Added an option to show you soundpack statistics when you log out (with the sleep command).
+* Added a extention to make it easier to read books. Just read the first page of the book, then use the TurnPage command to read the rest of the pages.
+* Added sounds for salvagers running out of power (Thanks to someone).
+* Added sounds for when you're in a ship when it's expelled from another.
+* Fixed a bug with the history framework, which meant you couldn't copy all lines from an arbitrary position in the currently selected history review buffer.
+* Fixed a possible bug with ConfManager, which could arise when there were more than 1 blank lines in the ConfManagerObjects options array.
+* Fixed an error in Extras.set which stopped options from being loaded into the options array.
+* Fixed a formatting error in Lore.set.
+* Made SCGC format the list in the right order...
+* Added the number of ExpPipes to the soundpack statistics output (just because I could).
+* Added the ability to define your own galcoords, through conf ship.
+* Added the hotkey (Control Alt L), to execute SCGC.
+* Added SCGC, which allows you to select predefined galcoords to navigate too.
+* Stopped AboutScripts from being executed when you connect, and instead just told the user how to gain access to the information.
+* Made AboutScripts use ConfPrint like everything else, and put it as an option in Conf doc.
+* Added an extra argument to the Soundpack command, so now you can do Soundpack Statistics to see various statistics about your session.
+* Added the passthru command to enable or disable the bypass mode.
+* Fixed a bug which caused Developer settings to not save properly (not that they'll matter if Vipmud doesn't get updated...).
+* Added a Bypass mode for people who have execution enabled from within vipmud.
+* Added support for custom themes paths.
+* Made ArchaeologyHelper save it's coordinates over exits.
+* Finally updated the Readme.txt file (on the off chance that anyone reads it...).
+* Finally fixed the conf doc menu. Now all documentation should view normally.
+* Removed the never-to-be-implemented option for viewing text files inline.
+* Fixed some errors with the ArchaeologyHelp extra.
+* Included the scripts that got Eric West penalised for scripting! Oh no!! Uh... New option in Conf Extra.
+* Modified the history alias, so now history copy will copy the currently selected element of the currently selected history review buffer, and history copy n will copy the last n lines of the currently selected history buffer to the clipboard. There's more currentlies in there than a belgeon biscuit!
+* Made a hotkey (Control alt shift e) to copy the current history buffer to the clipboard in it's entirety.
+* Eric fixed the recent problems with ConfManager, should be no more 0's now.
+* Made an option to toggle the playing of the sound when you leave group members behind.
+* Added shortcut key Listings to ConfManager.
+* Added a new option which loads / unloads the extra scripts.
+* Made the Extras manager unload the script files that are no longer requested by ConfManager.
+* Added a ConfManager Alias (conf extra), to load the extras menu more quickly.
+* Updated Extras, to use the ^ symbol as the delimiter, so you can now specify custom script paths that follow the syntax: ScriptName^Description of the script^Path to script file, although the third parameter is not necessary, and, if completely ignored, will default to the default Scripts path.
+* Added an extras framework, which provides soundpack users with extras they can use with their packs. Current Extras include a Cannons extra, which counts cannon shots for you, and a dig extra, which shows you how far you've dug when doing archaeology.
+* Made Potates scan properly.
+* Added a new hotkey (control alt shift w) to copy the last n lines of the currently selected buffer, sequentially.
+* Sounds for all objects detected in a sector will now be played upon entry.
+* Added the keystroked control shift q and control shift w to move to the old and newest messages in the currently selected buffer, respectively. If you want aliases, history back all and history forward all.
+* Added a keystroke (control alt shift q), to copy the currently viewed line of the currently selected history buffer to the clipboard. For those who like aliases, history copy will achieve the same thing.
+* Enforced the use of .wav files for Google Drive users (shouldn't affect Drop Box users).
+* Fixed another bug in the Intelligent Numpad framework, which tried to walk you in the cardinel directions when walking in space.
+* Added an alarm for when you inadvertantly leave members of your group behind.
+* Made stun gun stats show up better when checking holo devices.
+* Added a new sound for launching (thanks to whomever so put it in the Dropbox folder).
+* Added a speech interrupt for scanning ships.
+* Made focus interrupts work properly, and removed the need for the option which was never implemented.
+* Automatically disabled update alerts for Cloud users.
+* Made it possible to surpress any history buffer (excluding Output), from the conf history menu.
+* Added HTTP and FTP links to their own buffers (imaginatively called Links).
+* Fixed a bug which could potentially cause weapons sounds to alter the panning of the theme music.
+* Made sounds for more commands (recalling combat drones, and deactivating video probes etc).
+* Made the control alt shift number keys conform to the new conf numbers option.
+* Fixed a bug in the Intelligent Numpad framework, which meant that atmospheric combat vehicles weren't registered as vehicles.
+* Added ExpPipe for the wormhole tracer.
+* Removed the CharInfo query framework.
+* Eric fixed Intelligent numpad to actually work. So you can now use the numpad when outside a ship or vehicle, to walk around the place.
+* Added a hotkey (control-backspace), which toggles conf numbers.
+* Fixed a bug with conf focus.
+* Fixed a gramatical error in the cannons framework.
+* Fixed an error in the contributions code, which would make it appear that only 1 credit had been contributed when using the intermediate experience mode.
+* Added a conf alias (Conf Numbers) to flip the new numbers for review mode.
+* Added a sound for other ships launching interdictors.
+* Added an option in Conf History to use alt 1 through 0 to review the last 10 lines of the selected output buffer. Thanks to Elena Salvadore for the idea.
+* The socials framework will now look for a variable called DisabledSocials. Any socials listed in that variable will not be played. Use line breaks as word delimiter.
+* More bugfixes to the socials framework.
+* Made more doors trigger sounds.
+* Added game changes to their own buffer.
+* Added a sound for when you leave people behind.
+* Added a sound for the entrance to the combat drone shop on Varoshna.
+* Made speech interrupts on message boards optional.
+* Fixed a bug with the cannons framework which made the counter mess up in Vanguards.
+* Fixed some problems with the communications framework.
+* Eric West updated the socials framework to take advantage of the new soundpack messages Miriani-side.
+* Fixed a couple of bugs in the communication framework, and moved a good amount of triggers into it to free up some memory space.
+* Added a sound for when jumpgates are required to fascilitate FTL travel.
+* Added a sound for space stations when entering a sector.
+* David fixed the baby noises, so they'll now spit up, and do other such disgusting things, in perfect clarity.
+* David fixed some gramatical errors in the scanning and archaeological output.
+* Put camera output in it's own buffer.
+* Fixed a whole load of bugs arising from the new attempt at a unified comms framework.
+* Seperated the computer code, and the comms framework, as the two just would not play nice.
+* Added computer messages to communication, which, surprisingly, seems to work...
+* Put all the communication stuff (whisper, say, etc), into 1 trigger to save on space..
+* Added an option to gag the names of holographic avatars.
+* Added contributions to their own buffer.
+* Fixed droids' speech, to get picked up by the PushMessage framework.
+* Made occupancy scanners count lifesigns aboard scanned ships.
+* Made the lore print message a bit more human readable...
+* Used the sound for starship brigs for cell blocks.
+* Added new message board posts to their own buffer.
+* Fixed a spelling problem with the Cannons extra.
+* Added shouted messages to the buffers list.
+* Buffers can now be switched with control e, and control shift e. Control w and control q can now be used to switch back and fourth through the contents of the buffers.

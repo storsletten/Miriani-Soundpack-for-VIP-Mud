@@ -1,0 +1,531 @@
+Changelog:
+
+Beta 3.9.9:
+Updated the installer scripts to make them use Miriani.ini more
+Did loads of stuff which I can't quite remember at this time
+Added various confmanager options for point units (in the conf points menu)
+Added a point calculator, an idea shamelessly stolen from MT Miriani
+Fixed a load of bugs which I apparently couldn't be arsed to write into the changelog, most of which involved me being an idiot, and not making the sound declations conform to the next @Ext, and @Rext things... Wow, what a very long line...
+Fixed the display of the PA in hostile environments
+Added a sound for inactive pa microphones
+Added a sound for command stacking warnings
+Updated the course output in light of recent game changes
+Added sounds for being hit by pulses
+Added ExpPipes for checking stun turrets
+Added sounds for internal explosions
+Fixed the "this ship broadcasts" trigger, to include demanding surrender etc
+Fixed the punch and kick triggers to conform to the latest game-side changes
+Added sounds for rebounding weapons fire
+Added various configuration options for message boards, available from the conf gen message boards menu (or just conf boards)
+Made the alert on update configuration option actually make sense
+Hopefully fixed the problem that caused people's roomsounds to not work (even though I don't know what that problem is)
+Added a sound for Combat Drone bays
+Fixed camera output
+Made the option "Open files in your text editor" actually do something
+Added a new argument to the script command: script print will print out a file without leaving Vipmud
+Added sounds for unknown starship commlinks
+Fixed a bug in smfilter, which wouldn't allow the filters to be used with standard sensor arrays
+Added sounds for Quantum Vacuum Accelerators
+Added a sound for powered down systems
+Added another argument to the script command to send a file to the mud (syntax: script send Filename:[prefix text]:[Suffix text])
+Added 3 new commands: Script (Contains various script routines), LScript (Load script), UScript (Unload script), and OScript (Open script)
+Added a new script file (Scripting.set) which will include development tools
+Added ExpPipe to SmFilter
+Added aliases for SmFilter (type sm help for more details)
+Added a sound for Interdiction fields
+Fixed low charge alerts
+Made it possible for people to configure what file type they want to use (for standard sounds (including theme sounds) and room sounds)
+Moved the SetEntrySpeech configuration option to the advanced menu
+Added a new advanced menu to confmanager which contains system settings not to be changed by most users
+Changed the out of range when locking sound to be the same as the firing one
+Added movement definitions to Const.set for no reason other than "because I can", and it may help with something in the future
+Fixed a load of bugs in Rooms.set (a result of me being an idiot)
+Added propper sounds for ship scents
+
+Beta 3.9.8:
+Updated Const.set to reflect the new creators and aboutstring
+Eric gagged all the #$# messages
+Eric gagged the output of the **connected** messages on startup
+Eric fixed the startup music when redirecting old connection
+Changed the roomsound for Targeting control centers, to be the same as observation rooms
+
+Beta 3.9.7:
+Added support to SmFilter for starships (sm starships)
+Added a new script (SmFilter.set) which allows you to view objects on the starmap like you can with AtSm (sm filter)
+Added sounds for when comodity listings come at you
+Fixed a few "File not found" messages resulting from the switch over
+Fixed a bug which would produce an error when walking through a broken or unlocked hatch
+
+Beta 3.9.6:
+Converted all scripts to accept the new sounds files
+Converted all sound files to MP3 VBR 32-128 Joint stereo
+Added sounds for perfume
+Added sounds for engineering panels
+Fixed the reset button on starship simulators
+Added a sound for when nothing is scanned
+Added ExpPipe for coordinate scans
+Added a sound for shooting anomalies (please don't try this at home)
+Added sounds for enabling and disabling pipe
+Added a sound for abort sequences
+Added extra sounds to the self-distruct sequence
+Added another sound to play when the ship gets hit
+Added a sound for Fuzzies chewing ships
+Added an option in the ship menu of confmanager to decide weather or not to play sounds should be played when objects are detected in the sector via pipe
+Added a different sound to be played when the control room reports something via pipe
+Made sounds play when more than 1 of the same type of object are detected in the sector (both in the control room and out)
+Made the sounds played when objects are discovered in a sector play even when not in the control room (if pipe is enabled)
+Moved the parsing of objects found in a sector to an alias (mobject)
+Fixed a minor bug with the focus class not being dismissed if the sensor array is offline
+Added error sounds for components that have been damaged beyond repair
+Fixed Lrscan to not use an alias to generate sound (which was a horrible solution to an unknown problem in the first place)
+Added a background sound for observation rooms
+Added footstep sounds for starships' duct networks
+Added sounds for planetary surveyers
+Added sounds for when starships are detected in the sector
+Added sounds for when wormholes and planets are detected in the sector
+Added sounds for scents (trippy!)
+Added a sound for non-functional drives in sectors with anomalies
+Updated the review keys (alt f5 through f12) to show if something's not been scanned
+Made Scanning.set more economical
+Changed the repair sounds to mrandomplay, to make them more ambiant
+Fixed some issues in Scanning.set to format Unknown starships more effectively
+Magix made it possible to sleep and re-login to reload all script files
+Added a sound for the repair arm on Ameliorators
+Updated the footsteps framework, to include a whole bunch of footstep sounds
+Added a power up sound for things recovering from being pulsed
+Stole a sound from MT Miriani, and used it for scans that emerge from consoles (planetary and wormhole etc)
+Fixed some glaring bugs in socials.set
+Made the PA output more readable when there's no power in the room
+Changed the version numbers to x.x.x to make Magix happy
+Updated the setup scripts to use ISPP directives to make them easier to maintain
+Fixed a bug where walking face first into things would be treated like walking
+Fixed a bug where bouncing would come out like walking
+Added a sound for when ship power is off
+Fixed a bug where you'd hear the airlock sound twice when following, or being dragged by someone, into the ship
+Added the prompt sound for Lore menus
+Added the extra scan output formatters $TYPE (ship type), and $SHORTNAME (a more user friendly name of the ship you're scanning)
+Fixed the various PA messages to not cut off when quotes are used
+Added a background ambiance for the Bias Housing of a ship
+Fixed a bug which caused speech to be blanked if a person used quotes
+Added sounds for when walking around space
+Added ExpPipe for drive recharges
+Tightened up the focus code, to stop the class from remaining active any longer than absolutely necessary
+Added triggers for videos to make them more watchable
+Added sounds for videos (or more spacifically entertainment centers)
+Fixed mastermute (now f11 should work fine)
+Gagged activation messages on handheld planetary surveyers in oldbie mode
+Added a conf option to make the room titles of apartments more readable
+Added a sound for destroying rooms, or entire apartments
+Fixed a bug that would cause step sounds to try and play when exiting menus
+Added step sounds for when people walk in and out of rooms (Could_Cause_Lag)
+Added step sounds when following someone
+
+Beta 3.9P5:
+-Added sounds for planetary projectiles
+Fixed tracking sound, to make it less weedy
+accidentally fixed titled salvagers, although they won't have background sounds
+Fixed Escape pods
+Added sounds for Game Changes
+Fixed the Gym sound
+Started adding sounds for all the random events in Archaeology
+Fixed Archaeology
+Added a load more background sounds
+
+Beta 3.9P4:
+Added a sound for the Hatch Lifeform Discriminator
+Swapped a crap cannon sound for an older good one
+Fixed various things
+Added sounds for kissing (woot!)
+Added seperate options for toggling socials in actions (see conf sounds, then socials, or just conf socials to get there faster)
+Seperated socials into 2 groups (thanks for making me do the hard work Amy):
+* Socials: Anything involving speaking, laughing, breating, etc.
+* Actions: Anything else (includes kissing).
+Changed the output that is seen when others speak
+Added a sound for Starship relay channels
+Added a load of new Background sounds
+Included an option to gag movement messages
+Included an option to enable or disable footstep sounds
+Included footsteps sounds
+Started adding sounds for Shadius (somewhat unelegantly I'm afraid)
+Fixed Tethys
+Fixed the lag tester to come in line with the fact that there are actually 1000 MS in a second, not 10 (*bonk me*)
+Added a sound for changing names on Haloween (hehehehe)
+Added a hull Critical sound (thank you Michael)
+Fixed an issue with self-distruct sequences
+Fixed peering for the 200th time
+Changed focus output to display Unchanged before the target coordinates if they haven't changed (Idea shamelessly stolen from MT Miriani)
+Started adding sounds for asteroid mining
+Started coding to make asteroid mining a little more friendly (ExpPipe ETC)
+Added background sounds for Asteroid Rovers
+Added a new lag command, to test how much lag you have (1 MS is normal, 0 MS is great)Fixed a problem with theme sounds
+Fixed the sound when salvaging a fuzzy
+
+Beta 3.9P3:
+Fixed a bug where the number pad wouldn't be enabled when you logged in, even if it was supposed to be enabled
+Fixed a bug where socials would kick you off of message boards and out of menus
+Completely rewritter the installer
+Fixed the installer so it will no longer overwrite conf.set and custom.set
+Included the Themes into the mainline release
+Changed SoundEngine.set, to take advantage of the new mp3'd sounds
+Converted the theme music to MP3
+
+Beta 3.9P2:
+Added sounds for ITPN's
+Reinstated Outreach pods
+Updated Miriani.set to include LaserTag.set
+Added sounds for Laser tag
+Added sounds for Biometric doors
+Fixed the catching of droids' speech
+Fixed peering
+Fixed it when you speak through the external PA
+Fixed a load of advanced combat mission sounds
+Changed PA triggers to also work on space stations
+Added a list of soundpack creators to const.set
+Added a sound for when a Bardenium cannon is out of Bard
+Added a conf option (conf query) to decide weather or not to respond to the new query system (disabled by default)
+Added a trigger to le the soundpack creators get info about a spacific char for technical support purposes (no passwords)
+Added a sound for when someone unlocks a ship while you're outside it
+Fixed some spelling errors in ConfManagerObjects.set. Now my smelling is perphect!
+
+Beta 3.9 Pre Release
+Changed the output of cameras, to show the origin in brackets at the end of the output
+Added an option in confmanager to keep alerting the user of new versions of the soundpack upon successful login
+Added code to help the user update the soundpack by playing a new sound, showing an alert, and copying the url to the clipboard
+Added a new script file (SoundpackML.set) to handle all of the new #$# stuff
+Started implementing support for the new #$# commands implemented by the great and wonderful Albori
+Started attempting to make communication channels work better
+Moved a load of stuff around, to make the soundpack slightly less chaotic
+Finished removing all the old roomsounds and background stuff, and (hopefully) sorted all the InSpace things
+Fixed doorbell and expel sounds
+Added an InSpace command, to replace the tons of duplicated code to set the correct roomsound frequency
+Added a space suit sound for space walking
+Magix has completely re-written mrplay, and removed all the room triggers. The scripts now load noticeably faster on my system, and it saves a lot of ball ache!
+Added sounds for unlocking doors
+Added sounds for setting access codes on doors
+Added into to the list of dirs, in case we use the new airlock output
+Added a sound for wormhole tracers
+Updated the information at the bottom of this file
+Added another cannon sound
+Added a new out  of range sound for firing weapons
+Stripped all mention of backgrounds from confmanager, in preparation for the new framework, which Magix is working on at this very moment
+Added combat drones so they will get registered as ships when being scanned
+Added a sound for submitting an application form
+Added sounds for escalators
+Removed the need to use #config to set soundpath, it's all done through confmanager now
+Fixed airlocks, again (dam their lack of messages)
+Changed other ships taking off to an mrandomplay event
+Forced airlocks to unfuck themselves, god they've been awkward for a long time!
+Magix has dramatically increased load time
+Fixed background sounds, again, and roomsounds too without realising it
+Added sounds for lighting smokables
+Added sounds for fires
+Added a sound for puncturing paint canisters
+Fixed CGC, so it can take propper gal coords, without the user having to strip the commas by hand
+Changed the sound heard when someone else's ship is coming into land to a mrandomplay sound, in case people want mono
+Fixed a problem where one of the error sounds (General\Misc\Command1.wav) wouldn't play
+)Fixed a bug where the background from atmospheric salvagers would keep playing, even after you'd exited the vehicle
+Added a sound for when you choose not to land, or when landing is not supported
+Fixed a bug where the hatch sound would be stopped prematurely when you entered a ship
+Added sounds for gas giant salvaging
+Added random ambient sounds for planets, enable or disable in confmanager
+Added background sounds for planets (hoping to do them for different types in the future, hosts depending)
+Added a different sound for the cockpit of gas giant salvagers
+Added sounds for ship vehicle bays
+Added sounds for ship ducts
+Millions of fixes and improvements made by Magix
+Fixed a bug where the fix to the bug in background sounds, caused another bug in background sounds. Inadvertantly made the world sound nicer too
+Fixed a bug where background sounds would randomly stop playing when you walked into a room (1 nill to memory clean up opperations)
+Added sounds for BC fighters
+Fixed a bug where roomsounds wouldn't stop when entering atmospheric salvagers
+Fixed both org and courier channels
+Included the $COORDS variable in scanoutput
+Made an option (gagscan), which allows you to gag all but the custom scan formatted line
+Fixed thememusicfadeout, so it works with the new @decimalchar constant
+Updated the roomsounds toggle so you don't see the look command that's executed
+(Next entry * 10)
+Fixed master mute again
+Fixed mastermute, so it actually mutes, and doesn't just ignore all triggers
+Made a setup package for the themes
+Made a setup package for the soundpack
+Edited control m to play all the lovely music available
+Fixed the ferry on Desolo, so when you disembark, the docking noise stops
+Moved the decimalchar configuration from confmanager, to const.set, with a brilliantly enspired, and beautiful piece of code from Magix
+Added a mrandomplay command, which enables the randomising of certain events (cargo transfer is currently implemented) by way of the mwplay command
+Finally updated Readme.txt (not that anyone reads it, Pica-boo!)
+Fixed a bug where the framework would not realise you were in space when you first logged in, and thus play sounds as though you were landed
+Started overhauling the code (again), to support the new experience level setting
+Fixed a bug with the new scan formatting, where scanned objects that weren't ships would still attempt to parse the formatting
+Added support for customisable focus and scan formatting (see conf ship)
+Added an option to have the input window not read on startup to make conf sound a bit nicer
+Changed the atmospheric salvager sound to a background sound, so it's not affected by the fact that you're always landed when you salvage
+Tightened up the gagging of dashes
+Added a help file with some getting started and trouble-shooting tips to the conf doc menu (or conf help)
+Added a documentation menu to conf (conf doc)
+Removed the option to disable the repair complete sound
+Added an option to confmanager to enable you to view the Readme and Changelog files
+Added a macro key (control alt f12), to view this file in your favourite text editor
+Moved all this text to Changelog.txt
+Magix has begun adding in support for the new experience level setting (try track)
+Added a whole bunch of options
+Gagged and put in sounds for the new cargo transfer messages
+Changed the startup music, so there is a chance to hear all 63 beautiful startup tunes
+Magix has completely rewritten the confmanager scripts, which should be ready for use by the time this version is released
+Added a hotkey (control alt shift f12), to fade out the theme music
+Added a hotkey (control shift f12), which will change the playing theme music
+Updated the f11 key to execute the mute command instead of calling identical code
+Made a command mute, which will toggle sounds on and off
+Made a volume control (control alt shift f 9-10), for the theme music
+Added a sound for the Ferry arriving on Desolo
+Fixed the pod sounds on Outreach
+Fixed a bug with ftl drives caused by the new wormhole sounds
+Tightened up the new transmits trigger, so the code doesn't catch every comm message
+Gagged the airlock sounds when heard from inside
+
+Beta 3.8:
+Added a macro key (Alt-shift-f11), to disable or enable theme music
+Added macro keys (control alt shift, 1-6), to copy the last 6 lines of mud output to the clipboard
+Added a trigger for speech in hostile environments, to make it look like normal speech
+Fixed a bug where roomsounds would not reset when staggering drunkenly
+Added a conf option to conf.set (ThemeFadeOutValue), which dictates how long it takes for the theme music to fade out
+Made the theme music fade out upon green alert
+Added a command thememusicfadeout, to fade out theme music
+Fixed a bug where the scripts would attempt to stop the currently playing background sound when logging in, and cause an error
+Fixed some bugs with the new theme sounds
+Added theme sounds for red alert. These can be enabled and disabled through conf.set, and the theme music it's self, it available seperately from within the Miriani directory on Sendspace
+Changed the sound for invalid coordinates, to make it more obvious
+Added a sound for the expulsion of cargo
+Prepared Lore.set for the new and upcoming feature "Experience Level".
+Added a sound for ships using longrange broadcasts to send messages
+Added a hotkey (control alt f11) to view this readme file in your prefered text editor, as set by the editor #config option
+Added a conf option (GagDashes), to decide weather or not to gag the display of dash lines, such as those used in scan output, and on boards for example
+Fixed scan output so ship names appear after coordinates, in a focus style
+Added a sound for handheld radio receivers
+Made the lrscan sound work more relyably
+Fixed a bug where the scripts would not always realise you were in space, and so would give you lowered room sounds
+Fixed a bug where some computer messages were blanked (especially ones including human ship names)
+Added sounds for traveling through wormholes (using existing sounds)
+Added a sound for when you try to pick up a drone that's not yours
+Fixed some inconsistancies in Socials.set
+Fixed it, so when you type l, you don't stop the roomsounds
+Fixed what happens to sounds when you're being dragged.
+Added ou and out commands, to work around the lack of displayed text when going from a ship to the airlock
+Fixed some bugs when powering the ship up and down, with the new sound framework
+Fixed some of the duct triggers
+Added the through direction to dirlist in conf.set, not sure if it'll do anything, but it may!
+Moved all sound-related routines to SoundEngine.set
+Made the background sounds more smoothe, making Acrylon sound beautiful, and returning simulator shops to their former glory.
+Fixed a load of bugs with the background sound framework
+Made the commands msortsoundsMove and msortsoundsEnter, to be executed when a user moves, or enters a room, or whenever the room should be re-analysed (for example when ship powered is enabled or disabled)
+Used the sound of the salvager engines powering down to indicate the salvager has broken free of wind
+Changes in AtSa.set, see the file for its own changelog.
+
+Beta 3.7:
+Changed the version number to have a B at the end, because typing Public Beta all the time was getting on my tits
+Fixed a bug I didn't even realise I had, where background sounds weren't changing with the volume control
+Magix finally got the atsm stuff working, and it surely is a beautiful thing
+Added a sound for salvagers (and anything else that matches) launching from vehicle bays
+Added a hotkey (numberpad0) to execute atsm
+Added a music alias, which calls cmusic, to stop errors from Vipmud
+Magix fixed a load of stuff to do with the new atsm command
+Removed a load of illegal aliases I thought I'd already squashed, if you don't like it, blame the borg, not me
+Moved the load line for Custom.set to the bottom of the list, to prevent the soundpack from overwriting the values therein
+Added numberpad * to execute the sm command
+Added a bunch of triggers to ensure the AtSaStarmap class doesn't stay around if the user executes atsm in the wrong place
+Thanks to Magix, added a trigger, which formats the output of sm when in an atmospheric salvager, use atsm to see it in action
+Added a sound for enabling and disabling the internal stun turret cameras
+Added a configuration option to conf.set (FlipVert) which switches the numpad + and - keys
+Fixed a bug in the numberpad code, which wouldnt let you use numberpad 1 (sw)
+Added another case for docking bay sounds
+Fixed a bug where background sounds would stop when standing up
+
+Beta 3.6:
+Fixed the ever illusive bug which some times caused damage reports to be wrongly formatted... Turned out it was because of the the focus class not being dismissed if you used the focus command while on the ground
+Fixed some pattern matching on starship names to include those with org names
+Added the real numberpad
+Fixed some errors in socials.set
+
+Beta 3.5:
+Added an sc alias, as a work around for the global sc alias defined by Vipmud, which causes problems when using the in-game sc alias
+
+Beta 3.4
+Fixed a bug where the overall Vipmud volume was getting set whenever you did anything involving the setroomsoundvolume alias, when there was no roomsounds playing
+Removed some seemingly unimportant error checking (#if {@RoomSounds = 1} {setroomsoundvolume})
+Removed a bunch of duplicate volume code
+Altered the volume keys to reflect the new configuration option
+Changed the setroomsoundvolume alias, to change the roomsounds volume to the new volume
+Added a configuration option to conf.set (RoomSoundsVolumeDiff), which describes how much difference there is between normal sounds, and the volume of the room sounds
+Fixed a bug where peering somewhere would change the roomsounds
+Added a sound for inside a Praelor Potate
+Fixed hatch bomb sounds
+Updated shipmovement.set with a hotkey (control-alt-shift-f11), to toggle silent running mode
+Added keys alt f11 and alt f12 to read more of scan's output
+Updated the computer trigger to play sounds for self-distruct events
+Added sounds for combat drone launch and recall
+Changed a load of battle events to randomly pan (using mwplay), because it sounds boring through my headphones!
+Fixed the version number at the top of this file
+Fixed a bug which meant 2 laughing sounds were played with a few permutations of laughings
+Started fixing a bug, which meant I couldn't fix things when I was drunk (I went to bed)
+Added some more socials
+Got drunk, and enjoyed the soundpack, without rewriting it for once
+Fixed a bug with background sounds, which meant they weren't played when you are being dragged
+Added a sound for when a new pilot arives
+
+Beta 3.3
+Added a sound to play when a repair job begins
+Fixed lockboxes, so their sounds play properly
+Made it possible to use the f keys from 5 to 10 to read scanning output.
+Fixed a few more bugs
+Fixed another bug in the volume settings that made the background sounds not move in tandom with main sound
+Fixed a historical bug that would cause the soundpack volume to affect Vipmud's overall volume
+Added sounds for when a loud speaker is fired at
+Added sounds for taking armor on and off
+Added sounds for taking spacesuits on and off (thanks to Gabrielle Rosewood for the idea)
+Added a sound for the new courier channels, which just popped up
+Fixed a bug in the background stuff which occurs when you're staggering about drunkenly
+Added an option to disable the repair complete sound
+Fixed a bug where Vipmud's internal sc command was interfeering with scan
+Fixed a bug where backgrounds wouldn't stop when following someone into a ship
+Fixed a bug where background sounds wouldn't work when following
+Fixed a bug with the roomsoundsstop comand, that didn't allow for the new background sounds
+Started adding in blade sounds (Thanks to Gabrielle Rosewood for the idea)
+Added a few extra socials like spank
+Changed the laser firing back to a mwplay command, as I can't remember why I changed them in the first place
+Added a load ore sounds, including landing pads, mission assignment module
+Made it so the background sounds are stopped each time you exit a room
+Unbroke Pilot's lounges
+Made it easier to hear when a component is repaired, by adding a new sound
+Changed the tired mess I made of the first outdoor sounds last night, to bring them into line with the standards of the rest of the code
+
+Beta 3.2
+Not really sure where the changelog went for this one, so sorry all... Maybe I just can't count...
+
+Beta 3.1
+Added a mbplay command, to allow roomsounds to be played outside, without messing up their pitch
+Added a bunch more internal, and external sounds
+Added a background sound for asteroids, to make them less boring
+Added a sound for Precise FTL drives
+Fixed showers, so roomsounds won't stop when turning off the shower
+Added a sound to make turning of showers less sudden
+Added  some extra room sounds
+Added a sound for when you're denied access to a private space station
+Fixed a bug with the new armor code messing up message boards
+Added a sound for planetary lasers
+Started adding sounds for Atmospheric Combat Vehicles
+Fixed a bug with scooping.set, to bring all the code therein up to the new standars
+Added an option to determine weather or not the armor output will be altered or not
+Made it easier to read the output of the armor command
+Added option to keep combat sounds centralised
+Fixed all the errors I'd thrown up by moving everything
+Added the hotkey alt space to read the exits in a room
+Added the hotkey alt / to read the last direction moved
+Added a numberpad and direction keys (alt i north, alt o northeast, alt l east, alt . se, alt k south, alt m southwest, alt j w, alt u northwest, alt y up, and alt n down) - see above for numberpad
+Added the dir command, to catch and execute commands
+Moved the trigger for private organisation channels to Scripts\Communication.set where it belongs
+Moved all variables into a centralised Conf.set file, which can be hand edited by the user
+Added nodisplay to all the comm recall commands, so they will no longer be displayed in the output window (feel free to complain if you don't like that behaviour)
+Changed the sound played when cannons run out of Bard, to make it distinguishable from lasers firing on empty space
+Fixed a bug where the cgc class was not dismissed when the gc command was executed while the ship was landed
+Changed the triggers for buckling and unbuckling, so a sound will be played when you use the buckle, and unbuckle commands on other people
+Started adding the lfollow command, which will log the person you are following's movements
+
+Beta 3.0
+Fixed a bug where an error was thrown when locking on to player-owned, or simulated starship
+Added a new trigger to alert the user by sound, when the cannons have run out of Bardenium
+Changed cannons, so when there's no target, a different sound is played
+Fixed a bug where sector general comunications weren't getting caught and put into the history buffers
+Fixed a bug where innitially enabling room sounds would ruin the automatic login functionality of Vipmud
+Altered the laser firing trig, to play a different sound if the target is empty space
+Added a look command to the roomsounds toggle (shift f11), which means that roomsounds come back on without the user having to do it themselves. This also affects the master sound toggle (f11)
+Fixed a bug in the room sounds toggle, which meant that roomsounds wouldn't start playing again, until you'd moved from room to room
+Removed the gag lines from scannin.set, so you can now see the status of components, weapons, hull, ETC, in the scan output, rather than trying to remember aliases
+Finished overhauling the code, and bug fixing the various mess ups I made
+Removed the need to execute cg before using cgc (cgc does it for you, and steals it's output)
+Added a galactic coordinates scanner, try cgc x y z (no punctuation)
+Added a hotkey (control shift i), to recall cgc, using the last coordinates used
+Fixed various sounds for out of locals, which I had hithertoo overlooked
+Fixed various bugs relating to the new roomsounds framework, sounds should decrease in frequency on asteroids now, and work normally when launched and anchored
+
+Beta 2.8
+Added function keys to read comms (control alt 1-0)
+Fixed problems where sounds would ignore user set volume setting
+Added a standardised command for playing soune, to make it easier for people to update this sound pack. mplay sound_path, is now all that is needed to play a sound at the correct volume
+Changed the sound path variable, so sound paths don't need to be absolute. Although not necessary for most users, will make the soundpack easier to update, and usable, for those with non-standard installations
+Renamed all script files, to end with the standard .set extention. Makes it easier to edit the scripts from within VipMud, using an external text editor (such as notepad.exe)
+Standardised all sound directives, to use the new mplay command
+Went through all scripts, and added appropriate spacing, to make the code easier to read
+Created a versionstring variable, which contains the current version, to make it easier for users to figure out what version they're currently running, and to make the aboutscripts command more streamlined
+Created an aboutstring variable, which contains information about the Soundpack
+Added an aboutscripts command, which uses the aboutstring variable to enable the user to get information about the version of the scripts they are using
+Added a hotkey (shift-f1), which will give the user information about the version of the soundpack they're using (using the aboutscripts command)
+Added an extra include to Miriani.set to load a custom.set file. This will be provided, but will be blank, and will be a place for user-spacific code to go. It will appear 4th in the trigger list, making it easy for users to find
+Fixed a bug with the key commands (alt 1-alt 0) that I added last version. They are now no longer global, ensuring minimum interfeerance with other open MUD sessions
+Begun work to make the soundpack moduler, to minimise duplicated code (see the roomsoundsstop command for example)
+Added a bunch of new sounds, including planetary lasers, and low battery alerts
+Added commands to manipulate background sounds more effectively (msplay, mrplay, setroomsoundvolume, ETC)
+Fixed a bug where the volume of room sounds wouldn't change at the same time as the main volume
+Fixed a bug where the sound for a room would be reloaded each time the user typed look (see mrplay command)
+Added in key commands to read PA and spoken messages, 6-10, and made their code more modular
+Removed the illegal fo command, and made focus more usable
+
+
+Beta 2.78
+Removed the roomsoundson and roomsoundsoff comands, believing them to be too clunky, and replaced them with a single roomsounds command, which can also be accessed through shift-f11
+Fixed a bug where the correct volume limit was not announced, and added a sound to alert the user they have reached the upper and lower limits of the volume controls, when using f9 and f10
+Fixed a bug where the sound for turning devices on and off, didn't follow the volume control changes
+
+Beta 2.7
+Fixed a problem with the sound that plays when you open a bottle
+Fixed a problem with the poke sound being played
+Fixed numerous problems with scanning reading keystrokes to improve to be more consistent:
+Now to review scan data you can use the following commands:
+ses  --  say ship type
+sh  Say ship hull damage
+sco  Say Ship component damage
+sca  Say Ship Cargo
+sp  Say ship power status
+swe  Say ship weapons status
+socc  Say ship occupants
+
+fixed issues with the ship PA system
+PA message on the Ship PA system are now tracked, you can press Control-Shift-1 through 5 to hear the last 5 PA messages.
+A sound is now heard when someone says something in a room, additionally, the last 5 things a person says are also tracked, press Alt-Shift-1 through 5 to review them.
+Sounds for fishing should now be working.
+Added a sound for group control.
+Pool sounds should work regardless of whether the ship is powered up or not.
+Added more sounds for fuzzys.
+Set up a separate lifeform salvaged sound.
+Atmospheric Salvager background room sounds should now be working properly.
+Added sounds for the interdictor.
+Added sounds for specialty pulse weapons.
+Added sounds for when a lock is lost and when a partial hit is made.
+Added additional explosion sounds.
+Added additional ship repair sounds.
+
+Beta 2.6
+Added a sound for pulling one to their feet
+Added a sound for the EM beam that pulls you in to an escape pod.
+Added a background room sound for escape pods.
+Added additional sounds for escape pods.
+Fixed an issue with background room sounds which were already playing not stopping when a ship was destroyed or if you escaped in an escape pod.
+Added a sound for using stun batons.
+Added sounds for turning force field suits on and off.
+Changed the notification sound of a life form on board (such as a fuzzy).
+Added a sound for when you kill a fuzzy.
+Added sounds for slime machines.
+Added breaking glass sounds for dropping objects that break.
+Fixed an issue with archaeology sounds so that the brush sounds now work.
+Socials sounds can now be turned on and off with the commands socialson or socialsoff respectively.
+Fixed an issue with the entry sound for ship hatches not playing properly when you entered a ship, please test and let me know if it works!
+At request changed long range scan sounds to new ones, I have included the originals in the sounds folder so if you don't like them just rename the originals to LRScan1-2-3-4 in the folder "C:\Program Files\VIP Mud\Miriani\Sounds\Ship\Computer".
+
+
+Legal Stuff:
+I am not a lawyer, do not know a lawyer, am entirely unwilling to pay for the services of any legal advice regarding this project, and therefore am releasing this completely as open source.  That being said you should note that I the author do not guarantee any level of functionality of this project with your particular situation.  I take no responsibility for this project, or your inability to use it.  I am not going to necessarily be available to answer technical questions, help you install it, ETC.  If your computer suddenly decides that it can't handle it, catches fire, melts down or produces extreme amounts of smoke that result in your untimely demise, I had nothing to do with it.  I have tested this sound pack myself on a fairly diverse set of platforms as well as released it for private beta use amongst trusted friends and would not be releasing it as such if I believe that it would not be functional to a level of acceptableness keeping in mind that it is still in Public Beta stage.  Feel free to modify, change, reverse-engineer, or revise it to your heart's content, it is open source software.
+
+System Requirements:
+A computer capable of running the latest version of VIP Mud is a requirement, and in addition I would consider you requiring at least 500 MB of RAM and a bit of extra processing power to accommodate the wave files.  You should also have a sound card capable of playing multiple channels simultaneously.  To date I know that this sound pack has ran on my Quad Core 2.2 GHZ per core desktop with 3 GB of RAM running Vista Ultimate 32 bit, on my Mac Book Dual-Core 2 GHZ per core under VMWare Fusion one with Windows 2000 at 768 MB of RAM allocated and Windows XP Pro and Home editions with 1 GB of RAM allocated.  It has also ran on an E-Machine Desktop running XP Home with 1 GB of RAM and an Asus Netbook with na Intel Atom 1.6 GHZ processor with 1 GB of RAM and an HP Laptop with a 1.6 GHZ dual-core processor and 2 GB of RAM.  If you want to use the continuous background ship sounds, this will require more memory and processor power, as the sounds change as you walk around.  If you find that your computer is too sluggish with the background room sounds, you can disable them, though to date I and my private testers have not noticed any significant problems unless the system running the sound pack was also heavily weighed down with other tasks.
+
+Installation:
+You can use the stand-alone executable that we've just started producing to install this soundpack, just select the folder where your Vipmud is installed, then \ Miriani. So, if your copy of Vipmud is installed in c:\program files\Vipmud, you'd install this soundpack to c:\program files\Vipmud\Miriani.
+
+Happy mudding!

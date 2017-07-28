@@ -1,0 +1,21 @@
+Setup Instructions, and general tips.
+To get the most out of your soundpack, try setting the following options:
+Wrap is a useful command to check. Because of the way this soundpack works, triggers take lines of text from the screen, and check them. They will not check propperly however, if the line is broken up by the MUD, splitting it into pieces. For this reason, if you are having problems, it is worth giving the command:
+@wrap off
+This will ensure that triggers are parsed propperly.
+
+Finally, in the configuration manager its self, there are some useful shortcuts you will find useful.
+The way it workds, is you give the command conf, followed by one of the shortcuts. Below are a table featuring the most popular, everything else can be gotten from the menus.
+Command - Description
+conf mute - Mutes the soundpack.
+conf vol n - Sets the overall volume of sounds to n.
+conf doc - Takes you into the documentation menu.
+conf help - Opens this file.
+conf save - Saves your configuration options.
+conf reload - Reloads the conf options from the master configuration file.
+conf exp - Takes you to the experience level menu (option 1 gives a telnet like experience, 2 is slightly more expert, and option 3 is the most advanced).
+conf mission - Enable mission mode (gags firing messages etc).
+
+For more help, ask on the Miriani boards, or get in touch with either myself (Cray), or Eric West, and we'll do our best to help.
+
+Remember, you can always tune your metaf to 372.8, for the official VipMud metaf channel.

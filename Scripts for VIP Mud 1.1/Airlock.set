@@ -1,0 +1,37 @@
+#TRIGGER {The hatch acknowledges your key and unlocks, allowing you to * through.} {
+ #GagLine 1 All;
+ msplay Ship\Misc\AirlockEnter@Ext;
+ #If {%1="float"} {
+  InSpace 1
+ } {
+  InSpace 0
+ }
+} {Main}
+#TRIGGER {* drags you into the ship.} {#if {@RoomName<>"Airlock"} {msplay Ship\Misc\AirlockEnter@Ext}} {Main}
+#trigger {* arrives from outside.} {msplay Ship\Misc\AirlockEnter@Ext} {Main}
+#trigger {* exits the ship.} {msplay Ship\Misc\AirlockExit@Ext} {Main}
+#trigger {* floats outside into space.} {msplay Ship\Misc\AirlockExit@Ext} {Main}
+#Trigger {A chime is piped through a nearby speaker, indicating that somebody has entered the airlock.} {
+ msplay Ship\Misc\Bell@Ext;
+ ExpPipe {%0} {You hear the airlock chime sound from a nearby speaker.} {};
+ #Sub @ExpString
+} {Main}
+#Trigger {A chime sounds, indicating that somebody has entered the airlock.} {
+ msplay Ship\Misc\Bell@Ext;
+ ExpPipe {%0} {You hear the airlock chime.} {};
+ #Sub @ExpString
+} {Main}
+#TRIGGER {* announces over your suit radio, "Beginning cycling."} {msplay cyclestart@Ext} {Main}
+#TRIGGER {A small light on the airlock control panel turns from * to *. *} {
+ #Gagline 1 All;
+ #if {%Pos(water,%3)=0} {
+  msplay Ship\Misc\AirStart@Ext
+ }
+} {Main}
+#Trigger {The water reaches the top of the airlock, filling it completely. A yellow light on the wall becomes green.} {msplay Ship\Misc\AirEnd@Ext;
+#Gagline 1 all} {Main}
+#trigger {The hiss of air slowly fades away into nothingness, and the * light becomes *.} {msplay Ship\Misc\AirEnd@Ext;
+#Gagline 1 ALL} {Main}
+#trigger {Some lovely elevator music begins playing as the airlock cycles*} {msplay Music\*30@Ext;
+#Gagline 1 ALL} {Main}
+#trigger {Some lovely elevator music abruptly stops playing as the airlock ceases cycling*} {#Gagline 1 ALL} {Main}

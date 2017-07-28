@@ -1,0 +1,701 @@
+#Exec {
+ SetVariable ActionSuccess 0;
+ SetVariable ActionTmp1 {};
+ SetVariable ActionTmp2 {};
+ SetVariable ActionTmp3 {};
+ SetVariable ActionTmp4 {}
+}
+
+; Terminate all blocks with the | character on a blank line.
+#Var YouActions {
+hear a quiet hiss as the ship's maneuvering thrusters fire.^PlayRelDriveStart;
+ ExpPipe {%0} {%0} {};
+|
+board the lift.^mstep
+|
+scan your surroundings...^#GagLine 1 All
+|
+step out of the lift.^mstep
+|
+feel a floating sensation as the craft moves through the water.^
+msplay Aquatic/move@Ext;
+ExpPipe {%0} {The vehicle begins moving.} {}
+|
+hear a sharp whine as the wormhole drive activates.^#GagLine 1 All;
+msplay Ship\Move\FTL@Ext
+|
+focus all of your rage until you spontaneously burst into flames. The agony quickly overtakes you and you collapse to the ground, dead.^
+msplay General\Misc\fireplace@Ext;
+msplay Music\*62@Ext;
+#if {@RoomSoundHandle>0} {#pc @RoomSoundHandle Stop};
+#var RoomSoundHandle 0
+|
+hear the occasional ping of objects impacting the hull as the starship moves through space.^
+ #GagLine 1 All
+|
+detect a faint thrumming as the ship reorients itself.^
+ mrandomplay Ship\Misc\BackgroundHigh*4~@Ext;
+ #GagLine 1 All
+|
+elect to remain in space for the time being.^
+ msplay Ship\Move\DontLand~@Ext
+|
+hear a soft clang as another ship's docking ring comes into contact with the hull.^
+ msplay Ship\Move\RingEnd~@Ext
+|
+detect a faint rumbling as the starship begins to orient toward another ship.^
+ msplay Ship\Move\RingStart~@Ext
+|
+are suddenly jarred as the ship begins rapid deceleration.^
+ #GagLine 1 All
+|
+feel the sudden pull of acceleration as the starship's relativity drive kicks in, hurling you through the gate's event horizon.^
+ msplay Ship\Move\Jumpgate~@Ext;
+ #GagLine 1 All
+|
+feel a mild vibration as the ship nears the active jumpgate.^
+ msplay Ship\Move\Accelerate~@RelDriveStyle~@Ext;
+ #If {~%IsNumber(~@RelDriveFreq)=1} {
+  #pc ~%playhandle frequency ~@RelDriveFreq
+ };
+ #GagLine 1 All
+|
+hear a high-pitched squeal as the starship emits a sustained long-range laser burst.^
+ msplay Ship\Combat\LaserSqueal*5~@Ext;
+ ExpPipe {~%0} {Long-range laser fired.} {}
+|
+hear a mechanical whine as the laser reflectors reorient themselves.^
+ msplay Ship\Combat\Reflectors*3~@Ext;
+ ExpPipe {~%0} {~%0} {}
+|
+hear a thunk as an interdictor is launched.^
+ ExpPipe {~%0} {Interdictor launched.} {};
+ msplay ship\misc\intradictor~@Ext
+|
+hear a thunk as a blockade is launched.^
+ ExpPipe {~%0} {Blockade launched.} {};
+ msplay ship\misc\BlockadeSingle~@Ext
+|
+hear several thunks as blockades are launched.^
+ ExpPipe {~%0} {Blockades launched.} {};
+ mwplay ship\misc\blockademultiple~@Ext
+|
+hear a thud as a proximity weapon is launched into space.^
+ ExpPipe {~%0} {Proximity weapon launched.} {};
+ msplay ship\misc\proximityweapon~@Ext
+|
+hear several rumbling sounds as the starship explodes around you.^
+ msplay Ship\Combat\YouDestroyed*3~@Ext;
+ ExpPipe {~%0} {~%0} {}
+|
+become aware of a distinct roar of an immobilization pulse impacting the hull, then a loud crackling sound which continues for several seconds.^
+ ExpPipe {~%0} {This ship has been hit by an immobilization pulse.} {Hit by an immobilization pulse!};
+ msplay Ship\Combat\ImmobilizationHits~@Ext
+|
+hear a disturbing chittering noise from somewhere nearby.^
+ ExpPipe {~%0} {~%0} {};
+ msplay Ship\Combat\PraelorBoarded~@Ext;
+ mrandomplay General\Combat\PraelorScurry*2~@Ext -40
+|
+hear a sharp clank from somewhere on the hull.^
+ ExpPipe {~%0} {~%0} {};
+ msplay Ship\Combat\HullClang~@Ext
+|
+hear a dull pulsing sound emanating from the interdiction field generator.^
+ ExpPipe {~%0} {~%0} {};
+ msplay Ship\Combat\InterdictGenStart~@Ext
+|
+hear the hum of the interdiction field generator begin to die down as it powers down.^
+ ExpPipe {~%0} {~%0} {};
+ msplay Ship\Combat\InterdictPowerDown~@Ext
+|
+watch as a lead screen replaces the transparent window overlooking the interdiction field generator.^
+ ExpPipe {~%0} {~%0} {};
+ msplay Ship\Combat\InterdictActive~@Ext
+|
+press a conveniently placed button on the wall.^
+ msplay General\Misc\Beep*10~@Ext;
+ ExpPipe {~%0} {You press a button.} {}
+|
+instruct the computer to begin scanning for debris.^
+ msplay General\Misc\Beep*10~@Ext;
+ ExpPipe {~%0} {You begin scanning for debris.} {}
+|
+hear a mechanical whine as the ship's solar panels return to their previous positions along the hull.^
+ msplay Ship\Misc\PanelsOff~@Ext;
+ ExpPipe {~%0} {Solar pannels disengaged.} {}
+|
+hear a mechanical whine as the ship's solar panels orient themselves toward a star.^
+ msplay Ship\Misc\PanelsOn~@Ext;
+ ExpPipe {~%0} {Solar pannels engaged.} {}
+|
+suddenly become aware of a decrease in noise as the ship's systems shut down, leaving you in complete silence.^
+ #Var Powered 0;
+ msplay Ship\Misc\PowerOff*5~@Ext;
+ #Var TempRoomSound @RoomSound;
+ #Var SoundpackEnvironment {};
+ #Var RoomSound {Ship\Rooms\NoPower~@Rext};
+ mrplay ~@RoomSound;
+ InSpace ~@InSpace;
+ ExpPipe {~%0} {Power down.} {}
+|
+notice a faint hum begin to emanate from nowhere in particular as the starship's systems begin to power up.^
+ #Var RoomSound ~@TempRoomSound;
+ mrplay {~@RoomSound};
+ #Var Powered 1;
+ ExpPipe {~%0} {Power enabled.} {};
+ msplay Ship\Misc\PowerOn3~@Ext;
+ InSpace ~@InSpace
+|
+hear several clinking sounds as the ship is repaired.^
+ mrandomplay Ship\Misc\Repair*11~@Ext;
+ ExpPipe {~%0} {} {}
+|
+hear a deafening booming sound as repairs to the ship proceed.^
+ mrandomplay Ship\Misc\Repair*11~@Ext;
+ ExpPipe {~%0} {} {}
+|
+hear a shrill screeching sound as repair drones drag replacement components across the hull.^
+ mrandomplay Ship\Misc\Repair*11~@Ext;
+ ExpPipe {~%0} {} {}
+|
+hear a buzzing sound from the hull as repairs continue.^
+ mrandomplay Ship\Misc\Repair*11~@Ext;
+ ExpPipe {~%0} {} {}
+|
+hear an electrical zapping sound as repairs to the ship continue.^
+ mrandomplay Ship\Misc\Repair11~@Ext;
+ ExpPipe {~%0} {} {}
+|
+begin transferring debris to the spaceport.^
+ msplay Ship\Misc\TransferStart~@Ext;
+ ExpPipe {~%0} {Beginning debris transfer.} {}
+|
+hear a thunk as a video probe is launched.^
+ msplay Ship\Misc\VideoProbe~@Ext;
+ ExpPipe {~%0} {Video probe launched.} {}
+|
+hear the airlock begin cycling.^
+ msplay Ship\Misc\HearCycleStart~@Ext;
+ ExpPipe {~%0} {~%0} {}
+|
+hear the airlock finish cycling.^
+ msplay Ship\Misc\HearCycleStop~@Ext;
+ ExpPipe {~%0} {~%0} {}
+|
+hear somebody knocking on the hull.^
+ msplay General\Misc\Knock1~@Ext;
+ ExpPipe {~%0} {Somebody is knocking on the hull.} {}
+|
+hear somebody knocking impatiently on the hull.^
+ msplay General\Misc\Knock2~@Ext;
+ ExpPipe {~%0} {Somebody is impatiently knocking.} {}
+|
+hear somebody kicking furiously on the hull.^
+ msplay General\Misc\Knock3~@Ext;
+ ExpPipe {~%0} {Somebody is kicking furiously on the hull.} {}
+|
+hear a loud thud as something large and dense slams into the hull.^
+ msplay General\Misc\Knock3~@Ext;
+ ExpPipe {~%0} {Something large and dense slams into the hull.} {}
+|
+feel a tremendous shaking as something impacts the hull.^
+ ExpPipe {~%0} {~%0} {};
+ mwplay Ship\Combat\YouHit*11~@Ext
+|
+press a button to cancel the current autopilot program.^
+ msplay General\Misc\Beep*9~@Ext; 	msplay Ship\Misc\Background*5~@Ext;
+ ExpPipe {~%0} {You cancel the autopilot program.} {Autopilot canceled.}
+|
+hear a deep hum as the starship begins an intrasector subwarp.^
+ #var ShipSilent 0;
+ ExpPipe {~%0} {Subwarp initiated.} {};
+ msplay Ship\Move\Subwarp~@Ext
+|
+hear a sharp whine as the starship begins an intrasector slip.^
+ #var ShipSilent 0;
+ msplay Ship\Move\Slip~@Ext;
+ ExpPipe {~%0} {Slip drive engaged.} {}
+|
+hear a low rumbling sound as the wormhole drive opens a wormhole.^
+ msplay Ship\Move\FTL~@Ext;
+ ExpPipe {~%0} {Wormhole opening.} {}
+|
+hear a gentle pulsing sound as the starship begins an intrasector wavewarp.^
+ msplay Ship\Move\wavewarp~@Ext;
+ ExpPipe {~%0} {Initiating Wavewarp.} {}
+|
+hear the sounds of strained metal as the starship travels through the wormhole.^
+ msplay Ship\Misc\MetalStress~@Ext;
+ ExpPipe {~%0} {} {}
+|
+hear a high pitched whine as the starship's bias drive spools up.^
+ msplay Ship\Move\BiasStart~@Ext;
+ ExpPipe {~%0} {Bias drive initiated.} {}
+|
+hear a sharp whine coming from the wormhole drive as a brilliant splash of magenta light pours in from the window. You detect the brief pull of acceleration as the starship is plunged through the quantum vacuum.^
+ ExpPipe {~%0} {You hear a sharp whine coming from the wormhole drive.} {};
+ msplay Ship\Move\QVAWine~@Ext
+|
+feel a sudden jerk as a number of drones start hauling the starship out of the docking bay.^
+ ExpPipe {~%0} {A number of drones start hauling the starship out of the docking bay.} {The ship is hauled out of the docking bay.};
+ msplay Ship\Move\QVAComplete~@Ext
+|
+feel another jolt as the drones complete their work.^
+ ExpPipe {~%0} {The drones complete their work.} {Ship clear.};
+ msplay Ship\Misc\DronesFinish~@Ext
+|
+feel a slight acceleration as the starship begins an inter-bay landing procedure.^
+ msplay Ship\Move\RingEnd~@Ext;
+ ExpPipe {~%0} {The starship begins an inter-bay landing procedure.} {}
+|
+thrust a small shovel into the ground and begin methodically removing large chunks of dirt.^
+ #gagline 1 all;
+ msplay general\archaeology\shovel*14~@Ext
+|
+begin gently brushing dirt aside with a small brush.^
+ #gagline 1 all;
+ msplay General\Archaeology\Brush*8~@Ext
+|
+suddenly feel more skilled in Archaeology!^msplay General\Archaeology\practice~@Ext
+|
+spend a moment searching for a suitable location to deploy an asteroid anchor.^
+ #Gagline 1 ALL;
+ msplay General\Asteroid\AnchorStart~@Ext
+|
+begin to painstakingly tie a coil of sturdy line to an asteroid anchor.^
+ #Gagline 1 ALL;
+ msplay General\Asteroid\LineStart~@Ext
+|
+step back and admire your handiwork.^
+ #Gagline 1 ALL;
+ msplay General\Asteroid\LineEnd~@Ext
+|
+press a button on the side of an asteroid anchor, which works its way out of the ground. You pick it up.^
+ #Gagline 1 ALL;
+ msplay General\Asteroid\AnchorRemove~@Ext
+|
+grab a gargantuan multi-colored heavily rounded bloated sparkling shiny insectoid creature by an antenna and begin forcibly hauling it around.^msplay Joins~@Ext
+|
+notice a pod land in the area nearby.^
+ #if {~@SpeakWhenPossible=1} {
+  msplay Ship\Computer\EnterWhenReady~@Ext
+ };
+ msplay General\Misc\ITPNArrive~@Ext
+|
+pay the fee and board the pod.^
+ msplay General\Misc\Door~@Ext
+|
+press a small button next to the door.^
+ #GagLine 1 All;
+ msplay General\Rooms\Beep*20~@Rext
+|
+submit to a number of biological security scans to verify your identity. Once the status of your license has been confirmed, a heavy door slides aside, allowing you to pass.^
+ msplay Ship\Misc\Hatch~@Ext;
+ DontStopSpeaking
+|
+press your hand against a door sensor^
+ ExpPipe {~%0} {~%0} {:Voice:~%0};
+ DontStopSpeaking
+|
+feel the pull of acceleration as the craft navigates through the atmosphere.^
+ #Gagline 1 ALL;
+ msplay salvagemove~@Ext
+|
+climb out of the vehicle.^
+ #class ACVMoveMode disable;
+ #class ACVPromptNavig disable;
+ msplay ship\misc\hatchexit~@Ext;
+ #var AllowEnhancedNumpad 1
+|
+carefully pilot the vehicle into a small chamber above the docking bay.^
+ #gagline 1 all;
+ msplay LaunchSequence~@Ext
+|
+hear a sharp hissing as the hatch seals itself and the cockpit is pressurized.^
+ #gagline 1 all;
+ msplay GasGiant\Hatch~@Ext
+|
+start spraying a damaged section of the cockpit with repair paste which quickly hardens into a plastic-like substance, sealing off the tiny cracks in the hull.^
+ msplay GasGiant\RepairStart~@Ext
+|
+are suddenly hurled into your seat as the vehicle speeds up even more to escape from the planet's gravity.^
+ #gagline 1 all;
+ msplay GasGiant\Engine~@Ext
+|
+are suddenly seized by a powerful EM field and deposited into an escape pod.^
+ #class InEscapePod enable;
+ msplay Ship\Combat\EMField~@Ext;
+ thememusicfadeout
+|
+feel mild acceleration as the pod descends.^msplay Ship\Misc\EscapePodDescend~@Ext
+|
+hear a gentle hum as the weapons power up.^
+ mtplay;
+ msplay Ship\Combat\WeaponsOn~@Ext;
+ #Gagline 1 ALL
+|
+hear the gentle hum begin to fade as the weapons power down.^
+ thememusicfadeout;
+ msplay Ship\Combat\WeaponsOff~@Ext;
+ #Gagline 1 ALL
+|
+hear a high-pitched squeal followed by three distinct pulsing sounds as the laser turrets are fired in synch.^
+ #gagline 1 all;
+ msplay Ship\Combat\PlanetaryLaser~@Ext
+|
+press a large button marked CYCLE.^msplay General\Misc\Beep*10~@Ext
+|
+lift a small panel and crawl through.^msplay Ship\Misc\ExitDucts*2~@Ext
+|
+pull a small lever toward yourself, deactivating the ship's systems.^msplay Ship\Misc\Lever*5~@Ext
+|
+push a small lever away from you, activating the ship's systems.^msplay Ship\Misc\Lever*5~@Ext
+|
+feel a mild vibration as the starship's asteroid anchor buries itself into the asteroid's surface.^
+ msplay {anchor start~@Ext};
+ #Gagline 1 ALL
+|
+hear the sounds of cargo being transferred.^
+ mrandomplay Ship\Misc\TransferStart~@Ext;
+ #Gagline 1 ALL
+|
+hear the bustle of activity from the ship's cargo hold.^
+ mrandomplay Ship\Misc\Transfer*3~@Ext;
+ #Gagline 1 ALL
+|
+hear several loud thuds as cargo is transferred from the ship.^
+ mrandomplay Ship\Misc\TransferStart~@Ext;
+ #Gagline 1 ALL
+|
+seem to be having difficulty with the controls in your inebriated condition.^msplay Ship\Misc\Drunk~@Ext
+|
+press a few keys on a keypad.^msplay Ship\Misc\DoorUnlock~@Ext
+|
+are in uncharted space. As you float around in your protective cocoon you notice there are no planets visible in the vicinity. As you stare out into the black of space a bleak, dark nothingness stares back.^#Gagline 1 All
+|
+carefully replace a heavy panel back on the wall, concealing the exposed equipment.^msplay Ship\Misc\PanelClose~@Ext
+|
+lift a heavy panel from the wall, exposing an assortment of wires, switches, and equipment.^msplay Ship\Misc\PanelOpen~@Ext
+|
+hear a piercing sound emanating from deep within the bowels of the ship.^
+ #gagline 1 all;
+ mrandomplay Ship\Misc\Repair*11~@Ext
+|
+pull on a small lever, but it seems to be stuck in the ON position. You fear any further force would snap it right off.^msplay Ship\Misc\Drunk~@Ext
+|
+feel the pull of acceleration as the ship begins descending through the planet's atmosphere.^
+ ExpPipe {~%0} {Salvager going down.} {};
+ msplay salvagemove~@Ext
+|
+hear the sounds of the atmospheric scoop activating.^
+ ExpPipe {~%0} {Atmospheric scoop activated.} {};
+ msplay salvagescoop~@Ext
+|
+hear a gentle thud as the salvager sets down in the docking bay.^
+ msplay General\Misc\SalvagerLands~@Ext;
+ ExpPipe {~%0} {The salvager has landed.} {}
+|
+finish spraying, noting that the vehicle looks to be in perfect order again.^
+ ExpPipe {~%0} {~%0} {You finish repairing the damage.};
+ msplay GasGiant\RepairComplete~@Ext
+|
+notice the constant pull of movement has nearly vanished and realize your pod is moving frighteningly slowly and has almost come to a halt. At last, the directional thrusters mounted on both sides of the cockpit fire in what seems an attempt to keep the pod from sinking back into the swirling storms of gasses below.^
+ ExpPipe {~%0} {~%0} {The directional thrusters mounted on both sides of the cockpit fire in what seems an attempt to keep the pod from sinking back into the swirling storms of gasses below.};
+ msplay Ship\Move\QVAComplete~@Ext
+|
+can't go that way.^msplay General\Misc\CantGo*5~@Ext
+|
+elect to discontinue searching.^msplay General\Misc\Cancel~@Ext
+|
+should stand up first.^msplay General\Misc\Command*10~@Ext
+|
+decide against it until you aren't floating around in space.^msplay General\Misc\Command*10~@Ext
+|
+begin to merrily float off into the great unknown.^
+ msplay General\Device\JetStart~@Ext;
+ #GagLine 1 ALL
+|
+arrive at your new coordinates.^
+ msplay General\Device\JetEnd~@Ext;
+ #GagLine 1 ALL
+|
+submit your application.^msplay General\Misc\Submit~@Ext
+|
+feel the gentle pull of acceleration as the pod lifts off.^msplay General\Misc\ITPNStart~@Ext
+|
+feel a tingly sensation and notice that you are not what you were!^msplay Change~@Ext
+|
+notice the drones returning to niches in the wall. Assuming they're done, you stand up, feeling completely healed.^msplay Stand~@Ext
+|
+hear a thunk as cargo is expelled from the ship's cargo hold.^
+ mwplay Ship\Combat\DebrisDestroyed~@Ext;
+ ExpPipe {~%0} {Cargo expelled.} {Cargo expelled.}
+|
+indicate to your group members that you no longer wish for them to follow you.^
+ msplay disband~@Ext;
+ ExpPipe {~%0} {~%0} {You disband your group.}
+|
+hear a loud buzzing sound, indicating somebody is at the door.^
+ msplay buzz~@Ext;
+ ExpPipe {~%0} {Someone is at the door.} {}
+|
+input some commands into a console and access the starship's service record.^
+ msplay Ship\Computer\Display~@Ext;
+ ExpPipe {~%0} {~%0} {You call up the starship's service record.}
+|
+press a button to scan for recent wormhole activity.^
+ msplay Ship\Computer\WormholeTracer~@Ext;
+ ExpPipe {~%0} {Scanning for recent wormhole activity..} {:Voice:Recent wormhole activity:}
+|
+input a command into the navigational controls to return to the ship.^
+ ExpPipe {~%0} {Returning to ship.} {};
+ msplay ACV\ACVReturn1~@Ext
+|
+feel the pull of acceleration as the vehicle begins moving.^
+ SetVariable ACVTmp1 {~%Pop(ACVNextMoveXY)};
+ SetVariable ACVTmp2 {~%Pop(ACVNextMoveZ)};
+ #If {~@ACVTmp1="3" or ~@ACVTmp1="6" or ~@ACVTmp1="9"} {
+  #Math AcvCoordX {~@AcvCoordX+1}
+ } {
+  #If {~@ACVTmp1="1" or ~@ACVTmp1="4" or ~@ACVTmp1="7"} {
+   #Math AcvCoordX {~@AcvCoordX-1}
+  }
+ };
+ #If {~@ACVTmp1="1" or ~@ACVTmp1="2" or ~@ACVTmp1="3"} {
+  #Math AcvCoordY {~@AcvCoordY+1}
+ } {
+  #If {~@ACVTmp1="7" or ~@ACVTmp1="8" or ~@ACVTmp1="9"} {
+   #Math AcvCoordY {~@AcvCoordY-1}
+  }
+ };
+ #If {~@ACVTmp2="-"} {
+  #Math AcvCoordZ {~@AcvCoordZ+1}
+ } {
+  #If {~@ACVTmp2="+"} {
+   #Math AcvCoordZ {~@AcvCoordZ-1}
+  }
+ };
+ msplay ACV\ACVStart~@Ext;
+ ExpPipe {~%0} {} {}
+|
+hear a slight clink as a small shovel impacts a previously unseen rock.^
+ msplay General\Archaeology\ShovelHitsRock~@Ext;
+ ExpPipe {~%0} {~%0} {:Voice:~%0}
+|
+hear scrapes as cargo is pumped into the storage bay.^
+ msplay Ship\Misc\TransferStart~@Ext;
+ ExpPipe {~%0} {~%0} {}
+|
+hear a shrill mechanical whine as a large mechanical arm slowly extends from the front of the rover.^
+ msplay General\Asteroid\MechanicalArm~@Ext;
+ ExpPipe {~%0} {~%0} {}
+|
+hear a mechanical whine as the rover's top panel retracts and two mechanical arms extend.^
+ msplay General\Asteroid\RoverTopPanel~@Ext;
+ msplay General\Asteroid\Extend~@Ext;
+ ExpPipe {~%0} {} {}
+|
+hear a mechanical whine as the vehicle's grappling arm begins transferring equipment.^
+ msplay General\Asteroid\MechanicalArm~@Ext;
+ ExpPipe {~%0} {} {}
+|
+hear the sounds of some machinery activating.^
+ ExpPipe {~%0} {} {};
+ msplay Ship\Misc\AirStart~@Ext
+|
+skillfully dodge the shot.^
+ msplay General\Combat\ShotMisses~@Ext;
+ ExpPipe {~%0} {~%0} {You dodge the shot}
+|
+feel a gentle rocking as the pod lifts off.^
+ msplay Ship\Move\YouLaunch*5~@Ext;
+ ExpPipe {~%0} {The pod lifts off.} {}
+|
+become aware of a low rumbling sound as the pod opens a small wormhole.^
+ msplay Ship\Move\FTL~@Ext;
+ ExpPipe {~%0} {The pod opens a small wormhole.} {}
+|
+hear a doorbell ringing.^
+ ExpPipe {~%0} {Door bell} {};
+ msplay buzz~@Ext
+|
+are thrown back against your seat as the craft hits an air pocket in the atmosphere and then breaks free.^
+ msplay ship\misc\wind~@Ext;
+ ExpPipe {~%0} {} {}
+|
+instruct the computer to calculate the distance between your current galactic coordinates and the last known location of the standard navigational beacons.^
+ ExpPipe {~%0} {You calculate the distance between your current galactic coordinates and the last known location of the standard navigational beacons.} {};
+ msplay Ship\Computer\Scan*4~@Ext
+|
+are suddenly pressed against your seat as the vehicle is catapulted out of the docking bay.^
+ ExpPipe {~%0} {Salvager launched.} {};
+ msplay salvagelaunch~@Ext
+|
+feel the pull of acceleration as the ship begins ascending through the planet's atmosphere.^
+ ExpPipe {~%0} {Salvager going up.} {};
+ msplay salvagemove~@Ext
+|
+feel the pull of acceleration as the craft navigates through the atmosphere.^
+ #Gagline 1 ALL;
+ msplay salvagemove~@Ext
+|
+hear a thunk as a chunk of charged weapons-grade bardenium is fired from the ship's cannons.^
+ mwplay Ship\Combat\Cannon*10~@Ext;
+ ExpPipe {~%0} {} {}
+|
+feel a mighty shaking as something seemingly large impacts the hull.^
+ mwplay Ship\Combat\YouHit*6~@Ext;
+ ExpPipe {~%0} {~%0} {};
+ #if {~@RoomSounds=1 AND ~@RoomSoundHandle>0} {
+  #pc ~@RoomSoundHandle frequency 47100;
+  #alarm 2 {
+   #if {~@RoomSounds=1 AND ~@RoomSoundHandle>0} {
+    #pc ~@RoomSoundHandle frequency 44100
+   }
+  }
+ }
+|
+hear several scraping sounds as bardenium is transferred from the ship's storage to the cannons.^
+ msplay Ship\Combat\CannonReload~@Ext;
+ ExpPipe {~%0} {Reloading cannons.} {}
+|
+}
+
+#Class InfoOutputWorkaround Disable
+#Trigger {You are renting *} {
+ MainTrigSwitch 1;
+ #Class InfoOutputWorkaround Disable
+} {InfoOutputWorkaround}
+#Trigger {You *} {
+ #Var ActionTmp1 {%Replace(%1,~",)};
+ #Var ActionTmp2 {};
+ #Var ActionSuccess 0;
+ #If {@RoomReader=1 or @Peers=1} {
+  #If {@ActionTmp1="see nowhere obvious to go."} {
+   #Var RoomReader 0;
+   #If {@Peers=1} {
+    #Var Peers 0
+   } {
+    #Var Exits {None};
+    #If {@GagExits<>0} {
+     #Var ExpString {}
+    } {
+     ExpPipe {%0} {[Exits]: @Exits} {No exits}
+    };
+    #Sub {@ExpString}
+   }
+  } {
+   #If {@ActionTmp1=*"can go *."} {
+    #Var RoomReader 0;
+    #If {@Peers=1} {
+     #Var Peers 0
+    } {
+     #If {@GagRoom=1} {
+      #Var GagRoom 0;
+      #UnGagLine;
+      #GagLine 1 Voice
+     };
+     #Var Exits {%Delete(%1,1,7)};
+     #If {@GagExits<>0} {
+      #Var ExpString {}
+     } {
+      ExpPipe {%0} {[Exits]: @Exits} {@Exits}
+     };
+     #Sub {@ExpString}
+    }
+   } {
+    #If {@ZoneType="space" and @ActionTmp1=*"see *"} {
+     #Var RoomReader 0
+    }
+   }
+  };
+  #Var ActionSuccess 1
+ } {
+  #If {%Word(@ActionTmp1, ,1)="see"} {
+   #If {@ActionTmp1="see nothing special."} {
+	#If {@NoDescString="_gag_"} {
+     #GagLine 1 All
+    } {
+     #If {%Trim(@NoDescString)<>""} {
+      #Sub {@NoDescString}
+     }
+    };
+    #Var ActionSuccess 1
+   } {
+    #If {%NumWords(@ActionTmp1,~,)>20} {
+	 #Var ActionSuccess 1
+    }
+   }
+  } {
+   #If {@ActionTmp1=*"* through the * hatch of *"} {
+    #Gagline 1 All;
+    #Alarm 0 {MStep};
+    #Var ActionSuccess 1
+   }
+  }
+ };
+ #If {@ActionSuccess=0} {
+  #Var ActionTmp1 {%Word(%1, ,%NumWords(@ActionTmp1, ))};
+  #Var ActionTmp1 {%Replace(@ActionTmp1,.,)};
+  #If {%IfWord(@ActionTmp1,@DirList, )<>0} {
+   #Var ActionTmp2 {%Word(%1, @ActionTmp1,1)}
+  } {
+   #If {%Pos( into ,%1)>0} {
+    #Var ActionTmp2 {%Copy(%1,1,%Eval(%Pos( into ,%1)-1))}
+   } {
+    #If {%Pos( through ,%1)>0} {
+     #Var ActionTmp2 {%Copy(%1,1,%Eval(%Pos( through ,%1)-1))}
+    }
+   }
+  };
+  #If {@ActionSuccess=0} {
+   #Var ActionTmp2 {%Replace(@ActionTmp2,~",)};
+   #Var ActionTmp3 {%CRLF@ActionTmp2%CRLF};
+   #If {%Pos(@ActionTmp3,@WalkStyles)>0 OR @ActionTmp2=*"push * as you head"} {
+    #Var Dir {@ActionTmp1};
+    #If {@GagTreadLine=1} {#Gagline 1 All};
+    #Alarm 0 {MStep};
+    #var SomeoneElseFires 0;
+    #Var ActionSuccess 1
+   }
+  }
+ };
+ #If {@ActionSuccess=0} {
+  #Var ExpString {};
+  #Var ActionTmp1 {%Pos(%CRLF%1,@YouActions)};
+  #If {@ActionTmp1>0} {
+   #Math ActionTmp1 {@ActionTmp1+%Pos(%CRLF,%1%CRLF)+1};
+   #Var ActionTmp1 {%Delete(@YouActions,1,@ActionTmp1)};
+   #Exec {%Word(@ActionTmp1,%CRLF|%CRLF,1)};
+   #Var ActionTmp1 {@ExpString%CRLF};
+   #If {%Pos(%CRLF,@ActionTmp1)>1} {
+    #Sub {@ExpString}
+   }
+  } {
+   #Var ActionTmp1 {%Replace(%1,~~,)};
+   #Var ActionTmp1 {%Replace(@ActionTmp1,~",)};
+   #Var ActionTmp2 {%Word(@ActionTmp1, ,1)};
+   #If {%IfWord(@ActionTmp2,are have, )=1} {#Var ActionTmp2 {@{YouActionsW%Proper(@ActionTmp2)}}} {#Var ActionTmp2 {@YouActionsW}};
+   #Var ActionTmp3 {};
+   #Var ActionTmp4 2;
+   #While {@ActionTmp4>0} {
+    #Var ActionTmp3 {%Copy(@ActionTmp2,3,%Eval(%Pos(^,@ActionTmp2)-3))};
+    #If {@ActionTmp1=*@ActionTmp3} {
+     #Var ActionTmp1 {%Delete(@ActionTmp2,1,%Pos(^,@ActionTmp2))};
+     #Exec {%Word(@ActionTmp1,%CRLF|%CRLF,1)};
+     #Var ActionTmp1 {@ExpString%CRLF};
+     #If {%Pos(%CRLF,@ActionTmp1)>1} {
+      #Sub {@ExpString}
+     };
+     #Var ActionTmp4 0
+    } {
+     #Var ActionTmp4 {%Pos(%CRLF|%CRLF,@ActionTmp2)};
+     #If {@ActionTmp4>0} {
+      #Var ActionTmp2 {%Copy(@ActionTmp2,%Eval(@ActionTmp4+3),32000)}
+     }
+    }
+   }
+  }
+ }
+} {Main}

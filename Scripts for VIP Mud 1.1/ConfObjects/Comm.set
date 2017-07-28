@@ -1,0 +1,26 @@
+#Exec {
+SetVariable Conf0Comm0 {M:Configure communication options
+SetOrgName:Set your org's name (Use the score command)
+SetCourierCompany:Set the name of your courier company (Use the score command)
+StripMessagePrefix
+HideMetafrequency:Hide the raw metafrequency in metaf communications
+Encoding
+};
+SetVariable Conf0Comm0SetOrgName0 {S:OrgName:name of your organisation
+Your org name is now $V
+};
+SetVariable Conf0Comm0SetCourierCompany0 {S:CourierCompany:name of your courier company
+Your courier company is now set to $V
+};
+SetVariable Conf0Comm0StripMessagePrefix0 {B:StripMessagePrefix:Have the words say and transmits stripped for spoken and transmitted messages
+The words says and transmits will now be stripped out of spoken and messages:Spoken messages and comms will now appear as before
+};
+SetVariable Conf0Comm0HideMetafrequency0 {B:HideMetafrequency:Hide the metafrequency in communications
+The metafrequency channel number will now be hidden in metaf communications:You will now see the channel number in metaf communications
+};
+SetVariable Conf0Comm0Encoding0 {C:Translation of special characters in communications
+Encoding:Soundpack encoding set to $V
+none:Off
+no:Norwegian
+}
+}

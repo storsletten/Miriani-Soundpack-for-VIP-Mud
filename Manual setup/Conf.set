@@ -1,0 +1,4 @@
+#Var ScriptPath {C:\path\Scripts}
+#Var SoundsPath {C:\path\Miriani Soundpack Sounds}
+
+#Var ThemesPath {@SoundsPath\Themes}

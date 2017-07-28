@@ -1,0 +1,445 @@
+#Alias {PlayRelDriveStart} {
+ #Var ShipSilent 0;
+ #If {@RelDriveBeep=1} {msplay Ship\Computer\Beep@Ext};
+ msplay Ship\Move\Accelerate@RelDriveStyle@Ext @RelDriveVolume;
+ #If {%IsNumber(@RelDriveFreq)=1} {
+  #PC %PlayHandle Frequency @RelDriveFreq
+ }
+} {}
+#Alias PlayRelDriveStop {
+ #Var ShipSilent 0;
+ #If {@RelDriveBeep=1} {
+  msplay Ship\Computer\Beep@Ext
+ };
+ msplay Ship\Move\Decelerate@RelDriveStyle@Ext @RelDriveVolume;
+ #If {%IsNumber(@RelDriveFreq)=1} {
+  #PC %PlayHandle Frequency @RelDriveFreq
+ }
+} {}
+
+#var ShipSilent 0
+
+#Trigger {That space is occupied.} {
+ msplay SameSpace@Ext;
+ ExpPipe {%0} {%0} {};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {The * has * the sector.} {
+ #If {%2="left"} {
+  msplay Ship\Move\ExitSector*2@Ext
+ } {
+  msplay Ship\Move\EnterSector*2@Ext
+ };
+ #If {@FlipSectorInfo=1 and %NumWords(%1,~")>2} {
+  #Var ShipMovementTmp1 {%Pos(~",%1)};
+  #Sub {%Copy(%1,%Eval(@ShipMovementTmp1+1),%Eval(%Pos(%CRLF,%1%CRLF)-@ShipMovementTmp1-3)) (%Copy(%1,1,%Eval(@ShipMovementTmp1-2))) has %2 the sector}
+ }
+} {Main}
+#Trigger {The * has launched from *} {
+ #If {@FlipSectorInfo=1 and %NumWords(%1,~")>2} {
+  #Var ShipMovementTmp1 {%Pos(~",%1)};
+  #Sub {%Copy(%1,%Eval(@ShipMovementTmp1+1),%Eval(%Pos(%CRLF,%1%CRLF)-@ShipMovementTmp1-3)) (%Copy(%1,1,%Eval(@ShipMovementTmp1-2))) has launched from %2}
+ }
+} {Main}
+#Trigger {The*has exited from*.} {msplay Ship\Move\EnterSector*2@Ext} {Main}
+#Trigger {The*has entered Jumpgate to*.} {msplay Ship\Move\ExitSector*2@Ext} {Main}
+#Trigger {The*has entered Mission Jumpgate.} {msplay Ship\Move\ExitSector*2@Ext} {Main}
+#Trigger {*rises smoothly off the ground and hovers for a brief moment before rapidly accelerating towards space.} {
+ mrandomplay Ship\Move\OtherLaunch*3@Ext
+} {Main}
+#Trigger {The deck beneath you vibrates slightly as the relativity drive begins accelerating the starship through space.} {
+ #Var ShipDir @TmpShipDir;
+ PlayRelDriveStart;
+ ExpPipe {%0} {} {};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {The sounds of the relativity drive slowly cease as the starship comes to a halt.} {
+ PlayRelDriveStop;
+ ExpPipe {%0} {} {};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {The sound of the relativity drive echoes through the room as it propels the ship towards space.} {
+ msplay Ship\Move\YouLaunch*5@Ext;
+ ExpPipe {%0} {} {};
+ #Sub {@ExpString};
+ InSpace 1
+} {Main}
+#Trigger {The sounds of the relativity drive calm as the starship completes its final maneuver into space.} {
+ msplay General\Misc\Beep*10@Ext;
+ msplay Ship\Misc\Background*5@Ext;
+ ExpPipe {%0} {:Voice:%0} {:Voice:In space};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {The starship begins vibrating violently as the hum picks up in intensity.} {#var ShipSilent 0;
+#GagLine 1 All} {Main}
+#Trigger {The vibration diminishes as the starship completes its subwarp.} {#var ShipSilent 0;
+msplay General\Misc\Beep*10@Ext;
+msplay Ship\Misc\Background*5@Ext;
+ExpPipe {%0} {The ship ends it's subwarp.} {};
+#sub {@ExpString}} {Main}
+#Trigger {The starship shudders beneath your feet. It feels like the hull is breaking apart around you.} {#var ShipSilent 0;
+#GagLine 1 All} {Main}
+#Trigger {With a sharp lurch, the starship completes its intrasector slip.} {#var ShipSilent 0;
+msplay General\Misc\Beep*10@Ext;
+msplay Ship\Misc\Background*5@Ext;
+ExpPipe {%0} {Slip complete.} {};
+#sub {@ExpString}} {Main}
+#Trigger {The starship vibrates violently as it nears the wormhole's event horizon.} {#GagLine 1 All} {Main}
+#Trigger {A bright flash of blue light floods the room as the starship travels through the wormhole.} {#GagLine 1 All} {Main}
+#Trigger {The bright light vanishes as the starship emerges at the other side of the wormhole.} {
+ msplay General\Misc\Beep*10@Ext;
+ msplay Ship\Misc\Background*5@Ext;
+ ExpPipe {%0} {:Voice:Wormhole jump complete.} {:Voice:Wormhole jump complete};
+#Sub {@ExpString}
+} {Main}
+#Trigger {The windows automatically dim as gate after gate becomes visible, each causing a brilliant flash of light as it redirects the wormhole.} {#GagLine 1 All} {Main}
+#Trigger {The experience abruptly ends as the starship exits from the companion jumpgate and the relativity drive takes over to slow the ship to a stop.} {
+ msplay General\Misc\Beep*10@Ext;
+ msplay Ship\Misc\Background*5@Ext;
+ ExpPipe {%0} {:Voice:Jump complete.} {:Voice:Jump complete};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {The starship rocks gently as the docking ring comes into contact with another starship.} {msplay Ship\Move\RingRemove@Ext} {Main}
+#Trigger {The whine of strained components echos throughout the area as the starship struggles to haul the asteroid.} {msplay Ship\Move\Haul@Ext;
+#GagLine 1 All} {Main}
+#Trigger {The starship shudders beneath your feet as it continues propelling itself forward.} {#GagLine 1 All} {Main}
+#Trigger {With a sharp lurch, the starship completes its intrasector wavewarp. The pulsing sound stops as the wavewarp drive powers down.} {#var ShipSilent 0;
+msplay General\Misc\Beep*10@Ext;
+msplay Ship\Misc\Background*5@Ext;
+ExpPipe {%0} {Wavewarp complete.} {};
+#sub {@ExpString}} {Main}
+#Trigger {The starship vibrates violently as it nears the natural wormhole's event horizon.} {msplay Ship\Move\PreciseFTL@Ext;
+ExpPipe {%0} {} {};
+#sub {@ExpString}} {Main}
+#Trigger {The starship shakes violently as it continues through the wormhole.} {mwplay Ship\Combat\YouHit*6@Ext;
+msplay Ship\Move\Slip@Ext;
+ExpPipe {%0} {} {};
+#sub {@ExpString}} {Main}
+#Trigger {There is a brilliant flash of blue light as the ship emerges on the other side of the wormhole.} {msplay Ship\Combat\OtherDestroyed*10@Ext;
+ExpPipe {%0} {} {};
+#sub {@ExpString}} {Main}
+#Trigger {The ship wrenches violently as the wavewarp drive interacts with stellar material.} {mwplay Ship\Combat\YouHit*6@Ext;
+ExpPipe {%0} {%0} {The ship wavewarps through a star.};
+#sub {@ExpString}} {Main}
+#Trigger {The ship accelerates slightly as it enters through a special access door of the battlecruiser.} {msplay Ship\Move\RingStart@Ext;
+ExpPipe {%0} {%0} {};
+#sub {@ExpString}} {Main}
+#Trigger {The ship settles onto the bay floor, immediately connecting the power couplings.} {msplay Ship\Move\BCFighterDock@Ext;
+ExpPipe {%0} {%0} {};
+#sub {@ExpString}} {Main}
+#Trigger {Uninhabited landing is not supported at this time.} {msplay Ship\Move\DontLand@Ext} {Main}
+#Trigger {A wave of nausea comes over you as gravity around the ship is twisted and bent.} {#GagLine 1 All;
+msplay Ship\Move\BiasContinues@Ext} {Main}
+#Trigger {The feeling of nausea passes as the starship moves rapidly. *} {#GagLine 1 All;
+msplay Ship\Move\BiasEnds@Ext;
+msplay General\Misc\Beep*10@Ext} {Main}
+#Trigger {The mild vibration of acceleration eases off *.} {
+ msplay General\Misc\Beep*10@Ext;
+ ExpPipe {%0} {:Voice:%0} {:Voice:Landed};
+ #Sub {@ExpString};
+ InSpace 0;
+ #If {%1="and is replaced by the firm pull of gravity as the ship touches down smoothly on the moon's surface" or %1="and is replaced by the firm pull of gravity as the ship touches down smoothly on the planet's surface" or %1="and is replaced by the firm pull of the space station's local artificial gravity"} {
+  #Var DirectHits 0;
+  #Var PartialHits 0;
+  #Var TotalHits 0;
+  #Var TotalHitsOnThisShip 0;
+  #Var DestroyedShips 0;
+  #Var DestroyedDebris 0;
+  #Var TotalShips 0
+ }
+} {Main}
+#Trigger {*The sound of the pod's engine suddenly fills the area as the pod begins moving toward its destination*} {#GagLine 1 All;
+msplay general\misc\podgo@Ext} {Main}
+#Trigger {*You feel the mild pull of acceleration as the pod begins to set down*} {#GagLine 1 All;
+msplay general\misc\podstop@Ext} {Main}
+#Trigger {The * drive is still recharging. Time remaining: *.} {ExpPipe {%0} {%0} {%2 until %1 recharge.};
+#sub {@ExpString}} {Main}
+#Trigger {The * is nonfunctional due to high levels of sensor interference.} {msplay Ship\Computer\DriveError@Ext} {Main}
+#Trigger {Cruise Control detects no possible destinations.} {msplay Ship\Computer\NothingToScan@Ext} {Main}
+#Trigger {You flick a switch to * silent running mode.} {#if {%1 = "enable"} {
+#var ShipSilent 1
+} {
+#var ShipSilent 0
+}} {Main}
+#Trigger {The artificial gravity, along with the contents of your stomach, momentarily fluctuates as the starship translates back into normal space, returning illumination and window opacity to standard levels.} {ExpPipe {%0} {The starship translates back into normal space.} {};
+#sub {@ExpString};
+msplay Ship\Move\QVAComplete@Ext;
+msplay Ship\Move\QVAEnd*3@Ext} {Main}
+#Trigger {Swirls of magenta and cyan light flicker on the walls as the starship continues its transition through the very fabric of the universe.} {#GagLine 1 All;
+msplay Ship\Move\QVAFlicker@Ext;
+msplay Ship\Move\FTL@Ext} {Main}
+#Trigger {Without warning, the overhead lights suddenly increase to maximum illumination as the windows darken to complete black. * announces, "Realspace transition in progress."} {#GagLine 1 All;
+msplay Ship\Move\QVAContinue@Ext} {Main}
+#Trigger {Water from the pool suddenly sloshes over the side and covers the floor of the room.} {mwplay General\Misc\WaterSplash@Ext} {Main}
+#Trigger {The ship jerks violently as an unknown energy source impacts the hull.} {mwplay Ship\Combat\Rebound*5@Ext;
+ExpPipe {%0} {An unknown energy source impacts the hull.} {};
+#sub @ExpString} {Main}
+#Trigger {The gentle hum of the ship's engines momentarily amplifies as the starship moves through space.} {mrandomplay Ship\Misc\BackgroundHigh*4@Ext;
+#GagLine 1 All} {Main}
+#Trigger {The hull creaks alarmingly around you as the starship is pulled by intense gravitational forces.} {mrandomplay Ship\Move\BlackHole@Ext;
+mwplay Ship\Combat\YouHit*11@Ext;
+ExpPipe {%0} {The starship is pulled by intense gravitational forces.} {};
+#sub @ExpString} {Main}
+#Trigger {With a slight thud, the ship sets down.} {InSpace 0;
+#GagLine 1 All} {Main}
+#Trigger {* has jumped out of the sector.} {msplay Ship\Move\ExitSector*2@Ext} {Main}
+#Alias MoveMark {
+ #if {@ZoneType<>"starship"} {
+  ConfPrint {You must be in a starship for this command to work.}
+ } {
+  #if {%1="clear"} {
+   #if {%2="all"} {
+    #var MoveMarkers {%Copy(@ConfOptionVars,%Pos(MoveMarkers,@ConfOptionVars),%Pos(%CRLF,%Delete(@ConfOptionVars,1,%Pos(MoveMarkers,@ConfOptionVars))))};
+    #var MoveMarkers {%Delete(@MoveMarkers,1,%Pos(:,@MoveMarkers))};
+    #say {All markers cleared.}
+   } {
+    #if {%2<>""} {
+     SetVariable TmpMoveMarker {*%2*}
+    } {
+     SetVariable TmpMoveMarker @ZoneName
+    };
+    #ForAll @MoveMarkers {
+     #if {%Word(%i,:,1)=*@TmpMoveMarker} {
+      #say {Clearing marker for %Word(%I,:,1)}
+     } {
+      #AddItem TmpMoveMarkers {%i}
+     }
+    };
+    UnsetVariables TmpMoveMarker;
+    #var MoveMarkers {@TmpMoveMarkers};
+    #unvar TmpMoveMarkers
+   }
+  } {
+   #if {%1="show"} {
+    ConfPrint {%Replace(%Replace(@MoveMarkers,|,%CRLF),:,: )}
+   } {
+    #if {%1="help"} {
+     ConfPrint {Usage:
+     MoveMark with no arguments sets a move marker for this ship
+     MoveMark clear <ship>|all clears the move marker for ship, or this ship if no argument is given, or all markers if the all argument is used
+     MoveMark show shows the set move markers};
+    } {
+     #var MoveMark 1;
+     record
+    }
+   }
+  }
+ }
+} {}
+#Trigger {Sectors Travelled* (* LY)} {
+ #var MoveMarkTmp1 {%Replace(%1,.,"")};
+ #if {@MoveMark=1} {
+  #unvar MoveMark;
+  MoveMark clear;
+  #AddItem MoveMarkers {@ZoneName:@MoveMarkTmp1}
+ } {
+  #var MoveMarkTmp2 0;
+  #ForAll @MoveMarkers {
+   #if {%Word(%i,:,1)=@ZoneName} {
+    #Var MoveMarkTmp2 {%Word(%I,:,2)}
+   }
+  };
+  #if {@MoveMarkTmp2>0} {
+   #Sub {%0. %Eval(@MoveMarkTmp1 - @MoveMarkTmp2) %If(%Eval(@MoveMarkTmp1 - @MoveMarkTmp2) = 1,sector,sectors) since last mark.};
+   #unvar MoveMarkTmp1;
+   #unvar MoveMarkTmp2
+  }
+ }
+} {Main}
+#Trigger {The windows automatically darken as an intense burst of light radiates outward from *.} {
+ ExpPipe {%0} {Light shoots out from %1.} {};
+ #Sub @ExpString;
+ msplay Ship\Move\ArrayLight@Ext
+} {Main}
+#Trigger {An intense burst of static begins emanating from every nearby radio. The lights dim momentarily as a barely perceptible rumbling vibrates the deck below you.} {
+ ExpPipe {%0} {%0} {};
+ #Sub @ExpString;
+ msplay Ship\Move\ArrayStatic@Ext
+} {Main}
+#Trigger {With no warning, the gravity in the room increases, pinning you to the floor. It sounds like the ship's computer is saying something, but you can't make the exact message out in the static.} {
+ ExpPipe {%0} {It sounds like the ship's computer is saying something, but you can't make the exact message out in the static.} {};
+ #Sub @ExpString
+} {Main}
+#Trigger {With an abrupt and unexplainable popping sound, the gravity in the room fails entirely. You begin to feel the effects of weightlessness as the gravity plating returns to normal levels. You fall to the ground with an uncomfortable thud.} {
+ ExpPipe {%0} {%0} {};
+ #Sub @ExpString;
+ Msplay Ship\Move\ArrayPop@Ext
+} {Main}
+#Trigger {As the starship lurches forward ever so slightly, your ears pop. You glance out the window and see that it has been restored to nominal luminocity and the sector has changed.} {
+ ExpPipe {%0} {%0} {};
+#Sub @ExpString;
+ Msplay Ship\Move\QVAComplete@Ext
+} {Main}
+#Trigger {* inputs a series of commands into a navigation console.} {
+ msplay Ship\Computer\Keyboard*15@Ext;
+ #Var SomeoneElseMoved 1
+} {Main}
+#Alias CGCCleanup {
+ #While {%Pos(|,@SCGCList)=1} {
+  #Var SCGCList {%DelNItem(@SCGCList,1)}
+ }
+} {}
+#Alias SCGCLabelToIndex {
+ #Var SCGCTmp1 {nothing};
+ #Var SCGCTmp2 {%Trim(%0)};
+ #Var SCGCTmp2 {%Replace(@SCGCTmp2,~",)};
+ #Var SCGCTmp2 {%Replace(@SCGCTmp2,~~,)};
+ #Var SCGCTmp2 {@SCGCTmp2*};
+ #Var SCGCTmp4 0;
+ #Var SCGCItemIndex 0;
+ #ForAll {@SCGCList} {
+  #Math SCGCTmp4 {@SCGCTmp4+1};
+  #If {@SCGCItemIndex=0} {
+   #Var SCGCTmp3 {%Word(%i,:,1)};
+   #Var SCGCTmp3 {%Replace(@SCGCTmp3,~",)};
+   #Var SCGCTmp3 {%Replace(@SCGCTmp3,~~,)};
+   #If {@SCGCTmp3=*@SCGCTmp2} {
+    #Var SCGCItemIndex {@SCGCTmp4}
+   }
+  }
+ };
+ #UnVar SCGCTmp1;
+ #UnVar SCGCTmp2;
+ #UnVar SCGCTmp3;
+ #UnVar SCGCTmp4
+} {}
+#Alias SCGC {
+ CGCCleanup;
+ #If {@SCGCList<>""} {
+  #Var SCGCTmp1 {%Trim(%0)};
+  #Var SCGCTmp1 {%Replace(@SCGCTmp1,~",)};
+  #Var SCGCTmp1 {%Replace(@SCGCTmp1,~~,)};
+  #If {@SCGCTmp1=""} {
+   #Var SCGCTmp3 {P:Select Destination};
+   #ForAll {@SCGCList} {
+    #If {%i=*"*:*"} {
+     #Var SCGCTmp1 {%Word(%i,:,1)};
+     #Var SCGCTmp2 {%Word(%i,:,2)};
+     #Var SCGCTmp3 {@SCGCTmp3|@SCGCTmp1.%If(@ShowGalcoords = 1, ~(@SCGCTmp2~),""):%If(@SendCommandDirectly = 1,cgc @SCGCTmp2 {@SCGCTmp1},#Say {cgc @SCGCTmp2} Entry~~%Chr(124)NoReturn)}
+    }
+   };
+   #Pick {@SCGCTmp3};
+   #UnVar SCGCTmp1;
+   #UnVar SCGCTmp2;
+   #UnVar SCGCTmp3
+  } {
+   #If {%IsNumber(%1)=1} {#Var SCGCItemIndex %1} {SCGCLabelToIndex {%0}};
+   #If {@SCGCItemIndex>0 AND @SCGCItemIndex<=%NumWords(@SCGCList,|)} {
+    #Var SCGCTmp1 {%Word(@SCGCList,|,@SCGCItemIndex)};
+    #Var SCGCTmp1 {%Word(@SCGCTmp1,:,2)};
+    #If {@SendCommandDirectly=1} {
+     #Exec {CGC @SCGCTmp1 {%Word(%Word(@SCGCList,|,@SCGCItemIndex),:,1)}}
+    } {
+     #Exec {#Say {CGC @SCGCTmp1} Entry|NoReturn}
+    };
+    #UnVar SCGCTmp1;
+    #Abort All
+   } {
+    ConfPrint {SCGC item not found.}
+   }
+  }
+ } {
+  ConfPrint {No saved CGC destinations.}
+ }
+} {}
+#Key {Control-Alt-L} {scgc} {}
+#Alias acgc {
+ SetVariable ACGCTmp1 {};
+ SetVariable ACGCTmp2 3;
+ #While {%Replace(%{@ACGCTmp2},~","")<>""} {
+  #Math ACGCTmp2 {@ACGCTmp2 + 1};
+  #Var ACGCTmp1 {@ACGCTmp1 %{@ACGCTMP2}}
+ };
+ #Var ACGCTmp1 {%Proper(%Trim(@ACGCTmp1))};
+ #Var ACGCTmp1 {%Replace(@ACGCTmp1,~","")};
+ #If {@ACGCTmp1="" OR %IsNumber(%replace(%1%2%3,-,""))=0} {
+  ConfPrint {Syntax: acgc x y z name of place}
+ } {
+  #Var ACGCTmp1 {%Replace(@ACGCTmp1,|,"")};
+  #Var ACGCTmp1 {@ACGCTmp1:%Replace(%1,~,,"") %Replace(%2,~,,"") %Replace(%3,~,,"")};
+  #AddItem SCGCList @ACGCTmp1;
+  ConfPrint {Added %Word(@ACGCTmp1,:,1) at Galactic coordinates %Replace(%Word(@ACGCTmp1,:,2), ,~, ) to the SCGC list.};
+  CGCCleanup
+ }
+} {}
+#Alias LCGC {
+ CGCCleanup;
+ #If {@SCGCList=""} {
+  #Var Tmp1 {No SCGC destinations defined.}
+ } {
+  #Var Tmp1 {};
+  #Var Tmp2 0;
+  #ForAll @SCGCList {
+   #Var Tmp3 {%Word(%I,:,1)};
+   #If {@ShowGalcoords=1} {#Var Tmp4 { | %Word(%I,:,2)}} {#Var Tmp4 {}};
+   #Math Tmp2 {@Tmp2 + 1};
+   #Var Tmp1 {@Tmp1
+[@Tmp2] @Tmp3@Tmp4}
+  }
+ };
+ ConfPrint @Tmp1
+} {}
+#Alias DCGC {
+ CGCCleanup;
+ #If {@SCGCList<>""} {
+  #Var SCGCTmp1 {%Trim(%0)};
+  #Var SCGCTmp1 {%Replace(@SCGCTmp1,~",)};
+  #Var SCGCTmp1 {%Replace(@SCGCTmp1,~~,)};
+  #If {@SCGCTmp1=""} {
+   #Var SCGCTmp3 {P:Select Destination};
+   #Var SCGCTmp4 0;
+   #ForAll {@SCGCList} {
+    #Math SCGCTmp4 {@SCGCTmp4+1};
+    #If {%i=*"*:*"} {
+     #Var SCGCTmp1 {%Word(%i,:,1)};
+     #Var SCGCTmp2 {%Word(%i,:,2)};
+     #Var SCGCTmp3 {@SCGCTmp3|@SCGCTmp1.%If(@ShowGalcoords=1, ~(@SCGCTmp2~),""):#Var SCGCList {~%DelNItem(~@SCGCList,@SCGCTmp4)};#Say {Item removed from SCGC: @SCGCTmp1}}
+    }
+   };
+   #Pick {@SCGCTmp3};
+   #UnVar SCGCTmp1;
+   #UnVar SCGCTmp2;
+   #UnVar SCGCTmp3
+  } {
+   #If {%IsNumber(%1)=1} {#Var SCGCItemIndex %1} {SCGCLabelToIndex {%0}};
+   #If {@SCGCItemIndex>0 AND @SCGCItemIndex<=%NumWords(@SCGCList,|)} {
+    #Var SCGCTmp1 {%Word(@SCGCList,|,@SCGCItemIndex)};
+    #Var SCGCTmp1 {%Word(@SCGCTmp1,:,1)};
+    #Var SCGCList {%DelNItem(@SCGCList,@SCGCItemIndex)};
+    ConfPrint {Removed item from SCGC: @SCGCTmp1};
+    #UnVar SCGCTmp1;
+    #Abort All
+   } {
+    ConfPrint {SCGC item not found.}
+   }
+  }
+ } {
+  ConfPrint {No saved CGC destinations.}
+ }
+} {}
+#Trigger {Sensors register an anomalous event as * appears on scans.} {Msplay Ship\Move\EnterSector*2@Ext} {Main}
+#Trigger {Flashes of color dominate the window as you peer out, swirling into one another until they collide and explode into new, even more vibrant colors. Looking through the wall of colors, you can make out the dim shine of a star and, occasionally, what looks to be a larger celestial body flashing by. A surge of blue energy is intermittently thrown into the mix from the ship's wormhole drive, seemingly fueling the show of color outside.} {#Var Peers 0} {Main}
+#Trigger {An array of enormous flesh-colored hooks wave in front of the ship, latching deep into the hull. The starship is pulled toward the docking orifice.} {
+ MsPlay Ship\Move\YouLanding@Ext;
+ ExpPipe {%0} {%0} {};
+ #Sub @ExpString
+} {Main}
+#Trigger {The starship clears the docking bay doors. The yellow secretion is slowly drained away as the doors ominously close.} {
+ MsPlay Ship\Move\PraelorOutpostDockEnd@Ext;
+ PlayRelDriveStop;
+ ExpPipe {%0} {%0} {};
+ #Sub @ExpString
+} {Main}
+#Trigger {A series of Praelor hisses and squelches come over the starship's speakers. The computer's translation matrix activates and the starship's viewscreen flashes: *} {
+ msplay Ship\Comm\CommLink@Ext -30;
+ ExpPipe {%0} {The view screen flashes: %1} {%1};
+ #Sub @ExpString
+} {Main}
+#Trigger {A torrent of yellow fluid leaks from a large vesical in front of the station's docking doors, momentarily blotting out the viewport.} {
+ msplay Ship\Move\PraelorOutpostDockStart@Ext
+} {Main}
+#Trigger {* has initiated an intrasector *.} {
+ mrandomplay Ship/Move/DriveAlert@Ext;
+ ExpPipe {%0} {%1 initiates %2.} {%1 initiates %2.};
+ #Sub @ExpString
+} {Main}

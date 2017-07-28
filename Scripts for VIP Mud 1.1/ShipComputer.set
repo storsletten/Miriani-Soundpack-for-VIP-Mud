@@ -1,0 +1,358 @@
+#Exec {
+ SetVariable SomeoneElseFires 0;
+ SetVariable TargetCoordinatesRaw {};
+SetVariable ComputerAction {};
+SetVariable ComputerSaid {};
+SetVariable ComputerName {Computer};
+SetVariable ComputerSpoken 0;
+SetVariable ComputerTmp1 0
+}
+
+#var ComputerActions {
+Warning! Aquatic life form has entered scooper chamber. Expulsion in progress...^msplay Aquatic/fishscoop@Ext|
+Intruder alert! *^msplay Ship\Combat\Intruder~@Ext|
+Long-Range Laser * is locking onto *.^GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
+#if {~@UseAlternativeCombatSounds=1 AND ~%Pos(Praelor,~@Wildcard2)>0} {
+msplay Ship\Combat\FireAtPraelor~@Ext
+};
+#If {~%Replace(~@Wildcard2,~~",~"~")="empty space"} {
+msplay General\Misc\Cancel@Ext;
+ExpPipe {~%0} {Turret@Wildcard1 locking on nothing} {Nothing targeted.}
+} {
+#if {~@ExtraFiringSound=1 and ~@Wildcard2<>"Debris"} {msplay Ship\Combat\WeaponsLocked@Ext};
+#Alarm 0 {msplay Ship\Computer\Keyboard*15@Ext};
+#var ExpString {~@ComputerSaid}
+};
+#var ComputerSaid {~@ExpString}|
+Via synchronized text message broadcasts, *^GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
+msplay Ship\Comm\STMB~@Ext;
+#Var ComputerSaid {[Synchronized Text Message Broadcast] ~@WildCard1};
+#Alarm 0 {PushMessage Comm {~@ComputerSaid}}|
+* indicates that it*s under attack.^msplay Ship\Combat\UnderAttack@Ext|
+The destination specified is beyond the range of the wormhole drive.  Attempting to utilize jumpgate network.^msplay Ship\Computer\JumpgateCalculate@Ext;
+ExpPipe {~%0} {~%0} {:Voice:~%0};
+#var ComputerSaid {~@ExpString}|
+Warning, power level has dropped to *~%.^GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
+#if {~%IsNumber(~@WildCard1)=1 AND ~@WildCard1>5} {
+msplay SalvageLow@Ext
+} {
+msplay SalvageCritical@Ext
+}|
+Scans reveal the debris to be a life form.^msplay Ship\Misc\SalvageLifeForm@Ext;
+ExpPipe {~%0} {~%0} {Lifeform salvaged!};
+#var ComputerSaid {~@ExpString}|
+Scans reveal the debris to be a lifeform*.^GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
+msplay Ship\Misc\Lifeform@Ext;
+#If {~@Wildcard1=""} {
+ExpPipe {~%0} {~%0} {Lifeform salvaged!}
+} {
+ExpPipe {~%0} {~%0} {Salvaged a lifeform~@Wildcard1}
+};
+#var ComputerSaid {~@ExpString}|
+Docking complete.^msplay Ship\Misc\DockingBayDoorClose@Ext|
+There is insufficient weapons-grade bardenium available for firing.^msplay Ship\Combat\NoBard@Ext;
+#If {~%Defined(CannonsAvailableBard)=1} {#Var CannonsAvailableBard 0};
+ExpPipe {~%0} {There is insufficient bardenium available for firing.} {Insufficient bardenium available};
+#var ComputerSaid {~@ExpString}|
+The cannons now have sufficient ammunition for firing.^#If {~%Defined(CannonsAvailable)=1} {
+#Math CannonsAvailableBard {~@CannonsAvailable*10};
+#If {~@CannonsAvailableBard<20} {#Var CannonsAvailableBard 20}
+};
+ExpPipe {~%0} {Sufficient ammunition for firing.} {Reloaded.};
+#var ComputerSaid {~@ExpString}|
+The target has moved from the locked coordinates.^msplay Ship\Combat\Lostlock@Ext;
+ExpPipe {~%0} {~%0} {:Voice:Target has moved};
+#var ComputerSaid {~@ExpString}|
+Precision wormhole drive is powering up. Calculating optimal path for precision entry...^msplay Ship\Move\PreciseFTL@Ext|
+The starship has entered an H II region. Caution is advised.^msplay Ship\Computer\Nebula@Ext|
+*NAVI was unable to continue due to sensor interference.^GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
+#if {~@Wildcard1="" OR ~@PlaySoundsOnPipe=1} {
+msplay Ship\Computer\Anomaly@Ext
+}|
+Mission objective has been completed in approximately *. Return to base.^GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
+msplay Music\*30@Ext;
+#if {~@UseHitCounter=1} {
+#var DirectHits {~%If(~%IsNumber(~@DirectHits)=0,0,~@DirectHits)};
+#var PartialHits {~%If(~%IsNumber(~@PartialHits)=0,0,~@PartialHits)};
+#var DestroyedShips {~%If(~%IsNumber(~@DestroyedShips)=0,0,~@DestroyedShips)};
+#var TotalShips {~%If(~%IsNumber(~@TotalShips)=0,0,~@TotalShips)};
+#var DestroyedDebris {~%If(~%IsNumber(~@DestroyedDebris)=0,0,~@DestroyedDebris)};
+#if {~@DirectHits=0 AND ~@PartialHits=0} {
+#var ComputerSaid {No hits on ~@TotalShips ships}
+} {
+#math TotalHits {~@DirectHits + ~@PartialHits};
+#var ComputerSaid {~%Replace(~@HitCounterFormatString,$TOTALHITS,~@TotalHits)};
+#var ComputerSaid {~%Replace(~@ComputerSaid,$DIRECTHITS,~@DirectHits)};
+#var ComputerSaid {~%Replace(~@ComputerSaid,$PARTIALHITS,~@PartialHits)};
+#var ComputerSaid {~%replace(~@ComputerSaid,$DESTROYEDSHIPS,~@DestroyedShips)};
+#Var ComputerSaid {~%Replace(~@ComputerSaid,$TOTALSHIPS,~@TotalShips)};
+#var ComputerSaid {~%Replace(~@ComputerSaid,$DESTROYEDDEBRIS,~@DestroyedDebris)}
+};
+#var ComputerSaid {~@ComputerSaid in ~@Wildcard1.};
+PushMessage Mission0Reports {~@ComputerSaid}
+}|
+Warning, avian lifeform in processing chamber. Expelling...^msplay Ship\Misc\SalvageLifeForm@Ext;
+mrandomplay ACV\AvianExpulsion*38@Ext;
+ExpPipe {~%0} {Expelling avian lifeform from processing chamber.} {};
+#var ComputerSaid {~@ExpString}|
+Cargo capacity has been filled. Shutting down atmospheric scooper.^ExpPipe {~%0} {Cargo capacity has been filled.} {Shutting down atmospheric scooper.};
+#var ComputerSaid {~@ExpString}|
+* destroyed.^GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
+#if {~@Wildcard1="Debris"} {
+#math DestroyedDebris {~@DestroyedDebris + 1};
+mwplay Ship\Combat\DebrisDestroyed@Ext
+} {
+#Math DirectHits {~@DirectHits + 1};
+#math DestroyedShips {~@DestroyedShips + 1};
+#Math TotalShips {~@TotalShips + 1};
+msplay Ship\Combat\OtherDestroyed*11@Ext
+}|
+NAVI program has been interrupted. Autopilot is unable to continue.^msplay Ship/Computer/Error@Ext|
+The target is no longer available. Probable cause for lost sensor contact is destruction.^#Math DirectHits {~@DirectHits+1};
+#Math DestroyedShips {~@DestroyedShips+1};
+#Math TotalShips {~@TotalShips+1};
+msplay Ship\Combat\OtherDestroyed*11@Ext|
+There is no target at those coordinates. Aborting.^msplay General\Misc\Cancel@Ext|
+Warning, projectile approaching on automatically guided vector. Brace for impact.^mwplay Ship\Combat\Projectile*3@Ext|
+Combat drone launch failed. NO valid targets detected.^msplay Ship\Computer\Error@Ext|
+* is locking onto empty space.^msplay General\Misc\Cancel@Ext|
+Activate.^msplay Ship\Move\QVAActivate@Ext|
+Establishing computer link with a quantum vacuum accelerator...^msplay Ship\Move\QVAEstablish@Ext -40|
+Link established. Proceeding with stage one checklist...^msplay Ship\Move\PreciseFTL@Ext|
+Safety check complete. Telemetry handshake complete. Wormhole drive interlink confirmed. System sanity checks complete. Checklist confirmed green.^msplay Ship\Move\QVAFinalise@Ext|
+I have completed the repair of *.^GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
+msplay Ship\Computer\RepairComplete@Ext;
+ExpPipe {~%0} {Completed the repair of ~@Wildcard1.} {~@Wildcard1 repaired.};
+#var ComputerSaid {~@ExpString}|
+I am beginning the repair of *. Estimated time to completion: *.^GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
+msplay Ship\Computer\RepairStart@Ext;
+ExpPipe {~%0} {Repairing ~@Wildcard1. ~@Wildcard2 until complete.} {Repairing ~@Wildcard1 (~@Wildcard2).};
+#var ComputerSaid {~@ExpString}|
+* will be completely repaired in approximately *.^GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
+ExpPipe {~%0} {~@Wildcard1 will be repaired in approximately ~@Wildcard2.} {~@Wildcard1 will be repaired in ~@Wildcard2.};
+#var ComputerSaid {~@ExpString}|
+Turret* locking onto *.^
+GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
+#if {~@UseAlternativeCombatSounds=1 AND ~%Pos(Praelor,~@Wildcard2)>0} {
+msplay Ship\Combat\FireAtPraelor~@Ext
+};
+#If {~%Replace(~@Wildcard2,~~",~"~")="empty space"} {
+msplay General\Misc\Cancel@Ext;
+ExpPipe {~%0} {Turret@Wildcard1 locking on nothing} {Nothing targeted.}
+} {
+#if {~@ExtraFiringSound=1 and ~@Wildcard2<>"Debris"} {msplay Ship\Combat\WeaponsLocked@Ext};
+#Alarm 0 {msplay Ship\Computer\Keyboard*15@Ext};
+#var ExpString {~@ComputerSaid}
+};
+#var ComputerSaid {~@ExpString}|
+Bardenium Cannon* locked on *. Firing.^GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
+#if {~@UseAlternativeCombatSounds=1 AND ~%Pos(Praelor,~@Wildcard2)>0} {
+msplay Ship\Combat\FireAtPraelor~@Ext
+};
+#if {@ExtraFiringSound=1} {msplay Ship\Combat\WeaponsLocked@Ext};
+#Alarm 0 {msplay Ship\Computer\Keyboard*15@Ext};
+ExpPipe {~%0} {Bardenium Cannon~@Wildcard1 locked on ~@Wildcard2.} {Cannon~@Wildcard1 locked on ~@Wildcard2.};
+#var ComputerSaid {~@ExpString};
+#If {~%Defined(CannonsSalvoSize)=1} {
+#Math CannonsAvailableBard {~@CannonsAvailableBard-~@CannonsSalvoSize};
+#If {~@CannonsAvailableBard<=0} {
+#Alarm 0 {msplay Ship\Combat\NoBard@Ext}
+}
+}|
+Hit on * "*"*.^#if {~@SomeoneElseFires<>1} {
+#math DirectHits {~@DirectHits + 1}
+};
+#Var SomeoneElseFires 0;
+#var TmpComputer1 {~%replace(~@ComputerAction,~~", )};
+#var TmpComputer2 {~%replace(~@ComputerSaid,~~", )};
+GetWildcardValues {~%replace(~@TmpComputer1,  , )} {~%replace(~@TmpComputer2,  , )};
+mwplay Ship\Combat\OtherHit5@Ext;
+ExpPipe {~%0} {Hit on ~@Wildcard1 ~@Wildcard2~@Wildcard3.} {Hit on ~@Wildcard2~@Wildcard3.};
+#var ComputerSaid {~@ExpString}|
+Partial hit on * "*"*.^#if {~@SomeoneElseFires<>1} {
+#math PartialHits {~@PartialHits + 1}
+};
+#var Tmp1 {~%replace(~@ComputerAction,~~", )};
+#var Tmp2 {~%replace(~@ComputerSaid,~~", )};
+GetWildcardValues {~%replace(~@Tmp1,  , )} {~%replace(~@Tmp2,  , )};
+mwplay Ship\Combat\OtherHit*5@Ext;
+msplay Ship\Combat\PartialHit@Ext 20;
+ExpPipe {~%0} {Partial hit on ~@Wildcard1 ~@Wildcard2~@Wildcard3.} {Partial hit on ~@Wildcard2~@Wildcard3};
+#var ComputerSaid {~@ExpString}|
+* been detect*d in the sector.^#if {~%pos(control room reports,~@ComputerSaid)=0 OR ~@PlaySoundsOnPipe=1} {
+mobject ~@ComputerSaid
+}|
+Aborting repair task. Please stand by.^msplay Ship\Computer\Abort@Ext|
+The game has ended! The winner is *^mrplay;
+msplay Music\*30@Ext;
+#if {~%pos(~@Rext,~@LaserTagOrigRoom)>0} {
+mrplay ~@LaserTagOrigRoom
+};
+#class lasertag disable
+}
+
+#var ComputerSpokenActions {
+Sensors detect an obstacle in the path of the wormhole. Aborting FTL travel...^msplay Ship\Move\PathBlocked@Ext|
+Autopilot engaged.^msplay Ship\Move\AutopilotEngaged@Ext|
+Autopilot disengaged.^msplay Ship\Move\AutopilotDisengaged@Ext|
+Self-destruct sequence initiated. Destruction in sixty seconds.^msplay Ship\Computer\Self-Distruct@Ext;
+msplay Ship\Computer\SelfDestructStart@Ext|
+Self-destruct in thirty seconds.^msplay Ship\Computer\SelfDestructThirty@Ext|
+Self-destruct in ten seconds.^msplay Ship\Computer\SelfDestructTen@Ext|
+Goodbye.^msplay Ship\Computer\SelfDestructEnd@Ext
+}
+
+#trigger {* announces, *} {
+ #if {%word(%1, ,1)="The" OR %Word(%1, ,1)=*"A*"} {
+  #if {%pos(flickers,%1)>0} {
+   #var ComputerName {%copy(%1,1,%eval(%pos(flickers,%1) - 2))}
+  } {
+   #var ComputerName {Computer}
+  };
+  #var ComputerSaid {%replace(%2,~","")};
+  #if {@SpeakWhenPossible = 1} {
+   #if {@ComputerSaid = "Five." OR @ComputerSaid = "Four." OR @ComputerSaid = "Three." OR @ComputerSaid = "Two." OR @ComputerSaid = "One."} {
+    #gagline 1 voice;
+    msplay Ship\Computer\SelfDestruct%replace(@ComputerSaid,.,@Ext);
+    #var ComputerSpoken 1
+   } {
+    #var ComputerSpoken 0;
+    #forall @ComputerSpokenActions {
+     #var ComputerAction {%replace(%word(%i,^,1),%CRLF,"")};
+     #if {@ComputerSaid =* @ComputerAction AND @ComputerSpoken<>1} {
+      #gagline 1 voice;
+      #Exec {%replace(%word(%i,^,2),~%0,@ComputerSaid)};
+      #var ComputerSpoken 1
+     }
+    }
+   }
+  };
+  #var ComputerTmp1 0;
+  #forall @ComputerActions {
+   #var ComputerAction {%replace(%word(%i,^,1),%CRLF,"")};
+   #var ComputerAction {%replace(@ComputerAction,',"")};
+   #if {%replace(@ComputerSaid,~","") =* %replace(@ComputerAction,~","") AND @ComputerTmp1<>1} {
+    #Exec {%replace(%word(%i,^,2),~%0,@ComputerSaid)};
+    #var ComputerTmp1 1
+   }
+  };
+  #if {@ComputerSaid =* "Control room reports: *"} {
+   msplay Ship\Computer\LFD@Ext
+  } {
+   msplay Ship\Computer\Announce*4@Ext
+  };
+  ExpPipe {%0} {[@ComputerName]: "@ComputerSaid"} {:0:"@ComputerSaid"};
+  #if {@GagAvatars<>1 AND @ExperienceLevel=3 AND @ComputerName<>"Computer"} {
+   #var ExpString {@ComputerName: @ExpString}
+  };
+  PushMessage Computer {@ExpString};
+  #if {@SpeakComputerMessagesThroughSAPI=1 AND @ComputerSpoken<>1} {
+   SSpeak @ExpString;
+   #GagLine 1 Voice
+  };
+  #sub {@ExpString}
+ }
+} {Main}
+
+#Trigger {An interdiction field prevents the ship from communicating with the navigational beacons.} {
+msplay Ship\Computer\Error@Ext
+} {Main}
+
+#Trigger {The computer reports *} {
+ #Var ShipComputerTmp1 {%Replace(%1,~",)};
+ #If {@ShipComputerTmp1=*"* is one unit away from this ship."} {
+  msplay Ship\Computer\OneUnitAway@Ext;
+  ExpPipe {%0} {%1} {%Copy(%1,1,%Pos(is one unit away from this ship.%CRLF,%1%CRLF))n range.};
+  #Sub {@ExpString};
+  #Var ShipComputerTmp1 {}
+ };
+ #If {@ShipComputerTmp1<>""} {
+  msplay Ship\Computer\Report*4@Ext
+ }
+} {Main}
+#TRIGGER {The computer reports the starship is headed for *. The computer estimates approximately * until arrival at the destination at sublight speeds.} {
+ msplay Ship\Computer\Report*4@Ext;
+ ExpPipe {%0} {%2 until arrival at %1} {%2 until arrival at %1};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {* presses a button on a navigation console and examines the display.} {msplay Ship\Computer\Keyboard*15@Ext;
+ExpPipe {%0} {%0} {%1 checks the navigation console.};
+#sub {@ExpString}} {Main}
+#Trigger {A destination appears on the ship's navigation controls: *.} {msplay Ship\Computer\Keyboard*15@Ext;
+ExpPipe {%0} {Heading to %1} {:0:Destination: %1};
+#sub {@ExpString}} {Main}
+#TRIGGER {Starship Status:} {msplay Ship\Computer\Display@Ext} {Main}
+#TRIGGER {There are no damaged components.} {msplay Ship\Computer\Display@Ext} {Main}
+#TRIGGER {Charge Readout:} {msplay Ship\Computer\Display@Ext} {Main}
+#TRIGGER {Total Cargo:*} {msplay Ship\Computer\Display@Ext} {Main}
+#TRIGGER {There is nothing in the cargo hold.*} {msplay Ship\Computer\Display@Ext} {Main}
+#TRIGGER {Starship Security Status:} {msplay Ship\Computer\Display@Ext} {Main}
+#TRIGGER {Starship Weapon Information} {msplay  Ship\Computer\Display@Ext} {Main}
+#TRIGGER {Weapon Configuration:} {msplay Ship\Computer\Display@Ext} {Main}
+#Alias {c} {coords} {}
+#TRIGGER {* Damage:} {ExpPipe {%0} {%1} {};
+#Sub @ExpString;
+msplay Ship\Computer\Display@Ext} {Main}
+#TRIGGER {Weapon Status:} {msplay Ship\Computer\Display@Ext} {Main}
+#Trigger {Current coordinates: *} {
+ #Var MyCoordsX {%Word(%1,~, ,1)};
+ #Var MyCoordsY {%Word(%1,~, ,2)};
+ #Var MyCoordsZ {%Word(%1,~, ,3)};
+ #If {@InterruptOnFocus=1} {speech stop};
+ #If {@currentroomsound="Ship\Rooms\Salvager.wav"} {
+  ExpPipe {%0} {%1} {@MyCoordsX @MyCoordsY}
+ } {
+  ExpPipe {%0} {%1} {@MyCoordsX @MyCoordsY @MyCoordsZ}
+ };
+ #sub {@ExpString};
+ #class AtSaStarmap disable
+} {Main}
+#TRIGGER {A * beep sounds as the computer announces* "* charge remaining."} {msplay Ship\Computer\LowCharge*3@Ext;
+ExpPipe {%0} {[Alert]: %3 charge remaining!} {%3 charge remaining!};
+#sub {@ExpString}} {Main}
+#TRIGGER {The starship is at * status.} {#if {%1 = "red" AND @Peers <> 1} {
+#if {@ThemeSoundHandle = 0} {mtplay}
+ } {
+thememusicfadeout
+}} {Main}
+#TRIGGER {* Lights overhead indicate that the ship is on * status. *} {
+ #if {%2 = "red alert"} {
+  #if {%Mp3Loop=0} {
+   mtplay
+  }
+ } {
+  thememusicfadeout
+ }
+} {Main}
+#TRIGGER {A computerized voice on * announces, "*"} {msplay Ship\Computer\LFD@Ext} {Main}
+#TRIGGER {A * suddenly emerges from a console.} {msplay Ship\Computer\ScanRetrieved@Ext} {Main}
+#TRIGGER {Video probe history:} {ExpPipe {%0} {%0} {};
+#sub {@ExpString};
+msplay Ship\Computer\Probe*3@Ext} {Main}
+#TRIGGER {Scanning is made much more difficult by the lack of sensors.} {#class focus disable;
+msplay Ship\Computer\Error@Ext} {Main}
+#TRIGGER {* is unable to function without sensors.} {msplay Ship\Computer\Error@Ext} {Main}
+#TRIGGER {The overhead lights dim for a moment before returning to normal.} {ExpPipe {%0} {The overhead lights flicker for a moment.} {};
+#sub {@ExpString.};
+msplay Ship\Misc\FuzzyChewing@Ext} {Main}
+#TRIGGER {There is * that prevents movement.} {msplay Ship\Computer\Error@Ext} {Main}
+#TRIGGER {Control room computer announcements will now be *.} {#if {%1 = "announced ship-wide"} {
+msplay Ship\Computer\PipeOn@Ext
+} {
+msplay Ship\Computer\PipeOff@Ext
+}} {Main}
+#TRIGGER {* emerges from a nearby console.} {msplay Ship\Computer\ScanRetrieved@Ext} {Main}
+#TRIGGER {The * cannot function without operational sensors.} {msplay Ship\Computer\Error@Ext} {Main}
+#TRIGGER {There is no critical damage.} {#class critical disable} {Main}
+#TRIGGER {The computer indicates that it has no beacon information for that sector.} {ExpPipe {%0} {No information for that sector.} {};
+#sub @ExpString;
+msplay Ship\Computer\Error@Ext} {Main}
+#TRIGGER {Alert: Sensor interference detected.} {ExpPipe {%0} {Sensor interference detected.} {};
+#sub @ExpString;
+msplay Ship\Computer\SensorInterference@Ext} {Main}
+#Trigger {* voice comes over the intercom, announcing, *} {
+ msplay Ship\Computer\Announce*4@Ext;
+ ExpPipe {%0} {[%1]: %2} {:0:%2};
+ #Sub {@ExpString};
+ PushMessage Computer {@ExpString};
+} {Main}

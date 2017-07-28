@@ -1,0 +1,536 @@
+#if {%Defined(GagEverything)=0} {#Var GagEverything 0}
+#If {%Defined(Connected)=0} {#Var Connected 0}
+#Var Idle 0
+#Var LoadedSoundpackVersion {}
+#Var StartupMusicHandle 0
+#Var NumberOfExpPipes 0
+
+#PC 0 Stop
+#Class Main Enable
+#Class MainOff Disable
+#Var Main 1
+#If {%Defined(IgnoredScriptFiles)=0} {#Var IgnoredScriptFiles {}}
+
+#Var DefaultScriptFiles {
+ShipComputer|
+ACV|
+Aquatic|
+Airlock|
+Archaeology|
+Asteroid|
+AtSa|
+CameraFeed|
+Combat|
+Communication|
+Devices|
+Display|
+History|
+ITPN|
+KeyStrokes|
+LaserTag|
+Lift|
+Lore|
+Menus|
+MessageBoard|
+Misc|
+Numpad|
+OOLs|
+PMining|
+Rooms|
+Scanning|
+Scooping|
+Scripting|
+ShipCombat|
+ShipMisc|
+ShipMovement|
+SmFilter|
+Socials|
+SocialsToggle|
+SoundpackML|
+YouActions|
+YouActionsW|
+Extras|
+}
+
+; VIP Mud overrides:
+#Conf Explicit False
+#Alias Login {#Var VipMudAutoLogin 1} {}
+
+#Trigger {Welcome to...} {
+ #GagLine 8 All
+} {Main}
+#Trigger {http:[/]/www.toastsoft.net | http:[/]/www.toastsoft.net/privacy.php} {
+ #Var Connected 0;
+ #Say {Welcome to Miriani!};
+ #Alarm 0 {
+  #Load {@ScriptPath\Const.set};
+  register_soundpack @SoundpackName | @Version;
+  #Class LoggingIn Enable;
+  SPLoad1 1
+ }
+} {Main}
+#Alias SPLoad1 {
+ #Var LoadTmp1 {%1};
+ #Alarm 0 {
+  #If {@LoadTmp1<>1} {
+   #Load {@ScriptPath\Const.set};
+   #If {%CharInfo(Connected)=1} {#Var Connected 1}
+  };
+  #Load {@ScriptPath\Variables.set};
+  #Load {%CharInfo(MudName)\Variables.set};
+  #Load {@ScriptPath\ConfObjects\Main.set};
+  #Load {@ScriptPath\ConfManager.set};
+  #If {@PassThru=1} {#Configure ExpandCommandLineVars False};
+  #If {@LoadTmp1=1 and @AutoLogin=1} {
+   %CharInfo(Name);
+   %CharInfo(Password)
+  };
+  #Load {@ScriptPath\SoundEngine.set};
+  #If {@LoadTmp1=1 and @PlayStartupMusic=1 and @Silent=0} {
+   msplay Music\*63@Ext;
+   #Var StartupMusicHandle %PlayHandle
+  };
+  #If {@LoadTmp1<>1} {SPLoad2 {@LoadTmp1}}
+ }
+} {}
+#Trigger {Input your selection:} {
+ #Class LoggingIn Disable;
+ SPLoad2 1
+} {Main|LoggingIn}
+#Alias SPLoad2 {
+ #Var LoadTmp2 {%1};
+ #If {%Replace(@LoadedSoundpackVersion,.,)<>%Replace(@Version,.,)} {
+  #Alarm 0 {
+   #ForAll {%Replace(@DefaultScriptFiles,%CRLF,)} {
+    #If {%i<>"" and %IfWord(%i,@IgnoredScriptFiles,|)=0} {#Load {@ScriptPath\%i.set}}
+   };
+   #Load {%CharInfo(MudName)\Custom.set};
+   Speech Set @DefaultSpeechType 1;
+   #If {@ConfVer<>@ConfObjVer} {
+    #Var ConfVer {@ConfObjVer};
+    #Say {Updating your configuration file...};
+    ConfSaveAll
+   };
+   msplay Ship\Computer\Beep@Ext;
+   #If {@LoadTmp2=0} {
+    #Ignore Key Off;
+    #Ignore Trigger Off;
+    #If {@RoomSounds=1 and %Defined(InSpace)=1 and %Defined(RoomSound)=1 and %Defined(ZoneType)=1} {
+     #If {(@InSpace=1 or %Pos(Pool,@RoomName)>0) or @ZoneType<>"starship"} {
+      mrplay @RoomSound Frequency 44100
+     } {
+      mrplay @RoomSound Frequency 22050
+     }
+    };
+    #Say {Reloading complete}
+   } {
+    #Say {*** Finished loading the @SoundpackName version @Version! ***}
+   };
+   #Var LoadedSoundpackVersion {@Version};
+   SPKeepAlive Start Automated
+  }
+ } {
+  #If {@ConfVer<>@ConfObjVer} {
+   #Var ConfVer {@ConfObjVer};
+   #Alarm 0 {
+    #Say {Updating your configuration file...};
+    ConfSaveAll
+   }
+  };
+  #Alarm 0 {
+   #Load {@ScriptPath\Extras.set};
+   #Load {@ScriptPath\SocialsToggle.set}
+  };
+  msplay Ship\Computer\Beep@Ext
+ }
+} {}
+#Trigger {[*][*][*] * [*][*][*]} {
+ #Var MainTmp1 {%Replace(%1,~",)};
+ #If {@MainTmp1="Connected"} {
+  #GagLine 1 Voice;
+  SPConnect 1;
+  #Abort
+ };
+ #If {@MainTmp1="Disconnected"} {
+  mrplay stop;
+  #Var Connected 0;
+  #PC 0 Stop;
+  #If {@AutoSave=1} {ConfSaveAll 1};
+  #If {@ShowStats=1} {Soundpack Statistics};
+  #Abort
+ };
+ #If {@MainTmp1="Redirecting old connection to this port"} {
+  #GagLine 1 Voice;
+  #Say {Reconnected} NoDisplay;
+  #PC 0 Stop;
+  #UnAlarm -1;
+  SPConnect 1;
+  l;
+  #Abort
+ }
+} {Main}
+
+#Alias ping {
+ #Var ShowPong {};
+ #Var ShowPingPongLagReport {};
+ #Exec {>#$#soundpack_ping}
+} {}
+#Trigger {[#]$[#]*} {
+ #GagLine 1 All;
+ #If {%1="soundpack_pong"} {
+  #Exec {>#$#soundpack_ping_reply ms};
+  #If {%Defined(KeepAliveState)=1} {#Var KeepAliveState 1};
+  #If {%Defined(ShowPong)=1} {
+   #UnGagLine;
+   #Sub {Pong!};
+   #UnVar ShowPong
+  }
+ };
+ #If {%1=*"soundpack_lag *"} {
+  #If {%Defined(ShowPingPongLagReport)=1} {
+   #Var ShowPingPongLagReport {%Word(%1, ,2)};
+   #Var ShowPingPongLagReport {%Word(@ShowPingPongLagReport,.,1)};
+   #UnGagLine;
+   #Sub {You seem to have @ShowPingPongLagReport ms of lag.};
+   #UnVar ShowPingPongLagReport
+  }
+ };
+ #If {%1="hjelp"} {
+  #If {@KeepAliveRespond=1} {
+   #Exec {>#$#soundpack_ping}
+  };
+  SPKeepAlive Start Automated;
+  #If {@SaveOnIdle=1} {
+   #Alarm 0 {ConfSaveAll {@GagSaveOnIdle}}
+  }
+ }
+} {}
+#Alias SPKeepAlive {
+ #If {%IsNumber(%1)=1} {
+  #If {%1>0} {
+   #Var KeepAlive %1;
+   #Say {SPKeepAlive is now set to %1 seconds.};
+   SPKeepAlive Start Automated
+  } {
+   #Var KeepAlive 0;
+   #If {%Defined(KeepAliveState)=1} {#UnVar KeepAliveState};
+   #If {%Defined(KeepAliveHandle)=1} {#UnAlarm KeepAliveHandle;#UnVar KeepAliveHandle};
+   #Say {SPKeepAlive is now off.}
+  }
+ } {
+  #If {%1="Start"} {
+   #If {@KeepAlive>0} {
+    #If {%2<>"Automated"} {
+     #If {%Defined(KeepAliveHandle)=1} {
+      #Say {SPKeepAlive restarted.}
+     } {
+      #Say {SPKeepAlive started.}
+     }
+    };
+    #If {@KeepAlive<10} {
+     #Say {Automatically adjusting your SPKeepAlive to 10 seconds, because @KeepAlive is just too short.};
+     #Var KeepAlive 10
+    };
+    #Var KeepAliveState 0;
+    #Exec {>#$#soundpack_ping};
+    #If {%Defined(KeepAliveHandle)=1} {#UnAlarm KeepAliveHandle};
+    #Alarm KeepAliveHandle {@KeepAlive} {
+     #UnVar KeepAliveHandle;
+     #If {@KeepAliveState=0} {
+      #Var KeepAliveState 3;
+      #Say {WARNING: The soundpack reports that your connection to the server might be broken!};
+      #Say {You can change the soundpack's keep alive settings by typing SPKeepAlive.};
+      msplay {LaserTag/NoTargets@Ext}
+     } {
+      SPKeepAlive Start Automated
+     }
+    }
+   } {
+    #If {%2<>"Automated"} {
+     #Say {First you need to give SPKeepAlive an interval to work with. Please type SPKeepAlive for more information.}
+    }
+   }
+  } {
+   #If {@KeepAlive>0} {
+    #Say {SPKeepAlive is currently set to @KeepAlive seconds.}
+   } {
+    #Say {SPKeepAlive is currently off.}
+   };
+   #Say {You can set the interval of SPKeepAlive by giving it a new amount of seconds, e.g.: SPKeepAlive 90. That would set the interval to one and a half minute.};
+   #Say {To turn SPKeepAlive off, set it to 0 seconds.}
+  }
+ }
+} {}
+
+#Alias {aboutscripts} {speech stop;
+ConfPrint {@{SoundpackName}, version @{version}.
+Originally written by Cory Martin.
+Rewritten, updated, and maintained by @SoundpackCreators.
+  Credits:
+@SoundpackContributors
+  Contact information:
+Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
+}} {}
+#key shift-f1 {aboutscripts} {}
+
+#Alias MainTrigSwitch {
+ #If {%IsNumber(%1)=1} {
+  #Var Main %1;
+  #If {%1>0} {
+   #Class Main Enable;
+   #Class MainOff Disable
+  } {
+   #Class Main Disable;
+   #Class MainOff Enable
+  }
+ } {
+  #Say {MainTrigSwitch: Unacceptable argument value}
+ }
+}
+#Alias GetWildcardValues {
+ #Var WildcardTmp1 0;
+ #Math WildcardTmp2 {%NumWords(%1,*)-1};
+ #Var WildcardTmp3 {%2};
+ #While {@WildcardTmp1<@WildcardTmp2} {
+  #Math WildcardTmp1 {@WildcardTmp1+1};
+  #Var WildcardTmp4 {%Word(%1,*,@WildcardTmp1)};
+  #Var WildcardTmp5 {%Word(%1,*,%Eval(@WildcardTmp1+1))};
+  #Math WildcardTmp6 {%Pos(%CRLF,@WildcardTmp4%CRLF)-1};
+  #Var {Wildcard@WildcardTmp1} {%Delete(@WildcardTmp3,1,@WildcardTmp6)};
+  #If {@WildcardTmp5<>""} {
+   #Math WildcardTmp7 {%Pos(@WildcardTmp5,@{Wildcard@WildcardTmp1})-1};
+   #If {@WildcardTmp7<0} {
+    #Var WildcardTmp7 0;
+    #Var {Wildcard@WildcardTmp1} {}
+   } {
+    #Var {Wildcard@WildcardTmp1} {%Copy(@{Wildcard@WildcardTmp1},1,@WildcardTmp7)}
+   }
+  } {
+   #Math WildcardTmp7 {%Pos(%CRLF,@{Wildcard@WildcardTmp1}%CRLF)-1};
+   #If {@WildcardTmp7<0} {
+    #Var WildcardTmp7 0
+   }
+  };
+  #Var WildcardTmp3 {%Delete(@WildcardTmp3,1,%Eval(@WildcardTmp6+@WildcardTmp7))}
+ }
+} {}
+#Alias ExpPipe {
+ #Math NumberOfExpPipes {@NumberOfExpPipes + 1};
+ #Var ExpString {%Trim(%{@ExperienceLevel})};
+ #If {%Replace(%Left(@ExpString,1),~",)=":"} {
+  #If {%NumWords(@ExpString,:)>2} {
+   #Math ExpGagLines {%Pos(:,%Delete(@ExpString,1,1))+1};
+   #Var ExpGagType {%Copy(@ExpString,2,%Eval(@ExpGagLines-2))};
+   #Var ExpString {%Delete(@ExpString,1,@ExpGagLines)}
+  } {
+   #Var ExpGagType {%Delete(@ExpString,1,1)};
+   #Var ExpString {}
+  };
+  #If {%NumWords(@ExpGagType, )=2} {
+   #Var ExpGagLines {%Word(@ExpGagType, ,1)};
+   #Var ExpGagType {%Word(@ExpGagType, ,2)}
+  } {
+   #If {%IsNumber(@ExpGagType)} {
+    #Var ExpGagLines @ExpGagType;
+    #Var ExpGagType {All}
+   } {
+    #Var ExpGagLines 1
+   }
+  }
+ } {
+  #Var ExpGagLines -1
+ };
+ #If {%Replace(@ExpString,~",Q)=""} {
+  #Var ExpString { };
+  #If {@ExpGagLines=-1} {
+   #Var ExpGagLines 1;
+   #Var ExpGagType {All}
+  }
+ };
+ #If {@ExpGagLines>0} {
+  #GagLine @ExpGagLines @ExpGagType
+ }
+} {}
+
+
+#Alias {wn} {#edit @ChangelogFilePath} {}
+#Alias GagEverything {
+ #Var GagEverything {%Eval(NOT @GagEverything)};
+ #If {@GagEverything=1} {
+  #SetSpeech Incoming Off;
+  #Say {Gagging enabled. Type GagEverything, or press control f12 to disable.} VoiceOnly
+ } {
+  #SetSpeech Incoming On;
+  #Say {Gagging Disabled.}
+ }
+} {}
+#Alias SPConnect {
+ #Var Connected 1;
+ #If {%1="1"} {
+  #Math NumberOfConnections {@NumberOfConnections + 1};
+  #Exec {
+   #If {@StartupMusicHandle>0} {
+    #PC @StartupMusicHandle Stop;
+    #Var StartupMusicHandle 0
+   }
+  }
+ };
+ soundpack register
+}
+#Alias SPCommand {
+ #Exec {>#$#soundpack_status commands:%Trim(%0)};
+ #Exec {%Trim(%0)}
+} {}
+#Alias SPTest {
+ #Var TestTmp1 {Soundpack Test:};
+ #If {%Defined(Version)=1} {
+  #Var TestTmp1 {@TestTmp1%{CRLF}+ Soundpack version seems to be @Version.}
+ } {
+  #Var TestTmp1 {@TestTmp1%{CRLF}- Soundpack version is missing. Try type SPRELOAD to fix this.}
+ };
+ #If {%Defined(DecimalChar)=1 and %Defined(LoadedSoundpackVersion)=1 and %Defined(Connected)=1 and %Defined(GagEverything)=1 and %Defined(DefaultScriptFiles)=1 and %Defined(StartupMusicHandle)=1} {
+  #Var TestTmp1 {@TestTmp1%{CRLF}+ Main.set variables seems to be loaded.};
+  #If {%Defined(ConfVer)=1 and %Defined(ConfObjVer)=1} {
+   #Var TestTmp1 {@TestTmp1%{CRLF}+ Conf versions found.};
+   #If {%Defined(LoadTmp1)=1} {
+    #Var TestTmp1 {@TestTmp1%{CRLF}+ First loadcode exists, and is currently set to @LoadTmp1.}
+   } {
+    #Var TestTmp1 {@TestTmp1%{CRLF}- First loadcode missing. Try type SPRELOAD to fix this.}
+   };
+   #If {%Defined(LoadTmp2)=1} {
+    #Var TestTmp1 {@TestTmp1%{CRLF}+ Second loadcode exists, and is currently set to @LoadTmp2.}
+   } {
+    #Var TestTmp1 {@TestTmp1%{CRLF}- Second loadcode missing. Try type SPRELOAD to fix this.}
+   };
+   #If {%Replace(@LoadedSoundpackVersion,.,) = %Replace(@Version,.,)} {
+    #Var TestTmp1 {@TestTmp1%{CRLF}+ Scripts for your soundpack version have been loaded according to the version checker.}
+   } {
+    #Var TestTmp1 {@TestTmp1%{CRLF}- Scripts for your soundpack version have not been loaded according to the version checker. Try type SPRELOAD to fix this.}
+   };
+   #If {@ConfVer = @ConfObjVer} {
+    #Var TestTmp1 {@TestTmp1%{CRLF}+ The version of your soundpack configuration seems to be up to date.}
+   } {
+    #Var TestTmp1 {@TestTmp1%{CRLF}- Your soundpack configuration seems to require an update. Please try to update it by pressing CTRL+S, or by typing CONFSAVEALL, and then type SPRELOAD.}
+   };
+   #If {%Defined(DeclaredVariables)=1 and %Defined(PreservedVariables)=1} {
+    #Var TestTmp1 {@TestTmp1%{CRLF}+ The Variables framework seems to be loaded.}
+   } {
+    #Var TestTmp1 {@TestTmp1%{CRLF}- The Variables framework does not seem to have been loaded. Try type SPRELOAD to fix this.}
+   };
+   #If {%Defined(NumberOfSounds)=1} {
+    #Var TestTmp1 {@TestTmp1%{CRLF}+ The sound engine appears to be loaded.}
+   } {
+    #Var TestTmp1 {@TestTmp1%{CRLF}- The sound engine does not seem to have been loaded. Try type SPRELOAD to fix this.}
+   }
+  } {
+   #Var TestTmp1 {@TestTmp1%{CRLF}- Conf versions missing. Try type SPRELOAD to fix this. Aborting the test.}
+  }
+ } {
+  #Var TestTmp1 {@TestTmp1%{CRLF}- Main.set variables missing. Aborting the test.}
+ };
+ #If {%Pos(%{CRLF}-,@TestTmp1)>0} {
+  #Var TestTmp1 {@TestTmp1%CRLF  The testing tool detected one or more issues with the soundpack.}
+ } {
+  #Var TestTmp1 {@TestTmp1%CRLF  The testing tool could not find any issues with the soundpack.}
+ };
+ #If {%1="copy"} {
+  #Var TestTmp1 {%Clip(@TestTmp1)};
+  #Say {Soundpack test report has hopefully been copied to the clipboard.}
+ } {
+  #Say {@TestTmp1}
+ };
+ #UnVar TestTmp1
+} {}
+#Alias SPReload {
+ #If {%1<>"1"} {#Say {Reloading}};
+ #Ignore Key On;
+ #Ignore Trigger On;
+ #PC 0 Stop;
+ #UnAlarm -1;
+ #If {@AutoSave=1} {ConfSaveAll 1};
+ #Alarm 0 {
+  #Exec {
+   #Reload;
+   #Var CharacterName {@CharacterName};
+   #Var Classification {@Classification};
+   #Var Connected {@Connected};
+   #Var Exits {@Exits};
+   #Var Hostile {@Hostile};
+   #Var InSpace {@InSpace};
+   #Var Light {@Light};
+   #Var NumberOfSounds {@NumberOfSounds};
+   #Var NumberOfSoundpackMessages {@NumberOfSoundpackMessages};
+   #Var NumberOfExpPipes {@NumberOfExpPipes};
+   #Var NumberOfMessages {@NumberOfMessages};
+   #Var NumberOfBufferedLogMessages {@NumberOfBufferedLogMessages};
+   #Var HistoryLogBuffer {@HistoryLogBuffer};
+   #Var HistoryLogInitialization {@HistoryLogInitialization};
+   #Var RoomName {@RoomName};
+   #Var RoomSound {@RoomSound};
+   #Var Powered {@Powered};
+   #Var ZoneName {@ZoneName};
+   #Var ZoneType {@ZoneType};
+   SPLoad1 0
+  }
+ }
+}
+#Key {Control-S} {
+ #setspeech incoming stop;
+ #if {%ifword(@CharacterName,@SoundpackCreators,%CRLF)=1} {
+  #save full;
+  ConfPrint {Scripts Saved.}
+ };
+ ConfSaveAll
+} {Main}
+#Trigger {[[]*] Connect as *.} {
+ #Var CharacterName %2;
+ #If {@BypassLoginMenu=1} {
+  #Exec {1}
+ };
+ #If {%IfWord(@CharacterName,@BlacklistedPlayers,|)=1} {
+  #Class Main Disable
+ }
+} {Main}
+
+#Alias Setup {
+ #Class Sight Enable;
+ #Exec {~~~@linelength 140; ~~~@Wrap off;sight;#wait 0.6}
+} {}
+#Trigger {You will now see the more visual elements of the game.} {
+ #GagLine 1 All;
+#wait 0.6;
+ #Exec {sight}
+} {Sight}
+#Trigger {Certain visual elements of the game will now be suppressed.} {
+ #Sub {Setup done.};
+ #Class Sight Disable
+} {Sight}
+
+#Alias CreateReviewKey {
+ #If {%3=""} {
+  #say {Syntax: CreateReviewKey Key Buffer0Name Index}
+ } {
+  #Exec {
+   #Key {%1} {
+    Speech Stop;
+    #if {~@LastKeyPressed="%1"} {
+     #Var ReviewHistoryTmp1 {Copy}
+    } {
+     #Var ReviewHistoryTmp1 {Say}
+    };
+    LastKeyPressed {%1};
+    History ~@ReviewHistoryTmp1 %2 %3
+   } {}
+  }
+ }
+} {}
+
+#Alias LastKeyPressed {
+ #Var LastKeyPressed %1;
+ #If {%NumWords(@HistoryTimeout,.)=2 AND %IsNumber(%Replace(@HistoryTimeout,.,""))=1} {
+  #Var HistoryTimeout @HistoryTimeout
+ } {
+  #Var HistoryTimeout {0.25}
+ };
+ #Alarm @HistoryTimeout {#Var LastKeyPressed {Nothing}}
+} {}

@@ -1,0 +1,51 @@
+#Trigger {Message Board Network - *} {
+ #If {@UseMenuAliases=1} {
+  #Var Menu 3;
+  #Var PrecedingMenuAliases {*[!)]}
+ };
+ MainTrigSwitch -10;
+ #If {@InterruptOnBoards=1} {speech stop};
+ #Var Board %1;
+ #If {@FormatMessageBoards=1} {
+  #Sub {%1}
+ }
+} {Main}
+#Trigger {Subject: *} {
+ #If {@Main<>-10} {#Abort All};
+ #If {@InterruptOnBoards=1} {speech stop};
+ #If {@FormatMessageBoards=1} {
+  #Class MessageBoard enable;
+  #Var Subject %1;
+  #GagLine 1 All
+ }
+} {}
+#Trigger {Sender: *} {
+ #Var Sender %1;
+ #GagLine 1 All
+} {MessageBoard}
+#Trigger {Date: *} {
+ #Var Date %1;
+ #GagLine 1 All
+} {MessageBoard}
+#Trigger {Reference: *} {
+ #Var Reference %1;
+ #Var MsgBoardTmp1 {%Replace(@MessageBoardFormatString,$BOARD,@Board)};
+ #Var MsgBoardTmp1 {%Replace(@MsgBoardTmp1,$SUBJECT,@Subject)};
+ #Var MsgBoardTmp1 {%Replace(@MsgBoardTmp1,$SENDER,@Sender)};
+ #Var MsgBoardTmp1 {%Replace(@MsgBoardTmp1,$DATE,@Date)};
+ #Var MsgBoardTmp1 {%Replace(@MsgBoardTmp1,$REFERENCE,@Reference)};
+ #Sub {@MsgBoardTmp1};
+ #UnVar Board;
+ #UnVar Subject;
+ #UnVar Sender;
+ #UnVar Date;
+ #UnVar Reference;
+ #UnVar MsgBoardTmp1;
+ #Class MessageBoard disable;
+ #Class MessageBoardMessage enable
+} {MessageBoard}
+#Trigger {[[]1] *} {
+ #Class MessageBoardMessage Disable
+} {MessageBoardMessage}
+
+#Trigger {All messages have been marked as read.} {DontStopSpeaking} {Main}
