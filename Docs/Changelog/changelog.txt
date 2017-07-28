@@ -1,3 +1,7 @@
+Version 5.4.13, released 2017-07-28:
+* Fixed a bug in SoundpackML that prematurely terminated certain code under certain conditions.
+* Gave the SPKeepAlive 2 extra seconds to wait before starting up after you connect, to prevent Miriani from measuring your lag in the middle of lots of client processing which negatively affected the test results.
+
 Version 5.4.12, released 2017-07-28:
 * SPKeepAlive will now delay its startup until you have actually chosen your character from the character selection menu. The reason for this is that Miriani fails to respond to soundpack pings until you have actually woken up your character in Miriani, which caused SPKeepAlive to falsely report a broken connection after connecting.
 
