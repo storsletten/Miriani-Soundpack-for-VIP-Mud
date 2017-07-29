@@ -180,13 +180,22 @@ Extras|
 } {}
 #Trigger {[#]$[#]*} {
  #GagLine 1 All;
+ #If {%Defined(KeepAliveState)=1} {#Var KeepAliveState 1};
  #If {%1="soundpack_pong"} {
   #Exec {>#$#soundpack_ping_reply ms};
-  #If {%Defined(KeepAliveState)=1} {#Var KeepAliveState 1};
   #If {%Defined(ShowPong)=1} {
    #UnGagLine;
    #Sub {Pong!};
    #UnVar ShowPong
+  }
+ };
+ #If {%1="hjelp"} {
+  #If {@KeepAliveRespond=1 or @KeepAlive>0} {
+   #Exec {>#$#soundpack_ping_reply ms}
+  };
+  SPKeepAlive Start Automated Replied;
+  #If {@SaveOnIdle=1} {
+   #Alarm 0 {ConfSaveAll {@GagSaveOnIdle}}
   }
  };
  #If {%1=*"soundpack_lag *"} {
@@ -196,15 +205,6 @@ Extras|
    #UnGagLine;
    #Sub {You seem to have @ShowPingPongLagReport ms of lag.};
    #UnVar ShowPingPongLagReport
-  }
- };
- #If {%1="hjelp"} {
-  #If {@KeepAliveRespond=1 and @KeepAlive=0} {
-   #Exec {>#$#soundpack_ping_reply ms}
-  };
-  SPKeepAlive Start Automated;
-  #If {@SaveOnIdle=1} {
-   #Alarm 0 {ConfSaveAll {@GagSaveOnIdle}}
   }
  }
 } {}
@@ -234,8 +234,10 @@ Extras|
      #Say {Automatically adjusting your SPKeepAlive to 10 seconds, because @KeepAlive is just too short.};
      #Var KeepAlive 10
     };
-    #Var KeepAliveState 0;
-    #Exec {>#$#soundpack_ping};
+    #If {%3<>"Replied"} {
+     #Var KeepAliveState 0;
+     #Exec {>#$#soundpack_ping}
+    };
     #If {%Defined(KeepAliveHandle)=1} {#UnAlarm KeepAliveHandle};
     #Alarm KeepAliveHandle {@KeepAlive} {
      #UnVar KeepAliveHandle;
@@ -264,7 +266,6 @@ Extras|
   }
  }
 } {}
-
 
 #Alias {aboutscripts} {speech stop;
 ConfPrint {@{SoundpackName}, version @{version}.
