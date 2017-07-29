@@ -1,3 +1,7 @@
+Version 5.4.16, released 2017-07-29:
+* The conf gen option for keep-alive responses will now send the proper response for Miriani's lag test feature.
+* SPKeepAlive will now cooperate more efficiently with Miriani's keep-alive feature. When the soundpack receives a keep-alive message, it will respond with a ping reply rather than initiating a new ping request.
+
 Version 5.4.15, released 2017-07-28:
 * SPKeepAlive will now restart itself after spreload, as it should.
 * The message that indicates reloading complete after you use spreload will now also tell you to look in the room with your character so that the soundpack can update its environmental variables.
