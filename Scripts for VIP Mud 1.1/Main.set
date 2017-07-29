@@ -198,7 +198,7 @@ Extras|
  };
  #If {%1="hjelp"} {
   #If {@KeepAliveRespond=1 and @KeepAlive=0} {
-   #Exec {>#$#soundpack_ping}
+   #Exec {>#$#soundpack_ping_reply ms}
   };
   SPKeepAlive Start Automated;
   #If {@SaveOnIdle=1} {
