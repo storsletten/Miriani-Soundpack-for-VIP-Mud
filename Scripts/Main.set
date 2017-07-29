@@ -203,7 +203,7 @@ Extras|
    #Var ShowPingPongLagReport {%Word(%1, ,2)};
    #Var ShowPingPongLagReport {%Word(@ShowPingPongLagReport,.,1)};
    #UnGagLine;
-   #Sub {You seem to have @ShowPingPongLagReport ms of lag.};
+   #Sub {You have @ShowPingPongLagReport ms of local client lag.};
    #UnVar ShowPingPongLagReport
   }
  }

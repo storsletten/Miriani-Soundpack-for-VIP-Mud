@@ -11,11 +11,16 @@
 
 #Alias lag {
  #Exec {>lag%RTrim( %0)};
- #If {%1<>"more" and %1<>"format" and %1<>"token"} {
-  #Var ShowPingPongLagReport {};
+ #If {%1=""} {
+  #Class LagTest Enable;
   #Exec {>#$#soundpack_ping}
  }
 } {}
+#Trigger {There is currently an estimated * of server CPU lag and *} {
+ #Class LagTest Disable;
+ #Var ShowPingPongLagReport {};
+ #Sub {There is currently an estimated %1 of server processing lag.}
+} {LagTest}
 #Alias PassThru {
 #if {@PassThru=1} {
 #Var PassThru 0;
