@@ -1,3 +1,6 @@
+Version 5.4.17, released 2017-07-30:
+* Modified the output of the lag command so it's a little less confusing.
+
 Version 5.4.16, released 2017-07-29:
 * The conf gen option for keep-alive responses will now send the proper response for Miriani's lag test feature.
 * SPKeepAlive will now cooperate more efficiently with Miriani's keep-alive feature. When the soundpack receives a keep-alive message, it will respond with a ping reply rather than initiating a new ping request.
