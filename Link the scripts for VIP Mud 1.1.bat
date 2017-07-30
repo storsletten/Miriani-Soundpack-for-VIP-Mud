@@ -4,7 +4,7 @@ mode con: cols=150
 title Linking the scripts for VIP Mud 1.1
 timeout /t 1 >nul
 
-pushd %~dp0
+pushd "%~dp0"
 
 if not exist "Docs" goto WrongFolder
 if not exist "Scripts for VIP Mud 1.1" goto WrongFolder

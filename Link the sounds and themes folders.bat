@@ -4,7 +4,7 @@ mode con: cols=150
 title Linking the Miriani Soundpack Sounds and Themes
 timeout /t 1 >nul
 
-pushd %~dp0
+pushd "%~dp0"
 
 if not exist "ACV" goto WrongFolder
 if not exist "General" goto WrongFolder

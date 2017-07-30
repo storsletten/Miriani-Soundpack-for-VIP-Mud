@@ -4,7 +4,7 @@ mode con: cols=150
 title Installation of the Miriani Soundpack for VIP Mud
 timeout /t 1 >nul
 
-pushd %~dp0
+pushd "%~dp0"
 
 if not exist Miriani.set goto LookForMirianiFolder
 

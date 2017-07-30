@@ -4,7 +4,7 @@ mode con: cols=150
 title Linking the Miriani Soundpack Themes
 timeout /t 1 >nul
 
-pushd %~dp0
+pushd "%~dp0"
 
 if not exist "Theme (1).mp3" goto WrongFolder
 

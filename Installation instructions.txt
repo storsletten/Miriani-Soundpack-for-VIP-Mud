@@ -44,12 +44,14 @@ Step 6:
 
 Step 7:
   Now you need to link the scripts folder.
-  To do this, open up the soundpack folder and run the linking script that corresponds to the version of VIP Mud that you're using.
+  To do this, open up the Miriani Soundpack for VIP Mud folder, and run the linking script that corresponds to the version of VIP Mud that you're using.
+  For instance, if you're using VIP Mud 2.0, you should run the script called Link the scripts for VIP Mud 2.0.bat.
   You might need to run the linking script as administrator if you're using VIP Mud 1.1. To do that, you just right click (Shift-F10) on it, and then choose Run as Administrator.
 
 Step 8:
   Now you need to link the sounds folder:
   To do this, open up the Miriani Soundpack Sounds folder, and run the script called: Link the sounds folder.bat.
+  If there is no such script in your Miriani Soundpack Sounds folder, then copy it from the Miriani Soundpack for VIP Mud folder into the Miriani Soundpack Sounds folder.
   Alternatively, you could run the linking script for sounds and themes if you want to link both sounds and themes in the same operation.
   You might need to run the linking script as administrator if you're using VIP Mud 1.1. To do that, you just right click (Shift-F10) on it, and then choose Run as Administrator.
 
