@@ -386,6 +386,29 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  #Exec {>#$#soundpack_status commands:%Trim(%0)};
  #Exec {%Trim(%0)}
 } {}
+#Alias SPInfo {
+ #Say {Soundpack version: @Version};
+ #If {%IsNumber(%Version)=0} {
+  #Say {VIP Mud version: 1.1}
+ } {
+  #If {%Length(%Version)=6} {
+   #Var VipTmp1 {%Left(%Version,1)};
+   #If {%Copy(%Version,2,1)<>"0"} {#Var VipTmp1 {@VipTmp1%Copy(%Version,2,1)}};
+   #Var VipTmp1 {@VipTmp1.%Copy(%Version,3,1)};
+   #If {%Copy(%Version,4,1)<>"0"} {#Var VipTmp1 {@VipTmp1%Copy(%Version,4,1)}};
+   #Var VipTmp1 {@VipTmp1.%Copy(%Version,5,1)};
+   #If {%Copy(%Version,6,1)<>"0"} {#Var VipTmp1 {@VipTmp1%Copy(%Version,6,1)}};
+   #Say {VIP Mud version: @VipTmp1};
+   #UnVar VipTmp1
+  } {
+   #Say {VIP Mud version: %Version}
+  }
+ };
+ #Say {Soundpack compatibility: %If(%IsNumber(%Version)=1,Yes,No), scripts for VIP Mud 2.0 loaded.};
+ #Say {Scripts path: @ScriptPath};
+ #Say {Sounds path: @SoundsPath};
+ #Say {Themes path: @ThemesPath}
+} {}
 #Alias SPTest {
  #Var TestTmp1 {Soundpack Test:};
  #If {%Defined(Version)=1} {
