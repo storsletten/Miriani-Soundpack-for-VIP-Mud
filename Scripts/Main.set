@@ -456,7 +456,8 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  } {
   #Var TestTmp1 {@TestTmp1%{CRLF}- Main.set variables missing. Aborting the test.}
  };
- #If {%Pos(%{CRLF}-,@TestTmp1)>0} {
+ #Var TestTmp2 {%{CRLF}-};
+ #If {%Pos(@TestTmp2,@TestTmp1)>0} {
   #Var TestTmp1 {@TestTmp1%CRLF  The testing tool detected one or more issues with the soundpack.}
  } {
   #Var TestTmp1 {@TestTmp1%CRLF  The testing tool could not find any issues with the soundpack.}
@@ -467,7 +468,8 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  } {
   #Say {@TestTmp1}
  };
- #UnVar TestTmp1
+ #UnVar TestTmp1;
+ #UnVar TestTmp2
 } {}
 #Alias SPReload {
  #If {%1<>"1"} {#Say {Reloading}};
