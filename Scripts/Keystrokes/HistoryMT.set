@@ -1,9 +1,0 @@
-#Key {Control-E} {history switch forward}
-#Key {Control-Shift-E} {history switch back}
-#Key {Control-Q} {History back}
-#Key {Control-W} {History forward}
-#Key {Shift-Control-Q} {History Back All} {}
-#Key {Shift-Control-W} {History Forward All} {}
-#key {Shift-Control-Alt-e} {History Copy @CurrentHistoryBuffer} {}
-#Key {Alt-Control-Shift-Q} {History Copy @CurrentHistoryBuffer @CurrentHistoryBufferPosition 1} {}
-#Key {Alt-Shift-Control-W} {History Copy @CurrentHistoryBuffer @CurrentHistoryBufferPosition} {}

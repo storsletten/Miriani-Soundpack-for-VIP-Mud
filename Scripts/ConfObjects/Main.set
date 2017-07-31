@@ -1,4 +1,4 @@
-#Var ConfObjVer 580
+#Var ConfObjVer 581
 #Var ConfObjectsPath {@ScriptPath\ConfObjects}
 #Var ConfObjectFiles {
 Advanced
@@ -89,9 +89,8 @@ HideMetafrequency:0
 Encoding:none
 HistoryBufferSize:10
 PrintVoiceOnly:0
-NumbersForReview:0
 HistoryTimeout:0.25
-BuffersForReview:Flight,PA,Say,Comm,Newbie
+BuffersForReview:Output,Comm,Say,Flight,PA
 SuppressDuplicateEntries:0
 IgnoredHistoryBuffers:None
 PlaySoundsOnReview:1
@@ -217,9 +216,7 @@ LogHistory:0
 HistoryLoggingInterval:100
 LoadSoundKeys:1
 LoadHistoryReviewKeys:1
-LoadCommKeys:1
-LoadScanningKeys:1
-LoadNumpadKeys:1
+ExcludeAltGRNumrow:1
 LoadMiscKeys:1
 Ext:.wav
 RExt:.wav

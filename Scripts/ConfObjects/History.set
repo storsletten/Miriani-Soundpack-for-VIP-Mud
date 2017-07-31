@@ -1,10 +1,8 @@
 #Exec {
 SetVariable Conf0Hist0 {A:History};
-SetVariable Conf0Numbers0 {A:History0NumbersForReview};
-SetVariable Conf0History0 {M:MT-Style History Configuration
+SetVariable Conf0History0 {M:History buffer configuration
 HistoryBufferSize:Set the size of review buffers
 PrintVoiceOnly
-NumbersForReview:Use alt 1 through 0 review the last 10 lines of the currently selected history buffer <Control-Backspace>
 HistoryTimeout:Time before the option to copy the current message times out
 BuffersForReview
 SuppressDuplicateEntries
@@ -20,11 +18,8 @@ validate:9:100
 SetVariable Conf0History0PrintVoiceOnly0 {B:PrintVoiceOnly:Display voice only messages in the output window
 Voice only messages will now be printed to the output window:Voice only messages will only be spoken
 };
-SetVariable Conf0History0NumbersForReview0 {B:NumbersForReview:Use alt 1 through alt 0 to review the last 10 lines of the currently selected review buffer
-You can now use alt and the number keys to review the last n lines of the currently selected history review buffer:Alt and the number keys will now only read the main output
-};
-SetVariable Conf0History0BuffersForReview0 {S:BuffersForReview:list of buffers for review (use BufferConfig for an easy interface)
-ohe list of buffers for review is nw set to $V
+SetVariable Conf0History0BuffersForReview0 {S:BuffersForReview:List of buffers for review (use BufferConfig for an easy interface)
+List of buffers for review is now set to $V
 };
 SetVariable Conf0History0HistoryTimeout0 {S:HistoryTimeout:time before the option to repeat the key stroke and copy the message to the clipboard expires (0.0 to disable, decimal number otherwise)
 Timeout set to $V

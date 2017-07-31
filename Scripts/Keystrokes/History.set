@@ -1,0 +1,58 @@
+#If {%Pos(Say,@HistoryBuffers)=0} {#AddItem HistoryBuffers {Say}}
+#If {%Pos(Comm,@HistoryBuffers)=0} {#AddItem HistoryBuffers {Comm}}
+
+#Var LastReviewKeyPressed {}
+#Alias ReviewKeyPressed {
+ #If {%IsNumber(%2)=1} {
+  #If {%NumWords(@BuffersForReview,~,)<%2} {
+   Speech Stop;
+   #Say {The list of review buffers must have more items than just %2 for this to work. Please see conf history.};
+   #Abort All
+  } {
+   #Var ReviewKeyTmp2 {%Word(@BuffersForReview,~,,%2)}
+  }
+ } {
+  #Var ReviewKeyTmp2 {%2}
+ };
+ #If {@LastReviewKeyPressed=%1} {
+  #Var ReviewKeyTmp1 {Copy};
+  #Var LastReviewKeyPressed {}
+ } {
+  #Var ReviewKeyTmp1 {Say};
+  #Var LastReviewKeyPressed %1;
+  #If {%NumWords(@HistoryTimeout,.)<>2 or %IsNumber(%Replace(@HistoryTimeout,.,))=0} {
+   #Var HistoryTimeout {0.25}
+  };
+  #Exec {#Alarm {%Replace(@HistoryTimeout,.,@DecimalChar)} {#If {~@LastReviewKeyPressed="%1"} {#Var LastReviewKeyPressed {}}}}
+ };
+ History {@ReviewKeyTmp1} {@ReviewKeyTmp2} {%3};
+ #UnVar ReviewKeyTmp1;
+ #UnVar ReviewKeyTmp2
+} {}
+
+#Key {Control-E} {history switch forward} {}
+#Key {Control-Shift-E} {history switch back} {}
+#Key {Control-Q} {history back} {}
+#Key {Control-W} {history forward} {}
+#Key {Shift-Control-Q} {history back all} {}
+#Key {Shift-Control-W} {history forward all} {}
+#key {Alt-Control-Shift-E} {history copy {@CurrentHistoryBuffer}} {}
+#Key {Alt-Control-Shift-Q} {history copy {@CurrentHistoryBuffer} {@CurrentHistoryBufferPosition} 1} {}
+#Key {Alt-Control-Shift-W} {history copy {@CurrentHistoryBuffer} {@CurrentHistoryBufferPosition}} {}
+
+#10 {
+ #If {%i=10} {
+  #Var ReviewKeyNumber 0
+ } {
+  #Var ReviewKeyNumber %i
+ };
+ #Exec {
+  #Key {Alt-@ReviewKeyNumber} {ReviewKeyPressed {Alt-@ReviewKeyNumber} {1} %i} {};
+  #Key {Alt-Shift-@ReviewKeyNumber} {ReviewKeyPressed {Alt-Shift-@ReviewKeyNumber} {2} %i} {};
+  #Key {Control-@ReviewKeyNumber} {ReviewKeyPressed {Control-@ReviewKeyNumber} {~@CurrentHistoryBuffer} %i} {};
+  #Key {Control-Shift-@ReviewKeyNumber} {ReviewKeyPressed {Control-Shift-@ReviewKeyNumber} {3} %i} {};
+  #If {@ExcludeAltGRNumrow=0} {#Key {Alt-Control-@ReviewKeyNumber} {ReviewKeyPressed {Alt-Control-@ReviewKeyNumber} {4} %i} {}};
+  #Key {Alt-Control-Shift-@ReviewKeyNumber} {ReviewKeyPressed {Alt-Control-Shift-@ReviewKeyNumber} {5} %i} {}
+ }
+}
+#UnVar ReviewKeyNumber

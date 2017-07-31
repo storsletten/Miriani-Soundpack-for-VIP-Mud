@@ -337,15 +337,75 @@
  }
 } {}
 
-#Alias PickHistoryBuffer {
- #Var SelectedBuffer {%Word(@HistoryBuffers,|,1)};
- SetVariable HistorySelectionTmp1 {P:Select Buffer};
- SetVariable HistorySelectionTmp2 {};
- #ForAll @HistoryBuffers {
-  #Var HistorySelectionTmp2 {%Replace(%I,0, )};
-  #AddItem HistorySelectionTmp1 {@HistorySelectionTmp2:#Var SelectedBuffer %i}
+#Alias BufferConfig {
+ #If {%1="r" or %1="reset"} {
+  #Say {Resetting buffers for review to their default values.};
+  #Var BufferConfigTmp1 {BuffersForReview:};
+  #Var BuffersForReview {%Word(%Word(@ConfOptionVars,@BufferConfigTmp1,2),%CRLF,1)}
  };
- #Pick @HistorySelectionTmp1
+ #If {%NumWords(@BuffersForReview,~,)<>5} {
+  #Say {List of buffers is malformed. Resetting to defaults.};
+  #Var BufferConfigTmp1 {BuffersForReview:};
+  #Var BuffersForReview {%Word(%Word(@ConfOptionVars,@BufferConfigTmp1,2),%CRLF,1)}
+ };
+ #If {%IsNumber(%1)=1} {
+  #If {%1=0} {
+   ConfSaveAll;
+   #Abort All
+  };
+  #If {%1=4 and @ExcludeAltGRNumrow=1} {
+   #Say {You need to disable the option for excluding AltGR Numrow first, in conf advanced keystrokes.};
+   #Abort All
+  };
+  #If {%1>0 and %1<6} {
+   #Var BufferConfigTmp1 {%Replace(@BuffersForReview,~,,|)};
+   #Var BufferConfigTmp2 0;
+   #Var BuffersForReview {};
+   #ForAll {@BufferConfigTmp1} {
+    #Math BufferConfigTmp2 {@BufferConfigTmp2 + 1};
+    #If {%1=@BufferConfigTmp2} {
+     #If {%2<>""} {
+      #Var SelectedBuffer %2
+     } {
+      #Var SelectedBuffer {%Word(@HistoryBuffers,|,1)};
+      #Var BufferSelectionTmp1 {P:Select Buffer};
+      #Var BufferSelectionTmp2 {};
+      #ForAll {@HistoryBuffers} {
+       #Var BufferSelectionTmp2 {%Replace(%i,0, )};
+       #AddItem BufferSelectionTmp1 {@BufferSelectionTmp2:#Var SelectedBuffer {%i}}
+      };
+      #Pick {@BufferSelectionTmp1};
+      #UnVar BufferSelectionTmp1;
+      #UnVar BufferSelectionTmp2
+     };
+     #Var BuffersForReview {@BuffersForReview,@SelectedBuffer};
+     #UnVar SelectedBuffer
+    } {
+     #Var BuffersForReview {@BuffersForReview,%I}
+    }
+   };
+   #Var BuffersForReview {%Delete(@BuffersForReview,1,1)};
+   #Say {Set!};
+   #UnVar BufferConfigTmp2
+  }
+ };
+ #Var BufferConfigTmp1 {Choose a buffer to configure
+ [1] Alt 1-0: %Word(@BuffersForReview,~,,1).
+ [2] Alt Shift 1-0: %Word(@BuffersForReview,~,,2).
+ [3] Control Shift 1-0: %Word(@BuffersForReview,~,,3).};
+ #If {@ExcludeAltGRNumrow=1} {
+  #Var BufferConfigTmp1 {@BufferConfigTmp1
+ [4] Control Alt 1-0: Currently disabled, but you can enable it in conf advanced keystrokes (set Exclude AltGR Numrow to off).}
+ } {
+  #Var BufferConfigTmp1 {@BufferConfigTmp1
+ [4] Control Alt 1-0: %Word(@BuffersForReview,~,,4).}
+ };
+ #Var BufferConfigTmp1 {@BufferConfigTmp1
+ [5] Control Alt Shift 1-0: %Word(@BuffersForReview,~,,5).
+ [r] Reset to default
+ [0] Finish};
+ #Say {BufferConfig } Entry|NoReturn;
+ ConfPrint {@BufferConfigTmp1};
+ #UnVar BufferConfigTmp1
 } {}
-
 #Key {Shift-Control-Alt-F11} {BufferConfig} {}

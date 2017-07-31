@@ -535,32 +535,3 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  #Sub {Setup done.};
  #Class Sight Disable
 } {Sight}
-
-#Alias CreateReviewKey {
- #If {%3=""} {
-  #say {Syntax: CreateReviewKey Key Buffer0Name Index}
- } {
-  #Exec {
-   #Key {%1} {
-    Speech Stop;
-    #if {~@LastKeyPressed="%1"} {
-     #Var ReviewHistoryTmp1 {Copy}
-    } {
-     #Var ReviewHistoryTmp1 {Say}
-    };
-    LastKeyPressed {%1};
-    History ~@ReviewHistoryTmp1 %2 %3
-   } {}
-  }
- }
-} {}
-
-#Alias LastKeyPressed {
- #Var LastKeyPressed %1;
- #If {%NumWords(@HistoryTimeout,.)=2 AND %IsNumber(%Replace(@HistoryTimeout,.,""))=1} {
-  #Var HistoryTimeout @HistoryTimeout
- } {
-  #Var HistoryTimeout {0.25}
- };
- #Alarm @HistoryTimeout {#Var LastKeyPressed {Nothing}}
-} {}

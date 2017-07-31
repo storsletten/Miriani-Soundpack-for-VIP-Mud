@@ -1,8 +1,9 @@
 #If {%Defined(KeyStrokesPath)=0} {#Var KeyStrokesPath {@ScriptPath/KeyStrokes}}
-#If {%Defined(KeyStrokeFiles)=0} {#Var KeyStrokeFiles {Comm:HistoryNumKeys|HistoryReview:HistoryMT|Misc:Misc|Numpad:Numpad:de|Scanning:Scanning|Sound:SoundEngine}}
+#If {%Defined(KeyStrokeFiles)=0} {#Var KeyStrokeFiles {HistoryReview:History|Misc:Misc|Sound:SoundEngine}}
 ; Syntax: Variable:Filename:lang1.lang2...
 ; Separate multiple languages with periods.
-; Example: #var KeyStrokeFiles {Comm:HistoryNumKeys|HistoryReview:HistoryMT|Misc:Misc|Numpad:Numpad:no|Scanning:Scanning|Sound:SoundEngine}
+; Example: #Var KeyStrokeFiles {Comm:HistoryNumKeys|HistoryReview:HistoryMT|Misc:Misc|Numpad:Numpad:no|Scanning:Scanning|Sound:SoundEngine}
+; Example 2: #Var KeyStrokeFiles {HistoryReview:History|Misc:Misc|Numpad:Numpad:de|Scanning:Scanning|Sound:SoundEngine}}
 
 #GUnKey Numpad2;
 #GUnKey Numpad4;
