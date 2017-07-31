@@ -30,7 +30,7 @@
 } {Main}
 #TRIGGER {You slide a* out of a pulse emitter clip.} {
  msplay General\Combat\DrawEMPulse*3@Ext;
- ExpPipe {%0} {%0} {You draw a%1};
+ ExpPipe {%0} {%0} {You draw a%1.};
  #Sub {@ExpString}
 } {Main}
 #Trigger {A* * to have run out of energy.} {
@@ -38,17 +38,17 @@
 } {Main}
 #TRIGGER {* slides a* out of a pulse emitter clip.} {
  msplay General\Combat\DrawEMPulse*3@Ext;
- ExpPipe {%0} {%0} {%1 draws a%2};
+ ExpPipe {%0} {%0} {%1 draws a%2.};
  #Sub {@ExpString}
 } {Main}
 #TRIGGER {You deftly draw a* from a*.} {
  msplay General\Combat\DrawGun*3@Ext;
- ExpPipe {%0} {%0} {You draw a%1 from a%2};
+ ExpPipe {%0} {%0} {You draw a%1 from a%2.};
  #Sub {@ExpString}
 } {Main}
 #TRIGGER {* deftly draws a* from a*.} {
  msplay General\Combat\DrawGun*3@Ext;
- ExpPipe {%0} {%0} {%1 draws a%2 from a%3};
+ ExpPipe {%0} {%0} {%1 draws a%2 from a%3.};
  #Sub {@ExpString}
 } {Main}
 #TRIGGER {A loud clicking is followed by the clatter of an empty cartridge to the floor.} {
@@ -71,39 +71,39 @@
  ExpPipe {%0} {%0} {%1 inserts a%2 into a%3};
  #Sub {@ExpString}
 } {Main}
-#TRIGGER {You slide * into a* where it settles into place with a small click.} {
+#TRIGGER {You slide * into a*, where it settles into place with a small click.} {
  msplay holster@Ext;
- ExpPipe {%0} {%0} {You slide %1 into a%2};
+ ExpPipe {%0} {%0} {You slide %1 into a%2.};
  #Sub {@ExpString}
 } {Main}
 #TRIGGER {* slides * into a*, where it snaps into place with a click.} {
  msplay holster@Ext;
- ExpPipe {%0} {%0} {%1 slides %2 into a%3};
+ ExpPipe {%0} {%0} {%1 slides %2 into a%3.};
  #Sub {@ExpString}
 } {Main}
-#TRIGGER {You carefully discharge a* into a*.} {
+#TRIGGER {You carefully discharge a* into a*} {
  msplay General\Combat\LoadEMPulse*3@Ext;
- ExpPipe {%0} {You discharge a%1 into a%2} {A%2 energized.};
+ ExpPipe {%0} {You discharge a%1 into a%2} {Energized a%2};
  #Sub {@ExpString}
 } {Main}
-#TRIGGER {* carefully discharges a* into a*.} {
+#TRIGGER {* carefully discharges a* into a*} {
  msplay General\Combat\LoadEMPulse*3@Ext;
  ExpPipe {%0} {%0} {%1 discharges a%2 into a%3};
  #Sub {@ExpString}
 } {Main}
 #TRIGGER {You hastily slam a* into the open ammo slot of a*.} {
  msplay General\Combat\LoadGun*3@Ext;
- ExpPipe {%0} {%0} {You load a%1 into a%2};
+ ExpPipe {%0} {%0} {You load a%1 into a%2.};
  #Sub {@ExpString}
 } {Main}
 #TRIGGER {* hastily slams a* into the open ammo slot of a*.} {
  msplay General\Combat\LoadGun*3@Ext;
- ExpPipe {%0} {%0} {%1 loads a%2 into a%3};
+ ExpPipe {%0} {%0} {%1 loads a%2 into a%3.};
  #Sub {@ExpString}
 } {Main}
 #TRIGGER {A* clicks oddly. It must be out of ammo.} {
  msplay emptygun@Ext;
- ExpPipe {%0} {A%1 is out of ammo.} {A%1 is empty};
+ ExpPipe {%0} {A%1 is out of ammo.} {A%1 is empty.};
  #Sub {@ExpString}
 } {Main}
 #TRIGGER {The shot hits *'s *.} {
