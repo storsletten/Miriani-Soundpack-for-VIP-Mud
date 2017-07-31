@@ -1,3 +1,6 @@
+Version 5.4.23, released 2017-07-31:
+* The VD command will now give you the vd verb in the entry window, so it's easier to interact with the menu. For VIP Mud 2.0 only.
+
 Version 5.4.22, released 2017-07-31:
 * Whoops. A slight oversight there that caused conf vd to crash spectacularly. It's fixed now though.
 
