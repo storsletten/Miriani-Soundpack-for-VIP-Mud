@@ -1,3 +1,6 @@
+Version 5.4.20, released 2017-07-31:
+* Lots of improvements to the history review keystrokes in VIP Mud 2.0. You might need to check your buffer config though in case it's no longer working the way you want it. Just type bufferconfig to change the review buffers. I also removed the empty keystroke files for numpad and scanning, since they will never be used again at any rate. This could cause errors for those of you who have added custom keystroke file assignments, so if that's the case, please just remove that from your custom.set.
+
 Version 5.4.19, released 2017-07-30:
 * Ported the whoc (whocheck) command to the VIP Mud 1.1 version of the soundpack too. And as always, it's not tested since I don't have 1.1 myself, and so maybe it will work or maybe it won't work at all. Who knows.
 
