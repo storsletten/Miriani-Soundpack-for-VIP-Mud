@@ -1,3 +1,6 @@
+Version 5.4.25, released 2017-07-31:
+* No idea how or when this happen, but the alias for toggling socials had apparently adopted the name of the class for ... something. It was weird, and I've renamed the alias to SocialsToggle. 2.0 only.
+
 Version 5.4.24, released 2017-07-31:
 * Addressed punctuation issues in certain ground combat messages. Cheers Ryan for reporting this!
 Afraid it's only addressed in VIP Mud 2.0, though. I'm almost at a point where I'll just discontinue support for VIP Mud 1.1 altogether, so if you would like to enjoy future changes and fixes to the soundpack, upgrading to VIP Mud 2.0 is the way to go.
