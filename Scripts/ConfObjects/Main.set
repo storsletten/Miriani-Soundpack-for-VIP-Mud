@@ -1,11 +1,11 @@
-#Var ConfObjVer 581
+#Var ConfObjVer 582
 #Var ConfObjectsPath {@ScriptPath\ConfObjects}
 #Var ConfObjectFiles {
 Advanced
 Atsm
 Comm
 Conf
-Display
+VD
 Docs
 Log
 Gag
@@ -27,7 +27,7 @@ Gag:Configure gag options
 Gen:General Options
 Comm:Communication options
 History:History options
-Display:Hide or unhide virtual displays
+VD:Hide or unhide virtual displays
 Menu:Configure how menus should work
 Lore:Lore options
 Ship:Ship options
@@ -97,22 +97,23 @@ PlaySoundsOnReview:1
 HistoryVolumeOffset:20
 HistoryPanning:0
 HideDisplay1:0
-Display1Label:InterSector Information
 Display1VolumeDiff:-10
 Display1GagType:All
 HideDisplay2:0
-Display2Label:Camera Output
 Display2VolumeDiff:-10
 Display2GagType:All
 HideDisplay3:0
-Display3Label:Virtual Display 3
 Display3VolumeDiff:-10
 Display3GagType:All
 HideDisplay4:0
-Display4Label:Salvage Output
 Display4VolumeDiff:-10
 Display4GagType:All
-NumberOfDisplays:4
+HideDisplay5:0
+Display5VolumeDiff:-10
+Display5GagType:All
+HideDisplay6:0
+Display6VolumeDiff:-10
+Display6GagType:All
 UseMenuAliases:1
 BuildReversedMenuLookupTables:0
 AllowBlankInput:1

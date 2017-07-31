@@ -1,34 +1,31 @@
 #Exec {
-SetVariable Conf0Display0NumberOfDisplays0 {N:NumberOfDisplays:Number of displays
-validate:1:5000};
-SetVariable Conf0Display0 {M:Virtual Display Menu};
-SetVariable DisplayTmp1 0
+SetVariable Conf0Display0 {A:VD};
+SetVariable Conf0VD0 {M:Configure Virtual Displays
+}
 }
 
 #Var DisplayTmp1 0
-#While {@DisplayTmp1 < @NumberOfDisplays} {
+#Var DisplayTmp2 {%NumWords(@VirtualDisplays,|)}
+#While {@DisplayTmp1 < @DisplayTmp2} {
 #Math DisplayTmp1 {@DisplayTmp1 + 1};
-#Var Conf0Display0 {@Conf0Display0
-HideDisplay@DisplayTmp1:Show or hide Virtual Display @DisplayTmp1 <Control-Alt-F%Eval(@DisplayTmp1 + 8)>
-Display@{DisplayTmp1}Label
-Display@{DisplayTmp1}VolumeDiff
-Display@{DisplayTmp1}GagType};
-SetVariable Conf0Display0HideDisplay@{DisplayTmp1}0 {B:HideDisplay@{DisplayTmp1}:Hide virtual display @DisplayTmp1
+#Var Conf0VD0 {@{Conf0VD0}Number@DisplayTmp1:%Word(@VirtualDisplays,|,@DisplayTmp1)
+};
+SetVariable Conf0VD0Number@{DisplayTmp1}0 {M:Options for Virtual Display @DisplayTmp1, %Word(@VirtualDisplays,|,@DisplayTmp1)
+HideDisplay:Hide
+GagType:Gag type
+VolumeDiff
+};
+SetVariable Conf0VD0Number@{DisplayTmp1}0HideDisplay0 {B:HideDisplay@{DisplayTmp1}:Hide Virtual Display @DisplayTmp1, %Word(@VirtualDisplays,|,@DisplayTmp1)
 Text on Virtual Display @DisplayTmp1 will now be gagged:Text on Virtual Display @DisplayTmp1 will now be visible
 };
-SetVariable Conf0Display0Display@{DisplayTmp1}Label0 {S:Display@{DisplayTmp1}Label:label for display @DisplayTmp1
-Virtual Display @DisplayTmp1 is now labeled $V
-};
-SetVariable Conf0Display0Display@{DisplayTmp1}VolumeDiff0 {N:Display@{DisplayTmp1}VolumeDiff:Offset between the sounds in this display group and the rest of the soundpack
+SetVariable Conf0VD0Number@{DisplayTmp1}0VolumeDiff0 {N:Display@{DisplayTmp1}VolumeDiff:Offset between the sounds in Virtual Display @DisplayTmp1 and the rest of the soundpack
 validate:-100:100};
-SetVariable Conf0Display0Display@{DisplayTmp1}GagType0 {C:How this display will be gagged
+SetVariable Conf0VD0Number@{DisplayTmp1}0GagType0 {C:How should Virtual Display @DisplayTmp1 be gagged
 Display@{DisplayTmp1}GagType:Gag settings for when this display is hidden
-Voice:Don't speak but still print
-Display:Speak but don't print
+Voice:Don't speak but still print to output
+Display:Speak but don't print to output
 All:Don't speak or print
 }
 }
-
-#Var Conf0Display0 {@Conf0Display0
-NumberOfDisplays
-}
+#UnVar DisplayTmp1
+#UnVar DisplayTmp2

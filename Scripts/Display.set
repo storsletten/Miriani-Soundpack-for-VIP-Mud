@@ -1,18 +1,18 @@
 ; Display.set
 ; 
 ; This file contains the routines for routing text to the different virtual displays.
-; Usage examples are given, so you can incorperate this framework into your Custom.set file.
 ; 
 ; VD:
 ; This alias exists to show or hide each display, and takes a number as the argument, which must
 ; be between 1 and the total number of allowed displays (see Conf Display).
 
 #Alias VD {
- #If {%1=""} {
-  SetVariable DisplayTmp1 0;
-  SetVariable DisplayTmp2 {};
-  SetVariable DisplayTmp3 {};
-  SetVariable HiddenDisplays 0;
+ #Var NumberOfDisplays {%NumWords(@VirtualDisplays,|)};
+ #If {%IsNumber(%1)=0} {
+  #Var DisplayTmp1 0;
+  #Var DisplayTmp2 {};
+  #Var DisplayTmp3 {};
+  #Var HiddenDisplays 0;
   #While {@DisplayTmp1<@NumberOfDisplays} {
    #Math DisplayTmp1 {@DisplayTmp1 + 1};
    #If {@{HideDisplay@{DisplayTmp1}}=1} {
@@ -21,18 +21,23 @@
    } {
     #Var DisplayTmp3 {visible}
    };
-   #Var DisplayTmp2 {@DisplayTmp2[@DisplayTmp1] @{Display@{DisplayTmp1}Label} : @DisplayTmp3.%CRLF}
+   #Var DisplayTmp2 {@DisplayTmp2[@DisplayTmp1] %Word(@VirtualDisplays,|,@DisplayTmp1): @DisplayTmp3.%CRLF}
   };
   #Var DisplayTmp2 {@{DisplayTmp2}Hidden displays: @HiddenDisplays.};
-  ConfPrint @DisplayTmp2
+  ConfPrint {@DisplayTmp2};
+  #UnVar DisplayTmp1;
+  #UnVar DisplayTmp2;
+  #UnVar DisplayTmp3;
+  #UnVar HiddenDisplays
  } {
-  #if {%1<1 OR %1>@NumberOfDisplays} {
+  #If {%1<1 or %1>@NumberOfDisplays} {
    ConfPrint {Number out of range. @NumberOfDisplays virtual displays are currently implemented.}
   } {
-   #if {@{HideDisplay%{1}}<>1} {#var HideDisplay%{1} {1}} {#var HideDisplay%{1} {0}};
-   #say {Virtual Display %1 (@{Display%{1}Label}) %if(@{HideDisplay%{1}} = 1,hidden,shown).}
+   #If {@{HideDisplay%1}<>1} {#Var {HideDisplay%1} {1}} {#Var {HideDisplay%1} {0}};
+   #Say {Now %If(@{HideDisplay%1}=1,hiding,showing) Virtual Display %1: %Word(@VirtualDisplays,|,%1)}
   }
- }
+ };
+ #UnVar NumberOfDisplays
 } {}
 
 ; DisplayPrint:
@@ -52,15 +57,10 @@
 ; } {Main}
 
 #Alias DisplayPrint {
- #if {%1<1 OR %1>@NumberOfDisplays} {
-  #var DisplayString {Error, argument 1 must be a display number, 1 to @NumberOfDisplays.}
- } {
-  #if {@{HideDisplay%{1}}=1} {
-   #var DisplayString {%2};
-   #Gagline 1 {@{Display%{1}GagType}};
-   PushMessage Virtual0Display0%1 %2
-  } {
-   #var DisplayString {%2}
+ #Var DisplayString {%2};
+ #If {%Defined(HideDisplay%1)=1} {
+  #If {@{HideDisplay%1}=1} {
+   #GagLine 1 {@{Display%{1}GagType}}
   }
  }
 } {}

@@ -96,22 +96,25 @@
    } {
     #Var TmpCommunication2 {[@TmpCommunication2]}
    };
-   #Var TmpCommunication4 {Metaf};
+   #Var TmpCommunication4 {Metafrequency0Channels};
    #Var TmpCommunication1 {}
   };
   #If {@TmpCommunication1=*"AIE | *" or @TmpCommunication1=*"Commonwealth | *" or @TmpCommunication1=*"Hale | *"} {
    MirianiSoundPlay {Comms Framework} General\Comm\Alliance@Ext;
    #Var TmpCommunication2 {[%Delete(@TmpCommunication1,1,%Eval(%Pos(|,@TmpCommunication1)+1))]};
+   #Var TmpCommunication4 {Alliance0Channel};
    #Var TmpCommunication1 {}
   };
   #If {@TmpCommunication1=*"* Alliance"} {
    MirianiSoundPlay {Comms Framework} General\Comm\Alliance@Ext;
    #Var TmpCommunication2 {[%Copy(@TmpCommunication1,1,%Eval(%Pos(" Alliance",@TmpCommunication1)-1))]};
+   #Var TmpCommunication4 {Interalliance0Channel};
    #Var TmpCommunication1 {}
   };
   #If {@TmpCommunication1="Chatter"} {
    MirianiSoundPlay {Comms Framework} {General\Comm\Chatter@Ext} {10};
    #Var TmpCommunication2 {[Chatter]};
+   #Var TmpCommunication4 {Chatter};
    #Var TmpCommunication1 {}
   };
   #If {@TmpCommunication1="Newbie"} {
@@ -129,11 +132,13 @@
   #If {@TmpCommunication1=@OrgName} {
    MirianiSoundPlay {Comms Framework} General\comm\org@Ext {20};
    #Var TmpCommunication2 {[Org]};
+   #Var TmpCommunication4 {Org0Channel};
    #Var TmpCommunication1 {}
   } ;
   #If {@TmpCommunication1="General Communication"} {
    MirianiSoundPlay {Comms Framework} General\Comm\General@Ext;
    #Var TmpCommunication2 {[General]};
+   #Var TmpCommunication4 {General0Channel};
    #Var TmpCommunication1 {}
   };
   #If {@TmpCommunication1="Beta"} {
@@ -184,11 +189,13 @@
   #If {@TmpCommunication1="Short-range Communication"} {
    MirianiSoundPlay {Comms Framework} General\Comm\short@Ext;
    #Var TmpCommunication2 {[Short]};
+   #Var TmpCommunication4 {Short0Range0Channel};
    #Var TmpCommunication1 {}
   };
   #If {@TmpCommunication1=*"Starship | *"} {
    MirianiSoundPlay {Comms Framework} Ship\Comm\Relay@Ext;
    #Var TmpCommunication2 {[Ship]};
+   #Var TmpCommunication4 {Ship0Channel};
    #Var TmpCommunication1 {}
   };
   #If {@TmpCommunication1=""} {
@@ -240,10 +247,17 @@
      }
     }
    };
-   CharEncoder TmpCommunication1 {@TmpCommunication1} decode;
-   #Sub {@TmpCommunication2 @TmpCommunication1};
-   #If {@TmpCommunication4<>"Newbie"} {
+   CharEncoder {TmpCommunication1} {@TmpCommunication1} decode;
+   #If {%IfWord(@TmpCommunication4,Beta0Channel|Design0Channel|Newbie|Tradesman0Market,|)=0} {
+    #If {@TmpCommunication4="Metafrequency0Channels"} {
+     DisplayPrint 5 {@TmpCommunication2 @TmpCommunication1}
+    } {
+     DisplayPrint 6 {@TmpCommunication2 @TmpCommunication1}
+    };
+    #Sub {@DisplayString};
     PushMessage Comm {@TmpCommunication2 @TmpCommunication1}
+   } {
+    #Sub {@TmpCommunication2 @TmpCommunication1}
    };
    #If {@TmpCommunication4<>""} {
     PushMessage {@TmpCommunication4} {@TmpCommunication2 @TmpCommunication1}
@@ -342,7 +356,8 @@
    };
    #If {@TmpCommunication1=*"* flight control scanner announce*"} {
     PushMessage Flight {@TmpCommunication3};
-    #Sub {@TmpCommunication3};
+    DisplayPrint 3 {@TmpCommunication3};
+    #Sub {@DisplayString};
     MirianiSoundPlay {Flight Control Scanner} General\Comm\FlightScanner@Ext;
     #If {@TmpCommunication3=*"* Praelor starship* inbound!"} {
      MirianiSoundPlay {FC Scanner Alert} General\Comm\PraelorInbound@Ext

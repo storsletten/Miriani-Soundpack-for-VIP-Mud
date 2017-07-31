@@ -131,11 +131,15 @@ ConfPrint {@ShipCombatTmp1}
 #TRIGGER {* has fired at *.} {
  #If {%Pos(~(,%1)=1 and %Pos(~),%1)>1} {} {
   mwplay Ship\Combat\OtherFired*6@Ext 0:1;
-  #If {@MissionMode=1 and %Word(%2, ,1)="Praelor"} {
-   #GagLine 1 Voice
-  };
   ExpPipe {%0} {%0} {%2 hit by %1};
-  DisplayPrint 1 @ExpString;
+  #If {%Word(%2, ,1)="Praelor"} {
+   #If {@MissionMode=1} {
+    #GagLine 1 Voice
+   }
+  } {
+   PushMessage {Intrasector0Combat} {@ExpString}
+  };
+  DisplayPrint 1 {@ExpString};
   #Sub {@DisplayString}
  }
 } {Main}
