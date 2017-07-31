@@ -10,38 +10,48 @@
  #Var NumberOfDisplays {%NumWords(@VirtualDisplays,|)};
  #If {%IsNumber(%1)=1} {
   #If {%1<1 or %1>@NumberOfDisplays} {
-   #If {%1=0} {
-    #UnVar NumberOfDisplays;
-    #Abort All
-   } {
-    #Say {Number out of range. @NumberOfDisplays virtual displays are currently implemented.}
-   }
+   ConfPrint {Number out of range. @NumberOfDisplays virtual displays are currently implemented.}
   } {
    #If {@{HideDisplay%1}<>1} {#Var {HideDisplay%1} {1}} {#Var {HideDisplay%1} {0}};
-   #Say {Now %If(@{HideDisplay%1}=1,hiding,showing) Virtual Display %1: %Word(@VirtualDisplays,|,%1)}
+   ConfPrint {Now %If(@{HideDisplay%1}=1,hiding,showing) Virtual Display %1: %Word(@VirtualDisplays,|,%1)}
   }
- };
- #Var DisplayTmp1 0;
- #Var DisplayTmp2 {};
- #Var DisplayTmp3 {};
- #Var HiddenDisplays 0;
- #While {@DisplayTmp1<@NumberOfDisplays} {
-  #Math DisplayTmp1 {@DisplayTmp1 + 1};
-  #If {@{HideDisplay@{DisplayTmp1}}=1} {
-   #Var DisplayTmp3 {hidden};
-   #Math HiddenDisplays {@HiddenDisplays + 1}
-  } {
-   #Var DisplayTmp3 {visible}
+ } {
+  #If {%IsNumber(%2)=1} {
+   #If {%2<1 or %2>@NumberOfDisplays} {
+    #If {%2=0} {
+     #UnVar NumberOfDisplays;
+     #Alarm 0 {ConfSaveAll};
+     #Abort All
+    } {
+     #Say {Number out of range. @NumberOfDisplays virtual displays are currently implemented.}
+    }
+   } {
+    #If {@{HideDisplay%2}<>1} {#Var {HideDisplay%2} {1}} {#Var {HideDisplay%2} {0}};
+    #Say {Now %If(@{HideDisplay%2}=1,hiding,showing) Virtual Display %2: %Word(@VirtualDisplays,|,%2)}
+   }
   };
-  #Var DisplayTmp2 {@DisplayTmp2[@DisplayTmp1] %Word(@VirtualDisplays,|,@DisplayTmp1): @DisplayTmp3.%CRLF}
+  #Var DisplayTmp1 0;
+  #Var DisplayTmp2 {};
+  #Var DisplayTmp3 {};
+  #Var HiddenDisplays 0;
+  #While {@DisplayTmp1<@NumberOfDisplays} {
+   #Math DisplayTmp1 {@DisplayTmp1 + 1};
+   #If {@{HideDisplay@{DisplayTmp1}}=1} {
+    #Var DisplayTmp3 {hidden};
+    #Math HiddenDisplays {@HiddenDisplays + 1}
+   } {
+    #Var DisplayTmp3 {visible}
+   };
+   #Var DisplayTmp2 {@DisplayTmp2[@DisplayTmp1] %Word(@VirtualDisplays,|,@DisplayTmp1): @DisplayTmp3.%CRLF}
+  };
+  #Var DisplayTmp2 {@{DisplayTmp2}[0] Finish.%{CRLF}  Hidden displays: @HiddenDisplays.};
+  #Say {vd menu } Entry|NoReturn;
+  ConfPrint {@DisplayTmp2};
+  #UnVar DisplayTmp1;
+  #UnVar DisplayTmp2;
+  #UnVar DisplayTmp3;
+  #UnVar HiddenDisplays
  };
- #Var DisplayTmp2 {@{DisplayTmp2}[0] Finish.%{CRLF}  Hidden displays: @HiddenDisplays.};
- #Say {vd } Entry|NoReturn;
- ConfPrint {@DisplayTmp2};
- #UnVar DisplayTmp1;
- #UnVar DisplayTmp2;
- #UnVar DisplayTmp3;
- #UnVar HiddenDisplays;
  #UnVar NumberOfDisplays
 } {}
 
