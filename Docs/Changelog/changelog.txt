@@ -1,3 +1,6 @@
+Version 5.4.26, released 2017-08-01:
+* Another improvement to the VD command. Now if you type vd and a number, it will toggle that virtual display without opening up the entire menu. If you just type vd without any arguments however, it will present the menu and let you interact with it just like conf. Also made it so that it will save the settings if you choose 0 from the VD menu.
+
 Version 5.4.25, released 2017-07-31:
 * No idea how or when this happen, but the alias for toggling socials had apparently adopted the name of the class for ... something. It was weird, and I've renamed the alias to SocialsToggle. 2.0 only.
 
