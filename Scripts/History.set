@@ -353,17 +353,29 @@
    ConfSaveAll;
    #Abort All
   };
-  #If {%1=4 and @ExcludeAltGRNumrow=1} {
+  #If {%1=3} {
+   #Say {The following methods are available for changing the current buffer for Control 1-0:};
+   #Say {Control E and Control Shift E allow you to browse through the buffers back and forth.};
+   #Say {hist sw <buffername> allows you to set the buffer directly. E.g. you could type hist sw rooc to set the buffer to rooc. hist sw is short for history switch, and you can see more history commands by typing hist.};
+   #Say {Also note that most of the buffers are not available until they have received some content.};
+   #Abort All
+  };
+  #If {%1=5 and @ExcludeAltGRNumrow=1} {
    #Say {You need to disable the option for excluding AltGR Numrow first, in conf advanced keystrokes.};
    #Abort All
   };
-  #If {%1>0 and %1<6} {
+  #If {%1>0 and %1<7} {
    #Var BufferConfigTmp1 {%Replace(@BuffersForReview,~,,|)};
    #Var BufferConfigTmp2 0;
+   #If {%1>3} {
+    #Math BufferConfigTmp3 {%1-1}
+   } {
+    #Var BufferConfigTmp3 %1
+   };
    #Var BuffersForReview {};
    #ForAll {@BufferConfigTmp1} {
     #Math BufferConfigTmp2 {@BufferConfigTmp2 + 1};
-    #If {%1=@BufferConfigTmp2} {
+    #If {@BufferConfigTmp3=@BufferConfigTmp2} {
      #If {%2<>""} {
       #Var SelectedBuffer %2
      } {
@@ -386,22 +398,24 @@
    };
    #Var BuffersForReview {%Delete(@BuffersForReview,1,1)};
    #Say {Set!};
-   #UnVar BufferConfigTmp2
+   #UnVar BufferConfigTmp2;
+   #UnVar BufferConfigTmp3
   }
  };
  #Var BufferConfigTmp1 {Choose a buffer to configure
  [1] Alt 1-0: %Word(@BuffersForReview,~,,1).
  [2] Alt Shift 1-0: %Word(@BuffersForReview,~,,2).
- [3] Control Shift 1-0: %Word(@BuffersForReview,~,,3).};
+ [3] Control 1-0: Currently set to @CurrentHistoryBuffer, and it will reflect the current buffer set by Control E or Control Shift E, or directly using the command hist sw <buffername>.
+ [4] Control Shift 1-0: %Word(@BuffersForReview,~,,3).};
  #If {@ExcludeAltGRNumrow=1} {
   #Var BufferConfigTmp1 {@BufferConfigTmp1
- [4] Control Alt 1-0: Currently disabled, but you can enable it in conf advanced keystrokes (set Exclude AltGR Numrow to off).}
+ [5] Control Alt 1-0: Currently disabled, but you can enable it in conf advanced keystrokes (set Exclude AltGR Numrow to off).}
  } {
   #Var BufferConfigTmp1 {@BufferConfigTmp1
- [4] Control Alt 1-0: %Word(@BuffersForReview,~,,4).}
+ [5] Control Alt 1-0: %Word(@BuffersForReview,~,,4).}
  };
  #Var BufferConfigTmp1 {@BufferConfigTmp1
- [5] Control Alt Shift 1-0: %Word(@BuffersForReview,~,,5).
+ [6] Control Alt Shift 1-0: %Word(@BuffersForReview,~,,5).
  [r] Reset to default
  [0] Finish};
  #Say {BufferConfig } Entry|NoReturn;
