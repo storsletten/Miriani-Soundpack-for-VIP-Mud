@@ -1,3 +1,6 @@
+Version 5.4.28, released 2017-08-01:
+* Added Control 1-0 to the BufferConfig for the sake of list completion, plus it holds some useful information.
+
 Version 5.4.27, released 2017-08-01:
 * Added filters to virtual displays (for VIP Mud 2.0 only). You can configure these in conf vd, and they are useful if you want a virtual display to gag something only if it also matches a certain pattern.
 * The vd menu will now also display any active display filters.
