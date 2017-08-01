@@ -1,3 +1,7 @@
+Version 5.4.27, released 2017-08-01:
+* Added filters to virtual displays (for VIP Mud 2.0 only). You can configure these in conf vd, and they are useful if you want a virtual display to gag something only if it also matches a certain pattern.
+* The vd menu will now also display any active display filters.
+
 Version 5.4.26, released 2017-08-01:
 * Another improvement to the VD command. Now if you type vd and a number, it will toggle that virtual display without opening up the entire menu. If you just type vd without any arguments however, it will present the menu and let you interact with it just like conf. Also made it so that it will save the settings if you choose 0 from the VD menu.
 
