@@ -8,4 +8,6 @@
 
 * If the soundpack suddenly starts crashing one day, then the configuration file might have been damaged. Try removing the Conf.set file from your Miriani folder, reinstall the soundpack, and hope for the best.
 
+* If the soundpack is sending lots of weird things to the game, then you could try to open up the aliases dialog box and then close it again. This is actually the solution in some cases. You can do this with Control Shift A, and then hit Escape. Unfortunately you might need to do this after every time you restart VIP Mud or the soundpack. It's just one of these bugs in VIP Mud that we can only hope GMA Games will fix one day.
+
 * Finally, the last resort is to throw a tantrum on the message board OOC / Soundpacks in Miriani and hope that someone will hear you out and offer some helpful help.
