@@ -139,7 +139,7 @@ ConfPrint {@ShipCombatTmp1}
   } {
    PushMessage {Intrasector0Combat} {@ExpString}
   };
-  DisplayPrint 1 {@ExpString};
+  DisplayPrint 1 {@ExpString} {%0};
   #Sub {@DisplayString}
  }
 } {Main}

@@ -1,4 +1,4 @@
-#Var ConfObjVer 582
+#Var ConfObjVer 583
 #Var ConfObjectsPath {@ScriptPath\ConfObjects}
 #Var ConfObjectFiles {
 Advanced
@@ -99,21 +99,27 @@ HistoryPanning:0
 HideDisplay1:0
 Display1VolumeDiff:-10
 Display1GagType:All
+Display1Filter:*
 HideDisplay2:0
 Display2VolumeDiff:-10
 Display2GagType:All
+Display2Filter:*
 HideDisplay3:0
 Display3VolumeDiff:-10
 Display3GagType:All
+Display3Filter:*
 HideDisplay4:0
 Display4VolumeDiff:-10
 Display4GagType:All
+Display4Filter:*
 HideDisplay5:0
 Display5VolumeDiff:-10
 Display5GagType:All
+Display5Filter:*
 HideDisplay6:0
 Display6VolumeDiff:-10
 Display6GagType:All
+Display6Filter:*
 UseMenuAliases:1
 BuildReversedMenuLookupTables:0
 AllowBlankInput:1

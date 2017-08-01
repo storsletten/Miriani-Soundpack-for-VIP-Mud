@@ -250,9 +250,9 @@
    CharEncoder {TmpCommunication1} {@TmpCommunication1} decode;
    #If {%IfWord(@TmpCommunication4,Beta0Channel|Design0Channel|Newbie|Tradesman0Market,|)=0} {
     #If {@TmpCommunication4="Metafrequency0Channels"} {
-     DisplayPrint 5 {@TmpCommunication2 @TmpCommunication1}
+     DisplayPrint 5 {@TmpCommunication2 @TmpCommunication1} {%0}
     } {
-     DisplayPrint 6 {@TmpCommunication2 @TmpCommunication1}
+     DisplayPrint 6 {@TmpCommunication2 @TmpCommunication1} {%0}
     };
     #Sub {@DisplayString};
     PushMessage Comm {@TmpCommunication2 @TmpCommunication1}
@@ -356,7 +356,7 @@
    };
    #If {@TmpCommunication1=*"* flight control scanner announce*"} {
     PushMessage Flight {@TmpCommunication3};
-    DisplayPrint 3 {@TmpCommunication3};
+    DisplayPrint 3 {@TmpCommunication3} {%0};
     #Sub {@DisplayString};
     MirianiSoundPlay {Flight Control Scanner} General\Comm\FlightScanner@Ext;
     #If {@TmpCommunication3=*"* Praelor starship* inbound!"} {

@@ -12,6 +12,7 @@ SetVariable Conf0VD0 {M:Configure Virtual Displays
 };
 SetVariable Conf0VD0Number@{DisplayTmp1}0 {M:Options for Virtual Display @DisplayTmp1, %Word(@VirtualDisplays,|,@DisplayTmp1)
 HideDisplay:Hide
+Filter:Filter string
 GagType:Gag type
 VolumeDiff
 };
@@ -20,6 +21,9 @@ Text on Virtual Display @DisplayTmp1 will now be gagged:Text on Virtual Display 
 };
 SetVariable Conf0VD0Number@{DisplayTmp1}0VolumeDiff0 {N:Display@{DisplayTmp1}VolumeDiff:Offset between the sounds in Virtual Display @DisplayTmp1 and the rest of the soundpack
 validate:-100:100};
+SetVariable Conf0VD0Number@{DisplayTmp1}0Filter0 {S:Display@{DisplayTmp1}Filter:Filter string for Virtual Display @DisplayTmp1. For information about which wildcards you can use here, please see section ++6.2 Pattern Matching, in the VIP Mud user manual. A single asterisk will match to everything that this virtual display picks up.
+New filter string for Virtual Display @DisplayTmp1 is $V
+};
 SetVariable Conf0VD0Number@{DisplayTmp1}0GagType0 {C:How should Virtual Display @DisplayTmp1 be gagged
 Display@{DisplayTmp1}GagType:Gag settings for when this display is hidden
 Voice:Don't speak but still print to output

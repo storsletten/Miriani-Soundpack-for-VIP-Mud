@@ -424,15 +424,15 @@ mwplay Ship\Misc\InternalExpl*12@Ext} {Main|Starship}
  #Sub {@ExpString}
 } {Main}
 #Trigger {The computer reports no nearby debris.} {
- DisplayPrint 4 {No nearby debris.};
+ DisplayPrint 4 {No nearby debris.} {%0};
  #sub @DisplayString
 } {Main|Starship}
 #Trigger {* instructs the computer to begin scanning for debris.} {
- DisplayPrint 4 {%0};
+ DisplayPrint 4 {%0} {%0};
  #sub @DisplayString
 } {Main|Starship}
 #Trigger {There is insufficient sensor bandwidth for additional debris scanning.} {
- DisplayPrint 4 {%0};
+ DisplayPrint 4 {%0} {%0};
  #sub @DisplayString
 } {Main|Starship}
 #Trigger {The *-* * "*" is located at *.} {

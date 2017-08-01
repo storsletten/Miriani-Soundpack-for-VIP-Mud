@@ -60,21 +60,25 @@
 ; DisplayPrint <Display> {<Text>}
 ; 
 ; So like:
-; DisplayPrint 1 {Some text for the first Virtual Display.}
+; DisplayPrint 1 {Some text for the first Virtual Display.} {the raw input, that is used for filters.}
 ; 
 ; The result is stored in @DisplayString.
 ; 
 ; Here's a more involved example:
 ; #Trigger {Some text.} {
 ;  ExpPipe {%0} {Some} {Text};
-;  DisplayPrint 1 @ExpString;
+;  DisplayPrint 1 {@ExpString} {%0};
 ;  #sub @DisplayString
 ; } {Main}
 
 #Alias DisplayPrint {
  #Var DisplayString {%2};
- #If {%Defined(HideDisplay%1)=1} {
-  #If {@{HideDisplay%1}=1} {
+ #If {@{HideDisplay%1}=1} {
+  #Var DisplayFilterTmp1 {%Replace(%3,~",~%0x22~%)};
+  #Var DisplayFilterTmp1 {%Replace(@DisplayFilterTmp1,~~,~%0x7e~%)};
+  #Var DisplayFilterTmp2 {%Replace(@{Display%{1}Filter},~",~%0x22~%)};
+  #Var DisplayFilterTmp2 {%Replace(@DisplayFilterTmp2,~~,~%0x7e~%)};
+  #If {@DisplayFilterTmp1=*@DisplayFilterTmp2} {
    #GagLine 1 {@{Display%{1}GagType}}
   }
  }

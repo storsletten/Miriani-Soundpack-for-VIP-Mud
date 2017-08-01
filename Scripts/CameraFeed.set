@@ -40,7 +40,7 @@
  };
  msplay General\Device\CameraFeed@Ext 0:2;
  PushMessage Camera {@CameraTmp3 @CameraTmp2};
- DisplayPrint 2 {@CameraTmp3 @CameraTmp2};
+ DisplayPrint 2 {@CameraTmp3 @CameraTmp2} {%0};
  #If {%Replace(@DisplayString,~",)=""} {
   #Sub {@DisplayString}
  } {
@@ -78,7 +78,7 @@
  };
  msplay General\Device\CameraFeed@Ext 0:2;
  PushMessage Camera {@CameraTmp2};
- DisplayPrint 2 {@CameraTmp2};
+ DisplayPrint 2 {@CameraTmp2} {%0};
  #If {%Replace(@DisplayString,~",)=""} {
   #Sub {@DisplayString}
  } {
@@ -202,7 +202,7 @@ msplay General\Device\MovieEnd@Ext} {Main}
   #GagLine 1 All;
   #Abort All
  };
- DisplayPrint 2 {%1};
+ DisplayPrint 2 {%1} {%0};
  #Sub { @DisplayString}
 } {Main}
 #Trigger {From your droid's camera, you see...} {SetVariable Peers 1} {Main}
