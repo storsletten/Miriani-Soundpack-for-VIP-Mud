@@ -9,20 +9,40 @@
 #Exec {SetVariable TmpCommunication*4 {}}
 #Class Comm Enable
 
-; Syntax: {Variable name} {Message} {encode/decode}
+; Lists of special characters for different languages:
+#Var CharEncoderNO {æ:230|Æ:198|ø:248|Ø:216|å:229|Å:197}
+#Var CharEncoderDE {ä:228|Ä:196|ö:246|Ö:214|ü:252|Ü:220|ß:223}
+#Var CharEncoderFR {Œ:140|œ:156|À:192|Á:193|Â:194|Æ:198|Ç:199|È:200|É:201|Ê:202|Ë:203|Î:206|Ï:207|Ó:211|Ô:212|Ù:217|Û:219|à:224|á:225|â:226|æ:230|ç:231|è:232|é:233|ê:234|ë:235|î:238|ï:239|ó:243|ô:244|ù:249|û:251}
+; CharEncoder syntax: {Variable name} {Message} {encode/decode}
 #Alias CharEncoder {
  #Var {%1} {%2};
- #If {@Encoding<>"none"} {
-  #If {@Encoding="no"} {
-   #ForAll {æ:aeling|Æ:AEling|ø:oslash|Ø:Oslash|å:aring|Å:Aring} {
-    #If {%3="encode"} {
-     #Var {%1} {%Replace(@{%1},%Word(%i,:,1),abc%Word(%i,:,2)cba)}
-    } {
-     #Var {%1} {%Replace(@{%1},abc%Word(%i,:,2)cba,%Word(%i,:,1))}
-    }
+ #If {%3="decode"} {
+  #Var CharEncoderTmp2 {@{%1}};
+  #Var CharEncoderTmp1 {%Pos(~%~{,@CharEncoderTmp2)};
+  #While {@CharEncoderTmp1>0} {
+   #Var CharEncoderTmp2 {%Delete(@CharEncoderTmp2,1,%Eval(@CharEncoderTmp1+1))};
+   #If {%Pos(~},@CharEncoderTmp2)>0} {#Var CharEncoderTmp1 {%Word(@CharEncoderTmp2,~},1)}};
+   #If {%IsNumber(@CharEncoderTmp1)=1} {
+    #Var CharEncoderTmp3 {%Chr(@CharEncoderTmp1)};
+    #Var CharEncoderTmp1 {~%~{@{CharEncoderTmp1}~}};
+    #Var {%1} {%Replace(@{%1},@CharEncoderTmp1,@CharEncoderTmp3)};
+    #Var CharEncoderTmp2 {%Replace(@CharEncoderTmp2,@CharEncoderTmp1,@CharEncoderTmp3)}
+   };
+   #Var CharEncoderTmp1 {%Pos(~%~{,@CharEncoderTmp2)}
+  };
+  #UnVar CharEncoderTmp2;
+  #UnVar CharEncoderTmp3
+ } {
+  #Var CharEncoderTmp1 {CharEncoder@Encoding};
+  #If {%Defined(@CharEncoderTmp1)=1} {
+   #ForAll {@{CharEncoder@Encoding}} {
+    #Var CharEncoderTmp1 {~%~{%Word(%i,:,2)};
+    #Var CharEncoderTmp1 {@{CharEncoderTmp1}~}};
+    #Var {%1} {%Replace(@{%1},%Word(%i,:,1),@CharEncoderTmp1)}
    }
   }
- }
+ };
+ #UnVar CharEncoderTmp1
 } {}
 #Alias pa {
  CharEncoder TrTmp {%Trim(%0)} encode;

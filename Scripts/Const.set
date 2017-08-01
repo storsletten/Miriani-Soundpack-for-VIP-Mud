@@ -217,11 +217,15 @@ walks
 #dir en o
 
 #Alias ASCIICharList {
- SetVariable ASCIICharList {List of ASCII Character Codes};
+ #Var ASCIICharList {};
+ #Var ASCIITmp1 {List of ASCII Character Codes:};
  #255 {
-  SetVariable ASCIITmp1 %I;
-  #AddItem ASCIICharList {[@ASCIITmp1]: (%Chr(@ASCIITmp1)).}
+  #If {%1="" or %Pos(%Chr(%i),%0)>0} {
+   #Var ASCIITmp1 {@ASCIITmp1%CRLF[%i]: %Chr(%i)};
+   #Var ASCIICharList {@ASCIICharList|%Chr(%i):%i}
+  }
  };
- ConfPrint {%Replace(@ASCIICharList,|,%CRLF)};
- UnsetVariables ASCII*
+ ConfPrint {@ASCIITmp1};
+ #UnVar ASCIITmp1;
+ #UnVar ASCIITmp2
 } {}

@@ -18,9 +18,11 @@ The words says and transmits will now be stripped out of spoken and messages:Spo
 SetVariable Conf0Comm0HideMetafrequency0 {B:HideMetafrequency:Hide the metafrequency in communications
 The metafrequency channel number will now be hidden in metaf communications:You will now see the channel number in metaf communications
 };
-SetVariable Conf0Comm0Encoding0 {C:Translation of special characters in communications
+SetVariable Conf0Comm0Encoding0 {C:Encode special characters in communications
 Encoding:Soundpack encoding set to $V
 none:Off
-no:Norwegian
+FR:French
+DE:German
+NO:Norwegian
 }
 }
