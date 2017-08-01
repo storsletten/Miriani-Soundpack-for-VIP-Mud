@@ -1,3 +1,6 @@
+Version 5.5.2, released 2017-08-01:
+* Volume offset for Virtual Display 5 and 6 (Metafrequency messages and Communicator messages) works now! (VIP Mud 2.0 only).
+
 Version 5.5.1, released 2017-08-01:
 * Added Turkish to conf comm encoding. I hope it works for those of you who speak turkish. For both VIP Mud 1.1 and 2.0.
 
