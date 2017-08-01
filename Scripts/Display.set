@@ -37,12 +37,18 @@
   #While {@DisplayTmp1<@NumberOfDisplays} {
    #Math DisplayTmp1 {@DisplayTmp1 + 1};
    #If {@{HideDisplay@{DisplayTmp1}}=1} {
-    #Var DisplayTmp3 {hidden};
+    #Var DisplayTmp3 {%Replace(@{Display@{DisplayTmp1}Filter},~",~%0x22~%)};
+    #Var DisplayTmp3 {%Replace(@DisplayTmp3,~~,~%0x7e~%)};
+    #If {@DisplayTmp3="*"} {
+     #Var DisplayTmp3 {hidden.}
+    } {
+     #Var DisplayTmp3 {hidden (when matching with: @{Display@{DisplayTmp1}Filter}).}
+    };
     #Math HiddenDisplays {@HiddenDisplays + 1}
    } {
-    #Var DisplayTmp3 {visible}
+    #Var DisplayTmp3 {visible.}
    };
-   #Var DisplayTmp2 {@DisplayTmp2[@DisplayTmp1] %Word(@VirtualDisplays,|,@DisplayTmp1): @DisplayTmp3.%CRLF}
+   #Var DisplayTmp2 {@DisplayTmp2[@DisplayTmp1] %Word(@VirtualDisplays,|,@DisplayTmp1): @DisplayTmp3%CRLF}
   };
   #Var DisplayTmp2 {@{DisplayTmp2}[0] Finish.%{CRLF}  Hidden displays: @HiddenDisplays.};
   #Say {vd menu } Entry|NoReturn;
