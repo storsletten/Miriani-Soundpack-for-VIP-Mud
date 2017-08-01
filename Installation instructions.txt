@@ -16,7 +16,7 @@ Step 3:
   You might also need to connect to Miriani by pressing Enter on the character in the Character List in VIP Mud before it will create the Miriani folder and a Miriani.set file for you.
   If you are using VIP Mud 1.1, you must run VIP Mud as administrator for the soundpack to work. Always. Every time. Set it to always run as administrator, or upgrade to VIP Mud 2.0. Failure to comply with this instruction will most likely cause errors and other horrible things, including but not limited to upset stomach and the Levodian flu, plus a non-functional soundpack for you to enjoy.
   You can set it to always run as administrator by doing the following:
-    1. Open up Windows Explorer (e.g. by pressing Win+E).
+    1. Open up Windows File Explorer (e.g. by pressing Win+E).
     2. Navigate to wherever VIP Mud is installed, e.g. C:\Program Files (x86)\VIP Mud.
     3. Hit Alt+Enter on the VipMud executable (the vipmud.exe file).
        I repeat, Alt, and, Enter. It's a keystroke, and it should bring up the properties for the file.
@@ -31,6 +31,7 @@ Step 4:
 Step 5:
   Run the file called Install.bat. It's located in the Miriani Soundpack for VIP Mud folder. Depending on your File Explorer configuration, the file might be just called Install.
   You will need to run it as administrator if you're using VIP Mud 1.1. To do that, you just right click (press Shift-F10) on Install.bat, and then choose Run as Administrator.
+  Note, on some keyboards you might need to also hold down a function key or FN key when using the Shift F10 keystroke. So like, FN Shift F10 should bring up the context menu where you can choose Run as Administrator.
   If you're lucky, it will detect a Miriani folder for you and ask you if you would like it to begin the installation right away. If that's the case, you can press Y for Yes, and then skip to step 8 in this guide.
   Otherwise, you'll have to manually copy the file called Install.bat from the soundpack folder into the Miriani folder in your VIP Mud folder.
   Please ask someone for help if you don't know how to copy files.
