@@ -1,3 +1,6 @@
+Version 5.5.1, released 2017-08-01:
+* Added Turkish to conf comm encoding. I hope it works for those of you who speak turkish. For both VIP Mud 1.1 and 2.0.
+
 Version 5.5.0, released 2017-08-01:
 * Improved the character encoding engine in the soundpack. Now it will decode all special characters received through comms and the say command, regardless of your encoding settings. You need to configure your language in conf comm encoding if you want to transmit special characters, though. Currently it supports French, German, and Norwegian. Be aware that only this soundpack will be able to decode these special characters, but at least you can use it when talking privately with friends who also use this soundpack. Also, this new improved character encoding engine is not backward compatible with older versions of this soundpack, but I added it for both VIP Mud 1.1 and 2.0.
 * Added Spanish to the character encoding engine for both VIP Mud 1.1 and 2.0. Can be configured in conf comm encoding.
