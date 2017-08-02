@@ -1,4 +1,4 @@
-This is a very quick and dirty guide for setting up the soundpack by hand.
+This is a very quick and dirty guide for setting up the soundpack by hand. This is not the recommended method for installing the soundpack, and should only be done by people who know what they're doing.
 
 1. Terminate VipMud. Make sure it's not running.
 
