@@ -674,3 +674,8 @@
  msplay General\Device\MuscleArmor@ext;
  PushMessage Admin0Messages {%0}
 } {Main}
+#Alias rooc {
+ CharEncoder ROOCTmp1 {%0} encode;
+ #Exec {>rooc%RTrim( @ROOCTmp1)};
+ #UnVar ROOCTmp1
+} {}
