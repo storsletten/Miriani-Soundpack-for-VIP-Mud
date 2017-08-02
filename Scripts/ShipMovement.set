@@ -431,7 +431,9 @@ ExpPipe {%0} {The starship is pulled by intense gravitational forces.} {};
  msplay Ship\Move\PraelorOutpostDockStart@Ext
 } {Main}
 #Trigger {* has initiated an intrasector *.} {
- mrandomplay Ship/Move/DriveAlert@Ext;
- ExpPipe {%0} {%1 initiates %2.} {%1 initiates %2.};
- #Sub @ExpString
+ #If {%Pos(~(,%1)<>1} {
+  mrandomplay Ship/Move/DriveAlert@Ext;
+  ExpPipe {%0} {%0} {%1 initiates %2.};
+  #Sub {@ExpString}
+ }
 } {Main}
