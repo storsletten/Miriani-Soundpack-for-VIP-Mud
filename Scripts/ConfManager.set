@@ -609,6 +609,7 @@
 } {}
 #Alias ConfPrint {
  #If {%CharInfo(Connected)=1 and @Connected=1 and @ConfEchoMode=1 and @ConfEchoText=""} {
+  #Conf DisplayCommandsInOutput False;
   #If {%2=1} {
    #Var ConfEchoTmp {@ConfEchoTmp%1%CRLF};
    #Abort All
@@ -622,7 +623,8 @@
    #Class ConfEcho Enable;
    #Var ConfPrintLines {%NumWords(@ConfEchoText,%Chr(13))};
    #Exec {Echo;#%Min(@ConfPrintLines,10) {~%Eval(~%i-1)};.}
-  }
+  };
+  #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
  } {
   #Var ConfPrintQuietly 0;
   #Say {%1}

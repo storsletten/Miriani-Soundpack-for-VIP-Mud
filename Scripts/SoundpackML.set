@@ -1,8 +1,10 @@
 #If {%defined(NumberOfSoundpackMessages)=0} {#var NumberOfSoundpackMessages 0}
 #Alias soundpack {
+ #Conf DisplayCommandsInOutput False;
  #If {%1="register"} {#Exec {>#$#register_soundpack @SoundpackName | @Version}};
  #If {%1="unregister"} {#Exec {>#$#unregister_soundpack}};
  #If {%1="version"} {#Exec {>#$#soundpack_version_query @SoundpackName}};
+ #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True};
  #If {%1="reload"} {
   #Say {Reloading the soundpack... Please remain calm.};
   SPReload 1

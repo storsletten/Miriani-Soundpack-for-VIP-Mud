@@ -55,8 +55,11 @@ YouActionsW|
 Extras|
 }
 
-; VIP Mud overrides:
+; VIP Mud config overrides:
+#Conf ScriptReadOnly True
+#Conf AutoSave False
 #Conf Explicit False
+
 #Alias Login {#Var VipMudAutoLogin 1} {}
 
 #Trigger {Welcome to...} {
@@ -66,7 +69,6 @@ Extras|
  #Var Connected 0;
  #Alarm 0 {
   #Load {@ScriptPath\Const.set};
-  register_soundpack @SoundpackName | @Version;
   #Class LoggingIn Enable;
   SPLoad1 1
  }
@@ -82,14 +84,17 @@ Extras|
   #Load {%CharInfo(MudName)\Variables.set};
   #Load {@ScriptPath\ConfObjects\Main.set};
   #Load {@ScriptPath\ConfManager.set};
-  #If {@PassThru=1} {#Configure ExpandCommandLineVars False};
+  #If {@PassThru=1} {#Conf ExpandCommandLineVars False};
+  #Conf DisplayCommandsInOutput False;
   #If {@LoadTmp1=1 and @AutoLogin=1} {
+   register_soundpack @SoundpackName | @Version;
    %CharInfo(Name);
    %CharInfo(Password)
   };
+  #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True};
   #Load {@ScriptPath\SoundEngine.set};
   #If {@LoadTmp1=1 and @PlayStartupMusic=1 and @Silent=0} {
-   msplay Music\*63@Ext;
+   MirianiSoundPlay {Startup Music} {Music\*63@Ext};
    #Var StartupMusicHandle %PlayHandle
   };
   #If {@LoadTmp1<>1} {SPLoad2 {@LoadTmp1}}
@@ -176,9 +181,12 @@ Extras|
 #Alias ping {
  #Var ShowPong {};
  #Var ShowPingPongLagReport {};
- #Exec {>#$#soundpack_ping}
+ #Conf DisplayCommandsInOutput False;
+ #Exec {>#$#soundpack_ping};
+ #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
 } {}
 #Trigger {[#]$[#]*} {
+ #Conf DisplayCommandsInOutput False;
  #GagLine 1 All;
  #If {%Defined(KeepAliveState)=1} {#Var KeepAliveState 1};
  #If {%1="soundpack_pong"} {
@@ -206,7 +214,8 @@ Extras|
    #Sub {You have @ShowPingPongLagReport ms of local client lag.};
    #UnVar ShowPingPongLagReport
   }
- }
+ };
+ #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
 } {}
 #Alias SPKeepAlive {
  #If {%IsNumber(%1)=1} {
@@ -236,7 +245,9 @@ Extras|
     };
     #If {%3<>"Replied"} {
      #Var KeepAliveState 0;
-     #Exec {>#$#soundpack_ping}
+     #Conf DisplayCommandsInOutput False;
+     #Exec {>#$#soundpack_ping};
+     #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
     };
     #If {%Defined(KeepAliveHandle)=1} {#UnAlarm KeepAliveHandle};
     #Alarm KeepAliveHandle {@KeepAlive} {

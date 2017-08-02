@@ -52,8 +52,11 @@ YouActionsW|
 Extras|
 }
 
-; VIP Mud overrides:
+; VIP Mud config overrides:
+#Conf ScriptReadOnly True
+#Conf AutoSave False
 #Conf Explicit False
+
 #Alias Login {#Var VipMudAutoLogin 1} {}
 
 #Trigger {Welcome to...} {

@@ -20,6 +20,7 @@ AutoLogin:Log in automatically when connecting
 BypassLoginMenu
 AutoSave:Should Conf Manager automatically save your settings on exit
 SaveOnIdle:Save when you're idle on the game
+CommandEcho
 KeepAlive:Set duration for the soundpack's keep alive feature
 KeepAliveRespond:Should the client respond to keep-alive messages
 AlertOnUpdate:Set whether or not the soundpack should alert you of new updates
@@ -85,6 +86,9 @@ You will now hear music on startup:You will no longer hear music on startup
 };
 SetVariable Conf0Gen0AutoLogin0 {B:AutoLogin:Choose whether you want to be automatically logged in when connecting
 Auto login enabled (remember to save):Auto login disabled (remember to save)
+};
+SetVariable Conf0Gen0CommandEcho0 {B:CommandEcho:Display commands in the output window
+Command echo is now on.:Command echo is now off.
 };
 SetVariable Conf0Gen0BypassLoginMenu0 {B:BypassLoginMenu:Bypass the login menu, and log in automatically
 You will now be logged straight into the game:You will now be presented with the login menu

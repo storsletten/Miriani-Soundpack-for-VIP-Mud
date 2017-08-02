@@ -1,4 +1,4 @@
-#Var ConfObjVer 583
+#Var ConfObjVer 584
 #Var ConfObjectsPath {@ScriptPath\ConfObjects}
 #Var ConfObjectFiles {
 Advanced
@@ -14,7 +14,6 @@ History
 Lore
 Mission
 Menu
-MOTD
 PointUnit
 SCGC
 Ship
@@ -23,18 +22,17 @@ Speech
 }
 
 #Var Conf0 {M:Soundpack Settings
-Gag:Configure gag options
-Gen:General Options
+Gag:Gag options
+Gen:General options
 Comm:Communication options
 History:History options
-VD:Hide or unhide virtual displays
-Menu:Configure how menus should work
+VD:Virtual Display options
+Menu:Menu options
 Lore:Lore options
 Ship:Ship options
 PointUnit:Point unit options
 Sounds
 Speech:Speech and interrupt options
-MOTD:Configure how the message of the day will appear
 atsm:Atmospheric Salvaging (atsm)
 SCGC
 Conf:Configuration Manager
@@ -76,9 +74,10 @@ PlayWhenThwarted:0
 AlertOnPlayers:0
 PlayStartupMusic:1
 AutoLogin:1
+CommandEcho:1
 BypassLoginMenu:0
 AutoSave:1
-KeepAlive:0
+KeepAlive:120
 KeepAliveRespond:0
 SaveOnIdle:1
 AlertOnUpdate:1
@@ -204,8 +203,6 @@ SAPIVolume:100
 SAPIRate:50
 SpeakComputerMessagesThroughSAPI:0
 SetEntrySpeechOff:0
-DisplayMOTDImmediately:1
-MOTDCheckInterval:10
 AtSaBetweenObjects:.&SPC;
 AtSaObjectString:$XD$R $R$YD
 AtSaInformationString:Estimated $PowerEst~% of power left for scooping, $Dist unit$sDist to the ship, and $CargoRem remaining cargo
@@ -231,7 +228,6 @@ UserLanguage:en
 PassThru:0
 IgnoredScriptFiles:Dummy
 NumberOfConnections:0
-ConfMOTD:NONE
 MoveMarkers:Ship:Marker
 ArchaeologyHelperCountArtifacts:1
 ArchaeologyHelperStoreFromCount:1

@@ -13,7 +13,9 @@
  #Exec {>lag%RTrim( %0)};
  #If {%1=""} {
   #Class LagTest Enable;
-  #Exec {>#$#soundpack_ping}
+  #Conf DisplayCommandsInOutput False;
+  #Exec {>#$#soundpack_ping};
+  #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
  }
 } {}
 #Trigger {There is currently an estimated * of server CPU lag and *} {
