@@ -177,7 +177,7 @@
    #Var TmpCommunication1 {}
   };
   #If {@TmpCommunication1="Tradesman Market"} {
-   MirianiSoundPlay {Tradesman Marketplace} General/Comm/CM@Ext;
+   #Var TmpCommunication5 {Tradesman Marketplace|General/Comm/CM@Ext};
    #Var TmpCommunication2 {[CM]};
    #Var TmpCommunication4 Tradesman0Market;
    #Var TmpCommunication1 {}
@@ -282,7 +282,7 @@
     } {
      #Var TmpCommunication6 {@TmpCommunication6:6}
     };
-    DisplayPrint {@TmpCommunication6} {@TmpCommunication2 @TmpCommunication1} {%0};
+    DisplayPrint {%Word(@TmpCommunication6,:,2)} {@TmpCommunication2 @TmpCommunication1} {%0};
     #Sub {@DisplayString};
     PushMessage Comm {@TmpCommunication2 @TmpCommunication1}
    } {
