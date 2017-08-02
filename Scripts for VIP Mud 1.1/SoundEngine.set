@@ -149,7 +149,7 @@ station:General\Footsteps\Station*8@Ext
  } {
   #Var McplayTmp1 {%1};
   #Var McplayTmp2 0
- };;
+ };
  #if {%IsNumber(@McplayTmp1)=0} {
   #Var McplayTmp1 0
  };

@@ -271,12 +271,18 @@
     }
    };
    CharEncoder {TmpCommunication1} {@TmpCommunication1} decode;
+   #If {%NumWords(@TmpCommunication5,|)>2} {
+    #Var TmpCommunication6 {%Word(@TmpCommunication5,|,3)}
+   } {
+    #Var TmpCommunication6 {0}
+   };
    #If {%IfWord(@TmpCommunication4,Beta0Channel|Design0Channel|Newbie|Tradesman0Market,|)=0} {
     #If {@TmpCommunication4="Metafrequency0Channels"} {
-     DisplayPrint 5 {@TmpCommunication2 @TmpCommunication1} {%0}
+     #Var TmpCommunication6 {@TmpCommunication6:5}
     } {
-     DisplayPrint 6 {@TmpCommunication2 @TmpCommunication1} {%0}
+     #Var TmpCommunication6 {@TmpCommunication6:6}
     };
+    DisplayPrint {@TmpCommunication6} {@TmpCommunication2 @TmpCommunication1} {%0};
     #Sub {@DisplayString};
     PushMessage Comm {@TmpCommunication2 @TmpCommunication1}
    } {
@@ -286,10 +292,7 @@
     PushMessage {@TmpCommunication4} {@TmpCommunication2 @TmpCommunication1}
    };
    #If {@TmpCommunication5<>""} {
-    #If {%NumWords(@TmpCommunication5,|)>2} {#Var TmpCommunication4 {%Word(@TmpCommunication5,|,3)}} {#Var TmpCommunication4 0};
-    #If {%IsNumber(@DisplayVolumeDiff)=1} {#Math TmpCommunication4 {@TmpCommunication4 + @DisplayVolumeDiff}};
-    #If {@TmpCommunication4=0} {#Var TmpCommunication4 {}};
-    MirianiSoundPlay {%Word(@TmpCommunication5,|,1)} {%Word(@TmpCommunication5,|,2)} {@TmpCommunication4}
+    MirianiSoundPlay {%Word(@TmpCommunication5,|,1)} {%Word(@TmpCommunication5,|,2)} {@TmpCommunication6}
    }
   }
  }
@@ -387,7 +390,7 @@
     PushMessage Flight {@TmpCommunication3};
     DisplayPrint 3 {@TmpCommunication3} {%0};
     #Sub {@DisplayString};
-    MirianiSoundPlay {Flight Control Scanner} General\Comm\FlightScanner@Ext;
+    MirianiSoundPlay {Flight Control Scanner} {General\Comm\FlightScanner@Ext} {0:3};
     #If {@TmpCommunication3=*"* Praelor starship* inbound!"} {
      MirianiSoundPlay {FC Scanner Alert} General\Comm\PraelorInbound@Ext
     };

@@ -79,7 +79,7 @@
 
 #Alias DisplayPrint {
  #Var DisplayString {%2};
- #Var DisplayVolumeDiff {};
+ #Var {Display%{1}IsHidden} {0};
  #If {@{HideDisplay%1}=1} {
   #Var DisplayFilterTmp1 {%Replace(%3,~",~%0x22~%)};
   #Var DisplayFilterTmp1 {%Replace(@DisplayFilterTmp1,~~,~%0x7e~%)};
@@ -87,7 +87,7 @@
   #Var DisplayFilterTmp2 {%Replace(@DisplayFilterTmp2,~~,~%0x7e~%)};
   #If {@DisplayFilterTmp1=*@DisplayFilterTmp2} {
    #GagLine 1 {@{Display%{1}GagType}};
-   #Var DisplayVolumeDiff {@{Display%{1}VolumeDiff}}
+   #Var {Display%{1}IsHidden} {1}
   }
  }
 } {}

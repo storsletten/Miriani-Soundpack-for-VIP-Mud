@@ -71,11 +71,13 @@ station:General\Footsteps\Station*8@Ext
   };
   #Var SoundTmp1 {@Vol};
   #if {%3=*"*:*"} {
-   #if {%IsNumber(%Word(%3,:,1))=1 AND (%IsNumber(@{Display%Word(%3,:,2)VolumeDiff})=1 OR %Word(%3,:,2)=0)} {
-    #Var TmpWorkaround {%Word(%3,:,2)};
-    #If {@{HideDisplay@TmpWorkaround}=1} {#Var TmpWorkaround {@{Display@{TmpWorkaround}VolumeDiff}}} {#Var TmpWorkaround 0};
-    #Math SoundTmp1 {@SoundTmp1 + %Word(%3,:,1) + @TmpWorkaround}
-   }
+   #if {%IsNumber(%Word(%3,:,1))=1 and %IsNumber(@{Display%Word(%3,:,2)VolumeDiff})=1} {
+    #Var SoundTmp6 {%Word(%3,:,2)};
+    #If {@{Display@{SoundTmp6}IsHidden}=1} {#Var SoundTmp6 {@{Display@{SoundTmp6}VolumeDiff}}} {#Var SoundTmp6 0}
+   } {
+    #Var SoundTmp6 {0}
+   };
+   #Math SoundTmp1 {@SoundTmp1 + %Word(%3,:,1) + @SoundTmp6}
   } {
    #if {%IsNumber(%3)=1} {
     #math SoundTmp1 {@SoundTmp1 + %3}
@@ -148,12 +150,12 @@ station:General\Footsteps\Station*8@Ext
  } {
   #Var McplayTmp1 {%1};
   #Var McplayTmp2 0
- };;
+ };
  #if {%IsNumber(@McplayTmp1)=0} {
   #Var McplayTmp1 0
  };
  #Math McplayTmp1 {@McplayTmp1 + @CameraVolumeDiff};
- MirianiSoundPlay Camera %1 {@McplayTmp1:@McplayTmp2};
+ MirianiSoundPlay {Camera} {%1} {@McplayTmp1:@McplayTmp2};
  #pc %playhandle pan @CameraPan
 } {}
 
