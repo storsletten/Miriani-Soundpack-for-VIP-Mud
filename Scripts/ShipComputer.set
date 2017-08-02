@@ -252,7 +252,7 @@ Goodbye.^msplay Ship\Computer\SelfDestructEnd@Ext
   };
   #sub {@ExpString}
  }
-} {Main|Craft}
+} {Main}
 
 #Trigger {An interdiction field prevents the ship from communicating with the navigational beacons.} {
 msplay Ship\Computer\Error@Ext
