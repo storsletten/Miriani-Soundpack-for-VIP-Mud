@@ -1,3 +1,6 @@
+Version 5.5.10, released 2017-08-03:
+* For 2.0: Sound engine improvements. Now it uses a more correct formula for all the volume offsets. This means that you might need to reconfigure some of your volume diffs if things are suddenly a little bit too quiet or a little bit too loud. Previous behavior was that a volume offset would add or subtract from master volume. New formula treats the offsets as a percentage of master volume, which definitely makes volume management easier. I also made the sound engine a tad more efficient in terms of performance, by removing some unnecessary workarounds and things.
+
 Version 5.5.9, released 2017-08-02:
 * For 2.0: Debris salvage messages now use your experience level instead of a virtual display. It'll also use a little more sound effects to indicate that things are happening.
 * For 2.0: Since I freed up a slot in the list of virtual displays, I decided to move the intrasector combat messages to VD 4, and add an extra display for droid remotes. You might need to reconfigure your virtual displays now though since your configuration won't take into account the new order of virtual displays.
