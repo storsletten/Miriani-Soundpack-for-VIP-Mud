@@ -2,4 +2,6 @@
 By Ash Henderson, Erik Yobi, and Josh Westen.
 Ported from Cory Martin's Vipmud soundpack (which was ported from the MonkeyTerm soundpack).
 
-Please see Docs/Readme.txt for more (mostly out-of-date) information.
+For help with installing the soundpack, please see the file called Installation instructions.
+
+For more (mostly out-of-date) readme material, see Docs/Readme.txt.
