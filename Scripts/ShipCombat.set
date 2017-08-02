@@ -138,8 +138,8 @@ ConfPrint {@ShipCombatTmp1}
   } {
    PushMessage {Intrasector0Combat} {@ExpString}
   };
-  DisplayPrint 1 {@ExpString} {%0};
-  mwplay {Ship\Combat\OtherFired*6@Ext} {0:1};
+  DisplayPrint 4 {@ExpString} {%0};
+  mwplay {Ship\Combat\OtherFired*6@Ext} {0:4};
   #Sub {@DisplayString}
  }
 } {Main}

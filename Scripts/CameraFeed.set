@@ -10,6 +10,11 @@
   #Var CameraTmp3 {%2}
  };
  #Var CameraTmp4 {};
+ #If {%Pos(~;,%1)>0} {
+  #Var CameraTmp5 {2}
+ } {
+  #Var CameraTmp5 {1}
+ };
  #If {@CameraTmp1="A loud clicking is followed by the clatter of an empty cartridge to the floor."} {#Var CameraTmp4 {Ground Combat|empty@Ext}};
  #If {@CameraTmp1="The shot misses!"} {#Var CameraTmp4 {Ground Combat|General\Combat\ShotMisses@Ext}};
  #If {@CameraTmp1=*"A* clicks oddly. It must be out of ammo."} {#Var CameraTmp4 {Ground Combat|empty@Ext}};
@@ -40,13 +45,13 @@
   PushMessage Say {@CameraTmp3}
  };
  PushMessage Camera {@CameraTmp3 @CameraTmp2};
- DisplayPrint 2 {@CameraTmp3 @CameraTmp2} {%0};
- MirianiSoundPlay {Camera} {General\Device\CameraFeed@Ext} {0:2};
+ DisplayPrint {@CameraTmp5} {@CameraTmp3 @CameraTmp2} {%0};
+ MirianiSoundPlay {Camera} {General\Device\CameraFeed@Ext} {0:@CameraTmp5};
  #If {@CameraTmp4<>""} {
   #If {%NumWords(@CameraTmp4,|)>2} {
-   mcplay {%Word(@CameraTmp4,|,2)} {%Word(@CameraTmp4,|,3):2}
+   mcplay {%Word(@CameraTmp4,|,2)} {%Word(@CameraTmp4,|,3):@CameraTmp5}
   } {
-   mcplay {%Word(@CameraTmp4,|,2)} {0:2}
+   mcplay {%Word(@CameraTmp4,|,2)} {0:@CameraTmp5}
   }
  };
  #If {%Replace(@DisplayString,~",)=""} {
@@ -60,6 +65,7 @@
  #Var CameraTmp1 {%Replace(@CameraTmp1,~",)};
  #Var CameraTmp2 {};
  #Var CameraTmp4 {};
+ #Var CameraTmp5 {1};
  #If {@CameraTmp1="A loud clicking is followed by the clatter of an empty cartridge to the floor."} {#Var CameraTmp4 {Ground Combat|empty@Ext}};
  #If {@CameraTmp1="The shot misses!"} {#Var CameraTmp4 {Ground Combat|General\Combat\ShotMisses@Ext}};
  #If {@CameraTmp1=*"A* clicks oddly. It must be out of ammo."} {#Var CameraTmp4 {Ground Combat|empty@Ext}};
@@ -86,13 +92,13 @@
   #Var CameraTmp2 {%1}
  };
  PushMessage Camera {@CameraTmp2};
- DisplayPrint 2 {@CameraTmp2} {%0};
- MirianiSoundPlay {Camera} {General\Device\CameraFeed@Ext} {0:2};
+ DisplayPrint {@CameraTmp5} {@CameraTmp2} {%0};
+ MirianiSoundPlay {Camera} {General\Device\CameraFeed@Ext} {0:@CameraTmp5};
  #If {@CameraTmp4<>""} {
   #If {%NumWords(@CameraTmp4,|)>2} {
-   mcplay {%Word(@CameraTmp4,|,2)} {%Word(@CameraTmp4,|,3):2}
+   mcplay {%Word(@CameraTmp4,|,2)} {%Word(@CameraTmp4,|,3):@CameraTmp5}
   } {
-   mcplay {%Word(@CameraTmp4,|,2)} {0:2}
+   mcplay {%Word(@CameraTmp4,|,2)} {0:@CameraTmp5}
   }
  };
  #If {%Replace(@DisplayString,~",)=""} {
@@ -112,6 +118,7 @@ msplay General\Device\MovieEnd@Ext} {Main}
 #Trigger {> *} {
  #Var CameraTmp1 {%Replace(%1,~~,)};
  #Var CameraTmp1 {%Replace(@CameraTmp1,~",)};
+ #Var CameraTmp5 {1};
  #If {@CameraTmp1="The sounds of the relativity drive slowly cease as the starship comes to a halt."} {
   #Var CameraTmp4 {Starship Movement|Ship\Move\Decelerate@RelDriveStyle@Ext};
   #If {%IsNumber(@RelDriveFreq) AND @RelDriveFreq<>44100} {
@@ -217,13 +224,13 @@ msplay General\Device\MovieEnd@Ext} {Main}
   #GagLine 1 All;
   #Abort All
  };
- DisplayPrint 2 { %1} {%0};
- MirianiSoundPlay {Camera} {General\Device\CameraFeed@Ext} {0:2};
+ DisplayPrint {@CameraTmp5} { %1} {%0};
+ MirianiSoundPlay {Camera} {General\Device\CameraFeed@Ext} {0:@CameraTmp5};
  #If {@CameraTmp4<>""} {
   #If {%NumWords(@CameraTmp4,|)>2} {
-   mcplay {%Word(@CameraTmp4,|,2)} {%Word(@CameraTmp4,|,3):2}
+   mcplay {%Word(@CameraTmp4,|,2)} {%Word(@CameraTmp4,|,3):@CameraTmp5}
   } {
-   mcplay {%Word(@CameraTmp4,|,2)} {0:2}
+   mcplay {%Word(@CameraTmp4,|,2)} {0:@CameraTmp5}
   }
  };
  #Sub {@DisplayString}
