@@ -1,3 +1,7 @@
+Version 5.5.9, released 2017-08-02:
+* For 2.0: Debris salvage messages now use your experience level instead of a virtual display. It'll also use a little more sound effects to indicate that things are happening.
+* For 2.0: Since I freed up a slot in the list of virtual displays, I decided to move the intrasector combat messages to VD 4, and add an extra display for droid remotes. You might need to reconfigure your virtual displays now though since your configuration won't take into account the new order of virtual displays.
+
 Version 5.5.8, released 2017-08-02:
 * Fixed a bug that made it look like people were in the same room with you if they used a Lore computer and your character saw it through a camera feed.
 
