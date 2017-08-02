@@ -1,12 +1,9 @@
 #Exec {SetVariable Tracked 0}
-#Trigger {* makes a selection on* a * Lore computer.} {
- #If {%Pos(],%1)>0} {
-  SetVariable LoreTmp1 {%Delete(%1,1,%pos(],%1))}
- } {
-  SetVariable LoreTmp1 {%1}
- };
- ExpPipe %0 {@LoreTmp1 makes a selection on a %3 Lore.} {@LoreTmp1 uses a %3 Lore.};
- #Sub @ExpString
+#Trigger {* makes a selection on a* Lore computer.} {
+ #If {%Pos([,%1)=0 and %Pos(~(,%1)=0} {
+  ExpPipe {%0} {%1 uses a%3 Lore.} {%1 uses a%3 Lore.};
+  #Sub {@ExpString}
+ }
 } {Main}
 #Trigger {You make a selection on a* Lore computer.} {
  ExpPipe %0 {%Proper(%1) Lore} {:Voice:%Proper(%1) Lore};
