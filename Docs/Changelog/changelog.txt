@@ -1,3 +1,7 @@
+Version 5.5.3, released 2017-08-02:
+* Lots of improvements and bug fixes for camera feeds and virtual displays (for VIP Mud 2.0). Now the volume offsets for all virtual displays should work correctly.
+* The beep for being granted access to a house works again. Thanks Ryan Salvatore for reporting this!
+
 Version 5.5.2, released 2017-08-01:
 * Volume offset for Virtual Display 5 and 6 (Metafrequency messages and Communicator messages) works now! (VIP Mud 2.0 only).
 
