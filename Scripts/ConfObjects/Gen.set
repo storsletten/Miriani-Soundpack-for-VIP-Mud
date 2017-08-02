@@ -88,7 +88,7 @@ SetVariable Conf0Gen0AutoLogin0 {B:AutoLogin:Choose whether you want to be autom
 Auto login enabled (remember to save):Auto login disabled (remember to save)
 };
 SetVariable Conf0Gen0CommandEcho0 {B:CommandEcho:Display commands in the output window
-Command echo is now on.:Command echo is now off.
+Command echo is now on. Please type ping for the change to take effect.:Command echo is now off. Please type ping for the change to take effect.
 };
 SetVariable Conf0Gen0BypassLoginMenu0 {B:BypassLoginMenu:Bypass the login menu, and log in automatically
 You will now be logged straight into the game:You will now be presented with the login menu
