@@ -1,3 +1,6 @@
+Version 5.5.7, released 2017-08-02:
+* Added a helpful hint to the message you see when toggling command echo using conf gen commandecho.
+
 Version 5.5.6, released 2017-08-02:
 * Lots of changes in the version for VIP Mud 2.0. Removed the MOTD stuff from conf since it was just reserving resources that would never ever be used. Added conf gen CommandEcho, which sets whether or not commands sent to the game will be displayed in the output window. This effectively means that this option will override whatever you define in VIP Mud's option for displaying commands in the output window. The reason for this is that the soundpack will now have the ability to selectively choose whether or not a command should be displayed in the output window, which is useful for keep alive and other things that you just don't want to see in the output window. Also, the soundpack will now set the option for opening scripts in read only mode to True, and the option for auto save script changes to false. Hopefully that will prevent people from accidentally messing up their soundpacks and then complaining about soundpack not working.
 
