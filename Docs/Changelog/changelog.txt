@@ -1,3 +1,6 @@
+Version 5.5.8, released 2017-08-02:
+* Fixed a bug that made it look like people were in the same room with you if they used a Lore computer and your character saw it through a camera feed.
+
 Version 5.5.7, released 2017-08-02:
 * Added a helpful hint to the message you see when toggling command echo using conf gen commandecho.
 
