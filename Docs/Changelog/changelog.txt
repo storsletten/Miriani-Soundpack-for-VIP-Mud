@@ -1,3 +1,6 @@
+Version 5.5.4, released 2017-08-02:
+* Whoops. Apparently I created a major bug in the comms framework with version 5.5.3. It has been fixed now, hopefully.
+
 Version 5.5.3, released 2017-08-02:
 * Lots of improvements and bug fixes for camera feeds and virtual displays (for VIP Mud 2.0). Now the volume offsets for all virtual displays should work correctly.
 * The beep for being granted access to a house works again. Thanks Ryan Salvatore for reporting this!
