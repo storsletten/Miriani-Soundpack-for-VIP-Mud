@@ -60,40 +60,23 @@ station:General\Footsteps\Station*8@Ext
 ; aliases.
 
 #Alias MirianiSoundPlay {
- #if {@Debugging=1} {
-  #say {%1 %2 %3}
- };
  #If {@Silent=0} {
-  #if {%pos(:,%2)>1} {
-   #Var SoundTmp4 {}
-  } {
-   #Var SoundTmp4 {@SoundsPath\}
-  };
-  #Var SoundTmp1 {@Vol};
-  #if {%3=*"*:*"} {
-   #if {%IsNumber(%Word(%3,:,1))=1 and %IsNumber(@{Display%Word(%3,:,2)VolumeDiff})=1} {
-    #Var SoundTmp6 {%Word(%3,:,2)};
-    #If {@{Display@{SoundTmp6}IsHidden}=1} {#Var SoundTmp6 {@{Display@{SoundTmp6}VolumeDiff}}} {#Var SoundTmp6 0}
-   } {
-    #Var SoundTmp6 {0}
-   };
-   #Math SoundTmp1 {@SoundTmp1 + %Word(%3,:,1) + @SoundTmp6}
-  } {
-   #if {%IsNumber(%3)=1} {
-    #math SoundTmp1 {@SoundTmp1 + %3}
+  #If {%3=*"*:*"} {
+   #Var SoundTmp1 {%Word(%3,:,1)};
+   #Var SoundTmp4 {Display%Word(%3,:,2)IsHidden};
+   #If {%Defined(@SoundTmp4)=1} {
+    #If {@{@SoundTmp4}=1} {
+     #Var SoundTmp4 {Display%Word(%3,:,2)VolumeDiff};
+     #Math SoundTmp1 {@SoundTmp1+@{@SoundTmp4}}
+    }
    }
-  };
-  #If {%IsNumber(%3)=1} {
-   #Math SoundTmp1 {@Vol+%3}
-  };
-  #If {@SoundTmp1<1} {
-   #Var SoundTmp1 0
   } {
-   #If {@SoundTmp1>100} {
-    #Var SoundTmp1 100
-   }
+   #Var SoundTmp1 {%If(%IsNumber(%3)=1,%3,0)}
   };
-  #if {%Copy(%2,1,2)="l^"} {
+  #Math SoundTmp1 {@SoundTmp1*@Vol/100+@Vol};
+  #Var SoundTmp1 {%Min(100,%Max(0,@SoundTmp1))};
+  #If {%Pos(:,%2)>1} {#Var SoundTmp4 {}} {#Var SoundTmp4 {@SoundsPath\}};
+  #If {%Copy(%2,1,2)="l^"} {
    #Var SoundTmp2 {#PlayLoop^%Word(%2,^,2)};
    #Var SoundTmp3 {Looping}
   } {
@@ -101,9 +84,9 @@ station:General\Footsteps\Station*8@Ext
    #Var SoundTmp3 {Playing}
   };
   #Exec {%Word(@SoundTmp2,^,1) {@SoundTmp4%Word(@SoundTmp2,^,2)} @SoundTmp1};
-  #Math NumberOfSounds {@NumberOfSounds + 1};
+  #Math NumberOfSounds {@NumberOfSounds+1};
   #Var SoundTmpString {[%1]: @SoundTmp3 %Word(@SoundTmp2,^,2) at @{SoundTmp1}~~~% volume.};
-  #if {@Connected=1} {#Exec {#alarm 0 {PushMessage Played0Sounds {@SoundTmpString}}}}
+  #If {@Connected=1} {#Exec {#Alarm 0 {PushMessage Played0Sounds {@SoundTmpString}}}}
  }
 } {}
 
@@ -146,16 +129,16 @@ station:General\Footsteps\Station*8@Ext
 #Alias mcplay {
  #if {%2=*"*:*"} {
   #Var McplayTmp1 {%Word(%2,:,1)};
-  #Var McplayTmp2 {%Word(%2,:,2)}
+  #Var McplayTmp2 {:%Word(%2,:,2)}
  } {
   #Var McplayTmp1 {%1};
-  #Var McplayTmp2 0
+  #Var McplayTmp2 {}
  };
  #if {%IsNumber(@McplayTmp1)=0} {
   #Var McplayTmp1 0
  };
  #Math McplayTmp1 {@McplayTmp1 + @CameraVolumeDiff};
- MirianiSoundPlay {Camera} {%1} {@McplayTmp1:@McplayTmp2};
+ MirianiSoundPlay {Camera} {%1} {@McplayTmp1@McplayTmp2};
  #pc %playhandle pan @CameraPan
 } {}
 
@@ -165,15 +148,15 @@ station:General\Footsteps\Station*8@Ext
 #Alias mwplay {
  #if {%2=*"*:*"} {
   #Var MwplayTmp1 {%Word(%2,:,1)};
-  #Var MwplayTmp2 {%Word(%2,:,2)}
+  #Var MwplayTmp2 {:%Word(%2,:,2)}
  } {
   #Var MwplayTmp1 %2;
-  #Var MwplayTmp2 0
+  #Var MwplayTmp2 {}
  };
  #if {%IsNumber(@MwplayTmp1)=0} {#Var MwplayTmp1 0};
  #if {@RandomiseCombatVolume=1} {#math MwplayTmp1 {@MwplayTmp1 + %Random(-30,30)}};
  #math MwplayTmp1 {@MwplayTmp1 + @RelativeCombatVolume};
- MirianiSoundPlay Weapons %1 {@MwplayTmp1:@MwplayTmp2};
+ MirianiSoundPlay Weapons %1 {@MwplayTmp1@MwplayTmp2};
  #If {@RandomiseCombatPan=1 AND %mp3loop<>@WeaponSoundHandle AND %playhandle>0} {
   #PC %PlayHandle Pan %Random(-4000,4000)
  }
