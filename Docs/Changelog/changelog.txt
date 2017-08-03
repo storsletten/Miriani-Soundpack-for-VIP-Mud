@@ -1,3 +1,6 @@
+Version 5.5.12, released 2017-08-03:
+* For 2.0: Now the whoc command says checking when it starts, because the results are a bit slower to show up with this new workaround for whoc, and it just felt good to make it say something to fill the kind of awkward silence before the results come.
+
 Version 5.5.11, released 2017-08-03:
 * Fixed a horrible bug in the whoc command. It really messed up the soundpack if everyone happened to be in comms range, or if noone were out of local space. I had to apply a crazy workaround to make sure this will work regardless of the footer of the who command, which also means I just had to remove whoc entirely from the 1.1 version since I can't do the kind of extensive testing there that would be necessary to make this work. Also, whoc now utilizes the benefits of the command echo control in 2.0, which doesn't even exist in 1.1. So yeah, if you still want to use whoc, VIP Mud 2.0 is the way to go.
 * For 2.0: Addressed the issue that caused intrasector subwarp, slip, etc to mess with camera feeds.
