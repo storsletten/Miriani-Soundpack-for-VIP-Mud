@@ -190,11 +190,18 @@ Extras|
  #GagLine 1 All;
  #If {%Defined(KeepAliveState)=1} {#Var KeepAliveState 1};
  #If {%1="soundpack_pong"} {
-  #Exec {>#$#soundpack_ping_reply ms};
-  #If {%Defined(ShowPong)=1} {
+  #If {%Defined(WhoOriginalHeader)=1} {
+   WhoCheck {} {ReadingComplete};
    #UnGagLine;
-   #Sub {Pong!};
-   #UnVar ShowPong
+   #Sub {%Delete(@WhoData,1,2)};
+   #UnVar WhoData
+  } {
+   #Exec {>#$#soundpack_ping_reply ms};
+   #If {%Defined(ShowPong)=1} {
+    #UnGagLine;
+    #Sub {Pong!};
+    #UnVar ShowPong
+   }
   }
  };
  #If {%1="hjelp"} {

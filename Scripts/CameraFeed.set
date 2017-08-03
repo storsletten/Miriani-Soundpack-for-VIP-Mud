@@ -144,6 +144,9 @@ msplay General\Device\MovieEnd@Ext} {Main}
   #GagLine 1 All;
   #Abort All
  };
+ #If {@CameraTmp1="* has initiated an intrasector *"} {
+  #Var CameraTmp4 {Starship Movement|Ship/Move/DriveAlert@Ext}
+ };
  #If {@CameraTmp1="You hear a deep hum as the starship begins an intrasector subwarp."} {
   #Var CameraTmp4 {Starship Movement|Ship\Move\Subwarp@Ext};
   #GagLine 1 All;

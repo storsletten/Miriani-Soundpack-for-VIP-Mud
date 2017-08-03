@@ -205,13 +205,15 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
   mstep 1
  }
 } {Main}
-#Trigger {*.} {#if {%numwords(%1, )>=4 AND @PlayOtherTreadSound=1} {
-#if {%ifword(%word(%1, ,%numwords(%1, )),@DirList, )=1 AND %ifword(%word(%1, ,%eval(%numwords(%1, )-1)),@EntryStyles,%CRLF)=1} {
-SetVariable OtherDir {%word(%1, ,%numwords(%1, ))};
-SetVariable OtherName {%Word(%1, ,1) %Word(%1, ,2)};
-mstep 1
-}
-}} {Main}
+#Trigger {*.} {
+ #If {%NumWords(%1, )>=4 and @PlayOtherTreadSound=1} {
+  #If {%IfWord(%Word(%1, ,%NumWords(%1, )),@DirList, )=1 and %IfWord(%Word(%1, ,%Eval(%NumWords(%1, )-1)),@EntryStyles,%CRLF)=1} {
+   #Var OtherDir {%word(%1, ,%numwords(%1, ))};
+   #Var OtherName {%Word(%1, ,1) %Word(%1, ,2)};
+   mstep 1
+  }
+ }
+} {Main}
 #Trigger {* into the *.} {#if {%ifword(%word(%1, ,%numwords(%1, )),@EntryStyles,%CRLF)=1 AND %ifword(%2,@DirList, )=1 AND @PlayOtherTreadSound=1} {
 mstep 1
 }} {Main}
@@ -344,9 +346,71 @@ msplay General\Misc\LeftPerson@Ext
  #Exec {who%RTrim( %0)}
 } {StartReadingWhoList}
 #Alias whoc {#Exec {whocheck%RTrim( %0)}} {}
-#Alias whocheck {
- #Class StartReadingWhoList Enable;
- #Exec {>who}
+#Alias WhoCheck {
+ #If {%1="" and %2="ReadingComplete"} {
+  #Class ReadWhoList Disable;
+  #Var WhoTmp2 {, };
+  #Var WhoData {};
+  #If {%Defined(LastConnectedPlayers)=1} {
+   #Var DisconnectedPlayers {};
+   #Var NewConnectedPlayers {};
+   #ForAll {@ConnectedPlayers} {
+    #If {%IfWord(%i,@LastConnectedPlayers,|)=0} {
+     #If {%Length(@NewConnectedPlayers)=0} {
+      #Var NewConnectedPlayers {%i}
+     } {
+      #AddItem NewConnectedPlayers {%i}
+     }
+    }
+   };
+   #ForAll {@LastConnectedPlayers} {
+    #If {%IfWord(%i,@ConnectedPlayers,|)=0} {
+     #If {%Length(@DisconnectedPlayers)=0} {
+      #Var DisconnectedPlayers {%i}
+     } {
+      #AddItem DisconnectedPlayers {%i}
+     }
+    }
+   };
+   #If {%Length(@NewConnectedPlayers)>0} {
+    #If {%NumWords(@NewConnectedPlayers,|)=1} {
+     #Var WhoData {@WhoData%{CRLF}There is 1 player who has connected since last check:}
+    } {
+     #Var WhoData {@WhoData%{CRLF}There are %NumWords(@NewConnectedPlayers,|) players who have connected since last check:}
+    };
+    #Var WhoTmp1 {%Sort(@NewConnectedPlayers,0)};
+    #Var WhoData {@WhoData%{CRLF}%Replace(@WhoTmp1,|,@WhoTmp2).}
+   } {
+    #Var WhoData {@WhoData%{CRLF}No players have connected since last check.}
+   };
+   #If {%Length(@DisconnectedPlayers)>0} {
+    #If {%NumWords(@DisconnectedPlayers,|)=1} {
+     #Var WhoData {@WhoData%{CRLF}There is 1 player who has disconnected since last check:}
+    } {
+     #Var WhoData {@WhoData%{CRLF}There are %NumWords(@DisconnectedPlayers,|) players who have disconnected since last check:}
+    };
+    #Var WhoTmp1 {%Sort(@DisconnectedPlayers,0)};
+    #Var WhoData {@WhoData%{CRLF}%Replace(@WhoTmp1,|,@WhoTmp2).}
+   } {
+    #Var WhoData {@WhoData%{CRLF}No players have disconnected since last check.}
+   };
+   #UnVar DisconnectedPlayers;
+   #UnVar NewConnectedPlayers
+  };
+  #Var WhoTmp1 {%Sort(@ConnectedPlayers,0)};
+  #Var WhoData {@WhoData%{CRLF}@WhoOriginalHeader%{CRLF}%Replace(@WhoTmp1,|,@WhoTmp2).};
+  #Var LastConnectedPlayers {@ConnectedPlayers};
+  #UnVar ConnectedPlayers;
+  #UnVar WhoOriginalHeader;
+  #UnVar WhoTmp1;
+  #UnVar WhoTmp2
+ } {
+  #Class StartReadingWhoList Enable;
+  #Exec {>who};
+  #Conf DisplayCommandsInOutput False;
+  #Exec {>#$#soundpack_ping};
+  #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
+ }
 } {}
 
 #Trigger {There are * players connected, * of whom have been active recently:} {
@@ -372,63 +436,4 @@ msplay General\Misc\LeftPerson@Ext
   }
  }
 } {Main|ReadWhoList}
-#Trigger {[*] - Out of communications range.  [^] - Out of local space.} {
- #Class ReadWhoList Disable;
- #Var WhoTmp2 {, };
- #Var WhoTmp3 {};
- #If {%Defined(LastConnectedPlayers)=1} {
-  #Var DisconnectedPlayers {};
-  #Var NewConnectedPlayers {};
-  #ForAll {@ConnectedPlayers} {
-   #If {%IfWord(%i,@LastConnectedPlayers,|)=0} {
-    #If {%Length(@NewConnectedPlayers)=0} {
-     #Var NewConnectedPlayers {%i}
-    } {
-     #AddItem NewConnectedPlayers {%i}
-    }
-   }
-  };
-  #ForAll {@LastConnectedPlayers} {
-   #If {%IfWord(%i,@ConnectedPlayers,|)=0} {
-    #If {%Length(@DisconnectedPlayers)=0} {
-     #Var DisconnectedPlayers {%i}
-    } {
-     #AddItem DisconnectedPlayers {%i}
-    }
-   }
-  };
-  #If {%Length(@NewConnectedPlayers)>0} {
-   #If {%NumWords(@NewConnectedPlayers,|)=1} {
-    #Var WhoTmp3 {@WhoTmp3%{CRLF}There is 1 player who has connected since last check:}
-   } {
-    #Var WhoTmp3 {@WhoTmp3%{CRLF}There are %NumWords(@NewConnectedPlayers,|) players who have connected since last check:}
-   };
-   #Var WhoTmp1 {%Sort(@NewConnectedPlayers,0)};
-   #Var WhoTmp3 {@WhoTmp3%{CRLF}%Replace(@WhoTmp1,|,@WhoTmp2).}
-  } {
-   #Var WhoTmp3 {@WhoTmp3%{CRLF}No players have connected since last check.}
-  };
-  #If {%Length(@DisconnectedPlayers)>0} {
-   #If {%NumWords(@DisconnectedPlayers,|)=1} {
-    #Var WhoTmp3 {@WhoTmp3%{CRLF}There is 1 player who has disconnected since last check:}
-   } {
-    #Var WhoTmp3 {@WhoTmp3%{CRLF}There are %NumWords(@DisconnectedPlayers,|) players who have disconnected since last check:}
-   };
-   #Var WhoTmp1 {%Sort(@DisconnectedPlayers,0)};
-   #Var WhoTmp3 {@WhoTmp3%{CRLF}%Replace(@WhoTmp1,|,@WhoTmp2).}
-  } {
-   #Var WhoTmp3 {@WhoTmp3%{CRLF}No players have disconnected since last check.}
-  };
-  #UnVar DisconnectedPlayers;
-  #UnVar NewConnectedPlayers
- };
- #Var WhoTmp1 {%Sort(@ConnectedPlayers,0)};
- #Var WhoTmp3 {@WhoTmp3%{CRLF}@WhoOriginalHeader%{CRLF}%Replace(@WhoTmp1,|,@WhoTmp2).};
- #Sub {%Delete(@WhoTmp3,1,2)};
- #Var LastConnectedPlayers {@ConnectedPlayers};
- #UnVar ConnectedPlayers;
- #UnVar WhoOriginalHeader;
- #UnVar WhoTmp1;
- #UnVar WhoTmp2;
- #UnVar WhoTmp3
-} {Main|ReadWhoList}
+#Trigger {* - Out of *} {#GagLine 1 All} {Main|ReadWhoList}
