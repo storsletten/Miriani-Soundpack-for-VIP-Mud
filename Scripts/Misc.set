@@ -407,6 +407,7 @@ msplay General\Misc\LeftPerson@Ext
  } {
   #Class StartReadingWhoList Enable;
   #Exec {>who};
+  #Say {Checking...};
   #Conf DisplayCommandsInOutput False;
   #Exec {>#$#soundpack_ping};
   #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
