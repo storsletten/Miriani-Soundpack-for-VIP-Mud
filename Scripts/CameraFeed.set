@@ -44,6 +44,9 @@
   #Var CameraTmp4 {Comms Framework|General\Socials\say@Ext};
   PushMessage Say {@CameraTmp3}
  };
+ #If {@CameraTmp1=*"* has initiated an intrasector *"} {
+  #Var CameraTmp4 {Starship Movement|Ship\Move\DriveAlert@Ext}
+ };
  PushMessage Camera {@CameraTmp3 @CameraTmp2};
  DisplayPrint {@CameraTmp5} {@CameraTmp3 @CameraTmp2} {%0};
  MirianiSoundPlay {Camera} {General\Device\CameraFeed@Ext} {0:@CameraTmp5};
@@ -107,9 +110,11 @@
   #Sub {  @DisplayString}
  }
 } {Main}
-#TRIGGER {The holographic projection abruptly ends as * shuts down.} {ExpPipe {%0} {%0} {The holographic projection abruptly ends.};
-#sub {@ExpString};
-msplay General\Device\MovieEnd@Ext} {Main}
+#TRIGGER {The holographic projection abruptly ends as * shuts down.} {
+ ExpPipe {%0} {%0} {The holographic projection abruptly ends.};
+ #sub {@ExpString};
+ msplay General\Device\MovieEnd@Ext
+} {Main}
 #TRIGGER {*, you suddenly find yourself immersed in a realistic holographic projection that makes you feel as if reality has actually been altered.} {
  ExpPipe {%0} {%0} {A holographic projection begins.};
  #sub {@ExpString};
@@ -143,9 +148,6 @@ msplay General\Device\MovieEnd@Ext} {Main}
  #If {@CameraTmp1="The sounds of the relativity drive calm as the starship completes its final maneuver into space."} {
   #GagLine 1 All;
   #Abort All
- };
- #If {@CameraTmp1="* has initiated an intrasector *"} {
-  #Var CameraTmp4 {Starship Movement|Ship/Move/DriveAlert@Ext}
  };
  #If {@CameraTmp1="You hear a deep hum as the starship begins an intrasector subwarp."} {
   #Var CameraTmp4 {Starship Movement|Ship\Move\Subwarp@Ext};
