@@ -259,26 +259,30 @@ msplay Ship\Computer\Error@Ext
 } {Main|Starship}
 
 #Trigger {The computer reports *} {
+ #Var ExpString {};
  #Var ShipComputerTmp1 {%Replace(%1,~",)};
  #Var ShipComputerTmp2 {Ship\Computer\Report*4@Ext};
  #If {@ShipComputerTmp1="no nearby debris."} {
-  #GagLine 1 All;
+  ExpPipe {%0} {:Voice:%Proper(%1)} {};
   #Var ShipComputerTmp2 {};
   #Var ShipComputerTmp1 {}
  };
  #If {@ShipComputerTmp1=*"* is one unit away from this ship."} {
   #Var ShipComputerTmp2 {Ship\Computer\OneUnitAway@Ext};
   ExpPipe {%0} {%1} {%Copy(%1,1,%Pos(is one unit away from this ship.%CRLF,%1%CRLF))n range.};
-  #Sub {@ExpString};
   #Var ShipComputerTmp1 {}
  };
- #If {@ShipComputerTmp2<>""} {
+ #If {%Length(@ShipComputerTmp2)>0} {
   #If {%NumWords(@ShipComputerTmp2,|)>1} {
    msplay {%Word(@ShipComputerTmp2,|,1)} {%Word(@ShipComputerTmp2,|,2)}
   } {
    msplay {%Word(@ShipComputerTmp2,|,1)}
   }
  };
+ #If {%Length(@ExpString)=0} {
+  ExpPipe {%0} {%0} {%Proper(%1)}
+ };
+ #Sub {@ExpString};
  #UnVar ShipComputerTmp1;
  #UnVar ShipComputerTmp2
 } {Main|Starship}
