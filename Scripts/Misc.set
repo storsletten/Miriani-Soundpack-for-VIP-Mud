@@ -396,6 +396,8 @@ msplay General\Misc\LeftPerson@Ext
    };
    #UnVar DisconnectedPlayers;
    #UnVar NewConnectedPlayers
+  } {
+   #Var WhoData {@WhoData%{CRLF}This is the first check since last time the soundpack was loaded.}
   };
   #Var WhoTmp1 {%Sort(@ConnectedPlayers,0)};
   #Var WhoData {@WhoData%{CRLF}@WhoOriginalHeader%{CRLF}%Replace(@WhoTmp1,|,@WhoTmp2).};

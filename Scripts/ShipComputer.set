@@ -263,7 +263,7 @@ msplay Ship\Computer\Error@Ext
  #Var ShipComputerTmp2 {Ship\Computer\Report*4@Ext};
  #If {@ShipComputerTmp1="no nearby debris."} {
   #GagLine 1 All;
-  #Var ShipComputerTmp2 {@ShipComputerTmp2|-10};
+  #Var ShipComputerTmp2 {};
   #Var ShipComputerTmp1 {}
  };
  #If {@ShipComputerTmp1=*"* is one unit away from this ship."} {
