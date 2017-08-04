@@ -63,10 +63,11 @@ station:General\Footsteps\Station*8@Ext
 ; aliases.
 
 #Alias MirianiSoundPlay {
- #if {@Debugging=1} {
-  #say {%1 %2 %3}
+ #Var SoundIsPlaying {%If(@Silent=1,0,1)};
+ #If {%IsNumber(%4)=1} {
+  #If {%4>@SoundsVersion} {#Var SoundIsPlaying 0}
  };
- #If {@Silent=0} {
+ #If {@SoundIsPlaying=1} {
   #if {%pos(:,%2)>1} {
    #Var SoundTmp4 {}
   } {
@@ -137,7 +138,7 @@ station:General\Footsteps\Station*8@Ext
 ; the standard volume.
 
 #Alias msplay {
- MirianiSoundPlay Standard %1 %2
+ MirianiSoundPlay Standard %1 %2 %3
 } {}
 
 ; McPlay
@@ -154,8 +155,8 @@ station:General\Footsteps\Station*8@Ext
   #Var McplayTmp1 0
  };
  #Math McplayTmp1 {@McplayTmp1 + @CameraVolumeDiff};
- MirianiSoundPlay Camera %1 {@McplayTmp1:@McplayTmp2};
- #pc %playhandle pan @CameraPan
+ MirianiSoundPlay Camera %1 {@McplayTmp1:@McplayTmp2} %3;
+ #If {@SoundIsPlaying=1} {#pc %playhandle pan @CameraPan}
 } {}
 
 ; Mwplay:
@@ -172,8 +173,8 @@ station:General\Footsteps\Station*8@Ext
  #if {%IsNumber(@MwplayTmp1)=0} {#Var MwplayTmp1 0};
  #if {@RandomiseCombatVolume=1} {#math MwplayTmp1 {@MwplayTmp1 + %Random(-30,30)}};
  #math MwplayTmp1 {@MwplayTmp1 + @RelativeCombatVolume};
- MirianiSoundPlay Weapons %1 {@MwplayTmp1:@MwplayTmp2};
- #If {@RandomiseCombatPan=1 AND %mp3loop<>@WeaponSoundHandle AND %playhandle>0} {
+ MirianiSoundPlay Weapons %1 {@MwplayTmp1:@MwplayTmp2} %3;
+ #If {@SoundIsPlaying=1 and @RandomiseCombatPan=1 AND %mp3loop<>@WeaponSoundHandle AND %playhandle>0} {
   #PC %PlayHandle Pan %Random(-4000,4000)
  }
 } {}
@@ -282,16 +283,15 @@ station:General\Footsteps\Station*8@Ext
 
 ; Mplanetsounds
 ; Play sounds on randomly generated planets.
-#Alias {mplanetsounds} {
+#Alias mplanetsounds {
  #if {%1 = "stop"} {
-  #if {@PlanetSoundsAlarm > 0} {
-   #unalarm PlanetSoundsAlarm};
-   #var PlanetSoundsAlarm 0
-  } {
-   #if {@PlanetSounds > 0} {
-    #alarm {PlanetSoundsAlarm} {-5} {
-     #if {%random(0,3)=3} {
-     MirianiSoundPlay Planet Random\*24@Ext -60;
+  #if {@PlanetSoundsAlarm > 0} {#unalarm PlanetSoundsAlarm};
+  #var PlanetSoundsAlarm 0
+ } {
+  #if {@PlanetSounds > 0} {
+   #alarm {PlanetSoundsAlarm} {-5} {
+    #if {%random(0,3)=3} {
+     MirianiSoundPlay Planet Random\*24@Ext -60
     }
    }
   }
@@ -308,7 +308,7 @@ station:General\Footsteps\Station*8@Ext
 
 #Alias meplay {
  #If {@EmotesOn=1} {
-  MirianiSoundPlay {Social Emote} %1 %2
+  MirianiSoundPlay {Social Emote} %1 %2 %3
  }
 } {}
 
@@ -321,7 +321,7 @@ station:General\Footsteps\Station*8@Ext
 
 #Alias maplay {
  #If {@ActionsOn=1} {
-  MirianiSoundPlay {Social Action} %1 %2
+  MirianiSoundPlay {Social Action} %1 %2 %3
  }
 } {}
 
@@ -421,8 +421,8 @@ station:General\Footsteps\Station*8@Ext
 ; Mrandomplay:
 ; Does what it says on the tin. Is used for random events, like cargo transfer sounds etc.
 #Alias {mrandomplay} {
- MirianiSoundPlay Random %1 %2;
- #if {@RandomisePlay=1} {
+ MirianiSoundPlay Random %1 %2 %3;
+ #if {@SoundIsPlaying=1 and @RandomisePlay=1} {
   #pc %PlayHandle pan %Random(-4000,4000)
  }
 } {}

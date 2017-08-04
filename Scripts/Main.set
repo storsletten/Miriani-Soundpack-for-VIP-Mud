@@ -69,6 +69,7 @@ Extras|
  #Var Connected 0;
  #Alarm 0 {
   #Load {@ScriptPath\Const.set};
+  #Load {@SoundsPath\Main.set};
   #Class LoggingIn Enable;
   SPLoad1 1
  }

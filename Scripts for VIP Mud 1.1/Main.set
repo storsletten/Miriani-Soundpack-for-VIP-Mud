@@ -67,6 +67,7 @@ Extras|
  #Say {Welcome to Miriani!};
  #Alarm 0 {
   #Load {@ScriptPath\Const.set};
+  #Load {@SoundsPath\Main.set};
   register_soundpack @SoundpackName | @Version;
   #Class LoggingIn Enable;
   SPLoad1 1

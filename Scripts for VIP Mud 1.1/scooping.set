@@ -1,9 +1,9 @@
 #TRIGGER {The pull of acceleration eases off as the ship ceases its *.} {ExpPipe {%0} {Salvager stopped.} {};
 #sub {@ExpString};
-msplay salvagestop@Ext} {Main}
+msplay Atmo\salvagestop@Ext} {Main}
 #TRIGGER {The pull of acceleration eases off as the craft completes its maneuvering.} {ExpPipe {%0} {Salvager stopped.} {};
 #sub {@ExpString};
-msplay salvagestop@Ext} {Main}
+msplay Atmo\salvagestop@Ext} {Main}
 #TRIGGER {You open the hatch of a* and climb inside.} {#if {%Pos(atmospheric combat vehicle,%1)>0} {
 #class ACVMoveMode enable;
 #If {@ACVPromptNavig=1} {#Class ACVPromptNavig Enable} {#Class ACVPromptNavig Disable}
@@ -18,11 +18,11 @@ msplay Ship\misc\hatchenter@Ext} {Main}
 #sub {@ExpString}} {Main}
 #TRIGGER {An electromagnetic field suddenly snaps into place as a large docking bay door opens above you. *.} {msplay Ship\Misc\PanelsOn@Ext} {Main}
 #trigger {The vehicle manages to break free from the pocket of wind and stabilize its course.} {#Gagline 1 ALL;
-msplay salvagestop@Ext} {Main}
+msplay Atmo\salvagestop@Ext} {Main}
 #trigger {The vehicle shudders violently as it makes contact with the topmost gas clouds. *} {#gagline 1 all;
 msplay Atmo\Contact@Ext} {Main}
 #trigger {The planet's atmosphere finally stabilizes and the ship comes to a halt.} {#gagline 1 all;
-msplay salvagestop@Ext} {Main}
+msplay Atmo\salvagestop@Ext} {Main}
 #TRIGGER {The engine spins up briefly to keep the vehicle on course as it enters a different cloud of gasses.} {ExpPipe {%0} {%0} {};
 msplay Atmo\Engine@Ext} {Main}
 #trigger {A sudden instability in the layer of gasses around the ship causes it to rapidly sink deeper into the atmosphere.} {msplay ship\misc\wind@Ext} {Main}
