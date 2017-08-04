@@ -358,8 +358,6 @@ msplay Ship\Combat\DisarmSqueal*4@Ext} {Main|Starship}
 #TRIGGER {The ship sways slightly as a sensor interruption pulse impacts the sensor arrays.} {ExpPipe {%0} {%0} {Hit by sensor interruption pulse!};
 #sub {@ExpString};
 msplay Ship\Combat\InterruptHits@Ext} {Main|Starship}
-#TRIGGER {* has been destroyed.} {#Math TotalShips {@TotalShips + 1};
-mwplay Ship\Combat\OtherDestroyed*11@Ext} {Main|Starship}
 #TRIGGER {The starship lurches as a concentrated laser beam impacts the hull.} {mwplay Ship\Combat\PlanetaryLaser@Ext} {Main|Starship}
 #TRIGGER {Those coordinates are already locked.} {ExpPipe {%0} {%0} {Already locked.};
 #sub @ExpString} {Main|Starship}

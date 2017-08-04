@@ -263,14 +263,17 @@ msplay Ship\Computer\Error@Ext
  #Var ShipComputerTmp1 {%Replace(%1,~",)};
  #Var ShipComputerTmp2 {Ship\Computer\Report*4@Ext};
  #If {@ShipComputerTmp1="no nearby debris."} {
-  ExpPipe {%0} {:Voice:%Proper(%1)} {};
   #Var ShipComputerTmp2 {Ship\Computer\NoNearbyDebris@Ext};
-  #Var ShipComputerTmp1 {}
+  ExpPipe {%0} {:Voice:%Proper(%1)} {}
  };
  #If {@ShipComputerTmp1=*"* is one unit away from this ship."} {
   #Var ShipComputerTmp2 {Ship\Computer\OneUnitAway@Ext};
-  ExpPipe {%0} {%1} {%Copy(%1,1,%Pos(is one unit away from this ship.%CRLF,%1%CRLF))n range.};
-  #Var ShipComputerTmp1 {}
+  ExpPipe {%0} {%1} {%Copy(%1,1,%Pos(is one unit away from this ship.%CRLF,%1%CRLF))n range.}
+ };
+ #If {@ShipComputerTmp1=*"* has been destroyed."} {
+  #Math TotalShips {@TotalShips + 1};
+  mwplay Ship\Combat\OtherDestroyed*11@Ext;
+  ExpPipe {%0} {%0} {%Copy(%1,6,%Eval(%Length(%1)-25)) destroyed.}
  };
  #If {%Length(@ShipComputerTmp2)>0} {
   #If {%NumWords(@ShipComputerTmp2,|)>1} {
@@ -280,7 +283,8 @@ msplay Ship\Computer\Error@Ext
   }
  };
  #If {%Length(@ExpString)=0} {
-  ExpPipe {%0} {%0} {%Proper(%1)}
+  #If {%Word(@ShipComputerTmp1, ,1)="that"} {#Var ShipComputerTmp1 {%Delete(%1,1,5)}} {#Var ShipComputerTmp1 {%1}};
+  ExpPipe {%0} {%0} {%Proper(@ShipComputerTmp1)}
  };
  #Sub {@ExpString};
  #UnVar ShipComputerTmp1;
