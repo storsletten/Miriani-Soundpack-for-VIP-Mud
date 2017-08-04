@@ -1,3 +1,8 @@
+Version 5.5.13, released 2017-08-04:
+* For 2.0: Added a little message for the first time you use whoc after the soundpack has been loaded.
+* Addressed an issue where the soundpack wouldn't show you the color of the Lore computer that someone was using.
+* Fixed several issues with messages starting with The computer reports. Now experience level 3 should filter that prefix and only show the relevant message.
+
 Version 5.5.12, released 2017-08-03:
 * For 2.0: Now the whoc command says checking when it starts, because the results are a bit slower to show up with this new workaround for whoc, and it just felt good to make it say something to fill the kind of awkward silence before the results come.
 
