@@ -1,7 +1,7 @@
 #Alias rem {#Exec {remove%RTrim( %0)}}
 #Trigger {A loud buzz sounds.} {
  #GagLine 1 All;
- msplay samespace@Ext
+ msplay Ship\Move\Blocked@Ext
 } {Main}
 #Trigger {*--*} {
  #If {@Main>0 or @Main<-9} {
@@ -113,7 +113,7 @@ ExpPipe {%0} {%0} {%1 disappears};
 #class AtSaStarmap disable;
 msplay General\Misc\Command*10@Ext} {Main}
 #TRIGGER {*[[]Enter "yes" or "no"]} {
- msplay prompt@Ext;
+ msplay General\Misc\prompt@Ext;
  ExpPipe {%0} {%0} {%1[Y/N]};
  #Sub {@ExpString}
 } {Main}
@@ -121,7 +121,7 @@ msplay General\Misc\Command*10@Ext} {Main}
  #If {@Menu>1} {#Var Menu 1};
  #If {@Main=0} {#Abort All};
  #If {@Main<0} {MainTrigSwitch 1};
- msplay prompt@Ext;
+ msplay General\Misc\prompt@Ext;
  ExpPipe {%0} {%0} {:Voice:Type a line of input, use ~@abort to cancel.};
  #Sub {@ExpString}
 } {}
@@ -131,24 +131,24 @@ msplay General\Misc\Command*10@Ext} {Main}
  } {
   #If {@Main=0} {#Abort All};
   #If {@Main<0} {MainTrigSwitch 1};
-  msplay prompt@Ext;
+  msplay General\Misc\prompt@Ext;
   ExpPipe {%0} {%0} {Type lines of input, use a period when done.};
   #Sub {@ExpString}
  }
 } {}
-#Trigger {Your choice:} {msplay prompt@Ext} {}
+#Trigger {Your choice:} {msplay General\Misc\prompt@Ext} {}
 #Trigger {* gestures for you to join * group, which you promptly do.} {
  ExpPipe {%0} {%0} {%1 adds you to %2 group.};
  #sub {@ExpString};
- msplay joins@Ext
+ msplay General\Misc\joins@Ext
 } {Main}
 #Trigger {You gesture towards *, who promptly joins your group.} {
- msplay joins@ext;
+ msplay General\Misc\joins@ext;
  ExpPipe {%0} {%0} {You add %1 to your group.};
  #sub {@ExpString}
 } {Main}
-#Trigger {* indicates that * no longer wishes you to follow *.*} {msplay disband@Ext} {Main}
-#Trigger {* leaves your group.*} {msplay disband@Ext} {Main}
+#Trigger {* indicates that * no longer wishes you to follow *.*} {msplay General\Misc\disband@Ext} {Main}
+#Trigger {* leaves your group.*} {msplay General\Misc\disband@Ext} {Main}
 #Trigger {The door opens with a soft hiss and admits you into the room.} {
  msplay {General\Misc\door open@Ext};
  ExpPipe {%0} {The door admits you into the room.} {};
@@ -218,8 +218,8 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
 mstep 1
 }} {Main}
 #Class SpamAlerts Enable
-#Trigger {Please do not enter so many commands at once.} {msplay spam@Ext} {Main|SpamAlerts}
-#Trigger {Spamming weapon commands will get you nowhere. Please be considerate. If you are experiencing lag, it would be best to wait for one command to successfully go through before attempting another. Thank you.} {msplay spam@Ext} {Main|SpamAlerts}
+#Trigger {Please do not enter so many commands at once.} {msplay General\Misc\spam@Ext} {Main|SpamAlerts}
+#Trigger {Spamming weapon commands will get you nowhere. Please be considerate. If you are experiencing lag, it would be best to wait for one command to successfully go through before attempting another. Thank you.} {msplay General\Misc\spam@Ext} {Main|SpamAlerts}
 #Trigger {*A* sanitation drone arrives.} {mrandomplay General\Misc\DroneEnters*2@Ext} {Main}
 #Trigger {*A * sanitation drone goes *} {mrandomplay General\Misc\DroneLeaves*2@Ext} {Main}
 #Trigger {*A * sanitation drone whirls around.} {mrandomplay General\Misc\DroneWhirls*5@Ext} {Main}

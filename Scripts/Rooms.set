@@ -28,7 +28,7 @@ Ship\Rooms\CommonArea@Rext
 Control Room
 Ship\Rooms\Control*3@Rext
 Docking Bay
-Ship\Rooms\DockingBay*2@Rext
+Ship\Rooms\DockingBay1@Rext
 Duct
 Ship\Rooms\Duct@Rext
 Fighter Bay
@@ -114,7 +114,7 @@ General\Rooms\SpaceSuit@Rext
 Escalator
 General\Rooms\Escalator*2@Rext
 Gas giant Salvager Cockpit
-GasGiant\GasGiantCockpit@Rext
+Atmo\GasGiantCockpit@Rext
 Idyllic Park
 General\Rooms\Planet@Rext
 Large Wooden Dock
@@ -462,7 +462,7 @@ Apartment
  #Sub @ExpString
 } {Main}
 #Trigger {The pod continues its trek at breakneck speed.} {
- msplay GasGiant\Engine@Ext;
+ msplay Atmo\Engine@Ext;
  ExpPipe {%0} {} {};
  #Sub @ExpString
 } {Main}

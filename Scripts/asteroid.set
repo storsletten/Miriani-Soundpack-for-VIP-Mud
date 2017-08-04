@@ -8,13 +8,8 @@
  #Gagline 1 ALL;
  msplay General\Asteroid\KitRetrieve@Ext
 } {Main}
-#Trigger {You feel a mild vibration as the starship's asteroid anchor buries itself into the asteroid's surface.} {
- msplay {anchor start@Ext};
- ExpPipe {:Voice:%0} {:Voice:%0} {:Voice:Asteroid anchor deployed};
- #Sub {@ExpString}
-} {Main|Starship}
 #Trigger {*Lifting anchor and establishing standard dock*} {
- msplay {anchor end@Ext};
+ msplay {General\Asteroid\ShipAnchorEnd@Ext};
  ExpPipe {:Voice:%0} {:Voice:%0} {};
  #Sub {@ExpString}
 } {Main|Starship}

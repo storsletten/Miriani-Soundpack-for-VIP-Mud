@@ -269,8 +269,8 @@ InSpace 1} {Main}
  msplay Ship\Misc\AirlockExit@Ext
 } {Main}
 #TRIGGER {*A small light near the airlock of the * "*" flashes briefly.} {msplay General\Rooms\Beep18@RExt} {Main}
-#TRIGGER {* is deposited nearby.} {mrandomplay GasGiant\CargoDeposited@Ext} {Main}
-#trigger {Several drones begin depositing canisters of gas nearby.} {mrandomplay GasGiant\CargoDeposited@Ext} {Main}
+#TRIGGER {* is deposited nearby.} {mrandomplay Atmo\CargoDeposited@Ext} {Main}
+#trigger {Several drones begin depositing canisters of gas nearby.} {mrandomplay Atmo\CargoDeposited@Ext} {Main}
 #TRIGGER {* drags you outside the ship.} {thememusicfadeout} {Main}
 #TRIGGER {The * opens and allows you to pass.} {
  msplay {General\Misc\door open@Ext};
@@ -294,12 +294,11 @@ mwplay Ship\Misc\InternalExpl*12@Ext} {Main}
 } {Main}
 #Trigger {A mechanical groan gradually subsides as the *, * the exit *.} {
  #If {%Pos(block,%2)>0} {
-  ExpPipe {%0} {%0} {%3 closed.};
-  MirianiSoundPlay Standard {General\Pmining\TRExit@Ext}
+  ExpPipe {%0} {%0} {%3 closed.}
  } {
-  ExpPipe {%0} {%0} {%3 open.};
-  MirianiSoundPlay Standard {General\Pmining\TRExit@Ext}
+  ExpPipe {%0} {%0} {%3 open.}
  };
+ MirianiSoundPlay Standard {Ship\Misc\DoorSettled@Ext};
  #Sub {@ExpString}
 } {Main}
 #Trigger {You contribute * credit* to the owner of the ship.} {

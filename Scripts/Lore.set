@@ -64,7 +64,7 @@
  #Var LoreTmp1 {%Replace(%1,~",)};
  #Var LoreTmp1 {%Replace(@LoreTmp1,~~,)};
  #If {@LoreTmp1="Main Menu" or @LoreTmp1="Device Options" or @LoreTmp1="Root Folder" or @LoreTmp1=*"Folder: *" or @LoreTmp1=*"File: *"} {
-  msplay prompt@Ext
+  msplay General\Misc\prompt@Ext
  };
  #If {@LoreTmp1="Calculator" or @LoreTmp1="Device Options" or @LoreTmp1="Galactic News" or @LoreTmp1="Holographic Imager" or @LoreTmp1="Image Data Extractor" or @LoreTmp1="Lore Tracker" or @LoreTmp1="Main Menu" or @LoreTmp1="Optical Character Recognition" or @LoreTmp1="Shopping Guide" or @LoreTmp1="Starship Upgrade Estimator" or @LoreTmp1="Unit Converter"} {
   ExpPipe {%0} {:Voice:%0} {};

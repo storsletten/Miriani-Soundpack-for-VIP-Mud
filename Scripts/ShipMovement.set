@@ -16,7 +16,7 @@
 } {}
 
 #Trigger {That space is occupied.} {
- msplay SameSpace@Ext;
+ msplay Ship\Move\Blocked@Ext;
  ExpPipe {%0} {%0} {};
  #Sub {@ExpString}
 } {Main|Starship}

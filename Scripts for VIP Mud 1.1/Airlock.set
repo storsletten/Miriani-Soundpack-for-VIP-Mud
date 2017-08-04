@@ -21,7 +21,7 @@
  ExpPipe {%0} {You hear the airlock chime.} {};
  #Sub @ExpString
 } {Main}
-#TRIGGER {* announces over your suit radio, "Beginning cycling."} {msplay cyclestart@Ext} {Main}
+#TRIGGER {* announces over your suit radio, "Beginning cycling."} {msplay Ship\Misc\AirlockCycleStart@Ext} {Main}
 #TRIGGER {A small light on the airlock control panel turns from * to *. *} {
  #Gagline 1 All;
  #if {%Pos(water,%3)=0} {

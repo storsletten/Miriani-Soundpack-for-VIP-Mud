@@ -378,7 +378,7 @@
    };
    #If {@TmpCommunication1<>"" and (@TmpCommunication2="says" or @TmpCommunication2="exclaims" or @TmpCommunication2="asks")} {
     #If {@TmpCommunication1="A voice comes over the speaker and says"} {
-     MirianiSoundPlay {Standard} {commchirp2@Ext};
+     MirianiSoundPlay {Standard} {Ship\Computer\commchirp2@Ext};
      ExpPipe {%0} {@TmpCommunication3} {@TmpCommunication3};
      #If {@SpeakComputerMessagesThroughSAPI=1} {
       SSpeak @ExpString;
@@ -646,7 +646,7 @@
  }
 } {Main}
 #Trigger {[[]Admin Message]: *} {
- msplay General\Device\MuscleArmor@ext;
+ msplay General\Comm\AdminPrivateMessage@ext;
  PushMessage Admin0Messages {%0}
 } {Main}
 #Alias rooc {
@@ -654,3 +654,4 @@
  #Exec {>rooc%RTrim( @ROOCTmp1)};
  #UnVar ROOCTmp1
 } {}
+#Trigger {* beeps quietly for your attention and flashes: "Blast door compromise. Return to ship immediately."} {msplay General\Comm\BlastDoorIntrusionAlert@Ext} {Main}

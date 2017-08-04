@@ -275,7 +275,7 @@ press a button on the side of an asteroid anchor, which works its way out of the
  #Gagline 1 ALL;
  msplay General\Asteroid\AnchorRemove~@Ext
 |
-grab a gargantuan multi-colored heavily rounded bloated sparkling shiny insectoid creature by an antenna and begin forcibly hauling it around.^msplay Joins~@Ext
+grab a gargantuan multi-colored heavily rounded bloated sparkling shiny insectoid creature by an antenna and begin forcibly hauling it around.^msplay General\Misc\Joins~@Ext
 |
 notice a pod land in the area nearby.^
  #if {~@SpeakWhenPossible=1} {
@@ -310,18 +310,18 @@ climb out of the vehicle.^
 |
 carefully pilot the vehicle into a small chamber above the docking bay.^
  #gagline 1 all;
- msplay LaunchSequence~@Ext
+ msplay Atmo\LaunchSequence~@Ext
 |
 hear a sharp hissing as the hatch seals itself and the cockpit is pressurized.^
  #gagline 1 all;
- msplay GasGiant\Hatch~@Ext
+ msplay Atmo\Hatch~@Ext
 |
 start spraying a damaged section of the cockpit with repair paste which quickly hardens into a plastic-like substance, sealing off the tiny cracks in the hull.^
- msplay GasGiant\RepairStart~@Ext
+ msplay Atmo\RepairStart~@Ext
 |
 are suddenly hurled into your seat as the vehicle speeds up even more to escape from the planet's gravity.^
  #gagline 1 all;
- msplay GasGiant\Engine~@Ext
+ msplay Atmo\Engine~@Ext
 |
 are suddenly seized by a powerful EM field and deposited into an escape pod.^
  #class InEscapePod enable;
@@ -353,7 +353,7 @@ pull a small lever toward yourself, deactivating the ship's systems.^msplay Ship
 push a small lever away from you, activating the ship's systems.^msplay Ship\Misc\Lever*5~@Ext
 |
 feel a mild vibration as the starship's asteroid anchor buries itself into the asteroid's surface.^
- msplay {anchor start~@Ext};
+ msplay General\Asteroid\ShipAnchorStart~@Ext;
  #Gagline 1 ALL
 |
 hear the sounds of cargo being transferred.^
@@ -398,7 +398,7 @@ hear a gentle thud as the salvager sets down in the docking bay.^
 |
 finish spraying, noting that the vehicle looks to be in perfect order again.^
  ExpPipe {~%0} {~%0} {You finish repairing the damage.};
- msplay GasGiant\RepairComplete~@Ext
+ msplay Atmo\RepairComplete~@Ext
 |
 notice the constant pull of movement has nearly vanished and realize your pod is moving frighteningly slowly and has almost come to a halt. At last, the directional thrusters mounted on both sides of the cockpit fire in what seems an attempt to keep the pod from sinking back into the swirling storms of gasses below.^
  ExpPipe {~%0} {~%0} {The directional thrusters mounted on both sides of the cockpit fire in what seems an attempt to keep the pod from sinking back into the swirling storms of gasses below.};
@@ -424,7 +424,7 @@ submit your application.^msplay General\Misc\Submit~@Ext
 |
 feel the gentle pull of acceleration as the pod lifts off.^msplay General\Misc\ITPNStart~@Ext
 |
-feel a tingly sensation and notice that you are not what you were!^msplay Change~@Ext
+feel a tingly sensation and notice that you are not what you were!^msplay General\Misc\Change~@Ext
 |
 notice the drones returning to niches in the wall. Assuming they're done, you stand up, feeling completely healed.^msplay Stand~@Ext
 |
@@ -433,11 +433,11 @@ hear a thunk as cargo is expelled from the ship's cargo hold.^
  ExpPipe {~%0} {Cargo expelled.} {Cargo expelled.}
 |
 indicate to your group members that you no longer wish for them to follow you.^
- msplay disband~@Ext;
+ msplay General\Misc\disband~@Ext;
  ExpPipe {~%0} {~%0} {You disband your group.}
 |
 hear a loud buzzing sound, indicating somebody is at the door.^
- msplay buzz~@Ext;
+ msplay General\Misc\buzz~@Ext;
  ExpPipe {~%0} {Someone is at the door.} {}
 |
 input some commands into a console and access the starship's service record.^
@@ -518,7 +518,7 @@ become aware of a low rumbling sound as the pod opens a small wormhole.^
 |
 hear a doorbell ringing.^
  ExpPipe {~%0} {Door bell} {};
- msplay buzz~@Ext
+ msplay General\Misc\buzz~@Ext
 |
 are thrown back against your seat as the craft hits an air pocket in the atmosphere and then breaks free.^
  msplay ship\misc\wind~@Ext;
@@ -559,6 +559,10 @@ feel a mighty shaking as something seemingly large impacts the hull.^
 hear several scraping sounds as bardenium is transferred from the ship's storage to the cannons.^
  msplay Ship\Combat\CannonReload~@Ext;
  ExpPipe {~%0} {Reloading cannons.} {}
+|
+depress the trigger on a cutting torch. A jet of dark blue flame immediately issues forth as fuel from the canister is projected through the torch's fuel pipes.^
+ msplay Ship\Misc\CuttingTorch~@Ext;
+ ExpPipe {~%0} {~%0} {:Voice:~%0}
 |
 }
 

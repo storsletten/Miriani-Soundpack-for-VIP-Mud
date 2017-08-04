@@ -52,7 +52,7 @@
  #Sub {@ExpString}
 } {Main}
 #TRIGGER {A loud clicking is followed by the clatter of an empty cartridge to the floor.} {
- msplay empty@Ext;
+ msplay General\Combat\EmptyGun2@Ext;
  ExpPipe {%0} {:Voice:%0} {:Voice:Empty};
  #Sub {@ExpString}
 } {Main}
@@ -62,22 +62,22 @@
  #Sub {@ExpString}
 } {Main}
 #TRIGGER {You deftly insert a* into a*.} {
- msplay holster@Ext;
+ msplay General\Combat\HolsterGun@Ext;
  ExpPipe {%0} {%0} {You insert a%1 into a%2};
  #Sub {@ExpString}
 } {Main}
 #TRIGGER {* deftly inserts a* into a*.} {
- msplay holster@Ext;
+ msplay General\Combat\HolsterGun@Ext;
  ExpPipe {%0} {%0} {%1 inserts a%2 into a%3};
  #Sub {@ExpString}
 } {Main}
 #TRIGGER {You slide * into a*, where it settles into place with a small click.} {
- msplay holster@Ext;
+ msplay General\Combat\HolsterEMPulse@Ext;
  ExpPipe {%0} {%0} {You slide %1 into a%2.};
  #Sub {@ExpString}
 } {Main}
 #TRIGGER {* slides * into a*, where it snaps into place with a click.} {
- msplay holster@Ext;
+ msplay General\Combat\HolsterEMPulse@Ext;
  ExpPipe {%0} {%0} {%1 slides %2 into a%3.};
  #Sub {@ExpString}
 } {Main}
@@ -102,7 +102,7 @@
  #Sub {@ExpString}
 } {Main}
 #TRIGGER {A* clicks oddly. It must be out of ammo.} {
- msplay emptygun@Ext;
+ msplay General\Combat\EmptyGun@Ext;
  ExpPipe {%0} {A%1 is out of ammo.} {A%1 is empty.};
  #Sub {@ExpString}
 } {Main}
@@ -141,7 +141,7 @@
  #Sub {@ExpString}
 } {Main}
 #TRIGGER {You crouch behind *, using * for cover.} {
- msplay crouch@Ext;
+ msplay General\Combat\crouch@Ext;
  ExpPipe {%0} {%0} {You use %1 for cover};
  #Sub {@ExpString}
 } {Main}
@@ -168,8 +168,8 @@
  #Sub {@ExpString}
 } {Main}
 #trigger {* takes aim at you*} {msplay General\Combat\DrawEMPulse*3@Ext} {Main}
-#TRIGGER {* begins following you.*} {msplay joins@Ext} {Main}
-#trigger {* take*control of*group*} {msplay joins@Ext} {Main}
+#TRIGGER {* begins following you.*} {msplay General\Misc\joins@Ext} {Main}
+#trigger {* take*control of*group*} {msplay General\Misc\joins@Ext} {Main}
 
 #trigger {* insectoid creature scurries in*} {mrandomplay General\Combat\PraelorScurry*2@Ext} {Main}
 #trigger {*You see * insectoid creature*here*} {msplay General\Combat\PraelorScurry*2@Ext} {Main}

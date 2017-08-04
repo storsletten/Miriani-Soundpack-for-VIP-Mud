@@ -28,20 +28,20 @@ msplay Ship\misc\hatchenter@Ext} {Main}
 #trigger {The vehicle manages to break free from the pocket of wind and stabilize its course.} {#Gagline 1 ALL;
 msplay salvagestop@Ext} {Main|Vehicle}
 #trigger {The vehicle shudders violently as it makes contact with the topmost gas clouds. *} {#gagline 1 all;
-msplay GasGiant\Contact@Ext} {Main|Vehicle}
+msplay Atmo\Contact@Ext} {Main|Vehicle}
 #trigger {The planet's atmosphere finally stabilizes and the ship comes to a halt.} {#gagline 1 all;
 msplay salvagestop@Ext} {Main}
 #TRIGGER {The engine spins up briefly to keep the vehicle on course as it enters a different cloud of gasses.} {ExpPipe {%0} {%0} {};
-msplay GasGiant\Engine@Ext} {Main|Vehicle}
+msplay Atmo\Engine@Ext} {Main|Vehicle}
 #trigger {A sudden instability in the layer of gasses around the ship causes it to rapidly sink deeper into the atmosphere.} {msplay ship\misc\wind@Ext} {Main}
 #TRIGGER {The vehicle finally reaches a calm level and comes to a stop.} {ExpPipe {%0} {%0} {};
 #sub {@ExpString};
-msplay GasGiant\Stop@Ext} {Main|Vehicle}
-#TRIGGER {The room suddenly tilts as an internal explosion rocks the craft.} {mwplay GasGiant\GasExplodes*3@Ext;
+msplay Atmo\Stop@Ext} {Main|Vehicle}
+#TRIGGER {The room suddenly tilts as an internal explosion rocks the craft.} {mwplay Atmo\GasExplodes*3@Ext;
 ExpPipe {%0} {%0} {};
 #sub {@ExpString}} {Main|Vehicle}
 #TRIGGER {The heavy vibration of the running engine ceases as the vehicle glides out of the top levels of the atmosphere and into space. The sound of the thrusters can be heard as the craft orients itself toward the *.} {#gagline 1 all;
-msplay GasGiant\Stop@Ext} {Main|Vehicle}
+msplay Atmo\Stop@Ext} {Main|Vehicle}
 #Trigger {The overhead lights suddenly flicker and extinguish altogether as the gentle hum of the engine comes to a gradual halt.} {
  ExpPipe {%0} {The gentle hum of the engine comes to a gradual halt.} {};
  #Sub @ExpString;

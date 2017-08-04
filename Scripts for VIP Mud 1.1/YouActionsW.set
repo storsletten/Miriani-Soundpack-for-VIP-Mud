@@ -93,7 +93,7 @@ instruct the rover to begin *.^msplay General\Asteroid\RoverCommand~@Ext
 |
 bang* on the hatch*.^msplay General\Misc\Knock1~@Ext
 |
-stop using * for cover.^msplay uncrouch~@Ext
+stop using * for cover.^msplay General\Combat\uncrouch~@Ext
 |
 carefully replace the film in * camera.^msplay General\Device\LoadFilm~@Ext
 |
@@ -138,7 +138,7 @@ hear somebody knocking on the blast door to the *.^msplay General\Misc\DoorChime
 |
 notify flight control of your desire to *.^
  #GagLine 1 All;
- msplay commchirp~@Ext
+ msplay Ship\Computer\commchirp~@Ext
 |
 earn * credits for the successful completion of a combat mission.^
  SetVariable TotalHits {~%If(~%IsNumber(~@TotalHits)=0,0,~@TotalHits)};

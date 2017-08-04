@@ -264,7 +264,7 @@ msplay Ship\Computer\Error@Ext
  #Var ShipComputerTmp2 {Ship\Computer\Report*4@Ext};
  #If {@ShipComputerTmp1="no nearby debris."} {
   ExpPipe {%0} {:Voice:%Proper(%1)} {};
-  #Var ShipComputerTmp2 {};
+  #Var ShipComputerTmp2 {Ship\Computer\NoNearbyDebris@Ext};
   #Var ShipComputerTmp1 {}
  };
  #If {@ShipComputerTmp1=*"* is one unit away from this ship."} {

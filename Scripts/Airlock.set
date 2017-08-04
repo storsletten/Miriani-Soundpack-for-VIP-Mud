@@ -23,7 +23,7 @@
 } {Main|Starship}
 #Trigger {The computer flashes a message next to * cycle button* "*} {
  #If {%Pos(beginning,%3) > 0} {
-  msplay cyclestart@Ext;
+  msplay Ship\Misc\AirlockCycleStart@Ext;
   ExpPipe {%0} {:Voice:%0} {:Voice:%0}
  } {
   msplay Ship\Computer\Beep@Ext;
