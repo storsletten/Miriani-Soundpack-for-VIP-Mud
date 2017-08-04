@@ -1,3 +1,8 @@
+Version 5.6.0, released 2017-08-04:
+* We've been tidying the sounds folder, and as a result of that, you might need to download the latest sounds folder unless you have access to the shared Dropbox folder for the sounds. The new sounds folder will also have a version number that VIP Mud can load programmatically, which means that future releases of the soundpack won't unceremoniously crash even if you don't have the most recent sounds folder. But first, you need to download the sounds folder that was released today.
+* Also added some new sounds. There's a new sound for alliance computer notifications, and that old alliance computer sound is now used to alert you of blast door intrusions. Also added a sound for cutting torches, plus a new sound that indicates no nearby debris when salvaging. There are probably other changes too, but those are the ones I recall at this time.
+* For 2.0: Removed a superfluous trigger in the name of performance, and also improved the little framework that handles computer report messages.
+
 Version 5.5.13, released 2017-08-04:
 * For 2.0: Added a little message for the first time you use whoc after the soundpack has been loaded.
 * Addressed an issue where the soundpack wouldn't show you the color of the Lore computer that someone was using.
