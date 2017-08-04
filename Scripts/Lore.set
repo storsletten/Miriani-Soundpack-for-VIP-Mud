@@ -1,7 +1,7 @@
 #Exec {SetVariable Tracked 0}
 #Trigger {* makes a selection on a* Lore computer.} {
  #If {%Pos([,%1)=0 and %Pos(~(,%1)=0} {
-  ExpPipe {%0} {%1 uses a%3 Lore.} {%1 uses a%3 Lore.};
+  ExpPipe {%0} {%1 uses a%2 Lore.} {%1 uses a%2 Lore.};
   #Sub {@ExpString}
  }
 } {Main}
