@@ -1,3 +1,6 @@
+Version 5.6.3, released 2017-08-05:
+* For 2.0: Changed the virtual displays for camera feeds. Now the first one applies for internal camera feeds, like internal stun turrets and security cameras on private space stations etc. vd 2 is for external camera feeds, like droid remotes and external cameras on BC's.
+
 Version 5.6.2, released 2017-08-05:
 * Josh Westen updated Docs/Keys.txt by removing a number of keystroke definitions that no longer exist in the soundpack because of not so recent policy changes in Miriani. Plus a few other modifications to that file.
 * Removed script, sounds, and themes path options from conf advanced, since the preferred method for setting these paths now is by using the linking scripts. Also removed the file extension options and the ignored script files option, because the only thing you could do with them was to crash the soundpack, so not very useful. Also added a CExt variable for those of you who might be interested. The plan at this point is to compress some (or even most) of the sounds into mp3, and only use .wav for time critical things pertaining to missions, combat, grabbing, stunning, etc.
