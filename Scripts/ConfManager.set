@@ -607,6 +607,7 @@
  #UnVar ConfResult;
  #12 {#Exec {#UnVar {ConfTmp%i}}}
 } {}
+#Alias ConfEx {#Exec {#Alarm 0 {conf%RTrim( %0)}}} {}
 #Alias ConfPrint {
  #If {%CharInfo(Connected)=1 and @Connected=1 and @ConfEchoMode=1 and @ConfEchoText=""} {
   #Conf DisplayCommandsInOutput False;
