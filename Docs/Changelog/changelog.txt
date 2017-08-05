@@ -1,3 +1,6 @@
+Version 5.6.5, released 2017-08-05:
+* Applied a workaround for the issue with conf vol (and other conf aliases pointing to executable conf objects). Cheers Josh for reporting.
+
 Version 5.6.4, released 2017-08-05:
 * For 2.0: Fixed bugs in the bufferconfig command.
 
