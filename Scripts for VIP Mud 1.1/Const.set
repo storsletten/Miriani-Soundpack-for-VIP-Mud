@@ -10,6 +10,10 @@ Sound contributions by Hector Salvatore, Leon Thomas, Salazar Clayton, and other
 Special thanks to Kendall Gideon for awesome help with debugging, code snippets, beta testing, motivation boosters, and more!
 Triggers and extra sounds provided by the retired David Kieran, bringing more life than ever before to all the beloved babies!
 }
+#Var Ext {.wav}
+#Var CExt {.mp3}
+#Var RExt {.wav}
+#If {%Defined(IgnoredScriptFiles)=0} {#Var IgnoredScriptFiles {Dummy}}
 #Var CR {%Chr(13)}
 #Var LF {%Chr(10)}
 #var PerCent {~%}

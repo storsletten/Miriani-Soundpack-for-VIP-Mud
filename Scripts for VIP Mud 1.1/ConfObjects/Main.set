@@ -221,11 +221,8 @@ LoadCommKeys:1
 LoadScanningKeys:1
 LoadNumpadKeys:1
 LoadMiscKeys:1
-Ext:.wav
-RExt:.wav
 UserLanguage:en
 PassThru:0
-IgnoredScriptFiles:Dummy
 NumberOfConnections:0
 ConfMOTD:NONE
 MoveMarkers:Ship:Marker

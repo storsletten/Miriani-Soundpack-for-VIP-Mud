@@ -1,15 +1,8 @@
 #Exec {
 SetVariable Conf0Advanced0 {M:Advanced Configuration Options
 KeyStrokes:Enable / disable keystrokes (can prevent conflicts on some non-english systems (requires restart))
-Ext:Set the file extention for standard sound files
-RExt:Set the file extention for the roomsounds files
-ScriptPath:Set your default scripts path
-SoundPath:Set your default soundpath
-ThemePath:Set the users default themes path
-ResetThemesPath:Reset Themes path to default
 UserLanguage:Set the user's language (Mainly for keymappings (requires restart))
 PassThru:Pass special characters directly to the mud (useful if you are having problems with commands such as ~~~@soundpacks, or ~~~@custom-s)
-IgnoredScriptFiles
 };
 SetVariable Conf0Advanced0KeyStrokes0 {M:Configure which keystrokes you want enabled at startup (requires restart of Vipmud after alteration)
 Numpad:Load the numpad
@@ -37,40 +30,14 @@ You will no load keys for reviewing ship scan output:You will no longer be able 
 SetVariable Conf0Advanced0Keystrokes0Misc0 {B:LoadMiscKeys:Set whether or not to load Miscelanious keys on startup
 You will now get miscelanious keys:You will no longer get miscelanious keys
 };
-SetVariable Conf0Advanced0Ext0 {C:Set which file type to use for the soundpack's standard sounds
-Ext:File extention set to $V
-.mp3:I want to use mp3 files
-.wav:I want to use wave files
-};
-SetVariable Conf0Advanced0RExt0 {C:Set which file type to use for the soundpack's room sounds
-RExt:File extention set to $V
-.mp3:I want to use mp3 files
-.wav:I want to use wave files
-};
-SetVariable Conf0Advanced0ScriptPath0 {S:ScriptPath:Set your default script path
-The soundpack will now look for scripts in $V
-};
-SetVariable Conf0Advanced0SoundPath0 {S:SoundsPath:default sound path
-The soundpack will now look for sound files in $V
-};
-SetVariable Conf0Advanced0ThemePath0 {S:ThemesPath:default themes path
-The soundpack will now look for theme music files in $V
-};
-SetVariable Conf0Advanced0ResetThemesPath0 {E:
-SetVariable ThemesPath {~@SoundsPath\Themes};
-ConfPrint {The themes path has been reset to ~~~@ThemesPath}
-};
 SetVariable Conf0Advanced0UserLanguage0 {C:Set the users Language
 UserLanguage:The user language is now set to $V
-en:English
-de:German
-no:Norwegian
+EN:English
+DE:German
+NO:Norwegian
 };
 SetVariable Conf0Advanced0PassThru0 {E:0:
 PassThru
 };
-SetVariable ConfEx0Advanced0PassThru0 {B:PassThru:Bypass};
-SetVariable Conf0Advanced0IgnoredScriptFiles0 {S:IgnoredScriptFiles:list of ignored script files
-Script files that will now be ignored $V
-}
+SetVariable ConfEx0Advanced0PassThru0 {B:PassThru:Bypass}
 }

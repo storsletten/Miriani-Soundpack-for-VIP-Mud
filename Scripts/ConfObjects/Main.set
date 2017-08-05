@@ -222,11 +222,8 @@ LoadSoundKeys:1
 LoadHistoryReviewKeys:1
 ExcludeAltGRNumrow:1
 LoadMiscKeys:1
-Ext:.wav
-RExt:.wav
-UserLanguage:en
+UserLanguage:EN
 PassThru:0
-IgnoredScriptFiles:Dummy
 NumberOfConnections:0
 MoveMarkers:Ship:Marker
 ArchaeologyHelperCountArtifacts:1
