@@ -173,7 +173,7 @@ walks
 #var DecimalChar {%If(%IsNumber(1.4),.,~,)}
 #Config slowwalk on // Ensures that global speedwalks don't kick you
 #var And { and }
-#Var VirtualDisplays {Camera feeds, mostly internal and external cameras|Camera feeds, mostly droid remotes|Flight control scanners|Intrasector combat messages|Metafrequency messages|Communicator messages}
+#Var VirtualDisplays {Internal camera feeds|External camera feeds|Flight control scanners|Intrasector combat messages|Metafrequency messages|Communicator messages}
 
 ; Direction definitions:
 ; 

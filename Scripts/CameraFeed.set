@@ -68,7 +68,7 @@
  #Var CameraTmp1 {%Replace(@CameraTmp1,~",)};
  #Var CameraTmp2 {};
  #Var CameraTmp4 {};
- #Var CameraTmp5 {1};
+ #Var CameraTmp5 {2};
  #If {@CameraTmp1="A loud clicking is followed by the clatter of an empty cartridge to the floor."} {#Var CameraTmp4 {Ground Combat|empty@Ext}};
  #If {@CameraTmp1="The shot misses!"} {#Var CameraTmp4 {Ground Combat|General\Combat\ShotMisses@Ext}};
  #If {@CameraTmp1=*"A* clicks oddly. It must be out of ammo."} {#Var CameraTmp4 {Ground Combat|empty@Ext}};
