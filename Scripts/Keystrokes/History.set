@@ -1,6 +1,3 @@
-#If {%Pos(Say,@HistoryBuffers)=0} {#AddItem HistoryBuffers {Say}}
-#If {%Pos(Comm,@HistoryBuffers)=0} {#AddItem HistoryBuffers {Comm}}
-
 #Var LastReviewKeyPressed {}
 #Alias ReviewKeyPressed {
  #If {%IsNumber(%2)=1} {

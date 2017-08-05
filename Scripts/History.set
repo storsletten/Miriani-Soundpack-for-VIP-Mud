@@ -1,7 +1,7 @@
 #Var HistorySoundHandle 0
 #If {%Defined(NumberOfBufferedLogMessages)=0} {#Var NumberOfBufferedLogMessages 0}
 #If {%Defined(NumberOfMessages)=0} {#var NumberOfMessages 0}
-#If {%Defined(HistoryBuffers)=0} {#Var HistoryBuffers {Comm|Output|PA|Say}}
+#If {%Defined(HistoryBuffers)=0} {#Var HistoryBuffers {Output}}
 #If {%Defined(CurrentHistoryBuffer)=0} {#var CurrentHistoryBuffer {Output}}
 #If {%Defined(CurrentHistoryBufferPosition)=0} {#Var CurrentHistoryBufferPosition 1}
 
@@ -372,54 +372,69 @@
    } {
     #Var BufferConfigTmp3 %1
    };
+   #Var SelectedBuffer {};
    #Var BuffersForReview {};
    #ForAll {@BufferConfigTmp1} {
     #Math BufferConfigTmp2 {@BufferConfigTmp2 + 1};
     #If {@BufferConfigTmp3=@BufferConfigTmp2} {
+     #Var BufferSelectionTmp2 {%i};
      #If {%2<>""} {
-      #Var SelectedBuffer %2
+      #Var SelectedBuffer {%2}
      } {
-      #Var SelectedBuffer {%Word(@HistoryBuffers,|,1)};
-      #Var BufferSelectionTmp1 {P:Select Buffer};
-      #Var BufferSelectionTmp2 {};
-      #ForAll {@HistoryBuffers} {
-       #Var BufferSelectionTmp2 {%Replace(%i,0, )};
-       #AddItem BufferSelectionTmp1 {@BufferSelectionTmp2:#Var SelectedBuffer {%i}}
+      #Var BufferSelectionTmp1 {P:Select buffer};
+      #ForAll {Comm|Computer|Flight|Metafrequency0Channels|Newbie|PA|rooc|Say} {
+       #If {%Pos(%i,@HistoryBuffers)=0} {#AddItem HistoryBuffers {%i}}
       };
-      #Pick {@BufferSelectionTmp1};
-      #UnVar BufferSelectionTmp1;
-      #UnVar BufferSelectionTmp2
+      #Var HistoryBuffers {%Sort(@HistoryBuffers,0)};
+      #ForAll {@HistoryBuffers} {
+       #If {@BufferSelectionTmp2=%i} {
+        #AddItem BufferSelectionTmp1 {*%Replace(%i,0, ):%i}
+       } {
+        #AddItem BufferSelectionTmp1 {%Replace(%i,0, ):%i}
+       }
+      };
+      #Var SelectedBuffer {%Pick(@BufferSelectionTmp1)};
+      #UnVar BufferSelectionTmp1
      };
-     #Var BuffersForReview {@BuffersForReview,@SelectedBuffer};
-     #UnVar SelectedBuffer
+     #If {@SelectedBuffer<>""} {
+      #Var BuffersForReview {@BuffersForReview,@SelectedBuffer}
+     } {
+      #Var BuffersForReview {@BuffersForReview,@BufferSelectionTmp2}
+     };
+     #UnVar BufferSelectionTmp2
     } {
      #Var BuffersForReview {@BuffersForReview,%I}
     }
    };
    #Var BuffersForReview {%Delete(@BuffersForReview,1,1)};
-   #Say {Set!};
+   #If {@SelectedBuffer<>""} {
+    #Say {Set!}
+   };
+   #UnVar SelectedBuffer;
    #UnVar BufferConfigTmp2;
    #UnVar BufferConfigTmp3
   }
  };
+ #Var BufferConfigTmp2 {%Replace(@BuffersForReview,0, )};
  #Var BufferConfigTmp1 {Choose a buffer to configure
- [1] Alt 1-0: %Word(@BuffersForReview,~,,1).
- [2] Alt Shift 1-0: %Word(@BuffersForReview,~,,2).
- [3] Control 1-0: Currently set to @CurrentHistoryBuffer, and it will reflect the current buffer set by Control E or Control Shift E, or directly using the command hist sw <buffername>.
- [4] Control Shift 1-0: %Word(@BuffersForReview,~,,3).};
+ [1] Alt 1-0: %Word(@BufferConfigTmp2,~,,1).
+ [2] Alt Shift 1-0: %Word(@BufferConfigTmp2,~,,2).
+ [3] Control 1-0: Currently set to %Replace(@CurrentHistoryBuffer,0, ), and it will reflect the current buffer set by Control E or Control Shift E, or directly using the command hist sw <buffername>.
+ [4] Control Shift 1-0: %Word(@BufferConfigTmp2,~,,3).};
  #If {@ExcludeAltGRNumrow=1} {
   #Var BufferConfigTmp1 {@BufferConfigTmp1
  [5] Control Alt 1-0: Currently disabled, but you can enable it in conf advanced keystrokes (set Exclude AltGR Numrow to off).}
  } {
   #Var BufferConfigTmp1 {@BufferConfigTmp1
- [5] Control Alt 1-0: %Word(@BuffersForReview,~,,4).}
+ [5] Control Alt 1-0: %Word(@BufferConfigTmp2,~,,4).}
  };
  #Var BufferConfigTmp1 {@BufferConfigTmp1
- [6] Control Alt Shift 1-0: %Word(@BuffersForReview,~,,5).
- [r] Reset to default
- [0] Finish};
+ [6] Control Alt Shift 1-0: %Word(@BufferConfigTmp2,~,,5).
+ [r] Reset to default.
+ [0] Finish.};
  #Say {BufferConfig } Entry|NoReturn;
  ConfPrint {@BufferConfigTmp1};
- #UnVar BufferConfigTmp1
+ #UnVar BufferConfigTmp1;
+ #UnVar BufferConfigTmp2
 } {}
 #Key {Shift-Control-Alt-F11} {BufferConfig} {}

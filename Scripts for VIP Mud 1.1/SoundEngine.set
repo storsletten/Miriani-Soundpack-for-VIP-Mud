@@ -103,7 +103,7 @@ station:General\Footsteps\Station*8@Ext
   #Exec {%Word(@SoundTmp2,^,1) {@SoundTmp4%Word(@SoundTmp2,^,2)} @SoundTmp1};
   #Math NumberOfSounds {@NumberOfSounds + 1};
   #Var SoundTmpString {[%1]: @SoundTmp3 %Word(@SoundTmp2,^,2) at @{SoundTmp1}~~~% volume.};
-  #if {@Connected=1} {#Exec {#alarm 0 {PushMessage Played0Sounds {@SoundTmpString}}}}
+  #if {%Defined(HistoryBuffers)=1 and @Connected=1} {#Exec {#alarm 0 {PushMessage Played0Sounds {@SoundTmpString}}}}
  }
 } {}
 
