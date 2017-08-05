@@ -1,3 +1,6 @@
+Version 5.6.4, released 2017-08-05:
+* For 2.0: Fixed bugs in the bufferconfig command.
+
 Version 5.6.3, released 2017-08-05:
 * For 2.0: Changed the virtual displays for camera feeds. Now the first one applies for internal camera feeds, like internal stun turrets and security cameras on private space stations etc. vd 2 is for external camera feeds, like droid remotes and external cameras on BC's.
 
