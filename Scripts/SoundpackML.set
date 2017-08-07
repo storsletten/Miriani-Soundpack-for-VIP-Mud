@@ -21,10 +21,6 @@
   ConfPrint {@SoundpackStatistics}
  }
 } {}
-#Trigger {[#]$[#]soundpack *} {
- #GagLine 1 All;
- #Math NumberOfSoundpackMessages {@NumberOfSoundpackMessages + 1}
-} {Main}
 #Trigger {Your soundpack appears to be out of date! You're using version '*', but the most recent version is '*'. You can download the most recent version from: *} {
  #Var NewVersion {%2};
  #Var NewMajorVersion {%Word(@NewVersion,.,1)};

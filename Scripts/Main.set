@@ -189,8 +189,10 @@ Extras|
 #Trigger {[#]$[#]*} {
  #Conf DisplayCommandsInOutput False;
  #GagLine 1 All;
+ #Var oobTmp1 {%Replace(%1,~",)};
+ #Var oobTmp1 {%Replace(@oobTmp1,~~,)};
  #If {%Defined(KeepAliveState)=1} {#Var KeepAliveState 1};
- #If {%1="soundpack_pong"} {
+ #If {@oobTmp1="soundpack_pong"} {
   #If {%Defined(WhoOriginalHeader)=1} {
    WhoCheck {} {ReadingComplete};
    #UnGagLine;
@@ -205,7 +207,7 @@ Extras|
    }
   }
  };
- #If {%1="hjelp"} {
+ #If {@oobTmp1="hjelp"} {
   #If {@KeepAliveRespond=1 or @KeepAlive>0} {
    #Exec {>#$#soundpack_ping_reply ms}
   };
@@ -214,7 +216,7 @@ Extras|
    #Alarm 0 {ConfSaveAll {@GagSaveOnIdle}}
   }
  };
- #If {%1=*"soundpack_lag *"} {
+ #If {@oobTmp1=*"soundpack_lag *"} {
   #If {%Defined(ShowPingPongLagReport)=1} {
    #Var ShowPingPongLagReport {%Word(%1, ,2)};
    #Var ShowPingPongLagReport {%Word(@ShowPingPongLagReport,.,1)};
@@ -223,6 +225,14 @@ Extras|
    #UnVar ShowPingPongLagReport
   }
  };
+ #If {@oobTmp1=*"soundpack echo | *"} {
+  #If {%Defined(SPPromptAwaitingUserInput)=1} {
+   #Exec {#Alarm 0 {SPPrompt Disable;@SPPromptCallback {%Copy(%1,18,%Eval(%Length(%1)-17))}}}
+  } {
+   msplay General\Misc\Cancel@Ext
+  }
+ };
+ #If {%Pos(soundpack,%1)=1} {#Math NumberOfSoundpackMessages {@NumberOfSoundpackMessages + 1}};
  #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
 } {}
 #Alias SPKeepAlive {
@@ -554,3 +564,36 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  #Sub {Setup done.};
  #Class Sight Disable
 } {Sight}
+
+#Alias SPPrompt {
+ #If {%Length(%3)=0} {
+  #If {%Replace(%1,~",)="Disable"} {
+   #UnVar SPPromptCaption;
+   #UnVar SPPromptOptions;
+   #UnVar SPPromptCallback;
+   #UnVar SPPromptAwaitingUserInput;
+   #Class ShowSPPrompt Disable
+  } {
+   #Exec {>SPPrompt%RTrim( %0)}
+  }
+ } {
+  #Var SPPromptCaption {%1};
+  #Var SPPromptOptions {%2};
+  #Var SPPromptCallback {%3};
+  #UnVar SPPromptAwaitingUserInput;
+  #Class ShowSPPrompt Enable;
+  #Conf DisplayCommandsInOutput False;
+  #Exec { };
+  #Exec {>secho};
+  #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
+ }
+} {}
+#Trigger {What would you like to be repeated back to you using soundpack echo?} {
+ #Class ShowSPPrompt Disable;
+ #If {%Defined(SPPromptCaption)=0} {
+  SPPrompt Disable
+ } {
+  #Var SPPromptAwaitingUserInput 1;
+  #Sub {@SPPromptCaption%CRLF@SPPromptOptions}
+ }
+} {ShowSPPrompt}
