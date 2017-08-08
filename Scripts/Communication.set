@@ -188,14 +188,19 @@
    #Var TmpCommunication3 {%Replace(%2,~~,)};
    #Var TmpCommunication3 {%Replace(@TmpCommunication3,~",)};
    #Var TmpCommunication1 {@TmpCommunication2*};
+   #If {@TmpCommunication2="Auction Service" or @TmpCommunication2="Combat Mission Notification Service" or @TmpCommunication2="Communication Loopback Recipient" or @TmpCommunication2="Reminder Service"} {
+    #Var TmpCommunication4 {Services}
+   } {
+    #Var TmpCommunication4 {Private0Comm}
+   };
    #If {@TmpCommunication3=*@TmpCommunication1} {
     #Var TmpCommunication2 {[@TmpCommunication2]};
     #Var TmpCommunication1 {%Eval(%Pos("*",@TmpCommunication1)+1)};
-    #Var TmpCommunication4 {%Eval(%Pos(~~",%2)+1)};
-    #If {@TmpCommunication1>@TmpCommunication4} {
+    #Var TmpCommunication3 {%Eval(%Pos(~~",%2)+1)};
+    #If {@TmpCommunication1>@TmpCommunication3} {
      #Var TmpCommunication3 {:%Delete(%2,1,%Eval(@TmpCommunication1-1))}
     } {
-     #Var TmpCommunication3 {:%Copy(%2,@TmpCommunication1,%Eval(@TmpCommunication4-@TmpCommunication1-3)): %Copy(%2,@TmpCommunication4,%Eval(%Length(%2)-@TmpCommunication4))}
+     #Var TmpCommunication3 {:%Copy(%2,@TmpCommunication1,%Eval(@TmpCommunication3-@TmpCommunication1-3)): %Copy(%2,@TmpCommunication3,%Eval(%Length(%2)-@TmpCommunication3))}
     }
    } {
     #Var TmpCommunication2 {[@TmpCommunication2]};
@@ -206,7 +211,6 @@
      #Var TmpCommunication3 {:%Copy(%2,1,%Eval(@TmpCommunication1-4)): %Copy(%2,@TmpCommunication1,%Eval(%Length(%2)-@TmpCommunication1))}
     }
    };
-   #Var TmpCommunication4 {Private0Comm};
    #Var TmpCommunication1 {}
   };
   #If {@TmpCommunication1="Short-range Communication"} {
