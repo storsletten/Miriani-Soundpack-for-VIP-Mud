@@ -1,3 +1,7 @@
+Version 5.6.6, released 2017-08-08:
+* For 2.0: Added a new soundpack prompt framework that utilizes the new secho command in Miriani. This probably doesn't mean anything for most users, but I'm currently in the process of rewriting the conf manager, and the new conf manager will definitely make good use of this new prompt framework.
+* For 2.0: Added a history buffer for private link services. The buffer is named Services. This means services like auction service and combat mission notification service won't clutter your private comm history buffer. Woop woop! We might add a new sound for services too one day, who knows.
+
 Version 5.6.5, released 2017-08-05:
 * Applied a workaround for the issue with conf vol (and other conf aliases pointing to executable conf objects). Cheers Josh for reporting.
 
