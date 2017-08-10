@@ -48,7 +48,6 @@
  mrandomplay Ship\Move\OtherLaunch*3@Ext
 } {Main}
 #Trigger {The deck beneath you vibrates slightly as the relativity drive begins accelerating the starship through space.} {
- #Var ShipDir @TmpShipDir;
  PlayRelDriveStart;
  ExpPipe {%0} {} {};
  #Sub {@ExpString}

@@ -577,8 +577,17 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
    #Exec {>SPPrompt%RTrim( %0)}
   }
  } {
-  #Var SPPromptCaption {%1};
-  #Var SPPromptOptions {%2};
+  #If {%Pos(:,%1)=1} {
+   #Say {%Copy(%1,2,%Eval(%Length(%1)-1))};
+   #Var SPPromptCaption {}
+  } {
+   #Var SPPromptCaption {%1}
+  };
+  #If {%Right(%2,2)=%CRLF} {
+   #Var SPPromptOptions {%Copy(%2,1,%Eval(%Length(%2)-2))}
+  } {
+   #Var SPPromptOptions {%2}
+  };
   #Var SPPromptCallback {%3};
   #UnVar SPPromptAwaitingUserInput;
   #Class ShowSPPrompt Enable;
@@ -594,6 +603,10 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
   SPPrompt Disable
  } {
   #Var SPPromptAwaitingUserInput 1;
-  #Sub {@SPPromptCaption%CRLF@SPPromptOptions}
+  #If {%Length(@SPPromptCaption)>0 and %Length(@SPPromptOptions)>0} {
+   #Sub {@SPPromptCaption%CRLF@SPPromptOptions}
+  } {
+   #Sub {@SPPromptCaption@SPPromptOptions}
+  }
  }
 } {ShowSPPrompt}
