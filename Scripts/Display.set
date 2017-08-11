@@ -1,81 +1,70 @@
-; Display.set
-; 
-; This file contains the routines for routing text to the different virtual displays.
-; 
-; VD:
-; This alias exists to show or hide each display, and takes a number as the argument, which must
-; be between 1 and the total number of allowed displays (see Conf Display).
-
 #Alias VD {
+ #If {%Length(%1)=0 and %2="SPPrompt"} {
+  msplay General\Misc\Cancel@Ext;
+  #Say {Aborted.} NoVoice;
+  #Abort
+ };
  #Var NumberOfDisplays {%NumWords(@VirtualDisplays,|)};
- #If {%IsNumber(%1)=1} {
-  #If {%1<1 or %1>@NumberOfDisplays} {
-   ConfPrint {Number out of range. @NumberOfDisplays virtual displays are currently implemented.}
-  } {
-   #If {@{HideDisplay%1}<>1} {#Var {HideDisplay%1} {1}} {#Var {HideDisplay%1} {0}};
-   ConfPrint {Now %If(@{HideDisplay%1}=1,hiding,showing) Virtual Display %1: %Word(@VirtualDisplays,|,%1)}
-  }
- } {
-  #If {%IsNumber(%2)=1} {
-   #If {%2<1 or %2>@NumberOfDisplays} {
-    #If {%2=0} {
-     #UnVar NumberOfDisplays;
-     #Alarm 0 {ConfSaveAll};
-     #Abort All
-    } {
-     #Say {Number out of range. @NumberOfDisplays virtual displays are currently implemented.}
-    }
+ #Var vdError {};
+ #Var vdSuccess {};
+ #If {%Length(%1)>0} {
+  #If {%IsNumber(%1)=1} {
+   #If {%1<1 or %1>@NumberOfDisplays} {
+    #Var vdError {Number out of range. @NumberOfDisplays virtual displays are currently implemented.}
    } {
-    #If {@{HideDisplay%2}<>1} {#Var {HideDisplay%2} {1}} {#Var {HideDisplay%2} {0}};
-    #Say {Now %If(@{HideDisplay%2}=1,hiding,showing) Virtual Display %2: %Word(@VirtualDisplays,|,%2)}
-   }
-  };
-  #Var DisplayTmp1 0;
-  #Var DisplayTmp2 {};
-  #Var DisplayTmp3 {};
-  #Var HiddenDisplays 0;
-  #While {@DisplayTmp1<@NumberOfDisplays} {
-   #Math DisplayTmp1 {@DisplayTmp1 + 1};
-   #If {@{HideDisplay@{DisplayTmp1}}=1} {
-    #Var DisplayTmp3 {%Replace(@{Display@{DisplayTmp1}Filter},~",~%0x22~%)};
-    #Var DisplayTmp3 {%Replace(@DisplayTmp3,~~,~%0x7e~%)};
-    #If {@DisplayTmp3="*"} {
-     #Var DisplayTmp3 {hidden.}
+    #Var {HideDisplay%1} {%If(Not @{HideDisplay%1},1,0)};
+    #If {%2="SPPrompt"} {
+     #Var vdSuccess {Now %If(@{HideDisplay%1}=1,hiding,showing) it.}
     } {
-     #Var DisplayTmp3 {hidden (when matching with: @{Display@{DisplayTmp1}Filter}).}
+     #Var vdSuccess {Now %If(@{HideDisplay%1}=1,hiding,showing) Virtual Display %1: %Word(@VirtualDisplays,|,%1).}
+    }
+   }
+  } {
+   #Var vdTmp1 {%Pos(|%1,|@VirtualDisplays)};
+   #If {@vdTmp1=0} {
+    #Var vdError {Couldn't find that virtual display.}
+   } {
+    #Var vdTmp1 {%Copy(@VirtualDisplays,1,@vdTmp1)};
+    #Var vdTmp1 {%NumWords(@vdTmp1,|)};
+    #Var {HideDisplay@vdTmp1} {%If(Not @{HideDisplay@vdTmp1},1,0)};
+    #Var vdSuccess {Now %If(@{HideDisplay@vdTmp1}=1,hiding,showing) %Word(@VirtualDisplays,|,@vdTmp1).}
+   }
+  }
+ };
+ #If {%Length(@vdSuccess)>0} {#Say {@vdSuccess}};
+ #If {%Length(@vdError)>0} {#Say {@vdError}};
+ #If {%Length(%1)=0 or %2="SPPrompt"} {
+  #Var vdTmp1 0;
+  #Var vdTmp2 {};
+  #Var vdTmp3 {};
+  #Var HiddenDisplays 0;
+  #While {@vdTmp1<@NumberOfDisplays} {
+   #Math vdTmp1 {@vdTmp1 + 1};
+   #If {@{HideDisplay@vdTmp1}=1} {
+    #Var vdTmp3 {%Replace(@{Display@{vdTmp1}Filter},~",~%0x22~%)};
+    #Var vdTmp3 {%Replace(@vdTmp3,~~,~%0x7e~%)};
+    #If {@vdTmp3="*"} {
+     #Var vdTmp3 {hidden.}
+    } {
+     #Var vdTmp3 {hidden (when matching with: @{Display@{vdTmp1}Filter}).}
     };
     #Math HiddenDisplays {@HiddenDisplays + 1}
    } {
-    #Var DisplayTmp3 {visible.}
+    #Var vdTmp3 {visible.}
    };
-   #Var DisplayTmp2 {@DisplayTmp2[@DisplayTmp1] %Word(@VirtualDisplays,|,@DisplayTmp1): @DisplayTmp3%CRLF}
+   #Var vdTmp2 {@vdTmp2[@vdTmp1] %Word(@VirtualDisplays,|,@vdTmp1): @vdTmp3%CRLF}
   };
-  #Var DisplayTmp2 {@{DisplayTmp2}[0] Finish.%{CRLF}  Hidden displays: @HiddenDisplays.};
-  #Say {vd menu } Entry|NoReturn;
-  ConfPrint {@DisplayTmp2};
-  #UnVar DisplayTmp1;
-  #UnVar DisplayTmp2;
-  #UnVar DisplayTmp3;
+  #Var vdTmp2 {@vdTmp2    Hidden displays: @HiddenDisplays.};
+  SPPrompt {} {@vdTmp2} {VD} {SPPrompt};
+  #UnVar vdTmp2;
+  #UnVar vdTmp3;
   #UnVar HiddenDisplays
  };
+ #UnVar vdError;
+ #UnVar vdSuccess;
+ #UnVar vdTmp1;
  #UnVar NumberOfDisplays
 } {}
-
-; DisplayPrint:
-; Syntax:
-; DisplayPrint <Display> {<Text>}
-; 
-; So like:
-; DisplayPrint 1 {Some text for the first Virtual Display.} {the raw input, that is used for filters.}
-; 
-; The result is stored in @DisplayString.
-; 
-; Here's a more involved example:
-; #Trigger {Some text.} {
-;  ExpPipe {%0} {Some} {Text};
-;  DisplayPrint 1 {@ExpString} {%0};
-;  #sub @DisplayString
-; } {Main}
 
 #Alias DisplayPrint {
  #Var DisplayString {%2};

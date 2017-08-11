@@ -227,7 +227,7 @@ Extras|
  };
  #If {@oobTmp1=*"soundpack echo | *"} {
   #If {%Defined(SPPromptAwaitingUserInput)=1} {
-   #Exec {#Alarm 0 {SPPrompt Disable;@SPPromptCallback {%Copy(%1,18,%Eval(%Length(%1)-17))}}}
+   #Exec {#Alarm 0 {SPPrompt Disable;@SPPromptCallback {%Copy(%1,18,%Eval(%Length(%1)-17))} {@SPPromptCallbackLastArg}}}
   } {
    msplay General\Misc\Cancel@Ext
   }
@@ -589,6 +589,7 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
    #Var SPPromptOptions {%2}
   };
   #Var SPPromptCallback {%3};
+  #Var SPPromptCallbackLastArg {%4};
   #UnVar SPPromptAwaitingUserInput;
   #Class ShowSPPrompt Enable;
   #Conf DisplayCommandsInOutput False;
