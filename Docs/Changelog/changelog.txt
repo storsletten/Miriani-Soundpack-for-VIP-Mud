@@ -1,3 +1,6 @@
+Version 5.6.9, released 2017-08-11:
+* Fixed more incorrect sound paths for certain salvager sounds. Thanks again, Daryk.
+
 Version 5.6.8, released 2017-08-11:
 * Fixed a few incorrect paths to salvage sounds. Thanks Daryk Karlsen for reporting this.
 
