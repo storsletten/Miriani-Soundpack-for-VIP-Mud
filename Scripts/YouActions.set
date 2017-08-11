@@ -300,7 +300,7 @@ press your hand against a door sensor^
 |
 feel the pull of acceleration as the craft navigates through the atmosphere.^
  #Gagline 1 ALL;
- msplay salvagemove~@Ext
+ msplay Atmo\Salvagemove~@Ext
 |
 climb out of the vehicle.^
  #class ACVMoveMode disable;
@@ -390,11 +390,11 @@ pull on a small lever, but it seems to be stuck in the ON position. You fear any
 |
 feel the pull of acceleration as the ship begins descending through the planet's atmosphere.^
  ExpPipe {~%0} {Salvager going down.} {};
- msplay salvagemove~@Ext
+ msplay Atmo\Salvagemove~@Ext
 |
 hear the sounds of the atmospheric scoop activating.^
  ExpPipe {~%0} {Atmospheric scoop activated.} {};
- msplay salvagescoop~@Ext
+ msplay Atmo\Salvagescoop~@Ext
 |
 hear a gentle thud as the salvager sets down in the docking bay.^
  msplay General\Misc\SalvagerLands~@Ext;
@@ -534,15 +534,15 @@ instruct the computer to calculate the distance between your current galactic co
 |
 are suddenly pressed against your seat as the vehicle is catapulted out of the docking bay.^
  ExpPipe {~%0} {Salvager launched.} {};
- msplay salvagelaunch~@Ext
+ msplay Atmo\Salvagelaunch~@Ext
 |
 feel the pull of acceleration as the ship begins ascending through the planet's atmosphere.^
  ExpPipe {~%0} {Salvager going up.} {};
- msplay salvagemove~@Ext
+ msplay Atmo\Salvagemove~@Ext
 |
 feel the pull of acceleration as the craft navigates through the atmosphere.^
  #Gagline 1 ALL;
- msplay salvagemove~@Ext
+ msplay Atmo\Salvagemove~@Ext
 |
 hear a thunk as a chunk of charged weapons-grade bardenium is fired from the ship's cannons.^
  mwplay Ship\Combat\Cannon*10~@Ext;
