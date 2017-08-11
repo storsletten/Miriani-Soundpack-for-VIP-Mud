@@ -585,17 +585,16 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
    #Exec {>SPPrompt%RTrim( %0)}
   }
  } {
-  #If {%Pos(:,%1)=1} {
-   #Var SPPromptCaption {%Copy(%1,2,%Eval(%Length(%1)-1))}
-  } {
-   #Say {%1};
-   #Var SPPromptCaption {}
+  #Var SPPromptTmp1 {%Pos(:,%1)};
+  #If {@SPPromptTmp1=1} {#Var SPPromptCaption {%Copy(%1,2,%Eval(%Length(%1)-1))}} {#Var SPPromptCaption {%1}};
+  #If {%Length(@SPPromptCaption)>0} {
+   #If {%IfWord(%Right(@SPPromptCaption,1),. : ! ?, )=0} {#Var SPPromptCaption {@SPPromptCaption:}};
+   #If {@SPPromptTmp1<>1} {
+    #Say {  @SPPromptCaption};
+    #Var SPPromptCaption {}
+   }
   };
-  #If {%Right(%2,2)=%CRLF} {
-   #Var SPPromptOptions {%Copy(%2,1,%Eval(%Length(%2)-2))}
-  } {
-   #Var SPPromptOptions {%2}
-  };
+  #If {%Right(%2,2)=%CRLF} {#Var SPPromptOptions {%Copy(%2,1,%Eval(%Length(%2)-2))}} {#Var SPPromptOptions {%2}};
   #If {%Pos(:,%3)=1} {
    #Var SPPromptAcceptBlankUserInput 1;
    #Var SPPromptCallback {%Copy(%3,2,%Eval(%Length(%3)-1))}
@@ -604,6 +603,7 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
    #Var SPPromptCallback {%3}
   };
   #Var SPPromptCallbackLastArg {%4};
+  #UnVar SPPromptTmp1;
   #UnVar SPPromptAwaitingUserInput;
   #Class ShowSPPrompt Enable;
   #Conf DisplayCommandsInOutput False;
@@ -619,7 +619,7 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  } {
   #Var SPPromptAwaitingUserInput 1;
   #If {%Length(@SPPromptCaption)>0 and %Length(@SPPromptOptions)>0} {
-   #Sub {@SPPromptCaption%CRLF@SPPromptOptions}
+   #Sub {  @SPPromptCaption%CRLF@SPPromptOptions}
   } {
    #Sub {@SPPromptCaption@SPPromptOptions}
   }
