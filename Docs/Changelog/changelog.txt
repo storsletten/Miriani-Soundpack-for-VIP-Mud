@@ -1,3 +1,6 @@
+Version 5.6.12, released 2017-08-11:
+* For 2.0: The RoomSounds command uses secho now.
+
 Version 5.6.11, released 2017-08-11:
 * For 2.0: The BufferConfig command now uses secho instead of command prefix in the entry window.
 
