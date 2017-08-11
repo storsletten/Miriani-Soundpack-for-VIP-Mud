@@ -17,7 +17,7 @@ msplay Ship\misc\hatchenter@Ext} {Main}
 #Trigger {A gust of atmospheric wind suddenly buffets the ship*} {msplay ship\misc\wind@Ext} {Main}
 #Trigger {The vehicle suddenly hits a pocket of fierce wind*} {msplay ship\misc\wind@Ext} {Main|Vehicle}
 #TRIGGER {The vehicle carefully maneuvers into the docking bay.} {
- msplay General\Misc\SalvagerReturns@Ext;
+ msplay Atmo\SalvagerReturns@Ext;
  #gagline 1 all
 } {Main|Vehicle}
 #TRIGGER {The vehicle begins slowly gliding through the atmosphere, occasionally firing thrusters to ensure it stays on course.} {

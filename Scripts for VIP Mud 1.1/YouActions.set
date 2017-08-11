@@ -393,7 +393,7 @@ hear the sounds of the atmospheric scoop activating.^
  msplay Atmo\Salvagescoop~@Ext
 |
 hear a gentle thud as the salvager sets down in the docking bay.^
- msplay General\Misc\SalvagerLands~@Ext;
+ msplay Atmo\SalvagerLands~@Ext;
  ExpPipe {~%0} {The salvager has landed.} {}
 |
 finish spraying, noting that the vehicle looks to be in perfect order again.^
