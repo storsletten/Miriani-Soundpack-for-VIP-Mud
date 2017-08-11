@@ -227,7 +227,13 @@ Extras|
  };
  #If {@oobTmp1=*"soundpack echo | *"} {
   #If {%Defined(SPPromptAwaitingUserInput)=1} {
-   #Exec {#Alarm 0 {SPPrompt Disable;@SPPromptCallback {%Copy(%1,18,%Eval(%Length(%1)-17))} {@SPPromptCallbackLastArg}}}
+   #If {@SPPromptAcceptBlankUserInput=1 or %Length(%1)>17} {
+    #Exec {#Alarm 0 {SPPrompt Disable;@SPPromptCallback {%Copy(%1,18,%Eval(%Length(%1)-17))} {@SPPromptCallbackLastArg}}}
+   } {
+    msplay General\Misc\Cancel@Ext;
+    #Say {Aborted.} NoVoice;
+    SPPrompt Disable
+   }
   } {
    msplay General\Misc\Cancel@Ext
   }
@@ -571,24 +577,32 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
    #UnVar SPPromptCaption;
    #UnVar SPPromptOptions;
    #UnVar SPPromptCallback;
+   #UnVar SPPromptCallbackLastArg;
    #UnVar SPPromptAwaitingUserInput;
+   #UnVar SPPromptAcceptBlankUserInput;
    #Class ShowSPPrompt Disable
   } {
    #Exec {>SPPrompt%RTrim( %0)}
   }
  } {
   #If {%Pos(:,%1)=1} {
-   #Say {%Copy(%1,2,%Eval(%Length(%1)-1))};
-   #Var SPPromptCaption {}
+   #Var SPPromptCaption {%Copy(%1,2,%Eval(%Length(%1)-1))}
   } {
-   #Var SPPromptCaption {%1}
+   #Say {%1};
+   #Var SPPromptCaption {}
   };
   #If {%Right(%2,2)=%CRLF} {
    #Var SPPromptOptions {%Copy(%2,1,%Eval(%Length(%2)-2))}
   } {
    #Var SPPromptOptions {%2}
   };
-  #Var SPPromptCallback {%3};
+  #If {%Pos(:,%3)=1} {
+   #Var SPPromptAcceptBlankUserInput 1;
+   #Var SPPromptCallback {%Copy(%3,2,%Eval(%Length(%3)-1))}
+  } {
+   #Var SPPromptAcceptBlankUserInput 0;
+   #Var SPPromptCallback {%3}
+  };
   #Var SPPromptCallbackLastArg {%4};
   #UnVar SPPromptAwaitingUserInput;
   #Class ShowSPPrompt Enable;

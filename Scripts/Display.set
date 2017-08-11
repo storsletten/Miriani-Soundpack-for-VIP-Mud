@@ -1,9 +1,4 @@
 #Alias VD {
- #If {%Length(%1)=0 and %2="SPPrompt"} {
-  msplay General\Misc\Cancel@Ext;
-  #Say {Aborted.} NoVoice;
-  #Abort
- };
  #Var NumberOfDisplays {%NumWords(@VirtualDisplays,|)};
  #Var vdError {};
  #Var vdSuccess {};
