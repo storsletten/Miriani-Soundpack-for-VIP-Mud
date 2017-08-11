@@ -1,3 +1,6 @@
+Version 5.6.8, released 2017-08-11:
+* Fixed a few incorrect paths to salvage sounds.
+
 Version 5.6.7, released 2017-08-10:
 * Removed some very old and now unused code from the trigger that plays the rel drive start sound.
 
