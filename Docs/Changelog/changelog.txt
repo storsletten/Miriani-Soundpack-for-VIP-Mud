@@ -1,3 +1,7 @@
+Version 5.7.0, released 2017-08-12:
+* For 2.0: A shiny new conf manager has now replaced the old and slow conf manager. I know there are still a few options missing, and I'll keep working on that. But I think the most essential stuff will work nicely. This new conf manager is much much better in terms of performance as well as usability. I also redesigned the keystroke framework. It's much faster too now.
+* For 2.0: Fixed a bug with the secho framework that could potentially cause captions and options to get separated if the timing of other unrelated game output was not so right.
+
 Version 5.6.12, released 2017-08-11:
 * For 2.0: The RoomSounds command uses secho now.
 
