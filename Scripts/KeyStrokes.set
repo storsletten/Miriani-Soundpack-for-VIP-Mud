@@ -1,9 +1,7 @@
-#If {%Defined(KeyStrokesPath)=0} {#Var KeyStrokesPath {@ScriptPath/KeyStrokes}}
-#If {%Defined(KeyStrokeFiles)=0} {#Var KeyStrokeFiles {HistoryReview:History|Misc:Misc|Sound:SoundEngine}}
-; Syntax: Variable:Filename:lang1.lang2...
-; Separate multiple languages with periods.
-; Example: #Var KeyStrokeFiles {Comm:HistoryNumKeys|HistoryReview:HistoryMT|Misc:Misc|Numpad:Numpad:no|Scanning:Scanning|Sound:SoundEngine}
-; Example 2: #Var KeyStrokeFiles {HistoryReview:History|Misc:Misc|Numpad:Numpad:de|Scanning:Scanning|Sound:SoundEngine}}
+#If {@LoadHistoryReviewKeys=1} {#Class HistoryReviewKeys Enable} {#Class HistoryReviewKeys Disable}
+#If {@LoadMiscKeys=1} {#Class MiscKeys Enable} {#Class MiscKeys Disable}
+#If {@LoadSoundKeys=1} {#Class SoundKeys Enable} {#Class SoundKeys Disable}
+#If {@ExcludeAltGRNumrow=0} {#Class AltGRNumrow Enable} {#Class AltGRNumrow Disable}
 
 #GUnKey Numpad2;
 #GUnKey Numpad4;
@@ -12,18 +10,104 @@
 #GUnKey Numpad8;
 #GUnKey Numpad9
 
-#ForAll @KeyStrokeFiles {
- #If {@{Load%Word(%i,:,1)Keys}=1} {
-  #If {%NumWords(%i,:)=3 and %IfWord(@UserLanguage,%Word(%i,:,3),.)=1} {
-   #Load {@KeyStrokesPath\%Word(%i,:,2)-@UserLanguage.set}
+#Var LastReviewKeyPressed {}
+#Alias ReviewKeyPressed {
+ #If {%IsNumber(%2)=1} {
+  #If {%NumWords(@BuffersForReview,~,)<%2} {
+   Speech Stop;
+   #Say {The list of review buffers must have more items than just %2 for this to work. Please see conf history.};
+   #Abort All
   } {
-   #Load {@KeyStrokesPath\%Word(%i,:,2).set}
+   #Var ReviewKeyTmp2 {%Word(@BuffersForReview,~,,%2)}
   }
  } {
-  #If {%NumWords(%i,:)=3 and %IfWord(@UserLanguage,%Word(%i,:,3),.)=1} {
-   #Unload {@KeyStrokesPath\%Word(%i,:,2)-@UserLanguage.set}
-  } {
-   #Unload {@KeyStrokesPath\%Word(%i,:,2).set}
-  }
+  #Var ReviewKeyTmp2 {%2}
+ };
+ #If {@LastReviewKeyPressed=%1} {
+  #Var ReviewKeyTmp1 {Copy};
+  #Var LastReviewKeyPressed {}
+ } {
+  #Var ReviewKeyTmp1 {Say};
+  #Var LastReviewKeyPressed %1;
+  #If {%NumWords(@HistoryTimeout,.)<>2 or %IsNumber(%Replace(@HistoryTimeout,.,))=0} {
+   #Var HistoryTimeout {0.25}
+  };
+  #Exec {#Alarm {%Replace(@HistoryTimeout,.,@DecimalChar)} {#If {~@LastReviewKeyPressed="%1"} {#Var LastReviewKeyPressed {}}}}
+ };
+ History {@ReviewKeyTmp1} {@ReviewKeyTmp2} {%3};
+ #UnVar ReviewKeyTmp1;
+ #UnVar ReviewKeyTmp2
+} {HistoryReviewKeys}
+
+#Key {Control-E} {history switch forward} {HistoryReviewKeys}
+#Key {Control-Shift-E} {history switch back} {HistoryReviewKeys}
+#Key {Control-Q} {history back} {HistoryReviewKeys}
+#Key {Control-W} {history forward} {HistoryReviewKeys}
+#Key {Shift-Control-Q} {history back all} {HistoryReviewKeys}
+#Key {Shift-Control-W} {history forward all} {HistoryReviewKeys}
+#key {Alt-Control-Shift-E} {history copy {@CurrentHistoryBuffer}} {HistoryReviewKeys}
+#Key {Alt-Control-Shift-Q} {history copy {@CurrentHistoryBuffer} {@CurrentHistoryBufferPosition} 1} {HistoryReviewKeys}
+#Key {Alt-Control-Shift-W} {history copy {@CurrentHistoryBuffer} {@CurrentHistoryBufferPosition}} {HistoryReviewKeys}
+
+#10 {
+ #If {%i=10} {
+  #Var ReviewKeyNumber 0
+ } {
+  #Var ReviewKeyNumber %i
+ };
+ #Exec {
+  #Key {Alt-@ReviewKeyNumber} {ReviewKeyPressed {Alt-@ReviewKeyNumber} {1} %i} {HistoryReviewKeys};
+  #Key {Alt-Shift-@ReviewKeyNumber} {ReviewKeyPressed {Alt-Shift-@ReviewKeyNumber} {2} %i} {HistoryReviewKeys};
+  #Key {Control-@ReviewKeyNumber} {ReviewKeyPressed {Control-@ReviewKeyNumber} {~@CurrentHistoryBuffer} %i} {HistoryReviewKeys};
+  #Key {Control-Shift-@ReviewKeyNumber} {ReviewKeyPressed {Control-Shift-@ReviewKeyNumber} {3} %i} {HistoryReviewKeys};
+  #Key {Alt-Control-@ReviewKeyNumber} {ReviewKeyPressed {Alt-Control-@ReviewKeyNumber} {4} %i} {HistoryReviewKeys|AltGRNumrow};
+  #Key {Alt-Control-Shift-@ReviewKeyNumber} {ReviewKeyPressed {Alt-Control-Shift-@ReviewKeyNumber} {5} %i} {HistoryReviewKeys}
  }
 }
+#UnVar ReviewKeyNumber
+
+#Key {Shift-Control-Backspace} {
+ #var InterruptOnCoords {%Eval(NOT @InterruptOnCoords)};
+ #say {Coords %If(@InterruptOnCoords=1,first,normal).}
+} {MiscKeys}
+#Key {Alt-Backspace} {#var InterruptOnFollow {%eval(NOT @InterruptOnFollow)};
+#say {Interrupt on follow %if(@InterruptOnFollow = 1,enabled,disabled).}} {MiscKeys}
+#Key {Control-Backspace} {conf numbers} {MiscKeys}
+#Key {Control-F12} {gageverything} {MiscKeys}
+#Key {Alt-Control-Backspace} {Conf Speech InterruptOnRoom} {MiscKeys}
+#ForAll 9|10|11|12 {
+ #Exec {#Key {Control-Alt-F%I} {VD %Eval(%I - 8)} {MiscKeys}}
+}
+#Key {Control-Alt-Shift-Backspace} {
+ #Var FlipMovementKeystrokes {%Eval(@FlipMovementKeystrokes=0)};
+ #say {Movement keystrokes %If(@FlipMovementKeystrokes=1,flipped,standard).}
+} {MiscKeys}
+
+#Key {F11} {MasterMute} {SoundKeys}
+#Key {F9} {SetMasterVolume down} {SoundKeys}
+#Key {F10} {SetMasterVolume up} {SoundKeys}
+#key shift-f11 {roomsounds 1} {SoundKeys}
+#Key {Shift-Alt-F11} {#if {@ThemeMusic <> 0} {
+thememusicfadeout;
+#var ThemeMusic 0;
+} {
+#var ThemeMusic 1};
+#say {Theme music %if(@ThemeMusic = 1,enabled,disabled).}} {SoundKeys}
+#Key {Shift-Control-Alt-F9} {#if {%Mp3Loop > 0 AND @FadeOut = 0} {
+#if {@ThemeSoundVolumeDiff < @Vol} {
+#math ThemeSoundVolumeDiff {@ThemeSoundVolumeDiff + 5}
+} {
+#var ThemeSoundVolumeDiff @Vol
+};
+setthememusicvolume;
+#say {@ThemeVol per cent.} voiceonly}} {SoundKeys}
+#Key {Shift-Control-Alt-F10} {#if {%Mp3Loop > 0 AND @FadeOut = 0} {
+#if {@ThemeSoundVolumeDiff > %eval(@Vol - 100)} {
+#math ThemeSoundVolumeDiff {@ThemeSoundVolumeDiff - 5}
+} {
+#var ThemeSoundVolumeDiff {%eval(@Vol - 100)}
+};
+setthememusicvolume;
+#say {@ThemeVol per cent.} voiceonly}} {SoundKeys}
+#Key {Shift-Control-F12} {mtplay} {SoundKeys}
+#Key {Shift-Control-Alt-F12} {thememusicfadeout} {SoundKeys}

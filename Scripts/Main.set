@@ -25,6 +25,7 @@ AtSa|
 CameraFeed|
 Combat|
 Communication|
+ConfManagerMenus|
 Devices|
 Display|
 History|
@@ -83,7 +84,6 @@ Extras|
   };
   #Load {@ScriptPath\Variables.set};
   #Load {%CharInfo(MudName)\Variables.set};
-  #Load {@ScriptPath\ConfObjects\Main.set};
   #Load {@ScriptPath\ConfManager.set};
   #If {@PassThru=1} {#Conf ExpandCommandLineVars False};
   #Conf DisplayCommandsInOutput False;
