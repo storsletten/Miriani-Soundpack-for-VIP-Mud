@@ -159,7 +159,7 @@ RandomiseCombatPan|B
 RandomisePlay|B
 }
 
-#Var ConfMenuRoomSounds {Room sounds configuration:
+#Var ConfMenuRoomSounds {Room sound configuration:
 [1] Room sounds  [~%If(~@RoomSounds=1,On,Off)]. (Shift F11).
 [2] Room sounds volume offset  [~@{RoomSoundsVolumeDiff}~~~%].
 [3] Room sounds for discovered planets in uncharted space  [~%If(~@PlanetSounds=1,On,Off)].

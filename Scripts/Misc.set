@@ -394,8 +394,6 @@ msplay General\Misc\LeftPerson@Ext
    };
    #UnVar DisconnectedPlayers;
    #UnVar NewConnectedPlayers
-  } {
-   #Var WhoData {@WhoData%{CRLF}This is the first check since last time the soundpack was loaded.}
   };
   #Var WhoTmp1 {%Sort(@ConnectedPlayers,0)};
   #Var WhoData {@WhoData%{CRLF}@WhoOriginalHeader%{CRLF}%Replace(@WhoTmp1,|,@WhoTmp2).};
@@ -407,7 +405,11 @@ msplay General\Misc\LeftPerson@Ext
  } {
   #Class StartReadingWhoList Enable;
   #Exec {>who};
-  #Say {Checking...};
+  #If {%Defined(LastConnectedPlayers)=1} {
+   #Say {Checking...}
+  } {
+   #Say {This is the first check since the soundpack was loaded.}
+  };
   #Conf DisplayCommandsInOutput False;
   #Exec {>#$#soundpack_ping};
   #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
