@@ -1,3 +1,6 @@
+Version 5.7.1, released 2017-08-13:
+* For 2.0: More performance improvements. Removed the menus framework since it was just annoying to lots of people, and it was hogging resources even when it was not really in use. And since many menus in Miriani now accepts text input, the menus framework was kind of obsolete at any rate. And finally layed the numpad.set file to rest, since it was consuming resources without being of any use to anyone in the slightest. These changes may cause things to crash that I haven't thought of, so please let me know if you encounter bugs or unexpected oddities.
+
 Version 5.7.0, released 2017-08-12:
 * For 2.0: A shiny new conf manager has now replaced the old and slow conf manager. I know there are still a few options missing, and I'll keep working on that. But I think the most essential stuff will work nicely. This new conf manager is much much better in terms of performance as well as usability. I also redesigned the keystroke framework. It's much faster too now.
 * For 2.0: Fixed a bug with the secho framework that could potentially cause captions and options to get separated if the timing of other unrelated game output was not so right.
