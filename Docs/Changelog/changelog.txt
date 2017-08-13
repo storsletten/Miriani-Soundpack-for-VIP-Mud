@@ -1,3 +1,6 @@
+Version 5.7.2, released 2017-08-13:
+* For 2.0: More performance improvements. Rewrote the extras framework, and it's no longer being the huge resource hog that it used to be. You might even notice a slight performance boost when you enter and exit starships because of this change. Also added the extras menu to the new conf manager.
+
 Version 5.7.1, released 2017-08-13:
 * For 2.0: More performance improvements. Removed the menus framework since it was just annoying to lots of people, and it was hogging resources even when it was not really in use. And since many menus in Miriani now accepts text input, the menus framework was kind of obsolete at any rate. And finally layed the numpad.set file to rest, since it was consuming resources without being of any use to anyone in the slightest. These changes may cause things to crash that I haven't thought of, so please let me know if you encounter bugs or unexpected oddities.
 
