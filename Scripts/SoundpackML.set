@@ -30,9 +30,15 @@
   #If {@AlertOnUpdate=1 or @NewMajorVersion>@MajorVersion} {
    #If {@NewMajorVersion>@MajorVersion} {msplay General\Misc\UpdateAlert@Ext};
    #If {@NewPatchVersion>@PatchVersion} {#Var UpdateTmp1 {There's a patch update available for your soundpack.}};
-   #If {@NewMinorVersion>@MinorVersion} {#Var UpdateTmp1 {There's a minor update available for your soundpack.}};
-   #If {@NewMajorVersion>@MajorVersion} {#Var UpdateTmp1 {There's a major update available for your soundpack.}};
-   #Sub {*** @UpdateTmp1 ***%{CRLF}If you're running the soundpack from the actively maintained shared folder in Dropbox, then you should make sure your Dropbox is up to date and then reconnect to Miriani. If not, you should consider downloading the latest version from:%CRLF%3%{CRLF}The latest version is @NewVersion.%{CRLF}You are currently using version @Version of the @SoundpackName.};
+   #If {@NewMinorVersion>@MinorVersion} {#Var UpdateTmp1 {There is a minor update available for your soundpack.}};
+   #If {@NewMajorVersion>@MajorVersion} {#Var UpdateTmp1 {There is a major update available for your soundpack!}};
+   #Var UpdateTmp1 {*** @UpdateTmp1 ***
+If you're running the soundpack from the actively maintained shared folder in Dropbox, then you should make sure your Dropbox is up to date and then type SPRELOAD or reconnect to Miriani. If not, you should consider downloading the latest version from:
+%3
+The latest version is @NewVersion.
+You are currently using version @Version of the @SoundpackName.};
+   #If {@NewMajorVersion=@MajorVersion} {#Var UpdateTmp1 {@UpdateTmp1%{CRLF}If you don't want to see these update alerts in the future, then you can disable soundpack update notifications in conf gen.}};
+   #Sub {@UpdateTmp1};
    #UnVar UpdateTmp1
   } {
    #GagLine 1 All
@@ -54,9 +60,15 @@
   #If {@AlertOnUpdate=1 or @NewMajorVersion>@MajorVersion} {
    #If {@NewMajorVersion>@MajorVersion} {msplay General\Misc\UpdateAlert@Ext};
    #If {@NewPatchVersion>@PatchVersion} {#Var UpdateTmp1 {There's a patch update available for your soundpack.}};
-   #If {@NewMinorVersion>@MinorVersion} {#Var UpdateTmp1 {There's a minor update available for your soundpack.}};
-   #If {@NewMajorVersion>@MajorVersion} {#Var UpdateTmp1 {There's a major update available for your soundpack.}};
-   #Sub {*** @UpdateTmp1 ***%{CRLF}If you're running the soundpack from the actively maintained shared folder in Dropbox, then you should make sure your Dropbox is up to date and then reconnect to Miriani. If not, you should consider downloading the latest version from:%CRLF%2%{CRLF}The latest version is @NewVersion.%{CRLF}You are currently using version @Version of the @SoundpackName.};
+   #If {@NewMinorVersion>@MinorVersion} {#Var UpdateTmp1 {There is a minor update available for your soundpack.}};
+   #If {@NewMajorVersion>@MajorVersion} {#Var UpdateTmp1 {There is a major update available for your soundpack!}};
+   #Var UpdateTmp1 {*** @UpdateTmp1 ***
+If you're running the soundpack from the actively maintained shared folder in Dropbox, then you should make sure your Dropbox is up to date and then type SPRELOAD or reconnect to Miriani. If not, you should consider downloading the latest version from:
+%2
+The latest version is @NewVersion.
+You are currently using version @Version of the @SoundpackName.};
+   #If {@NewMajorVersion=@MajorVersion} {#Var UpdateTmp1 {@UpdateTmp1%{CRLF}If you don't want to see these update alerts in the future, then you can disable soundpack update notifications in conf gen.}};
+   #Sub {@UpdateTmp1};
    #UnVar UpdateTmp1
   } {
    #GagLine 1 All
