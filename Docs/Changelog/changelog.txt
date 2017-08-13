@@ -1,3 +1,6 @@
+Version 5.7.3, released 2017-08-13:
+* For 2.0: Fixed a small but serious bug in the conf extras menu. Cheers Josh for your rapid detection and reporting of this issue!
+
 Version 5.7.2, released 2017-08-13:
 * For 2.0: More performance improvements. Rewrote the extras framework, and it's no longer being the huge resource hog that it used to be. You might even notice a slight performance boost when you enter and exit starships because of this change. Also added the extras menu to the new conf manager.
 
