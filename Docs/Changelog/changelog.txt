@@ -1,3 +1,6 @@
+Version 5.7.7, released 2017-08-13:
+* For 2.0: Rewrote the social toggles and implemented it into the new conf manager. It's all in conf socials. Let me know if something doesn't work as expected.
+
 Version 5.7.6, released 2017-08-13:
 * Made a few modifications to the soundpack update notifications.
 * For 2.0: Improved overall performance by moving a bunch of code into a Development extra. There's no need for the soundpack to load development routines for everyone.
