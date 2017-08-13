@@ -25,7 +25,6 @@ AtSa|
 CameraFeed|
 Combat|
 Communication|
-ConfManagerMenus|
 Devices|
 Display|
 History|
@@ -52,6 +51,7 @@ SoundpackML|
 YouActions|
 YouActionsW|
 Extras|
+ConfManagerMenus|
 }
 
 ; VIP Mud config overrides:

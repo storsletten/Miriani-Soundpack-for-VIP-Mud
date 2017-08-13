@@ -1,4 +1,4 @@
-#Var ConfObjVer 584
+#Var ConfObjVer 585
 #If {%Defined(ObjVer)=0} {#Var ObjVer 0}
 
 #Var IgnoredConfOptionVars {
@@ -25,9 +25,10 @@ PlayWhenThwarted:0
 AlertOnPlayers:0
 PlayStartupMusic:1
 AutoLogin:1
-CommandEcho:1
 BypassLoginMenu:0
 AutoSave:1
+CommandEcho:1
+ShowStats:0
 KeepAlive:120
 KeepAliveRespond:0
 SaveOnIdle:1
@@ -95,18 +96,18 @@ PlaySoundsOnPipe:1
 SpeakWhenPossible:0
 FlipSectorInfo:0
 MuteAlertContSounds:0
-MutePraelorIsEnemySound:0
+MutePraelorIsEnemySound:1
 PatternFormatString:[$NAME]: $PATTERN. Now at ($COORDS)
-EnhancedAimSoundSystem:0
+EnhancedAimSoundSystem:1
 ClassDependant:0
 WakeOnRed:0
 GagDontUnderstandMessages:0
 NoDescString:You see nothing special.
 GagRoidDesc:0
 Surveying:0
-GagSaveOnIdle:0
+GagSaveOnIdle:1
 InterruptOnCoords:0
-GagExtraLoads:0
+GagExtraLoads:1
 PointUnitOutputString:You access $UNIT and note you have $LP license points and $CP combat points.$CRLFYou have acquired $DIFFLP license points and $DIFFCP combat points since last check.
 ShowPointsOOLS:0
 Silent:0
@@ -160,10 +161,7 @@ SCGCList:Sector 15. Miriani:-603126, 40, 507
 ShowGalcoords:1
 SendCommandDirectly:1
 UseSMStyle:0
-ConfShowMenus:0
 ConfEchoMode:0
-AutoFill:1
-ShowStats:0
 LogHistory:0
 HistoryLoggingInterval:100
 LoadSoundKeys:1
@@ -174,12 +172,17 @@ UserLanguage:EN
 PassThru:0
 NumberOfConnections:0
 MoveMarkers:Ship:Marker
+LoadExtraScriptCannons:0
+LoadExtraScriptDig:0
+LoadExtraScriptArchaeologyHelper:0
+LoadExtraScriptBooks:0
+LoadExtraScriptGagDig:0
+LoadExtraScriptBlades:0
+LoadExtraScriptScanningEnhancements:0
+LoadExtraScriptTyping:0
 ArchaeologyHelperCountArtifacts:1
 ArchaeologyHelperStoreFromCount:1
-NumpadMode:1
 }
-
-#Load {@ScriptPath\ConfManagerMenus.set}
 
 #Alias ConfOpenMenu {
  #If {%Length(%1)=0} {

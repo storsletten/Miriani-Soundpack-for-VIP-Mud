@@ -18,9 +18,10 @@ save:Conf:Save
 [12] Point unit options.
 [13] Speech and interrupts.
 [14] Advanced configuration.
-[15] Conf Manager.
-[16] Log options.
-[17] Soundpack documentation.
+[15] Extras.
+[16] Conf Manager.
+[17] Log options.
+[18] Soundpack documentation.
 %Chr(250)
 General
 Gag
@@ -36,6 +37,7 @@ Lore
 PointUnit
 Speech
 Advanced
+Extras
 Conf
 Logs
 Docs
@@ -95,7 +97,7 @@ AlertOnUpdate|B
 [11] Surveying mode (for use with mineral scanners)  [~%Case(~%Eval(~@Surveying+1),Off,Surveying,Review)].
 [12] Gag save messages when idle  [~%If(~@GagSaveOnIdle=1,On,Off)].
 [13] Remove all but coordinates from scanning output  [~%If(~@InterruptOnCoords=1,On,Off)]. (Control Shift Backspace).
-[14] Gag loading messages for soundpack extras  [~%If(~@GagExtraLoads=1,On,Off)].
+[14] Gag load messages for soundpack extras  [~%If(~@GagExtraLoads=1,On,Off)].
 %Chr(250)
 GagEverything|E::GagEverything
 WakeOnRed|B
@@ -246,13 +248,15 @@ Backup|E::#Say {Not yet implemented.}
 RestoreFromBackup|E::#Say {Not yet implemented.}
 }
 
-#Var ConfMenuVD {Virtual displays:}
+#Var ConfMenuVD {Virtual displays:
+}
 #Var ConfTmp1 0
-#Var ConfTmp2 {%Chr(250)}
+#Var ConfTmp2 {%Chr(250)
+}
 #ForAll {@VirtualDisplays} {
  #Math ConfTmp1 {@ConfTmp1+1};
- #Var ConfMenuVD {@ConfMenuVD%CRLF[@ConfTmp1] %i  [~%If(~@HideDisplay@ConfTmp1=1,hidden,not hidden)].};
- #Var ConfTmp2 {@ConfTmp2%{CRLF}VD@ConfTmp1|M};
+ #Var ConfMenuVD {@ConfMenuVD[@ConfTmp1] %i  [~%If(~@HideDisplay@ConfTmp1=1,hidden,not hidden)].%CRLF};
+ #Var ConfTmp2 {@{ConfTmp2}VD@ConfTmp1|M%CRLF};
  #Var {ConfMenuVD@ConfTmp1} {Options for Virtual Display @ConfTmp1, %i:
 [1] Hide  [~%If(~@HideDisplay@ConfTmp1=1,On,Off)].
 [2] Filter string  [~@Display@{ConfTmp1}Filter].
@@ -264,8 +268,7 @@ Display@{ConfTmp1}Filter|S
 Display@{ConfTmp1}GagType|C:Voice,Don't speak^Display,Don't show in output window^All,Don't speak or show in output window
 Display@{ConfTmp1}VolumeDiff|N:-100^100
 }}
-#Var ConfMenuVD {@ConfMenuVD%CRLF@ConfTmp2%CRLF}
-#2 {#UnVar {ConfTmp%i}}
+#Var ConfMenuVD {@ConfMenuVD@ConfTmp2}
 
 #Var ConfMenuDocs {Soundpack documentation:
 [1] View version and contact information (Shift F1).
@@ -448,3 +451,22 @@ ShowGalcoords|B
 SendCommandDirectly|B
 UseSmStyle|B
 }
+
+#Var ConfMenuExtras {Soundpack Extras:
+[1] Reload the extra script files.
+}
+#Var ConfTmp1 1
+#Var ConfTmp2 {%Chr(250)
+LoadExtras|E::LoadExtras {~@ConfOptionValue}
+}
+#ForAll {%Replace(@ExtraScriptFiles,%CRLF,|)} {
+ #If {%Pos(^,%i)>0} {
+  #Math ConfTmp1 {@ConfTmp1+1};
+  #Var ConfTmp3 {%Word(%i,^,1)};
+  #Var ConfMenuExtras {@ConfMenuExtras[@ConfTmp1] @ConfTmp3  [~%If(~@LoadExtraScript@ConfTmp3=1,Enabled,Disabled)]. %Word(%i,^,2).%CRLF};
+  #Var ConfTmp2 {@{ConfTmp2}LoadExtraScript@ConfTmp3|B::LoadExtra {@ConfTmp3}}
+ }
+}
+#Var ConfMenuExtras {@ConfMenuExtras@ConfTmp2}
+
+#3 {#UnVar {ConfTmp%i}}

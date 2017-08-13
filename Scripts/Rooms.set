@@ -280,8 +280,6 @@ Apartment
    #If {@ZoneType="planet"} {#Class Planet Enable} {#Class Planet Disable};
    #If {@ZoneType="station"} {#Class Station Enable} {#Class Station Disable};
    #If {@ZoneType="vehicle"} {#Class Vehicle Enable} {#Class Vehicle Disable};
-   UnsetVariables * Conf0Extras0*;
-   BuildExtrasFramework;
    #If {@OldZoneType="starship" AND %IsNumber(@AlertSoundHandle)=1 AND @AlertSoundHandle>0} {
     #PC @AlertSoundHandle stop;
     #Var AlertSoundHandle 0
