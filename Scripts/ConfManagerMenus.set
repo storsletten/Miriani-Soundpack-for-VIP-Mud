@@ -457,14 +457,14 @@ UseSmStyle|B
 }
 #Var ConfTmp1 1
 #Var ConfTmp2 {%Chr(250)
-LoadExtras|E::LoadExtras {~@ConfOptionValue}
+LoadExtras|E::LoadExtras
 }
 #ForAll {%Replace(@ExtraScriptFiles,%CRLF,|)} {
  #If {%Pos(^,%i)>0} {
   #Math ConfTmp1 {@ConfTmp1+1};
   #Var ConfTmp3 {%Word(%i,^,1)};
   #Var ConfMenuExtras {@ConfMenuExtras[@ConfTmp1] @ConfTmp3  [~%If(~@LoadExtraScript@ConfTmp3=1,Enabled,Disabled)]. %Word(%i,^,2).%CRLF};
-  #Var ConfTmp2 {@{ConfTmp2}LoadExtraScript@ConfTmp3|B::LoadExtra {@ConfTmp3}}
+  #Var ConfTmp2 {@{ConfTmp2}LoadExtraScript@ConfTmp3|B::LoadExtra {@ConfTmp3}%CRLF}
  }
 }
 #Var ConfMenuExtras {@ConfMenuExtras@ConfTmp2}
