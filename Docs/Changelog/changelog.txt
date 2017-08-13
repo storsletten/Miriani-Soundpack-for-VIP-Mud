@@ -1,3 +1,7 @@
+Version 5.7.6, released 2017-08-13:
+* Made a few modifications to the soundpack update notifications.
+* For 2.0: Improved overall performance by moving a bunch of code into a Development extra. There's no need for the soundpack to load development routines for everyone.
+
 Version 5.7.5, released 2017-08-13:
 * For 2.0: Made a little improvement to the whoc command's behavior when it runs for the first time after the soundpack has been loaded.
 
