@@ -79,7 +79,7 @@ ConfManagerMenus|
    #If {%CharInfo(Connected)=1} {#Var Connected 1}
   };
   #Load {@ScriptPath\Variables.set};
-  #Load {%CharInfo(MudName)\Variables.set};
+  #Load {%MudName\Variables.set};
   #Load {@ScriptPath\ConfManager.set};
   #If {@PassThru=1} {#Conf ExpandCommandLineVars False};
   #Conf DisplayCommandsInOutput False;
@@ -92,7 +92,7 @@ ConfManagerMenus|
   #Load {@ScriptPath\SoundEngine.set};
   #If {@LoadTmp1=1 and @PlayStartupMusic=1 and @Silent=0} {
    MirianiSoundPlay {Startup Music} {Music\*63@Ext};
-   #Var StartupMusicHandle %PlayHandle
+   #If {@SoundIsPlaying=1} {#Var StartupMusicHandle %PlayHandle}
   };
   #If {@LoadTmp1<>1} {SPLoad2 {@LoadTmp1}}
  }
@@ -106,15 +106,10 @@ ConfManagerMenus|
  #If {%Replace(@LoadedSoundpackVersion,.,)<>%Replace(@Version,.,)} {
   #Alarm 0 {
    #ForAll {%Replace(@DefaultScriptFiles,%CRLF,)} {
-    #If {%i<>"" and %IfWord(%i,@IgnoredScriptFiles,|)=0} {#Load {@ScriptPath\%i.set}}
+    #If {%Length(%i)>0 and %IfWord(%i,@IgnoredScriptFiles,|)=0} {#Load {@ScriptPath\%i.set}}
    };
-   #Load {%CharInfo(MudName)\Custom.set};
+   #Load {%MudName\Custom.set};
    Speech Set @DefaultSpeechType 1;
-   #If {@ConfVer<>@ConfObjVer} {
-    #Var ConfVer {@ConfObjVer};
-    #Say {Updating your configuration file...};
-    ConfSaveAll
-   };
    msplay Ship\Computer\Beep@Ext;
    #If {@LoadTmp2=0} {
     #Ignore Key Off;
@@ -134,13 +129,6 @@ ConfManagerMenus|
    #Var LoadedSoundpackVersion {@Version}
   }
  } {
-  #If {@ConfVer<>@ConfObjVer} {
-   #Var ConfVer {@ConfObjVer};
-   #Alarm 0 {
-    #Say {Updating your configuration file...};
-    ConfSaveAll
-   }
-  };
   #Alarm 0 {
    #Load {@ScriptPath\Extras.set};
    #Load {@ScriptPath\SocialsToggle.set}

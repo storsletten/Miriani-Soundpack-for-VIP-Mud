@@ -19,8 +19,6 @@ Triggers and extra sounds provided by the retired David Kieran, bringing more li
 #var PerCent {~%}
 #var SpeechTypes {None|Sapi|Jaws|SystemAccess|WindowEyes|NVDA}
 
-#var HistoryLogPath {%MudName/}
-
 #Var GunSoundsPath {General\Combat\Guns}
 #Var DefaultGunSound {GunDefault*2@Ext}
 #Var GunList {
@@ -152,7 +150,6 @@ walks
 }
 
 #if {@SetEntrySpeechOff = 1} {#setspeech entry off}
-#Var ConfFilePath {%MudName/Conf.set}
 #var ChangelogFilePath {/Scripts}
 #var DocsPath {%replace(%replace(@ScriptPath,\,/),@ChangelogFilePath,"")/Docs}
 #var ChangelogFilePath {@DocsPath/Changelog/Changelog.txt}

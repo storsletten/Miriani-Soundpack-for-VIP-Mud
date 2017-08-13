@@ -488,101 +488,71 @@ ArchaeologyHelperStoreFromCount:1
 } {}
 
 #Alias ConfSaveAll {
- #Var ConfTmp6 {#Var ConfVer @ConfObjVer};
- #Var ConfTmp7 {};
+ #Var ConfTmp6 {};
  #ForAll {%Replace(@ConfOptionVars,%CRLF,|)} {
-  #Var ConfTmp7 {%i};
-  #If {%Length(@ConfTmp7)>0} {
-   #Var ConfTmp7 {%Word(@ConfTmp7,:,1)};
+  #If {%Length(%i)>0} {
+   #Var ConfTmp7 {%Word(%i,:,1)};
    #If {%IsNumber(@{@ConfTmp7})=1} {
-    #Var ConfTmp6 {@ConfTmp6
-#Var @ConfTmp7 @{@ConfTmp7}}
+    #Var ConfTmp6 {@ConfTmp6#Var @ConfTmp7 @{@ConfTmp7}%CRLF}
    } {
-    #If {%Length(@{@ConfTmp7})=0 and @AutoFill=1} {
-     #Var @ConfTmp7 {%Word(%i,:,2)}
-    };
-    #Var ConfTmp10 {%Replace(@{@ConfTmp7},~%,~~~%)};
-    #Var ConfTmp10 {%Replace(@ConfTmp10,~@,~~~@)};
-    #Var ConfTmp10 {%Replace(@ConfTmp10,~{,~~~{)};
-    #Var ConfTmp6 {@ConfTmp6
-#Var @ConfTmp7 {%Replace(@ConfTmp10,~},~~~})}}
+    #Var ConfTmp8 {%Replace(@{@ConfTmp7},~%,~~~%)};
+    #Var ConfTmp8 {%Replace(@ConfTmp8,~@,~~~@)};
+    #Var ConfTmp8 {%Replace(@ConfTmp8,~{,~~~{)};
+    #Var ConfTmp6 {@ConfTmp6#Var @ConfTmp7 {%Replace(@ConfTmp8,~},~~~})}%CRLF}
    }
   }
  };
  #If {%Length(@ConfTmp6)=0} {
-  #Say {An error occurred, could not save}
- } {
-  #DelFile {@ConfFilePath};
-  #File 1 {@ConfFilePath};
-  #Write 1 {@ConfTmp6};
-  #Close 1;
-  #Var ConfTmp5 {};
-  #Var ConfTmp6 {};
-  #ForAll {@PreservedVariables|PreservedVariables} {
-   #If {%i<>""} {
-    #Var ConfTmp5 {%Replace(@{%i},~~,~~~~)};
-    #Var ConfTmp5 {%Replace(@ConfTmp5,~@,~~~@)};
-    #Var ConfTmp5 {%Replace(@ConfTmp5,~%,~~~%)};
-    #Var ConfTmp5 {%Replace(@ConfTmp5,~},~~~})};
-    #Var ConfTmp6 {#Var %i {@ConfTmp5}%CRLF@ConfTmp6}
+  #Say {An error occurred, could not save};
+  #Abort
+ };
+ #DelFile {%MudName/Conf.set};
+ #File 1 {%MudName/Conf.set};
+ #Write 1 {@ConfTmp6#Var ConfVer @ConfObjVer};
+ #Close 1;
+ #Var ConfTmp6 {};
+ #ForAll {@PreservedVariables|PreservedVariables} {
+  #If {%Length(%i)>0} {
+   #If {%IsNumber(@{%i})=1} {
+    #Var ConfTmp6 {@ConfTmp6#Var %i @{%i}%CRLF}
+   } {
+    #Var ConfTmp7 {%Replace(@{%i},~~,~~~~)};
+    #Var ConfTmp7 {%Replace(@ConfTmp7,~@,~~~@)};
+    #Var ConfTmp7 {%Replace(@ConfTmp7,~%,~~~%)};
+    #Var ConfTmp6 {@ConfTmp6#Var %i {%Replace(@ConfTmp7,~},~~~})}%CRLF}
    }
-  };
-  #Var ConfTmp5 {%CharInfo(MudName)/Variables.set};
-  #DelFile @ConfTmp5;
-  #File 1 @ConfTmp5;
-  #Write 1 {@ConfTmp6};
-  #Close 1;
-  #If {@LogHistory=1 and %Defined(HistorySoundHandle)=1} {
-   WriteToLogFile
-  };
-  #If {%1<>"1"} {
-   #Say {Settings saved}
   }
- }
+ };
+ #DelFile {%MudName/Variables.set};
+ #File 1 {%MudName/Variables.set};
+ #Write 1 {@ConfTmp6};
+ #Close 1;
+ #If {@LogHistory=1 and %Defined(HistorySoundHandle)=1} {WriteToLogFile};
+ #If {%1<>"1"} {#Say {Settings saved.}}
 } {}
 
-#Alias ConfUpgradeConfFile {
- #If {%Defined(ConfObjVer)=1} {
-  #If {%Defined(ConfVer)=1} {
-   #If {@ConfVer=@ConfObjVer} {
-    #Var ConfTmp10 0
-   } {
-    #Var ConfTmp10 1
-   }
-  } {
-   #Var ConfTmp10 1
-  }
- } {
-  #Say {ConfManager error: ConfManagerObjects are not loaded at this time, unable to verify version compatibility.};
-  #Var ConfTmp10 -1
+#Alias ConfFix {
+ #Var ConfTmp6 1;
+ #If {%IsNumber(@ConfObjVer)=1 and %IsNumber(@ConfVer)=1} {
+  #If {@ConfVer=@ConfObjVer} {#Var ConfTmp6 0}
  };
- #If {@ConfTmp10=1} {
-  #Var ConfTmp6 {};
-  #Var ConfTmp7 {};
-  #Var ConfTmp8 {};
-  #Var ConfTmp9 0;
-  #Var ConfTmp10 2;
-  #ForAll %Replace(@ConfOptionVars,%CRLF,|) {
-   #Var ConfTmp7 {%i};
-   #If {@ConfTmp7<>""} {
-    #If {%NumWords(@ConfTmp7,:)>2} {
-     #Var ConfTmp9 %Pos(:,@ConfTmp7);
-     #Var ConfTmp8 {%Delete(@ConfTmp7,1,@ConfTmp9)};
-     #Var ConfTmp7 {%Left(@ConfTmp7,%Eval(@ConfTmp9-1))}
+ #If {@ConfTmp6=0} {#Abort};
+ #ForAll {%Replace(@ConfOptionVars,%CRLF,|)} {
+  #If {%Length(%i)>0} {
+   #Var ConfTmp6 {%Word(%i,:,1)};
+   #If {%Defined(@ConfTmp6)=0} {
+    #If {%NumWords(%i,:)>2} {
+     #Var {@ConfTmp6} {%Copy(%i,%Eval(%Length(@ConfTmp6)+2),%Eval(%Length(%i)-%Length(@ConfTmp6)-1))}
     } {
-     #Var ConfTmp8 {%Word(@ConfTmp7,:,2)};
-     #Var ConfTmp7 {%Word(@ConfTmp7,:,1)}
+     #Var {@ConfTmp6} {%Word(%i,:,2)}
     };
-    #If {%Defined(@ConfTmp7)=0} {
-     #Var {@ConfTmp7} {%Replace(%Replace(@ConfTmp8,&CRLF;,%CRLF),&SPC;, )}
-    }
+    #Var {@ConfTmp6} {%Replace(%Replace(@{@ConfTmp6},&CRLF;,%CRLF),&SPC;, )}
    }
-  };
-  #Var ConfVer @ConfObjVer;
-  #Say {Attempting to update your configuration file...};
-  ConfSaveAll
- }
-}
+  }
+ };
+ #Var ConfVer @ConfObjVer;
+ #If {%1="1"} {ConfSaveAll 1}
+} {}
 
 #Trigger {What text would you like repeated back to you[?]} {
  #GagLine 2 All
@@ -600,7 +570,8 @@ ArchaeologyHelperStoreFromCount:1
  }
 } {ConfEcho}
 
-#Exec {ConfUpgradeConfFile}
+#Exec {ConfFix}
+
 #Alias {ConfEdit} {#if {@OpenTextExternally = 1} {
 oscript \%1
 } {

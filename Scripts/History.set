@@ -9,7 +9,7 @@
  #ForAll {@HistoryBuffers} {
   #If {%i<>""} {
    #If {@{History%{i}LogBufferEntries}>0} {
-    #Var HistoryLogTmp1 {@HistoryLogPath%Char - %Trim(%Replace(%i,0, )).log};
+    #Var HistoryLogTmp1 {%MudName/%Char - %Trim(%Replace(%i,0, )).log};
     #File 2 {@HistoryLogTmp1};
     #If {%Defined(History%{i}LogInitialization)=1} {
      #Write 2 {.};
