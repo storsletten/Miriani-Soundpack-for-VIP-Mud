@@ -1,3 +1,6 @@
+Version 5.7.4, released 2017-08-13:
+* For 2.0: Removed the option to reload the extras in conf extras, since it would probably never be necessary for anyone to do that.
+
 Version 5.7.3, released 2017-08-13:
 * For 2.0: Fixed a small but serious bug in the conf extras menu. Cheers Josh for your rapid detection and reporting of this issue!
 
