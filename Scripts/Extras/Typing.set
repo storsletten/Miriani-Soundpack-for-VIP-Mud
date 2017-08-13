@@ -47,9 +47,7 @@ Numpad*:Flip,Flip
 ; Alt-\:0,0
 ; }
 
-#Var CRLF {
-}
-#ForAll %Replace(@NumpadTypingKeys,@CRLF,|) {
+#ForAll %Replace(@NumpadTypingKeys,%CRLF,|) {
  #If {%I=*"*:*"} {
   #Exec {
    #Key {%Word(%I,:,1)} {NumpadTyping {~%If(~@NumpadTypingFlip <> 1,%Word(%i,:,2))}} {NumpadTyping}
@@ -119,7 +117,7 @@ Numpad*:Flip,Flip
   #if {%Pos(@NumpadTypingSuccess,@NumpadTypingLetters)=0} {
    #Bell
   } {
-   #Var NumpadTypingSuccess {%Word(%Word(@NumpadTypingLetters,@NumpadTypingSuccess,2),@CRLF,1)}
+   #Var NumpadTypingSuccess {%Word(%Word(@NumpadTypingLetters,@NumpadTypingSuccess,2),%CRLF,1)}
   };
   #If {@NumpadTypingKey<>%1 AND @NumpadTypingLetter<>""} {
    NumpadTypingPrint

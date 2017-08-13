@@ -1,4 +1,4 @@
-#Var ConfObjVer 585
+#Var ConfObjVer 586
 #If {%Defined(ObjVer)=0} {#Var ObjVer 0}
 
 #Var IgnoredConfOptionVars {
@@ -173,6 +173,7 @@ PassThru:0
 NumberOfConnections:0
 MoveMarkers:Ship:Marker
 LoadExtraScriptCannons:0
+LoadExtraScriptDevelopment:0
 LoadExtraScriptDig:0
 LoadExtraScriptArchaeologyHelper:0
 LoadExtraScriptBooks:0

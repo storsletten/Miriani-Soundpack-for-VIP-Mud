@@ -7,6 +7,7 @@ GagDig^Gives you the ability to gag people digging with the GagDig command
 Blades^For those odd people with swords and stuff in a sci-fi game
 ScanningEnhancements^Adds certain scanning enhancements
 Typing^Allows you to type with only one hand, using the number pad
+Development^Contains useful tools for soundpack development
 }
 
 #Alias LoadExtras {

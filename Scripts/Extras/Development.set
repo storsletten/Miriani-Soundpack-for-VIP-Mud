@@ -1,11 +1,16 @@
-; Scripting.set:
-; Version 2.0
-; 
-; Written by Chris Norman
-; 
-; This script file contains several routines
-; to make it easier to deal with scripts, for both
-; players and developers alike.
+#Alias ASCIICharList {
+ #Var ASCIICharList {};
+ #Var ASCIITmp1 {List of ASCII Character Codes:};
+ #255 {
+  #If {%1="" or %Pos(%Chr(%i),%0)>0} {
+   #Var ASCIITmp1 {@ASCIITmp1%CRLF[%i]: %Chr(%i)};
+   #Var ASCIICharList {@ASCIICharList|%Chr(%i):%i}
+  }
+ };
+ ConfPrint {@ASCIITmp1};
+ #UnVar ASCIITmp1;
+ #UnVar ASCIITmp2
+} {}
 
 #var Action {}
 #If {@FileName=""} {
