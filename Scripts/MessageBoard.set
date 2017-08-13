@@ -1,8 +1,4 @@
 #Trigger {Message Board Network - *} {
- #If {@UseMenuAliases=1} {
-  #Var Menu 3;
-  #Var PrecedingMenuAliases {*[!)]}
- };
  MainTrigSwitch -10;
  #If {@InterruptOnBoards=1} {speech stop};
  #Var Board %1;

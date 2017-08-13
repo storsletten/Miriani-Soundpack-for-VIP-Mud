@@ -64,42 +64,11 @@
 } {Comm}
 
 #Trigger {[[]*] *} {
- #Var TmpCommunication1 {%Replace(%1,~~,)};
- #Var TmpCommunication1 {%Replace(@TmpCommunication1,~",)};
  #If {%IsNumber(@TmpCommunication1)=1} {
-  #If {@TmpCommunication1=1} {
-   #If {@Menu>0 and @Menu<4} {
-    #If {@UseMenuAliases=1} {
-     NewMenu
-    } {
-     #Var Menu 0
-    }
-   } {
-    #Var Menu 0
-   }
-  };
-  #If {@UseMenuAliases=1 and @Menu>1} {
-   #Var TmpCommunication2 {%Replace(%2,~~,)};
-   #Var TmpCommunication2 {%Replace(@TmpCommunication2,~",)};
-   #ForAll @PrecedingMenuAliases {
-    #If {@TmpCommunication2=*%i} {
-     #If {@BuildReversedMenuLookupTables=1} {
-      #Var MenuAliases {@TmpCommunication1: @TmpCommunication2|@MenuAliases}
-     } {
-      #Var MenuAliases {@MenuAliases|@TmpCommunication1: @TmpCommunication2}
-     };
-     #Var TmpCommunication1 {}
-    }
-   };
-   #If {@TmpCommunication1<>""} {
-    #If {@BuildReversedMenuLookupTables=1} {
-     #Var MenuAliases2 {@TmpCommunication1: @TmpCommunication2|@MenuAliases2}
-    } {
-     #Var MenuAliases2 {@MenuAliases2|@TmpCommunication1: @TmpCommunication2}
-    }
-   }
-  };
   #Var TmpCommunication1 {}
+ } {
+  #Var TmpCommunication1 {%Replace(%1,~~,)};
+  #Var TmpCommunication1 {%Replace(@TmpCommunication1,~",)}
  };
  #If {@Main<1 or @TmpCommunication1=""} {} {
   #Var TmpCommunication2 {};

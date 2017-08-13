@@ -79,7 +79,7 @@ You have been hit @TotalHitsOnThisShip times.
 Use HitCounter clear to clear these stats.};
 #if {@UseHitCounter=0} {
 #var ShipCombatTmp1 {@ShipCombatTmp1
-Note: You have use hit counter disabled. You can enable this from the Conf Ship menu.}
+Note: You have use hit counter disabled. You can enable this in Conf Ship.}
 };
 ConfPrint {@ShipCombatTmp1}
 }} {}

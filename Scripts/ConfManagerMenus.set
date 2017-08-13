@@ -180,7 +180,7 @@ ThemeFadeOutValue|N:0^100
 }
 
 #Var ConfMenuAdvanced {Advanced options:
-[1] Keystroke configuration.
+[1] Keystrokes.
 [2] Pass special characters directly to the mud  [~%If(~@PassThru=1,On,Off)]. (useful if you are having problems with commands such as ~~~@soundpacks, or ~~~@custom-s).
 %Chr(250)
 Keystrokes|M
@@ -346,24 +346,26 @@ ShowPointsOOLS|B
 #Var ConfMenuShip {Ship options
 [1] Mission configuration.
 [2] Scanning options.
-[3] Relativity drive sound frequency  [~@RelDriveFreq Hz].
-[4] Relativity drive sound volume offset  [~@{RelDriveVolume}~~~%].
-[5] Relativity drive sound style  [~%Case(~@RelDriveStyle,Standard Miriani,Standard Star Conquest,MonkeyTerm)].
-[6] Play a beep when relativity drive starts and stops  [~%If(~@RelDriveBeep=1,On,Off)].
-[7] Gag the name of holographic avatars  [~%If(~@GagAvatars=1,On,Off)]. (only affects experience level 3).
-[8] PA prefix  [~@PaPrefix].
-[9] External PA prefix  [~@ExtPrefix].
-[10] Play sounds when objects are reported via pipe  [~%If(~@PlaySoundsOnPipe=1,On,Off)].
-[11] Play recorded computer messages when possible  [~%If(~@SpeakWhenPossible=1,On,Off)].
-[12] Show ship name first when ships enter and exit sectors  [~%If(~@FlipSectorInfo=1,On,Off)].
-[13] Mute the sounds that play when lights continue to flash during red alert  [~%If(~@MuteAlertContSounds=1,On,Off)].
-[14] Mute the sound that indicates hostile praelor when you scan  [~%If(~@MutePraelorIsEnemySound=1,On,Off)].
-[15] Format string for target patterns  [~@PatternFormatString].
-[16] Enhanced lock alert system  [~%Case(~%Eval(~@EnhancedAimSoundSystem+1),Off,Change lock sound for currently focused target,Mute all lock sounds except for currently focused target)].
-[17] Hit volume depends on praelor ship class  [~%If(~@ClassDependant=1,On,Off)].
+[3] SCGC options.
+[4] Relativity drive sound frequency  [~@RelDriveFreq Hz].
+[5] Relativity drive sound volume offset  [~@{RelDriveVolume}~~~%].
+[6] Relativity drive sound style  [~%Case(~@RelDriveStyle,Standard Miriani,Standard Star Conquest,MonkeyTerm)].
+[7] Play a beep when relativity drive starts and stops  [~%If(~@RelDriveBeep=1,On,Off)].
+[8] Gag the name of holographic avatars  [~%If(~@GagAvatars=1,On,Off)]. (only affects experience level 3).
+[9] PA prefix  [~@PaPrefix].
+[10] External PA prefix  [~@ExtPrefix].
+[11] Play sounds when objects are reported via pipe  [~%If(~@PlaySoundsOnPipe=1,On,Off)].
+[12] Play recorded computer messages when possible  [~%If(~@SpeakWhenPossible=1,On,Off)].
+[13] Show ship name first when ships enter and exit sectors  [~%If(~@FlipSectorInfo=1,On,Off)].
+[14] Mute the sounds that play when lights continue to flash during red alert  [~%If(~@MuteAlertContSounds=1,On,Off)].
+[15] Mute the sound that indicates hostile praelor when you scan  [~%If(~@MutePraelorIsEnemySound=1,On,Off)].
+[16] Format string for target patterns  [~@PatternFormatString].
+[17] Enhanced lock alert system  [~%Case(~%Eval(~@EnhancedAimSoundSystem+1),Off,Change lock sound for currently focused target,Mute all lock sounds except for currently focused target)].
+[18] Hit volume depends on praelor ship class  [~%If(~@ClassDependant=1,On,Off)].
 %Chr(250)
 Missions|M
 Scanning|M
+SCGC|M
 RelDriveFreq|C:22050,Half pitch^44100,Normal pitch^88200,Double pitch
 RelDriveVolume|N:-100^100
 RelDriveStyle|C:Standard Miriani^Standard Star Conquest^MonkeyTerm
@@ -433,4 +435,16 @@ SAPIVoice|N:0^100
 SAPIVolume|N:0^100
 SAPIRate|N:0^100
 SpeakComputerMessagesThroughSAPI|B
+}
+
+#Var ConfMenuSCGC {SCGC configuration:
+[1] Raw list string that holds galcoords for SCGC  [~%If(~%Length(~@SCGCList)=0,0,~%NumWords(~@SCGCList,|)) entries].
+[2] Show galactic coordinates in the SCGC list  [~%If(~@ShowGalcoords=1,On,Off)].
+[3] SCGC sends commands directly to the mud instead of using the entry window  [~%If(~@SendCommandDirectly=1,On,Off)].
+[4] Use the SM filters backend instead of the default CGC one  [~%If(~@UseSmStyle=1,On,Off)].
+%Chr(250)
+SCGCList|S
+ShowGalcoords|B
+SendCommandDirectly|B
+UseSmStyle|B
 }

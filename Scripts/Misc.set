@@ -90,7 +90,6 @@ ConfPrint {Bypass mode %if(@PassThru = 1,enabled,disabled).}
 } {Main}
 #Trigger {Invalid selection.} {
  #Class MessageBoard Disable;
- EndMenu;
  msplay General\Misc\Cancel@Ext
 } {Main}
 #Trigger {That exit appears to be blocked.} {msplay General\Misc\CantGo*5@Ext} {Main}
@@ -118,7 +117,6 @@ msplay General\Misc\Command*10@Ext} {Main}
  #Sub {@ExpString}
 } {Main}
 #Trigger {[[]Type a line of input or [`]~~@abort' to abort the command.]} {
- #If {@Menu>1} {#Var Menu 1};
  #If {@Main=0} {#Abort All};
  #If {@Main<0} {MainTrigSwitch 1};
  msplay General\Misc\prompt@Ext;

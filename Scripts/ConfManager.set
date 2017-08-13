@@ -14,11 +14,6 @@ GagExits:0
 RoundTimeThreshold:1
 GagTreadLine:0
 ExperienceLevel:1
-Numpad:1
-EnhancedNumpad:0
-FlipVert:0
-FlipMovementKeystrokes:0
-IntelligentNumpad:0
 Real:0
 AlterArmor:1
 FormatRoomTitles:0
@@ -75,9 +70,6 @@ HideDisplay6:0
 Display6VolumeDiff:-20
 Display6GagType:All
 Display6Filter:*
-UseMenuAliases:1
-BuildReversedMenuLookupTables:0
-AllowBlankInput:1
 ModifyShoppingGuide:0
 ShoppingGuideFormatString:[$ITEM ($PRICE)] $POINTS,$COMBATPOINTS at $STORE on $LOCATION
 MissionMode:0
