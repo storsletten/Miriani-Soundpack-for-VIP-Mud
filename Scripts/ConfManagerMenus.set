@@ -453,11 +453,9 @@ UseSmStyle|B
 }
 
 #Var ConfMenuExtras {Soundpack Extras:
-[1] Reload the extra script files.
 }
-#Var ConfTmp1 1
+#Var ConfTmp1 0
 #Var ConfTmp2 {%Chr(250)
-LoadExtras|E::LoadExtras
 }
 #ForAll {%Replace(@ExtraScriptFiles,%CRLF,|)} {
  #If {%Pos(^,%i)>0} {
