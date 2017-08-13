@@ -128,11 +128,19 @@ CameraPan|N:-4000^4000
 [2] Actions  [~%If(~@ActionsOn=1,On,Off)].
 [3] Emotes  [~%If(~@EmotesOn=1,On,Off)].
 [4] Normalize emotes by banned emotees  [~%If(~@FormatBannedEmotees=1,On,Off)].
+[5] Toggle individual socials.
+[6] Toggle individual actions.
+[7] Ignore individual social toggles  [~%If(~@BypassSocialToggles=1,On,Off)].
+[8] Ignore individual action toggles  [~%If(~@BypassActionToggles=1,On,Off)].
 %Chr(250)
 SocialsOn|E::SocialsToggle {~@ConfOptionValue}
 ActionsOn|E::ActionsToggle {~@ConfOptionValue}
 EmotesOn|E::EmotesToggle {~@ConfOptionValue}
 FormatBannedEmotees|B
+SpecificSocials|M
+SpecificActions|M
+BypassSocialToggles|B
+BypassActionToggles|B
 }
 
 #Var ConfMenuSounds {Sound configuration
@@ -255,6 +263,19 @@ RestoreFromBackup|E::#Say {Not yet implemented.}
 }
 #ForAll {@VirtualDisplays} {
  #Math ConfTmp1 {@ConfTmp1+1};
+ #If {%Defined(ConfManagerMenusLoaded)=0} {
+  #Var ConfOptionVars {@{ConfOptionVars}HideDisplay@ConfTmp1:0
+Display@{ConfTmp1}VolumeDiff:-20
+Display@{ConfTmp1}GagType:All
+Display@{ConfTmp1}Filter:*
+};
+  #If {%IsNumber(@{HideDisplay@ConfTmp1})=0} {
+   #Var {HideDisplay@ConfTmp1} 0;
+   #Var {Display@{ConfTmp1}VolumeDiff} {-20};
+   #Var {Display@{ConfTmp1}GagType} {All};
+   #Var {Display@{ConfTmp1}Filter} {*}
+  }
+ };
  #Var ConfMenuVD {@ConfMenuVD[@ConfTmp1] %i  [~%If(~@HideDisplay@ConfTmp1=1,hidden,not hidden)].%CRLF};
  #Var ConfTmp2 {@{ConfTmp2}VD@ConfTmp1|M%CRLF};
  #Var {ConfMenuVD@ConfTmp1} {Options for Virtual Display @ConfTmp1, %i:
@@ -461,10 +482,53 @@ UseSmStyle|B
  #If {%Pos(^,%i)>0} {
   #Math ConfTmp1 {@ConfTmp1+1};
   #Var ConfTmp3 {%Word(%i,^,1)};
+  #If {%Defined(ConfManagerMenusLoaded)=0} {
+   #Var ConfOptionVars {@{ConfOptionVars}LoadExtraScript@ConfTmp3:0%CRLF};
+   #If {%IsNumber(@{LoadExtraScript@ConfTmp3})=0} {#Var {LoadExtraScript@ConfTmp3} 0}
+  };
   #Var ConfMenuExtras {@ConfMenuExtras[@ConfTmp1] @ConfTmp3  [~%If(~@LoadExtraScript@ConfTmp3=1,Enabled,Disabled)]. %Word(%i,^,2).%CRLF};
   #Var ConfTmp2 {@{ConfTmp2}LoadExtraScript@ConfTmp3|B::LoadExtra {@ConfTmp3}%CRLF}
  }
 }
 #Var ConfMenuExtras {@ConfMenuExtras@ConfTmp2}
 
+#Var ConfMenuSpecificSocials {List of social toggles:
+}
+#Var ConfTmp1 0
+#Var ConfTmp2 {%Chr(250)
+}
+#ForAll {%Replace(@Socials,%CRLF,|)} {
+ #If {%NumWords(%i,:)>1} {
+  #Math ConfTmp1 {@ConfTmp1+1};
+  #Var ConfTmp3 {%Proper(%Word(%i,:,1))};
+  #If {%Defined(ConfManagerMenusLoaded)=0} {
+   #Var ConfOptionVars {@{ConfOptionVars}SocialToggle@ConfTmp3:1%CRLF};
+   #If {%IsNumber(@{SocialToggle@ConfTmp3})=0} {#Var {SocialToggle@ConfTmp3} 1}
+  };
+  #Var ConfMenuSpecificSocials {@ConfMenuSpecificSocials[@ConfTmp1] @ConfTmp3  [~%If(~@SocialToggle@ConfTmp3=1,On,Off)].%CRLF};
+  #Var ConfTmp2 {@{ConfTmp2}SocialToggle@ConfTmp3|B%CRLF}
+ }
+}
+#Var ConfMenuSpecificSocials {@ConfMenuSpecificSocials@ConfTmp2}
+
+#Var ConfMenuSpecificActions {List of action toggles:
+}
+#Var ConfTmp1 0
+#Var ConfTmp2 {%Chr(250)
+}
+#ForAll {%Replace(@Actions,%CRLF,|)} {
+ #If {%NumWords(%i,:)>1} {
+  #Math ConfTmp1 {@ConfTmp1+1};
+  #Var ConfTmp3 {%Proper(%Word(%i,:,1))};
+  #If {%Defined(ConfManagerMenusLoaded)=0} {
+   #Var ConfOptionVars {@{ConfOptionVars}ActionToggle@ConfTmp3:1%CRLF};
+   #If {%IsNumber(@{ActionToggle@ConfTmp3})=0} {#Var {ActionToggle@ConfTmp3} 1}
+  };
+  #Var ConfMenuSpecificActions {@ConfMenuSpecificActions[@ConfTmp1] @ConfTmp3  [~%If(~@ActionToggle@ConfTmp3=1,On,Off)].%CRLF};
+  #Var ConfTmp2 {@{ConfTmp2}ActionToggle@ConfTmp3|B%CRLF}
+ }
+}
+#Var ConfMenuSpecificActions {@ConfMenuSpecificActions@ConfTmp2}
+
 #3 {#UnVar {ConfTmp%i}}
+#Var ConfManagerMenusLoaded 1

@@ -151,20 +151,6 @@ twirls
 walks
 }
 
-#var InteligentNumpadDirs {1:sw
-2:s
-3:se
-4:w
-5:go
-6:e
-7:nw
-8:n
-9:ne
-0:out
-+:u
--:d
-}
-
 #if {@SetEntrySpeechOff = 1} {#setspeech entry off}
 #Var ConfFilePath {%MudName/Conf.set}
 #var ChangelogFilePath {/Scripts}

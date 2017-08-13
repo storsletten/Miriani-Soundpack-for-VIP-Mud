@@ -1,4 +1,4 @@
-#Var ConfObjVer 586
+#Var ConfObjVer 587
 #If {%Defined(ObjVer)=0} {#Var ObjVer 0}
 
 #Var IgnoredConfOptionVars {
@@ -47,30 +47,6 @@ IgnoredHistoryBuffers:None
 PlaySoundsOnReview:1
 HistoryVolumeOffset:20
 HistoryPanning:0
-HideDisplay1:0
-Display1VolumeDiff:-20
-Display1GagType:All
-Display1Filter:*
-HideDisplay2:0
-Display2VolumeDiff:-20
-Display2GagType:All
-Display2Filter:*
-HideDisplay3:0
-Display3VolumeDiff:-20
-Display3GagType:All
-Display3Filter:*
-HideDisplay4:0
-Display4VolumeDiff:-20
-Display4GagType:All
-Display4Filter:*
-HideDisplay5:0
-Display5VolumeDiff:-20
-Display5GagType:All
-Display5Filter:*
-HideDisplay6:0
-Display6VolumeDiff:-20
-Display6GagType:All
-Display6Filter:*
 ModifyShoppingGuide:0
 ShoppingGuideFormatString:[$ITEM ($PRICE)] $POINTS,$COMBATPOINTS at $STORE on $LOCATION
 MissionMode:0
@@ -110,6 +86,8 @@ InterruptOnCoords:0
 GagExtraLoads:1
 PointUnitOutputString:You access $UNIT and note you have $LP license points and $CP combat points.$CRLFYou have acquired $DIFFLP license points and $DIFFCP combat points since last check.
 ShowPointsOOLS:0
+BypassSocialToggles:0
+BypassActionToggles:0
 Silent:0
 Vol:60
 RoomSounds:1
@@ -172,15 +150,6 @@ UserLanguage:EN
 PassThru:0
 NumberOfConnections:0
 MoveMarkers:Ship:Marker
-LoadExtraScriptCannons:0
-LoadExtraScriptDevelopment:0
-LoadExtraScriptDig:0
-LoadExtraScriptArchaeologyHelper:0
-LoadExtraScriptBooks:0
-LoadExtraScriptGagDig:0
-LoadExtraScriptBlades:0
-LoadExtraScriptScanningEnhancements:0
-LoadExtraScriptTyping:0
 ArchaeologyHelperCountArtifacts:1
 ArchaeologyHelperStoreFromCount:1
 }
