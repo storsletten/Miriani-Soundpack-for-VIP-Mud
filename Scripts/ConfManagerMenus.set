@@ -1,7 +1,9 @@
 #Var ConfAliases {
-Exp:General:Experience
-Keys:Keystrokes
+exp:General:Experience
+keys:Keystrokes
+mission:Missions:Mission mode
 save:Conf:Save
+vol:Sounds:Master volume
 }
 #Var ConfMenus {Soundpack configuration - Main menu:
 [1] General options.

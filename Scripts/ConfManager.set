@@ -178,26 +178,31 @@ ArchaeologyHelperStoreFromCount:1
   ConfOpenMenu;
   #Abort
  };
- #Var ConfTriggeredByPrompt {%Pos(:,%1)};
+ #Var ConfTriggeredByPrompt {%If(%Pos(:,%1)>0,1,0)};
  #Var ConfMenuSetByPrompt {%If(@ConfTriggeredByPrompt=1,%Copy(%1,2,1),0)};
  #Var ConfOptionSetByPrompt {%If(@ConfTriggeredByPrompt=1,%Copy(%1,3,1),0)};
  #If {@ConfTriggeredByPrompt=1} {#Var ConfPreviousMenus {%Copy(%1,4,%Eval(%Length(%1)-3))}} {#Var ConfPreviousMenus {}};
+ #Var ConfMenuSetByAlias 0;
+ #Var ConfOptionSetByAlias 0;
  #Var ConfTmp1 {%If(@ConfTriggeredByPrompt=1,2,1)};
  #Var ConfMenu {%{@ConfTmp1}};
  #Var ConfOption {%{%Eval(@ConfTmp1+1)}};
  #Var ConfOptionValue {%{%Eval(@ConfTmp1+2)}};
- #Var ConfTmp1 {%Pos(%CRLF@ConfMenu:,@ConfAliases)};
- #If {@ConfTmp1>0} {
-  #Var ConfTmp1 {%Delete(@ConfAliases,1,%Eval(@ConfTmp1+1))};
-  #Var ConfTmp1 {%Word(@ConfTmp1,%CRLF,1)};
-  #Var ConfMenu {%Word(@ConfTmp1,:,2)};
-  #Var ConfMenuSetByPrompt 1;
-  #If {%NumWords(@ConfTmp1,:)>2} {
-   #Var ConfOptionValue {@ConfOption};
-   #Var ConfOption {%Word(@ConfTmp1,:,3)}
+ #If {@ConfTriggeredByPrompt=0} {
+  #Var ConfTmp1 {%Pos(%CRLF@ConfMenu:,@ConfAliases)};
+  #If {@ConfTmp1>0} {
+   #Var ConfTmp1 {%Delete(@ConfAliases,1,%Eval(@ConfTmp1+1))};
+   #Var ConfTmp1 {%Word(@ConfTmp1,%CRLF,1)};
+   #Var ConfMenu {%Word(@ConfTmp1,:,2)};
+   #Var ConfMenuSetByAlias 1;
+   #If {%NumWords(@ConfTmp1,:)>2} {
+    #Var ConfOptionSetByAlias 1;
+    #Var ConfOptionValue {@ConfOption};
+    #Var ConfOption {%Word(@ConfTmp1,:,3)}
+   }
   }
  };
- #If {@ConfMenuSetByPrompt=0} {
+ #If {@ConfMenuSetByPrompt=0 and @ConfMenuSetByAlias=0} {
   #Var ConfTmp1 {%Word(@ConfMenus,%Chr(250),1)};
   #If {%IsNumber(@ConfMenu)=1} {
    #Math ConfTmp1 {%NumWords(@ConfTmp1,@CR)-2};
