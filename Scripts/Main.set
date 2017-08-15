@@ -129,10 +129,6 @@ ConfManagerMenus|
    #Var LoadedSoundpackVersion {@Version}
   }
  } {
-  #Alarm 0 {
-   #Load {@ScriptPath\Extras.set};
-   #Load {@ScriptPath\SocialsToggle.set}
-  };
   msplay Ship\Computer\Beep@Ext
  }
 } {}

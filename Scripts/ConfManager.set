@@ -7,7 +7,7 @@ SoundsPath
 ThemesPath
 }
 
-#Var ConfOptionVars {
+#If {%Defined(ConfManagerMenusLoaded)=0} {#Var ConfOptionVars {
 GagDashes:0
 GagGenMessages:0
 GagExits:0
@@ -152,7 +152,7 @@ NumberOfConnections:0
 MoveMarkers:Ship:Marker
 ArchaeologyHelperCountArtifacts:1
 ArchaeologyHelperStoreFromCount:1
-}
+}}
 
 #Alias ConfOpenMenu {
  #If {%Length(%1)=0} {
