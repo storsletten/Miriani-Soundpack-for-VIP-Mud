@@ -1,3 +1,8 @@
+Version 5.7.9, released 2017-08-15:
+* For 2.0: Fixed a little bug in the new conf manager that caused menus to show up when you accessed option aliases, such as conf save, conf exp, conf mission, etc.
+* For 2.0: Fixed an ancient bug that caused social toggles and also virtual display settings to get lost under certain circumstances. Now those settings should stick around more reliably than ever before!
+* For 2.0: More bug fixes in the startup routine of the soundpack.
+
 Version 5.7.8, released 2017-08-13:
 * For 2.0: Made lots of improvements for the conf manager. Mostly performance improvements, but also several bug fixes and stuffs.
 
