@@ -6,6 +6,9 @@ ThemesPath
 }
 
 #If {%Defined(ConfManagerMenusLoaded)=0} {#Var ConfOptionVars {
+ScriptPath:%MudName\Miriani Soundpack for VIP Mud\Scripts
+SoundsPath:%MudName\Miriani Soundpack Sounds
+ThemesPath:%MudName\Miriani Soundpack Sounds\Themes
 GagDashes:0
 GagGenMessages:0
 GagExits:0
@@ -110,9 +113,6 @@ RandomiseCombatPan:1
 RandomiseCombatVolume:0
 RelativeCombatVolume:0
 RandomisePlay:1
-ScriptPath:.\Scripts
-SoundsPath:..\Miriani\Sounds
-ThemesPath:@SoundsPath\Themes
 ThemeFadeOutValue:5
 WindowTypes:Incoming
 UseSpeechInterrupts:0
@@ -505,10 +505,6 @@ ArchaeologyHelperStoreFromCount:1
    }
   }
  };
- #If {%Length(@ConfTmp6)=0} {
-  #Say {An error occurred, could not save};
-  #Abort
- };
  #DelFile {%MudName/Conf.set};
  #File 1 {%MudName/Conf.set};
  #Write 1 {@ConfTmp6#Var ConfVer @ConfObjVer};
@@ -530,16 +526,11 @@ ArchaeologyHelperStoreFromCount:1
  #File 1 {%MudName/Variables.set};
  #Write 1 {@ConfTmp6};
  #Close 1;
- #If {@LogHistory=1 and %Defined(HistorySoundHandle)=1} {WriteToLogFile};
+ #If {@LogHistory=1 and %Defined(HistorySoundHandle)=1} {#Alarm 0 {WriteToLogFile}};
  #If {%1<>"1"} {#Say {Settings saved.}}
 } {}
 
 #Alias ConfFix {
- #Var ConfTmp6 1;
- #If {%IsNumber(@ConfObjVer)=1 and %IsNumber(@ConfVer)=1} {
-  #If {@ConfVer=@ConfObjVer} {#Var ConfTmp6 0}
- };
- #If {@ConfTmp6=0} {#Abort};
  #ForAll {%Replace(@ConfOptionVars,%CRLF,|)} {
   #If {%Length(%i)>0} {
    #Var ConfTmp6 {%Word(%i,:,1)};
@@ -554,7 +545,7 @@ ArchaeologyHelperStoreFromCount:1
   }
  };
  #Var ConfVer @ConfObjVer;
- #If {%1="1"} {ConfSaveAll 1}
+ #If {%1<>"quick"} {ConfSaveAll}
 } {}
 
 #Trigger {What text would you like repeated back to you[?]} {
@@ -573,10 +564,10 @@ ArchaeologyHelperStoreFromCount:1
  }
 } {ConfEcho}
 
-#Exec {ConfFix}
-
 #Alias {ConfEdit} {#if {@OpenTextExternally = 1} {
 oscript \%1
 } {
 pscript \%1
 }} {}
+
+#Exec {ConfFix quick}

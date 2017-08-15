@@ -18,13 +18,14 @@ Development^Contains useful tools for soundpack development
 
 #Alias LoadExtra {
  #Var ExtraTmp1 {LoadExtraScript%1};
- #If {%Defined(@ExtraTmp1)=0} {#Abort};
- #If {@{@ExtraTmp1}=1} {
-  #If {@GagExtraLoads=0} {#Say {Loading the %1 extra.}};
-  #Load {@ScriptPath\Extras\%1.set}
- } {
-  #If {%IfWord(NoUnload,%2,|)=0} {
-   #UnLoad {@ScriptPath\Extras\%1.set}
+ #If {%Defined(@ExtraTmp1)=1} {
+  #If {@{@ExtraTmp1}=1} {
+   #If {@GagExtraLoads=0} {#Say {Loading the %1 extra.}};
+   #Load {@ScriptPath\Extras\%1.set}
+  } {
+   #If {%IfWord(NoUnload,%2,|)=0} {
+    #UnLoad {@ScriptPath\Extras\%1.set}
+   }
   }
  };
  #UnVar ExtraTmp1
