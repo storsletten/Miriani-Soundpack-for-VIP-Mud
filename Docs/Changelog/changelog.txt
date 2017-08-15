@@ -1,3 +1,6 @@
+Version 5.7.14, released 2017-08-15:
+* For 2.0: You can now make backups of your configuration file. Check out conf conf, and hopefully it'll be self explanatory from there.
+
 Version 5.7.13, released 2017-08-15:
 * For 2.0: Removed the Conf Manager Object index number, since the new conf manager is now resilient enough to live without it.
 
