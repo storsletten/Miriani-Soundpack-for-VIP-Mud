@@ -15,9 +15,9 @@
  } {
   #Var CameraTmp5 {1}
  };
- #If {@CameraTmp1="A loud clicking is followed by the clatter of an empty cartridge to the floor."} {#Var CameraTmp4 {Ground Combat|empty@Ext}};
+ #If {@CameraTmp1="A loud clicking is followed by the clatter of an empty cartridge to the floor."} {#Var CameraTmp4 {Ground Combat|General\Combat\EmptyGun2@Ext}};
  #If {@CameraTmp1="The shot misses!"} {#Var CameraTmp4 {Ground Combat|General\Combat\ShotMisses@Ext}};
- #If {@CameraTmp1=*"A* clicks oddly. It must be out of ammo."} {#Var CameraTmp4 {Ground Combat|empty@Ext}};
+ #If {@CameraTmp1=*"A* clicks oddly. It must be out of ammo."} {#Var CameraTmp4 {Ground Combat|General\Combat\EmptyGun@Ext}};
  #If {@CameraTmp1=*"The shot hits *'s *."} {#Var CameraTmp4 {Ground Combat|General\Combat\OtherShot@Ext}};
  #If {@CameraTmp1=*"* has fired at *"} {
   #Var CameraTmp4 {Space Combat|Ship\Combat\OtherFired*6@Ext};
@@ -69,9 +69,9 @@
  #Var CameraTmp2 {};
  #Var CameraTmp4 {};
  #Var CameraTmp5 {2};
- #If {@CameraTmp1="A loud clicking is followed by the clatter of an empty cartridge to the floor."} {#Var CameraTmp4 {Ground Combat|empty@Ext}};
+ #If {@CameraTmp1="A loud clicking is followed by the clatter of an empty cartridge to the floor."} {#Var CameraTmp4 {Ground Combat|General\Combat\EmptyGun2@Ext}};
  #If {@CameraTmp1="The shot misses!"} {#Var CameraTmp4 {Ground Combat|General\Combat\ShotMisses@Ext}};
- #If {@CameraTmp1=*"A* clicks oddly. It must be out of ammo."} {#Var CameraTmp4 {Ground Combat|empty@Ext}};
+ #If {@CameraTmp1=*"A* clicks oddly. It must be out of ammo."} {#Var CameraTmp4 {Ground Combat|General\Combat\EmptyGun@Ext}};
  #If {@CameraTmp1=*"The shot hits *'s *."} {#Var CameraTmp4 {Ground Combat|General\Combat\OtherShot@Ext}};
  #If {@CameraTmp1=*"You notice a bright flash of light*a starship must be coming in*"} {
   #Var CameraTmp4 {Starship|Ship\Move\OtherLanding*3@Ext};
