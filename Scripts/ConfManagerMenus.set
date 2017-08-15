@@ -412,7 +412,7 @@ MuteAlertContSounds|B
 MutePraelorIsEnemySound|B
 PatternFormatString|S
 EnhancedAimSoundSystem|C:0,Off^1,Change lock sound for currently focused target^2,Mute all lock sounds except for currently focused target
-ClassDependant
+ClassDependant|B
 }
 
 #Var ConfMenuScanning {Scanning options
