@@ -1,3 +1,6 @@
+Version 5.7.12, released 2017-08-15:
+* Fixed errors playing certain sound files in aquatic salvaging. Thanks Chailyn and Kylar for reporting this!
+
 Version 5.7.11, released 2017-08-15:
 * For 2.0: Made the soundpack more resilient when dealing with damaged configuration files.
 
