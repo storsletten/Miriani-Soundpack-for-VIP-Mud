@@ -1,6 +1,4 @@
-#Var ConfObjVer 587
 #If {%Defined(ObjVer)=0} {#Var ObjVer 0}
-
 #Var IgnoredConfOptionVars {
 ScriptPath
 SoundsPath

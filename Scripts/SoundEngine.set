@@ -18,6 +18,8 @@
 ; this file, and should not be edited,
 ; unless you know what you're doing.
 
+
+#If {%Defined(SoundIsPlaying)=0} {#Var SoundIsPlaying 0}
 #If {%Defined(CurrentRoomSound)=0} {#Var CurrentRoomSound {}}
 #If {%Defined(Ext)=0} {#Var Ext {.wav}}
 #If {%Defined(RExt)=0} {#Var RExt {.wav}}

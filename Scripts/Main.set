@@ -78,9 +78,11 @@ ConfManagerMenus|
    #Load {@ScriptPath\Const.set};
    #If {%CharInfo(Connected)=1} {#Var Connected 1}
   };
-  #Load {@ScriptPath\Variables.set};
-  #Load {%MudName\Variables.set};
-  #Load {@ScriptPath\ConfManager.set};
+  #If {%Defined(PreservedVariables)=0} {
+   #Load {@ScriptPath\Variables.set};
+   #Load {%MudName\Variables.set}
+  };
+  #If {%Defined(ConfOptionVars)=0} {#Load {@ScriptPath\ConfManager.set}};
   #If {@PassThru=1} {#Conf ExpandCommandLineVars False};
   #Conf DisplayCommandsInOutput False;
   #If {@LoadTmp1=1 and @AutoLogin=1} {
@@ -89,7 +91,7 @@ ConfManagerMenus|
    %CharInfo(Password)
   };
   #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True};
-  #Load {@ScriptPath\SoundEngine.set};
+  #If {%Defined(SoundIsPlaying)=0} {#Load {@ScriptPath\SoundEngine.set}};
   #If {@LoadTmp1=1 and @PlayStartupMusic=1 and @Silent=0} {
    MirianiSoundPlay {Startup Music} {Music\*63@Ext};
    #If {@SoundIsPlaying=1} {#Var StartupMusicHandle %PlayHandle}
