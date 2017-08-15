@@ -1,4 +1,3 @@
-#If {%Defined(ObjVer)=0} {#Var ObjVer 0}
 #Var IgnoredConfOptionVars {
 ScriptPath
 SoundsPath
@@ -507,7 +506,7 @@ ArchaeologyHelperStoreFromCount:1
  };
  #DelFile {%MudName/Conf.set};
  #File 1 {%MudName/Conf.set};
- #Write 1 {@ConfTmp6#Var ConfVer @ConfObjVer};
+ #Write 1 {@ConfTmp6};
  #Close 1;
  #Var ConfTmp6 {};
  #ForAll {@PreservedVariables|PreservedVariables} {
@@ -544,7 +543,6 @@ ArchaeologyHelperStoreFromCount:1
    }
   }
  };
- #Var ConfVer @ConfObjVer;
  #If {%1<>"quick"} {ConfSaveAll}
 } {}
 

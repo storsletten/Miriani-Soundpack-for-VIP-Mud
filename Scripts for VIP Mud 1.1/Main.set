@@ -508,12 +508,8 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
 }
 #Key {Control-S} {
  #setspeech incoming stop;
- #if {%ifword(@CharacterName,@SoundpackCreators,%CRLF)=1} {
-  #save full;
-  ConfPrint {Scripts Saved.}
- };
  ConfSaveAll
-} {Main}
+} {}
 #Trigger {[[]*] Connect as *.} {
  #Var CharacterName %2;
  #If {@BypassLoginMenu=1} {

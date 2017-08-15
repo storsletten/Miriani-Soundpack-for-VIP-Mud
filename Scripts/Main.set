@@ -434,40 +434,30 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  };
  #If {%Defined(DecimalChar)=1 and %Defined(LoadedSoundpackVersion)=1 and %Defined(Connected)=1 and %Defined(GagEverything)=1 and %Defined(DefaultScriptFiles)=1 and %Defined(StartupMusicHandle)=1} {
   #Var TestTmp1 {@TestTmp1%{CRLF}+ Main.set variables seems to be loaded.};
-  #If {%Defined(ConfVer)=1 and %Defined(ConfObjVer)=1} {
-   #Var TestTmp1 {@TestTmp1%{CRLF}+ Conf versions found.};
-   #If {%Defined(LoadTmp1)=1} {
-    #Var TestTmp1 {@TestTmp1%{CRLF}+ First loadcode exists, and is currently set to @LoadTmp1.}
-   } {
-    #Var TestTmp1 {@TestTmp1%{CRLF}- First loadcode missing. Try type SPRELOAD to fix this.}
-   };
-   #If {%Defined(LoadTmp2)=1} {
-    #Var TestTmp1 {@TestTmp1%{CRLF}+ Second loadcode exists, and is currently set to @LoadTmp2.}
-   } {
-    #Var TestTmp1 {@TestTmp1%{CRLF}- Second loadcode missing. Try type SPRELOAD to fix this.}
-   };
-   #If {%Replace(@LoadedSoundpackVersion,.,) = %Replace(@Version,.,)} {
-    #Var TestTmp1 {@TestTmp1%{CRLF}+ Scripts for your soundpack version have been loaded according to the version checker.}
-   } {
-    #Var TestTmp1 {@TestTmp1%{CRLF}- Scripts for your soundpack version have not been loaded according to the version checker. Try type SPRELOAD to fix this.}
-   };
-   #If {@ConfVer = @ConfObjVer} {
-    #Var TestTmp1 {@TestTmp1%{CRLF}+ The version of your soundpack configuration seems to be up to date.}
-   } {
-    #Var TestTmp1 {@TestTmp1%{CRLF}- Your soundpack configuration seems to require an update. Please try to update it by pressing CTRL+S, or by typing CONFSAVEALL, and then type SPRELOAD.}
-   };
-   #If {%Defined(DeclaredVariables)=1 and %Defined(PreservedVariables)=1} {
-    #Var TestTmp1 {@TestTmp1%{CRLF}+ The Variables framework seems to be loaded.}
-   } {
-    #Var TestTmp1 {@TestTmp1%{CRLF}- The Variables framework does not seem to have been loaded. Try type SPRELOAD to fix this.}
-   };
-   #If {%Defined(NumberOfSounds)=1} {
-    #Var TestTmp1 {@TestTmp1%{CRLF}+ The sound engine appears to be loaded.}
-   } {
-    #Var TestTmp1 {@TestTmp1%{CRLF}- The sound engine does not seem to have been loaded. Try type SPRELOAD to fix this.}
-   }
+  #If {%Defined(LoadTmp1)=1} {
+   #Var TestTmp1 {@TestTmp1%{CRLF}+ First loadcode exists, and is currently set to @LoadTmp1.}
   } {
-   #Var TestTmp1 {@TestTmp1%{CRLF}- Conf versions missing. Try type SPRELOAD to fix this. Aborting the test.}
+   #Var TestTmp1 {@TestTmp1%{CRLF}- First loadcode missing. Try type SPRELOAD to fix this.}
+  };
+  #If {%Defined(LoadTmp2)=1} {
+   #Var TestTmp1 {@TestTmp1%{CRLF}+ Second loadcode exists, and is currently set to @LoadTmp2.}
+  } {
+   #Var TestTmp1 {@TestTmp1%{CRLF}- Second loadcode missing. Try type SPRELOAD to fix this.}
+  };
+  #If {%Replace(@LoadedSoundpackVersion,.,) = %Replace(@Version,.,)} {
+   #Var TestTmp1 {@TestTmp1%{CRLF}+ Scripts for your soundpack version have been loaded according to the version checker.}
+  } {
+   #Var TestTmp1 {@TestTmp1%{CRLF}- Scripts for your soundpack version have not been loaded according to the version checker. Try type SPRELOAD to fix this.}
+  };
+  #If {%Defined(DeclaredVariables)=1 and %Defined(PreservedVariables)=1} {
+   #Var TestTmp1 {@TestTmp1%{CRLF}+ The Variables framework seems to be loaded.}
+  } {
+   #Var TestTmp1 {@TestTmp1%{CRLF}- The Variables framework does not seem to have been loaded. Try type SPRELOAD to fix this.}
+  };
+  #If {%Defined(NumberOfSounds)=1} {
+   #Var TestTmp1 {@TestTmp1%{CRLF}+ The sound engine appears to be loaded.}
+  } {
+   #Var TestTmp1 {@TestTmp1%{CRLF}- The sound engine does not seem to have been loaded. Try type SPRELOAD to fix this.}
   }
  } {
   #Var TestTmp1 {@TestTmp1%{CRLF}- Main.set variables missing. Aborting the test.}
@@ -521,13 +511,9 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  }
 }
 #Key {Control-S} {
- #setspeech incoming stop;
- #if {%ifword(@CharacterName,@SoundpackCreators,%CRLF)=1} {
-  #save full;
-  ConfPrint {Scripts Saved.}
- };
+ #SetSpeech incoming stop;
  ConfSaveAll
-} {Main}
+} {}
 #Trigger {[[]*] Connect as *.} {
  #Var CharacterName %2;
  #If {@BypassLoginMenu=1} {

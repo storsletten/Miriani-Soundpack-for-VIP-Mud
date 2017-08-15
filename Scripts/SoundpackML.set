@@ -11,7 +11,7 @@
  };
  #If {%1="Statistics"} {
   #Var SoundpackStatistics {[Soundpack Statistics]:
-[Version]: @Version (ConfManager Objects Index: @ConfObjVer).
+[Version]: @Version.
 [Number of connections since logging was begun]: @NumberOfConnections.
 [Number of sounds played this session]: @NumberOfSounds.
 [Number of soundpack messages received]: @NumberOfSoundpackMessages.

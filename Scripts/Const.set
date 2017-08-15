@@ -1,4 +1,3 @@
-#Var ConfObjVer 587
 #Load {@ScriptPath\Version.set}
 
 #Var MajorVersion {%Word(@Version,.,1)}
