@@ -1,3 +1,6 @@
+Version 5.7.11, released 2017-08-15:
+* For 2.0: Made the soundpack more resilient when dealing with damaged configuration files.
+
 Version 5.7.10, released 2017-08-15:
 * For 2.0: Updated the camera feed framework so that it now points to the right sounds for empty guns. Thanks Derrick Blade for reporting!
 
