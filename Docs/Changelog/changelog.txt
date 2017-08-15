@@ -1,3 +1,6 @@
+Version 5.7.15, released 2017-08-15:
+* For 2.0: Fixed conf ship 18. It just wouldn't let you change that option. Thanks to Derrick Blade for letting me know about this bug.
+
 Version 5.7.14, released 2017-08-15:
 * For 2.0: You can now make backups of your configuration file. Check out conf conf, and hopefully it'll be self explanatory from there.
 
