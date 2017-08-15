@@ -1,3 +1,6 @@
+Version 5.7.10, released 2017-08-15:
+* For 2.0: Updated the camera feed framework so that it now points to the right sounds for empty guns. Thanks Derrick Blade for reporting!
+
 Version 5.7.9, released 2017-08-15:
 * For 2.0: Fixed a little bug in the new conf manager that caused menus to show up when you accessed option aliases, such as conf save, conf exp, conf mission, etc.
 * For 2.0: Fixed an ancient bug that caused social toggles and also virtual display settings to get lost under certain circumstances. Now those settings should stick around more reliably than ever before!
