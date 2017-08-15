@@ -9,7 +9,7 @@ SetVariable ComputerTmp1 0
 }
 
 #var ComputerActions {
-Warning! Aquatic life form has entered scooper chamber. Expulsion in progress...^msplay Aquatic/fishscoop@Ext|
+Warning! Aquatic life form has entered scooper chamber. Expulsion in progress...^msplay Atmo/fishscoop@Ext|
 Intruder alert! *^msplay Ship\Combat\Intruder~@Ext|
 Long-Range Laser * is locking onto *.^GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
 #if {~@UseAlternativeCombatSounds=1 AND ~%Pos(Praelor,~@Wildcard2)>0} {
@@ -34,9 +34,9 @@ ExpPipe {~%0} {~%0} {:Voice:~%0};
 #var ComputerSaid {~@ExpString}|
 Warning, power level has dropped to *~%.^GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
 #if {~%IsNumber(~@WildCard1)=1 AND ~@WildCard1>5} {
-msplay SalvageLow@Ext
+msplay Atmo\SalvageLow@Ext
 } {
-msplay SalvageCritical@Ext
+msplay Atmo\SalvageCritical@Ext
 }|
 Scans reveal the debris to be a life form.^msplay Ship\Misc\SalvageLifeForm@Ext;
 ExpPipe {~%0} {~%0} {Lifeform salvaged!};

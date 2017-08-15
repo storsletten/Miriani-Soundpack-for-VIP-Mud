@@ -18,7 +18,7 @@ scan your surroundings...^#GagLine 1 All
 step out of the lift.^mstep
 |
 feel a floating sensation as the craft moves through the water.^
-msplay Aquatic/move@Ext;
+msplay Atmo/Move@Ext;
 ExpPipe {~%0} {The vehicle begins moving.} {}
 |
 hear a sharp whine as the wormhole drive activates.^#GagLine 1 All;

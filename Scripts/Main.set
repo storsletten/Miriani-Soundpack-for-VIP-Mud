@@ -17,11 +17,10 @@
 #Var DefaultScriptFiles {
 ShipComputer|
 ACV|
-Aquatic|
 Airlock|
 Archaeology|
 Asteroid|
-AtSa|
+Atsm|
 CameraFeed|
 Combat|
 Communication|
