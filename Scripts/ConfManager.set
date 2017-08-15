@@ -8,6 +8,7 @@ ThemesPath
 ScriptPath:%MudName\Miriani Soundpack for VIP Mud\Scripts
 SoundsPath:%MudName\Miriani Soundpack Sounds
 ThemesPath:%MudName\Miriani Soundpack Sounds\Themes
+ConfName:My Soundpack Configuration
 GagDashes:0
 GagGenMessages:0
 GagExits:0
@@ -417,9 +418,18 @@ ArchaeologyHelperStoreFromCount:1
  };
  #If {@ConfOptionType="S"} {
   #If {%Length(@ConfOptionValue)>0 or @ConfOptionSetByPrompt=1} {
-   #Var {@ConfOptionVar} {@ConfOptionValue};
-   #Var ConfOptionSuccess 1;
-   #If {%Length(@ConfOptionCallback)>0} {#Exec {@ConfOptionCallback}};
+   #If {%Length(@ConfOptionValues)>0} {
+    #If {%Length(@ConfOptionValue)>0 and %Replace(@ConfOptionValue,~",)=*@ConfOptionValues} {#Var ConfOptionSuccess 1}
+   } {
+    #Var ConfOptionSuccess 1
+   };
+   #If {@ConfOptionSuccess=1} {
+    #Var {@ConfOptionVar} {@ConfOptionValue}
+   } {
+    #Say {Invalid value.};
+    SPPrompt {@ConfOptionCaption} {@ConfOptionHint} {:conf {:@{ConfMenuSetByPrompt}1@ConfPreviousMenus} {@ConfMenu} {@ConfOption}}
+   };
+   #If {@ConfOptionSuccess=1 and %Length(@ConfOptionCallback)>0} {#Exec {@ConfOptionCallback}};
    #If {@ConfOptionSuccess=1} {
     #If {%Length(@{@ConfOptionVar})>0} {
      #Say {Set!}
@@ -461,35 +471,34 @@ ArchaeologyHelperStoreFromCount:1
  }
 } {}
 
-#Alias ConfRestoreDefault {
- #Var ConfTmp6 {};
- #Var ConfTmp7 {};
- #Var ConfTmp8 {};
- #Var ConfTmp9 0;
- #If {%1=""} {
-  #ForAll %Replace(@ConfOptionVars,%CRLF,|) {
-   #Var ConfTmp7 {%i};
-   #If {@ConfTmp7=""} {
-    #Var ConfTmp10 0
-   } {
-    #If {%NumWords(@ConfTmp7,:)>2} {
-     #Var ConfTmp9 {%Pos(:,@ConfTmp7)};
-     #Var ConfTmp8 {%Delete(@ConfTmp7,1,@ConfTmp9)};
-     #Var ConfTmp7 {%Left(@ConfTmp7,%Eval(@ConfTmp9-1))}
+#Alias ConfLoad {
+ #If {%1="default"} {
+  #ForAll {%Replace(@ConfOptionVars,%CRLF,|)} {
+   #If {%Length(%i)>0} {
+    #Var ConfTmp6 {%Word(%i,:,1)};
+    #If {%NumWords(%i,:)>2} {
+     #Var {@ConfTmp6} {%Copy(%i,%Eval(%Length(@ConfTmp6)+2),%Eval(%Length(%i)-%Length(@ConfTmp6)-1))}
     } {
-     #Var ConfTmp8 {%Word(@ConfTmp7,:,2)};
-     #Var ConfTmp7 {%Word(@ConfTmp7,:,1)}
+     #Var {@ConfTmp6} {%Word(%i,:,2)}
     };
-    #Var {@ConfTmp7} {%Replace(%Replace(@ConfTmp8,&CRLF;,%CRLF),&SPC;, )}
+    #Var {@ConfTmp6} {%Replace(%Replace(@{@ConfTmp6},&CRLF;,%CRLF),&SPC;, )}
    }
   };
-  ConfPrint {All soundpack settings have been restored to their default values}
+  #Say {Default settings loaded.}
  } {
-  ConfPrint {Feature not yet implemented.}
+  #Load {%MudName/Conf%If(%Length(%1)>0,.%1,).set};
+  #If {%2<>"quiet"} {#Say {Settings named @ConfName have been loaded%If(%Length(%1)>0, from %1,).}}
  }
 } {}
-
-#Alias ConfSaveAll {
+#Alias ConfSave {
+ #If {%Length(%1)>0} {
+  #Var ConfTmpFile {%MudName/Conf.%1.set};
+  #File 1 {@ConfTmpFile};
+  #Write 1 {dummy};
+  #Close 1
+ } {
+  #Var ConfTmpFile {%MudName/Conf.set}
+ };
  #Var ConfTmp6 {};
  #ForAll {%Replace(@ConfOptionVars,%CRLF,|)} {
   #If {%Length(%i)>0} {
@@ -504,10 +513,15 @@ ArchaeologyHelperStoreFromCount:1
    }
   }
  };
- #DelFile {%MudName/Conf.set};
- #File 1 {%MudName/Conf.set};
+ #DelFile {@ConfTmpFile};
+ #File 1 {@ConfTmpFile};
  #Write 1 {@ConfTmp6};
  #Close 1;
+ #If {%2<>"quiet"} {#Say {Settings named @ConfName have been saved%If(%Length(%1)>0, to %1,).}};
+ #UnVar ConfTmpFile
+} {}
+#Alias ConfSaveAll {
+ ConfSave {} quiet;
  #Var ConfTmp6 {};
  #ForAll {@PreservedVariables|PreservedVariables} {
   #If {%Length(%i)>0} {
@@ -561,11 +575,5 @@ ArchaeologyHelperStoreFromCount:1
   #Var ConfEchoText {}
  }
 } {ConfEcho}
-
-#Alias {ConfEdit} {#if {@OpenTextExternally = 1} {
-oscript \%1
-} {
-pscript \%1
-}} {}
 
 #Exec {ConfFix quick}

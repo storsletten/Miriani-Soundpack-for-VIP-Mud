@@ -245,17 +245,23 @@ Encoding|C:None,Off^FR,French^DE,German^NO,Norwegian^ES,Spanish^TR,Turkish
 }
 
 #Var ConfMenuConf {Configuration Manager options:
-[1] Reload saved settings.
-[2] Save all current settings.
-[3] Restore all settings to default.
-[4] Backup saved settings.
-[5] Restore all settings from backup.
+[1] Name of the currently loaded settings  [~@ConfName].
+[2] Load settings from the primary configuration file.
+[3] Load settings from the first backup file.
+[4] Load settings from the second backup file.
+[5] Load default settings.
+[6] Save current settings to the primary configuration file.
+[7] Save current settings to the first backup file.
+[8] Save current settings to the second backup file.
 %Chr(250)
-Reload|E::#Load {Conf.set};#Say {Done.}
-SaveAll|E::ConfSaveAll
-RestoreDefault|E::ConfRestoreDefault
-Backup|E::#Say {Not yet implemented.}
-RestoreFromBackup|E::#Say {Not yet implemented.}
+ConfName|S:*
+LoadPrimary|E::ConfLoad
+LoadFirstBackup|E::ConfLoad backup1
+LoadSecondBackup|E::ConfLoad backup2
+LoadDefault|E::ConfLoad default
+SavePrimary|E::ConfSave
+SaveFirstBackup|E::ConfSave backup1
+SaveSecondBackup|E::ConfSave backup2
 }
 
 #Var ConfMenuVD {Virtual displays:

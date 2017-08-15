@@ -83,3 +83,10 @@
 #Alias {UScript} {Script Unload %1} {}
 
 #Alias {SScript} {script send %1:%2:%3} {}
+
+#Alias {ConfEdit} {#if {@OpenTextExternally = 1} {
+oscript \%1
+} {
+pscript \%1
+}} {}
+
