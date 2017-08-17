@@ -123,14 +123,14 @@ msplay General\Misc\Command*10@Ext} {Main}
  ExpPipe {%0} {%0} {:Voice:Type a line of input, use ~@abort to cancel.};
  #Sub {@ExpString}
 } {}
-#Trigger {[[]Type lines of input; use [`].' to end or [`]~~@abort' to abort the command.]} {
+#Trigger {[[]Type lines of input; *]} {
  #If {@ConfPrintQuietly=1} {
   #Var ConfPrintQuietly 0
  } {
   #If {@Main=0} {#Abort All};
   #If {@Main<0} {MainTrigSwitch 1};
   msplay General\Misc\prompt@Ext;
-  ExpPipe {%0} {%0} {Type lines of input, use a period when done.};
+  ExpPipe {%0} {%0} {:Voice:%0};
   #Sub {@ExpString}
  }
 } {}
