@@ -7,7 +7,7 @@
 
 #Alias WriteToLogFile {
  #ForAll {@HistoryBuffers} {
-  #If {%i<>""} {
+  #If {%Length(%i)>0} {
    #If {@{History%{i}LogBufferEntries}>0} {
     #Var HistoryLogTmp1 {%MudName/%Char - %Trim(%Replace(%i,0, )).log};
     #File 2 {@HistoryLogTmp1};

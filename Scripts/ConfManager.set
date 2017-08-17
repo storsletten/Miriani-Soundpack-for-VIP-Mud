@@ -487,15 +487,15 @@ ArchaeologyHelperStoreFromCount:1
   #Say {Default settings loaded.}
  } {
   #Load {%MudName/Conf%If(%Length(%1)>0,.%1,).set};
-  #If {%2<>"quiet"} {#Say {Settings named @ConfName have been loaded%If(%Length(%1)>0, from %1,).}}
+  #If {%2<>"quiet"} {#Say {Configuration named @ConfName has been loaded%If(%Length(%1)>0, from %1,).}}
  }
 } {}
 #Alias ConfSave {
  #If {%Length(%1)>0} {
   #Var ConfTmpFile {%MudName/Conf.%1.set};
-  #File 1 {@ConfTmpFile};
-  #Write 1 {dummy};
-  #Close 1
+  #File 3 {@ConfTmpFile};
+  #Write 3 {#Var Dummy {}};
+  #Close 3
  } {
   #Var ConfTmpFile {%MudName/Conf.set}
  };
@@ -514,10 +514,10 @@ ArchaeologyHelperStoreFromCount:1
   }
  };
  #DelFile {@ConfTmpFile};
- #File 1 {@ConfTmpFile};
- #Write 1 {@ConfTmp6};
- #Close 1;
- #If {%2<>"quiet"} {#Say {Settings named @ConfName have been saved%If(%Length(%1)>0, to %1,).}};
+ #File 3 {@ConfTmpFile};
+ #Write 3 {@ConfTmp6} NoReturn;
+ #Close 3;
+ #If {%2<>"quiet"} {#Say {Configuration named @ConfName has been saved%If(%Length(%1)>0, to %1,).}};
  #UnVar ConfTmpFile
 } {}
 #Alias ConfSaveAll {
@@ -536,9 +536,9 @@ ArchaeologyHelperStoreFromCount:1
   }
  };
  #DelFile {%MudName/Variables.set};
- #File 1 {%MudName/Variables.set};
- #Write 1 {@ConfTmp6};
- #Close 1;
+ #File 3 {%MudName/Variables.set};
+ #Write 3 {@ConfTmp6} NoReturn;
+ #Close 3;
  #If {@LogHistory=1 and %Defined(HistorySoundHandle)=1} {#Alarm 0 {WriteToLogFile}};
  #If {%1<>"1"} {#Say {Settings saved.}}
 } {}

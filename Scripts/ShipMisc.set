@@ -1,169 +1,106 @@
-#If {%Defined(Contributed)=0} {#Var Contributed {0.0}}
-#If {%Defined(ContributedTo)=0} {#Var ContributedTo {}}
-#If {%Defined(Contributers)=0} {#Var Contributers {}}
+#Var Contributors {}
+#Var LargestContributionLength 0
+#Trigger {You contribute * credit* to the owner of the ship.} {
+ ExpPipe {%0} {%0} {You contribute %1 to the owner of @ZoneName.};
+ #Sub {@ExpString};
+ PushMessage Contributions {@ExpString}
+} {Main|Starship}
+#Trigger {You have received a contribution of * credit* from *.} {
+ #Var ContribID {%Pos(|%3|,@Contributors)};
+ #If {@ContribID=0} {
+  #Math ContribID {%Length(@Contributors)+1};
+  #If {%Length(@Contributors)=0} {#Var Contributors {|}};
+  #Var Contributors {@Contributors%3|}
+ };
+ #Var ContribVar {ContribID@ContribID};
+ #If {%Defined(@ContribVar)=0} {#Var {@ContribVar} {0|0.0|}};
+ #Math ContribTimes {%Word(@{@ContribVar},|,1)+1};
+ BigAdd {%Word(@{@ContribVar},|,2)} {%1};
+ #Var {@ContribVar} {@ContribTimes|@BigAddResult|%Word(@{@ContribVar},|,3):%1};
+ #Var ContribLength {%Pos(.,@BigAddResult)};
+ #If {@ContribLength>@LargestContributionLength} {#Var LargestContributionLength {@ContribLength}};
+ ExpPipe {%0} {%0} {You receive %1 from %3.};
+ #Sub {@ExpString};
+ PushMessage Contributions {@ExpString};
+ MirianiSoundPlay {Standard} {General\Misc\Credits*4@Ext};
+ #ForAll {ID|Length|Times|Var} {#UnVar {Contrib%i}}
+} {Main|Starship}
 
 #Alias Contribs {
- #Var ShipMiscTmp1 0;
- #Var ShipMiscTmp2 0;
- #Var ShipMiscTmp3 0;
- #Var ShipMiscTmp9 {};
- #Var ShipMiscTmp10 0;
- #Var ShipMiscTmp11 0;
- #Var ShipMiscTmp12 0;
- #Var ShipMiscTmp13 0;
- #If {%Copy(@Contributers,1,1)="|"} {#Var Contributers {%DelNItem(@Contributers,1)}};
- #ForAll {@Contributers} {
-  MakeVarName {%i} ShipMiscTmp4;
-  #Var ShipMiscTmp5 {@{Contrib0@ShipMiscTmp4}};
-  #Var ShipMiscTmp8 {%Pos(.,@ShipMiscTmp5)};
-  #If {@ShipMiscTmp8>0} {
-   #Math ShipMiscTmp10 {@ShipMiscTmp10+1};
-   #Var ShipMiscTmp6 {%Word(@ShipMiscTmp5,.,2)};
-   #If {@ShipMiscTmp8>10} {
-    #Var ShipMiscTmp7 {%Copy(@ShipMiscTmp5,1,%Eval(@ShipMiscTmp8-10))};
-    #Var ShipMiscTmp5 {%Copy(@ShipMiscTmp5,%Eval(@ShipMiscTmp8-9),9)}
-   } {
-    #Var ShipMiscTmp7 0;
-    #Var ShipMiscTmp5 {%Word(@ShipMiscTmp5,.,1)}
+ #If {%Length(@Contributors)=0} {
+  #Say {You have received no contributions since last reset.};
+  #Abort
+ };
+ #Var Contributions {};
+ #ForAll {@Contributors} {
+  #If {%Length(%i)>0} {
+   #Var ContribTmpID {%Pos(|%i|,@Contributors)};
+   #Var ContribTmpVar {ContribID@ContribTmpID};
+   #Var ContribTmpAmount {%Word(@{@ContribTmpVar},|,2)};
+   #While {%Pos(.,@ContribTmpAmount)<@LargestContributionLength} {
+    #If {%Pos(~,,@ContribTmpAmount)=4 or %Pos(.,@ContribTmpAmount)=4} {
+     #Var ContribTmpAmount {0,@ContribTmpAmount}
+    } {
+     #Var ContribTmpAmount {0@ContribTmpAmount}
+    }
    };
-   #If {@ShipMiscTmp7>0} {
-    #Var ShipMiscTmp8 {%i: @ShipMiscTmp7@ShipMiscTmp5.@ShipMiscTmp6}
-   } {
-    #Var ShipMiscTmp8 {%i: @ShipMiscTmp5.@ShipMiscTmp6}
-   };
-   #Math ShipMiscTmp11 {@ShipMiscTmp11+@ShipMiscTmp5};
-   #Math ShipMiscTmp12 {@ShipMiscTmp12+@ShipMiscTmp6};
-   #Math ShipMiscTmp13 {@ShipMiscTmp13+@ShipMiscTmp7};
-   #If {@ShipMiscTmp12>99} {
-    #Math ShipMiscTmp11 {@ShipMiscTmp11+1};
-    #Var ShipMiscTmp12 {%Copy(@ShipMiscTmp12,2,2)}
-   };
-   #If {@ShipMiscTmp11>999999999} {
-    #Math ShipMiscTmp13 {@ShipMiscTmp13+1};
-    #Var ShipMiscTmp11 {%Copy(@ShipMiscTmp11,2,9)}
-   };
-   #If {@ShipMiscTmp7>@ShipMiscTmp3 or (@ShipMiscTmp7=@ShipMiscTmp3 and @ShipMiscTmp5>@ShipMiscTmp1) or (@ShipMiscTmp7=@ShipMiscTmp3 and @ShipMiscTmp5=@ShipMiscTmp1 and @ShipMiscTmp6>@ShipMiscTmp2)} {
-    #Var ShipMiscTmp1 @ShipMiscTmp5;
-    #Var ShipMiscTmp2 @ShipMiscTmp6;
-    #Var ShipMiscTmp3 @ShipMiscTmp7;
-    #Var ShipMiscTmp9 {@ShipMiscTmp8%CRLF@ShipMiscTmp9}
-   } {
-    #Var ShipMiscTmp9 {@ShipMiscTmp9@ShipMiscTmp8%CRLF}
-   }
+   #Var Contributions {@Contributions|@ContribTmpAmount:%i};
+   #If {%1="clear"} {#UnVar {@ContribTmpVar}}
   }
  };
- #If {@ShipMiscTmp10>0} {
-  #Var ShipMiscTmp5 1;
-  #Var ShipMiscTmp6 {%NumWords(@ShipMiscTmp9,@LF)};
-  #Var ShipMiscTmp8 {};
-  #While {@ShipMiscTmp5<@ShipMiscTmp6} {
-   #Var ShipMiscTmp8 {@ShipMiscTmp8%CRLF[@ShipMiscTmp5] %Word(@ShipMiscTmp9,%CRLF,@ShipMiscTmp5)};
-   #Math ShipMiscTmp5 {@ShipMiscTmp5+1}
-  };
-  #Var ShipMiscTmp9 {%Delete(@ShipMiscTmp8,1,2)}
+ #Var Contributions {%Copy(@Contributions,2,%Eval(%Length(@Contributions)-1))};
+ #Var Contributions {%Sort(@Contributions,1)};
+ #Var ContribOutput {Contributors:};
+ #ForAll {@Contributions} {
+  #Var ContribTmpAmount {%Word(%i,:,1)};
+  #While {%IfWord(%Left(@ContribTmpAmount,1),~, 0, )=1} {#Var ContribTmpAmount {%Copy(@ContribTmpAmount,2,%Eval(%Length(@ContribTmpAmount)-1))}};
+  #Var ContribOutput {@ContribOutput%CRLF  %Word(%i,:,2): @ContribTmpAmount.}
  };
- #If {%1="Clear" or %1="Reset"} {
-  #ForAll {@Contributers} {
-   #Exec {#UnVar {Contrib0%Replace(%i, ,0)}}
-  };
-  #Var Contributers {};
-  #Var ShipMiscTmp5 {Contrib statistics cleared}
+ #Say {@ContribOutput};
+ #If {%1="clear"} {
+  #Var Contributors {};
+  #UnVar Contributions;
+  #Say {Contrib data cleared.}
  } {
-  #Var ShipMiscTmp5 {Type 'contribs clear' to reset}
+  #Say {Use CONTRIBS CLEAR to reset.}
  };
- #If {@ShipMiscTmp10>0} {
-  #If {@ShipMiscTmp13=0} {#Var ShipMiscTmp13 {}};
-  #If {@ShipMiscTmp10=1} {
-   ConfPrint {  You have received contributions from:%CRLF@ShipMiscTmp9%CRLF.  @ShipMiscTmp5}
-  } {
-   ConfPrint {  You have received a total of @ShipMiscTmp13@ShipMiscTmp11.@ShipMiscTmp12 credits from @ShipMiscTmp10 people:%CRLF@ShipMiscTmp9%CRLF.  @ShipMiscTmp5}
-  }
- } {
-  Contributed %1
- };
- #13 {#Exec {#UnVar {ShipMiscTmp%i}}}
+ #ForAll {Output|TmpAmount|TmpID|TmpVar} {#UnVar {Contrib%i}}
 } {}
-#Alias Contributed {
- #Var ShipMiscTmp1 0;
- #Var ShipMiscTmp2 0;
- #Var ShipMiscTmp3 0;
- #Var ShipMiscTmp9 {};
- #Var ShipMiscTmp10 0;
- #Var ShipMiscTmp11 0;
- #Var ShipMiscTmp12 0;
- #Var ShipMiscTmp13 0;
- #ForAll {@ContributedTo} {
-  MakeVarName {%i} ShipMiscTmp4;
-  #Var ShipMiscTmp5 {@{ContributedTo0@ShipMiscTmp4}};
-  #Var ShipMiscTmp8 {%Pos(.,@ShipMiscTmp5)};
-  #If {@ShipMiscTmp8>0} {
-   #Math ShipMiscTmp10 {@ShipMiscTmp10+1};
-   #Var ShipMiscTmp6 {%Word(@ShipMiscTmp5,.,2)};
-   #If {@ShipMiscTmp8>10} {
-    #Var ShipMiscTmp7 {%Copy(@ShipMiscTmp5,1,%Eval(@ShipMiscTmp8-10))};
-    #Var ShipMiscTmp5 {%Copy(@ShipMiscTmp5,%Eval(@ShipMiscTmp8-9),9)}
-   } {
-    #Var ShipMiscTmp7 0;
-    #Var ShipMiscTmp5 {%Word(@ShipMiscTmp5,.,1)}
-   };
-   #If {@ShipMiscTmp7>0} {
-    #Var ShipMiscTmp8 {%i: @ShipMiscTmp7@ShipMiscTmp5.@ShipMiscTmp6}
-   } {
-    #Var ShipMiscTmp8 {%i: @ShipMiscTmp5.@ShipMiscTmp6}
-   };
-   #Math ShipMiscTmp11 {@ShipMiscTmp11+@ShipMiscTmp5};
-   #Math ShipMiscTmp12 {@ShipMiscTmp12+@ShipMiscTmp6};
-   #Math ShipMiscTmp13 {@ShipMiscTmp13+@ShipMiscTmp7};
-   #If {@ShipMiscTmp12>99} {
-    #Math ShipMiscTmp11 {@ShipMiscTmp11+1};
-    #Var ShipMiscTmp12 {%Copy(@ShipMiscTmp12,2,2)}
-   };
-   #If {@ShipMiscTmp11>999999999} {
-    #Math ShipMiscTmp13 {@ShipMiscTmp13+1};
-    #Var ShipMiscTmp11 {%Copy(@ShipMiscTmp11,2,9)}
-   };
-   #If {@ShipMiscTmp7>@ShipMiscTmp3 or (@ShipMiscTmp7=@ShipMiscTmp3 and @ShipMiscTmp5>@ShipMiscTmp1) or (@ShipMiscTmp7=@ShipMiscTmp3 and @ShipMiscTmp5=@ShipMiscTmp1 and @ShipMiscTmp6>@ShipMiscTmp2)} {
-    #Var ShipMiscTmp1 @ShipMiscTmp5;
-    #Var ShipMiscTmp2 @ShipMiscTmp6;
-    #Var ShipMiscTmp3 @ShipMiscTmp7;
-    #Var ShipMiscTmp9 {@ShipMiscTmp8%CRLF@ShipMiscTmp9}
-   } {
-    #Var ShipMiscTmp9 {@ShipMiscTmp9@ShipMiscTmp8%CRLF}
-   }
-  }
- };
- #If {@ShipMiscTmp10>0} {
-  #Var ShipMiscTmp5 1;
-  #Var ShipMiscTmp6 {%NumWords(@ShipMiscTmp9,@LF)};
-  #Var ShipMiscTmp8 {};
-  #While {@ShipMiscTmp5<@ShipMiscTmp6} {
-   #Var ShipMiscTmp8 {@ShipMiscTmp8%CRLF[@ShipMiscTmp5] %Word(@ShipMiscTmp9,%CRLF,@ShipMiscTmp5)};
-   #Math ShipMiscTmp5 {@ShipMiscTmp5+1}
-  };
-  #Var ShipMiscTmp9 {%Delete(@ShipMiscTmp8,1,2)}
- };
- #If {%1="Clear" or %1="Reset"} {
-  #ForAll {@ContributedTo} {
-   #Exec {#UnVar {ContributedTo0%Replace(%i, ,0)}}
-  };
-  #Var Contributed {0.0};
-  #Var ContributedTo {};
-  #Var ShipMiscTmp5 {Contrib statistics cleared}
+#Alias BigAdd {
+ #Var BigAddInt {%Word(%1,.,1)};
+ #Var BigAddInt {%Replace(@BigAddInt,~,,|)};
+ #Var BigAddInt {%ReverseList(@BigAddInt)};
+ #Var BigAddTmpInt {%Word(%2,.,1)};
+ #Var BigAddTmpInt {%Replace(@BigAddTmpInt,~,,|)};
+ #Var BigAddTmpInt {%ReverseList(@BigAddTmpInt)};
+ #Math BigAddTmp1 {%Left(%Word(%1,.,2),2)+%Left(%Word(%2,.,2),2)};
+ #If {@BigAddTmp1>99} {
+  #Var BigAddCarry 1;
+  #Math BigAddTmp1 {@BigAddTmp1-100}
  } {
-  #Var ShipMiscTmp5 {Type 'contributed clear' to reset}
+  #Var BigAddCarry 0
  };
- #If {@ShipMiscTmp10>0} {
-  #If {@ShipMiscTmp13=0} {#Var ShipMiscTmp13 {}};
-  #If {@ShipMiscTmp10=1} {
-   ConfPrint {  You have contributed to:%CRLF@ShipMiscTmp9%CRLF.  @ShipMiscTmp5}
+ #Var BigAddResult {@BigAddTmp1};
+ #Var BigAddSep {.};
+ #Exec {#%Max(%NumWords(@BigAddInt,|),%NumWords(@BigAddTmpInt,|)) {
+  #Var BigAddTmp1 {~%If(~%i>%NumWords(@BigAddInt,|),0,~%Word(~@BigAddInt,|,~%i))};
+  #Var BigAddTmp2 {~%If(~%i>%NumWords(@BigAddTmpInt,|),0,~%Word(~@BigAddTmpInt,|,~%i))};
+  #Math BigAddTmp3 {~@BigAddTmp1+~@BigAddTmp2+~@BigAddCarry};
+  #If {~@BigAddTmp3>999} {
+   #Var BigAddCarry 1;
+   #Math BigAddTmp3 {~@BigAddTmp3-1000}
   } {
-   ConfPrint {  You have contributed a total of @ShipMiscTmp13@ShipMiscTmp11.@ShipMiscTmp12 credits to @ShipMiscTmp10 ships:%CRLF@ShipMiscTmp9%CRLF.  @ShipMiscTmp5}
-  }
- } {
-  #Say {No contribs}
- };
- #13 {#Exec {#UnVar {ShipMiscTmp%i}}}
+   #Var BigAddCarry 0
+  };
+  #While {~%Length(~@BigAddTmp3)<3} {#Var BigAddTmp3 {0~@BigAddTmp3}};
+  #Var BigAddResult {~@{BigAddTmp3}~@{BigAddSep}~@BigAddResult};
+  #Var BigAddSep {,}
+ }};
+ #If {@BigAddCarry=1} {#Var BigAddResult {1@BigAddSep@BigAddResult}};
+ #While {%Left(@BigAddResult,1)=0} {#Var BigAddResult {%Copy(@BigAddResult,2,%Eval(%Length(@BigAddResult)-1))}};
+ #ForAll {Int|Carry|Sep|Tmp1|Tmp2|Tmp3|TmpInt} {#UnVar {BigAdd%i}}
 } {}
+
 #TRIGGER {You press a large * reset button on a * starship simulator.} {msplay General\Misc\Beep*10@Ext;
 ExpPipe {%0} {You reset the %1 starship simulator.} {};
 #sub {@ExpString}} {Main}
@@ -302,103 +239,6 @@ mwplay Ship\Misc\InternalExpl*12@Ext} {Main|Starship}
  };
  MirianiSoundPlay Standard {Ship\Misc\DoorSettled@Ext};
  #Sub {@ExpString}
-} {Main|Starship}
-#Trigger {You contribute * credit* to the owner of the ship.} {
- #Var ShipMiscTmp1 {%Replace(%1,~,,)};
- #Var ShipMiscTmp2 {%Word(@ShipMiscTmp1,.,2)};
- #Var ShipMiscTmp8 {%Pos(.,@ShipMiscTmp1)};
- #If {@ShipMiscTmp8>10} {
-  #Var ShipMiscTmp3 {%Copy(@ShipMiscTmp1,1,%Eval(@ShipMiscTmp8-10))};
-  #Var ShipMiscTmp1 {%Copy(@ShipMiscTmp1,%Eval(@ShipMiscTmp8-9),9)}
- } {
-  #Var ShipMiscTmp3 0;
-  #Var ShipMiscTmp1 {%Word(@ShipMiscTmp1,.,1)}
- };
- MakeVarName {@ZoneName} ShipMiscTmp4;
- #If {%IfWord(@ZoneName,@ContributedTo,|)=0} {
-  #Var ContributedTo {@ContributedTo|@ZoneName};
-  #Var {ContributedTo0@ShipMiscTmp4} {0.0}
- };
- #Var ShipMiscTmp5 {@{ContributedTo0@ShipMiscTmp4}};
- #Var ShipMiscTmp6 {%Word(@ShipMiscTmp5,.,2)};
- #Var ShipMiscTmp8 {%Pos(.,@ShipMiscTmp5)};
- #If {@ShipMiscTmp8>10} {
-  #Var ShipMiscTmp7 {%Copy(@ShipMiscTmp5,1,%Eval(@ShipMiscTmp8-10))};
-  #Var ShipMiscTmp5 {%Copy(@ShipMiscTmp5,%Eval(@ShipMiscTmp8-9),9)}
- } {
-  #Var ShipMiscTmp7 0;
-  #Var ShipMiscTmp5 {%Word(@ShipMiscTmp5,.,1)}
- };
- #Math ShipMiscTmp5 {@ShipMiscTmp1+@ShipMiscTmp5};
- #Math ShipMiscTmp6 {@ShipMiscTmp2+@ShipMiscTmp6};
- #Math ShipMiscTmp7 {@ShipMiscTmp3+@ShipMiscTmp7};
- #If {@ShipMiscTmp6>99} {
-  #Math ShipMiscTmp5 {@ShipMiscTmp5+1};
-  #Var ShipMiscTmp6 {%Copy(@ShipMiscTmp6,2,2)}
- };
- #If {@ShipMiscTmp5>999999999} {
-  #Math ShipMiscTmp7 {@ShipMiscTmp7+1};
-  #Var ShipMiscTmp5 {%Copy(@ShipMiscTmp5,2,9)}
- };
- #If {@ShipMiscTmp7>0} {
-  #Var {ContributedTo0@ShipMiscTmp4} {@ShipMiscTmp7@ShipMiscTmp5.@ShipMiscTmp6}
- } {
-  #Var {ContributedTo0@ShipMiscTmp4} {@ShipMiscTmp5.@ShipMiscTmp6}
- };
- #If {@ZoneType="starship"} {
-  #Var ShipMiscTmp4 {You contributed %1 credit%2 to the owner of @ZoneName}
- } {
-  #Var ShipMiscTmp4 {You contributed %1 credit%2 to the owner of the ship}
- };
- #Sub {@ShipMiscTmp4};
- PushMessage Contributions {@ShipMiscTmp4};
- #7 {#Exec {#UnVar {ShipMiscTmp%i}}}
-} {Main|Starship}
-#Trigger {You have received a contribution of * credits from *.} {
- #Var ShipMiscTmp1 {%Replace(%1,~,,)};
- #Var ShipMiscTmp2 {%Word(@ShipMiscTmp1,.,2)};
- #Var ShipMiscTmp8 {%Pos(.,@ShipMiscTmp1)};
- #If {@ShipMiscTmp8>10} {
-  #Var ShipMiscTmp3 {%Copy(@ShipMiscTmp1,1,%Eval(@ShipMiscTmp8-10))};
-  #Var ShipMiscTmp1 {%Copy(@ShipMiscTmp1,%Eval(@ShipMiscTmp8-9),9)}
- } {
-  #Var ShipMiscTmp3 0;
-  #Var ShipMiscTmp1 {%Word(@ShipMiscTmp1,.,1)}
- };
- MakeVarName {%2} ShipMiscTmp4;
- #If {%IfWord(%2,@Contributers,|)=0} {
-  #Var Contributers {@Contributers|%2};
-  #Var {Contrib0@ShipMiscTmp4} {0.0}
- };
- #Var ShipMiscTmp5 {@{Contrib0@ShipMiscTmp4}};
- #Var ShipMiscTmp6 {%Word(@ShipMiscTmp5,.,2)};
- #Var ShipMiscTmp8 {%Pos(.,@ShipMiscTmp5)};
- #If {@ShipMiscTmp8>10} {
-  #Var ShipMiscTmp7 {%Copy(@ShipMiscTmp5,1,%Eval(@ShipMiscTmp8-10))};
-  #Var ShipMiscTmp5 {%Copy(@ShipMiscTmp5,%Eval(@ShipMiscTmp8-9),9)}
- } {
-  #Var ShipMiscTmp7 0;
-  #Var ShipMiscTmp5 {%Word(@ShipMiscTmp5,.,1)}
- };
- #Math ShipMiscTmp5 {@ShipMiscTmp1+@ShipMiscTmp5};
- #Math ShipMiscTmp6 {@ShipMiscTmp2+@ShipMiscTmp6};
- #Math ShipMiscTmp7 {@ShipMiscTmp3+@ShipMiscTmp7};
- #If {@ShipMiscTmp6>99} {
-  #Math ShipMiscTmp5 {@ShipMiscTmp5+1};
-  #Var ShipMiscTmp6 {%Copy(@ShipMiscTmp6,2,2)}
- };
- #If {@ShipMiscTmp5>999999999} {
-  #Math ShipMiscTmp7 {@ShipMiscTmp7+1};
-  #Var ShipMiscTmp5 {%Copy(@ShipMiscTmp5,2,9)}
- };
- #If {@ShipMiscTmp7>0} {
-  #Var {Contrib0@ShipMiscTmp4} {@ShipMiscTmp7@ShipMiscTmp5.@ShipMiscTmp6}
- } {
-  #Var {Contrib0@ShipMiscTmp4} {@ShipMiscTmp5.@ShipMiscTmp6}
- };
- ExpPipe {%0} {%1 credits from %2} {%1 from %2};
- PushMessage Contributions {@ExpString};
- #7 {#Exec {#UnVar {ShipMiscTmp%i}}}
 } {Main|Starship}
 #Trigger {Your communicator rapidly beeps three times as it's paired to the ship.} {msplay Ship\Comm\RelayJoin@Ext} {Main|Starship}
 #Trigger {It's already *.} {
