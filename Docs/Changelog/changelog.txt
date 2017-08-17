@@ -1,3 +1,7 @@
+Version 5.7.16, released 2017-08-17:
+* For 2.0: Rewrote the contribs command. Contributors will now be properly sorted based on the amount they've contributed.
+* Fixed multi line prompts not being picked up by the soundpack.
+
 Version 5.7.15, released 2017-08-15:
 * For 2.0: Fixed conf ship 18. It just wouldn't let you change that option. Thanks to Derrick Blade for letting me know about this bug.
 
