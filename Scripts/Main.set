@@ -75,6 +75,7 @@ ConfManagerMenus|
  #Alarm 0 {
   #If {@LoadTmp1<>1} {
    #Load {@ScriptPath\Const.set};
+   #Load {@SoundsPath\Main.set};
    #If {%CharInfo(Connected)=1} {#Var Connected 1}
   };
   #If {%Defined(PreservedVariables)=0} {
@@ -122,7 +123,7 @@ ConfManagerMenus|
       mrplay @RoomSound Frequency 22050
      }
     };
-    SPKeepAlive Start Automated;
+    SPKeepAlive Start Quiet;
     #Say {Reloading complete. Please look in the room with your character so that the soundpack will know the current environment.}
    } {
     #Say {*** Finished loading the @SoundpackName version @Version! ***}
@@ -138,7 +139,7 @@ ConfManagerMenus|
  #If {@MainTmp1="Connected"} {
   #GagLine 1 Voice;
   SPConnect 1;
-  #Alarm 2 {SPKeepAlive Start Automated};
+  #Alarm 2 {SPKeepAlive Start Quiet};
   #Abort All
  };
  #If {@MainTmp1="Disconnected"} {
@@ -192,7 +193,7 @@ ConfManagerMenus|
   #If {@KeepAliveRespond=1 or @KeepAlive>0} {
    #Exec {>#$#soundpack_ping_reply ms}
   };
-  SPKeepAlive Start Automated Replied;
+  SPKeepAlive Start Quiet Replied;
   #If {@SaveOnIdle=1} {
    #Alarm 0 {ConfSaveAll {@GagSaveOnIdle}}
   }
@@ -226,18 +227,18 @@ ConfManagerMenus|
  #If {%IsNumber(%1)=1} {
   #If {%1>0} {
    #Var KeepAlive %1;
-   #Say {SPKeepAlive is now set to %1 seconds.};
-   SPKeepAlive Start Automated
+   #If {%2<>"Quiet"} {#Say {SPKeepAlive is now set to %1 seconds.}};
+   SPKeepAlive Start Quiet
   } {
    #Var KeepAlive 0;
    #If {%Defined(KeepAliveState)=1} {#UnVar KeepAliveState};
    #If {%Defined(KeepAliveHandle)=1} {#UnAlarm KeepAliveHandle;#UnVar KeepAliveHandle};
-   #Say {SPKeepAlive is now off.}
+   #If {%2<>"Quiet"} {#Say {SPKeepAlive is now off.}}
   }
  } {
   #If {%1="Start"} {
    #If {@KeepAlive>0} {
-    #If {%2<>"Automated"} {
+    #If {%2<>"Quiet"} {
      #If {%Defined(KeepAliveHandle)=1} {
       #Say {SPKeepAlive restarted.}
      } {
@@ -263,11 +264,11 @@ ConfManagerMenus|
       #Say {You can change the soundpack's keep alive settings by typing SPKeepAlive.};
       msplay {LaserTag/NoTargets@Ext}
      } {
-      SPKeepAlive Start Automated
+      SPKeepAlive Start Quiet
      }
     }
    } {
-    #If {%2<>"Automated"} {
+    #If {%2<>"Quiet"} {
      #Say {First you need to give SPKeepAlive an interval to work with. Please type SPKeepAlive for more information.}
     }
    }
@@ -403,7 +404,7 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  #Exec {%Trim(%0)}
 } {}
 #Alias SPInfo {
- #Say {Soundpack version: @Version};
+ #Say {Soundpack version: @Version  (For VIP Mud 2.0 and later)};
  #If {%IsNumber(%Version)=0} {
   #Say {VIP Mud version: 1.1}
  } {
@@ -420,7 +421,7 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
    #Say {VIP Mud version: %Version}
   }
  };
- #Say {Soundpack compatibility: %If(%IsNumber(%Version)=1,Yes,No), scripts for VIP Mud 2.0 loaded.};
+ #Say {Sounds version: @SoundsVersion};
  #Say {Scripts path: @ScriptPath};
  #Say {Sounds path: @SoundsPath};
  #Say {Themes path: @ThemesPath}

@@ -1,5 +1,6 @@
 #Var ConfAliases {
 exp:General:Experience
+keepalive:General:Keep-Alive duration
 keys:Keystrokes
 mission:Missions:Mission mode
 save:Conf:Save
@@ -80,7 +81,7 @@ AutoSave|B
 SaveOnIdle|B
 CommandEcho|B
 ShowStats|B
-KeepAlive|N:0
+KeepAlive|N:0:#Alarm 0 {SPKeepAlive {~%If(~@KeepAlive>0,Start,0)} Quiet}
 KeepAliveRespond|B
 AlertOnUpdate|B
 }

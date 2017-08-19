@@ -1,3 +1,7 @@
+#If {%IsNumber(%Version)=1} {
+ #Say {WARNING! You seem to be running VIP Mud 2.0 or newer, and therefore you'll need to install the 2.0 compatible version of this soundpack.}
+}
+
 #if {%Defined(GagEverything)=0} {#Var GagEverything 0}
 #If {%Defined(Connected)=0} {#Var Connected 0}
 #Var Idle 0
@@ -78,6 +82,7 @@ Extras|
  #Alarm 0 {
   #If {@LoadTmp1<>1} {
    #Load {@ScriptPath\Const.set};
+   #Load {@SoundsPath\Main.set};
    #If {%CharInfo(Connected)=1} {#Var Connected 1}
   };
   #Load {@ScriptPath\Variables.set};
@@ -389,7 +394,7 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  #Exec {%Trim(%0)}
 } {}
 #Alias SPInfo {
- #Say {Soundpack version: @Version};
+ #Say {Soundpack version: @Version  (For VIP Mud 1.1)};
  #If {%IsNumber(%Version)=0} {
   #Say {VIP Mud version: 1.1}
  } {
@@ -406,7 +411,7 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
    #Say {VIP Mud version: %Version}
   }
  };
- #Say {Soundpack compatibility: %If(%IsNumber(%Version)=0,Yes,No), scripts for VIP Mud 1.1 loaded.};
+ #Say {Sounds version: @SoundsVersion};
  #Say {Scripts path: @ScriptPath};
  #Say {Sounds path: @SoundsPath};
  #Say {Themes path: @ThemesPath}
