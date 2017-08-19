@@ -1,3 +1,6 @@
+Version 5.7.18, released 2017-08-19:
+* The soundpack will now produce a notification for you when loading the soundpack if you don't have the most recent version of the sounds folder.
+
 Version 5.7.17, released 2017-08-19:
 * Added sounds version to spinfo. At the time of this writing, the soundpack needs sounds version 2. If it doesn't say sounds version 2, then you need to download the latest sounds folder. Link can be found in Miriani by typing @soundpacks, and then choose 4.
 
