@@ -120,6 +120,9 @@ Extras|
     #Say {Updating your configuration file...};
     ConfSaveAll
    };
+   #If {@AlertOnUpdate=1 and @RequiredSoundsVersion>@SoundsVersion} {
+    #Say {Warning: You are not using the latest version of the Miriani Soundpack Sounds. Certain sounds might not work until you upgrade to the most recent sounds folder.}
+   };
    msplay Ship\Computer\Beep@Ext;
    #If {@LoadTmp2=0} {
     #Ignore Key Off;
@@ -133,8 +136,6 @@ Extras|
     };
     SPKeepAlive Start Automated;
     #Say {Reloading complete. Please look in the room with your character so that the soundpack will know the current environment.}
-   } {
-    #Say {*** Finished loading the @SoundpackName version @Version! ***}
    };
    #Var LoadedSoundpackVersion {@Version}
   }
@@ -394,7 +395,13 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  #Exec {%Trim(%0)}
 } {}
 #Alias SPInfo {
- #Say {Soundpack version: @Version  (For VIP Mud 1.1)};
+ #If {%IsNumber(%Version)=1} {
+  #Say {Warning: You have installed the scripts for VIP Mud 1.1, but you are using VIP Mud 2.0. It is likely that errors will occur unless you install the scripts for VIP Mud 2.0.}
+ };
+ #If {@RequiredSoundsVersion>@SoundsVersion} {
+  #Say {Warning: You are not using the most recent Miriani Soundpack Sounds. Certain sounds might not work until you upgrade to version @RequiredSoundsVersion of the sounds folder.}
+ };
+ #Say {Soundpack version: @Version};
  #If {%IsNumber(%Version)=0} {
   #Say {VIP Mud version: 1.1}
  } {
