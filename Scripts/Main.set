@@ -111,7 +111,7 @@ ConfManagerMenus|
     #If {%Length(%i)>0 and %IfWord(%i,@IgnoredScriptFiles,|)=0} {#Load {@ScriptPath\%i.set}}
    };
    #Load {%MudName\Custom.set};
-   Speech Set {@DefaultSpeechType 1};
+   Speech Set {@DefaultSpeechType} 1;
    #If {@AlertOnUpdate=1 and @RequiredSoundsVersion>@SoundsVersion} {
     #Say {Warning: You are not using the latest version of the Miriani Soundpack Sounds. Certain sounds might not work until you upgrade to the most recent sounds folder.}
    };
