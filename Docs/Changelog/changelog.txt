@@ -1,3 +1,6 @@
+Version 5.7.19, released 2017-08-19:
+* For 2.0: Fixed a little bug I inadvertently created in the last version that caused the soundpack to complain about incorrect syntax for the speech command. Whoops.
+
 Version 5.7.18, released 2017-08-19:
 * The soundpack will now produce a notification for you when loading the soundpack if you don't have the most recent version of the sounds folder.
 
