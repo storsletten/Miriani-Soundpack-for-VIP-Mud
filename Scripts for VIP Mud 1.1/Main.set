@@ -121,7 +121,8 @@ Extras|
     ConfSaveAll
    };
    #If {@AlertOnUpdate=1 and @RequiredSoundsVersion>@SoundsVersion} {
-    #Say {Warning: You are not using the latest version of the Miriani Soundpack Sounds. Certain sounds might not work until you upgrade to the most recent sounds folder.}
+    #Say {Warning: You are not using the latest version of the Miriani Soundpack Sounds. Certain sounds might not work until you upgrade to the most recent sounds folder.};
+    msplay {General\Misc\MOTD@Ext}
    };
    msplay Ship\Computer\Beep@Ext;
    #If {@LoadTmp2=0} {

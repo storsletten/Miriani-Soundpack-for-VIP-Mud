@@ -30,7 +30,11 @@
  #Var NewPatchVersion {%Word(@NewVersion,.,3)};
  #If {@NewMajorVersion>@MajorVersion or @NewMinorVersion>@MinorVersion or @NewPatchVersion>@PatchVersion} {
   #If {@AlertOnUpdate=1 or @NewMajorVersion>@MajorVersion} {
-   #If {@NewMajorVersion>@MajorVersion} {msplay General\Misc\UpdateAlert@Ext};
+   #If {@NewMajorVersion>@MajorVersion} {
+    msplay {General\Misc\UpdateAlert@Ext}
+   } {
+    msplay {General\Misc\MOTD@Ext}
+   };
    #If {@NewPatchVersion>@PatchVersion} {#Var UpdateTmp1 {There's a patch update available for your soundpack.}};
    #If {@NewMinorVersion>@MinorVersion} {#Var UpdateTmp1 {There is a minor update available for your soundpack.}};
    #If {@NewMajorVersion>@MajorVersion} {#Var UpdateTmp1 {There is a major update available for your soundpack!}};
@@ -61,7 +65,11 @@ Be aware that most soundpack updates at this point apply for VIP Mud 2.0 only, a
  #Var NewPatchVersion {%Word(@NewVersion,.,3)};
  #If {@NewMajorVersion>@MajorVersion or @NewMinorVersion>@MinorVersion or @NewPatchVersion>@PatchVersion} {
   #If {@AlertOnUpdate=1 or @NewMajorVersion>@MajorVersion} {
-   #If {@NewMajorVersion>@MajorVersion} {msplay General\Misc\UpdateAlert@Ext};
+   #If {@NewMajorVersion>@MajorVersion} {
+    msplay {General\Misc\UpdateAlert@Ext}
+   } {
+    msplay {General\Misc\MOTD@Ext}
+   };
    #If {@NewPatchVersion>@PatchVersion} {#Var UpdateTmp1 {There's a patch update available for your soundpack.}};
    #If {@NewMinorVersion>@MinorVersion} {#Var UpdateTmp1 {There is a minor update available for your soundpack.}};
    #If {@NewMajorVersion>@MajorVersion} {#Var UpdateTmp1 {There is a major update available for your soundpack!}};
