@@ -1,3 +1,6 @@
+Version 5.7.17, released 2017-08-19:
+* Added sounds version to spinfo. At the time of this writing, the soundpack needs sounds version 2. If it doesn't say sounds version 2, then you need to download the latest sounds folder. Link can be found in Miriani by typing @soundpacks, and then choose 4.
+
 Version 5.7.16, released 2017-08-17:
 * For 2.0: Rewrote the contribs command. Contributors will now be properly sorted based on the amount they've contributed.
 * Fixed multi line prompts not being picked up by the soundpack.
