@@ -148,19 +148,19 @@ ConfPrint {@ShipCombatTmp1}
   #If {%2="red" and @MuteAlertContSounds<>1} {
    #If {%mp3loop=0} {mtplay};
    msplay Ship\Combat\RedCont*3@Ext;
-   #Var AlertSoundHandle %PlayHandle
+   #If {@SoundIsPlaying=1} {#Var AlertSoundHandle {%PlayHandle}} {#UnVar AlertSoundHandle}
   };
   #If {%2="orange" and @MuteAlertContSounds<>1} {
    msplay Ship\Combat\OrangeCont@Ext;
-   #Var AlertSoundHandle %PlayHandle
+   #If {@SoundIsPlaying=1} {#Var AlertSoundHandle {%PlayHandle}} {#UnVar AlertSoundHandle}
   };
   #If {%2="purple" and @MuteAlertContSounds<>1} {
    msplay Ship\Combat\PurpleCont@Ext;
-   #Var AlertSoundHandle %PlayHandle
+   #If {@SoundIsPlaying=1} {#Var AlertSoundHandle {%PlayHandle}} {#UnVar AlertSoundHandle}
   };
   #If {%2="blue"} {
    msplay Ship\Computer\SelfDestructStart@ext;
-   #Var AlertSoundHandle %PlayHandle
+   #If {@SoundIsPlaying=1} {#Var AlertSoundHandle {%PlayHandle}} {#UnVar AlertSoundHandle}
   };
   #If {%IfWord(%2,red blue orange purple, )>0} {
    ExpPipe {%0} {:Voice:%Proper(%1) lights continue to flash overhead.} {}
@@ -171,17 +171,21 @@ ConfPrint {@ShipCombatTmp1}
   #If {%1="loud rendition of Jingle Bells sounds"} {
    ExpPipe {%0} {:Voice:%0} {}
   } {
+   #If {@WakeOnRed=1 and %IfWord(%2,blue orange purple red, )=1} {
+    #If {@Silent=1} {dnt};
+    #If {@GagEverything=1} {GagEverything}
+   };
    #If {%2="red"} {
-    #If {@WakeOnRed=1} {
-     #If {@Silent=1} {mastermute};
-     #If {@GagEverything=1} {GagEverything}
-    };
     msplay Ship\Combat\RedStart*2@Ext;
-    #Var AlertSoundHandle %PlayHandle
+    #If {@SoundIsPlaying=1} {#Var AlertSoundHandle {%PlayHandle}} {#UnVar AlertSoundHandle}
+   };
+   #If {%2="blue"} {
+    msplay Ship\Computer\SelfDestructStart@ext;
+    #If {@SoundIsPlaying=1} {#Var AlertSoundHandle {%PlayHandle}} {#UnVar AlertSoundHandle}
    };
    #If {%2="purple"} {
     msplay Ship\Combat\PurpleAlert@Ext;
-    #Var AlertSoundHandle %PlayHandle
+    #If {@SoundIsPlaying=1} {#Var AlertSoundHandle {%PlayHandle}} {#UnVar AlertSoundHandle}
    };
    ExpPipe {%0} {:Voice:%0} {:Voice:%2 alert initiated.}
   }

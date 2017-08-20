@@ -11,6 +11,7 @@ save:Conf:Save
 scan:Scanning
 starship:Ship
 vol:Sounds:Vol
+wake:General:WakeOnRed
 }
 #Var ConfMenus {Soundpack configuration - Main menu:
 [1] General options.
@@ -61,17 +62,18 @@ Docs
 [6] Beep when your commands are blocked by roundtime or stuntime  [~%If(~@PlayWhenThwarted=1,On,Off)].
 [7] Alert when anybody other than the person you are following is in the room  [~%If(~@AlertOnPlayers=1,On,Off)].
 [8] Alert when you leave group members behind  [~%If(~@WarnWhenLeft=1,On,Off)].
-[9] Startup music  [~%If(~@PlayStartupMusic=1,On,Off)].
-[10] Auto login when connecting  [~%If(~@AutoLogin=1,On,Off)].
-[11] Auto selecting your character after logging in  [~%If(~@BypassLoginMenu=1,On,Off)].
-[12] Auto save soundpack configuration on exit  [~%If(~@AutoSave=1,On,Off)].
-[13] Auto save soundpack configuration when idle  [~%If(~@SaveOnIdle=1,On,Off)].
-[14] Command echoing  [~%If(~@CommandEcho=1,On,Off)].
-[15] Pass special characters directly to the mud  [~%If(~@PassThru=1,On,Off)]. (useful if you are having problems with commands such as ~~~@soundpacks, or ~~~@custom-s).
-[16] Show soundpack statistics when disconnecting  [~%If(~@ShowStats=1,On,Off)].
-[17] Keep-Alive duration (in seconds)  [~@KeepAlive].
-[18] Keep-Alive responding  [~%If(~@KeepAliveRespond=1,On,Off)].
-[19] Soundpack update notifications  [~%If(~@AlertOnUpdate=1,On,Off)].
+[9] Wake on Red, Blue, Purple, and Orange Alert  [~%If(~@WakeOnRed=1,On,Off)].
+[10] Startup music  [~%If(~@PlayStartupMusic=1,On,Off)].
+[11] Auto login when connecting  [~%If(~@AutoLogin=1,On,Off)].
+[12] Auto selecting your character after logging in  [~%If(~@BypassLoginMenu=1,On,Off)].
+[13] Auto save soundpack configuration on exit  [~%If(~@AutoSave=1,On,Off)].
+[14] Auto save soundpack configuration when idle  [~%If(~@SaveOnIdle=1,On,Off)].
+[15] Command echoing  [~%If(~@CommandEcho=1,On,Off)].
+[16] Pass special characters directly to the mud  [~%If(~@PassThru=1,On,Off)]. (useful if you are having problems with commands such as ~~~@soundpacks, or ~~~@custom-s).
+[17] Show soundpack statistics when disconnecting  [~%If(~@ShowStats=1,On,Off)].
+[18] Keep-Alive duration (in seconds)  [~@KeepAlive].
+[19] Keep-Alive responding  [~%If(~@KeepAliveRespond=1,On,Off)].
+[20] Soundpack update notifications  [~%If(~@AlertOnUpdate=1,On,Off)].
 %Chr(250)
 ExperienceLevel|C:Newbie^Middbie^Oldbie|Set your level of experience in Miriani
 AlterArmor|B
@@ -81,6 +83,7 @@ PlayRoundtimeSound|B
 PlayWhenThwarted|B
 AlertOnPlayers|B
 WarnWhenLeft|B
+WakeOnRed|B
 PlayStartupMusic|B
 AutoLogin|B
 BypassLoginMenu|B
@@ -96,22 +99,20 @@ AlertOnUpdate|B
 
 #Var ConfMenuGag {Soundpack gag options:
 [1] Gag everything  [~%If(~@GagEverything=1,On,Off)]. (Control F12).
-[2] Disable the "Gag everything" option on red alert  [~%If(~@WakeOnRed=1,On,Off)].
-[3] Gag your character's walk message  [~%If(~@GagTreadLine=1,On,Off)].
-[4] Gag messages sent over the general channel  [~%If(~@GagGenMessages=1,On,Off)].
-[5] Gag separators (such as long series of dash symbols)  [~%If(~@GagDashes=1,On,Off)].
-[6] Gag exits  [~%If(~@GagExits=1,On,Off)].
-[7] Gag roundtime announcements which are less than  [~@RoundTimeThreshold seconds].
-[8] Gag "I don't understand that" messages  [~%If(~@GagDontUnderstandMessages=1,On,Off)].
-[9] String to replace the line "You see nothing special."  [~@NoDescString].
-[10] Gag the description of asteroid rooms  [~%If(~@GagRoidDesc=1,On,Off)].
-[11] Surveying mode (for use with mineral scanners)  [~%Case(~%Eval(~@Surveying+1),Off,Surveying,Review)].
-[12] Gag save messages when idle  [~%If(~@GagSaveOnIdle=1,On,Off)].
-[13] Remove all but coordinates from scanning output  [~%If(~@InterruptOnCoords=1,On,Off)]. (Control Shift Backspace).
-[14] Gag load messages for soundpack extras  [~%If(~@GagExtraLoads=1,On,Off)].
+[2] Gag your character's walk message  [~%If(~@GagTreadLine=1,On,Off)].
+[3] Gag messages sent over the general channel  [~%If(~@GagGenMessages=1,On,Off)].
+[4] Gag separators (such as long series of dash symbols)  [~%If(~@GagDashes=1,On,Off)].
+[5] Gag exits  [~%If(~@GagExits=1,On,Off)].
+[6] Gag roundtime announcements which are less than  [~@RoundTimeThreshold seconds].
+[7] Gag "I don't understand that" messages  [~%If(~@GagDontUnderstandMessages=1,On,Off)].
+[8] String to replace the line "You see nothing special."  [~@NoDescString].
+[9] Gag the description of asteroid rooms  [~%If(~@GagRoidDesc=1,On,Off)].
+[10] Surveying mode (for use with mineral scanners)  [~%Case(~%Eval(~@Surveying+1),Off,Surveying,Review)].
+[11] Gag save messages when idle  [~%If(~@GagSaveOnIdle=1,On,Off)].
+[12] Remove all but coordinates from scanning output  [~%If(~@InterruptOnCoords=1,On,Off)]. (Control Shift Backspace).
+[13] Gag load messages for soundpack extras  [~%If(~@GagExtraLoads=1,On,Off)].
 %Chr(250)
 GagEverything|E::GagEverything
-WakeOnRed|B
 GagTreadLine|B
 GagGenMessages|B
 GagDashes|B
