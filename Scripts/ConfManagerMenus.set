@@ -1,4 +1,5 @@
 #Var ConfAliases {
+boards:MessageBoards
 cgc:SCGC
 exp:General:ExperienceLevel
 keepalive:General:KeepAlive
@@ -26,12 +27,13 @@ wake:General:WakeOnRed
 [10] Camera options.
 [11] Lore computer options.
 [12] Point unit options.
-[13] Speech and interrupts.
-[14] Keystroke configuration.
-[15] Extras.
-[16] Conf Manager.
-[17] Log options.
-[18] Soundpack documentation.
+[13] Message board options.
+[14] Speech and interrupts.
+[15] Keystroke configuration.
+[16] Extras.
+[17] Conf Manager.
+[18] Log options.
+[19] Soundpack documentation.
 %Chr(250)
 General
 Gag
@@ -45,6 +47,7 @@ Vehicles
 Camera
 Lore
 PointUnit
+MessageBoards
 Speech
 Keystrokes
 Extras
@@ -62,7 +65,7 @@ Docs
 [6] Beep when your commands are blocked by roundtime or stuntime  [~%If(~@PlayWhenThwarted=1,On,Off)].
 [7] Alert when anybody other than the person you are following is in the room  [~%If(~@AlertOnPlayers=1,On,Off)].
 [8] Alert when you leave group members behind  [~%If(~@WarnWhenLeft=1,On,Off)].
-[9] Wake on Red, Blue, Purple, and Orange Alert  [~%If(~@WakeOnRed=1,On,Off)].
+[9] Disable DND on Red, Blue, Purple, and Orange Alert  [~%If(~@WakeOnRed=1,On,Off)].
 [10] Startup music  [~%If(~@PlayStartupMusic=1,On,Off)].
 [11] Auto login when connecting  [~%If(~@AutoLogin=1,On,Off)].
 [12] Auto selecting your character after logging in  [~%If(~@BypassLoginMenu=1,On,Off)].
@@ -133,6 +136,14 @@ GagExtraLoads|B
 %Chr(250)
 CameraVolumeDiff|N:-100^100
 CameraPan|N:-4000^4000
+}
+
+#Var ConfMenuMessageBoards {Message board options:
+[1] Format message board headers  [~%If(~@FormatMessageBoards=1,On,Off)].
+[2] Format string for message board post headers  [~@MessageBoardFormatString].
+%Chr(250)
+FormatMessageBoards|B
+MessageBoardFormatString|S:*||Use $SENDER for the message sender, $DATE for the date, $REFERENCE for the message reference, $SUBJECT for the subject line, and $VOTES for the votes (if any).
 }
 
 #Var ConfMenuSocials {Configure socials:
@@ -231,9 +242,9 @@ LoadMiscKeys|B::#Class MiscKeys {~%If(~@LoadMiscKeys=1,Enable,Disable)}
 [3] Info formatting string  [~@AtSaInformationString].
 [4] Sort order for objects  [~%Case(~%Eval(~@AtSaSortOrder+2),Default,Ascending,Descending) order].
 %Chr(250)
-AtSaBetweenObjects|S
-AtSaObjectString|S
-AtSaInformationString|S
+AtSaBetweenObjects|S:*
+AtSaObjectString|S:*
+AtSaInformationString|S:*
 AtSaSortOrder|C:-1,Default order^0,Ascending order^1,Descending order
 }
 
@@ -308,7 +319,7 @@ Display@{ConfTmp1}Filter:*
 [4] Volume offset  [~@{Display@{ConfTmp1}VolumeDiff}~~~%].
 %Chr(250)
 HideDisplay@ConfTmp1|B
-Display@{ConfTmp1}Filter|S
+Display@{ConfTmp1}Filter|S:*||Use a single * to match with everything.
 Display@{ConfTmp1}GagType|C:Voice,Don't speak^Display,Don't show in output window^All,Don't speak or show in output window
 Display@{ConfTmp1}VolumeDiff|N:-100^100
 }}
@@ -344,7 +355,7 @@ Dev|E::#Edit {~@DocsPath\Developer.txt}
 HistoryBufferSize|N:5^100
 PrintVoiceOnly|B
 BufferConfig|E::#Var ConfOptionSuccess 0;#Say {Entering the BufferConfig command.};BufferConfig
-HistoryTimeout|S
+HistoryTimeout|S:*
 SuppressDuplicateEntries|C:0,Off^1,Suppress entries that are present at the start of the buffer^2,Suppress entries that are present anywhere in the buffer
 IgnoredHistoryBuffers|S
 PlaySoundsOnReview|B
@@ -365,7 +376,7 @@ HistoryLoggingInterval|N:5^100
 [2] Format string for the shopping guide  [~@ShoppingGuideFormatString].
 %Chr(250)
 ModifyShoppingGuide|B
-ShoppingGuideFormatString|S
+ShoppingGuideFormatString|S:*
 }
 
 #Var ConfMenuMissions {Mission options:
@@ -377,7 +388,7 @@ ShoppingGuideFormatString|S
 %Chr(250)
 MissionMode|B
 UseHitCounter|B
-HitCounterFormatString|S
+HitCounterFormatString|S:*
 ExtraFiringSound|B
 UseAlternativeCombatSounds|B
 }
@@ -386,7 +397,7 @@ UseAlternativeCombatSounds|B
 [1] Output format for point units  [~@PointUnitOutputString].
 [2] Show last known point values when using a point unit out of comms  [~%If(~@ShowPointsOOLS=1,On,Off)].
 %Chr(250)
-PointUnitOutputString|S
+PointUnitOutputString|S:*
 ShowPointsOOLS|B
 }
 
@@ -418,14 +429,14 @@ RelDriveVolume|N:-100^100
 RelDriveStyle|C:Standard Miriani^Standard Star Conquest^MonkeyTerm
 RelDriveBeep|B
 GagAvatars|B
-PaPrefix|S
-ExtPrefix|S
+PaPrefix|S:*
+ExtPrefix|S:*
 PlaySoundsOnPipe|B
 SpeakWhenPossible|B
 FlipSectorInfo|B
 MuteAlertContSounds|B
 MutePraelorIsEnemySound|B
-PatternFormatString|S
+PatternFormatString|S:*
 EnhancedAimSoundSystem|C:0,Off^1,Change lock sound for currently focused target^2,Mute all lock sounds except for currently focused target
 ClassDependant|B
 }
@@ -440,10 +451,10 @@ ClassDependant|B
 [7] Show number of lifesigns aboard a ship when using the occupancy scanner upgrade  [~%If(~@CountOccupants=1,On,Off)].
 %Chr(250)
 ScanFilters|B
-ScanOutputString|S
+ScanOutputString|S:*
 GagScan|B
 DisplayOriginalScanOutput|B
-FocusOutputString|S
+FocusOutputString|S:*
 ShortenObjects|B
 CountOccupants|B
 }

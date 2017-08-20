@@ -7,14 +7,13 @@
  }
 } {Main}
 #Trigger {Subject: *} {
- #If {@Main<>-10} {#Abort All};
- #If {@InterruptOnBoards=1} {speech stop};
+ #If {@Main<>-10} {#Abort};
  #If {@FormatMessageBoards=1} {
   #Class MessageBoard enable;
   #Var Subject %1;
   #GagLine 1 All
  }
-} {}
+} {MainOff}
 #Trigger {Sender: *} {
  #Var Sender %1;
  #GagLine 1 All
@@ -24,24 +23,32 @@
  #GagLine 1 All
 } {MessageBoard}
 #Trigger {Reference: *} {
- #Var Reference %1;
+ #Class MessageBoard disable;
+ #If {%Pos(|,%1)>0} {
+  #Var Reference {%Trim(%Word(%1,|,1))};
+  #If {%Pos(Votes: 0  /  0,%1)>0} {
+   #Var Votes {0}
+  } {
+   #Var Votes {%Trim(%Word(%1,:,2))}
+  }
+ } {
+  #Var Reference {%1};
+  #Var Votes {0}
+ };
  #Var MsgBoardTmp1 {%Replace(@MessageBoardFormatString,$BOARD,@Board)};
  #Var MsgBoardTmp1 {%Replace(@MsgBoardTmp1,$SUBJECT,@Subject)};
  #Var MsgBoardTmp1 {%Replace(@MsgBoardTmp1,$SENDER,@Sender)};
  #Var MsgBoardTmp1 {%Replace(@MsgBoardTmp1,$DATE,@Date)};
  #Var MsgBoardTmp1 {%Replace(@MsgBoardTmp1,$REFERENCE,@Reference)};
+ #Var MsgBoardTmp1 {%Replace(@MsgBoardTmp1,$VOTES,@Votes)};
  #Sub {@MsgBoardTmp1};
  #UnVar Board;
  #UnVar Subject;
  #UnVar Sender;
  #UnVar Date;
  #UnVar Reference;
- #UnVar MsgBoardTmp1;
- #Class MessageBoard disable;
- #Class MessageBoardMessage enable
+ #UnVar Votes;
+ #UnVar MsgBoardTmp1
 } {MessageBoard}
-#Trigger {[[]1] *} {
- #Class MessageBoardMessage Disable
-} {MessageBoardMessage}
 
 #Trigger {All messages have been marked as read.} {DontStopSpeaking} {Main}

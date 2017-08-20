@@ -10,7 +10,7 @@ Real:0
 AlterArmor:1
 FormatRoomTitles:0
 FormatMessageBoards:0
-MessageBoardFormatString:[$SENDER]: $SUBJECT on $DATE ($REFERENCE)
+MessageBoardFormatString:$SUBJECT, by $SENDER, on $DATE, with $VOTES votes. ($REFERENCE).
 ShowExpertExits:0
 PlayRoundtimeSound:0
 PlayWhenThwarted:0
