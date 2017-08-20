@@ -1,3 +1,8 @@
+Version 5.7.21, released 2017-08-20:
+* For 2.0: Improved aliases in the new conf manager.
+* For 2.0: Fixed the bug with ConfLoad default. This also means that the load default configuration option in conf conf has been fixed.
+* For 1.1: Addressed an issue that caused an error whenever you hauled an asteroid to a station. Thanks to Calyssa Calaway for reporting this!
+
 Version 5.7.20, released 2017-08-19:
 * Added a sound for soundpack update notifications.
 
