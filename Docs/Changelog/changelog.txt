@@ -1,3 +1,6 @@
+Version 5.7.26, released 2017-08-20:
+* For 2.0: Brought back the message board options to the conf manager. Also refreshed the message board code so that it now supports voting.
+
 Version 5.7.25, released 2017-08-20:
 * For 2.0: Merged the roomsounds command into conf rooms. Previously the conf roomsounds menu was hidden behind the roomsounds command, which meant room sound volume offset was kind of hidden as well. Cheers Ryan Salvatore for pointing this out.
 
