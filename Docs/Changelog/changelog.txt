@@ -1,3 +1,6 @@
+Version 5.7.25, released 2017-08-20:
+* For 2.0: Merged the roomsounds command into conf rooms. Previously the conf roomsounds menu was hidden behind the roomsounds command, which meant room sound volume offset was kind of hidden as well. Cheers Ryan Salvatore for pointing this out.
+
 Version 5.7.24, released 2017-08-20:
 * For 2.0: Not sure what I was smoking when naming the alias for toggling the Do Not Disturb mode, but it has now been renamed to dnd.
 
