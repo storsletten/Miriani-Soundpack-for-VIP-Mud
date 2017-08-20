@@ -172,8 +172,8 @@ ConfPrint {@ShipCombatTmp1}
    ExpPipe {%0} {:Voice:%0} {}
   } {
    #If {@WakeOnRed=1 and %IfWord(%2,blue orange purple red, )=1} {
-    #If {@Silent=1} {dnt};
-    #If {@GagEverything=1} {GagEverything}
+    #If {@GagEverything=1} {GagEverything};
+    #If {@Silent=1} {dnd off}
    };
    #If {%2="red"} {
     msplay Ship\Combat\RedStart*2@Ext;

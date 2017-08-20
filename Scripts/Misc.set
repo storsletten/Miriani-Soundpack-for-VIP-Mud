@@ -442,7 +442,7 @@ msplay General\Misc\LeftPerson@Ext
   }
  }
 } {}
-#Alias dnt {
+#Alias dnd {
  #If {%Length(%1)>0} {
   #Var Silent {%IfWord(%1,on 1 enable enabled, )}
  } {
