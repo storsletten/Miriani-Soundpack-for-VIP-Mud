@@ -1,13 +1,4 @@
-#Var IgnoredConfOptionVars {
-ScriptPath
-SoundsPath
-ThemesPath
-}
-
 #If {%Defined(ConfManagerMenusLoaded)=0} {#Var ConfOptionVars {
-ScriptPath:%MudName\Miriani Soundpack for VIP Mud\Scripts
-SoundsPath:%MudName\Miriani Soundpack Sounds
-ThemesPath:%MudName\Miriani Soundpack Sounds\Themes
 ConfName:My Soundpack Configuration
 GagDashes:0
 GagGenMessages:0
@@ -515,7 +506,7 @@ ArchaeologyHelperStoreFromCount:1
   #Var ConfTmpFile {%MudName/Conf.set}
  };
  #Var ConfTmp6 {};
- #ForAll {%Replace(@ConfOptionVars,%CRLF,|)} {
+ #ForAll {ScriptPath|SoundsPath|ThemesPath%Replace(@ConfOptionVars,%CRLF,|)} {
   #If {%Length(%i)>0} {
    #Var ConfTmp7 {%Word(%i,:,1)};
    #If {%IsNumber(@{@ConfTmp7})=1} {
