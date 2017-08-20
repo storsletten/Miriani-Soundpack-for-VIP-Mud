@@ -86,7 +86,7 @@
 #Key {F11} {MasterMute} {SoundKeys}
 #Key {F9} {SetMasterVolume down} {SoundKeys}
 #Key {F10} {SetMasterVolume up} {SoundKeys}
-#key shift-f11 {roomsounds 1} {SoundKeys}
+#key shift-f11 {conf roomsounds 1} {SoundKeys}
 #Key {Shift-Alt-F11} {#if {@ThemeMusic <> 0} {
 thememusicfadeout;
 #var ThemeMusic 0;

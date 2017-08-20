@@ -168,57 +168,6 @@ station:General\Footsteps\Station*8@Ext
  }
 } {}
 
-; RoomSounds:
-; Toggles the state of room sounds.
-#Alias roomsounds {
- #If {%IsNumber(%1)=1} {
-  #If {%1=1} {
-   #Var RoomSounds {%Eval(NOT @RoomSounds)};
-   #If {@RoomSounds=0} {
-    #Var GagRooms 1
-   };
-   #say {Room sounds are now %if(@RoomSounds = 1,on,off)}
-  };
-  #If {%1=2} {
-   #Var RoomSoundsTmp1 {%IfWord(@ZoneType,@SilentZoneTypes,|)};
-   #If {@RoomSoundsTmp1=0} {
-    #AddItem SilentZoneTypes @ZoneType NoDuplicates
-   } {
-    #Var SilentZoneTypes {%DelItem(@SilentZoneTypes,@ZoneType)}
-   };
-   #Say {Room sounds for @{ZoneType}s will now be %If(@RoomSoundsTmp1 = 0,muted,heard).}
-  };
-  #If {%1=3} {
-   #Var RoomSoundsTmp1 {%IfWord(@ZoneName,@SilentZoneNames,|)};
-   #If {@RoomSoundsTmp1=0} {
-    #AddItem SilentZoneNames @ZoneName NoDuplicates
-   } {
-    #Var SilentZoneNames {%DelItem(@SilentZoneNames,@ZoneName)}
-   };
-   #Say {Room sounds for @Zonename will now be %If(@RoomSoundsTmp1 = 0,muted,heard).}
-  };
-  #If {%1=4} {
-   #Var RoomSoundsTmp1 {%IfWord(@RoomName,@SilentRoomnames,|)};
-   #If {@RoomSoundsTmp1=0} {
-    #AddItem SilentRoomNames @RoomName NoDuplicates
-   } {
-    #Var SilentRoomNames {%DelItem(@SilentRoomNames,@RoomName)}
-   };
-   #Say {Room sounds for rooms named @RoomName will now be %If(@RoomSoundsTmp1 = 0,muted,heard).}
-  }
- };
- #If {%Length(%1)=0 or %2="SPPrompt"} {
-  #Var RoomSoundsTmp1 {[1] Global Room sounds  [%If(@RoomSounds=1,On,Off)].
-[2] Room sounds for @{ZoneType}s  [%IF(%IfWord(@ZoneType,@SilentZoneTypes,|)=0,On,Off)].
-[3] Room sounds for @ZoneName  [%If(%IfWord(@ZoneName,@SilentZoneNames,|)=0,On,Off)].
-[4] Room sounds for rooms named @RoomName  [%If(%IfWord(@RoomName,@SilentRoomNames,|)=0,On,Off)].};
-  SPPrompt {Room sound configuration} {@RoomSoundsTmp1} {RoomSounds} {SPPrompt}
- };
- #UnVar RoomSoundsTmp1;
- mrplay @RoomSound;
- InSpace @InSpace
-} {}
-
 ; SetRoomSoundVolume:
 ; Simply sets the room sounds volume, used with the master volume faders.
 #Alias SetRoomSoundVolume {
@@ -384,7 +333,7 @@ station:General\Footsteps\Station*8@Ext
 ; SetMasterVolume:
 ; Sets the overall volume fader.
 #Alias SetMasterVolume {
- #If {%IsNumber(%1)} {
+ #If {%IsNumber(%1)=1} {
   #Var Vol %1
  } {
   #If {%1="up"} {

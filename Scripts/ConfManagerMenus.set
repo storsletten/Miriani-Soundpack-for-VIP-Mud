@@ -180,13 +180,25 @@ RandomisePlay|B
 }
 
 #Var ConfMenuRoomSounds {Room sound configuration:
-[1] Room sounds  [~%If(~@RoomSounds=1,On,Off)]. (Shift F11).
+[1] Global room sounds  [~%If(~@RoomSounds=1,On,Off)]. (Shift F11).
 [2] Room sounds volume offset  [~@{RoomSoundsVolumeDiff}~~~%].
 [3] Room sounds for discovered planets in uncharted space  [~%If(~@PlanetSounds=1,On,Off)].
+[4] Room sounds for rooms named ~@RoomName  [~%If(~%IfWord(~@RoomName,~@SilentRoomNames,|)=0,On,Off)].
+[5] Room sounds for @ZoneName  [~%If(~%IfWord(~@ZoneName,~@SilentZoneNames,|)=0,On,Off)].
+[6] Room sounds for ~@{ZoneType}s  [~%If(~%IfWord(~@ZoneType,~@SilentZoneTypes,|)=0,On,Off)].
+[7] Clear the list of silenced room names.
+[8] Clear the list of silenced zone names.
+[9] Clear the list of silenced zone types.
 %Chr(250)
-RoomSounds|E::RoomSounds 1 {~@ConfOptionValue}
-RoomSoundsVolumeDiff|N:-100^100
-PlanetSounds|B
+RoomSounds|B::mrplay {~@RoomSound};InSpace {~@InSpace}
+RoomSoundsVolumeDiff|N:-100^100:SetRoomSoundVolume
+PlanetSounds|B::mrplay {~@RoomSound};InSpace {~@InSpace}
+RoomName|E::#If {~%IfWord(~@RoomName,~@SilentRoomNames,~%Chr(124))=0} {#AddItem SilentRoomNames {~@RoomName} NoDuplicates;#Say {Disabled room sounds for rooms named ~@RoomName.}} {#Var SilentRoomNames {~%DelItem(~@SilentRoomNames,~@RoomName)};#Say {Enabled room sounds for rooms named ~@RoomName.}};mrplay {~@RoomSound};InSpace {~@InSpace}
+ZoneName|E::#If {~%IfWord(~@ZoneName,~@SilentZoneNames,~%Chr(124))=0} {#AddItem SilentZoneNames {~@ZoneName} NoDuplicates;#Say {Disabled room sounds for ~@ZoneName.}} {#Var SilentZoneNames {~%DelItem(~@SilentZoneNames,~@ZoneName)};#Say {Enabled room sounds for ~@ZoneName.}};mrplay {~@RoomSound};InSpace {~@InSpace}
+ZoneType|E::#If {~%IfWord(~@ZoneType,~@SilentZoneTypes,~%Chr(124))=0} {#AddItem SilentZoneTypes {~@ZoneType} NoDuplicates;#Say {Disabled room sounds for ~@{ZoneType}s.}} {#Var SilentZoneTypes {~%DelItem(~@SilentZoneTypes,~@ZoneType)};#Say {Enabled room sounds for ~@{ZoneType}s.}};mrplay {~@RoomSound};InSpace {~@InSpace}
+ClearRoomNames|E::#Var SilentRoomNames {};#Say {Cleared the list of silenced room names.};mrplay {~@RoomSound};InSpace {~@InSpace}
+ClearZoneNames|E::#Var SilentZoneNames {};#Say {Cleared the list of silenced zone names.};mrplay {~@RoomSound};InSpace {~@InSpace}
+ClearZoneTypes|E::#Var SilentZoneTypes {};#Say {Cleared the list of silenced zone types.};mrplay {~@RoomSound};InSpace {~@InSpace}
 }
 
 #Var ConfMenuThemes {
