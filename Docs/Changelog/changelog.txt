@@ -1,3 +1,6 @@
+Version 5.7.24, released 2017-08-20:
+* For 2.0: Not sure what I was smoking when naming the alias for toggling the Do Not Disturb mode, but it has now been renamed to dnd.
+
 Version 5.7.23, released 2017-08-20:
 * For 2.0: Added the dnt command (Do Not Disturb). You can use it as a toggle, or you can type dnt on or dnt off to turn it on or off explicitly. It is equivalent of setting both mastermute on/off and speech on/off.
 * For 2.0: The wake on red alert option that used to be in conf gag has now been moved to conf gen. It now also applies to the dnt command, and if enabled, it will disable the Do Not Disturb mode whenever the starship is set to red, blue, purple, or orange alert. And lastly, conf wake is a shortcut for this option.
