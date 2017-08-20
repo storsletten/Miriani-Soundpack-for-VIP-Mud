@@ -476,7 +476,7 @@ ArchaeologyHelperStoreFromCount:1
 } {}
 
 #Alias ConfLoad {
- #If {%1="default"} {
+ #If {%IfWord(%1,def default factory standard, )=1} {
   #ForAll {%Replace(@ConfOptionVars,%CRLF,|)} {
    #If {%Length(%i)>0} {
     #Var ConfTmp6 {%Word(%i,:,1)};
@@ -491,10 +491,24 @@ ArchaeologyHelperStoreFromCount:1
   #Say {Default settings loaded.}
  } {
   #Load {%MudName/Conf%If(%Length(%1)>0,.%1,).set};
-  #If {%2<>"quiet"} {#Say {Configuration named @ConfName has been loaded%If(%Length(%1)>0, from %1,).}}
- }
+  #If {%2<>"quiet"} {#Say {%If(%Length(%1)>0,Loaded from %1:,Loaded) @ConfName.}}
+ };
+ #Exec {#Alarm 0 {
+  SetRoomSoundVolume;
+  mrplay {@RoomSound};
+  SPKeepAlive {@KeepAlive} Quiet;
+  #Class SoundKeys {%If(@LoadSoundKeys=1,Enable,Disable)};
+  #Class HistoryReviewKeys {%If(@LoadHistoryReviewKeys=1,Enable,Disable)};
+  #Class AltGRNumrow {%If(@ExcludeAltGRNumrow=0,Enable,Disable)};
+  #Class MiscKeys {%If(@LoadMiscKeys=1,Enable,Disable)};
+  LoadExtras
+ }}
 } {}
 #Alias ConfSave {
+ #If {%IfWord(%1,def default factory standard, )=1} {
+  #Say {Sorry, you can't overwrite the default configuration.};
+  #Abort
+ };
  #If {%Length(%1)>0} {
   #Var ConfTmpFile {%MudName/Conf.%1.set};
   #File 3 {@ConfTmpFile};
@@ -521,7 +535,7 @@ ArchaeologyHelperStoreFromCount:1
  #File 3 {@ConfTmpFile};
  #Write 3 {@ConfTmp6} NoReturn;
  #Close 3;
- #If {%2<>"quiet"} {#Say {Configuration named @ConfName has been saved%If(%Length(%1)>0, to %1,).}};
+ #If {%2<>"quiet"} {#Say {%If(%Length(%1)>0,Saved to %1:,Saved) @ConfName.}};
  #UnVar ConfTmpFile
 } {}
 #Alias ConfSaveAll {

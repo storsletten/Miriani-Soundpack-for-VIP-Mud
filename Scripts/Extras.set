@@ -12,7 +12,7 @@ Development^Contains useful tools for soundpack development
 
 #Alias LoadExtras {
  #ForAll {%Replace(@ExtraScriptFiles,%CRLF,|)} {
-  #If {%Pos(^,%i)>0} {LoadExtra {%Word(%i,^,1)} {NoUnload}}
+  #If {%Pos(^,%i)>0} {LoadExtra {%Word(%i,^,1)} {%1}}
  }
 } {}
 
@@ -31,4 +31,4 @@ Development^Contains useful tools for soundpack development
  #UnVar ExtraTmp1
 } {}
 
-#Exec {LoadExtras}
+#Exec {LoadExtras {NoUnload}}
