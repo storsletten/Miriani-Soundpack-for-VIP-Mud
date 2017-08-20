@@ -156,9 +156,7 @@ ArchaeologyHelperStoreFromCount:1
  #If {%Length(@ConfPreviousMenus)>0} {#Var ConfTmp1 {@ConfTmp1[0] Go back.%{CRLF}}};
  #Var ConfTmp3 {%Pos(%CRLF,@ConfTmp1)};
  SPPrompt {%Copy(@ConfTmp1,1,%Eval(@ConfTmp3-1))} {%Copy(@ConfTmp1,%Eval(@ConfTmp3+2),%Eval(%Length(@ConfTmp1)-@ConfTmp3-3))} {conf @ConfTmp2};
- #UnVar ConfTmp1;
- #UnVar ConfTmp2;
- #UnVar ConfTmp3
+ #ForAll {MenuSetByAlias|MenuSetByPrompt|MenuVar|Tmp1|Tmp2|Tmp3} {#UnVar {Conf%i}}
 } {}
 
 #Alias conf {
@@ -193,11 +191,14 @@ ArchaeologyHelperStoreFromCount:1
     #Var ConfTmp1 {%Copy(@ConfTmp1,1,@ConfTmp2)};
     #Math ConfOption {%NumWords(@ConfTmp1,@CR)-1}
    }
+  } {
+   #Var ConfTmp1 {ConfMenu@ConfMenu};
+   #If {%Defined(@ConfTmp1)=1} {#Var ConfMenuSetByAlias 1}
   }
  };
  #If {@ConfMenuSetByPrompt=0 and @ConfMenuSetByAlias=0} {
-  #Var ConfTmp1 {%Word(@ConfMenus,%Chr(250),1)};
   #If {%IsNumber(@ConfMenu)=1} {
+   #Var ConfTmp1 {%Word(@ConfMenus,%Chr(250),1)};
    #Math ConfTmp1 {%NumWords(@ConfTmp1,@CR)-2};
    #If {@ConfMenu>@ConfTmp1} {
     #Say {That conf menu does not exist.};
@@ -205,10 +206,6 @@ ArchaeologyHelperStoreFromCount:1
    }
   } {
    #Var ConfTmp1 {%Pos(] @ConfMenu,@ConfMenus)};
-   #If {@ConfTmp1=0} {
-    #Var ConfTmp1 {%Chr(251)};
-    #Var ConfTmp1 {%Pos(@ConfTmp1@ConfMenu,@ConfMenus)}
-   };
    #If {@ConfTmp1=0} {
     #Var ConfTmp1 {%Word(@ConfMenus,%Chr(250),2)};
     #Var ConfTmp2 {%Pos(%CRLF@ConfMenu,@ConfTmp1)};
@@ -447,7 +444,8 @@ ArchaeologyHelperStoreFromCount:1
   } {
    SPPrompt {@ConfOptionCaption} {@ConfOptionHint} {:conf {:@{ConfMenuSetByPrompt}1@ConfPreviousMenus} {@ConfMenu} {@ConfOption}}
   }
- }
+ };
+ #ForAll {MenuSetByAlias|MenuSetByPrompt|MenuVar|Tmp1|Tmp2|Tmp3} {#UnVar {Conf%i}}
 } {}
 
 #Var ConfEchoText {}

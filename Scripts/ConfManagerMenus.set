@@ -1,10 +1,15 @@
 #Var ConfAliases {
+cgc:SCGC
 exp:General:ExperienceLevel
 keepalive:General:KeepAlive
+load:Conf:Load
 mission:Missions:MissionMode
+mute:Sounds:Silent
+room:RoomSounds
 rooms:RoomSounds
-roomsounds:RoomSounds
-save:Conf:SavePrimary
+save:Conf:Save
+scan:Scanning
+starship:Ship
 vol:Sounds:Vol
 }
 #Var ConfMenus {Soundpack configuration - Main menu:
@@ -252,11 +257,11 @@ Encoding|C:None,Off^FR,French^DE,German^NO,Norwegian^ES,Spanish^TR,Turkish
 [8] Save current settings to the second backup file.
 %Chr(250)
 ConfName|S:*
-LoadPrimary|E::ConfLoad
+Load|E::ConfLoad {~%If(~%IsNumber(~@ConfOptionValue)=1,backup~@ConfOptionValue,~@ConfOptionValue)}
 LoadFirstBackup|E::ConfLoad backup1
 LoadSecondBackup|E::ConfLoad backup2
 LoadDefault|E::ConfLoad default
-SavePrimary|E::ConfSave
+Save|E::ConfSave {~%If(~%IsNumber(~@ConfOptionValue)=1,backup~@ConfOptionValue,~@ConfOptionValue)}
 SaveFirstBackup|E::ConfSave backup1
 SaveSecondBackup|E::ConfSave backup2
 }
