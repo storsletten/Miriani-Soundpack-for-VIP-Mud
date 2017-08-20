@@ -567,6 +567,7 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
    #Say {@SPPromptCaption} NoDisplay
   };
   #If {%Right(%2,2)=%CRLF} {#Var SPPromptOptions {%Copy(%2,1,%Eval(%Length(%2)-2))}} {#Var SPPromptOptions {%2}};
+  #If {%Left(@SPPromptOptions,2)=%CRLF} {#Var SPPromptOptions {%Copy(@SPPromptOptions,3,%Eval(%Length(@SPPromptOptions)-2))}};
   #If {%Pos(:,%3)=1} {
    #Var SPPromptAcceptBlankUserInput 1;
    #Var SPPromptCallback {%Copy(%3,2,%Eval(%Length(%3)-1))}

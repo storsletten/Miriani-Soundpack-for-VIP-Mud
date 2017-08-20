@@ -304,6 +304,25 @@ ArchaeologyHelperStoreFromCount:1
  #Var ConfOptionLabel {%Word(@ConfOptionLabel,[,1)};
  #Var ConfOptionLabel {%Trim(@ConfOptionLabel)};
  #If {%Length(@ConfOptionCaption)=0} {#Var ConfOptionCaption {@ConfOptionLabel}};
+ #Var ConfOptionValueOutput {};
+ #Var ConfTmp1 {%Pos(%CRLF@ConfOptionVar:,@ConfOptionVars)};
+ #If {@ConfTmp1>0} {
+  #Var ConfOptionDefaultValue {%Delete(@ConfOptionVars,1,@ConfTmp1)};
+  #Math ConfTmp1 {%Pos(:,@ConfOptionDefaultValue)+1};
+  #Var ConfOptionDefaultValue {%Copy(@ConfOptionDefaultValue,@ConfTmp1,%Eval(%Length(@ConfOptionDefaultValue)+1-@ConfTmp1))};
+  #Var ConfOptionDefaultValue {%Word(@ConfOptionDefaultValue,%CRLF,1)};
+  #Var ConfOptionDefaultValue {%Replace(@ConfOptionDefaultValue,$CRLF,~%CRLF)};
+  #Var ConfOptionDefaultValue {%Replace(@ConfOptionDefaultValue,$SPC, )};
+  #Var ConfOptionValueOutput {@ConfOptionValueOutput%{CRLF}Default value: @ConfOptionDefaultValue}
+ } {
+  #UnVar ConfOptionDefaultValue
+ };
+ #If {%Defined(@ConfOptionVar)=1} {
+  #Var ConfOptionCurrentValue {@{@ConfOptionVar}};
+  #Var ConfOptionValueOutput {@ConfOptionValueOutput%{CRLF}Current value: @ConfOptionCurrentValue}
+ } {
+  #UnVar ConfOptionCurrentValue
+ };
  #Var ConfOptionSuccess 0;
  #If {@ConfOptionType="B"} {
   #If {%Length(@ConfOptionValue)=0} {
@@ -363,7 +382,7 @@ ArchaeologyHelperStoreFromCount:1
    #If {%Length(@ConfOptionValue)>0 or @ConfOptionSetByPrompt=1} {
     #Say {Invalid choice.}
    };
-   SPPrompt {@ConfOptionCaption} {@ConfOptionHint} {conf {:@{ConfMenuSetByPrompt}1@ConfPreviousMenus} {@ConfMenu} {@ConfOption}}
+   SPPrompt {@ConfOptionCaption} {@ConfOptionHint@ConfOptionValueOutput} {conf {:@{ConfMenuSetByPrompt}1@ConfPreviousMenus} {@ConfMenu} {@ConfOption}}
   } {
    #Say {@ConfOptionSuccessMessage};
    #If {@ConfMenuSetByPrompt=1} {
@@ -410,13 +429,13 @@ ArchaeologyHelperStoreFromCount:1
     #If {%Length(@ConfOptionCallback)>0} {#Exec {@ConfOptionCallback}}
    };
    #If {@ConfOptionSuccess=0} {
-    SPPrompt {@ConfOptionCaption} {@ConfOptionHint} {conf {:@{ConfMenuSetByPrompt}1@ConfPreviousMenus} {@ConfMenu} {@ConfOption}}
+    SPPrompt {@ConfOptionCaption} {@ConfOptionHint@ConfOptionValueOutput} {conf {:@{ConfMenuSetByPrompt}1@ConfPreviousMenus} {@ConfMenu} {@ConfOption}}
    } {
     #Say {It's now set to @{@ConfOptionVar}.};
     #If {@ConfMenuSetByPrompt=1} {ConfOpenMenu {@ConfMenu}}
    }
   } {
-   SPPrompt {@ConfOptionCaption} {@ConfOptionHint} {conf {:@{ConfMenuSetByPrompt}1@ConfPreviousMenus} {@ConfMenu} {@ConfOption}}
+   SPPrompt {@ConfOptionCaption} {@ConfOptionHint@ConfOptionValueOutput} {conf {:@{ConfMenuSetByPrompt}1@ConfPreviousMenus} {@ConfMenu} {@ConfOption}}
   }
  };
  #If {@ConfOptionType="S"} {
@@ -430,7 +449,7 @@ ArchaeologyHelperStoreFromCount:1
     #Var {@ConfOptionVar} {@ConfOptionValue}
    } {
     #Say {Invalid value.};
-    SPPrompt {@ConfOptionCaption} {@ConfOptionHint} {:conf {:@{ConfMenuSetByPrompt}1@ConfPreviousMenus} {@ConfMenu} {@ConfOption}}
+    SPPrompt {@ConfOptionCaption} {@ConfOptionHint@ConfOptionValueOutput} {:conf {:@{ConfMenuSetByPrompt}1@ConfPreviousMenus} {@ConfMenu} {@ConfOption}}
    };
    #If {@ConfOptionSuccess=1 and %Length(@ConfOptionCallback)>0} {#Exec {@ConfOptionCallback}};
    #If {@ConfOptionSuccess=1} {
@@ -442,7 +461,7 @@ ArchaeologyHelperStoreFromCount:1
     #If {@ConfMenuSetByPrompt=1} {ConfOpenMenu {@ConfMenu}}
    }
   } {
-   SPPrompt {@ConfOptionCaption} {@ConfOptionHint} {:conf {:@{ConfMenuSetByPrompt}1@ConfPreviousMenus} {@ConfMenu} {@ConfOption}}
+   SPPrompt {@ConfOptionCaption} {@ConfOptionHint@ConfOptionValueOutput} {:conf {:@{ConfMenuSetByPrompt}1@ConfPreviousMenus} {@ConfMenu} {@ConfOption}}
   }
  };
  #ForAll {MenuSetByAlias|MenuSetByPrompt|MenuVar|Tmp1|Tmp2|Tmp3} {#UnVar {Conf%i}}
