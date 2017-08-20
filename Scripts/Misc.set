@@ -33,35 +33,6 @@
 };
 ConfPrint {Bypass mode %if(@PassThru = 1,enabled,disabled).}
 } {}
-#Alias Speech {
- #If {%1="stop"} {
-  #If {@UseSpeechInterrupts=1 AND @GagEverything=0} {#SetSpeech Incoming Stop}
- } {
-  #If {%1="off" or %1="on"} {
-   #SetSpeech Incoming %1;
-   #Say {Speech %Proper(%1)} VoiceOnly
-  } {
-   #If {%1="set"} {
-    #If {%IfWord(%2,@SpeechTypes,|)=1} {
-     #If {%2="NVDA"} {
-      #Var SpeechTmp1 {SystemAccess}
-     } {
-      #Var SpeechTmp1 %2
-     };
-     #If {%2="SAPI"} {
-      #ForAll @WindowTypes {#SetSpeech %i @SpeechTmp1 @SAPIVoice @SAPIVolume @SAPIRate}
-     } {
-      #ForAll @WindowTypes {#SetSpeech %i {@SpeechTmp1}}
-     };
-     #If {%3<>1} {#Say {Speech Type set to %2.}};
-     #UnVar SpeechTmp1
-    } {
-     ConfPrint {Syntax: Speech Set @SpeechTypes}
-    }
-   }
-  }
- }
-} {}
 #Trigger {(* second* roundtime.)} {
  #If {%IsNumber(%1)=1} {
   #If {@PlayRoundtimeSound=1} {
@@ -440,3 +411,48 @@ msplay General\Misc\LeftPerson@Ext
  }
 } {Main|ReadWhoList}
 #Trigger {* - Out of *} {#GagLine 1 All} {Main|ReadWhoList}
+
+#Alias Speech {
+ #If {%1="stop"} {
+  #If {@UseSpeechInterrupts=1 AND @GagEverything=0} {#SetSpeech Incoming Stop}
+ } {
+  #If {%IfWord(%1,on off, )=1} {
+   #SetSpeech Incoming {%1};
+   #SetSpeech VoiceOnly {%1};
+   #If {%IfWord(Quiet,%2,|)=0} {#Say {Speech %Proper(%1).} VoiceOnly}
+  } {
+   #If {%1="set"} {
+    #If {%IfWord(%2,@SpeechTypes,|)=1} {
+     #If {%2="NVDA"} {
+      #Var SpeechTmp1 {SystemAccess}
+     } {
+      #Var SpeechTmp1 %2
+     };
+     #If {%2="SAPI"} {
+      #ForAll @WindowTypes {#SetSpeech %i @SpeechTmp1 @SAPIVoice @SAPIVolume @SAPIRate}
+     } {
+      #ForAll @WindowTypes {#SetSpeech %i {@SpeechTmp1}}
+     };
+     #If {%3<>1} {#Say {Speech Type set to %2.}};
+     #UnVar SpeechTmp1
+    } {
+     #Say {Syntax: Speech Set @SpeechTypes}
+    }
+   }
+  }
+ }
+} {}
+#Alias dnt {
+ #If {%Length(%1)>0} {
+  #Var Silent {%IfWord(%1,on 1 enable enabled, )}
+ } {
+  #Var Silent {%Eval(Not @Silent)}
+ };
+ #Exec {#Alarm 0 {
+  MasterMute {@Silent} Quiet;
+  Speech {%If(@Silent=1,off,on)} Quiet;
+  #If {%IfWord(Quiet,%2,|)=0} {
+   #Say {%If(@Silent=1,Enabled,Disabled) Do Not Disturb.}
+  }
+ }}
+} {}

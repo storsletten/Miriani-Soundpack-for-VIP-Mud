@@ -337,14 +337,14 @@ station:General\Footsteps\Station*8@Ext
 ; setthememusicvolume:
 ; Use this alias with no arguments to set the volume of the
 ; theme music.
-#Alias {setthememusicvolume} {
- #if {%Mp3Loop>0} {
-  #math ThemeVol {@vol - @ThemeSoundVolumeDiff};
+#Alias SetThemeMusicVolume {
+ #If {%Mp3Loop>0} {
+  #Math ThemeVol {@vol - @ThemeSoundVolumeDiff};
   #pc %Mp3Loop volume @ThemeVol
  }
 } {}
 
-#Alias {ThemeMusicFadeout} {
+#Alias ThemeMusicFadeout {
  #if {%Mp3Loop>0} {
   #Var FadeoutCounter {-0@{DecimalChar}25};
   #alarm FadeOut {@FadeoutCounter} {
@@ -365,8 +365,12 @@ station:General\Footsteps\Station*8@Ext
 } {}
 
 #Alias MasterMute {
- #Var Silent {%Eval(NOT @Silent)};
- #if {@Silent=1} {
+ #If {%Length(%1)>0} {
+  #Var Silent {%IfWord(%1,on 1 enable enabled, )}
+ } {
+  #Var Silent {%Eval(NOT @Silent)}
+ };
+ #If {@Silent=1} {
   ThemeMusicFadeout;
   mrplayOriginal Stop;
   #pc 0 stop
@@ -374,13 +378,12 @@ station:General\Footsteps\Station*8@Ext
   InSpace @InSpace;
   mrplayOriginal @RoomSound
  };
- #say {Sounds %if(@Silent = 1,off,on)} VoiceOnly
+ #If {%IfWord(Quiet,%2,|)=0} {#Say {Sounds %If(@Silent=1,off,on).}}
 } {}
 
 ; SetMasterVolume:
 ; Sets the overall volume fader.
 #Alias SetMasterVolume {
- Speech Stop;
  #If {%IsNumber(%1)} {
   #Var Vol %1
  } {
@@ -403,11 +406,10 @@ station:General\Footsteps\Station*8@Ext
   MirianiSoundPlay {Volume Change} General\Misc\Beep*10@Ext
  };
  #If {%2=""} {
-  #Say {@Vol percent}
+  Speech Stop;
+  #Say {@Vol percent.} VoiceOnly
  };
- #If {@RoomSounds=1} {
-  setroomsoundvolume
- };
+ #If {@RoomSounds=1} {setroomsoundvolume};
  setthememusicvolume
 } {}
 

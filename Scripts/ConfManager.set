@@ -495,6 +495,7 @@ ArchaeologyHelperStoreFromCount:1
  };
  #Exec {#Alarm 0 {
   SetRoomSoundVolume;
+  SetThemeMusicVolume;
   mrplay {@RoomSound};
   SPKeepAlive {@KeepAlive} Quiet;
   #Class SoundKeys {%If(@LoadSoundKeys=1,Enable,Disable)};

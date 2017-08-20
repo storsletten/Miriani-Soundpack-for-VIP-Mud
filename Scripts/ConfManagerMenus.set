@@ -166,7 +166,7 @@ BypassActionToggles|B
 [9] Randomly pan weapon sounds  [~%If(~@RandomiseCombatPan=1,On,Off)].
 [10] Randomize the panning of certain events (including cargo transfer)  [~%If(~@RandomisePlay=1,On,Off)].
 %Chr(250)
-Silent|E::MasterMute {~@ConfOptionValue}
+Silent|E::#Alarm 0 {MasterMute {~@ConfOptionValue}}
 Vol|N:0^100:SetMasterVolume
 RoomSounds|M
 Themes|M
