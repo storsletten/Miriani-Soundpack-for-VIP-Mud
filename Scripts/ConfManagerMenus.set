@@ -1,10 +1,11 @@
 #Var ConfAliases {
-exp:General:Experience
-keepalive:General:Keep-Alive duration
-keys:Keystrokes
-mission:Missions:Mission mode
-save:Conf:Save
-vol:Sounds:Master volume
+exp:General:ExperienceLevel
+keepalive:General:KeepAlive
+mission:Missions:MissionMode
+rooms:RoomSounds
+roomsounds:RoomSounds
+save:Conf:SavePrimary
+vol:Sounds:Vol
 }
 #Var ConfMenus {Soundpack configuration - Main menu:
 [1] General options.
@@ -20,7 +21,7 @@ vol:Sounds:Master volume
 [11] Lore computer options.
 [12] Point unit options.
 [13] Speech and interrupts.
-[14] Advanced configuration.
+[14] Keystroke configuration.
 [15] Extras.
 [16] Conf Manager.
 [17] Log options.
@@ -39,7 +40,7 @@ Camera
 Lore
 PointUnit
 Speech
-Advanced
+Keystrokes
 Extras
 Conf
 Logs
@@ -61,10 +62,11 @@ Docs
 [12] Auto save soundpack configuration on exit  [~%If(~@AutoSave=1,On,Off)].
 [13] Auto save soundpack configuration when idle  [~%If(~@SaveOnIdle=1,On,Off)].
 [14] Command echoing  [~%If(~@CommandEcho=1,On,Off)].
-[15] Show soundpack statistics when disconnecting  [~%If(~@ShowStats=1,On,Off)].
-[16] Keep-Alive duration (in seconds)  [~@KeepAlive].
-[17] Keep-Alive responding  [~%If(~@KeepAliveRespond=1,On,Off)].
-[18] Soundpack update notifications  [~%If(~@AlertOnUpdate=1,On,Off)].
+[15] Pass special characters directly to the mud  [~%If(~@PassThru=1,On,Off)]. (useful if you are having problems with commands such as ~~~@soundpacks, or ~~~@custom-s).
+[16] Show soundpack statistics when disconnecting  [~%If(~@ShowStats=1,On,Off)].
+[17] Keep-Alive duration (in seconds)  [~@KeepAlive].
+[18] Keep-Alive responding  [~%If(~@KeepAliveRespond=1,On,Off)].
+[19] Soundpack update notifications  [~%If(~@AlertOnUpdate=1,On,Off)].
 %Chr(250)
 ExperienceLevel|C:Newbie^Middbie^Oldbie|Set your level of experience in Miriani
 AlterArmor|B
@@ -80,6 +82,7 @@ BypassLoginMenu|B
 AutoSave|B
 SaveOnIdle|B
 CommandEcho|B
+PassThru|E::PassThru {~@ConfOptionValue}
 ShowStats|B
 KeepAlive|N:0:#Alarm 0 {SPKeepAlive {~%If(~@KeepAlive>0,Start,0)} Quiet}
 KeepAliveRespond|B
@@ -192,13 +195,6 @@ NumOfThemes|N:0^10000
 ThemeFadeOutValue|N:0^100
 }
 
-#Var ConfMenuAdvanced {Advanced options:
-[1] Keystrokes.
-[2] Pass special characters directly to the mud  [~%If(~@PassThru=1,On,Off)]. (useful if you are having problems with commands such as ~~~@soundpacks, or ~~~@custom-s).
-%Chr(250)
-Keystrokes|M
-PassThru|E::PassThru {~@ConfOptionValue}
-}
 #Var ConfMenuKeystrokes {Keystroke configuration:
 [1] Sound keystrokes  [~%If(~@LoadSoundKeys=1,On,Off)].
 [2] History review keystrokes  [~%If(~@LoadHistoryReviewKeys=1,On,Off)].
