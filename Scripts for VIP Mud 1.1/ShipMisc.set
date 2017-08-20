@@ -199,7 +199,6 @@ msplay Ship\Misc\ExitDucts*2@Ext
 #TRIGGER {A small console nearby flashes for your attention. A quick glance reveals that you have new mail waiting for you at*.} {msplay Ship\Misc\NewMail@Ext;
 ExpPipe {%0} {A small console nearbye tells you have new mail waiting for you at %1.} {You have new mail at %1.};
 #sub {@ExpString}} {Main}
-#trigger {*Lifting anchor and establishing standard dock*} {msplay {anchor end@Ext}} {Main}
 #TRIGGER {You hear a loud clang as robotic arms seize the ship and transport it to the *.} {#if {%1 = "landing pad"} {
 msplay Ship\Misc\LandingPad@Ext
 };
