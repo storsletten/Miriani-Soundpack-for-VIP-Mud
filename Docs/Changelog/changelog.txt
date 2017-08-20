@@ -1,3 +1,6 @@
+Version 5.7.27, released 2017-08-20:
+* For 2.0: Added default value and current value to the option value prompts in the conf manager.
+
 Version 5.7.26, released 2017-08-20:
 * For 2.0: Brought back the message board options to the conf manager. Also refreshed the message board code so that it now supports voting.
 
