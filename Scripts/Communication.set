@@ -564,7 +564,7 @@
 } {Main}
 
 #Trigger {* [[]to *]: *} {
- #If {%Pos(~,,%1)=0 and %Pos(%Chr(62),%1)=0} {
+ #If {%Pos([,%1)=0 and %Pos(~,,%1)=0 and %Pos(%Chr(62),%1)=0} {
   #If {%Replace(%1,~",)<>"You"} {
    MirianiSoundPlay {Comms Framework} General\Socials\say@Ext;
    PushMessage Say {%0}
