@@ -533,20 +533,6 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  }
 } {Main}
 
-#Alias Setup {
- #Class Sight Enable;
- #Exec {~~~@linelength 140; ~~~@Wrap off;sight;#wait 0.6}
-} {}
-#Trigger {You will now see the more visual elements of the game.} {
- #GagLine 1 All;
-#wait 0.6;
- #Exec {sight}
-} {Sight}
-#Trigger {Certain visual elements of the game will now be suppressed.} {
- #Sub {Setup done.};
- #Class Sight Disable
-} {Sight}
-
 #Alias SPPrompt {
  #If {%Length(%3)=0} {
   #If {%Replace(%1,~",)="Disable"} {
