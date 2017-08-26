@@ -204,7 +204,8 @@ feel a tremendous shaking as something impacts the hull.^
  mwplay Ship\Combat\YouHit*11~@Ext
 |
 press a button to cancel the current autopilot program.^
- msplay General\Misc\Beep*9~@Ext; 	msplay Ship\Misc\Background*5~@Ext;
+ msplay General\Misc\Beep*9~@Ext;
+ msplay Ship\Misc\Background*5~@Ext;
  ExpPipe {~%0} {You cancel the autopilot program.} {Autopilot canceled.}
 |
 hear a deep hum as the starship begins an intrasector subwarp.^
@@ -622,7 +623,7 @@ depress the trigger on a cutting torch. A jet of dark blue flame immediately iss
  } {
   #If {%Word(@ActionTmp1, ,1)="see"} {
    #If {@ActionTmp1="see nothing special."} {
-	#If {@NoDescString="_gag_"} {
+    #If {@NoDescString="_gag_"} {
      #GagLine 1 All
     } {
      #If {%Trim(@NoDescString)<>""} {
@@ -632,7 +633,7 @@ depress the trigger on a cutting torch. A jet of dark blue flame immediately iss
     #Var ActionSuccess 1
    } {
     #If {%NumWords(@ActionTmp1,~,)>20} {
-	 #Var ActionSuccess 1
+     #Var ActionSuccess 1
     }
    }
   } {
@@ -664,7 +665,7 @@ depress the trigger on a cutting torch. A jet of dark blue flame immediately iss
     #Var Dir {@ActionTmp1};
     #If {@GagTreadLine=1} {#Gagline 1 All};
     #Alarm 0 {MStep};
-    #var SomeoneElseFires 0;
+    #Var SomeoneElseFires 0;
     #Var ActionSuccess 1
    }
   }
