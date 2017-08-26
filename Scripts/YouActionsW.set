@@ -191,8 +191,6 @@ peer * and see...^
  #Var Peers 1;
  ExpPipe {~%0} {} {}
 |
-stagger drunkenly *.^mstep
-|
 instruct * drone to *.^msplay General\Misc\InstructDrone~@Ext
 |
 pass through *.^#var Following 1

@@ -268,10 +268,8 @@ msplay Ship\Misc\EscapePodWormHoleJump2@Ext} {Main|InEscapePod}
 ExpPipe {%0} {%1's laser fired.} {};
 #sub {@ExpString};
 mrandomplay Ship\Combat\PlanetaryLaser@Ext} {Main}
-#Alias {focus} {
- #if {@InterruptOnFocus=1} {
-  speech stop
- };
+#Alias focus {
+ #If {@InterruptOnFocus=1} {speech stop};
  #Class Focus Enable;
  #Exec {>focus%RTrim( %0)}
 } {}

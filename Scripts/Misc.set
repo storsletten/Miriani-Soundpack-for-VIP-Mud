@@ -158,37 +158,104 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
 #Trigger {* several automated drones begin healing *.} {msplay General\Misc\ITPNStart@Ext} {Main}
 #Trigger {* stands up, looking much healthier than before.} {msplay Stand@Ext} {Main}
 #Trigger {You follow *.} {
- #var Following 1;
- #Var Tmp1 {%Word(%1, ,1) %Word(%1, ,2)};
- #If {@Tmp1 = @OtherName} {#Var Dir @OtherDir};
- #if {%pos(into the ship,%1)<>0} {
-  #if {@RoomName<>"Airlock"} {
+ #Var Following 1;
+ #If {%Pos(@OtherName,%1)=1} {#Var Dir {@OtherDir}};
+ #If {%Pos(into the ship,%1)<>0} {
+  #If {@RoomName<>"Airlock"} {
    msplay Ship\Misc\AirlockEnter@Ext
   }
  } {
-  #if {%ifword(%word(%1, ,%numwords(%1, )),@DirList, )=1} {
-   #Alarm 0 {mstep}
+  #If {%IfWord(%Word(%1, ,%NumWords(%1, )),@DirList, )=1} {
+   MStep You Leave {@OtherDir}
   }
- }
-} {Main}
-#Trigger {* in from *.} {
- #var MovementTmp1 {%Replace(%2,~,,"")};
- #if {%Pos(%CRLF%word(%1, ,%numwords(%1, ))%CRLF,@EntryStyles)<>0 AND (%ifword(%Word(@MovementTmp1, ,1),@DirList, )<>0 OR %ifword(%Word(@MovementTmp1, ,2),@DirList, )<>0) AND @PlayOtherTreadSound=1} {
-  mstep 1
  }
 } {Main}
 #Trigger {*.} {
- #If {%NumWords(%1, )>=4 and @PlayOtherTreadSound=1} {
-  #If {%IfWord(%Word(%1, ,%NumWords(%1, )),@DirList, )=1 and %IfWord(%Word(%1, ,%Eval(%NumWords(%1, )-1)),@EntryStyles,%CRLF)=1} {
-   #Var OtherDir {%word(%1, ,%numwords(%1, ))};
-   #Var OtherName {%Word(%1, ,1) %Word(%1, ,2)};
-   mstep 1
+ #If {%IfWord(%Left(%1,1),> ~( [, )=0} {
+  #Var MovementDir {%Word(%1, ,%NumWords(%1, ))};
+  #Var MovementMount {};
+  #If {%IfWord(@MovementDir,@DirList, )=0} {
+   #Var MovementTmp1 {%Pos( on a ,%1)};
+   #If {@MovementTmp1=0} {#Var MovementTmp1 {%Pos( on an ,%1)}};
+   #If {@MovementTmp1>0} {
+    #Var MovementTmp1 {%Copy(%1,1,%Eval(@MovementTmp1-1))};
+    #Var MovementDir {%Word(@MovementTmp1, ,%NumWords(@MovementTmp1, ))};
+    #If {%IfWord(@MovementDir,@DirList, )=1} {
+     #Var MovementMount {%Delete(%1,1,%Eval(%Length(@MovementTmp1)+4))};
+     #Var MovementTmp1 {%Copy(%1,1,%Eval(%Length(@MovementTmp1)-%Length(@MovementDir)-1))}
+    } {
+     #Var MovementDir {}
+    }
+   } {
+    #Var MovementDir {}
+   }
+  } {
+   #Var MovementTmp1 {%Copy(%1,1,%Eval(%Length(%1)-%Length(@MovementDir)-1))}
+  };
+  #If {%Length(@MovementDir)>0} {
+   #Var MovementTmp4 3;
+   #If {%Pos(You ,@MovementTmp1)=1} {
+    #If {%Pos(You can ,@MovementTmp1)=0} {
+     #Var MovementTmp2 {%NumWords(@MovementTmp1, )};
+     #Var MovementTmp3 {%Word(@MovementTmp1, ,@MovementTmp2)};
+     #While {@MovementTmp2>1 and @MovementTmp4>0} {
+      #Math MovementTmp4 {@MovementTmp4-1};
+      #If {%IfWord(@MovementTmp3,@WalkStyles,%CRLF)=1} {
+       #Var MovementTmp2 {-1}
+      } {
+       #Math MovementTmp2 {@MovementTmp2-1};
+       #Var MovementTmp3 {%Word(@MovementTmp1, ,@MovementTmp2) @MovementTmp3}
+      }
+     };
+     #If {@MovementTmp2=-1} {
+      #If {@GagTreadLine=1} {#GagLine 1 All};
+      MStep You Leave {@MovementDir}
+     }
+    }
+   } {
+    #Var MovementTmp2 {%Pos( in from ,@MovementTmp1 )};
+    #If {@MovementTmp2>0} {
+     #Var MovementTmp1 {%Copy(@MovementTmp1,1,%Eval(@MovementTmp2-1))};
+     #Var MovementTmp2 {%NumWords(@MovementTmp1, )};
+     #Var MovementTmp3 {%Word(@MovementTmp1, ,@MovementTmp2)};
+     #While {@MovementTmp2>1 and @MovementTmp4>0} {
+      #Math MovementTmp4 {@MovementTmp4-1};
+      #If {%IfWord(@MovementTmp3,@WalkStyles,%CRLF)=1} {
+       #Var MovementTmp2 {-1}
+      } {
+       #Math MovementTmp2 {@MovementTmp2-1};
+       #Var MovementTmp3 {%Word(@MovementTmp1, ,@MovementTmp2) @MovementTmp3}
+      }
+     };
+     #If {@MovementTmp2=-1} {
+      MStep Other Arrive {@MovementDir}
+     }
+    } {
+     #Var MovementTmp2 {%NumWords(@MovementTmp1, )};
+     #Var MovementTmp3 {%Word(@MovementTmp1, ,@MovementTmp2)};
+     #While {@MovementTmp2>1 and @MovementTmp4>0} {
+      #Math MovementTmp4 {@MovementTmp4-1};
+      #If {%IfWord(@MovementTmp3,@WalkStyles,%CRLF)=1} {
+       #Var MovementTmp2 {-1}
+      } {
+       #Math MovementTmp2 {@MovementTmp2-1};
+       #Var MovementTmp3 {%Word(@MovementTmp1, ,@MovementTmp2) @MovementTmp3}
+      }
+     };
+     #If {@MovementTmp2=-1} {
+      #Var OtherDir {@MovementDir};
+      #Var OtherName {%Copy(@MovementTmp1,1,%Eval(%Length(@MovementTmp1)-%Length(@MovementTmp3)-1))};
+      MStep Other Leave {@MovementDir}
+     }
+    }
+   };
+   #4 {#UnVar {MovementTmp%i}}
+  } {
+   #UnVar MovementTmp1
   }
  }
 } {Main}
-#Trigger {* into the *.} {#if {%ifword(%word(%1, ,%numwords(%1, )),@EntryStyles,%CRLF)=1 AND %ifword(%2,@DirList, )=1 AND @PlayOtherTreadSound=1} {
-mstep 1
-}} {Main}
+
 #Class SpamAlerts Enable
 #Trigger {Please do not enter so many commands at once.} {msplay General\Misc\spam@Ext} {Main|SpamAlerts}
 #Trigger {Spamming weapon commands will get you nowhere. Please be considerate. If you are experiencing lag, it would be best to wait for one command to successfully go through before attempting another. Thank you.} {msplay General\Misc\spam@Ext} {Main|SpamAlerts}

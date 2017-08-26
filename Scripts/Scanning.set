@@ -230,7 +230,7 @@
 #Trigger {You'll have better results scanning in space.} {
  #Class Scanning Disable;
  #Class Focus Disable
-} {Main}
+} {Main|Starship}
 
 #Alias {ses} {
  #if {@EnemyShip = ""} {

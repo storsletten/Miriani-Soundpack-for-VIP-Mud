@@ -371,28 +371,26 @@ station:General\Footsteps\Station*8@Ext
  }
 } {}
 
-#Alias mstep {
- #If {@PlayTreadSound=1} {
-  #If {%Pos( ,@RoomName)>0} {
-   #Var FootstepTmp1 {%CRLF@ZoneType.%Word(@RoomName, ,1):}
-  } {
-   #Var FootstepTmp1 {%CRLF@ZoneType.@RoomName:}
-  };
+#Alias MStep {
+ #If {%Pos( ,@RoomName)>0} {
+  #Var FootstepTmp1 {%CRLF@ZoneType.%Word(@RoomName, ,1):}
+ } {
+  #Var FootstepTmp1 {%CRLF@ZoneType.@RoomName:}
+ };
+ #If {%Pos(@FootstepTmp1,@FootstepsList)>0} {
+  #Var FootstepTmp1 {%Word(@FootstepsList,@FootstepTmp1,2)};
+  #Var FootstepTmp1 {%Word(@FootstepTmp1,%CRLF,1)}
+ } {
+  #Var FootstepTmp1 {%CRLF@ZoneType:};
   #If {%Pos(@FootstepTmp1,@FootstepsList)>0} {
    #Var FootstepTmp1 {%Word(@FootstepsList,@FootstepTmp1,2)};
    #Var FootstepTmp1 {%Word(@FootstepTmp1,%CRLF,1)}
   } {
-   #Var FootstepTmp1 {%CRLF@ZoneType:};
-   #If {%Pos(@FootstepTmp1,@FootstepsList)>0} {
-    #Var FootstepTmp1 {%Word(@FootstepsList,@FootstepTmp1,2)};
-    #Var FootstepTmp1 {%Word(@FootstepTmp1,%CRLF,1)}
-   } {
-    #Var FootstepTmp1 {}
-   }
-  };
-  #If {@FootstepTmp1<>""} {MirianiSoundPlay Footstep {@FootstepTmp1}};
-  #UnVar FootstepTmp1
- }
+   #Var FootstepTmp1 {}
+  }
+ };
+ #If {%Length(@FootstepTmp1)>0 and ((%1="Other" and @PlayOtherTreadSound=1) or (%1="You" and @PlayTreadSound=1))} {MirianiSoundPlay Footstep {@FootstepTmp1}};
+ #UnVar FootstepTmp1
 } {}
 
 
