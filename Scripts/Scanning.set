@@ -224,8 +224,9 @@
 } {Main|Scanning}
 #Trigger {That object was not found.} {
  msplay Ship\Computer\NothingToScan@Ext;
- #Class Scanning Disable
-} {Main|Scanning}
+ #Class Scanning Disable;
+ #Class Focus Disable
+} {Main|Starship}
 #Trigger {You'll have better results scanning in space.} {
  #Class Scanning Disable;
  #Class Focus Disable

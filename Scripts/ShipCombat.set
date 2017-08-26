@@ -312,27 +312,26 @@ mrandomplay Ship\Combat\PlanetaryLaser@Ext} {Main}
  }
 } {Main|Focus}
 #TRIGGER {There are no ships here.} {#class focus disable} {Main|Focus}
-#TRIGGER {That object was not found.} {#class focus disable} {Main|Focus}
 #TRIGGER {That's not a ship.} {#class focus disable} {Main|Focus}
 #TRIGGER {The focused ship is no longer in the sector.} {#class focus disable} {Main|Focus}
-#TRIGGER {Invalid selection.} {#class focus disable} {Main|Focus}
-#TRIGGER {Invalid coordinates. Range: (*) to (*).} {msplay Ship\Misc\Drunk@Ext;
-ExpPipe {%0} {%0} {Invalid coordinates.};
-#sub {@ExpString}} {Main|Starship}
+#TRIGGER {Invalid coordinates. Range: (*) to (*).} {
+ msplay Ship\Misc\Drunk@Ext;
+ ExpPipe {%0} {%0} {Invalid coordinates.};
+ #sub {@ExpString}
+} {Main|Starship}
 #TRIGGER {You hear * as * launched.} {mwplay Ship\Combat\CombatDroneLaunch*8@Ext;
 ExpPipe {%0} {%0} {%2 launched.};
 #sub {@ExpString}} {Main|Starship}
 #TRIGGER {You input a command to *.} {msplay Ship\Computer\CombatDroneRecall@Ext;
 ExpPipe {%0} {%0} {You %1.};
 #sub {@ExpString}} {Main|Starship}
-#TRIGGER {You * the stun turret cameras.} {#if {%1 = "enable"} {
-msplay General\Device\Activate@Ext
-} {
-msplay General\Device\Deactivate@Ext}} {Main}
-#TRIGGER {You * the stun turret camera at *.} {#if {%1 = "enable"} {
-msplay General\Device\Activate@Ext
-} {
-msplay General\Device\Deactivate@Ext}} {Main}
+#Trigger {You * the stun turret camera*.} {
+ #If {%Pos(enable,%1)>0} {
+  msplay General\Device\Activate@Ext
+ } {
+  msplay General\Device\Deactivate@Ext
+ }
+} {Main}
 #TRIGGER {The locked coordinates are out of range of the available weapons.} {
 msplay Ship\Combat\OutOfRange@Ext;
 ExpPipe {%0} {Target out of range.} {Out of range.};

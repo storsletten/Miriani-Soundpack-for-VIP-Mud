@@ -60,6 +60,9 @@ ConfPrint {Bypass mode %if(@PassThru = 1,enabled,disabled).}
  #sub {@ExpString}
 } {Main}
 #Trigger {Invalid selection.} {
+ #Class Scanning Disable;
+ #Class Focus Disable;
+ #Class SmFilter Disable;
  #Class MessageBoard Disable;
  msplay General\Misc\Cancel@Ext
 } {Main}

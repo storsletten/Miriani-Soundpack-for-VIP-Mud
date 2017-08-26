@@ -275,11 +275,19 @@ msplay Ship\Computer\Error@Ext
   mwplay Ship\Combat\OtherDestroyed*11@Ext;
   ExpPipe {%0} {%0} {%Copy(%1,6,%Eval(%Length(%1)-25)) destroyed.}
  };
+ #If {@ShipComputerTmp1=*"the starship is headed for *. The computer estimates approximately * until arrival at the destination at sublight speeds."} {
+  #Var ShipComputerTmp3 {%Pos(. The computer estimates approximately ,%1)};
+  #Var ShipComputerTmp4 {%Copy(%1,28,%Eval(@ShipComputerTmp3-28))};
+  #Var ShipComputerTmp5 {%Delete(%1,1,%Eval(@ShipComputerTmp3+38))};
+  #Var ShipComputerTmp5 {%Copy(@ShipComputerTmp5,1,%Eval(%Pos(until arrival at the destination at sublight speeds,@ShipComputerTmp5)-2))};
+  ExpPipe {%0} {%0} {@ShipComputerTmp5 until arrival at @ShipComputerTmp4.};
+  #ForAll {Tmp3|Tmp4|Tmp5} {#UnVar {ShipComputer%i}}
+ };
  #If {%Length(@ShipComputerTmp2)>0} {
   #If {%NumWords(@ShipComputerTmp2,|)>1} {
-   msplay {%Word(@ShipComputerTmp2,|,1)} {%Word(@ShipComputerTmp2,|,2)}
+   MirianiSoundPlay Computer {%Word(@ShipComputerTmp2,|,1)} {%Word(@ShipComputerTmp2,|,2)}
   } {
-   msplay {%Word(@ShipComputerTmp2,|,1)}
+   MirianiSoundPlay Computer {%Word(@ShipComputerTmp2,|,1)}
   }
  };
  #If {%Length(@ExpString)=0} {
@@ -289,11 +297,6 @@ msplay Ship\Computer\Error@Ext
  #Sub {@ExpString};
  #UnVar ShipComputerTmp1;
  #UnVar ShipComputerTmp2
-} {Main|Starship}
-#TRIGGER {The computer reports the starship is headed for *. The computer estimates approximately * until arrival at the destination at sublight speeds.} {
- msplay Ship\Computer\Report*4@Ext;
- ExpPipe {%0} {%2 until arrival at %1} {%2 until arrival at %1};
- #Sub {@ExpString}
 } {Main|Starship}
 #Trigger {* presses a button on a navigation console and examines the display.} {msplay Ship\Computer\Keyboard*15@Ext;
 ExpPipe {%0} {%0} {%1 checks the navigation console.};
