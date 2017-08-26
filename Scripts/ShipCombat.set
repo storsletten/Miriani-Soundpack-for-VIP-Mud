@@ -83,19 +83,19 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
 };
 ConfPrint {@ShipCombatTmp1}
 }} {}
-#TRIGGER {Locked onto coordinates: *} {
+#Trigger {Locked onto coordinates: *} {
  ExpPipe {%0} {%1} {};
  #Sub {@ExpString};
  #if {@UseAlternativeCombatSounds=1 OR %1=@FocusShipCoords} {
   msplay Ship\Combat\LockedOnOther2@Ext
  }
 } {Main|Starship}
-#TRIGGER {A blinding flash of light suddenly permeates the *.} {
+#Trigger {A blinding flash of light suddenly permeates the *.} {
  msplay Ship\Combat\YouHit*9@Ext;
  ExpPipe {%0} {A blinding flash of light suddenly permeates the entire area} {};
  #Sub {@ExpString}
 } {Main|Starship}
-#TRIGGER {Target: *} {
+#Trigger {Target: *} {
  msplay Ship\Combat\LockedOnOther@Ext;
  #If {%Word(%1, ,1)="Starship" and %NumWords(%1,~")=3} {
   #If {@MissionMode=1 and %Pos("Starship ~"Praelor ",%1)=1} {
@@ -128,7 +128,7 @@ ConfPrint {@ShipCombatTmp1}
  ExpPipe {%0} {%0} {Lock by %1};
  #Sub {@ExpString}
 } {Main|Starship}
-#TRIGGER {* has fired at *.} {
+#Trigger {* has fired at *.} {
  #If {%Pos(~(,%1)=1 and %Pos(~),%1)>1} {} {
   ExpPipe {%0} {%0} {%2 hit by %1};
   #If {%Word(%2, ,1)="Praelor"} {
@@ -143,7 +143,7 @@ ConfPrint {@ShipCombatTmp1}
   #Sub {@DisplayString}
  }
 } {Main}
-#TRIGGER {A * as * lights * overhead.} {
+#Trigger {A * as * lights * overhead.} {
  #If {%3=*"continue to *"} {
   #If {%2="red" and @MuteAlertContSounds<>1} {
    #If {%mp3loop=0} {mtplay};
@@ -222,20 +222,20 @@ ConfPrint {@ShipCombatTmp1}
  ExpPipe {%0} {%1 colored lasers strikes you from %2.} {Hit by %2's %1 laser fire};
  #Sub {@ExpString}
 } {Main|Starship}
-#TRIGGER {The ship rocks slightly as it's hit by *.} {mwplay Ship\Combat\YouHit*11@Ext;
+#Trigger {The ship rocks slightly as it's hit by *.} {mwplay Ship\Combat\YouHit*11@Ext;
  ExpPipe {%0} {%0} {Hit by %1};
  #Sub {@ExpString}
 } {Main|Starship}
-#TRIGGER {A high-pitched, wobbling alarm sounds as the hull begins breaking up around you.} {msplay Ship\Combat\YouDestroyed*3@Ext;
+#Trigger {A high-pitched, wobbling alarm sounds as the hull begins breaking up around you.} {msplay Ship\Combat\YouDestroyed*3@Ext;
 #Gagline 1 ALL} {Main|Starship}
-#TRIGGER {The experimental wormhole drive suddenly kicks to life, creating a high-pitched mechanical whine that fills the enclosed space.} {ExpPipe {%0} {} {};
+#Trigger {The experimental wormhole drive suddenly kicks to life, creating a high-pitched mechanical whine that fills the enclosed space.} {ExpPipe {%0} {} {};
 #Sub @ExpString;
 msplay Ship\Misc\EscapePodWormHoleJump1@Ext} {Main|InEscapePod}
 #Trigger {The sound of strained components echos throughout the pod. It sounds as if it's going to break apart altogether.} {msplay Ship\Misc\MetalStress@Ext} {Main|InEscapePod}
-#TRIGGER {With one final burst of acceleration, the pod emerges from the wormhole and begins accelerating through space under the power of the relativity drive.} {ExpPipe {%0} {} {};
+#Trigger {With one final burst of acceleration, the pod emerges from the wormhole and begins accelerating through space under the power of the relativity drive.} {ExpPipe {%0} {} {};
 #Sub @ExpString;
 msplay Ship\Misc\EscapePodWormHoleJump2@Ext} {Main|InEscapePod}
-#TRIGGER {With a final jolt, the pod completes its landing. As you depart, you notice an army of automated drones arrive to clear the spent pod away.} {#class InEscapePod disable} {Main|InEscapePod}
+#Trigger {With a final jolt, the pod completes its landing. As you depart, you notice an army of automated drones arrive to clear the spent pod away.} {#Class InEscapePod disable} {Main|InEscapePod}
 #Trigger {The room is bathed in brilliant red and green light as the ship's laser turrets fire alternating patterns of festive color.} {
  mwplay Ship\Combat\AltLaser*16@Ext;
  #GagLine 1 All
@@ -248,12 +248,12 @@ msplay Ship\Misc\EscapePodWormHoleJump2@Ext} {Main|InEscapePod}
  mwplay Ship\Combat\Laser*17@Ext;
  #GagLine 1 All
 } {Main|Starship}
-#TRIGGER {The ship shudders briefly as a reflected laser blast impacts the hull.} {
+#Trigger {The ship shudders briefly as a reflected laser blast impacts the hull.} {
  msplay Ship\Combat\LaserReflected@Ext;
  ExpPipe {%0} {Reflected laser fire hits this starship.} {};
  #Sub {@ExpString}
 } {Main|Starship}
-#TRIGGER {The ship shudders violently as solar material impacts the hull.} {
+#Trigger {The ship shudders violently as solar material impacts the hull.} {
  mwplay Ship\Combat\SolarDebris@Ext;
  ExpPipe {%0} {Solar material impacts the hull.} {};
  #Sub {@ExpString}
@@ -263,8 +263,8 @@ msplay Ship\Misc\EscapePodWormHoleJump2@Ext} {Main|InEscapePod}
 #Trigger {*"Immobilization pulse is locking*..."} {msplay Ship\Combat\pulselock*2@Ext} {Main|Starship}
 #Trigger {*"Sensor interruption pulse is locking*..."} {msplay Ship\Combat\pulselock*2@Ext} {Main|Starship}
 #Trigger {*"Computer disruption pulse is locking*..."} {msplay Ship\Combat\pulselock*2@Ext} {Main|Starship}
-#TRIGGER {* has launched an interdictor.} {msplay ship\misc\intradictor@Ext} {Main}
-#TRIGGER {*A distant whirring noise can be heard as the *'s laser aligns itself, followed by a faint pulse as it fires.} {
+#Trigger {* has launched an interdictor.} {msplay ship\misc\intradictor@Ext} {Main}
+#Trigger {*A distant whirring noise can be heard as the *'s laser aligns itself, followed by a faint pulse as it fires.} {
 ExpPipe {%0} {%1's laser fired.} {};
 #sub {@ExpString};
 mrandomplay Ship\Combat\PlanetaryLaser@Ext} {Main}
@@ -272,10 +272,10 @@ mrandomplay Ship\Combat\PlanetaryLaser@Ext} {Main}
  #if {@InterruptOnFocus=1} {
   speech stop
  };
- #class focus enable;
- ~focus %0
+ #Class Focus Enable;
+ #Exec {>focus%RTrim( %0)}
 } {}
-#TRIGGER {*: *} {
+#Trigger {*: *} {
  #if {@InterruptOnFocus=1} {
   speech stop
  };
@@ -308,21 +308,24 @@ mrandomplay Ship\Combat\PlanetaryLaser@Ext} {Main}
    #Var ShipCombatTmp1 {Unchanged (@ShipCombatTmp1)}
   };
   #Sub {@ShipCombatTmp1};
-  #Class focus disable
+  #Class Focus Disable
  }
 } {Main|Focus}
-#TRIGGER {There are no ships here.} {#class focus disable} {Main|Focus}
-#TRIGGER {That's not a ship.} {#class focus disable} {Main|Focus}
-#TRIGGER {The focused ship is no longer in the sector.} {#class focus disable} {Main|Focus}
-#TRIGGER {Invalid coordinates. Range: (*) to (*).} {
+#Trigger {There are no ships here.} {
+ msplay Ship\Computer\NothingToScan@Ext;
+ #Class Focus Disable
+} {Main|Focus}
+#Trigger {That's not a ship.} {#Class Focus Disable} {Main|Focus}
+#Trigger {The focused ship is no longer in the sector.} {#Class Focus Disable} {Main|Focus}
+#Trigger {Invalid coordinates. Range: (*) to (*).} {
  msplay Ship\Misc\Drunk@Ext;
  ExpPipe {%0} {%0} {Invalid coordinates.};
  #sub {@ExpString}
 } {Main|Starship}
-#TRIGGER {You hear * as * launched.} {mwplay Ship\Combat\CombatDroneLaunch*8@Ext;
+#Trigger {You hear * as * launched.} {mwplay Ship\Combat\CombatDroneLaunch*8@Ext;
 ExpPipe {%0} {%0} {%2 launched.};
 #sub {@ExpString}} {Main|Starship}
-#TRIGGER {You input a command to *.} {msplay Ship\Computer\CombatDroneRecall@Ext;
+#Trigger {You input a command to *.} {msplay Ship\Computer\CombatDroneRecall@Ext;
 ExpPipe {%0} {%0} {You %1.};
 #sub {@ExpString}} {Main|Starship}
 #Trigger {You * the stun turret camera*.} {
@@ -332,7 +335,7 @@ ExpPipe {%0} {%0} {You %1.};
   msplay General\Device\Deactivate@Ext
  }
 } {Main}
-#TRIGGER {The locked coordinates are out of range of the available weapons.} {
+#Trigger {The locked coordinates are out of range of the available weapons.} {
 msplay Ship\Combat\OutOfRange@Ext;
 ExpPipe {%0} {Target out of range.} {Out of range.};
 #sub {@ExpString}
@@ -342,40 +345,40 @@ msplay Ship\Combat\OutOfRange@Ext;
 ExpPipe {%0} {Target out of range.} {Out of range.};
 #sub {@ExpString}
 } {Main|Starship}
-#TRIGGER {The starship shakes violently as a projectile strikes the hull.} {mwplay Ship\Combat\YouHit*9@Ext;
+#Trigger {The starship shakes violently as a projectile strikes the hull.} {mwplay Ship\Combat\YouHit*9@Ext;
 #gagline 1 all} {Main}
 #Trigger {The ship lurches violently as a massive snowball impacts the hull. The view of space suddenly vanishes, replaced by pure white.} {mwplay Ship\Combat\YouHit*9@Ext} {Main|Starship}
-#TRIGGER {The ship rocks and shakes intensely as it is thrown violently by *.} {
+#Trigger {The ship rocks and shakes intensely as it is thrown violently by *.} {
  ExpPipe {%0} {Ship hit by %1!} {Hit by %1.};
  #sub {@ExpString};
  mwplay Ship\Combat\PushPulse@Ext
 } {Main|Starship}
-#TRIGGER {The weapons systems are not powered up.} {msplay Ship\Computer\Error@Ext} {Main|Starship}
-#TRIGGER {The ship shudders violently as rebounded weapons fire impacts the hull.} {ExpPipe {%0} {The ship shudders violently} {};
+#Trigger {The weapons systems are not powered up.} {msplay Ship\Computer\Error@Ext} {Main|Starship}
+#Trigger {The ship shudders violently as rebounded weapons fire impacts the hull.} {ExpPipe {%0} {The ship shudders violently} {};
 #sub {@ExpString};
 mwplay Ship\Combat\Rebound*5@Ext} {Main|Starship}
-#TRIGGER {The starship shakes violently around you and a strange shriek is heard as a disarmament pulse impacts the hull and the charge spreads to the weapon arrays.} {ExpPipe {%0} {%0} {Hit by disarmerment pulse!};
+#Trigger {The starship shakes violently around you and a strange shriek is heard as a disarmament pulse impacts the hull and the charge spreads to the weapon arrays.} {ExpPipe {%0} {%0} {Hit by disarmerment pulse!};
 #sub {@ExpString};
 msplay Ship\Combat\DisarmHits*3@Ext;
 msplay Ship\Combat\DisarmSqueal*4@Ext} {Main|Starship}
-#TRIGGER {The ship sways slightly as a sensor interruption pulse impacts the sensor arrays.} {ExpPipe {%0} {%0} {Hit by sensor interruption pulse!};
+#Trigger {The ship sways slightly as a sensor interruption pulse impacts the sensor arrays.} {ExpPipe {%0} {%0} {Hit by sensor interruption pulse!};
 #sub {@ExpString};
 msplay Ship\Combat\InterruptHits@Ext} {Main|Starship}
-#TRIGGER {The starship lurches as a concentrated laser beam impacts the hull.} {mwplay Ship\Combat\PlanetaryLaser@Ext} {Main|Starship}
-#TRIGGER {Those coordinates are already locked.} {ExpPipe {%0} {%0} {Already locked.};
+#Trigger {The starship lurches as a concentrated laser beam impacts the hull.} {mwplay Ship\Combat\PlanetaryLaser@Ext} {Main|Starship}
+#Trigger {Those coordinates are already locked.} {ExpPipe {%0} {%0} {Already locked.};
 #sub @ExpString} {Main|Starship}
-#TRIGGER {HULL: *[%]*} {#if {%1 >= "80" AND %1 <> "<1"} {msplay Ship\Combat\HullCrit@Ext -20}} {Main}
-#TRIGGER {Critical Damage:} {#class critical enable} {Main}
-#TRIGGER {*: *[%]} {#if {%2 >= 80} {
+#Trigger {HULL: *[%]*} {#if {%1 >= "80" AND %1 <> "<1"} {msplay Ship\Combat\HullCrit@Ext -20}} {Main}
+#Trigger {Critical Damage:} {#Class critical enable} {Main}
+#Trigger {*: *[%]} {#if {%2 >= 80} {
 #if {%1 = "HULL"} {
 msplay Ship\Combat\HullCrit@Ext
 } {
 msplay Ship\Combat\Critical@Ext;
-#class critical disable
+#Class critical disable
 }
 }} {Main|Critical}
 #Trigger {*An escape pod suddenly lands nearby.} {msplay Ship\Misc\EscapePodDescend@Ext} {Main}
-#TRIGGER {You hear a soft mechanical whine as the fighter bay's hatch *s.} {ExpPipe {%0} {The fighter bay's hatch %1s.} {};
+#Trigger {You hear a soft mechanical whine as the fighter bay's hatch *s.} {ExpPipe {%0} {The fighter bay's hatch %1s.} {};
 #sub @ExpString;
 #if {%1="open"} {
 msplay Ship\Move\BCFighterDock@Ext
@@ -437,7 +440,7 @@ msplay Ship\Misc\DockingBayDoorClose@Ext
 #Trigger {Combat Drone Control:} {
  ExpPipe {%0} {%0} {};
  #Sub @ExpString;
- #class CombatDrone enable
+ #Class CombatDrone enable
 } {Main|Starship}
 #Trigger {* Combat Drones: */*} {
  ExpPipe {%0} {[%1]: %2/%3} {%1: %2/%3};
@@ -446,7 +449,7 @@ msplay Ship\Misc\DockingBayDoorClose@Ext
 #Trigger {Currently Targetting: *.} {
  ExpPipe {%0} {[Targetting]: %1} {%1};
  #sub @ExpString;
- #class CombatDrone disable
+ #Class CombatDrone disable
 } {CombatDrone|Main}
 
 #Trigger {There is a dull thudding noise from outside the hull, following by the loud boom of static from nearby consoles. It seems that the ship's sensors are malfunctioning.} {
@@ -464,7 +467,7 @@ msplay Ship\Misc\DockingBayDoorClose@Ext
 #Trigger {The starmap console has been rendered nonfunctional by Praelor sensor jamming. You see nothing but the pattern of a TV tuned to a dead channel.} {
  msplay Ship\Computer\SensorInterference@Ext
 } {Main|Starship}
-#TRIGGER {The ship rocks violently as it comes into contact with *.} {
+#Trigger {The ship rocks violently as it comes into contact with *.} {
  ExpPipe {%0} {The ship comes into contact with %1.} {The ship hits %1.};
  #Sub @ExpString;
  msplay Ship\Combat\YouHit*6@Ext
@@ -479,6 +482,6 @@ msplay Ship\Misc\DockingBayDoorClose@Ext
  #Sub @ExpString;
  msplay Ship\Combat\InterdictStart@Ext
 } {Main|Starship}
-#TRIGGER {You hear a high-pitched squeal followed by three distinct pulsing sounds as the laser turrets are fired in sync.} {#Gagline ALL;
+#Trigger {You hear a high-pitched squeal followed by three distinct pulsing sounds as the laser turrets are fired in sync.} {#Gagline ALL;
  msplay Ship\Combat\mod@Ext
 } {Main|Starship}
