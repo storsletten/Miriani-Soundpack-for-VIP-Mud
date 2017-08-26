@@ -1,3 +1,6 @@
+Version 5.7.31, released 2017-08-27:
+* For 2.0: Rewrote the footsteps framework. The biggest change for now is that it supports mountable things, but the sound engine is also ready for cool things such as panning of footstep sounds based on direction, different sounds for different walk styles, etc. I may or may not implement those things at some point.
+
 Version 5.7.30, released 2017-08-26:
 * For 2.0: Fixed a few small bugs in the SM filters.
 * For 2.0: Fixed a few bugs with the course command and the focus command. Also removed several superfluous triggers to improve performance.
