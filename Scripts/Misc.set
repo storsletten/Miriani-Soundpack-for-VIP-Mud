@@ -170,29 +170,32 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
   }
  }
 } {Main}
-#Trigger {*.} {
- #If {%IfWord(%Left(%1,1),> ~( [, )=0} {
-  #Var MovementDir {%Word(%1, ,%NumWords(%1, ))};
-  #Var MovementMount {};
-  #If {%IfWord(@MovementDir,@DirList, )=0} {
-   #Var MovementTmp1 {%Pos( on a ,%1)};
-   #If {@MovementTmp1=0} {#Var MovementTmp1 {%Pos( on an ,%1)}};
-   #If {@MovementTmp1>0} {
-    #Var MovementTmp1 {%Copy(%1,1,%Eval(@MovementTmp1-1))};
-    #Var MovementDir {%Word(@MovementTmp1, ,%NumWords(@MovementTmp1, ))};
-    #If {%IfWord(@MovementDir,@DirList, )=1} {
-     #Var MovementMount {%Delete(%1,1,%Eval(%Length(@MovementTmp1)+4))};
-     #Var MovementTmp1 {%Copy(%1,1,%Eval(%Length(@MovementTmp1)-%Length(@MovementDir)-1))}
+#Trigger {*.*} {
+ #If {%Length(%2)=0 and %IfWord(%Left(%1,1),>| |-|~(|[,|)=0} {
+  #Var MovementTestTmp2 {%Word(%1, ,%NumWords(%1, ))};
+  #Var MovementTestTmp3 {};
+  #If {%IfWord(@MovementTestTmp2,@DirList, )=0} {
+   #Var MovementTestTmp1 {%Pos( on a ,%1)};
+   #If {@MovementTestTmp1=0} {#Var MovementTestTmp1 {%Pos( on an ,%1)}};
+   #If {@MovementTestTmp1>0} {
+    #Var MovementTestTmp1 {%Copy(%1,1,%Eval(@MovementTestTmp1-1))};
+    #Var MovementTestTmp2 {%Word(@MovementTestTmp1, ,%NumWords(@MovementTestTmp1, ))};
+    #If {%IfWord(@MovementTestTmp2,@DirList, )=1} {
+     #Var MovementTestTmp3 {%Delete(%1,1,%Eval(%Length(@MovementTestTmp1)+4))};
+     #Var MovementTestTmp1 {%Copy(%1,1,%Eval(%Length(@MovementTestTmp1)-%Length(@MovementTestTmp2)-1))}
     } {
-     #Var MovementDir {}
+     #Var MovementTestTmp2 {}
     }
    } {
-    #Var MovementDir {}
+    #Var MovementTestTmp2 {}
    }
   } {
-   #Var MovementTmp1 {%Copy(%1,1,%Eval(%Length(%1)-%Length(@MovementDir)-1))}
+   #Var MovementTestTmp1 {%Copy(%1,1,%Eval(%Length(%1)-%Length(@MovementTestTmp2)-1))}
   };
-  #If {%Length(@MovementDir)>0} {
+  #If {%Length(@MovementTestTmp2)>0} {
+   #Var MovementTmp1 {@MovementTestTmp1};
+   #Var MovementDir {@MovementTestTmp2};
+   #Var MovementMount {@MovementTestTmp3};
    #Var MovementTmp4 3;
    #If {%Pos(You ,@MovementTmp1)=1} {
     #If {%Pos(You can ,@MovementTmp1)=0} {
@@ -250,8 +253,6 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
     }
    };
    #4 {#UnVar {MovementTmp%i}}
-  } {
-   #UnVar MovementTmp1
   }
  }
 } {Main}
