@@ -5,8 +5,6 @@
  loudly
 }
 
-#alias {ro} {rooc %0} {}
-#Exec {SetVariable TmpCommunication*4 {}}
 #Class Comm Enable
 
 ; Lists of special characters for different languages:
@@ -64,12 +62,8 @@
 } {Comm}
 
 #Trigger {[[]*] *} {
- #If {%IsNumber(@TmpCommunication1)=1} {
-  #Var TmpCommunication1 {}
- } {
-  #Var TmpCommunication1 {%Replace(%1,~~,)};
-  #Var TmpCommunication1 {%Replace(@TmpCommunication1,~",)}
- };
+ #Var TmpCommunication1 {%Replace(%1,~~,)};
+ #Var TmpCommunication1 {%Replace(@TmpCommunication1,~",)};
  #If {@Main<1 or @TmpCommunication1=""} {} {
   #Var TmpCommunication2 {};
   #Var TmpCommunication3 {};
@@ -647,6 +641,7 @@
  msplay General\Comm\AdminPrivateMessage@ext;
  PushMessage Admin0Messages {%0}
 } {Main}
+#Alias ro {#Exec {rooc%RTrim( %0)}} {}
 #Alias rooc {
  CharEncoder ROOCTmp1 {%0} encode;
  #Exec {>rooc%RTrim( @ROOCTmp1)};
