@@ -1,3 +1,6 @@
+Version 5.7.34, released 2017-08-28:
+* For 2.0: Transformed the data in YouActionsW.set into regular triggers. It may reduce performance, but it fixes lots of horrible and inexplicable bugs, such as the order of lines of incoming text being shuffled sometimes. I'll try to come up with another plan of improving performance again later.
+
 Version 5.7.33, released 2017-08-28:
 * For 2.0: Fixed a bug in the communication framework that basically made it ignore messages occasionally.
 
