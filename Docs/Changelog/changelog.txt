@@ -1,3 +1,6 @@
+Version 5.7.33, released 2017-08-28:
+* For 2.0: Fixed a bug in the communication framework that basically made it ignore messages occasionally.
+
 Version 5.7.32, released 2017-08-27:
 * For 2.0: Fixed errors in the new footsteps framework caused by a race condition.
 
