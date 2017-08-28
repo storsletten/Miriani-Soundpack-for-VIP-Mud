@@ -1,6 +1,6 @@
 #Trigger {You hear a series of loud bangs as * missiles explode on the hull.} {
  MrandomPlay Ship\Combat\Projectile*3.wav;
- ExpPipe {} {Missiles explode on the hull.} {};
+ ExpPipe {%0} {Missiles explode on the hull.} {};
  #Sub {@ExpString}
 } {Main}
 #Trigger {You hear a series of * as the ship fires * missiles.} {
@@ -10,7 +10,7 @@
 } {Main}
 #Trigger {You flick a switch on *.} {msplay General\Device\Switch@Ext} {Main}
 #Trigger {You step on to a small platform on the floor. Sensing your presence, a ring of lights along the perimeter of the circle light up as the platform *.} {
- ExpPipe {} {:Voice:} {};
+ ExpPipe {%0} {:Voice:%0} {};
  msplay General\Misc\HGLift.wav;
  #Sub {@ExpString}
 } {Main}
@@ -31,23 +31,23 @@
 } {Main}
 #Trigger {You unload a * from *} {msplay General\Combat\UnloadAmmo*5@Ext} {Main}
 #Trigger {You hear a loud * sound as a disarmament pulse is fired.} {
- ExpPipe {%0} {Disarmament pulse fired.} {Disarmament pulse fired};
+ ExpPipe {%0} {Disarmament pulse fired.} {Disarmament pulse fired.};
  msplay Ship\Combat\disarm@Ext;
  #Sub {@ExpString}
 } {Main}
 #Trigger {You hear * sound as * immobilization pulse *.} {
  msplay Ship\Combat\immobilize@Ext;
- ExpPipe {%0} {Immobilization pulse fired.} {Immobilization pulse fired};
+ ExpPipe {%0} {Immobilization pulse fired.} {Immobilization pulse fired.};
  #Sub {@ExpString}
 } {Main}
 #Trigger {You hear * the starship's CDP launcher.} {
  msplay Ship\Combat\disrupt@Ext;
- ExpPipe {%0} {Computer disruption pulse fired.} {CDP fired};
+ ExpPipe {%0} {Computer disruption pulse fired.} {CDP fired.};
  #Sub {@ExpString}
 } {Main}
 #Trigger {You hear a sharp * sound as a sensor interruption pulse is fired.} {
  msplay Ship\Combat\interrupt@Ext;
- ExpPipe {%0} {Sensor interruption pulse fired.} {Sensor interruption pulse fired};
+ ExpPipe {%0} {Sensor interruption pulse fired.} {Sensor interruption pulse fired.};
  #Sub {@ExpString}
 } {Main}
 #Trigger {You hear a mechanical rumbling sound as the ship*s repair arm goes to work.} {
@@ -174,8 +174,4 @@
  #gagline 1 all;
  msplay ACV\ACVLaunch@Ext;
  msplay Ship\Move\Subwarp@Ext
-} {Main}
-#Trigger {You have been playing for *. [[]*]} {
- #Class InfoOutputWorkaround Enable;
- MainTrigSwitch 0
 } {Main}

@@ -563,11 +563,6 @@ depress the trigger on a cutting torch. A jet of dark blue flame immediately iss
 |
 }
 
-#Class InfoOutputWorkaround Disable
-#Trigger {You are renting *} {
- MainTrigSwitch 1;
- #Class InfoOutputWorkaround Disable
-} {InfoOutputWorkaround}
 #Trigger {You *} {
  #Var ActionTmp1 {%Replace(%1,~",)};
  #Var ActionTmp2 {};
