@@ -331,46 +331,6 @@ maplay General\Misc\Fire@Ext} {Main|Actions}
 #Trigger {You dive deep into *.} {
  maplay pool\splash*3@Ext
 } {Main|Actions}
-#Trigger {* cries softly.} {meplay baby\babysoftcry@Ext} {Main|Socials}
-#Trigger {* starts crying loudly*} {meplay baby\babycry*6@Ext} {Main|Socials}
-#Trigger {* coos*} {meplay baby\babycoo@Ext} {Main|Socials}
-#Trigger {* babbles*} {meplay baby\babybabble*2@Ext} {Main|Socials}
-#Trigger {* bubbles.} {meplay baby\babybubble*6@Ext} {Main|Socials}
-#Trigger {* begin* to feed * a sucking sound as*} {meplay baby\babyeats@Ext} {Main|Socials}
-#Trigger {You pat * on the back and * lets out a small burp.} {meplay baby\babyburps@Ext} {Main|Socials}
-#Trigger {You offer * a * to *} {meplay baby\babyeats@Ext} {Main|Socials}
-#Trigger {* starts fussing.} {meplay baby\babyfuss*14@Ext} {Main|Socials}
-#Trigger {* groans*} {
- #If {%Pos(~[,%1)=0 AND %Pos(~#,%1)=0} {
-  meplay baby\babygroan*3@Ext
- }
-} {Main|Socials}
-#Trigger {* giggles softly.} {meplay baby\babygiggle*9@Ext} {Main|Socials}
-#Trigger {* giggles loudly.} {meplay baby\babygiggle*9@Ext} {Main|Socials}
-#Trigger {* laughs loudly.} {meplay baby\babylaugh*3@Ext} {Main|Socials}
-#Trigger {* grunts loudly.} {meplay baby\babygrunt*2@Ext} {Main|Socials}
-#Trigger {* flails*limbs..} {meplay baby\babywave@Ext} {Main|Socials}
-#Trigger {* hiccups.} {meplay baby\babyhiccups@Ext} {Main|Socials}
-#Trigger {* kicks*feet and waves*arms.} {meplay baby\babywave@Ext} {Main|Socials}
-#Trigger {* kicks one foot.} {meplay baby\babywave@Ext} {Main|Socials}
-#Trigger {* nibbles on*.} {meplay baby\babysucking@Ext} {Main|Socials}
-#Trigger {* rolls over.} {meplay baby\babyrolls@Ext} {Main|Socials}
-#Trigger {* screams loudly.} {meplay baby\babyscreams@Ext} {Main|Socials}
-#Trigger {* shrieks loudly.} {meplay baby\babyscreams@Ext} {Main|Socials}
-#Trigger {* sneezes.} {meplay baby\babysneeze@Ext} {Main|Socials}
-#Trigger {* sucks*thumb.} {meplay baby\babysucking@Ext} {Main|Socials}
-#Trigger {* spits.} {meplay baby\babyspit@Ext} {Main|Socials}
-#Trigger {* spits up.} {meplay baby\babyspitup@Ext} {Main|Socials}
-#Trigger {* sputters.} {meplay baby\babysputter@Ext} {Main|Socials}
-#Trigger {* squeaks.} {meplay baby\babysqueak*6@Ext} {Main|Socials}
-#Trigger {* squeals.} {meplay baby\babysqueal*7@Ext} {Main|Socials}
-#Trigger {* starts sucking on*toes.} {meplay baby\babysucking@Ext} {Main|Socials}
-#Trigger {* toddles.} {meplay baby\babytoddles@Ext} {Main|Socials}
-#Trigger {* wails loudly.} {meplay baby\babywail*3@Ext} {Main|Socials}
-#Trigger {* waves*fist around.} {meplay baby\babywave@Ext} {Main|Socials}
-#Trigger {* waves*hand through the air.} {meplay baby\babywave@Ext} {Main|Socials}
-#Trigger {* whimpers.} {meplay baby\babywhimper*2@Ext} {Main|Socials}
-#Trigger {* whines.} {meplay baby\babywhine*5@Ext} {Main|Socials}
 #Trigger {* push* *'s head under the water in an attempt to drown *.} {maplay Pool\UnderWater@Ext} {Main|Actions}
 #Trigger {You hit the puck at an angle from one corner, aiming it at the goal.} {maplay airhocky\hitpuck@Ext} {Main|Actions}
 #Trigger {You hit the puck at an angle, hoping to deflect it into the goal.} {maplay airhocky\hitpuck@Ext} {Main|Actions}
