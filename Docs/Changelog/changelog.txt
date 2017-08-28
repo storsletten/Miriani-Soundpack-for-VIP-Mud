@@ -1,3 +1,6 @@
+Version 5.7.36, released 2017-08-28:
+* For 2.0: Moved 36 triggers related to baby sounds into a Babies extra. This means you need to enable baby sounds in conf extras if you still want that.
+
 Version 5.7.35, released 2017-08-28:
 * For 2.0: Removed a buggy workaround for the info command that was necessary to keep the output in order while the YouActionsW crap was around. Since that horribleness has been removed, the workaround can go too.
 
