@@ -1,11 +1,3 @@
-#Exec {
- SetVariable ActionSuccess 0;
- SetVariable ActionTmp1 {};
- SetVariable ActionTmp2 {};
- SetVariable ActionTmp3 {};
- SetVariable ActionTmp4 {}
-}
-
 ; Terminate all blocks with the | character on a blank line.
 #Var YouActions {
 hear a quiet hiss as the ship's maneuvering thrusters fire.^PlayRelDriveStart;
@@ -674,30 +666,6 @@ depress the trigger on a cutting torch. A jet of dark blue flame immediately iss
    #Var ActionTmp1 {@ExpString%CRLF};
    #If {%Pos(%CRLF,@ActionTmp1)>1} {
     #Sub {@ExpString}
-   }
-  } {
-   #Var ActionTmp1 {%Replace(%1,~~,)};
-   #Var ActionTmp1 {%Replace(@ActionTmp1,~",)};
-   #Var ActionTmp2 {%Word(@ActionTmp1, ,1)};
-   #If {%IfWord(@ActionTmp2,are have, )=1} {#Var ActionTmp2 {@{YouActionsW%Proper(@ActionTmp2)}}} {#Var ActionTmp2 {@YouActionsW}};
-   #Var ActionTmp3 {};
-   #Var ActionTmp4 2;
-   #While {@ActionTmp4>0} {
-    #Var ActionTmp3 {%Copy(@ActionTmp2,3,%Eval(%Pos(^,@ActionTmp2)-3))};
-    #If {@ActionTmp1=*@ActionTmp3} {
-     #Var ActionTmp1 {%Delete(@ActionTmp2,1,%Pos(^,@ActionTmp2))};
-     #Exec {%Word(@ActionTmp1,%CRLF|%CRLF,1)};
-     #Var ActionTmp1 {@ExpString%CRLF};
-     #If {%Pos(%CRLF,@ActionTmp1)>1} {
-      #Sub {@ExpString}
-     };
-     #Var ActionTmp4 0
-    } {
-     #Var ActionTmp4 {%Pos(%CRLF|%CRLF,@ActionTmp2)};
-     #If {@ActionTmp4>0} {
-      #Var ActionTmp2 {%Copy(@ActionTmp2,%Eval(@ActionTmp4+3),32000)}
-     }
-    }
    }
   }
  }
