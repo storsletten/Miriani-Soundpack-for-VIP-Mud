@@ -587,3 +587,10 @@ msplay General\Misc\LeftPerson@Ext
   msplay General\Misc\Belt2@Ext
  }
 } {Main}
+#Trigger {* knock* on the *.} {
+ #If {%Pos(~, seeming vaguely puzzled,%0)=0 and %Pos(:,%0)=0 and %IfWord(%Left(%0,1),>| |[|~(|-,|)=0} {
+  msplay General\Misc\Knock1@Ext
+ }
+} {Main}
+#Trigger {* impatiently knock* on the *.} {msplay General\Misc\Knock2@Ext} {Main}
+#Trigger {* kick* furiously on the *.} {msplay General\Misc\Knock3@Ext} {Main}

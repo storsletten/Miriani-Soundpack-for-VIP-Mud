@@ -27,7 +27,7 @@
 #Trigger {You conjure up some mighty force and slam * into * You watch in satisfaction as a surge of energy courses through * body.} {
  msplay General\Combat\StunBatonHit@Ext
 } {Main}
-#Trigger {You unload a * from *} {msplay General\Combat\UnloadAmmo*5@Ext} {Main}
+#Trigger {You unload a* from *} {msplay General\Combat\UnloadAmmo*5@Ext} {Main}
 #Trigger {You hear a loud * sound as a disarmament pulse is fired.} {
  ExpPipe {%0} {Disarmament pulse fired.} {Disarmament pulse fired.};
  msplay Ship\Combat\disarm@Ext;
@@ -83,9 +83,6 @@
 #Trigger {You flick a switch to*mode.} {msplay General\Misc\Beep*10@Ext} {Main}
 #Trigger {You press a large * button.} {msplay General\Misc\Beep*10@Ext} {Main}
 #Trigger {You set a new access code for a * door and lock it.} {msplay Ship\Misc\DoorLocked@Ext} {Main}
-#Trigger {You knock on the *} {msplay General\Misc\Knock1@Ext} {Main}
-#Trigger {You impatiently knock on the *} {msplay General\Misc\Knock2@Ext} {Main}
-#Trigger {You kick furiously on the *} {msplay General\Misc\Knock3@Ext} {Main}
 #Trigger {You follow * outside the ship*} {
  #var Following 1;
  thememusicfadeout;
