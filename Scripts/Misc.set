@@ -379,6 +379,27 @@ msplay General\Misc\LeftPerson@Ext
   }
  }
 } {Main}
+#Trigger {* sit* down on *} {
+ #If {%Pos(:,%0)=0 and %Pos(~,,%0)=0 and %IfWord(%Left(%0,1),>| |[|~(|-,|)=0} {
+  msplay General\Misc\sit@Ext
+ }
+} {Main}
+#Trigger {* stand* up.} {
+ #If {%Pos(:,%0)=0 and %Pos(~,,%0)=0 and %IfWord(%Left(%0,1),>| |[|~(|-,|)=0} {
+  msplay General\Misc\stand@Ext
+ }
+} {Main}
+#Trigger {* pull* to * feet.} {
+ #If {%Pos(:,%0)=0 and %Pos(~,,%0)=0 and %IfWord(%Left(%0,1),>| |[|~(|-,|)=0} {
+  msplay General\Misc\stand@Ext
+ }
+} {Main}
+#Trigger {* yawns suddenly and collapses to the ground, asleep.} {
+ #If {%Pos(:,%0)=0 and %Pos(~,,%0)=0 and %IfWord(%Left(%0,1),>| |[|~(|-,|)=0} {
+  msplay {General\Socials\yawn*2@Ext};
+  msplay {General\Socials\collapse*3@Ext}
+ }
+} {Main}
 
 #Alias who {
  #Class StartReadingWhoList Disable;
@@ -527,3 +548,33 @@ msplay General\Misc\LeftPerson@Ext
   }
  }}
 } {}
+
+#Trigger {You open * lockbox*.} {msplay general\misc\lockboxopen@Ext} {Main}
+#Trigger {You close * lockbox *.} {msplay general\misc\lockboxclose@Ext} {Main}
+
+#Trigger {With a gentle jolt, the ferry*} {
+ msplay general\misc\ferry@Ext;
+ #If {@SoundIsPlaying=1} {#Var FerryHandle %PlayHandle}
+} {Main}
+#Trigger {You barely notice as the ferry makes contact with the dock and is securely tied in place*} {
+ msplay general\misc\ferrystop@Ext;
+ #If {@SoundIsPlaying=1} {#Var FerryHandle %PlayHandle}
+} {Main}
+#Trigger {You watch as a ferry arrives and gets secured to the dock.} {
+ msplay general\misc\ferrystop@Ext
+} {Main}
+#Trigger {You disembark.} {
+ #If {%Defined(FerryHandle)=1} {
+  #PC @FerryHandle stop;
+  #UnVar FerryHandle
+ } {
+  msplay General\Misc\Disembark@Ext
+ }
+} {Main}
+#Trigger {You follow * to * Large Wooden Dock.} {
+ #Var Following 1;
+ #If {%Defined(FerryHandle)=1} {
+  #PC @FerryHandle stop;
+  #UnVar FerryHandle
+ }
+} {Main}

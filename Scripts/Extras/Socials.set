@@ -1,0 +1,103 @@
+#Trigger {You * a * refrigerator*} {
+ #If {%NumWords(%1, )=1} {
+  #If {%1="open"} {
+   msplay General\Misc\FridgeOpen@Ext;
+   #Abort
+  };
+  #If {%1="close"} {
+   msplay General\Misc\FridgeClose@Ext;
+   #Abort
+  }
+ }
+} {Main}
+#Trigger {You turn*sink* on*} {msplay general\misc\fausset@Ext} {Main}
+#Trigger {You begin washing*} {msplay general\misc\washinghands@Ext} {Main}
+#Trigger {You slide open the shower door and enter in to*} {msplay general\misc\showerdoor@Ext} {Main}
+#Trigger {* enters through the sliding glass door.} {msplay general\misc\showerdoor@Ext} {Main}
+#Trigger {The * water continues to spray down on you*} {
+ msplay general\misc\shower@Ext;
+ #If {@SoundIsPlaying=1} {#Var ShowerPlayHandle %PlayHandle}
+} {Main}
+#Trigger {Once finished, you clean yourself and*} {msplay general\misc\loudtoiletflush@Ext} {Main}
+#Trigger {A * washing machine begins filling with water as the*} {msplay general\misc\washingmachine@Ext} {Main}
+#Trigger {A * dryer warms up and*} {msplay general\misc\clothesdryer@Ext} {Main}
+#Trigger {You close the lid on * and wait patiently as it begins*} {msplay general\misc\waffleiron@Ext} {Main}
+#Trigger {You carefully light a*} {msplay general\misc\candle@Ext} {Main}
+#Trigger {You press a button on * blender and watch as the contents are blended together into a delicious concoction of*} {msplay general\misc\blender@Ext} {Main}
+#Trigger {*pour* into *.} {
+ #Var PourTmp1 {%Replace(%1,~",)};
+ #Var PourTmp1 {%Replace(@PourTmp1,~~,)};
+ #Var PourTmp2 {%Replace(%2,~",)};
+ #Var PourTmp2 {%Replace(@PourTmp2,~~,)};
+ #If {@PourTmp1 =* "You see *" or @PourTmp1 =* "[[]*" or %NumWords(@PourTmp1, ) >= 5 or @PourTmp2 =* "ing *" or %Pos(~",%Right(%3,1)) > 0} {} {
+  msplay {general\misc\pouringliquid@Ext}
+ };
+ #UnVar PourTmp1;
+ #UnVar PourTmp2
+} {Main}
+#Trigger {You clink * with *.} {msplay general\misc\wineglass@Ext} {Main}
+#Trigger {* clinks glasses with you*} {msplay general\misc\wineglass@Ext} {Main}
+#Trigger {Sensing adequate kindling, a bright, warm fire erupts inside*} {msplay general\misc\fireplace@Ext} {Main}
+#Trigger {*open* a bottle*} {msplay general\misc\openbottle@Ext} {Main}
+#Trigger {*turn* the water off*} {
+ #If {%Defined(ShowerPlayHandle)=1} {
+  #PC @ShowerPlayHandle stop;
+  #UnVar ShowerPlayHandle
+ };
+ msplay General\Misc\ShowerEnd@Ext
+} {Main}
+#Trigger {You hear the soft, soothing sound of water flowing down the fountain and into the rocks at the bottom*} {msplay general\misc\fountain@Ext} {Main}
+#Trigger {A giant flame suddenly engulfs a * causing it to burn to a crisp*} {msplay general\misc\fireplace@Ext} {Main}
+#Trigger {*kick* off with * feet and*} {msplay general\misc\swing@Ext} {Main}
+#Trigger {* glance* at * for a moment before deciding that it's hardly worth keeping. With that in mind, * hurl* it to the ground, where it shatters into several pieces.*} {msplay general\socials\breakingglass*5@Ext} {Main}
+#Trigger {You put a * up to the tip of a * and light it. It begins to smoulder at the tip.} {msplay general\misc\candle@Ext} {Main}
+#Trigger {*strike* match, lighting it.} {msplay general\misc\MatchLight@Ext} {Main}
+#Trigger {* begins to smolder and tiny tongues of flame begin appearing from within it as it catches fire.} {
+ msplay General\Misc\Fireplace@Ext;
+ msplay General\Misc\Fire@Ext
+} {Main}
+#Trigger {* is engulfed in a small flickering * fire which snaps loudly as it burns.} {msplay General\Misc\Fire@Ext} {Main}
+#Trigger {The flames die down, leaving a pile of ash in their wake.} {msplay General\Misc\Fireplace@Ext} {Main}
+#Trigger {The fire continues to flicker, the * flames producing a small amount of heat.} {msplay General\Misc\Fire@Ext} {Main}
+#Trigger {The small fire continues to burn*} {msplay General\Misc\Fire@Ext} {Main}
+#Trigger {The fire crackles merrily as it burns brightly.} {msplay General\Misc\Fire@Ext} {Main}
+#Trigger {Waves of heat roll off the small fire as it continues to burn.} {msplay General\Misc\Fire@Ext} {Main}
+#Trigger {The * tips of the fire suddenly flare brightly before returning to normal.} {msplay General\Misc\Fire@Ext} {Main}
+#Trigger {Tiny streams of white smoke rise from the fire as it snaps loudly.} {msplay General\Misc\Fire@Ext} {Main}
+#Trigger {The intensity of the flames diminishes as they burn lower to the ground.} {msplay General\Misc\Fire@Ext} {Main}
+#Trigger {You carefully spray a fine mist from * at *.} {msplay Ship\Misc\Scent@Ext} {Main}
+
+#Trigger {* slam* a* into * punching bag*!} {msplay general\socials\punch*20@Ext} {Main}
+#Trigger {A* punching bag* swings wildly through the air, slamming into *!} {mrandomplay General\Socials\PunchbagSwings*2@Ext} {Main}
+#Trigger {A* punching bag* is hurled * from its position. After flying a few feet through the air, it crashes into a wall, where it lands in a heap on the ground.} {mrandomplay General\Socials\PunchbagUnbolt@Ext} {Main}
+#Trigger {Unable to withstand further punishment, a* punching bag * splits open, the remains falling to the ground in a heap.} {mrandomplay General\Socials\PunchbagBreak@Ext} {Main}
+
+#Trigger {* press* a small round button on the front of a*.} {msplay General\Misc\Anomaly@Ext} {Main}
+#Trigger {A* popcorn maker begins to hum slightly as it proceeds to heat the popcorn inside.} {msplay General\Socials\PopcornMachine@Ext} {Main}
+#Trigger {Small popping and clicking sounds begin to issue from a* popcorn maker as the machine continues to heat the popcorn.} {msplay general\misc\PopcornCooking@Ext} {Main}
+#Trigger {A* popcorn maker suddenly switches off.} {msplay General\Socials\PopcornMachineOff@Ext} {Main}
+#Trigger {The popping sounds increase in intensity as a* popcorn maker continues to run. *} {msplay General\Misc\WaffleIron@Ext} {Main}
+#Trigger {The popping sounds begin to slow as the last of the popcorn is popped.} {msplay General\Socials\PopcornCooking@Ext} {Main}
+#Trigger {You jump in the pool and begin to swim.} {msplay pool\enterpool@Ext} {Main}
+#Trigger {You fall to the water with a splash*} {msplay pool\splash1@Ext} {Main}
+#Trigger {You take a deep breath, dive underwater*} {msplay pool\underwater@Ext} {Main}
+#Trigger {You emerge from underwater and take a deep breath*} {msplay pool\splash1@Ext} {Main}
+#Trigger {With a strong jump, you dive into the water with a big splash*} {msplay pool\splash2@Ext} {Main}
+#Trigger {* push* into the water*} {msplay pool\enterpool@Ext} {Main}
+#Trigger {* crashes to the water with a splash*} {msplay pool\splash1@Ext} {Main}
+#Trigger {* takes a deep breath and dives underwater as he fades out of view*} {msplay pool\splash1@Ext} {Main}
+#Trigger {* emerges from under the water and takes a deep breath*} {msplay pool\splash2@Ext} {Main}
+#Trigger {* into the pool and it sinks to the bottom*} {msplay pool\splash3@Ext} {Main}
+#Trigger {* deep into the pool to fetch a * diving toy*} {msplay pool\underwater@Ext} {Main}
+#Trigger {* jumps off the board and hits the water with a splash*} {msplay pool\splash2@Ext} {Main}
+#Trigger {You splash *} {msplay pool\splash1@Ext} {Main}
+#Trigger {* splashes you*} {msplay pool\splash1@Ext} {Main}
+#Trigger {You dive deep into *.} {
+ msplay pool\splash*3@Ext
+} {Main}
+#Trigger {* push* *'s head under the water in an attempt to drown *.} {msplay Pool\UnderWater@Ext} {Main}
+#Trigger {ACK! You are now soaked from head to toe with water from the fountain, thanks to *.} {
+ msplay pool\splash1@Ext;
+ ExpPipe {%0} {%0} {%1 splashes you.};
+ #Sub @ExpString
+} {Main}

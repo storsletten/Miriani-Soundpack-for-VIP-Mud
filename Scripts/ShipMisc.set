@@ -278,3 +278,6 @@ mwplay Ship\Misc\InternalExpl*12@Ext} {Main|Starship}
 #Trigger {The * is suddenly seized by several robotic arms and hauled into the starship garage.} {mrandomplay Ship\Misc\Garage@Ext} {Main}
 #Trigger {* pulls a series of straps around * and securely buckles * into*} {msplay General\Misc\Buckle*3@Ext} {Main|Starship}
 #Trigger {* releases the buckle of * seatbelt, causing it to retract back into *} {msplay General\Misc\Unbuckle*3@Ext} {Main|Starship}
+#Trigger {The shot is absorbed by a massive loudspeaker on *, which seems to become gloriously silent.} {mwplay Ship\Combat\ExtDisable*2@Ext} {Main}
+#Trigger {A loud burst of static suddenly comes from the loudspeaker on *. You assume it has been reactivated.} {mwplay Ship\Combat\ExtEnable*4@Ext} {Main}
+#Trigger {You suddenly notice the absence of * as the smell of * wafts into the *.} {msplay Ship\Misc\Scent@Ext} {Main}

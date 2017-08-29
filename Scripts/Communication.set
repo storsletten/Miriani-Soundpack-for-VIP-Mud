@@ -648,3 +648,4 @@
  #UnVar ROOCTmp1
 } {}
 #Trigger {* beeps quietly for your attention and flashes: "Blast door compromise. Return to ship immediately."} {msplay General\Comm\BlastDoorIntrusionAlert@Ext} {Main}
+#Trigger {A pleasant * voice announces, "*"} {msplay General\Socials\DroidSpeak@Ext} {Main}
