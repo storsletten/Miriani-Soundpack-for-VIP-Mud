@@ -1,3 +1,14 @@
+Version 5.8.0, released 2017-08-29:
+* For 2.0: Removed seemingly superfluous triggers for spacesuit bags. Thanks to Ryan Salvatore for the spacesuit stripping show that revealed all the details I needed to know.
+* For 2.0: conf x is now an alias for conf extras. So yes, you can type e.g. conf x can to toggle the cannons extra.
+* For 2.0: Moved the triggers for fishing to a new Fishing extra. Conf extra fishing to toggle it, or just conf x fish for short.
+* For 2.0: Moved more than 100 triggers into the extras framework. The new extras are Games, Socials, and Shenanigans, and you can toggle them in conf extras. These new extras are disabled by default, so if you're missing the sounds of your favorite popcorn maker, swimming sounds, or other RP sounds, then try turning on conf x social and it should work for you again. conf x games is what you need if you want sounds for games such as air hockey, skeeball, etc.
+* For 2.0: Added an option in conf sounds that lets you toggle the spam spam spam sound.
+* For 2.0: Fixed the belt sounds so that you hear them when other people clip and unclip things to their belts, not just when you do it.
+* For 2.0: Removed the option for gagging load messages for extras, since they now won't show under normal circumstances anyway.
+* For 2.0: Made conf x babies, conf x socials, and conf x games enabled by default.
+* For 2.0: Fixed knock sounds so they work when other people knock on starships and you're standing on the landing pad with them.
+
 Version 5.7.36, released 2017-08-28:
 * For 2.0: Moved 36 triggers related to baby sounds into a Babies extra. This means you need to enable baby sounds in conf extras if you still want that.
 
