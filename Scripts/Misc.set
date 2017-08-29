@@ -257,7 +257,6 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
  }
 } {Main}
 
-#Class SpamAlerts Enable
 #Trigger {Please do not enter so many commands at once.} {msplay General\Misc\spam@Ext} {Main|SpamAlerts}
 #Trigger {Spamming weapon commands will get you nowhere. Please be considerate. If you are experiencing lag, it would be best to wait for one command to successfully go through before attempting another. Thank you.} {msplay General\Misc\spam@Ext} {Main|SpamAlerts}
 #Trigger {*A* sanitation drone arrives.} {mrandomplay General\Misc\DroneEnters*2@Ext} {Main}

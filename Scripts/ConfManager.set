@@ -104,6 +104,7 @@ RandomiseCombatPan:1
 RandomiseCombatVolume:0
 RelativeCombatVolume:0
 RandomisePlay:1
+SpamAlert:1
 ThemeFadeOutValue:5
 WindowTypes:Incoming
 UseSpeechInterrupts:0
@@ -517,10 +518,7 @@ ArchaeologyHelperStoreFromCount:1
   SetThemeMusicVolume;
   mrplay {@RoomSound};
   SPKeepAlive {@KeepAlive} Quiet;
-  #Class SoundKeys {%If(@LoadSoundKeys=1,Enable,Disable)};
-  #Class HistoryReviewKeys {%If(@LoadHistoryReviewKeys=1,Enable,Disable)};
-  #Class AltGRNumrow {%If(@ExcludeAltGRNumrow=0,Enable,Disable)};
-  #Class MiscKeys {%If(@LoadMiscKeys=1,Enable,Disable)};
+  ConfSetClasses;
   LoadExtras
  }}
 } {}
@@ -614,4 +612,17 @@ ArchaeologyHelperStoreFromCount:1
  }
 } {ConfEcho}
 
-#Exec {ConfFix quick}
+#Alias ConfSetClasses {
+ #Exec {
+  #Class SpamAlerts {%If(@SpamAlert=1,Enable,Disable)};
+  #Class SoundKeys {%If(@LoadSoundKeys=1,Enable,Disable)};
+  #Class HistoryReviewKeys {%If(@LoadHistoryReviewKeys=1,Enable,Disable)};
+  #Class AltGRNumrow {%If(@ExcludeAltGRNumrow=0,Enable,Disable)};
+  #Class MiscKeys {%If(@LoadMiscKeys=1,Enable,Disable)}
+ }
+} {}
+
+#Exec {
+ ConfFix quick;
+ ConfSetClasses
+}

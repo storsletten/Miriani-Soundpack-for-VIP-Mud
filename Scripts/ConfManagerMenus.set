@@ -178,6 +178,7 @@ BypassActionToggles|B
 [8] Randomize the volume of weapons fire  [~%If(~@RandomiseCombatVolume=1,On,Off)].
 [9] Randomly pan weapon sounds  [~%If(~@RandomiseCombatPan=1,On,Off)].
 [10] Randomize the panning of certain events (including cargo transfer)  [~%If(~@RandomisePlay=1,On,Off)].
+[11] Play the spam sound when Miriani indicates that you're spamming commands  [~%If(~@SpamAlert=1,On,Off)].
 %Chr(250)
 Silent|E::#Alarm 0 {MasterMute {~@ConfOptionValue}}
 Vol|N:0^100:SetMasterVolume
@@ -189,6 +190,7 @@ RelativeCombatVolume|N:-100^100
 RandomiseCombatVolume|B
 RandomiseCombatPan|B
 RandomisePlay|B
+SpamAlert|B::#Class SpamAlerts {~%If(~@SpamAlert=1,Enable,Disable)}
 }
 
 #Var ConfMenuRoomSounds {Room sound configuration:
