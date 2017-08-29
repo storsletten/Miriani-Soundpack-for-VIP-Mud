@@ -13,6 +13,7 @@ scan:Scanning
 starship:Ship
 vol:Sounds:Vol
 wake:General:WakeOnRed
+x:Extras
 }
 #Var ConfMenus {Soundpack configuration - Main menu:
 [1] General options.
