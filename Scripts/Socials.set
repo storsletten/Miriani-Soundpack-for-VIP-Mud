@@ -266,13 +266,6 @@ maplay General\Misc\ShowerEnd@Ext} {Main|Actions}
 #Trigger {* suddenly begin* to reel * line in*} {maplay General\Fishing\FishReel@Ext} {Main|Actions}
 #Trigger {You suddenly feel a mighty tug on the end of your line.*} {maplay General\Fishing\FishReel@Ext} {Main|Actions}
 
-#Trigger {* remove* spacesuit from * and put* it on.} {maplay General\Device\SpacesuitWear@Ext} {Main|Actions}
-#Trigger {* remove* spacesuit and put* it in *.} {maplay General\Device\SpacesuitRem@Ext} {Main|Actions}
-#Trigger {* remove* spacesuit and neatly place* it in *.} {maplay General\Device\SpacesuitWear@Ext} {Main|Actions}
-#Trigger {* retrieve* spacesuit from *.} {maplay General\Device\SpacesuitRem@Ext} {Main|Actions}
-#Trigger {* remove* armor from * and put* it on.} {maplay General\Socials\ArmorWear@Ext} {Main|Actions}
-#Trigger {* remove* armor and place* each piece in the designated area in *.} {maplay General\Socials\ArmorRem@Ext} {Main|Actions}
-
 #Trigger {The shot is absorbed by a massive loudspeaker on *, which seems to become gloriously silent.} {mwplay Ship\Combat\ExtDisable*2@Ext} {Main|Actions}
 #Trigger {A loud burst of static suddenly comes from the loudspeaker on *. You assume it has been reactivated.} {mwplay Ship\Combat\ExtEnable*4@Ext} {Main|Actions}
 #Trigger {*mak* a grab for * electric*.} {maplay General\Combat\StunBatonHit@Ext} {Main|Actions}

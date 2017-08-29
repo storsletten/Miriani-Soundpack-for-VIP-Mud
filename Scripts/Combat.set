@@ -324,3 +324,8 @@ msplay General\Combat\ShotMisses@Ext} {Main}
  msplay General\Combat\OtherShot@Ext;
  msplay General\Combat\EMPulse@Ext
 } {Main}
+
+#Trigger {* remove* spacesuit and neatly place* it in *.} {msplay General\Device\SpacesuitWear@Ext} {Main}
+#Trigger {* retrieve* spacesuit from *.} {msplay General\Device\SpacesuitRem@Ext} {Main}
+#Trigger {* remove* from a* bag and put* it on.} {msplay General\Socials\ArmorWear@Ext} {Main}
+#Trigger {* remove* and place* each piece in the designated area in *.} {msplay General\Socials\ArmorRem@Ext} {Main}
