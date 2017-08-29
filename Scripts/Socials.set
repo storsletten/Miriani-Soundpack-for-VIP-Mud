@@ -258,14 +258,6 @@ maplay General\Misc\ShowerEnd@Ext} {Main|Actions}
 #Trigger {You glance at * for a moment before deciding that it's hardly worth keeping. With that in mind, you hurl it to the ground, where it shatters into several pieces.} {maplay general\socials\breakingglass*5@Ext} {Main|Actions}
 #Trigger {* glances at * for a moment before deciding that it's hardly worth keeping. With that in mind, * hurls it to the ground, where it shatters into several pieces.*} {maplay general\socials\breakingglass*5@Ext} {Main|Actions}
 
-#Trigger {* carefully attach* worm to * fishing pole*} {maplay General\Fishing\FishWorm@Ext} {Main|Actions}
-#Trigger {* suddenly glances around, seemingly rather embarrassed that the fish got away.} {maplay General\Fishing\FishEscape@Ext} {Main|Actions}
-#Trigger {You feel a mighty lurch and realize in disappointment that the fish got away.*} {maplay General\Fishing\FishEscape@Ext} {Main|Actions}
-#Trigger {* lazily cast* line of * into the water*} {maplay General\Fishing\FishCast@Ext} {Main|Actions}
-#Trigger {* carefully remove* from *fishing pole*} {maplay General\Fishing\FishCatch@Ext} {Main|Actions}
-#Trigger {* suddenly begin* to reel * line in*} {maplay General\Fishing\FishReel@Ext} {Main|Actions}
-#Trigger {You suddenly feel a mighty tug on the end of your line.*} {maplay General\Fishing\FishReel@Ext} {Main|Actions}
-
 #Trigger {The shot is absorbed by a massive loudspeaker on *, which seems to become gloriously silent.} {mwplay Ship\Combat\ExtDisable*2@Ext} {Main|Actions}
 #Trigger {A loud burst of static suddenly comes from the loudspeaker on *. You assume it has been reactivated.} {mwplay Ship\Combat\ExtEnable*4@Ext} {Main|Actions}
 #Trigger {*mak* a grab for * electric*.} {maplay General\Combat\StunBatonHit@Ext} {Main|Actions}
