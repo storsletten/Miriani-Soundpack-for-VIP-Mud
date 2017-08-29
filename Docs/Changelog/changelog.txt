@@ -1,3 +1,6 @@
+Version 5.8.1, released 2017-08-29:
+* For 2.0: Fixed a few bugs in the Shenanigans extra.
+
 Version 5.8.0, released 2017-08-29:
 * For 2.0: Removed seemingly superfluous triggers for spacesuit bags. Thanks to Ryan Salvatore for the spacesuit stripping show that revealed all the details I needed to know.
 * For 2.0: conf x is now an alias for conf extras. So yes, you can type e.g. conf x can to toggle the cannons extra.
