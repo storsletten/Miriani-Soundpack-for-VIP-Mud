@@ -298,7 +298,8 @@ SaveSecondBackup|E::ConfSave backup2
 }
 #ForAll {@VirtualDisplays} {
  #Math ConfTmp1 {@ConfTmp1+1};
- #If {%Defined(ConfManagerMenusLoaded)=0} {
+ #Var ConfTmp4 {%{CRLF}HideDisplay@ConfTmp1:};
+ #If {%Pos(@ConfTmp4,@ConfOptionVars)=0} {
   #Var ConfOptionVars {@{ConfOptionVars}HideDisplay@ConfTmp1:0
 Display@{ConfTmp1}VolumeDiff:-20
 Display@{ConfTmp1}GagType:All
@@ -517,7 +518,8 @@ UseSmStyle|B
  #If {%Pos(^,%i)>0} {
   #Math ConfTmp1 {@ConfTmp1+1};
   #Var ConfTmp3 {%Word(%i,^,1)};
-  #If {%Defined(ConfManagerMenusLoaded)=0} {
+  #Var ConfTmp4 {%{CRLF}LoadExtraScript@ConfTmp3:};
+  #If {%Pos(@ConfTmp4,@ConfOptionVars)=0} {
    #Var ConfOptionVars {@{ConfOptionVars}LoadExtraScript@ConfTmp3:0%CRLF};
    #If {%IsNumber(@{LoadExtraScript@ConfTmp3})=0} {#Var {LoadExtraScript@ConfTmp3} 0}
   };
@@ -536,7 +538,8 @@ UseSmStyle|B
  #If {%NumWords(%i,:)>1} {
   #Math ConfTmp1 {@ConfTmp1+1};
   #Var ConfTmp3 {%Proper(%Word(%i,:,1))};
-  #If {%Defined(ConfManagerMenusLoaded)=0} {
+  #Var ConfTmp4 {%{CRLF}SocialToggle@ConfTmp3:};
+  #If {%Pos(@ConfTmp4,@ConfOptionVars)=0} {
    #Var ConfOptionVars {@{ConfOptionVars}SocialToggle@ConfTmp3:1%CRLF};
    #If {%IsNumber(@{SocialToggle@ConfTmp3})=0} {#Var {SocialToggle@ConfTmp3} 1}
   };
@@ -555,7 +558,8 @@ UseSmStyle|B
  #If {%NumWords(%i,:)>1} {
   #Math ConfTmp1 {@ConfTmp1+1};
   #Var ConfTmp3 {%Proper(%Word(%i,:,1))};
-  #If {%Defined(ConfManagerMenusLoaded)=0} {
+  #Var ConfTmp4 {%{CRLF}ActionToggle@ConfTmp3:};
+  #If {%Pos(@ConfTmp4,@ConfOptionVars)=0} {
    #Var ConfOptionVars {@{ConfOptionVars}ActionToggle@ConfTmp3:1%CRLF};
    #If {%IsNumber(@{ActionToggle@ConfTmp3})=0} {#Var {ActionToggle@ConfTmp3} 1}
   };
@@ -565,5 +569,5 @@ UseSmStyle|B
 }
 #Var ConfMenuSpecificActions {@ConfMenuSpecificActions@ConfTmp2}
 
-#3 {#UnVar {ConfTmp%i}}
+#4 {#UnVar {ConfTmp%i}}
 #Var ConfManagerMenusLoaded 1

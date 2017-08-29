@@ -139,6 +139,9 @@ UserLanguage:EN
 PassThru:0
 NumberOfConnections:0
 MoveMarkers:Ship:Marker
+LoadExtraScriptBabies:1
+LoadExtraScriptGames:1
+LoadExtraScriptSocials:1
 ArchaeologyHelperCountArtifacts:1
 ArchaeologyHelperStoreFromCount:1
 }}
