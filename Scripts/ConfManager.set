@@ -75,7 +75,6 @@ GagRoidDesc:0
 Surveying:0
 GagSaveOnIdle:1
 InterruptOnCoords:0
-GagExtraLoads:1
 PointUnitOutputString:You access $UNIT and note you have $LP license points and $CP combat points.$CRLFYou have acquired $DIFFLP license points and $DIFFCP combat points since last check.
 ShowPointsOOLS:0
 BypassSocialToggles:0
@@ -519,7 +518,7 @@ ArchaeologyHelperStoreFromCount:1
   mrplay {@RoomSound};
   SPKeepAlive {@KeepAlive} Quiet;
   ConfSetClasses;
-  LoadExtras
+  LoadExtras Quiet
  }}
 } {}
 #Alias ConfSave {

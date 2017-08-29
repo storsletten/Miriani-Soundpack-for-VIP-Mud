@@ -24,10 +24,11 @@ Typing^Allows you to type with only one hand, using the number pad
  #Var ExtraTmp1 {LoadExtraScript%1};
  #If {%Defined(@ExtraTmp1)=1} {
   #If {@{@ExtraTmp1}=1} {
-   #If {@GagExtraLoads=0} {#Say {Loading the %1 extra.}};
+   #If {%IfWord(Quiet,%2,|)=0} {#Say {Loading the %1 extra.}};
    #Load {@ScriptPath\Extras\%1.set}
   } {
    #If {%IfWord(NoUnload,%2,|)=0} {
+    #If {%IfWord(Quiet,%2,|)=0} {#Say {Unloading the %1 extra.}};
     #UnLoad {@ScriptPath\Extras\%1.set}
    }
   }
@@ -35,4 +36,4 @@ Typing^Allows you to type with only one hand, using the number pad
  #UnVar ExtraTmp1
 } {}
 
-#Exec {LoadExtras {NoUnload}}
+#Exec {LoadExtras {NoUnload|Quiet}}

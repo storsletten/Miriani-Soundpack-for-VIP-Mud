@@ -114,7 +114,6 @@ AlertOnUpdate|B
 [10] Surveying mode (for use with mineral scanners)  [~%Case(~%Eval(~@Surveying+1),Off,Surveying,Review)].
 [11] Gag save messages when idle  [~%If(~@GagSaveOnIdle=1,On,Off)].
 [12] Remove all but coordinates from scanning output  [~%If(~@InterruptOnCoords=1,On,Off)]. (Control Shift Backspace).
-[13] Gag load messages for soundpack extras  [~%If(~@GagExtraLoads=1,On,Off)].
 %Chr(250)
 GagEverything|E::GagEverything
 GagTreadLine|B
@@ -128,7 +127,6 @@ GagRoidDesc|B
 Surveying|C:0,Off^1,Surveying mode^2,Reviewing mode
 GagSaveOnIdle|B
 InterruptOnCoords|B
-GagExtraLoads|B
 }
 
 #Var ConfMenuCamera {Camera options:
@@ -524,7 +522,7 @@ UseSmStyle|B
    #If {%IsNumber(@{LoadExtraScript@ConfTmp3})=0} {#Var {LoadExtraScript@ConfTmp3} 0}
   };
   #Var ConfMenuExtras {@ConfMenuExtras[@ConfTmp1] @ConfTmp3  [~%If(~@LoadExtraScript@ConfTmp3=1,Enabled,Disabled)]. %Word(%i,^,2).%CRLF};
-  #Var ConfTmp2 {@{ConfTmp2}LoadExtraScript@ConfTmp3|B::LoadExtra {@ConfTmp3}%CRLF}
+  #Var ConfTmp2 {@{ConfTmp2}LoadExtraScript@ConfTmp3|B::LoadExtra {@ConfTmp3} {Quiet}%CRLF}
  }
 }
 #Var ConfMenuExtras {@ConfMenuExtras@ConfTmp2}
