@@ -14,8 +14,6 @@
  msplay General\Misc\HGLift.wav;
  #Sub {@ExpString}
 } {Main}
-#Trigger {You unclip * from *} {msplay General\Misc\Belt1@Ext} {Main}
-#Trigger {You clip * to *.} {msplay General\Misc\Belt2@Ext} {Main}
 #Trigger {You hear a satisfying click as the ship's docking ring is *.} {msplay Ship\Move\RingEnd@Ext} {Main}
 #Trigger {You decide not to travel through *.} {msplay Ship\Move\DontLand@Ext} {Main}
 #Trigger {You feel mild acceleration as the ship *.} {
