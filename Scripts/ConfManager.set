@@ -20,7 +20,6 @@ AutoLogin:1
 BypassLoginMenu:0
 AutoSave:1
 CommandEcho:1
-ShowStats:0
 KeepAlive:120
 KeepAliveRespond:0
 SaveOnIdle:1

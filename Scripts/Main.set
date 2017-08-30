@@ -155,7 +155,6 @@ ConfManagerMenus|
   #Var Connected 0;
   #PC 0 Stop;
   #If {@AutoSave=1} {ConfSaveAll Quiet};
-  #If {@ShowStats=1} {Soundpack Statistics};
   #Abort
  };
  #If {@MainTmp1="Redirecting old connection to this port"} {

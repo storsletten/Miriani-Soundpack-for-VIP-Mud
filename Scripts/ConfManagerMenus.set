@@ -74,10 +74,9 @@ Docs
 [14] Auto save soundpack configuration when idle  [~%If(~@SaveOnIdle=1,On,Off)].
 [15] Command echoing  [~%If(~@CommandEcho=1,On,Off)].
 [16] Pass special characters directly to the mud  [~%If(~@PassThru=1,On,Off)]. (useful if you are having problems with commands such as ~~~@soundpacks, or ~~~@custom-s).
-[17] Show soundpack statistics when disconnecting  [~%If(~@ShowStats=1,On,Off)].
-[18] Keep-Alive duration (in seconds)  [~@KeepAlive].
-[19] Keep-Alive responding  [~%If(~@KeepAliveRespond=1,On,Off)].
-[20] Soundpack update notifications  [~%If(~@AlertOnUpdate=1,On,Off)].
+[17] Keep-Alive duration (in seconds)  [~@KeepAlive].
+[18] Keep-Alive responding  [~%If(~@KeepAliveRespond=1,On,Off)].
+[19] Soundpack update notifications  [~%If(~@AlertOnUpdate=1,On,Off)].
 %Chr(250)
 ExperienceLevel|C:Newbie^Middbie^Oldbie|Set your level of experience in Miriani
 AlterArmor|B
@@ -95,7 +94,6 @@ AutoSave|B
 SaveOnIdle|B
 CommandEcho|B
 PassThru|E::PassThru {~@ConfOptionValue}
-ShowStats|B
 KeepAlive|N:0:#Alarm 0 {SPKeepAlive {~%If(~@KeepAlive>0,Start,0)} Quiet}
 KeepAliveRespond|B
 AlertOnUpdate|B
