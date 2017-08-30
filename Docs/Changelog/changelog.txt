@@ -1,3 +1,6 @@
+Version 5.8.2, released 2017-08-30:
+* For 2.0: I think I fixed cases where the clip things to belt sounds were not working. Thanks Michael Calaway for reporting about this!
+
 Version 5.8.1, released 2017-08-29:
 * For 2.0: Fixed a few bugs in the Shenanigans extra.
 
