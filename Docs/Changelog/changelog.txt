@@ -1,3 +1,6 @@
+Version 5.8.6, released 2017-08-30:
+* For 2.0: Removed the conf gen option for displaying statistics when disconnecting, since all that stuff is now gone anyway.
+
 Version 5.8.5, released 2017-08-30:
 * For 2.0: Removed some code for debugging that caused it to say stopping speech every time you walked into a room.
 
