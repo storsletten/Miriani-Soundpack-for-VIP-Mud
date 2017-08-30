@@ -58,16 +58,19 @@ ConfManagerMenus|
 
 #Alias Login {#Var VipMudAutoLogin 1} {}
 
-#Trigger {Welcome to...} {
- #GagLine 8 All
-} {Main}
-#Trigger {http:[/]/www.toastsoft.net | http:[/]/www.toastsoft.net/privacy.php} {
- #Var Connected 0;
- #Alarm 0 {
-  #Load {@ScriptPath\Const.set};
-  #Load {@SoundsPath\Main.set};
-  #Class LoggingIn Enable;
-  SPLoad1 1
+#Trigger {Welcome to*} {
+ #If {%IfWord(%1,...| Miriani!,|)=1} {
+  #Var Connected 0;
+  #If {%1="..."} {
+   #Say {Welcome to Miriani!};
+   #GagLine 8 All
+  };
+  #Alarm 0 {
+   #Load {@ScriptPath\Const.set};
+   #Load {@SoundsPath\Main.set};
+   #Class LoggingIn Enable;
+   #Alarm 0 {SPLoad1 1}
+  }
  }
 } {Main}
 #Alias SPLoad1 {
@@ -85,10 +88,12 @@ ConfManagerMenus|
   #If {%Defined(ConfOptionVars)=0} {#Load {@ScriptPath\ConfManager.set}};
   #If {@PassThru=1} {#Conf ExpandCommandLineVars False};
   #Conf DisplayCommandsInOutput False;
-  #If {@LoadTmp1=1 and @AutoLogin=1} {
-   register_soundpack @SoundpackName | @Version;
-   %CharInfo(Name);
-   %CharInfo(Password)
+  #If {@LoadTmp1=1} {
+   #Exec {register_soundpack @SoundpackName | @Version};
+   #If {@AutoLogin=1} {
+    #Exec {%CharInfo(Name)};
+    #Exec {%CharInfo(Password)}
+   }
   };
   #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True};
   #If {%Defined(SoundIsPlaying)=0} {#Load {@ScriptPath\SoundEngine.set}};
@@ -101,7 +106,7 @@ ConfManagerMenus|
 } {}
 #Trigger {Input your selection:} {
  #Class LoggingIn Disable;
- SPLoad2 1
+ #Alarm 0 {SPLoad2 1}
 } {Main|LoggingIn}
 #Alias SPLoad2 {
  #Var LoadTmp2 {%1};
@@ -398,9 +403,8 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
     #Var StartupMusicHandle 0
    }
   }
- };
- soundpack register
-}
+ }
+} {}
 #Alias SPCommand {
  #Exec {>#$#soundpack_status commands:%Trim(%0)};
  #Exec {%Trim(%0)}

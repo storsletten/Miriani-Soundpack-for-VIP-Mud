@@ -434,3 +434,8 @@ ExpPipe {%0} {The starship is pulled by intense gravitational forces.} {};
   #Sub {@ExpString}
  }
 } {Main}
+#Trigger {You decide not to travel through *.} {msplay Ship\Move\DontLand@Ext} {Main|Starship}
+#Trigger {You feel mild acceleration as the ship *.} {
+ msplay Ship\Move\YouLanding.wav;
+ #GagLine 1 All
+} {Main|Starship}

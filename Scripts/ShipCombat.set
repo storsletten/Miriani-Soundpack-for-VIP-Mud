@@ -483,3 +483,13 @@ msplay Ship\Misc\DockingBayDoorClose@Ext
 #Trigger {You hear a high-pitched squeal followed by three distinct pulsing sounds as the laser turrets are fired in sync.} {#Gagline ALL;
  msplay Ship\Combat\mod@Ext
 } {Main|Starship}
+#Trigger {You hear a series of loud bangs as * missiles explode on the hull.} {
+ MrandomPlay Ship\Combat\Projectile*3.wav;
+ ExpPipe {%0} {Missiles explode on the hull.} {};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {You hear a series of * as the ship fires * missiles.} {
+ ExpPipe {%0} {%0} {};
+ msplay Ship\Combat\Missiles@Ext;
+ #Sub {@ExpString}
+} {Main}

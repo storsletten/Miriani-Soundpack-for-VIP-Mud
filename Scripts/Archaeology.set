@@ -112,3 +112,7 @@ MArchPlay;
  ExpPipe {%0} {%0} {Oxygen supply is below %2.};
  #Sub {@ExpString}
 } {Main}
+#Trigger {You firmly wedge a sleek metallic digging apparatus into the ground and press a trigger on the handle. The attached shovel immediately goes to work, sending debris *.} {
+ #GagLine 1 All;
+ msplay general\archaeology\shovel*14@Ext
+} {Main|Ground}

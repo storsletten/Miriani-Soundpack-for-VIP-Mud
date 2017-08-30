@@ -1,24 +1,8 @@
-#Trigger {You hear a series of loud bangs as * missiles explode on the hull.} {
- MrandomPlay Ship\Combat\Projectile*3.wav;
- ExpPipe {%0} {Missiles explode on the hull.} {};
- #Sub {@ExpString}
-} {Main}
-#Trigger {You hear a series of * as the ship fires * missiles.} {
- ExpPipe {%0} {%0} {};
- msplay Ship\Combat\Missiles@Ext;
- #Sub {@ExpString}
-} {Main}
 #Trigger {You flick a switch on *.} {msplay General\Device\Switch@Ext} {Main}
 #Trigger {You step on to a small platform on the floor. Sensing your presence, a ring of lights along the perimeter of the circle light up as the platform *.} {
  ExpPipe {%0} {:Voice:%0} {};
  msplay General\Misc\HGLift.wav;
  #Sub {@ExpString}
-} {Main}
-#Trigger {You hear a satisfying click as the ship's docking ring is *.} {msplay Ship\Move\RingEnd@Ext} {Main}
-#Trigger {You decide not to travel through *.} {msplay Ship\Move\DontLand@Ext} {Main}
-#Trigger {You feel mild acceleration as the ship *.} {
- msplay Ship\Move\YouLanding.wav;
- #GagLine 1 All
 } {Main}
 #Trigger {You begin the * sequence.} {
  #GagLine 1 All;
@@ -143,8 +127,8 @@
 } {Main}
 #Trigger {You instruct * drone to *.} {msplay General\Misc\InstructDrone@Ext} {Main}
 #Trigger {You pass through *.} {#var Following 1} {Main}
-#Trigger {You hear a thunk as a salvaging line is deployed into space. You watch as the line slowly winds its way to a piece of debris, *} {
- ExpPipe {%0} {Salvage line deployed} {};
+#Trigger {You hear a thunk as a salvaging line is deployed into space. You watch as the line slowly winds its way to a piece of debris, projects an energy net around it and begins to slowly make its way back to the ship.} {
+ ExpPipe {%0} {Salvage line deployed.} {};
  msplay Ship\Misc\Salvage*3@Ext;
  #Sub {@ExpString}
 } {Main}
@@ -154,10 +138,6 @@
  #Sub {@ExpString}
 } {Main}
 #Trigger {You see the walls begin to crumble and the floor cracking. *} {msplay General\Rooms\DestroyRoom@Rext} {Main}
-#Trigger {You firmly wedge a sleek metallic digging apparatus into the ground and press a trigger on the handle. The attached shovel immediately goes to work, sending debris *.} {
- #gagline 1 all;
- msplay general\archaeology\shovel*14@Ext
-} {Main}
 #Trigger {You are forced off of the stairs as the * reaches its destination.} {msplay General\Rooms\EscalatorEnd@Rext} {Main}
 #Trigger {You are escorted to * by *.} {
  msplay General\Misc\Door@Ext;

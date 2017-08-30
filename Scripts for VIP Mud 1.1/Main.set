@@ -63,18 +63,22 @@ Extras|
 
 #Alias Login {#Var VipMudAutoLogin 1} {}
 
-#Trigger {Welcome to...} {
- #GagLine 8 All
-} {Main}
-#Trigger {http:[/]/www.toastsoft.net | http:[/]/www.toastsoft.net/privacy.php} {
- #Var Connected 0;
- #Say {Welcome to Miriani!};
- #Alarm 0 {
-  #Load {@ScriptPath\Const.set};
-  #Load {@SoundsPath\Main.set};
-  register_soundpack @SoundpackName | @Version;
-  #Class LoggingIn Enable;
-  SPLoad1 1
+#Trigger {Welcome to*} {
+ #If {%IfWord(%1,...| Miriani!,|)=1} {
+  #Var Connected 0;
+  #If {%1="..."} {
+   #Say {Welcome to Miriani!};
+   #GagLine 8 All
+  };
+  #Alarm 0 {
+   #Load {@ScriptPath\Const.set};
+   #Load {@SoundsPath\Main.set};
+   #Class LoggingIn Enable;
+   #Alarm 0 {
+    register_soundpack @SoundpackName | @Version;
+    SPLoad1 1
+   }
+  }
  }
 } {Main}
 #Alias SPLoad1 {
@@ -104,7 +108,7 @@ Extras|
 } {}
 #Trigger {Input your selection:} {
  #Class LoggingIn Disable;
- SPLoad2 1
+ #Alarm 0 {SPLoad2 1}
 } {Main|LoggingIn}
 #Alias SPLoad2 {
  #Var LoadTmp2 {%1};
