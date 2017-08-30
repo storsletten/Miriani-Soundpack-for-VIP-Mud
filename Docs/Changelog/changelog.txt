@@ -1,3 +1,6 @@
+Version 5.8.3, released 2017-08-30:
+* Fixed an issue that prevented the soundpack from being loaded when connecting to Miriani.
+
 Version 5.8.2, released 2017-08-30:
 * For 2.0: I think I fixed cases where the clip things to belt sounds were not working. Thanks Michael Calaway for reporting about this!
 
