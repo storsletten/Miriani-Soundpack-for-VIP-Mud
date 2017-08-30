@@ -1,12 +1,10 @@
 #If {%IsNumber(%Version)=0} {
  #Say {WARNING! You seem to be running VIP Mud 1.1, and therefore you'll need to install the 1.1 compatible version of this soundpack.}
 }
-#if {%Defined(GagEverything)=0} {#Var GagEverything 0}
 #If {%Defined(Connected)=0} {#Var Connected 0}
+#Var GagEverything 0
 #Var Idle 0
 #Var LoadedSoundpackVersion {}
-#Var StartupMusicHandle 0
-#Var NumberOfExpPipes 0
 
 #PC 0 Stop
 #Class Main Enable
@@ -56,7 +54,13 @@ ConfManagerMenus|
 #Conf AutoSave False
 #Conf Explicit False
 
-#Alias Login {#Var VipMudAutoLogin 1} {}
+#GAlias login {
+ #If {%Defined(Main)=0} {
+  #Exec {%charInfo(name);%charInfo(password)}
+ } {
+  #Var AutoLogin 1
+ }
+}
 
 #Trigger {Welcome to*} {
  #If {%IfWord(%1,...| Miriani!,|)=1} {
@@ -89,15 +93,12 @@ ConfManagerMenus|
   #If {@PassThru=1} {#Conf ExpandCommandLineVars False};
   #Conf DisplayCommandsInOutput False;
   #If {@LoadTmp1=1} {
-   #Exec {register_soundpack @SoundpackName | @Version};
-   #If {@AutoLogin=1} {
-    #Exec {%CharInfo(Name)};
-    #Exec {%CharInfo(Password)}
-   }
+   #Exec {>register_soundpack @SoundpackName | @Version};
+   #If {@AutoLogin=1} {#Exec {%CharInfo(Name);%CharInfo(Password)}}
   };
   #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True};
   #If {%Defined(SoundIsPlaying)=0} {#Load {@ScriptPath\SoundEngine.set}};
-  #If {@LoadTmp1=1 and @PlayStartupMusic=1 and @Silent=0} {
+  #If {@LoadTmp1=1 and @PlayStartupMusic=1} {
    MirianiSoundPlay {Startup Music} {Music\*63@Ext};
    #If {@SoundIsPlaying=1} {#Var StartupMusicHandle %PlayHandle}
   };
@@ -147,15 +148,15 @@ ConfManagerMenus|
   #GagLine 1 Voice;
   SPConnect 1;
   #Alarm 2 {SPKeepAlive Start Quiet};
-  #Abort All
+  #Abort
  };
  #If {@MainTmp1="Disconnected"} {
   mrplay stop;
   #Var Connected 0;
   #PC 0 Stop;
-  #If {@AutoSave=1} {ConfSaveAll 1};
+  #If {@AutoSave=1} {ConfSaveAll Quiet};
   #If {@ShowStats=1} {Soundpack Statistics};
-  #Abort All
+  #Abort
  };
  #If {@MainTmp1="Redirecting old connection to this port"} {
   #GagLine 1 Voice;
@@ -164,7 +165,11 @@ ConfManagerMenus|
   #UnAlarm -1;
   SPConnect 1;
   l;
-  #Abort All
+  #Abort
+ };
+ #If {@MainTmp1=*"The server will be shut down *"} {
+  msplay General\Misc\Announcement@Ext;
+  #Abort
  }
 } {Main}
 
@@ -202,7 +207,7 @@ ConfManagerMenus|
   };
   SPKeepAlive Start Quiet Replied;
   #If {@SaveOnIdle=1} {
-   #Alarm 0 {ConfSaveAll {@GagSaveOnIdle}}
+   #Exec {#Alarm 0 {ConfSaveAll {%If(@GagSaveOnIdle=1,Quiet,)}}}
   }
  };
  #If {@oobTmp1=*"soundpack_lag *"} {
@@ -227,7 +232,6 @@ ConfManagerMenus|
    msplay General\Misc\Cancel@Ext
   }
  };
- #If {%Pos(soundpack,%1)=1} {#Math NumberOfSoundpackMessages {@NumberOfSoundpackMessages + 1}};
  #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
 } {}
 #Alias SPKeepAlive {
@@ -344,7 +348,6 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  }
 } {}
 #Alias ExpPipe {
- #Math NumberOfExpPipes {@NumberOfExpPipes + 1};
  #Var ExpString {%Trim(%{@ExperienceLevel})};
  #If {%Replace(%Left(@ExpString,1),~",)=":"} {
   #If {%NumWords(@ExpString,:)>2} {
@@ -396,14 +399,12 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
 #Alias SPConnect {
  #Var Connected 1;
  #If {%1="1"} {
-  #Math NumberOfConnections {@NumberOfConnections + 1};
-  #Exec {
-   #If {@StartupMusicHandle>0} {
-    #PC @StartupMusicHandle Stop;
-    #Var StartupMusicHandle 0
-   }
+  #If {%Defined(StartupMusicHandle)=1} {
+   #PC @StartupMusicHandle Stop;
+   #UnVar StartupMusicHandle
   }
- }
+ };
+ soundpack register
 } {}
 #Alias SPCommand {
  #Exec {>#$#soundpack_status commands:%Trim(%0)};
@@ -445,7 +446,7 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  } {
   #Var TestTmp1 {@TestTmp1%{CRLF}- Soundpack version is missing. Try type SPRELOAD to fix this.}
  };
- #If {%Defined(DecimalChar)=1 and %Defined(LoadedSoundpackVersion)=1 and %Defined(Connected)=1 and %Defined(GagEverything)=1 and %Defined(DefaultScriptFiles)=1 and %Defined(StartupMusicHandle)=1} {
+ #If {%Defined(DecimalChar)=1 and %Defined(LoadedSoundpackVersion)=1 and %Defined(Connected)=1 and %Defined(GagEverything)=1 and %Defined(DefaultScriptFiles)=1} {
   #Var TestTmp1 {@TestTmp1%{CRLF}+ Main.set variables seems to be loaded.};
   #If {%Defined(LoadTmp1)=1} {
    #Var TestTmp1 {@TestTmp1%{CRLF}+ First loadcode exists, and is currently set to @LoadTmp1.}
@@ -466,11 +467,6 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
    #Var TestTmp1 {@TestTmp1%{CRLF}+ The Variables framework seems to be loaded.}
   } {
    #Var TestTmp1 {@TestTmp1%{CRLF}- The Variables framework does not seem to have been loaded. Try type SPRELOAD to fix this.}
-  };
-  #If {%Defined(NumberOfSounds)=1} {
-   #Var TestTmp1 {@TestTmp1%{CRLF}+ The sound engine appears to be loaded.}
-  } {
-   #Var TestTmp1 {@TestTmp1%{CRLF}- The sound engine does not seem to have been loaded. Try type SPRELOAD to fix this.}
   }
  } {
   #Var TestTmp1 {@TestTmp1%{CRLF}- Main.set variables missing. Aborting the test.}
@@ -496,7 +492,7 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  #Ignore Trigger On;
  #PC 0 Stop;
  #UnAlarm -1;
- #If {@AutoSave=1} {ConfSaveAll 1};
+ #If {@AutoSave=1} {ConfSaveAll Quiet};
  #Alarm 0 {
   #Exec {
    #Reload;
@@ -507,11 +503,6 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
    #Var Hostile {@Hostile};
    #Var InSpace {@InSpace};
    #Var Light {@Light};
-   #Var NumberOfSounds {@NumberOfSounds};
-   #Var NumberOfSoundpackMessages {@NumberOfSoundpackMessages};
-   #Var NumberOfExpPipes {@NumberOfExpPipes};
-   #Var NumberOfMessages {@NumberOfMessages};
-   #Var NumberOfBufferedLogMessages {@NumberOfBufferedLogMessages};
    #Var HistoryLogBuffer {@HistoryLogBuffer};
    #Var HistoryLogInitialization {@HistoryLogInitialization};
    #Var RoomName {@RoomName};

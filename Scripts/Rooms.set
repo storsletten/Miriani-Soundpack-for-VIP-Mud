@@ -264,6 +264,7 @@ Apartment
 
 #Trigger {[#]$[#]soundpack environment *} {
  #If {@InterruptOnRoom=1 and (@Following=0 or (@InterruptOnFollow=1 and @SpeakRoomTitleFirst=0)) AND @DontStopSpeaking<>1} {
+  #Say {Stopping speech};
   speech stop
  };
  #Var DontStopSpeaking 0;

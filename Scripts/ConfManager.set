@@ -513,7 +513,7 @@ ArchaeologyHelperStoreFromCount:1
   #Say {Default settings loaded.}
  } {
   #Load {%MudName/Conf%If(%Length(%1)>0,.%1,).set};
-  #If {%2<>"quiet"} {#Say {%If(%Length(%1)>0,Loaded from %1:,Loaded) @ConfName.}}
+  #If {%IfWord(Quiet,%2,|)=0} {#Say {%If(%Length(%1)>0,Loaded from %1:,Loaded) @ConfName.}}
  };
  #Exec {#Alarm 0 {
   SetRoomSoundVolume;
@@ -555,11 +555,11 @@ ArchaeologyHelperStoreFromCount:1
  #File 3 {@ConfTmpFile};
  #Write 3 {@ConfTmp6} NoReturn;
  #Close 3;
- #If {%2<>"quiet"} {#Say {%If(%Length(%1)>0,Saved to %1:,Saved) @ConfName.}};
+ #If {%IfWord(Quiet,%2,|)=0} {#Say {%If(%Length(%1)>0,Saved to %1:,Saved) @ConfName.}};
  #UnVar ConfTmpFile
 } {}
 #Alias ConfSaveAll {
- ConfSave {} quiet;
+ ConfSave {} {Quiet};
  #Var ConfTmp6 {};
  #ForAll {@PreservedVariables|PreservedVariables} {
   #If {%Length(%i)>0} {
@@ -578,7 +578,7 @@ ArchaeologyHelperStoreFromCount:1
  #Write 3 {@ConfTmp6} NoReturn;
  #Close 3;
  #If {@LogHistory=1 and %Defined(HistorySoundHandle)=1} {#Alarm 0 {WriteToLogFile}};
- #If {%1<>"1"} {#Say {Settings saved.}}
+ #If {%IfWord(Quiet,%1,|)=0} {#Say {Settings saved.}}
 } {}
 
 #Alias ConfFix {

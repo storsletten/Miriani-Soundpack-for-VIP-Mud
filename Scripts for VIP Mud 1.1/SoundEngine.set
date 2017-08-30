@@ -37,7 +37,6 @@
 #Var Fadeout 0
 #Var RoomSoundHandle 0
 #Var PlanetSoundsAlarm 0
-#if {%Defined(NumberOfSounds)=0} {#var NumberOfSounds 0}
 
 #var FootstepsList {
 planet:General\Footsteps\Planet*8@Ext
@@ -101,7 +100,6 @@ station:General\Footsteps\Station*8@Ext
    #Var SoundTmp3 {Playing}
   };
   #Exec {%Word(@SoundTmp2,^,1) {@SoundTmp4%Word(@SoundTmp2,^,2)} @SoundTmp1};
-  #Math NumberOfSounds {@NumberOfSounds + 1};
   #Var SoundTmpString {[%1]: @SoundTmp3 %Word(@SoundTmp2,^,2) at @{SoundTmp1}~~~% volume.};
   #if {%Defined(HistoryBuffers)=1 and @Connected=1} {#Exec {#alarm 0 {PushMessage Played0Sounds {@SoundTmpString}}}}
  }

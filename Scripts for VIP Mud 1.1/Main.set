@@ -183,6 +183,10 @@ Extras|
   SPConnect 1;
   l;
   #Abort
+ };
+ #If {@MainTmp1=*"The server will be shut down *"} {
+  msplay General\Misc\Announcement@Ext;
+  #Abort
  }
 } {Main}
 

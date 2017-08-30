@@ -1,4 +1,3 @@
-#If {%defined(NumberOfSoundpackMessages)=0} {#var NumberOfSoundpackMessages 0}
 #Alias soundpack {
  #Conf DisplayCommandsInOutput False;
  #If {%1="register"} {#Exec {>#$#register_soundpack @SoundpackName | @Version}};
@@ -8,17 +7,6 @@
  #If {%1="reload"} {
   #Say {Reloading the soundpack... Please remain calm.};
   SPReload 1
- };
- #If {%1="Statistics"} {
-  #Var SoundpackStatistics {[Soundpack Statistics]:
-[Version]: @Version.
-[Number of connections since logging was begun]: @NumberOfConnections.
-[Number of sounds played this session]: @NumberOfSounds.
-[Number of soundpack messages received]: @NumberOfSoundpackMessages.
-[Number of ExpPipes performed this session]: @NumberOfExpPipes.
-[Number of messages pushed this session]: @NumberOfMessages.
-[Number of history buffers]: %numwords(@HistoryBuffers,|).};
-  ConfPrint {@SoundpackStatistics}
  }
 } {}
 #Trigger {Your soundpack appears to be out of date! You're using version '*', but the most recent version is '*'. You can download the most recent version from: *} {

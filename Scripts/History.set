@@ -1,6 +1,4 @@
-#Var HistorySoundHandle 0
 #If {%Defined(NumberOfBufferedLogMessages)=0} {#Var NumberOfBufferedLogMessages 0}
-#If {%Defined(NumberOfMessages)=0} {#var NumberOfMessages 0}
 #If {%Defined(HistoryBuffers)=0} {#Var HistoryBuffers {Output}}
 #If {%Defined(CurrentHistoryBuffer)=0} {#var CurrentHistoryBuffer {Output}}
 #If {%Defined(CurrentHistoryBufferPosition)=0} {#Var CurrentHistoryBufferPosition 1}
@@ -42,7 +40,6 @@
    #Var {History%{1}Tmp4} {%Word(@{History%{1}Tmp3},|,%NumWords(@{History%{1}Tmp3},|))}
   };
   #If {@SuppressDuplicateEntries=0 or (@SuppressDuplicateEntries=1 and @{History%{1}Tmp2}<>@{History%{1}Tmp4}) or (@SuppressDuplicateEntries=2 and %IfWord(@{History%{1}Tmp1},@{History%{1}Messages},|)=0)} {
-   #Math NumberOfMessages {@NumberOfMessages+1};
    #If {%IfWord(%1,@HistoryBuffers,|)=0} {
     #Var HistoryBuffers {%Sort(@HistoryBuffers|%1,0)}
    };
@@ -322,7 +319,7 @@
     } {
      #Var HistoryTmp4 {@SoundsPath\}
     };
-    #If {@HistorySoundHandle<>0} {
+    #If {%Defined(HistorySoundHandle)=1} {
      #PC @HistorySoundHandle Stop
     };
     #Play {@HistoryTmp4%Copy(@HistoryTmp1,%Eval(@HistoryTmp2+2),%Eval(@HistoryTmp3-(@HistoryTmp2+2)))} {%Min(%Eval(@Vol+@HistoryVolumeOffset),100)};

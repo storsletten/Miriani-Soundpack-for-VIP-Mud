@@ -102,20 +102,18 @@ AlertOnUpdate|B
 }
 
 #Var ConfMenuGag {Soundpack gag options:
-[1] Gag everything  [~%If(~@GagEverything=1,On,Off)]. (Control F12).
-[2] Gag your character's walk message  [~%If(~@GagTreadLine=1,On,Off)].
-[3] Gag messages sent over the general channel  [~%If(~@GagGenMessages=1,On,Off)].
-[4] Gag separators (such as long series of dash symbols)  [~%If(~@GagDashes=1,On,Off)].
-[5] Gag exits  [~%If(~@GagExits=1,On,Off)].
-[6] Gag roundtime announcements which are less than  [~@RoundTimeThreshold seconds].
-[7] Gag "I don't understand that" messages  [~%If(~@GagDontUnderstandMessages=1,On,Off)].
-[8] String to replace the line "You see nothing special."  [~@NoDescString].
-[9] Gag the description of asteroid rooms  [~%If(~@GagRoidDesc=1,On,Off)].
-[10] Surveying mode (for use with mineral scanners)  [~%Case(~%Eval(~@Surveying+1),Off,Surveying,Review)].
-[11] Gag save messages when idle  [~%If(~@GagSaveOnIdle=1,On,Off)].
-[12] Remove all but coordinates from scanning output  [~%If(~@InterruptOnCoords=1,On,Off)]. (Control Shift Backspace).
+[1] Gag your character's walk message  [~%If(~@GagTreadLine=1,On,Off)].
+[2] Gag messages sent over the general channel  [~%If(~@GagGenMessages=1,On,Off)].
+[3] Gag separators (such as long series of dash symbols)  [~%If(~@GagDashes=1,On,Off)].
+[4] Gag exits  [~%If(~@GagExits=1,On,Off)].
+[5] Gag roundtime announcements which are less than  [~@RoundTimeThreshold seconds].
+[6] Gag "I don't understand that" messages  [~%If(~@GagDontUnderstandMessages=1,On,Off)].
+[7] String to replace the line "You see nothing special."  [~@NoDescString].
+[8] Gag the description of asteroid rooms  [~%If(~@GagRoidDesc=1,On,Off)].
+[9] Surveying mode (for use with mineral scanners)  [~%Case(~%Eval(~@Surveying+1),Off,Surveying,Review)].
+[10] Gag save messages when idle  [~%If(~@GagSaveOnIdle=1,On,Off)].
+[11] Remove all but coordinates from scanning output  [~%If(~@InterruptOnCoords=1,On,Off)]. (Control Shift Backspace).
 %Chr(250)
-GagEverything|E::GagEverything
 GagTreadLine|B
 GagGenMessages|B
 GagDashes|B
@@ -509,11 +507,12 @@ SendCommandDirectly|B
 UseSmStyle|B
 }
 
-#Var ConfMenuExtras {Soundpack Extras:
-}
+#Var ConfMenuExtras {Soundpack Extras}
 #Var ConfTmp1 0
 #Var ConfTmp2 {%Chr(250)
 }
+#Var ConfTmp5 {}
+#Var ConfTmp6 {}
 #ForAll {%Replace(@ExtraScriptFiles,%CRLF,|)} {
  #If {%Pos(^,%i)>0} {
   #Math ConfTmp1 {@ConfTmp1+1};
@@ -523,11 +522,12 @@ UseSmStyle|B
    #Var ConfOptionVars {@{ConfOptionVars}LoadExtraScript@ConfTmp3:0%CRLF};
    #If {%IsNumber(@{LoadExtraScript@ConfTmp3})=0} {#Var {LoadExtraScript@ConfTmp3} 0}
   };
-  #Var ConfMenuExtras {@ConfMenuExtras[@ConfTmp1] @ConfTmp3  [~%If(~@LoadExtraScript@ConfTmp3=1,Enabled,Disabled)]. %Word(%i,^,2).%CRLF};
+  #Var ConfTmp5 {@ConfTmp5[@ConfTmp1] @ConfTmp3  [~%If(~@LoadExtraScript@ConfTmp3=1,Enabled,Disabled)]. %Word(%i,^,2).%CRLF};
+  #Var ConfTmp6 {@{ConfTmp6}+~@LoadExtraScript@ConfTmp3};
   #Var ConfTmp2 {@{ConfTmp2}LoadExtraScript@ConfTmp3|B::LoadExtra {@ConfTmp3} {Quiet}%CRLF}
  }
 }
-#Var ConfMenuExtras {@ConfMenuExtras@ConfTmp2}
+#Var ConfMenuExtras {@ConfMenuExtras (~%Eval(%Delete(@ConfTmp6,1,1)) enabled):%CRLF@ConfTmp5@ConfTmp2}
 
 #Var ConfMenuSpecificSocials {List of social toggles:
 }
@@ -569,5 +569,4 @@ UseSmStyle|B
 }
 #Var ConfMenuSpecificActions {@ConfMenuSpecificActions@ConfTmp2}
 
-#4 {#UnVar {ConfTmp%i}}
 #Var ConfManagerMenusLoaded 1
