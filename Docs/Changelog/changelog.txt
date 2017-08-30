@@ -1,3 +1,6 @@
+Version 5.8.4, released 2017-08-30:
+* For 2.0: Fixed several things related to connecting and room sounds and... well, lots of things. Also removed the soundpack statistics thing since it was just hogging resources for no useful reason. And added a little counter for conf x that indicates how many extras are currently enabled. Woop woop!
+
 Version 5.8.3, released 2017-08-30:
 * Fixed an issue that prevented the soundpack from being loaded when connecting to Miriani.
 
