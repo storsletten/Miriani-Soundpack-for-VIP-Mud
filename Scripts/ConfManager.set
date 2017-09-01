@@ -56,8 +56,8 @@ ScanFormatStringPlanet:$ClassificationRaw planet $DistanceRaw $DistanceUnits awa
 ScanFormatStringMoon:$ClassificationRaw moon $DistanceRaw $DistanceUnits away, orbiting $OrbitingRaw.$EverythingElse.$Coordinates.
 ScanFormatStringStation:Station $DistanceRaw $DistanceUnits away.$EverythingElse.$Coordinates.
 ScanFormatStringAsteroid:$SizeRaw asteroid $DistanceRaw $DistanceUnits away.$Starships.$LandingBeacons.$EverythingElse.$Coordinates.
-ScanFormatStringStar:$ClassificationRaw star $DistanceRaw $DistanceUnits away.$EverythingElse.$Coordinates.
-ScanFormatStringDebris:$TypeRaw $DistanceRaw $DistanceUnits away.$EverythingElse.$Coordinates.
+ScanFormatStringStar:Class $ClassificationRaw star $DistanceRaw $DistanceUnits away, at $CoordinatesRaw.$EverythingElse.
+ScanFormatStringDebris:$TypeRaw $DistanceRaw $DistanceUnits away, at $CoordinatesRaw.$EverythingElse.
 ScanFormatStringWeapon:$DistanceRaw $DistanceUnits distant.$Damage.$AvailableCharge.$LaunchedBy.$EverythingElse.$Coordinates.
 ScanFormatStringProbe:$DistanceRaw $DistanceUnits distant.$LaunchedBy.$EverythingElse.$Coordinates.
 ScanFormatStringInterdictor:$DistanceRaw $DistanceUnits distant.$LaunchedBy.$EverythingElse.$Coordinates.
