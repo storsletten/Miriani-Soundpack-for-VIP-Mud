@@ -9,6 +9,7 @@ mute:Sounds:Silent
 room:RoomSounds
 rooms:RoomSounds
 save:Conf:Save
+sc:Scanning
 scan:Scanning
 starship:Ship
 vol:Sounds:Vol
@@ -110,7 +111,6 @@ AlertOnUpdate|B
 [8] Gag the description of asteroid rooms  [~%If(~@GagRoidDesc=1,On,Off)].
 [9] Surveying mode (for use with mineral scanners)  [~%Case(~%Eval(~@Surveying+1),Off,Surveying,Review)].
 [10] Gag save messages when idle  [~%If(~@GagSaveOnIdle=1,On,Off)].
-[11] Remove all but coordinates from scanning output  [~%If(~@InterruptOnCoords=1,On,Off)]. (Control Shift Backspace).
 %Chr(250)
 GagTreadLine|B
 GagGenMessages|B
@@ -122,7 +122,6 @@ NoDescString|S|Enter a new format string for the "You see nothing special" messa
 GagRoidDesc|B
 Surveying|C:0,Off^1,Surveying mode^2,Reviewing mode
 GagSaveOnIdle|B
-InterruptOnCoords|B
 }
 
 #Var ConfMenuCamera {Camera options:
@@ -441,36 +440,56 @@ ClassDependant|B
 
 #Var ConfMenuScanning {Scanning options
 [1] Scan filters  [~%If(~@ScanFilters=1,On,Off)].
-[2] Scan format string  [~@ScanOutputString].
-[3] Only show custom formatted scan output  [~%If(~@GagScan=1,On,Off)].
-[4] Show original scan output in the output window  [~%If(~@DisplayOriginalScanOutput=1,On,Off)].
-[5] Focus output formatter string  [~@FocusOutputString].
-[6] Shorten the display of certain objects (like stars and debris)  [~%If(~@ShortenObjects=1,On,Off)].
-[7] Show number of lifesigns aboard a ship when using the occupancy scanner upgrade  [~%If(~@CountOccupants=1,On,Off)].
+[2] Always show original scan output in the output window  [~%If(~@DisplayOriginalScanOutput=1,On,Off)].
+[3] Starship format string  [~@ScanFormatStringStarship].
+[4] Planet format string  [~@ScanFormatStringPlanet].
+[5] Moon format string  [~@ScanFormatStringMoon].
+[6] Station format string  [~@ScanFormatStringStation].
+[7] Asteroid format string  [~@ScanFormatStringAsteroid].
+[8] Star format string  [~@ScanFormatStringStar].
+[9] Debris format string  [~@ScanFormatStringDebris].
+[10] Proximity weapons format string  [~@ScanFormatStringWeapon].
+[11] Video probe format string  [~@ScanFormatStringProbe].
+[12] Interdictor format string  [~@ScanFormatStringInterdictor].
+[13] Blockade format string  [~@ScanFormatStringBlockade].
+[14] Unknown objects format string  [~@ScanFormatStringUnknown].
+[15] Focus output formatter string  [~@FocusOutputString].
 %Chr(250)
 ScanFilters|B
-ScanOutputString|S:*
-GagScan|B
 DisplayOriginalScanOutput|B
+ScanFormatStringStarship|S:*
+ScanFormatStringPlanet|S:*
+ScanFormatStringMoon|S:*
+ScanFormatStringStation|S:*
+ScanFormatStringAsteroid|S:*
+ScanFormatStringStar|S:*
+ScanFormatStringDebris|S:*
+ScanFormatStringWeapon|S:*
+ScanFormatStringProbe|S:*
+ScanFormatStringInterdictor|S:*
+ScanFormatStringBlockade|S:*
+ScanFormatStringUnknown|S:*
 FocusOutputString|S:*
-ShortenObjects|B
-CountOccupants|B
 }
 
 #Var ConfMenuSpeech {Speech and interrupts:
 [1] Speech interrupts  [~%If(~@UseSpeechInterrupts=1,On,Off)]. (usually only useful for people who have typing interrupt disabled).
-[2] Interrupt on focus and scanning  [~%If(~@InterruptOnFocus=1,On,Off)].
-[3] Interrupt when following or being dragged  [~%If(~@InterruptOnFollow=1,On,Off)]. (Alt Backspace).
-[4] Interrupt when entering a room  [~%If(~@InterruptOnRoom=1,On,Off)]. (Control Alt Backspace).
-[5] When following or being dragged, speak the room title first  [~%If(~@SpeakRoomTitleFirst=1,On,Off)].
-[6] Interrupt on message boards  [~%If(~@InterruptOnBoards=1,On,Off)].
-[7] Interrupt on PA  [~%If(~@InterruptOnPa=1,On,Off)].
-[8] Default speech type  [~@DefaultSpeechType].
-[9] SAPI settings.
-[10] Disable speaking of the entry window on startup  [~%If(~@SetEntrySpeechOff=1,On,Off)].
+[2] Interrupt on focus  [~%If(~@InterruptOnFocus=1,On,Off)].
+[3] Interrupt on scanning of starships  [~%If(~@InterruptOnScanningStarships=1,On,Off)].
+[4] Interrupt on filtered scan commands (such as scc, scd, sca, ...)  [~%If(~@InterruptOnFilteredScans=1,On,Off)].
+[5] Interrupt when following or being dragged  [~%If(~@InterruptOnFollow=1,On,Off)]. (Alt Backspace).
+[6] Interrupt when entering a room  [~%If(~@InterruptOnRoom=1,On,Off)]. (Control Alt Backspace).
+[7] When following or being dragged, speak the room title first  [~%If(~@SpeakRoomTitleFirst=1,On,Off)].
+[8] Interrupt on message boards  [~%If(~@InterruptOnBoards=1,On,Off)].
+[9] Interrupt on PA  [~%If(~@InterruptOnPa=1,On,Off)].
+[10] Default speech type  [~@DefaultSpeechType].
+[11] SAPI settings.
+[12] Disable speaking of the entry window on startup  [~%If(~@SetEntrySpeechOff=1,On,Off)].
 %Chr(250)
 UseSpeechInterrupts|B
 InterruptOnFocus|B
+InterruptOnScanningStarships|B
+InterruptOnFilteredScans|B
 InterruptOnFollow|B
 InterruptOnRoom|B
 SpeakRoomTitleFirst|B

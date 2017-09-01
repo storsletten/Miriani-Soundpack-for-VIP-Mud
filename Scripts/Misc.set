@@ -4,8 +4,28 @@
  msplay Ship\Move\Blocked@Ext
 } {Main}
 #Trigger {*--*} {
- #If {@Main>0 or @Main<-9} {
-  #If {%Trim(%Replace(%Replace(%1%2,~~~~",),-,))="" and @GagDashes=1} {#GagLine 1 All}
+ #If {(@Main>0 or @Main<-9) and %Length(%Trim(%Replace(%0,-,)))=0} {
+  #If {@GagDashes=1} {#GagLine 1 All};
+  #If {%Defined(ScanOutputLabelsDetected)=1 and @ScanOutputLabelsDetected>0} {
+   ScanProcessOutput;
+   #If {%Defined(ScanFilterVar)=1} {
+    #UnGagLine;
+    #If {%Length(@{ScanObject@{ScanFilterVar}Raw})>0} {
+     #Var ScanFormatOutput {@{ScanObject@{ScanFilterVar}Raw}}
+    } {
+     #Var ScanFormatOutput {It has no @ScanFilter.}
+    };
+    #If {@InterruptOnFilteredScans=1 or (@InterruptOnScanningStarships=1 and @ScanObjectObjectTypeRaw="Starship")} {Speech Stop};
+    #Sub {@ScanFormatOutput}
+   } {
+    #If {@ScanFilters>0} {
+     #UnGagLine;
+     ScanFormat {@ScanObjectObjectTypeRaw};
+     #If {@InterruptOnScanningStarships=1 and @ScanObjectObjectTypeRaw="Starship"} {Speech Stop};
+     #Sub {@ScanFormatOutput@ScanFormatExtraOutput}
+    }
+   }
+  }
  }
 } {}
 

@@ -1,271 +1,183 @@
-; Do not remove the sc alias, it overrides Vipmud's default sc
-; alias, which causes loads of problems...
+#Var ScanOutputLabels {Atmospheric Composition|Available charge|Average Component Damage|Cargo|Classification|Composition|Coordinates|Courier ship status|Damage|Distance|Hull Damage|Identifiable Power Sources|IFF|Landing beacons|Launched by|Natural Resources|Occupancy|Orbiting|Pilot status|Power|Power sources|Size|Starships|Structural Integrity|Surface Conditions|Type|Weapons}
+#Var ScanFormatVarLabels {@ScanOutputLabels|Alliance|Full Name|Name|New|Number of Occupants|Object Type}
+#Var ScanFormatVarLabels {%Sort(@ScanFormatVarLabels,0)}
+#Var ScanFormatVars {%Replace(@ScanFormatVarLabels, ,)}
 
-#Exec {#UnAlias sc}
-#Alias sc {shipscan sc {%0}}
-#Alias scan {shipscan scan {%0}}
+; sc is an alias that exists in VIP Mud's start.set. It needs to go.
+#GUnAlias sc
+
+#Alias sc {shipscan sc {%0}} {Starship}
+#Alias scan {shipscan scan {%0}} {Starship}
 #Alias shipscan {
  #Var ScanTarget {%Trim(%2)};
  #Var ScanFilter {%Trim(%3)};
- #Var EnemyHull {};
- #Var EnemyComponent {};
- #Var EnemyOccupants  {};
- #Var EnemyWeapons {};
- #Var EnemyPower {};
- #Var EnemyCargo {};
- #Var EnemyNew {};
- #Var TargetCoordinatesRaw {};
- #Var EnemyShip {};
- #Var EnemyShortName {};
- #Var EnemyType {};
+ #If {%Length(@ScanFilter)>0} {
+  #Var ScanFilterVar {%Replace(@ScanFilter, ,)}
+ } {
+  #UnVar ScanFilter;
+  #UnVar ScanFilterVar
+ };
+ #ForAll {@ScanFormatVars} {
+  #Var {ScanObject%i} {};
+  #Var {ScanObject%{i}Raw} {}
+ };
  #Class Scanning Enable;
+ #Var ScanOutputLabelsDetected 0;
  #Exec {>%1%RTrim( @ScanTarget)}
 } {}
-#Trigger {Praelor * * (*)} {
- #If {@ScanFilters>0 or @ScanFilter<>""} {#If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}};
- #If {%3="Krenelia"} {
-  MSPlay Ship\Computer\PraelorIsFriend@Ext
- } {
-  #If {@MutePraelorIsEnemySound<>1} {MSPlay Ship\Computer\PraelorIsEnemy@Ext}
- };
- #If {%IsNumber(%2)=1} {
-  #Var EnemyShortName {%1 %2};
-  #Var EnemyType %3;
-  #Var EnemyShip %0
- } {
-  #Var EnemyShortName {%1 %2};
-  #Var EnemyType %3;
-  #Var EnemyShip %0
- }
-} {Main|Scanning}
 
-#Trigger {An unknown starship (Unknown)} {
- #If {@ScanFilters>0 or @ScanFilter<>""} {#If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}};
- #var EnemyShortName {Unknown};
- #var EnemyType {Unknown Starship};
- #var EnemyShip %0
-} {Main|Scanning}
-#Trigger {A combat drone (Unknown)} {
- #If {@ScanFilters>0 or @ScanFilter<>""} {#If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}};
- #var EnemyShortName {Drone};
- #var EnemyType {Combat Drone};
- #var EnemyShip %0
-} {Main|Scanning}
-#Trigger {Combat Drone *(*)} {
- #If {@ScanFilters>0 or @ScanFilter<>""} {#If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}};
- #var EnemyShortName {Drone};
- #var EnemyType {Combat Drone};
- #var EnemyShip %0
-} {Main|Scanning}
-#Trigger {The *-person * "*" (*} {
- #If {@ScanFilters>0 or @ScanFilter<>""} {#If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}};
- #var EnemyShortName %3;
- #If {@ExperienceLevel=3} {#var EnemyType {%2}} {#var EnemyType {%1-person %2}};
- #var EnemyType {@EnemyType (%4};
- #var EnemyShip {%3 (%1-person %2) (%4}
-} {Main|Scanning}
-#Trigger {High Guard * (High Guard)} {
- #If {@ScanFilters>0 or @ScanFilter<>""} {#If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}};
- #var EnemyShortName {%1};
- #var EnemyType {HG Ship};
- #var EnemyShip %0
-} {Main|Scanning}
-
-#Trigger {Hull Damage: *} {
- Speech Stop;
- #If {@ZoneType = "Starship"} {
-  #Class ShipScan Enable;
-  #If {@ScanFilters>0 or @ScanFilter<>""} {
+#Trigger {* (*)} {
+ #If {%IfWord(%2,AIE|Blue|CHRISTMAS|Commonwealth|Courier|CTN|Green|Hale|High Guard|Krenelia|Observer|Ontanka|Pink|Praelor|Red|Unknown,|)=1} {
+  #If {@ScanFilters>0 or %Defined(ScanFilter)=1} {
    #If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}
+  } {
+   #If {@InterruptOnScanningStarships=1} {Speech Stop}
   };
-  #Var EnemyHull {%Replace(%1,~%,)};
-  #If {%IsNumber(@EnemyHull)<>1} {#Var EnemyHull -1}
- }
-} {Main|Scanning}
-#Trigger {Average Component Damage: *} {
- #If {@ScanFilters>0 or @ScanFilter<>""} {
-  #If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}
- };
- #var EnemyComponent {%replace(%1,~%,"")};
- #if {%isNumber(@EnemyComponent)<>1} {
-  #var EnemyComponent -1
- }
-} {Main|ShipScan}
-#Trigger {Weapons: *} {
- #If {@ScanFilters>0 or @ScanFilter<>""} {
-  #If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}
- };
- #var EnemyWeapons %1
-} {Main|ShipScan}
-#Trigger {Occupancy: *} {
- #If {@ScanFilters>0 or @ScanFilter<>""} {
-  #If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}
- };
- #Var EnemyOccupants %1
-} {Main|ShipScan}
-#Trigger {Occupants: *.} {
- #If {@ScanFilters>0 or @ScanFilter<>""} {
-  #If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}
- };
- #Var EnemyOccupants %1
-} {Main|ShipScan}
-#Trigger {Power: *} {
- #If {@ScanFilters>0 or @ScanFilter<>""} {
-  #If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}
- };
- #var EnemyPower %1
-} {Main|ShipScan}
-#Trigger {Cargo: *} {
- #If {@ScanFilters>0 or @ScanFilter<>""} {
-  #If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}
- };
- #var EnemyCargo %1
-} {Main|ShipScan}
-#Trigger {* status: New} {
- #If {@ScanFilters>0 or @ScanFilter<>""} {
-  #If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}
- };
- #Var EnemyNew {@EnemyNew, New %1}
-} {Main|ShipScan}
-#Trigger {Coordinates: (&{TargetCoordinatesRaw})} {
- #If {@EnemyNew<>""} {
-  #Var EnemyNew {%Delete(@EnemyNew,1,2)};
-  #If {%Pos($NEW,@ScanOutputString)=0} {
-   #Var EnemyShip {[@EnemyNew]: @EnemyShip};
-   #Var EnemyType {[@EnemyNew]: @EnemyType}
-  }
- };
- #If {@InterruptOnCoords=1} {Speech Stop};
- msplay Ship\Computer\Scan*4@Ext;
- InSpace 1;
- #If {%IsNumber(@EnemyHull)=1} {
-  #If {@GagScan=1 or @ScanFilter<>""} {
-   #GagLine 1 All
+  #Var ScanObjectAllianceRaw {%2};
+  #Var ScanObjectNameRaw {%1};
+  #Var ScanObjectFullNameRaw {%1};
+  #If {%IfWord(%2,Krenelia|Ontanka|Praelor,|)=1} {
+   #If {%2="Krenelia"} {msplay Ship\Computer\PraelorIsFriend@Ext};
+   #If {%2="Ontanka" and @MutePraelorIsEnemySound=0} {msplay Ship\Computer\PraelorIsEnemy@Ext};
+   #If {%Pos(Praelor ,%1)=1} {#Var ScanObjectNameRaw {%Copy(%1,9,%Eval(%Length(%1)-8))}}
   } {
-   #Var ScanningTmp1 {%Replace(@FocusOutputString,$NAME,~@EnemyShip)};
-   #Var ScanningTmp1 {%Replace(@ScanningTmp1,$COORDS,~@TargetCoordinatesRaw)};
-   #Sub {%Expand(@ScanningTmp1)};
-   #UnVar ScanningTmp1
-  }
- }
-} {Main|Scanning}
-#Trigger {Distance: &{EnemyDistance}} {
- #If {%IsNumber(@EnemyHull)=1} {
-  #If {@ScanFilter=""} {
-   #Var ScanningTmp1 {%Replace(@ScanOutputString,$NAME,~@EnemyShip)};
-   #Var ScanningTmp1 {%Replace(@ScanningTmp1,$SHORTNAME,~@EnemyShortName)};
-   #Var ScanningTmp1 {%Replace(@ScanningTmp1,$TYPE,~@EnemyType)};
-   #Var ScanningTmp1 {%Replace(@ScanningTmp1,$DISTANCE,~@EnemyDistance)};
-   #Var ScanningTmp1 {%Replace(@ScanningTmp1,$COORDS,~@TargetCoordinatesRaw)};
-   #Var ScanningTmp1 {%Replace(@ScanningTmp1,$HULL,~@EnemyHull)};
-   #Var ScanningTmp1 {%Replace(@ScanningTmp1,$COMPONENT,~@EnemyComponent)};
-   #Var ScanningTmp1 {%Replace(@ScanningTmp1,$WEAPONS,~@EnemyWeapons)};
-   #Var ScanningTmp1 {%Replace(@ScanningTmp1,$POWER,~@EnemyPower)};
-   #Var ScanningTmp1 {%Replace(@ScanningTmp1,$CARGO,~@EnemyCargo)};
-   #Var ScanningTmp1 {%Replace(@ScanningTmp1,$OCCUPANTS,@~EnemyOccupants)};
-   #Var ScanningTmp1 {%Replace(@ScanningTmp1,$NEW,~@EnemyNew)};
-   #Var ScanningTmp1 {%Replace(@ScanningTmp1,$MATH,~%eval)};
-   #Var ScanningTmp1 {%Expand(@ScanningTmp1)};
-   #While {%Pos($CRLF,@ScanningTmp1)=1} {#Var ScanningTmp1 {%Delete(@ScanningTmp1,1,5)}};
-   #Var ScanningTmp1 {%replace(@ScanningTmp1,$CRLF,%CRLF)}
-  } {
-   #Var ScanningTmp1 {Unknown scan filter};
-   #If {@ScanFilter="cargo"} {
-    #Var ScanningTmp1 {@EnemyCargo}
-   };
-   #If {@ScanFilter="comp"} {
-    #Var ScanningTmp1 {@EnemyComponent@Percent average comps}
-   };
-   #If {@ScanFilter="coords"} {
-    #Var ScanningTmp1 {@TargetCoordinatesRaw}
-   };
-   #If {@ScanFilter="distance"} {
-    #Var ScanningTmp1 {@EnemyDistance}
-   };
-   #If {@ScanFilter="hull"} {
-    #Var ScanningTmp1 {@EnemyHull@Percent hull}
-   };
-   #If {@ScanFilter="occupants"} {
-    #Var ScanningTmp1 {@EnemyOccupants};
-    #If {@CountOccupants=1 and %NumWords(@EnemyOccupants, )>1} {
-     #Var ScanningTmp2 {%NumWords(@ScanningTmp1,~,)};
-     #If {@ScanningTmp2=1} {
-      #If {%Pos(@And,@ScanningTmp1)>0} {
-       #Var ScanningTmp2 2
-      }
-     };
-     #Var ScanningTmp1 {@ScanningTmp1 [@ScanningTmp2};
-     #If {@ScanningTmp2=1} {#Var ScanningTmp1 {@ScanningTmp1 lifesign}} {#Var ScanningTmp1 {@ScanningTmp1 lifesigns}};
-     #Var ScanningTmp1 {@ScanningTmp1 detected]}
+   #If {%IfWord(%2,AIE|Blue|CHRISTMAS|Commonwealth|Courier|CTN|Green|Hale|High Guard|Observer|Pink|Red,|)=1 and %NumWords(%1,~")=3} {
+    #If {%Pos(The ,%1)=1 and %Pos(-person ,%1)>0} {
+     #Var ScanObjectTypeRaw {%Word(%1,~",1)};
+     #Var ScanObjectTypeRaw {%Copy(@ScanObjectTypeRaw,5,%Eval(%Length(@ScanObjectTypeRaw)-5))};
+     #Var ScanObjectNameRaw {%Word(%1,~",2)}
     }
-   };
-   #If {@ScanFilter="power"} {
-    #Var ScanningTmp1 {@EnemyPower}
-   };
-   #If {@ScanFilter="weapons"} {
-    #Var ScanningTmp1 {@EnemyWeapons}
-   };
-   #Var ScanFilter {}
-  };
-  #Sub {@ScanningTmp1};
-  #Class ShipScan disable;
-  #UnVar ScanningTmp1
- };
- #Class Scanning disable;
- #If {@EnemyDistance=1} {msplay General\Misc\Beep10@Ext}
+   }
+  }
+ }
 } {Main|Scanning}
+#Trigger {*: *} {
+ #If {%IfWord(%1,@ScanOutputLabels,|)=1} {
+  #Math ScanOutputLabelsDetected {@ScanOutputLabelsDetected + 1};
+  #Var {ScanObject%Replace(%1, ,)Raw} {%2};
+  #If {@ScanFilters>0 or %Defined(ScanFilter)=1} {
+   #If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}
+  }
+ }
+} {Main|Scanning}
+#Trigger {Video Probe} {#Var ScanObjectObjectTypeRaw {Probe}} {Main|Scanning}
+#Trigger {Interdictor} {#Var ScanObjectObjectTypeRaw {Interdictor}} {Main|Scanning}
+
+#Alias ScanProcessOutput {
+ #Class Scanning Disable;#UnVar ScanOutputLabelsDetected;
+ #If {@ScanObjectDistanceRaw=1} {#Var ScanObjectDistanceUnits {unit}} {#Var ScanObjectDistanceUnits {units}};
+ #If {%Left(@ScanObjectCoordinatesRaw,1)="("} {#Var ScanObjectCoordinatesRaw {%Copy(@ScanObjectCoordinatesRaw,2,%Eval(%Length(@ScanObjectCoordinatesRaw)-2))}};
+ #Var ScanObjectCoordinatesRaw {%Replace(@ScanObjectCoordinatesRaw,~,,)};
+ #If {%Length(@ScanObjectObjectTypeRaw)=0} {
+  #If {%Length(@ScanObjectWeaponsRaw)>0} {#Var ScanObjectObjectTypeRaw {Starship};#Abort};
+  #If {%IfWord(@ScanObjectClassificationRaw,O B A F G K M, )=1} {#Var ScanObjectObjectTypeRaw {Star};#Abort};
+  #If {%Length(@ScanObjectOrbitingRaw)>0} {#Var ScanObjectObjectTypeRaw {Moon};#Abort};
+  #If {%Length(@ScanObjectAtmosphericCompositionRaw)>0} {#Var ScanObjectObjectTypeRaw {Planet};#Abort};
+  #If {%Length(@ScanObjectStructuralIntegrityRaw)>0} {#Var ScanObjectObjectTypeRaw {Station};#Abort};
+  #If {%Length(@ScanObjectCompositionRaw)>0} {#Var ScanObjectObjectTypeRaw {Asteroid};#Abort};
+  #If {%Length(@ScanObjectTypeRaw)>0} {#Var ScanObjectObjectTypeRaw {Debris};#Abort};
+  #If {%Length(@ScanObjectDamageRaw)>0} {#Var ScanObjectObjectTypeRaw {Weapon};#Abort};
+  #If {%Length(@ScanObjectObjectTypeRaw)=0} {#Var ScanObjectObjectTypeRaw {Unknown}}
+ };
+ #If {@ScanObjectObjectTypeRaw="Starship"} {
+  #If {@ScanObjectPilotstatusRaw="New"} {#Var ScanObjectNewRaw {@ScanObjectNewRaw|New pilot}};
+  #If {@ScanObjectCouriershipstatusRaw="New"} {#Var ScanObjectNewRaw {@ScanObjectNewRaw|New courier ship}};
+  #If {%Length(@ScanObjectNewRaw)>0} {
+   #Var ScanObjectNewRaw {%DelItem(@ScanObjectNewRaw,)};
+   #Var ScanObjectNewRaw {%Replace(@ScanObjectNewRaw,|,~, )}
+  };
+  #If {%IfWord(Unknown,@ScanObjectPowerRaw,%CRLF)=1} {#Var ScanObjectPowerRaw {Charge Unknown}};
+  #If {%IfWord(Indeterminate,@ScanObjectCargoRaw,%CRLF)=1} {#Var ScanObjectCargoRaw {}};
+  #If {%Length(@ScanObjectOccupancyRaw)>0 and %IfWord(@ScanObjectOccupancyRaw,Empty|Filled|Invalid reading|Unfilled,|)=0} {
+   #Var ScanObjectNumberOfOccupantsRaw {%NumWords(@ScanObjectOccupancyRaw,~,)};
+   #If {@ScanObjectNumberOfOccupantsRaw=1 and %Pos( and ,@ScanObjectOccupancyRaw)>0} {#Var ScanObjectNumberOfOccupantsRaw 2}
+  }
+ };
+ #Var ScanTmp1 {1};
+ #Var ScanTmp2 {};
+ #Var ScanObjectEverythingElse {};
+ #ForAll {@ScanFormatVars} {
+  #If {%Length(@{ScanObject%{i}Raw})>0} {
+   #Var {ScanObject%i} {%Word(@ScanFormatVarLabels,|,@ScanTmp1): @{ScanObject%{i}Raw}};
+   #Var ScanTmp2 {$%i};
+   #If {%i<>"ObjectType" and %Pos(@ScanTmp2,@{ScanFormatString@ScanObjectObjectTypeRaw})=0} {
+    #Var ScanObjectEverythingElse {@ScanObjectEverythingElse%CRLF@{ScanObject%i}.}
+   }
+  };
+  #Math ScanTmp1 {@ScanTmp1 + 1}
+ };
+ #If {%Length(@ScanObjectEverythingElse)>0} {#Var ScanObjectEverythingElse {%Copy(@ScanObjectEverythingElse,3,%Eval(%Length(@ScanObjectEverythingElse)-3))}};
+ #UnVar ScanTmp1;
+ #UnVar ScanTmp2;
+ msplay Ship\Computer\Scan*4@Ext;
+ #If {@ScanObjectDistanceRaw=1} {msplay General\Misc\Beep10@Ext};
+ InSpace 1
+} {}
+#Alias ScanFormat {
+ #If {%Length(%1)=0} {#Var ScanFormatOutput {@{ScanFormatString@ScanObjectObjectTypeRaw}}} {#Var ScanFormatOutput {@{ScanFormatString%1}}};
+ #Var ScanObject {$};
+ #Var ScanFormatOutput {%Replace(@ScanFormatOutput,.,.%CRLF)};
+ #Var ScanFormatOutput {%Replace(@ScanFormatOutput,@ScanObject,~@ScanObject)};
+ #Var ScanFormatOutput {%Expand(@ScanFormatOutput)};
+ #Var ScanTmp1 {%Length(@ScanFormatOutput)};
+ #Var ScanFormatOutput {%Replace(@ScanFormatOutput,%CRLF.%CRLF,%CRLF)};
+ #Var ScanFormatOutput {%Replace(@ScanFormatOutput,%CRLF%CRLF,%CRLF)};
+ #While {@ScanTmp1>%Length(@ScanFormatOutput)} {
+  #Var ScanTmp1 {%Length(@ScanFormatOutput)};
+  #Var ScanFormatOutput {%Replace(@ScanFormatOutput,%CRLF.%CRLF,%CRLF)};
+  #Var ScanFormatOutput {%Replace(@ScanFormatOutput,%CRLF%CRLF,%CRLF)}
+ };
+ #If {%Pos(.,@ScanFormatOutput)=1} {#Var ScanFormatOutput {%Copy(@ScanFormatOutput,2,%Eval(%Length(@ScanFormatOutput)-1))}};
+ #If {%Pos(%CRLF,@ScanFormatOutput)=1} {#Var ScanFormatOutput {%Copy(@ScanFormatOutput,3,%Eval(%Length(@ScanFormatOutput)-2))}};
+ #If {%Replace(%Right(@ScanFormatOutput,2),~",)=%CRLF} {#Var ScanFormatOutput {%Copy(@ScanFormatOutput,1,%Eval(%Length(@ScanFormatOutput)-2))}};
+ #UnVar ScanTmp1;
+ #UnVar ScanObject
+} {}
+
 #Trigger {There is nothing here to scan.} {
  msplay Ship\Computer\NothingToScan@Ext;
- #Class Scanning Disable
+ #Class Scanning Disable;#UnVar ScanOutputLabelsDetected
 } {Main|Scanning}
 #Trigger {Nothing was detected at those coordinates.} {
  msplay Ship\Computer\NothingToScan@Ext;
- #Class Scanning Disable
+ #Class Scanning Disable;#UnVar ScanOutputLabelsDetected
 } {Main|Scanning}
 #Trigger {That object was not found.} {
  msplay Ship\Computer\NothingToScan@Ext;
- #Class Scanning Disable;
+ #Class Scanning Disable;#UnVar ScanOutputLabelsDetected;
  #Class Focus Disable
 } {Main|Starship}
 #Trigger {You'll have better results scanning in space.} {
- #Class Scanning Disable;
+ #Class Scanning Disable;#UnVar ScanOutputLabelsDetected;
  #Class Focus Disable
 } {Main|Starship}
 
-#Alias {ses} {
- #if {@EnemyShip = ""} {
-  #say {Nothing scanned.}
- } {
-  #say {@EnemyShip Ship}
- }
-} {}
-
 #Alias {sh} {
- shipscan sc {%Trim(%0)} {hull}
+ shipscan sc {%Trim(%0)} {Hull Damage}
 } {}
 #Alias {sca} {
- shipscan sc {%Trim(%0)} {comp}
+ shipscan sc {%Trim(%0)} {Average Component Damage}
 } {}
 #Alias {scc} {
- shipscan sc {%Trim(%0)} {coords}
+ shipscan sc {%Trim(%0)} {Coordinates}
 } {}
 #Alias {scd} {
- shipscan sc {%Trim(%0)} {distance}
+ shipscan sc {%Trim(%0)} {Distance}
 } {}
 #Alias {sch} {
- shipscan sc {%Trim(%0)} {hull}
+ shipscan sc {%Trim(%0)} {Hull Damage}
 } {}
 #Alias {sco} {
- shipscan sc {%Trim(%0)} {occupants}
+ shipscan sc {%Trim(%0)} {Occupancy}
 } {}
 #Alias {scp} {
- shipscan sc {%Trim(%0)} {power}
+ shipscan sc {%Trim(%0)} {Power}
 } {}
 #Alias {scs} {
- shipscan sc {%Trim(%0)} {cargo}
+ shipscan sc {%Trim(%0)} {Cargo}
 } {}
 #Alias {scw} {
- shipscan sc {%Trim(%0)} {weapons}
+ shipscan sc {%Trim(%0)} {Weapons}
 } {}
 
 #Alias CGCBackend {
@@ -427,44 +339,13 @@
  ExpPipe {%0} {%1:} {};
  #sub {@ExpString}
 } {Main}
-#Trigger {* Drone Fighter * (*)} {#class shipscan enable;
-#If {@ScanFilters>0 or @ScanFilter<>""} {#If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}};
-#var EnemyShortName {CTN Drone};
-#var EnemyType {CTN};
-#var EnemyShip %0} {Main}
 #Trigger {The target coordinates lie *} {msplay Ship\Computer\Scan*4@Ext} {Main}
-#TRIGGER {High Guard * *} {#if {%isnumber(%2)=1} {
-#class ShipScan enable;
-#If {@ScanFilters>0 or @ScanFilter<>""} {#If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}};
-#var EnemyShortName {%1 %2};
-#var EnemyType {High Guard};
-#var EnemyShip %0
-}} {Main}
 #Trigger {The sensors detect no objects in range of the long-range scanners.} {
  ExpPipe {%0} {No objects in range of the long-range scanners.} {Nothing detected};
  #Sub {@ExpString}
 } {Main|Starship}
-#Trigger {Beze-Praelor Potateoton * (Praelor)} {#class ShipScan enable;
-#If {@ScanFilters>0 or @ScanFilter<>""} {#If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}};
-#var EmenyShortName {%1};
-#var EnemyType {Potateoton};
-#var EnemyShip %0} {Main}
-#TRIGGER {Simulated Praelor * * (Praelor)} {#class ShipScan enable;
-#If {@ScanFilters>0 or @ScanFilter<>""} {#If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}};
-#if {%IsNumber(%2)=1} {#var EnemyShortName %2;
-#var EnemyType %1;
-#var EnemyShip %0}} {Main}
-#Trigger {*: *} {
- #Var ScanningTmp1 {%Replace(%1,~","")};
- #If {@InterruptOnCoords=1 AND %IfWord(@ScanningTmp1,Classification|Atmospheric Composition|Surface Conditions|Identifiable Power Sources|Size|Composition|IFF|Orbiting|Structural Integrity|Launched by|Security Level|Natural Resources,|)=1} {
-  #Gagline 1 Voice
- }
-} {Main}
 #Trigger {General sector report for *: *:} {
- ExpPipe {%0} {%1: %2} {%2};
- #Sub @ExpString
-} {Main}
-#Trigger {Select the item you want to move. Press enter and then input the number of the label you wish to swap the first label with. Hit 0 or a blank line to finish. Type *.} {
- ExpPipe {%0} {%1} {};
- #Sub @ExpString
-} {Main}
+ #Class Scanning Disable;#UnVar ScanOutputLabelsDetected;
+ ExpPipe {%0} {%0} {%1: %2:};
+ #Sub {@ExpString}
+} {Main|Scanning}

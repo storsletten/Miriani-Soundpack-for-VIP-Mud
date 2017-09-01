@@ -67,8 +67,8 @@
 #UnVar ReviewKeyNumber
 
 #Key {Shift-Control-Backspace} {
- #var InterruptOnCoords {%Eval(NOT @InterruptOnCoords)};
- #say {Coords %If(@InterruptOnCoords=1,first,normal).}
+ #Var InterruptOnScanningStarships {%Eval(NOT @InterruptOnScanningStarships)};
+ #Say {%If(@InterruptOnScanningStarships=1,Enabled,Disabled) speech interrupt when scanning starships.}
 } {MiscKeys}
 #Key {Alt-Backspace} {#var InterruptOnFollow {%eval(NOT @InterruptOnFollow)};
 #say {Interrupt on follow %if(@InterruptOnFollow = 1,enabled,disabled).}} {MiscKeys}

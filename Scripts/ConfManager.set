@@ -50,12 +50,20 @@ RelDriveVolume:0
 RelDriveStyle:1
 RelDriveBeep:0
 ScanFilters:1
-ScanOutputString:Distance $DISTANCE, average DMG:$MATH($MATH($HULL + $COMPONENT) / 2)%. Occupants:$OCCUPANTS, weapons:$WEAPONS. Charge $POWER.
-GagScan:0
 DisplayOriginalScanOutput:0
-ShortenObjects:1
+ScanFormatStringStarship:$New.$NameRaw is $DistanceRaw $DistanceUnits away.Damage $HullDamageRaw, $AverageComponentDamageRaw.Ship $PowerRaw, Weapons $WeaponsRaw.$NumberOfOccupants.$Occupancy.$Type.$Alliance.$Cargo.$Coordinates.
+ScanFormatStringPlanet:$ClassificationRaw planet $DistanceRaw $DistanceUnits away.$EverythingElse.$Coordinates.
+ScanFormatStringMoon:$ClassificationRaw moon $DistanceRaw $DistanceUnits away, orbiting $OrbitingRaw.$EverythingElse.$Coordinates.
+ScanFormatStringStation:Station $DistanceRaw $DistanceUnits away.$EverythingElse.$Coordinates.
+ScanFormatStringAsteroid:$SizeRaw asteroid $DistanceRaw $DistanceUnits away.$Starships.$LandingBeacons.$EverythingElse.$Coordinates.
+ScanFormatStringStar:$ClassificationRaw star $DistanceRaw $DistanceUnits away.$EverythingElse.$Coordinates.
+ScanFormatStringDebris:$TypeRaw $DistanceRaw $DistanceUnits away.$EverythingElse.$Coordinates.
+ScanFormatStringWeapon:$DistanceRaw $DistanceUnits distant.$Damage.$AvailableCharge.$LaunchedBy.$EverythingElse.$Coordinates.
+ScanFormatStringProbe:$DistanceRaw $DistanceUnits distant.$LaunchedBy.$EverythingElse.$Coordinates.
+ScanFormatStringInterdictor:$DistanceRaw $DistanceUnits distant.$LaunchedBy.$EverythingElse.$Coordinates.
+ScanFormatStringBlockade:$DistanceRaw $DistanceUnits distant.$LaunchedBy.$EverythingElse.$Coordinates.
+ScanFormatStringUnknown:$DistanceRaw $DistanceUnits away.$EverythingElse.$Coordinates.
 FocusOutputString:$COORDS ($NAME)
-CountOccupants:1
 GagAvatars:0
 PaPrefix:[PA]&SPC;
 ExtPrefix:[Ext]&SPC;
@@ -73,7 +81,6 @@ NoDescString:You see nothing special.
 GagRoidDesc:0
 Surveying:0
 GagSaveOnIdle:1
-InterruptOnCoords:0
 PointUnitOutputString:You access $UNIT and note you have $LP license points and $CP combat points.$CRLFYou have acquired $DIFFLP license points and $DIFFCP combat points since last check.
 ShowPointsOOLS:0
 BypassSocialToggles:0
@@ -107,6 +114,8 @@ ThemeFadeOutValue:5
 WindowTypes:Incoming
 UseSpeechInterrupts:0
 InterruptOnFocus:0
+InterruptOnScanningStarships:0
+InterruptOnFilteredScans:0
 InterruptOnFollow:0
 InterruptOnRoom:0
 SpeakRoomTitleFirst:0
