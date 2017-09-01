@@ -1,3 +1,6 @@
+Version 5.8.7, released 2017-09-01:
+* For 2.0: Rewrote the scanning framework. This means your old scan format string no longer exists. Instead, there are now format strings for most of the different types of objects you can scan. The default format strings will probably suffice for most people though. It's all in conf sc. Just remember that the scan filters must be enabled for these to have any effect (conf sc 1). There are also two new speech interrupts for the new scanning framework. You'll find them in conf speech. And finally, I removed the Scanning Enhancement extra because it was utterly useless.
+
 Version 5.8.6, released 2017-08-30:
 * For 2.0: Removed the conf gen option for displaying statistics when disconnecting, since all that stuff is now gone anyway.
 
