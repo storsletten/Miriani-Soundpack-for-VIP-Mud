@@ -75,7 +75,7 @@
   #If {%Length(@ScanObjectAtmosphericCompositionRaw)>0} {#Var ScanObjectObjectTypeRaw {Planet};#Abort};
   #If {%Length(@ScanObjectStructuralIntegrityRaw)>0} {#Var ScanObjectObjectTypeRaw {Station};#Abort};
   #If {%Length(@ScanObjectCompositionRaw)>0} {#Var ScanObjectObjectTypeRaw {Asteroid};#Abort};
-  #If {%Length(@ScanObjectTypeRaw)>0} {#Var ScanObjectObjectTypeRaw {Debris};#Abort};
+  #If {%Length(@ScanObjectSizeRaw)>0} {#Var ScanObjectObjectTypeRaw {Debris};#Abort};
   #If {%Length(@ScanObjectDamageRaw)>0} {#Var ScanObjectObjectTypeRaw {Weapon};#Abort};
   #If {%Length(@ScanObjectObjectTypeRaw)=0} {#Var ScanObjectObjectTypeRaw {Unknown}}
  };
@@ -91,6 +91,13 @@
   #If {%Length(@ScanObjectOccupancyRaw)>0 and %IfWord(@ScanObjectOccupancyRaw,Empty|Filled|Invalid reading|Unfilled,|)=0} {
    #Var ScanObjectNumberOfOccupantsRaw {%NumWords(@ScanObjectOccupancyRaw,~,)};
    #If {@ScanObjectNumberOfOccupantsRaw=1 and %Pos( and ,@ScanObjectOccupancyRaw)>0} {#Var ScanObjectNumberOfOccupantsRaw 2}
+  }
+ } {
+  #If {@ScanObjectObjectTypeRaw="Debris"} {
+   #If {%Length(@ScanObjectTypeRaw)=0} {
+    #Var ScanObjectTypeRaw {@ScanObjectSizeRaw debris};
+    #Var ScanObjectSizeRaw {}
+   }
   }
  };
  #Var ScanTmp1 {1};
