@@ -1,3 +1,6 @@
+Version 5.8.10, released 2017-09-03:
+* For 2.0: Fixed a bug in the footsteps framework that slowed down the ping and the lag commands by like 10 or more milliseconds.
+
 Version 5.8.9, released 2017-09-01:
 * For 2.0: Changed the default scan format strings for stars and debris.
 
