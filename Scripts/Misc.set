@@ -191,7 +191,7 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
  }
 } {Main}
 #Trigger {*.*} {
- #If {%Length(%2)=0 and %Pos(:,%0)=0 and %Pos(~,,%0)=0 and %IfWord(%Left(%1,1),>| |-|~(|[,|)=0} {
+ #If {%Length(%2)=0 and %Pos(:,%0)=0 and %Pos(~,,%0)=0 and %IfWord(%Left(%1,1),>| |-|#|~(|[,|)=0} {
   #Var MovementTestTmp2 {%Word(%1, ,%NumWords(%1, ))};
   #Var MovementTestTmp3 {};
   #If {%IfWord(@MovementTestTmp2,@DirList, )=0} {
@@ -399,22 +399,22 @@ msplay General\Misc\LeftPerson@Ext
  }
 } {Main}
 #Trigger {* sit* down on *} {
- #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |[|~(|-,|)=0} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
   msplay General\Misc\sit@Ext
  }
 } {Main}
 #Trigger {* stand* up.} {
- #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |[|~(|-,|)=0} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
   msplay General\Misc\stand@Ext
  }
 } {Main}
 #Trigger {* pull* to * feet.} {
- #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |[|~(|-,|)=0} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
   msplay General\Misc\stand@Ext
  }
 } {Main}
 #Trigger {* yawns suddenly and collapses to the ground, asleep.} {
- #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |[|~(|-,|)=0} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
   msplay {General\Socials\yawn*2@Ext};
   msplay {General\Socials\collapse*3@Ext}
  }
@@ -598,12 +598,12 @@ msplay General\Misc\LeftPerson@Ext
  }
 } {Main}
 #Trigger {* unclip* from *.} {
- #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |[|~(|-,|)=0} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
   msplay General\Misc\Belt1@Ext
  }
 } {Main}
 #Trigger {* clip* to *.} {
- #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |[|~(|-,|)=0} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
   msplay General\Misc\Belt2@Ext
  }
 } {Main}
