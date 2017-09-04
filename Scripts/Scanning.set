@@ -27,7 +27,7 @@
 } {}
 
 #Trigger {* (*)} {
- #If {%IfWord(%2,AIE|Blue|CHRISTMAS|Commonwealth|Courier|CTN|Green|Hale|High Guard|Krenelia|Observer|Ontanka|Pink|Praelor|Red|Unknown,|)=1} {
+ #If {%IfWord(%2,AIE|Blue|CHRISTMAS|Combat Drone|Commonwealth|Courier|CTN|Green|Hale|High Guard|Krenelia|Observer|Ontanka|Pink|Praelor|Red|Unknown,|)=1} {
   #If {@ScanFilters>0 or %Defined(ScanFilter)=1} {
    #If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}
   } {
@@ -38,8 +38,13 @@
   #Var ScanObjectFullNameRaw {%1};
   #If {%IfWord(%2,Krenelia|Ontanka|Praelor,|)=1} {
    #If {%2="Krenelia"} {msplay Ship\Computer\PraelorIsFriend@Ext};
-   #If {%2="Ontanka" and @MutePraelorIsEnemySound=0} {msplay Ship\Computer\PraelorIsEnemy@Ext};
-   #If {%Pos(Praelor ,%1)=1} {#Var ScanObjectNameRaw {%Copy(%1,9,%Eval(%Length(%1)-8))}}
+   #If {%IfWord(%2,Ontanka|Praelor,|)=1 and @MutePraelorIsEnemySound=0} {msplay Ship\Computer\PraelorIsEnemy@Ext};
+   #If {%Pos(Praelor ,%1)=1} {
+    #If {%IsNumber(%Word(%1, ,%NumWords(%1, )))=1} {
+     #Var ScanObjectTypeRaw {%Word(%1, ,%Eval(%NumWords(%1, )-1))}
+    };
+    #Var ScanObjectNameRaw {%Copy(%1,9,%Eval(%Length(%1)-8))}
+   }
   } {
    #If {%IfWord(%2,AIE|Blue|CHRISTMAS|Commonwealth|Courier|CTN|Green|Hale|High Guard|Observer|Pink|Red,|)=1 and %NumWords(%1,~")=3} {
     #If {%Pos(The ,%1)=1 and %Pos(-person ,%1)>0} {
