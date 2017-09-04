@@ -1,3 +1,6 @@
+Version 5.8.11, released 2017-09-04:
+* For 2.0: Fixed the scanning framework not picking up combat drones in simulators if the drones were member of the Alliance of Mindless Simulator Drones. Also added type information when scanning praelor ships, which has not been tested but should hopefully work.
+
 Version 5.8.10, released 2017-09-03:
 * For 2.0: Fixed a bug in the footsteps framework that slowed down the ping and the lag commands by like 10 or more milliseconds.
 
