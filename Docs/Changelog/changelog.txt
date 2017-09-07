@@ -1,5 +1,6 @@
 Version 5.8.12, released 2017-09-07:
 * For 2.0: Several bug fixes and more performance improvements. Also changed the default format string for message board headers. You'll have to manually set it to the new default value in conf mess if you want to use it. And the soundpack should now play a sound if a component is at 80 percent damage or higher when checking damage.
+* For 2.0: Fixed prompt sound playing twice for lift menus.
 
 Version 5.8.11, released 2017-09-04:
 * For 2.0: Fixed the scanning framework not picking up combat drones in simulators if the drones were member of the Alliance of Mindless Simulator Drones. Also added type information when scanning praelor ships, which has not been tested but should hopefully work.

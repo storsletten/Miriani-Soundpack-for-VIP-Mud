@@ -202,7 +202,7 @@ Self-destruct in ten seconds.^msplay Ship\Computer\SelfDestructTen@Ext|
 Goodbye.^msplay Ship\Computer\SelfDestructEnd@Ext
 }
 
-#trigger {* announces, *} {
+#Trigger {* announces, *} {
  #if {%word(%1, ,1)="The" OR %Word(%1, ,1)=*"A*"} {
   #if {%pos(flickers,%1)>0} {
    #var ComputerName {%copy(%1,1,%eval(%pos(flickers,%1) - 2))}
@@ -304,18 +304,21 @@ ExpPipe {%0} {%0} {%1 checks the navigation console.};
 #Trigger {A destination appears on the ship's navigation controls: *.} {msplay Ship\Computer\Keyboard*15@Ext;
 ExpPipe {%0} {Heading to %1} {:0:Destination: %1};
 #sub {@ExpString}} {Main|Starship}
-#TRIGGER {Starship Status:} {msplay Ship\Computer\Display@Ext} {Main|Starship}
-#TRIGGER {There are no damaged components.} {msplay Ship\Computer\Display@Ext} {Main}
-#TRIGGER {Charge Readout:} {msplay Ship\Computer\Display@Ext} {Main}
-#TRIGGER {Total Cargo:*} {msplay Ship\Computer\Display@Ext} {Main}
-#TRIGGER {There is nothing in the cargo hold.*} {msplay Ship\Computer\Display@Ext} {Main}
-#TRIGGER {Starship Security Status:} {msplay Ship\Computer\Display@Ext} {Main|Starship}
-#TRIGGER {Starship Weapon Information} {msplay  Ship\Computer\Display@Ext} {Main|Starship}
-#TRIGGER {Weapon Configuration:} {msplay Ship\Computer\Display@Ext} {Main|Starship}
-#TRIGGER {* Damage:} {ExpPipe {%0} {%1} {};
-#Sub @ExpString;
-msplay Ship\Computer\Display@Ext} {Main}
-#TRIGGER {Weapon Status:} {msplay Ship\Computer\Display@Ext} {Main|Starship}
+#Trigger {There are no damaged components.} {msplay Ship\Computer\Display@Ext} {Main}
+#Trigger {Charge Readout:} {msplay Ship\Computer\Display@Ext} {Main}
+#Trigger {Total Cargo:*} {msplay Ship\Computer\Display@Ext} {Main}
+#Trigger {There is nothing in the cargo hold.*} {msplay Ship\Computer\Display@Ext} {Main}
+#Trigger {Starship *} {
+ #If {%IfWord(%1,Security Status:|Status:|Weapon Configuration:|Weapon Information,|)=1} {
+  msplay Ship\Computer\Display@Ext;#Abort
+ }
+} {Main|Starship}
+#Trigger {* Damage:} {
+ ExpPipe {%0} {:Voice:%0} {:Voice:%0};
+ #Sub {@ExpString};
+ msplay Ship\Computer\Display@Ext
+} {Main}
+#Trigger {Weapon Status:} {msplay Ship\Computer\Display@Ext} {Main|Starship}
 #Trigger {Current coordinates: *} {
  #Var MyCoordsX {%Word(%1,~, ,1)};
  #Var MyCoordsY {%Word(%1,~, ,2)};
@@ -329,10 +332,10 @@ msplay Ship\Computer\Display@Ext} {Main}
  #sub {@ExpString};
  #class AtSaStarmap disable
 } {Main}
-#TRIGGER {A * beep sounds as the computer announces* "* charge remaining."} {msplay Ship\Computer\LowCharge*3@Ext;
+#Trigger {A * beep sounds as the computer announces* "* charge remaining."} {msplay Ship\Computer\LowCharge*3@Ext;
 ExpPipe {%0} {[Alert]: %3 charge remaining!} {%3 charge remaining!};
 #sub {@ExpString}} {Main}
-#TRIGGER {The starship is at * status.} {
+#Trigger {The starship is at * status.} {
  #if {%1 = "red" AND @Peers <> 1} {
   #if {@ThemeSoundHandle = 0} {
    mtplay
@@ -341,7 +344,7 @@ ExpPipe {%0} {[Alert]: %3 charge remaining!} {%3 charge remaining!};
   thememusicfadeout
  }
 } {Main|Starship}
-#TRIGGER {* Lights overhead indicate that the ship is on * status. *} {
+#Trigger {* Lights overhead indicate that the ship is on * status. *} {
  #if {%2 = "red alert"} {
   #if {%Mp3Loop=0} {
    mtplay
@@ -350,34 +353,34 @@ ExpPipe {%0} {[Alert]: %3 charge remaining!} {%3 charge remaining!};
   thememusicfadeout
  }
 } {Main|Starship}
-#TRIGGER {A computerized voice on * announces, "*"} {msplay Ship\Computer\LFD@Ext} {Main}
-#TRIGGER {A * suddenly emerges from a console.} {msplay Ship\Computer\ScanRetrieved@Ext} {Main|Starship}
-#TRIGGER {Video probe history:} {ExpPipe {%0} {%0} {};
+#Trigger {A computerized voice on * announces, "*"} {msplay Ship\Computer\LFD@Ext} {Main}
+#Trigger {A * suddenly emerges from a console.} {msplay Ship\Computer\ScanRetrieved@Ext} {Main|Starship}
+#Trigger {Video probe history:} {ExpPipe {%0} {%0} {};
 #sub {@ExpString};
 msplay Ship\Computer\Probe*3@Ext} {Main}
-#TRIGGER {Scanning is made much more difficult by the lack of sensors.} {
+#Trigger {Scanning is made much more difficult by the lack of sensors.} {
  #class focus disable;
  msplay Ship\Computer\Error@Ext
 } {Main|Starship}
-#TRIGGER {* is unable to function without sensors.} {msplay Ship\Computer\Error@Ext} {Main|Starship}
-#TRIGGER {The overhead lights dim for a moment before returning to normal.} {ExpPipe {%0} {The overhead lights flicker for a moment.} {};
+#Trigger {* is unable to function without sensors.} {msplay Ship\Computer\Error@Ext} {Main|Starship}
+#Trigger {The overhead lights dim for a moment before returning to normal.} {ExpPipe {%0} {The overhead lights flicker for a moment.} {};
 #sub {@ExpString.};
 msplay Ship\Misc\FuzzyChewing@Ext} {Main|Starship}
-#TRIGGER {There is * that prevents movement.} {msplay Ship\Computer\Error@Ext} {Main}
-#TRIGGER {Control room computer announcements will now be *.} {#if {%1 = "announced ship-wide"} {
+#Trigger {There is * that prevents movement.} {msplay Ship\Computer\Error@Ext} {Main}
+#Trigger {Control room computer announcements will now be *.} {#if {%1 = "announced ship-wide"} {
 msplay Ship\Computer\PipeOn@Ext
 } {
 msplay Ship\Computer\PipeOff@Ext
 }} {Main|Starship}
-#TRIGGER {* emerges from a nearby console.} {msplay Ship\Computer\ScanRetrieved@Ext} {Main|Starship}
-#TRIGGER {The * cannot function without operational sensors.} {msplay Ship\Computer\Error@Ext} {Main|Starship}
-#TRIGGER {There is no critical damage.} {#class critical disable} {Main}
+#Trigger {* emerges from a nearby console.} {msplay Ship\Computer\ScanRetrieved@Ext} {Main|Starship}
+#Trigger {The * cannot function without operational sensors.} {msplay Ship\Computer\Error@Ext} {Main|Starship}
+#Trigger {There is no critical damage.} {#class critical disable} {Main}
 #Trigger {The computer indicates that it has no beacon information for that sector.} {
  ExpPipe {%0} {No information for that sector.} {:Voice:No information for that sector.};
  #sub {@ExpString};
  msplay Ship\Computer\Error@Ext
 } {Main|Starship}
-#TRIGGER {Alert: Sensor interference detected.} {ExpPipe {%0} {Sensor interference detected.} {};
+#Trigger {Alert: Sensor interference detected.} {ExpPipe {%0} {Sensor interference detected.} {};
 #sub @ExpString;
 msplay Ship\Computer\SensorInterference@Ext} {Main|Starship}
 #Trigger {* voice comes over the intercom, announcing, *} {
