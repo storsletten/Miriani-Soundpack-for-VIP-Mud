@@ -375,7 +375,7 @@ msplay Ship\Combat\InterruptHits@Ext} {Main|Starship}
    #If {%Defined(DamageReader)=1 and %NumWords(%i,:)=2} {
     #Var DamageReader {%Trim(%Word(%i,:,2))};
     #If {%IsNumber(@DamageReader)=1} {
-     #If {@DamageReader>=80} {
+     #If {@DamageReader>=80 and @DamageReader<100} {
       #If {%Pos(HULL: ,%i)>0} {
        MirianiSoundPlay Standard Ship\Combat\HullCrit@Ext -20
       } {
@@ -505,4 +505,33 @@ msplay Ship\Misc\DockingBayDoorClose@Ext
  ExpPipe {%0} {%0} {};
  msplay Ship\Combat\Missiles@Ext;
  #Sub {@ExpString}
+} {Main}
+#Trigger {You hear a loud * sound as a disarmament pulse is fired.} {
+ ExpPipe {%0} {Disarmament pulse fired.} {Disarmament pulse fired.};
+ msplay Ship\Combat\disarm@Ext;
+ #Sub {@ExpString}
+} {Main}
+#Trigger {You hear * sound as * immobilization pulse *.} {
+ msplay Ship\Combat\immobilize@Ext;
+ ExpPipe {%0} {Immobilization pulse fired.} {Immobilization pulse fired.};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {You hear * the starship's CDP launcher.} {
+ msplay Ship\Combat\disrupt@Ext;
+ ExpPipe {%0} {Computer disruption pulse fired.} {CDP fired.};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {You hear a sharp * sound as a sensor interruption pulse is fired.} {
+ msplay Ship\Combat\interrupt@Ext;
+ ExpPipe {%0} {Sensor interruption pulse fired.} {Sensor interruption pulse fired.};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {You earn * credits for the successful completion of a combat mission.} {
+ #Var TotalHits {%If(%IsNumber(@TotalHits)=0,0,@TotalHits)};
+ #Var DirectHits {%If(%IsNumber(@DirectHits)=0,0,@DirectHits)};
+ #Var PartialHits {%If(%IsNumber(@PartialHits)=0,0,@PartialHits)};
+ #Var DestroyedShips {%If(%IsNumber(@DestroyedShips)=0,0,@DestroyedShips)};
+ #Var TotalShips {%If(%IsNumber(@TotalShips)=0,0,@TotalShips)};
+ #Var DestroyedDebris {%If(%IsNumber(@DestroyedDebris)=0,0,@DestroyedDebris)};
+ msplay General\Misc\Credits*4@Ext
 } {Main}

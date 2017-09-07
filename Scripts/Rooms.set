@@ -487,3 +487,24 @@ Apartment
  }
 } {}
 #Trigger {Noticing a * Commoveo membership ring, the guard waves you through.} {DontStopSpeaking} {Main}
+#Trigger {You step on to a small platform on the floor. Sensing your presence, a ring of lights along the perimeter of the circle light up as the platform *.} {
+ ExpPipe {%0} {:Voice:%0} {};
+ msplay General\Misc\HGLift.wav;
+ #Sub {@ExpString}
+} {Main|Ground}
+#Trigger {You hear a loud creak as you * the rusted gate open, stepping through it.} {msplay General\Rooms\Gate*3@Rext} {Main|Ground}
+#Trigger {You hear a sudden rumbling as the walls of the room start to crumble and the floor shakes violently. *} {msplay General\Rooms\DestroyRoom@Rext} {Main}
+#Trigger {You step into a pod*.} {DontStopSpeaking} {Main|Ground}
+#Trigger {You set a new access code for a * door and lock it.} {msplay Ship\Misc\DoorLocked@Ext} {Main}
+#Trigger {You peer * and see...} {
+ #Var Peers 1;
+ ExpPipe {%0} {} {};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {You pass through *.} {#var Following 1} {Main}
+#Trigger {You see the walls begin to crumble and the floor cracking. *} {msplay General\Rooms\DestroyRoom@Rext} {Main}
+#Trigger {You are forced off of the stairs as the * reaches its destination.} {msplay General\Rooms\EscalatorEnd@Rext} {Main}
+#Trigger {You are escorted to * by *.} {
+ msplay General\Misc\Door@Ext;
+ DontStopSpeaking
+} {Main}

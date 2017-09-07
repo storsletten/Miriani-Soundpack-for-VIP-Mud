@@ -590,7 +590,7 @@
  PushMessage Comm {[Gen] %1};
  MirianiSoundPlay {Comms Framework} Ship\Comm\Sector@Ext
 } {Main}
-#Trigger {*You receive a transmission from: * aboard *: "*"} {
+#Trigger {*You receive a transmission from*: *} {
  MirianiSoundPlay {Comms Framework} Ship\Comm\pa*9@Ext;
  #If {%Pos([,%1)>0 or %Pos(~(,%1)=0} {
   #Sub {@{ExtPrefix}[%2]: %1 transmits, "%3"}

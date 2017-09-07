@@ -306,8 +306,8 @@ ExpPipe {%0} {Heading to %1} {:0:Destination: %1};
 #sub {@ExpString}} {Main|Starship}
 #Trigger {There are no damaged components.} {msplay Ship\Computer\Display@Ext} {Main}
 #Trigger {Charge Readout:} {msplay Ship\Computer\Display@Ext} {Main}
-#Trigger {Total Cargo:*} {msplay Ship\Computer\Display@Ext} {Main}
-#Trigger {There is nothing in the cargo hold.*} {msplay Ship\Computer\Display@Ext} {Main}
+#Trigger {Total Weight: *} {msplay Ship\Computer\Display@Ext} {Main}
+#Trigger {There is nothing in the cargo hold.*} {msplay Ship\Computer\Display@Ext} {Main|Craft}
 #Trigger {Starship *} {
  #If {%IfWord(%1,Security Status:|Status:|Weapon Configuration:|Weapon Information,|)=1} {
   msplay Ship\Computer\Display@Ext;#Abort

@@ -116,3 +116,12 @@ MArchPlay;
  #GagLine 1 All;
  msplay general\archaeology\shovel*14@Ext
 } {Main|Ground}
+#Trigger {You *cease digging.} {
+ #gagline 1 all;
+ msplay General\Archaeology\Cease@Ext
+} {Main|Ground}
+#Trigger {You press a small button on the side of a level * archaeological dig site scanner and begin directing it toward several likely locations.} {
+ msplay general\archaeology\scanner*4@Ext;
+ ExpPipe {%0} {Scanning.} {:Voice:Scanning};
+ #Sub {@ExpString}
+} {Main}

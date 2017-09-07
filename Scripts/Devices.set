@@ -21,7 +21,11 @@
  #Sub {@ExpString};
  PushMessage Posts {[%Delete(%2,1,14)] P@DevicesTmp2}
 } {Main}
-#Trigger {* takes a snapshot of *.} {msplay General\Device\Snapshot*5@Ext} {Main}
+#Trigger {* take* a snapshot of *.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  msplay General\Device\Snapshot*5@Ext
+ }
+} {Main}
 #Trigger {You tune a* metafrequency * to *.*.} {
  msplay General\Comm\Tune@Ext
 } {Main}
@@ -165,3 +169,16 @@
  SetPreservedVariable LicensePoints {%2|%3};
  SetPreservedVariable CombatPoints {%4|%5}
 } {Main}
+#Trigger {* flick* a switch *.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  msplay General\Device\Switch@Ext
+ }
+} {Main}
+#Trigger {You carefully replace the film in * camera.} {msplay General\Device\LoadFilm@Ext} {Main}
+#Trigger {You press a small button on * and watch as * fades into nothing.} {msplay General\Device\ForceFieldSuitOff@Ext} {Main}
+#Trigger {You press a small button on * and watch as * around you and slowly fades into a barely noticeable haze.} {msplay General\Device\ForceFieldSuitOn@Ext} {Main}
+#Trigger {You press a large * button.} {msplay General\Misc\Beep*10@Ext} {Main}
+#Trigger {You activate a* handheld planetary surveyor and begin scanning the area.} {
+ ExpPipe {%0} {:Voice:%0} {};
+ #Sub {@ExpString}
+} {Main|Ground}

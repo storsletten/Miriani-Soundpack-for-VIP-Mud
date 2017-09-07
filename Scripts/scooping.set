@@ -99,3 +99,7 @@ msplay Ship\Misc\Salvage*3@Ext
  ExpPipe {%0} {The vehicle stops.} {};
  #Sub @ExpString
 } {Main|Vehicle}
+#Trigger {You hear a sharp whine as the vehicle accelerates through the*} {
+ msplay ship\misc\descent@Ext;
+ #gagline 1 all
+} {Main|Vehicle}

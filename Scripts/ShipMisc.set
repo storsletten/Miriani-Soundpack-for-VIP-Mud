@@ -276,9 +276,35 @@ mwplay Ship\Misc\InternalExpl*12@Ext} {Main|Starship}
  #Sub @ExpString
 } {Main}
 #Trigger {The * is suddenly seized by several robotic arms and hauled into the starship garage.} {mrandomplay Ship\Misc\Garage@Ext} {Main}
-#Trigger {* pulls a series of straps around * and securely buckles * into*} {msplay General\Misc\Buckle*3@Ext} {Main|Starship}
-#Trigger {* releases the buckle of * seatbelt, causing it to retract back into *} {msplay General\Misc\Unbuckle*3@Ext} {Main|Starship}
+#Trigger {* pull* a series of straps around * and securely buckle* into*} {msplay General\Misc\Buckle*3@Ext} {Main|Starship}
+#Trigger {* release* the buckle of * seatbelt, causing it to retract back into *} {msplay General\Misc\Unbuckle*3@Ext} {Main|Starship}
 #Trigger {The shot is absorbed by a massive loudspeaker on *, which seems to become gloriously silent.} {mwplay Ship\Combat\ExtDisable*2@Ext} {Main}
 #Trigger {A loud burst of static suddenly comes from the loudspeaker on *. You assume it has been reactivated.} {mwplay Ship\Combat\ExtEnable*4@Ext} {Main}
 #Trigger {You suddenly notice the absence of * as the smell of * wafts into the *.} {msplay Ship\Misc\Scent@Ext} {Main}
 #Trigger {You hear a satisfying click as the ship's docking ring is *.} {msplay Ship\Move\RingEnd@Ext} {Main}
+#Trigger {You hear a mechanical rumbling sound as the ship*s repair arm goes to work.} {
+ ExpPipe {%0} {Repair arm activated.} {};
+ msplay Ship\Misc\RepairArm@Ext;
+ #Sub {@ExpString}
+} {Main}
+#Trigger {You watch as a* is brought in by several salvage lines.} {msplay Ship\Misc\PanelsOff@Ext} {Main}
+#Trigger {You follow * outside the ship*} {
+ #var Following 1;
+ thememusicfadeout;
+ msplay Ship\Misc\AirlockExit@Ext
+} {Main}
+#Trigger {You float out of the ship into space.*} {msplay Ship\Misc\AirlockExit@Ext} {Main}
+#Trigger {You hear somebody knocking on the blast door to the *.} {msplay General\Misc\DoorChime@Ext} {Main}
+#Trigger {You snatch * from the cold, cruel hands of space.} {msplay General\Misc\SnatchArtifact*2@Ext} {Main}
+#Trigger {You press a button and quickly retrieve a printout of the ship's*.} {msplay Ship\Computer\Print@Ext} {Main|Starship}
+#Trigger {You abort the *.} {
+ ExpPipe {%0} {%0} {%1 aborted.};
+ msplay Ship\Computer\Abort@Ext;
+ #Sub {@ExpString}
+} {Main}
+#Trigger {You hear a thunk as a salvaging line is deployed into space. You watch as the line slowly winds its way to a piece of debris, projects an energy net around it and begins to slowly make its way back to the ship.} {
+ ExpPipe {%0} {Salvage line deployed.} {};
+ msplay Ship\Misc\Salvage*3@Ext;
+ #Sub {@ExpString}
+} {Main}
+#Trigger {You are turned away by the locked hatch of *.} {msplay General\Misc\CantGo*5@Ext} {Main}

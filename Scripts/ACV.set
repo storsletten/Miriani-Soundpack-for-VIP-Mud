@@ -183,3 +183,8 @@ msplay ACV\Bomb*4@Ext} {Main}
  #gagline 1 all;
  #Class ACVAirspace disable
 } {Main|ACVAirspace}
+#Trigger {You are suddenly pressed against your seat as the vehicle is catapulted out of the docking bay and into space. *} {
+ #gagline 1 all;
+ msplay ACV\ACVLaunch@Ext;
+ msplay Ship\Move\Subwarp@Ext
+} {Main|Vehicle}

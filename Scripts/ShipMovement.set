@@ -439,3 +439,21 @@ ExpPipe {%0} {The starship is pulled by intense gravitational forces.} {};
  msplay Ship\Move\YouLanding.wav;
  #GagLine 1 All
 } {Main|Starship}
+#Trigger {You begin the * sequence.} {
+ #GagLine 1 All;
+ msplay General\Misc\Beep*10.wav
+} {Main|Craft}
+#Trigger {You notice a bright flash of light*a starship must be coming in*} {
+ mrandomplay Ship\Move\OtherLanding*4@Ext;
+ ExpPipe {%0} {Ship coming into land.} {};
+ #Sub {@ExpString}
+} {Main}
+#Trigger {You notify flight control of your desire to *.} {
+ #GagLine 1 All;
+ msplay Ship\Computer\commchirp@Ext
+} {Main}
+#Trigger {You feel a mild vibration as the ship begins maneuvering into the docking area of the *.} {
+ msplay Ship\Move\RingStart@Ext;
+ ExpPipe {%0} {%0} {};
+ #Sub {@ExpString}
+} {Main}

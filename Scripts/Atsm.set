@@ -161,3 +161,4 @@ msplay General\Asteroid\Trickle@Ext} {Main|Vehicle}
  mrandomplay Ship\Misc\Transfer*3@Ext;
  #Gagline 1 all
 } {Main|Vehicle}
+#Trigger {You bang* on the hatch*.} {msplay General\Misc\Knock1@Ext} {Main}

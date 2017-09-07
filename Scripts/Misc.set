@@ -4,9 +4,9 @@
  msplay Ship\Move\Blocked@Ext
 } {Main}
 #Trigger {*--*} {
- #If {@GagDashes=1 and (@Main<-9 or @Main>0)} {#GagLine 1 All};
- #If {@Main>0 and %Length(%Trim(%Replace(%0,-,)))=0} {
-  #If {%Defined(Scanning)=1 and @ScanOutputLabelsDetected>0} {
+ #If {%Length(%Trim(%Replace(%0,-,)))=0} {
+  #If {@GagDashes=1 and (@Main<-9 or @Main>0)} {#GagLine 1 All};
+  #If {@Main>0 and %Defined(Scanning)=1 and @ScanOutputLabelsDetected>0} {
    ScanProcessOutput;
    #If {%Defined(ScanFilterVar)=1} {
     #UnGagLine;
@@ -75,7 +75,11 @@ ConfPrint {Bypass mode %if(@PassThru = 1,enabled,disabled).}
  PushMessage Changelog %0
 } {Main}
 #Trigger {That exit appears to be blocked.} {msplay General\Misc\CantGo*5@Ext} {Main}
-#Trigger {* crumples * up and throws it away.} {msplay General\Misc\Paper*3@Ext} {Main}
+#Trigger {* crumple* up and throw* it away.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  msplay General\Misc\Paper*3@Ext
+ }
+} {Main}
 #Trigger {* attempts to board *, but is turned away by *.} {msplay General\Misc\CantGo*5@Ext} {Main}
 #Trigger {* suddenly steps from the background.} {msplay General\Misc\HostIn*3@Ext;
 ExpPipe {%0} {%0} {%1 appears};
@@ -613,3 +617,9 @@ msplay General\Misc\LeftPerson@Ext
 } {Main}
 #Trigger {* impatiently knock* on the *.} {msplay General\Misc\Knock2@Ext} {Main}
 #Trigger {* kick* furiously on the *.} {msplay General\Misc\Knock3@Ext} {Main}
+#Trigger {You * credit*} {
+ #If {%IfWord(%Word(%1, ,1),earn|receive,|)=1} {
+  msplay General\Misc\Credits*4@Ext
+ }
+} {Main}
+#Trigger {You are seated in a chair with several syringes on robotic arms around it.  *} {msplay General\Misc\MedicalOpperation@Ext} {Main}
