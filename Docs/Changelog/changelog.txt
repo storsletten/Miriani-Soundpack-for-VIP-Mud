@@ -1,3 +1,6 @@
+Version 5.8.13, released 2017-09-07:
+* For 2.0: Packed four triggers into one. Every fraction of performance improvement helps.
+
 Version 5.8.12, released 2017-09-07:
 * For 2.0: Several bug fixes and more performance improvements. Also changed the default format string for message board headers. You'll have to manually set it to the new default value in conf mess if you want to use it. And the soundpack should now play a sound if a component is at 80 percent damage or higher when checking damage.
 * For 2.0: Fixed prompt sound playing twice for lift menus.
