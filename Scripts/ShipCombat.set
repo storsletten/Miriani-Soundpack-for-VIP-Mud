@@ -270,7 +270,7 @@ ExpPipe {%0} {%1's laser fired.} {};
 mrandomplay Ship\Combat\PlanetaryLaser@Ext} {Main}
 #Alias focus {
  #If {@InterruptOnFocus=1} {speech stop};
- #Class Focus Enable;
+ MainTrigSwitch 0 Focus;
  #Exec {>focus%RTrim( %0)}
 } {}
 #Trigger {*: *} {
@@ -306,15 +306,15 @@ mrandomplay Ship\Combat\PlanetaryLaser@Ext} {Main}
    #Var ShipCombatTmp1 {Unchanged (@ShipCombatTmp1)}
   };
   #Sub {@ShipCombatTmp1};
-  #Class Focus Disable
+  MainTrigSwitch 1 Focus
  }
-} {Main|Focus}
+} {Focus}
 #Trigger {There are no ships here.} {
  msplay Ship\Computer\NothingToScan@Ext;
- #Class Focus Disable
-} {Main|Focus}
-#Trigger {That's not a ship.} {#Class Focus Disable} {Main|Focus}
-#Trigger {The focused ship is no longer in the sector.} {#Class Focus Disable} {Main|Focus}
+ MainTrigSwitch 1 Focus
+} {Focus}
+#Trigger {That's not a ship.} {MainTrigSwitch 1 Focus} {Focus}
+#Trigger {The focused ship is no longer in the sector.} {MainTrigSwitch 1 Focus} {Focus}
 #Trigger {Invalid coordinates. Range: (*) to (*).} {
  msplay Ship\Misc\Drunk@Ext;
  ExpPipe {%0} {%0} {Invalid coordinates.};
@@ -363,18 +363,31 @@ msplay Ship\Combat\DisarmSqueal*4@Ext} {Main|Starship}
 #sub {@ExpString};
 msplay Ship\Combat\InterruptHits@Ext} {Main|Starship}
 #Trigger {The starship lurches as a concentrated laser beam impacts the hull.} {mwplay Ship\Combat\PlanetaryLaser@Ext} {Main|Starship}
-#Trigger {Those coordinates are already locked.} {ExpPipe {%0} {%0} {Already locked.};
-#sub @ExpString} {Main|Starship}
-#Trigger {HULL: *[%]*} {#if {%1 >= "80" AND %1 <> "<1"} {msplay Ship\Combat\HullCrit@Ext -20}} {Main}
-#Trigger {Critical Damage:} {#Class critical enable} {Main}
-#Trigger {*: *[%]} {#if {%2 >= 80} {
-#if {%1 = "HULL"} {
-msplay Ship\Combat\HullCrit@Ext
-} {
-msplay Ship\Combat\Critical@Ext;
-#Class critical disable
-}
-}} {Main|Critical}
+#Trigger {Those coordinates are already locked.} {
+ ExpPipe {%0} {%0} {Already locked.};
+ #Sub {@ExpString}
+} {Main|Starship}
+#Alias dam {MainTrigSwitch 0 DamageReader;#Exec {>dam%RTrim( %0)}} {Craft}
+#Alias damage {MainTrigSwitch 0 DamageReader;#Exec {>damage%RTrim( %0)}} {Craft}
+#Trigger {*: *~%*} {
+ #If {%Pos(~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0 and %NumWords(%0,~%)<8} {
+  #ForAll {%Replace(%0,~%,|)} {
+   #If {%Defined(DamageReader)=1 and %NumWords(%i,:)=2} {
+    #Var DamageReader {%Trim(%Word(%i,:,2))};
+    #If {%IsNumber(@DamageReader)=1} {
+     #If {@DamageReader>=80} {
+      #If {%Pos(HULL: ,%i)>0} {
+       MirianiSoundPlay Standard Ship\Combat\HullCrit@Ext -20
+      } {
+       MirianiSoundPlay Standard Ship\Combat\Critical@Ext -15
+      };
+      MainTrigSwitch 1
+     }
+    }
+   }
+  }
+ }
+} {Main|Craft|DamageReader}
 #Trigger {*An escape pod suddenly lands nearby.} {msplay Ship\Misc\EscapePodDescend@Ext} {Main}
 #Trigger {You hear a soft mechanical whine as the fighter bay's hatch *s.} {ExpPipe {%0} {The fighter bay's hatch %1s.} {};
 #sub @ExpString;

@@ -4,9 +4,9 @@
  msplay Ship\Move\Blocked@Ext
 } {Main}
 #Trigger {*--*} {
- #If {(@Main>0 or @Main<-9) and %Length(%Trim(%Replace(%0,-,)))=0} {
-  #If {@GagDashes=1} {#GagLine 1 All};
-  #If {%Defined(ScanOutputLabelsDetected)=1 and @ScanOutputLabelsDetected>0} {
+ #If {@GagDashes=1 and (@Main<-9 or @Main>0)} {#GagLine 1 All};
+ #If {@Main>0 and %Length(%Trim(%Replace(%0,-,)))=0} {
+  #If {%Defined(Scanning)=1 and @ScanOutputLabelsDetected>0} {
    ScanProcessOutput;
    #If {%Defined(ScanFilterVar)=1} {
     #UnGagLine;
@@ -74,18 +74,6 @@ ConfPrint {Bypass mode %if(@PassThru = 1,enabled,disabled).}
  msplay General\Misc\GameChange*2@Ext;
  PushMessage Changelog %0
 } {Main}
-#Trigger {>> Command Aborted <<} {
- msplay General\Misc\Cancel@Ext;
- ExpPipe {%0} {Aborted.} {};
- #sub {@ExpString}
-} {Main}
-#Trigger {Invalid selection.} {
- #Class Scanning Disable;
- #Class Focus Disable;
- #Class SmFilter Disable;
- #Class MessageBoard Disable;
- msplay General\Misc\Cancel@Ext
-} {Main}
 #Trigger {That exit appears to be blocked.} {msplay General\Misc\CantGo*5@Ext} {Main}
 #Trigger {* crumples * up and throws it away.} {msplay General\Misc\Paper*3@Ext} {Main}
 #Trigger {* attempts to board *, but is turned away by *.} {msplay General\Misc\CantGo*5@Ext} {Main}
@@ -101,34 +89,51 @@ ExpPipe {%0} {%0} {%1 disappears};
 #Trigger {* dissolves into billions of constituent particles and disperses into a hitherto unnoticed breeze.} {msplay General\Misc\HostOut*3@Ext;
 ExpPipe {%0} {%0} {%1 disappears};
 #sub {@ExpString}} {Main}
-#Trigger {I don't understand that.} {#class focus disable;
-#class critical disable;
-#class AtSaStarmap disable;
-msplay General\Misc\Command*10@Ext} {Main}
-#TRIGGER {*[[]Enter "yes" or "no"]} {
+#Trigger {I don't understand that.} {
+ #If {@GagDontUnderstandMessages=1} {#GagLine 1 All};
+ msplay General\Misc\Command*10@Ext;
+ #If {@Main<0} {MainTrigSwitch 1}
+} {}
+#Trigger {*[[]Enter "yes" or "no"]} {
  msplay General\Misc\prompt@Ext;
  ExpPipe {%0} {%0} {%1[Y/N]};
  #Sub {@ExpString}
 } {Main}
+#Trigger {Your choice:} {msplay General\Misc\prompt@Ext} {Main}
+#Trigger {Enter your selection*} {#If {%IfWord(%1,.|:,|)=1} {msplay General\Misc\prompt@Ext}} {Main}
 #Trigger {[[]Type a line of input or [`]~~@abort' to abort the command.]} {
- #If {@Main=0} {#Abort};
- #If {@Main<0} {MainTrigSwitch 1};
- msplay General\Misc\prompt@Ext;
- ExpPipe {%0} {%0} {:Voice:Type a line of input, use ~@abort to cancel.};
- #Sub {@ExpString}
+ #If {@Main<0 or %IfWord(%LastLine(1),Enter your selection.|Enter your selection:|Your choice:,|)=0} {
+  msplay General\Misc\prompt@Ext;
+  ExpPipe {%0} {%0} {:Voice:Type a line of input, use ~@abort to cancel.};
+  #Sub {@ExpString}
+ } {
+  #GagLine 1 All
+ };
+ #If {@Main<0} {MainTrigSwitch 1}
 } {}
 #Trigger {[[]Type lines of input; *]} {
  #If {@ConfPrintQuietly=1} {
   #Var ConfPrintQuietly 0
  } {
-  #If {@Main=0} {#Abort All};
-  #If {@Main<0} {MainTrigSwitch 1};
   msplay General\Misc\prompt@Ext;
   ExpPipe {%0} {%0} {:Voice:%0};
-  #Sub {@ExpString}
+  #Sub {@ExpString};
+  #If {@Main<0} {MainTrigSwitch 1}
  }
 } {}
-#Trigger {Your choice:} {msplay General\Misc\prompt@Ext} {}
+#Trigger {>> Command Aborted <<} {
+ msplay General\Misc\Cancel@Ext;
+ ExpPipe {%0} {Aborted.} {:Voice:Aborted.};
+ #Sub {@ExpString};
+ #If {@Main<0} {MainTrigSwitch 1}
+} {}
+#Trigger {Invalid selection.} {
+ msplay General\Misc\Cancel@Ext;
+ #If {@Main<0} {MainTrigSwitch 1}
+} {}
+#Trigger {The ship must be powered before you can do that.} {MainTrigSwitch 1} {Main}
+#Trigger {The ship is not in space.} {MainTrigSwitch 1} {Main}
+
 #Trigger {* gestures for you to join * group, which you promptly do.} {
  ExpPipe {%0} {%0} {%1 adds you to %2 group.};
  #sub {@ExpString};
@@ -298,15 +303,9 @@ PushMessage Left @ExpString;
 msplay General\Misc\LeftPerson@Ext
 }} {Main}
 #Trigger {Wait *} {
- #if {%IsNumber(%word(%1, ,1))=1 AND @PlayWhenThwarted=1} {
-  msplay General\Misc\vollimit@Ext 20
- }
-} {Main}
-#Trigger {I don*t understand that.} {
- #if {@GagDontUnderstandMessages=1} {
-  #gagline 1 all
- }
-} {Main}
+ #If {%IsNumber(%Word(%1, ,1))=1 and @PlayWhenThwarted=1} {msplay General\Misc\vollimit@Ext 20};
+ #If {@Main<0} {MainTrigSwitch 1}
+} {}
 
 #Trigger {A * firework launches itself into the air and begins to rapidly expand into a *.} {
  msplay General\Misc\Firework*2@Ext

@@ -1,3 +1,5 @@
+#Class MessageBoard Disable
+
 #Trigger {Message Board Network - *} {
  MainTrigSwitch -10;
  #If {@InterruptOnBoards=1} {speech stop};
@@ -9,7 +11,7 @@
 #Trigger {Subject: *} {
  #If {@Main<>-10} {#Abort};
  #If {@FormatMessageBoards=1} {
-  #Class MessageBoard enable;
+  MainTrigSwitch 0 MessageBoard;
   #Var Subject %1;
   #GagLine 1 All
  }
@@ -23,7 +25,6 @@
  #GagLine 1 All
 } {MessageBoard}
 #Trigger {Reference: *} {
- #Class MessageBoard disable;
  #If {%Pos(|,%1)>0} {
   #Var Reference {%Trim(%Word(%1,|,1))};
   #If {%Pos(Votes: 0  /  0,%1)>0} {
@@ -35,13 +36,9 @@
   #Var Reference {%1};
   #Var Votes {0}
  };
- #Var MsgBoardTmp1 {%Replace(@MessageBoardFormatString,$BOARD,@Board)};
- #Var MsgBoardTmp1 {%Replace(@MsgBoardTmp1,$SUBJECT,@Subject)};
- #Var MsgBoardTmp1 {%Replace(@MsgBoardTmp1,$SENDER,@Sender)};
- #Var MsgBoardTmp1 {%Replace(@MsgBoardTmp1,$DATE,@Date)};
- #Var MsgBoardTmp1 {%Replace(@MsgBoardTmp1,$REFERENCE,@Reference)};
- #Var MsgBoardTmp1 {%Replace(@MsgBoardTmp1,$VOTES,@Votes)};
- #Sub {@MsgBoardTmp1};
+ #Var MsgBoardTmp1 {%Replace(@MessageBoardFormatString,.,.%CRLF)};
+ #Var MsgBoardTmp1 {%Replace(@MsgBoardTmp1,$,~@)};
+ #Sub {%Expand(@MsgBoardTmp1)};
  #UnVar Board;
  #UnVar Subject;
  #UnVar Sender;
@@ -50,5 +47,3 @@
  #UnVar Votes;
  #UnVar MsgBoardTmp1
 } {MessageBoard}
-
-#Trigger {All messages have been marked as read.} {DontStopSpeaking} {Main}

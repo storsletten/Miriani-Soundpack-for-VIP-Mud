@@ -1,4 +1,4 @@
-#Alias {PlayRelDriveStart} {
+#Alias PlayRelDriveStart {
  #If {@RelDriveBeep=1} {msplay Ship\Computer\Beep@Ext};
  msplay Ship\Move\Accelerate@RelDriveStyle@Ext @RelDriveVolume;
  #If {@SoundIsPlaying=1 and %IsNumber(@RelDriveFreq)=1} {
@@ -38,7 +38,7 @@
 #Trigger {The*has exited from*.} {msplay Ship\Move\EnterSector*2@Ext} {Main}
 #Trigger {The*has entered Jumpgate to*.} {msplay Ship\Move\ExitSector*2@Ext} {Main}
 #Trigger {The*has entered Mission Jumpgate.} {msplay Ship\Move\ExitSector*2@Ext} {Main}
-#Trigger {*rises smoothly off the ground and hovers for a brief moment before rapidly accelerating towards space.} {
+#Trigger {* rises smoothly off the ground and hovers for a brief moment before rapidly accelerating towards space.} {
  mrandomplay Ship\Move\OtherLaunch*3@Ext
 } {Main}
 #Trigger {The deck beneath you vibrates slightly as the relativity drive begins accelerating the starship through space.} {

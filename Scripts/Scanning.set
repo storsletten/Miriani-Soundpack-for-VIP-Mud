@@ -1,3 +1,5 @@
+#Class Scanning Disable
+#Class CGC Disable
 #Var ScanOutputLabels {Atmospheric Composition|Available charge|Average Component Damage|Cargo|Classification|Composition|Coordinates|Courier ship status|Damage|Distance|Hull Damage|Identifiable Power Sources|IFF|Landing beacons|Launched by|Natural Resources|Occupancy|Orbiting|Pilot status|Power|Power sources|Size|Starships|Structural Integrity|Surface Conditions|Type|Weapons}
 #Var ScanFormatVarLabels {@ScanOutputLabels|Alliance|Full Name|Name|New|Number of Occupants|Object Type}
 #Var ScanFormatVarLabels {%Sort(@ScanFormatVarLabels,0)}
@@ -21,7 +23,7 @@
   #Var {ScanObject%i} {};
   #Var {ScanObject%{i}Raw} {}
  };
- #Class Scanning Enable;
+ MainTrigSwitch 0 Scanning;
  #Var ScanOutputLabelsDetected 0;
  #Exec {>%1%RTrim( @ScanTarget)}
 } {}
@@ -69,7 +71,7 @@
 #Trigger {Interdictor} {#Var ScanObjectObjectTypeRaw {Interdictor}} {Main|Scanning}
 
 #Alias ScanProcessOutput {
- #Class Scanning Disable;#UnVar ScanOutputLabelsDetected;
+ MainTrigSwitch 1;
  #If {@ScanObjectDistanceRaw=1} {#Var ScanObjectDistanceUnits {unit}} {#Var ScanObjectDistanceUnits {units}};
  #If {%Left(@ScanObjectCoordinatesRaw,1)="("} {#Var ScanObjectCoordinatesRaw {%Copy(@ScanObjectCoordinatesRaw,2,%Eval(%Length(@ScanObjectCoordinatesRaw)-2))}};
  #Var ScanObjectCoordinatesRaw {%Replace(@ScanObjectCoordinatesRaw,~,,)};
@@ -148,49 +150,27 @@
 
 #Trigger {There is nothing here to scan.} {
  msplay Ship\Computer\NothingToScan@Ext;
- #Class Scanning Disable;#UnVar ScanOutputLabelsDetected
-} {Main|Scanning}
+ MainTrigSwitch 1
+} {Scanning}
 #Trigger {Nothing was detected at those coordinates.} {
  msplay Ship\Computer\NothingToScan@Ext;
- #Class Scanning Disable;#UnVar ScanOutputLabelsDetected
-} {Main|Scanning}
+ MainTrigSwitch 1
+} {Scanning}
 #Trigger {That object was not found.} {
  msplay Ship\Computer\NothingToScan@Ext;
- #Class Scanning Disable;#UnVar ScanOutputLabelsDetected;
- #Class Focus Disable
+ MainTrigSwitch 1
 } {Main|Starship}
-#Trigger {You'll have better results scanning in space.} {
- #Class Scanning Disable;#UnVar ScanOutputLabelsDetected;
- #Class Focus Disable
-} {Main|Starship}
+#Trigger {You'll have better results scanning in space.} {MainTrigSwitch 1} {Main|Starship}
 
-#Alias {sh} {
- shipscan sc {%Trim(%0)} {Hull Damage}
-} {}
-#Alias {sca} {
- shipscan sc {%Trim(%0)} {Average Component Damage}
-} {}
-#Alias {scc} {
- shipscan sc {%Trim(%0)} {Coordinates}
-} {}
-#Alias {scd} {
- shipscan sc {%Trim(%0)} {Distance}
-} {}
-#Alias {sch} {
- shipscan sc {%Trim(%0)} {Hull Damage}
-} {}
-#Alias {sco} {
- shipscan sc {%Trim(%0)} {Occupancy}
-} {}
-#Alias {scp} {
- shipscan sc {%Trim(%0)} {Power}
-} {}
-#Alias {scs} {
- shipscan sc {%Trim(%0)} {Cargo}
-} {}
-#Alias {scw} {
- shipscan sc {%Trim(%0)} {Weapons}
-} {}
+#Alias sh {shipscan sc {%RTrim( %0)} {Hull Damage}} {}
+#Alias sca {shipscan sc {%RTrim( %0)} {Average Component Damage}} {}
+#Alias scc {shipscan sc {%RTrim( %0)} {Coordinates}} {}
+#Alias scd {shipscan sc {%RTrim( %0)} {Distance}} {}
+#Alias sch {shipscan sc {%RTrim( %0)} {Hull Damage}} {}
+#Alias sco {shipscan sc {%RTrim( %0)} {Occupancy}} {}
+#Alias scp {shipscan sc {%RTrim( %0)} {Power}} {}
+#Alias scs {shipscan sc {%RTrim( %0)} {Cargo}} {}
+#Alias scw {shipscan sc {%RTrim( %0)} {Weapons}} {}
 
 #Alias CGCBackend {
  #If {%IsNumber(%1)=1 AND %IsNumber(%2)=1 AND %IsNumber(%3)=1 AND %IsNumber(%4)=1 AND %IsNumber(%5)=1 AND %IsNumber(%6)=1} {
@@ -289,7 +269,7 @@
    #Var CGCY {%Trim(@CGCY)};
    #Var CGCZ {%Trim(@CGCZ)};
    #Var CGCTarget {Sector @CGCTarget};
-   #Class cgc enable;
+   MainTrigSwitch 0 CGC;
    gc
   } {
    #UnVar CGCTarget;
@@ -302,7 +282,7 @@
   #Var CGCZ {%Replace(%3,~),)};
   #If {%IsNumber(@CGCX)=1 AND %IsNumber(@CGCY)=1 AND %IsNumber(@CGCZ)=1} {
    #Var CGCTarget {%4};
-   #Class cgc enable;
+   MainTrigSwitch 0 CGC;
    gc
   } {
    #UnVar CGCTarget;
@@ -325,7 +305,7 @@
   };
   #sub {@CGCTmp %If(@UseSMStyle=1,@RelativeNumericDir,@CGCDestString).}
  };
- #Class cgc disable;
+ MainTrigSwitch 1;
  #UnVar CGCTarget;
  #UnVar CGCTmp;
  #UnVar CGCTmpX;
@@ -333,12 +313,7 @@
  #UnVar CGCTmpZ;
  #UnVar CGCDestString
 } {Main|cgc}
-#Trigger {The ship must be powered before you can do that.} {#class cgc disable} {Main|cgc}
-#Trigger {Your ship has no Galactic Map Unit.} {#class cgc disable} {Main|cgc}
-#Trigger {I don't understand that.} {#class cgc disable} {Main|cgc}
-#Trigger {Wait *} {#class cgc disable} {Main|cgc}
-#Trigger {The ship is not in space.} {#class cgc disable} {Main|cgc}
-#Trigger {Invalid selection.} {#class cgc disable} {Main|cgc}
+#Trigger {Your ship has no Galactic Map Unit.} {MainTrigSwitch 1} {CGC}
 #TRIGGER {Current galactic coordinates: *, *, *} {#var GalCoordsX %1;
 #var GalCoordsY %2;
 #var GalCoordsZ %3} {Main}
@@ -357,7 +332,7 @@
  #Sub {@ExpString}
 } {Main|Starship}
 #Trigger {General sector report for *: *:} {
- #Class Scanning Disable;#UnVar ScanOutputLabelsDetected;
+ MainTrigSwitch 1;
  ExpPipe {%0} {%0} {%1: %2:};
  #Sub {@ExpString}
 } {Main|Scanning}

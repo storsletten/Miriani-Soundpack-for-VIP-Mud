@@ -1,3 +1,5 @@
+#Class SmFilter Disable
+
 #Var SmAliases {
 a:Artifacts
 ar:Artifacts
@@ -94,8 +96,6 @@ Worm:Wormholes
  }
 } {}
 
-#Class SmFilter Disable
-
 #Var SmShowCoords 0
 #Var SmCount 0
 #Alias smc {
@@ -137,7 +137,7 @@ Here is the entire list of SmFilter aliases:
   #Var SmSearchString {%2};
   #Var ObjectDirs {};
   #Var ObjectList {};
-  #Class SmFilter Enable
+  MainTrigSwitch 0 SmFilter
  };
  ~sm
 } {}
@@ -147,8 +147,7 @@ Here is the entire list of SmFilter aliases:
 #Trigger {*: *} {
  #Var SmFilterTmp1 {%Replace(%1,~",)};
  #If {@SmFilterTmp1="Current Coordinates"} {
-  MainTrigSwitch 1;
-  #Class SmFilter Disable;
+  MainTrigSwitch 1 SmFilter;
   #If {%Length(@ObjectList)=0} {
    #Sub {@SmFilter not found.};
    #Var SmShowCoords 0;
@@ -282,7 +281,7 @@ Here is the entire list of SmFilter aliases:
    #Sub {@SmFilterTmp1}
   }
  } {
-  #If {@Main>0} {MainTrigSwitch 0};
+  MainTrigSwitch -1 SmFilter;
   #GagLine 1 All;
   #If {@SmFilterTmp1=@SmFilter} {
    #Var SmShips {%Eval(%Pos([,%2)>0)};
@@ -300,7 +299,4 @@ Here is the entire list of SmFilter aliases:
   }
  }
 } {SmFilter}
-
-#Trigger {I don't understand that.} {#Class SmFilter Disable;MainTrigSwitch 1} {SmFilter}
-#Trigger {Wait * second*.} {#Class SmFilter Disable;MainTrigSwitch 1} {SmFilter}
-#Trigger {There is nothing to see.} {#Class SmFilter Disable;MainTrigSwitch 1} {SmFilter}
+#Trigger {There is nothing to see.} {MainTrigSwitch 1 SmFilter} {SmFilter}

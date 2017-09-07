@@ -61,21 +61,13 @@
  #Sub {@ExpString}
 } {Main}
 #Trigger {LoreTech Personal Lore Computer - [[]*]} {
- #Var LoreTmp1 {%Replace(%1,~",)};
- #Var LoreTmp1 {%Replace(@LoreTmp1,~~,)};
- #If {@LoreTmp1="Main Menu" or @LoreTmp1="Device Options" or @LoreTmp1="Root Folder" or @LoreTmp1=*"Folder: *" or @LoreTmp1=*"File: *"} {
-  msplay General\Misc\prompt@Ext
+ #If {%IfWord(%1,Root Folder,|)=1 or %Pos(File:,%1)>0 or %Pos(Folder:,%1)>0} {
+  ExpPipe {%0} {Lore Memo %1} {%1}
+ } {
+  ExpPipe {%0} {Lore %1} {:Voice:Lore %1};
+  #If {%Pos(Lore Lore ,@ExpString)>0} {#Var ExpString {%Copy(@ExpString,6,%Eval(%Length(@ExpString)-5))}}
  };
- #If {@LoreTmp1="Calculator" or @LoreTmp1="Device Options" or @LoreTmp1="Galactic News" or @LoreTmp1="Holographic Imager" or @LoreTmp1="Image Data Extractor" or @LoreTmp1="Lore Tracker" or @LoreTmp1="Main Menu" or @LoreTmp1="Optical Character Recognition" or @LoreTmp1="Shopping Guide" or @LoreTmp1="Starship Upgrade Estimator" or @LoreTmp1="Unit Converter"} {
-  ExpPipe {%0} {:Voice:%0} {};
-  #Sub {@ExpString}
- };
- #If {@LoreTmp1="Alliance Bounties" or @LoreTmp1="Scratch Pad" or @LoreTmp1="Root Folder" or @LoreTmp1=*"Folder: *" or @LoreTmp1=*"File: *"} {
-  #If {@ExperienceLevel > 1} {
-   #GagLine 1 Voice;
-   #Say {%1} NoDisplay
-  }
- }
+ #Sub {@ExpString}
 } {Main}
 #Trigger {The display blurs suddenly as the current time and date, * * * *:*:* * GST, fades in, shimmers briefly and fades out, letting the display return to normal.} {
  ExpPipe {%0} {%0} {%4:%5:%6, %1 %2 %3, %7};

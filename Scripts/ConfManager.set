@@ -10,7 +10,7 @@ Real:0
 AlterArmor:1
 FormatRoomTitles:0
 FormatMessageBoards:0
-MessageBoardFormatString:$SUBJECT, by $SENDER, on $DATE, with $VOTES votes. ($REFERENCE).
+MessageBoardFormatString:$Subject.By $Sender.On $Date.$Votes votes.Ref $Reference
 ShowExpertExits:0
 PlayRoundtimeSound:0
 PlayWhenThwarted:0
@@ -167,7 +167,7 @@ ArchaeologyHelperStoreFromCount:1
  #If {%Length(@ConfPreviousMenus)>0} {#Var ConfTmp1 {@ConfTmp1[0] Go back.%{CRLF}}};
  #Var ConfTmp3 {%Pos(%CRLF,@ConfTmp1)};
  SPPrompt {%Copy(@ConfTmp1,1,%Eval(@ConfTmp3-1))} {%Copy(@ConfTmp1,%Eval(@ConfTmp3+2),%Eval(%Length(@ConfTmp1)-@ConfTmp3-3))} {conf @ConfTmp2};
- #ForAll {MenuSetByAlias|MenuSetByPrompt|MenuVar|Tmp1|Tmp2|Tmp3} {#UnVar {Conf%i}}
+ #ForAll {MenuSetByAlias|MenuSetByPrompt|MenuVar|Tmp1|Tmp2|Tmp3} {#Exec {#UnVar {Conf%i}}}
 } {}
 
 #Alias conf {
@@ -475,7 +475,7 @@ ArchaeologyHelperStoreFromCount:1
    SPPrompt {@ConfOptionCaption} {@ConfOptionHint@ConfOptionValueOutput} {:conf {:@{ConfMenuSetByPrompt}1@ConfPreviousMenus} {@ConfMenu} {@ConfOption}}
   }
  };
- #ForAll {MenuSetByAlias|MenuSetByPrompt|MenuVar|Tmp1|Tmp2|Tmp3} {#UnVar {Conf%i}}
+ #ForAll {MenuSetByAlias|MenuSetByPrompt|MenuVar|Tmp1|Tmp2|Tmp3} {#Exec {#UnVar {Conf%i}}}
 } {}
 
 #Var ConfEchoText {}

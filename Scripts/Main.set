@@ -32,7 +32,6 @@ Lift|
 Lore|
 MessageBoard|
 Misc|
-OOLs|
 PMining|
 Rooms|
 Scanning|
@@ -306,17 +305,28 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
 #key shift-f1 {aboutscripts} {}
 
 #Alias MainTrigSwitch {
- #If {%IsNumber(%1)=1} {
+ #If {%Length(%2)>0} {
+  #If {%Defined(ActiveClasses)=0} {#Var ActiveClasses {%2}} {#AddItem ActiveClasses {%2} NoDuplicates}
+ };
+ #If {%1>0} {
+  #If {%Defined(ActiveClasses)=1} {
+   #ForAll {@ActiveClasses} {
+    #Class {%i} Disable;
+    #Exec {#UnVar {%i}}
+   };
+   #UnVar ActiveClasses
+  };
   #Var Main %1;
-  #If {%1>0} {
-   #Class Main Enable;
-   #Class MainOff Disable
-  } {
-   #Class Main Disable;
-   #Class MainOff Enable
-  }
+  #Class Main Enable;
+  #Class MainOff Disable
  } {
-  #Say {MainTrigSwitch: Unacceptable argument value}
+  #If {%Length(%2)>0} {
+   #ForAll {%2} {
+    #Class {%i} Enable;
+    #Var {%i} {%1}
+   }
+  };
+  #If {%1<0} {#Class Main Disable;#Class MainOff Enable;#Var Main %1}
  }
 }
 #Alias GetWildcardValues {
