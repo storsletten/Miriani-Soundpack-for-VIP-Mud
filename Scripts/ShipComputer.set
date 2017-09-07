@@ -304,7 +304,10 @@ ExpPipe {%0} {%0} {%1 checks the navigation console.};
 #Trigger {A destination appears on the ship's navigation controls: *.} {msplay Ship\Computer\Keyboard*15@Ext;
 ExpPipe {%0} {Heading to %1} {:0:Destination: %1};
 #sub {@ExpString}} {Main|Starship}
-#Trigger {There are no damaged components.} {msplay Ship\Computer\Display@Ext} {Main}
+#Trigger {There are no damaged components.} {
+ msplay Ship\Computer\Display@Ext;
+ MainTrigSwitch 1
+} {Main}
 #Trigger {Charge Readout:} {msplay Ship\Computer\Display@Ext} {Main}
 #Trigger {Total Weight: *} {msplay Ship\Computer\Display@Ext} {Main}
 #Trigger {There is nothing in the cargo hold.*} {msplay Ship\Computer\Display@Ext} {Main|Craft}
@@ -374,7 +377,6 @@ msplay Ship\Computer\PipeOff@Ext
 }} {Main|Starship}
 #Trigger {* emerges from a nearby console.} {msplay Ship\Computer\ScanRetrieved@Ext} {Main|Starship}
 #Trigger {The * cannot function without operational sensors.} {msplay Ship\Computer\Error@Ext} {Main|Starship}
-#Trigger {There is no critical damage.} {#class critical disable} {Main}
 #Trigger {The computer indicates that it has no beacon information for that sector.} {
  ExpPipe {%0} {No information for that sector.} {:Voice:No information for that sector.};
  #sub {@ExpString};

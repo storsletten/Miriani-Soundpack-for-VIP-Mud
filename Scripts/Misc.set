@@ -25,7 +25,8 @@
      #Sub {@ScanFormatOutput@ScanFormatExtraOutput}
     }
    }
-  }
+  };
+  #If {@Main>0 and %Defined(DamageReader)=1} {#Class DamageReader Disable;#UnVar DamageReader}
  }
 } {}
 
