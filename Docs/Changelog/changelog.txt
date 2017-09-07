@@ -1,3 +1,7 @@
+Version 5.8.14, released 2017-09-08:
+* For 2.0: More performance improvements.
+* For 2.0: Fixed a bug that caused critical component sound to be played sometimes when checking the charge readout. Also changed it so it only plays critical component sounds if the component is between 80 and 99 percent damaged.
+
 Version 5.8.13, released 2017-09-07:
 * For 2.0: Packed four triggers into one. Every fraction of performance improvement helps.
 
