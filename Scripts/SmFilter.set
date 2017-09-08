@@ -1,9 +1,10 @@
-#Class SmFilter Disable
+#Class SmFilterClass Disable
 
 #Var SmAliases {
 a:Artifacts
 ar:Artifacts
 art:Artifacts
+arti:Artifacts
 as:Asteroids
 ast:Asteroids
 aster:Asteroids
@@ -11,34 +12,40 @@ b:Blockades
 beacon:Control Beacons
 beacons:Control Beacons
 bl:Blockades
+blo:Blockades
 block:Blockades
 c:Combat Drones
+co:Combat Drones
+com:Combat Drones
 combat:Combat Drones
 d:Debris
 de:Debris
 deb:Debris
 debr:Debris
+dr:Combat Drones
 drone:Combat Drones
 drones:Combat Drones
 i:Interdictors
 in:Interdictors
 int:Interdictors
 inter:Interdictors
-J:Jumpgates
-Ju:Jumpgates
-Jump:Jumpgates
+j:Jumpgates
+ju:Jumpgates
+jum:Jumpgates
+jump:Jumpgates
 mis:Missiles
 miss:Missiles
-Mo:Moons
-Moon:Moons
-P:Planets
-Pl:Planets
-Plan:Planets
-Planet:Planets
+mo:Moons
+moo:Moons
+moon:Moons
+p:Planets
+pl:Planets
+plan:Planets
+planet:Planets
 pr:Proximity Weapons
-Pri:Private Space Stations
-Priv:Private Space Stations
-Private:Private Space Stations
+pri:Private Space Stations
+priv:Private Space Stations
+private:Private Space Stations
 pro:Proximity Weapons
 prob:Satellites
 probe:Satellites
@@ -47,31 +54,31 @@ prox:Proximity Weapons
 proximity:Proximity Weapons
 roid:Asteroids
 roids:Asteroids
-S:Starships
+s:Starships
 sat:Satellites
-Sh:Starships
-Ship:Starships
-Ships:Starships
-Sp:Space Stations
-Space:Space Stations
-Star:Stars
-Starship:Starships
-Stat:Space Stations
-Stati:Space Stations
-Statio:Space Stations
-Station:Space Stations
-U:Unknown
-Un:Unknown
-Unk:Unknown
+sh:Starships
+ship:Starships
+ships:Starships
+sp:Space Stations
+space:Space Stations
+star:Stars
+starship:Starships
+stat:Space Stations
+stati:Space Stations
+statio:Space Stations
+station:Space Stations
+u:Unknown
+un:Unknown
+unk:Unknown
 v:Satellites
 vid:Satellites
 video:Satellites
 video probe:Satellites
-W:Wormholes
+w:Wormholes
 weapon:Proximity Weapons
 weapons:Proximity Weapons
-Wo:Wormholes
-Worm:Wormholes
+wo:Wormholes
+worm:Wormholes
 }
 
 #Var SMSPriorityList {mugatra|bezation|resa-onati|potate|ohaxx|muzano|onati|onno|onz|orta|otono|otona}
@@ -130,24 +137,24 @@ Here is the entire list of SmFilter aliases:
  #If {%Length(@SmFilter)>0 and @ZoneType="starship" and @Powered=1} {
   #Var SmFilterTmp1 {%Pos(@SmFilter:,@SmAliases)};
   #If {@SmFilterTmp1>0} {
-   #Var SmFilter {%Delete(@SmAliases,0,@SmFilterTmp1)};
+   #Var SmFilter {%Delete(@SmAliases,1,@SmFilterTmp1)};
    #Var SmFilter {%Word(@SmFilter,%CRLF,1)};
-   #Var SmFilter {%Replace(%Word(@SmFilter,:,2),%CRLF,)}
+   #Var SmFilter {%Word(@SmFilter,:,2)}
   };
   #Var SmSearchString {%2};
   #Var ObjectDirs {};
   #Var ObjectList {};
-  MainTrigSwitch 0 SmFilter
+  MainTrigSwitch 0 SmFilterClass
  };
  ~sm
 } {}
 
-#Trigger {Uncharted Space: Empty Space*} {#GagLine 1 All} {SmFilter}
-#Trigger {a* starship simulator (Unclaimed)*} {#GagLine 1 All} {SmFilter}
+#Trigger {Uncharted Space: Empty Space*} {#GagLine 1 All} {SmFilterClass}
+#Trigger {a* starship simulator (Unclaimed)*} {#GagLine 1 All} {SmFilterClass}
 #Trigger {*: *} {
  #Var SmFilterTmp1 {%Replace(%1,~",)};
- #If {@SmFilterTmp1="Current Coordinates"} {
-  MainTrigSwitch 1 SmFilter;
+ #If {%IfWord(%1,Current Coordinates,|)=1} {
+  MainTrigSwitch 1;
   #If {%Length(@ObjectList)=0} {
    #Sub {@SmFilter not found.};
    #Var SmShowCoords 0;
@@ -281,9 +288,9 @@ Here is the entire list of SmFilter aliases:
    #Sub {@SmFilterTmp1}
   }
  } {
-  MainTrigSwitch -1 SmFilter;
+  #If {@Main>0} {MainTrigSwitch -1};
   #GagLine 1 All;
-  #If {@SmFilterTmp1=@SmFilter} {
+  #If {%IfWord(@SmFilter,%1,%CRLF)=1} {
    #Var SmShips {%Eval(%Pos([,%2)>0)};
    #Var SmFilterTmp1 { and };
    #Var ObjectDirs {};
@@ -298,5 +305,5 @@ Here is the entire list of SmFilter aliases:
    #Var ObjectList {%Replace(@ObjectList,~),)}
   }
  }
-} {SmFilter}
-#Trigger {There is nothing to see.} {MainTrigSwitch 1 SmFilter} {SmFilter}
+} {SmFilterClass}
+#Trigger {There is nothing to see.} {MainTrigSwitch 1 SmFilterClass} {SmFilterClass}

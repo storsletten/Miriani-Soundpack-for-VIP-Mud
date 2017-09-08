@@ -105,7 +105,7 @@ ExpPipe {%0} {%0} {%1 disappears};
  #Sub {@ExpString}
 } {Main}
 #Trigger {Your choice:} {msplay General\Misc\prompt@Ext} {Main}
-#Trigger {Enter your selection*} {#If {%IfWord(%1,.|:,|)=1} {msplay General\Misc\prompt@Ext}} {Main}
+#Trigger {Enter your selection[.:]} {msplay General\Misc\prompt@Ext} {Main}
 #Trigger {[[]Type a line of input or [`]~~@abort' to abort the command.]} {
  #If {@Main<0 or %IfWord(%LastLine(1),Enter your selection.|Enter your selection:|Your choice:,|)=0} {
   msplay General\Misc\prompt@Ext;
