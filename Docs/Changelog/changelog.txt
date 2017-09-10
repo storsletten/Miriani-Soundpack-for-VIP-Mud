@@ -1,3 +1,6 @@
+Version 5.8.16, released 2017-09-10:
+* For 2.0: Merged conf lore, conf message boards, and conf point units into conf gadgets. Also added a new option in conf gadgets for showing sector names as numbers in FC messages.
+
 Version 5.8.15, released 2017-09-09:
 * For 2.0: Fixed SM Filters. Apparently I broke it earlier this week. Sorry about that.
 
