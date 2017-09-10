@@ -1,3 +1,4 @@
+#Class Comm Enable
 #Var CommSocialsExceptionList {
  bark barks beatbox beatboxes bellow bellows
  chant chants growl growls mumble mumbles
@@ -5,7 +6,50 @@
  loudly
 }
 
-#Class Comm Enable
+#Var NumberedSectors {
+Central Jumpgate Hub:0
+Satus:1
+Ono:2
+Harboria:3
+Savius:4
+Stallax:5
+Ascension:6
+Narth Polus:7
+Intrepid:8
+Autumn:9
+Shivaldi:10
+Universal End:11
+Bellerophon:12
+Triskaideka:13
+Interlition:14
+Miriani:15
+Expedocious:16
+Groombridge:17
+Omnivincere:18
+Venitia:19
+Tartarus:20
+Solaris:21
+Barnard's Star:22
+Apophyllite:23
+Alliance High Guard Command:24
+Pegasus:25
+Polaris:26
+Ophiuchus:27
+Kerensky:28
+Malta:29
+Outreach:30
+Porta:31
+Infinitus Astrum:32
+Adaukerisicka:33
+Strages:34
+Casus:35
+Dombrowski:36
+Perspicuus Astrum:37
+Lacuna:38
+Lucksburg:39
+Vetus Fragminis:40
+Omega Sector:115
+}
 
 ; Lists of special characters for different languages:
 #Var CharEncoderNO {æ:230|Æ:198|ø:248|Ø:216|å:229|Å:197}
@@ -304,8 +348,8 @@
  } {
   #Var TmpCommunication2 {%Word(@TmpCommunication1, ,%NumWords(@TmpCommunication1, ))};
   #Var TmpCommunication4 {%Word(%2,~",%NumWords(%2,~~~"))};
-  #Var TmpCommunication4 {%Replace(@TmpCommunication4,~~,)};
-  #If {@TmpCommunication4<>""} {
+  #If {%Length(@TmpCommunication4)>0} {
+   #Var TmpCommunication4 {%Replace(@TmpCommunication4,~~,)};
    #If {@TmpCommunication4=" into a small microphone mounted on the wall."} {
     #If {@StripMessagePrefix=1 and @TmpCommunication2="says" and %Right(%1,9)<>" and says"} {
      #Var PaString 5
@@ -354,21 +398,45 @@
     CharEncoder TmpCommunication3 {%Copy(%2,1,%Eval(%Length(%2)-1))} decode
    };
    #If {@TmpCommunication1=*"* flight control scanner announce*"} {
+    #If {@ShowFCSectorNamesAsNumbers=1 and %NumWords(@TmpCommunication3,~,)>1} {
+     #Var TmpCommunication1 {%Word(@TmpCommunication3,~,,1)};
+     #If {%Pos(Flight control in ,@TmpCommunication1)=1} {
+      #Var TmpCommunication1 {%Delete(@TmpCommunication1,1,18)}
+     } {
+      #If {%Replace(@TmpCommunication1,~",)=*"* to * flight control"} {
+       #Var TmpCommunication1 {%Delete(@TmpCommunication1,1,%Eval(%Pos( to ,@TmpCommunication1)+3))};
+       #Var TmpCommunication1 {%Copy(@TmpCommunication1,1,%Eval(%Length(@TmpCommunication1)-15))}
+      } {
+       #Var TmpCommunication1 {}
+      }
+     };
+     #If {%Length(@TmpCommunication1)>0} {
+      #Var TmpCommunication2 {%CRLF@TmpCommunication1:};
+      #Var TmpCommunication2 {%Pos(@TmpCommunication2,@NumberedSectors)};
+      #If {@TmpCommunication2>0} {
+       #Var TmpCommunication2 {%Delete(@NumberedSectors,1,@TmpCommunication2)};
+       #Var TmpCommunication2 {%Word(@TmpCommunication2,:,2)};
+       #Var TmpCommunication2 {sector %Word(@TmpCommunication2,%CRLF,1)};
+       #Var TmpCommunication1 {%Replace(%Word(@TmpCommunication3,~~~,,1),@TmpCommunication1,@TmpCommunication2)};
+       #Var TmpCommunication3 {@TmpCommunication1,%Delete(@TmpCommunication3,1,%Pos(~~~,,@TmpCommunication3))}
+      }
+     }
+    };
     PushMessage Flight {@TmpCommunication3};
     DisplayPrint 3 {@TmpCommunication3} {%0};
     #Sub {@DisplayString};
     MirianiSoundPlay {Flight Control Scanner} {General\Comm\FlightScanner@Ext} {0:3};
-    #If {@TmpCommunication3=*"* Praelor starship* inbound!"} {
+    #Var TmpCommunication1 {%Replace(@TmpCommunication3,~",)};
+    #If {@TmpCommunication1=*"* Praelor starship* inbound!"} {
      MirianiSoundPlay {FC Scanner Alert} General\Comm\PraelorInbound@Ext
     };
-    #If {@TmpCommunication3=*"* Ontanka starship* inbound!"} {
+    #If {@TmpCommunication1=*"* Ontanka starship* inbound!"} {
      MirianiSoundPlay {FC Scanner Alert} General\Comm\PraelorInbound@Ext
     };
-    #If {@TmpCommunication3=*"* Praelor ships retreating!"} {
-     #Var TmpCommunication3 {@TmpCommunication3}
-    }
+    #Var TmpCommunication1 {};
+    #Var TmpCommunication2 {}
    };
-   #If {@TmpCommunication1<>"" and (@TmpCommunication2="says" or @TmpCommunication2="exclaims" or @TmpCommunication2="asks")} {
+   #If {%Length(@TmpCommunication1)>0 and (@TmpCommunication2="says" or @TmpCommunication2="exclaims" or @TmpCommunication2="asks")} {
     #If {@TmpCommunication1="A voice comes over the speaker and says"} {
      MirianiSoundPlay {Standard} {Ship\Computer\commchirp2@Ext};
      ExpPipe {%0} {@TmpCommunication3} {@TmpCommunication3};
@@ -380,7 +448,7 @@
      };
      #Var TmpCommunication1 {}
     };
-    #If {@TmpCommunication1<>"" and (%Pos(option name~=~",@TmpCommunication3)=0 or @GetConfWaiting=0)} {
+    #If {%Length(@TmpCommunication1)>0 and (%Pos(option name~=~",@TmpCommunication3)=0 or @GetConfWaiting=0)} {
      MirianiSoundPlay {Comms Framework} General\Socials\say@Ext;
      #If {@TmpCommunication2<>"says" or @StripMessagePrefix=0 or @TmpCommunication1=*"* and says"} {
       #Var TmpCommunication1 {%1}

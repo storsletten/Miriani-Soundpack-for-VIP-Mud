@@ -1,5 +1,4 @@
 #Var ConfAliases {
-boards:MessageBoards
 cgc:SCGC
 exp:General:ExperienceLevel
 keepalive:General:KeepAlive
@@ -26,16 +25,14 @@ x:Extras
 [7] Virtual displays.
 [8] Ship options.
 [9] Vehicle options.
-[10] Camera options.
-[11] Lore computer options.
-[12] Point unit options.
-[13] Message board options.
-[14] Speech and interrupts.
-[15] Keystroke configuration.
-[16] Extras.
-[17] Conf Manager.
-[18] Log options.
-[19] Soundpack documentation.
+[10] Camera feed options.
+[11] Gadget options
+[12] Speech and interrupts.
+[13] Keystroke configuration.
+[14] Extras.
+[15] Conf Manager.
+[16] Log options.
+[17] Soundpack documentation.
 %Chr(250)
 General
 Gag
@@ -46,10 +43,8 @@ History
 VD
 Ship
 Vehicles
-Camera
-Lore
-PointUnit
-MessageBoards
+CameraFeeds
+Gadgets
 Speech
 Keystrokes
 Extras
@@ -124,7 +119,7 @@ Surveying|C:0,Off^1,Surveying mode^2,Reviewing mode
 GagSaveOnIdle|B
 }
 
-#Var ConfMenuCamera {Camera options:
+#Var ConfMenuCameraFeeds {Camera feed options:
 [1] Camera volume offset  [~@{CameraVolumeDiff}~~~%].
 [2] Camera sound panning  [~@CameraPan].
 %Chr(250)
@@ -132,12 +127,22 @@ CameraVolumeDiff|N:-100^100
 CameraPan|N:-4000^4000
 }
 
-#Var ConfMenuMessageBoards {Message board options:
-[1] Format message board headers  [~%If(~@FormatMessageBoards=1,On,Off)].
-[2] Format string for message board post headers  [~@MessageBoardFormatString].
+#Var ConfMenuGadgets {Gadget options:
+[1] Customize Message Board headers  [~%If(~@FormatMessageBoards=1,On,Off)].
+[2] Format string for Message Board post headers  [~@MessageBoardFormatString].
+[3] Customize the Lore Shopping Guide  [~%If(~@ModifyShoppingGuide=1,On,Off)].
+[4] Format string for the Lore Shopping Guide  [~@ShoppingGuideFormatString].
+[5] Format string for Point Units  [~@PointUnitOutputString].
+[6] Show last known point values when using a point unit out of comms  [~%If(~@ShowPointsOOLS=1,On,Off)].
+[7] Show sector names as numbers in flight control messages  [~%If(~@ShowFCSectorNamesAsNumbers=1,On,Off)].
 %Chr(250)
 FormatMessageBoards|B
 MessageBoardFormatString|S:*||Use $SENDER for the message sender, $DATE for the date, $REFERENCE for the message reference, $SUBJECT for the subject line, and $VOTES for the votes (if any).
+ModifyShoppingGuide|B
+ShoppingGuideFormatString|S:*
+PointUnitOutputString|S:*
+ShowPointsOOLS|B
+ShowFCSectorNamesAsNumbers|B
 }
 
 #Var ConfMenuSocials {Configure socials:
@@ -368,14 +373,6 @@ LogHistory|B
 HistoryLoggingInterval|N:5^100
 }
 
-#Var ConfMenuLore {Lore computer options:
-[1] Use the format string to customize the shopping guide  [~%If(~@ModifyShoppingGuide=1,On,Off)].
-[2] Format string for the shopping guide  [~@ShoppingGuideFormatString].
-%Chr(250)
-ModifyShoppingGuide|B
-ShoppingGuideFormatString|S:*
-}
-
 #Var ConfMenuMissions {Mission options:
 [1] Mission mode  [~%If(~@MissionMode=1,On,Off)].
 [2] Use hit counter  [~%If(~@UseHitCounter=1,On,Off)].
@@ -388,14 +385,6 @@ UseHitCounter|B
 HitCounterFormatString|S:*
 ExtraFiringSound|B
 UseAlternativeCombatSounds|B
-}
-
-#Var ConfMenuPointUnit {Point unit options:
-[1] Output format for point units  [~@PointUnitOutputString].
-[2] Show last known point values when using a point unit out of comms  [~%If(~@ShowPointsOOLS=1,On,Off)].
-%Chr(250)
-PointUnitOutputString|S:*
-ShowPointsOOLS|B
 }
 
 #Var ConfMenuShip {Ship options
