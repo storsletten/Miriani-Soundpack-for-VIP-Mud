@@ -417,8 +417,12 @@ Omega Sector:115
        #Var TmpCommunication2 {%Delete(@NumberedSectors,1,@TmpCommunication2)};
        #Var TmpCommunication2 {%Word(@TmpCommunication2,:,2)};
        #Var TmpCommunication2 {sector %Word(@TmpCommunication2,%CRLF,1)};
-       #Var TmpCommunication1 {%Replace(%Word(@TmpCommunication3,~~~,,1),@TmpCommunication1,@TmpCommunication2)};
-       #Var TmpCommunication3 {@TmpCommunication1,%Delete(@TmpCommunication3,1,%Pos(~~~,,@TmpCommunication3))}
+       #If {%Pos(Flight control in ,@TmpCommunication3)=1} {
+        #Var TmpCommunication3 {Flight control in @TmpCommunication2,%Delete(@TmpCommunication3,1,%Pos(~~~,,@TmpCommunication3))}
+       } {
+        #Var TmpCommunication2 {%Replace(%Word(@TmpCommunication3,~~~,,1), to @TmpCommunication1 flight control, to @TmpCommunication2 flight control)};
+        #Var TmpCommunication3 {@TmpCommunication2,%Delete(@TmpCommunication3,1,%Pos(~~~,,@TmpCommunication3))}
+       }
       }
      }
     };
