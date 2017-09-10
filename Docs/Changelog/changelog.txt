@@ -1,3 +1,6 @@
+Version 5.8.17, released 2017-09-10:
+* For 2.0: Fixed a bug with conf gadget 7. Sometimes it would say weird things like, sector 30 Asteroid mining Outpost to sector 30 flight control, bla bla bla. But fear not, the fix is here!
+
 Version 5.8.16, released 2017-09-10:
 * For 2.0: Merged conf lore, conf message boards, and conf point units into conf gadgets. Also added a new option in conf gadgets for showing sector names as numbers in FC messages.
 
