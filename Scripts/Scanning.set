@@ -1,6 +1,6 @@
 #Class Scanning Disable
 #Class CGC Disable
-#Var ScanOutputLabels {Atmospheric Composition|Available charge|Average Component Damage|Cargo|Classification|Composition|Coordinates|Courier ship status|Damage|Distance|Hull Damage|Identifiable Power Sources|IFF|Landing beacons|Launched by|Natural Resources|Occupancy|Orbiting|Pilot status|Power|Power sources|Size|Starships|Structural Integrity|Surface Conditions|Type|Weapons}
+#Var ScanOutputLabels {Atmospheric Composition|Available charge|Average Component Damage|Cargo|Classification|Composition|Coordinates|Courier ship status|Damage|Distance|Hull Damage|Identifiable Power Sources|IFF|Integrity|Landing beacons|Launched by|Natural Resources|Occupancy|Orbiting|Pilot status|Power|Power sources|Size|Starships|Structural Integrity|Surface Conditions|Type|Weapons}
 #Var ScanFormatVarLabels {@ScanOutputLabels|Alliance|Full Name|Name|New|Number of Occupants|Object Type}
 #Var ScanFormatVarLabels {%Sort(@ScanFormatVarLabels,0)}
 #Var ScanFormatVars {%Replace(@ScanFormatVarLabels, ,)}
