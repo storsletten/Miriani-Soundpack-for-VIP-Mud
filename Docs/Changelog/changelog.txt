@@ -1,3 +1,6 @@
+Version 5.8.18, released 2017-09-11:
+* For 2.0: Fixed Integrity not being filtered by the scan filters.
+
 Version 5.8.17, released 2017-09-10:
 * For 2.0: Fixed a bug with conf gadget 7. Sometimes it would say weird things like, sector 30 Asteroid mining Outpost to sector 30 flight control, bla bla bla. But fear not, the fix is here!
 
