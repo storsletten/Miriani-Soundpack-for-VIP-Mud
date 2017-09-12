@@ -95,7 +95,7 @@
   };
   #If {%IfWord(Unknown,@ScanObjectPowerRaw,%CRLF)=1} {#Var ScanObjectPowerRaw {Charge Unknown}};
   #If {%IfWord(Indeterminate,@ScanObjectCargoRaw,%CRLF)=1} {#Var ScanObjectCargoRaw {}};
-  #If {%Length(@ScanObjectOccupancyRaw)>0 and %IfWord(@ScanObjectOccupancyRaw,Empty|Filled|Invalid reading|Unfilled,|)=0} {
+  #If {%Length(@ScanObjectOccupancyRaw)>0 and %IfWord(@ScanObjectOccupancyRaw,Empty|Filled|Invalid reading|Underfilled,|)=0} {
    #Var ScanObjectNumberOfOccupantsRaw {%NumWords(@ScanObjectOccupancyRaw,~,)};
    #If {@ScanObjectNumberOfOccupantsRaw=1 and %Pos( and ,@ScanObjectOccupancyRaw)>0} {#Var ScanObjectNumberOfOccupantsRaw 2}
   }
