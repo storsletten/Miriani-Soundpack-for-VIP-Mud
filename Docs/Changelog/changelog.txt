@@ -1,3 +1,6 @@
+Version 5.8.20, released 2017-09-12:
+* For 2.0: Fixed a bug in scanning that made it count the word Underfilled as one occupant.
+
 Version 5.8.19, released 2017-09-12:
 * For 2.0: Fixed a bug that caused conf to fail if you tried to access an option directly from a menu that was not in the main menu. For instance when typing conf sc 3.
 
