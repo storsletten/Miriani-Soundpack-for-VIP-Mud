@@ -177,7 +177,7 @@ ArchaeologyHelperStoreFromCount:1
   ConfOpenMenu;
   #Abort
  };
- #Var ConfTriggeredByPrompt {%If(%Pos(:,%1)>0,1,0)};
+ #Var ConfTriggeredByPrompt {%If(%Pos(:,%1)=1,1,0)};
  #Var ConfMenuSetByPrompt {%If(@ConfTriggeredByPrompt=1,%Copy(%1,2,1),0)};
  #Var ConfOptionSetByPrompt {%If(@ConfTriggeredByPrompt=1,%Copy(%1,3,1),0)};
  #If {@ConfTriggeredByPrompt=1} {#Var ConfPreviousMenus {%Copy(%1,4,%Eval(%Length(%1)-3))}} {#Var ConfPreviousMenus {}};
@@ -225,8 +225,11 @@ ArchaeologyHelperStoreFromCount:1
      #Var ConfTmp1 {%Copy(@ConfTmp1,1,@ConfTmp2)};
      #Math ConfMenu {%NumWords(@ConfTmp1,@CR)-1}
     } {
-     #Say {That conf menu does not exist.};
-     #Var ConfMenu {}
+     #Var ConfTmp1 {ConfMenu@ConfMenu};
+     #If {%Defined(@ConfTmp1)=0} {
+      #Say {That conf menu does not exist.};
+      #Var ConfMenu {}
+     }
     }
    } {
     #Var ConfTmp1 {%Copy(@ConfMenus,1,@ConfTmp1)};
