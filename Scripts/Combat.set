@@ -1,55 +1,55 @@
-#Exec {
- SetVariable OtherTarget {};
- SetVariable Success 0
-}
+#Var OtherTarget {}
+
 #Alias GunFire {
  #Var Gun %1;
  #Var Randomise %2;
  #Class GunFired Enable
 } {}
 #Trigger {* points * at * and fires!} {
- #if  {%Pos(insect,%3)>0 AND @MissionMode=1} {
+ #If  {%Pos(insect,%3)>0 AND @MissionMode=1} {
   ExpPipe {:Voice:%0} {:Voice:%0} {:Voice:%0}
  } {
-  #var TargetString {%1 shoots %3 with %2.};
-  #ForAll @OtherTarget {
-   #if {%I<>"" AND @Success<>1} {
-    #if {%Word(%i,:,1)=%1 AND %Word(%i,:,2)=%3} {
-     #var TargetString {%1 fires.};
-     #Var Success 1;
+  #Var TargetString {%1 shoots %3 with %2.};
+  #ForAll {@OtherTarget} {
+   #If {%Length(%i)>0 and %Defined(CombatSuccess)=0} {
+    #If {%Word(%i,:,1)=%1 and %Word(%i,:,2)=%3} {
+     #Var TargetString {%1 fires.};
+     #Var CombatSuccess 1;
      #Var OtherTarget {%DelItem(@OtherTarget,%i)}
     }
    }
   };
-  #Var Success 0;
+  #UnVar CombatSuccess;
   ExpPipe {%0} {%1 fires at %3 with %2.} {@TargetString};
   #Var OtherTarget {%1:%3|@OtherTarget}
  };
  #Sub {@ExpString};
  GunFire %2 1
 } {Main}
-#Trigger {You slide a* out of a pulse emitter clip.} {
- msplay General\Combat\DrawEMPulse*3@Ext;
- ExpPipe {%0} {%0} {You draw a%1.};
- #Sub {@ExpString}
-} {Main}
 #Trigger {A* * to have run out of energy.} {
  msplay General\Combat\EmptyEmitter@Ext
 } {Main}
-#Trigger {* slides a* out of a pulse emitter clip.} {
- msplay General\Combat\DrawEMPulse*3@Ext;
- ExpPipe {%0} {%0} {%1 draws a%2.};
- #Sub {@ExpString}
+#Trigger {* slide* out of a pulse emitter clip.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  ExpPipe {%0} {%0} {%1 draw%2.};
+  #Sub {@ExpString};
+  #If {%IfWord(%1,You,|)=1} {
+   msplay General\Combat\DrawEMPulse*3@Ext
+  } {
+   msplay General\Combat\DrawEMPulse*3@Ext -10
+  }
+ }
 } {Main}
-#Trigger {You deftly draw a* from a*.} {
- msplay General\Combat\DrawGun*3@Ext;
- ExpPipe {%0} {%0} {You draw a%1 from a%2.};
- #Sub {@ExpString}
-} {Main}
-#Trigger {* deftly draws a* from a*.} {
- msplay General\Combat\DrawGun*3@Ext;
- ExpPipe {%0} {%0} {%1 draws a%2 from a%3.};
- #Sub {@ExpString}
+#Trigger {* deftly draw* from a*.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  ExpPipe {%0} {%0} {%1 draw%2 from a%3.};
+  #Sub {@ExpString};
+  #If {%IfWord(%1,You,|)=1} {
+   msplay General\Combat\DrawGun*3@Ext
+  } {
+   msplay General\Combat\DrawGun*3@Ext -10
+  }
+ }
 } {Main}
 #Trigger {A loud clicking is followed by the clatter of an empty cartridge to the floor.} {
  msplay General\Combat\EmptyGun2@Ext;
@@ -61,45 +61,49 @@
  ExpPipe {%0} {%0} {%1 aims a%2 at %3 and activates it};
  #Sub {@ExpString}
 } {Main}
-#Trigger {You deftly insert a* into a*.} {
- msplay General\Combat\HolsterGun@Ext;
- ExpPipe {%0} {%0} {You insert a%1 into a%2};
- #Sub {@ExpString}
+#Trigger {* deftly insert* into a*.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  ExpPipe {%0} {%0} {%1 insert%2 into a%3.};
+  #Sub {@ExpString};
+  #If {%IfWord(%1,You,|)=1} {
+   msplay General\Combat\HolsterGun@Ext
+  } {
+   msplay General\Combat\HolsterGun@Ext -10
+  }
+ }
 } {Main}
-#Trigger {* deftly inserts a* into a*.} {
- msplay General\Combat\HolsterGun@Ext;
- ExpPipe {%0} {%0} {%1 inserts a%2 into a%3};
- #Sub {@ExpString}
+#Trigger {* slide* into a*, where it * into place with a *click.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  ExpPipe {%0} {%0} {%1 slide%2 into a%3.};
+  #Sub {@ExpString};
+  #If {%IfWord(%1,You,|)=1} {
+   msplay General\Combat\HolsterEMPulse@Ext
+  } {
+   msplay General\Combat\HolsterEMPulse@Ext -10
+  }
+ }
 } {Main}
-#Trigger {You slide * into a*, where it settles into place with a small click.} {
- msplay General\Combat\HolsterEMPulse@Ext;
- ExpPipe {%0} {%0} {You slide %1 into a%2.};
- #Sub {@ExpString}
+#Trigger {* carefully discharge* into a*.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  ExpPipe {%0} {%0} {%1 discharge%2 into a%3.};
+  #Sub {@ExpString};
+  #If {%IfWord(%1,You,|)=1} {
+   msplay General\Combat\LoadEMPulse*3@Ext
+  } {
+   msplay General\Combat\LoadEMPulse*3@Ext -10
+  }
+ }
 } {Main}
-#Trigger {* slides * into a*, where it snaps into place with a click.} {
- msplay General\Combat\HolsterEMPulse@Ext;
- ExpPipe {%0} {%0} {%1 slides %2 into a%3.};
- #Sub {@ExpString}
-} {Main}
-#Trigger {You carefully discharge a* into a*} {
- msplay General\Combat\LoadEMPulse*3@Ext;
- ExpPipe {%0} {You discharge a%1 into a%2} {Energized a%2};
- #Sub {@ExpString}
-} {Main}
-#Trigger {* carefully discharges a* into a*} {
- msplay General\Combat\LoadEMPulse*3@Ext;
- ExpPipe {%0} {%0} {%1 discharges a%2 into a%3};
- #Sub {@ExpString}
-} {Main}
-#Trigger {You hastily slam a* into the open ammo slot of a*.} {
- msplay General\Combat\LoadGun*3@Ext;
- ExpPipe {%0} {%0} {You load a%1 into a%2.};
- #Sub {@ExpString}
-} {Main}
-#Trigger {* hastily slams a* into the open ammo slot of a*.} {
- msplay General\Combat\LoadGun*3@Ext;
- ExpPipe {%0} {%0} {%1 loads a%2 into a%3.};
- #Sub {@ExpString}
+#Trigger {* hastily slam* into the open ammo slot of a*.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  ExpPipe {%0} {%0} {%1 load%2 into a%3.};
+  #Sub {@ExpString};
+  #If {%IfWord(%1,You,|)=1} {
+   msplay General\Combat\LoadGun*3@Ext
+  } {
+   msplay General\Combat\LoadGun*3@Ext -10
+  }
+ }
 } {Main}
 #Trigger {A* clicks oddly. It must be out of ammo.} {
  msplay General\Combat\EmptyGun@Ext;
@@ -232,21 +236,21 @@
 #sub {@ExpString};
 msplay General\Combat\ShotMisses@Ext} {Main}
 #Trigger {* shot *ses *across * armor.} {
- #if {%4="your"} {
+ #If {%4="your"} {
   msplay General\Combat\StunArmor@Ext
  } {
   mwplay General\Combat\StunArmor@Ext
  }
 } {Main}
 #Trigger {* begin* carefully *ing pieces of armor * bulky stun armor battery pack.} {
- #if {%Word(%1, ,1)="You"} {
+ #If {%Word(%1, ,1)="You"} {
   Msplay General\Combat\ArmorConnectStart@Ext
  } {
   mwplay General\Combat\ArmorConnectStart@Ext
  }
 } {Main}
 #Trigger {* finish* *ing armor * bulky stun armor battery pack.} {
- #if {%Word(%1, ,1)="You"} {
+ #If {%Word(%1, ,1)="You"} {
   msplay General\Combat\ArmorConnectFinish@Ext
  } {
   mwplay General\Combat\ArmorConnectFinish@Ext
@@ -272,9 +276,9 @@ msplay General\Combat\ShotMisses@Ext} {Main}
 } {Main}
 #Trigger {A bulky stun armor battery pack} {#Class BatteryPackScanner Enable} {Main}
 #Trigger {It appears to be *.} {
- #if {@ExperienceLevel>1} {
+ #If {@ExperienceLevel>1} {
   #class BatteryPack Enable;
-  SetVariable BatteryPackTmp1 {%Proper(%1)};
+  #Var BatteryPackTmp1 {%Proper(%1)};
   #gagline 1 all
  };
  #Class BatteryPackScanner Disable
@@ -290,7 +294,7 @@ msplay General\Combat\ShotMisses@Ext} {Main}
  msplay General\Misc\Belt1@Ext
 } {Main}
 #Trigger {* the shot disburses harmlessly across * armor.} {
- #if {%2="your"} {
+ #If {%2="your"} {
   Msplay General\Combat\StunArmor@Ext
  } {
   Mwplay General\Combat\StunArmor@Ext
@@ -322,7 +326,7 @@ msplay General\Combat\ShotMisses@Ext} {Main}
  #Sub @ExpString
 } {Main}
 #Trigger {*} {
- #if {%0=*"A* clicks oddly. It must be out of ammo."} {} {
+ #If {%0=*"A* clicks oddly. It must be out of ammo."} {} {
   MGunPlay @Gun @Randomise
  };
  #UnVar Gun;

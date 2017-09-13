@@ -183,15 +183,12 @@ ExpPipe {~%0} {Partial hit on ~@Wildcard1 ~@Wildcard2~@Wildcard3.} {Partial hit 
 mobject ~@ComputerSaid
 }|
 Aborting repair task. Please stand by.^msplay Ship\Computer\Abort@Ext|
-The game has ended! The winner is *^mrplay;
-msplay Music\*30@Ext;
-#if {~%pos(~@Rext,~@LaserTagOrigRoom)>0} {
-mrplay ~@LaserTagOrigRoom
-};
-#class lasertag disable
+The game has ended! The winner is *^
+mrplay;
+msplay Music\*30@Ext
 }
 
-#var ComputerSpokenActions {
+#Var ComputerSpokenActions {
 Sensors detect an obstacle in the path of the wormhole. Aborting FTL travel...^msplay Ship\Move\PathBlocked@Ext|
 Autopilot engaged.^msplay Ship\Move\AutopilotEngaged@Ext|
 Autopilot disengaged.^msplay Ship\Move\AutopilotDisengaged@Ext|

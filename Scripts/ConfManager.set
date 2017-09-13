@@ -150,6 +150,7 @@ NumberOfConnections:0
 MoveMarkers:Ship:Marker
 LoadExtraScriptBabies:1
 LoadExtraScriptGames:1
+LoadExtraScriptLaserTag:1
 LoadExtraScriptSocials:1
 ArchaeologyCalculateDirection:0
 }}

@@ -492,9 +492,9 @@ msplay General\Misc\LeftPerson@Ext
   #Class StartReadingWhoList Enable;
   #Exec {>who};
   #If {%Defined(LastConnectedPlayers)=1} {
-   #Say {Checking...}
+   #Say {Checking...} NoDisplay
   } {
-   #Say {This is the first check since the soundpack was loaded.}
+   #Say {First check.} NoDisplay
   };
   #Alarm {0@{DecimalChar}2} {
    #Conf DisplayCommandsInOutput False;

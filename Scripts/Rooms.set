@@ -316,12 +316,14 @@ Apartment
  #If {@RoomTmp1>1} {
   #Var RoomTmp2 {%Word(%2,~(,2)};
   #Var RoomTmp2 {%Word(@RoomTmp2,~),1)};
-  #If {%Pos(~, ,@RoomTmp2)>0 and %NumWords(@RoomTmp2, )<4 and %IfWord(%1,Asteroid Surface,|)=0} {
+  #If {%Pos(~, ,@RoomTmp2)>0 and %NumWords(@RoomTmp2, )<4} {
    #Var MyXCoord {%Word(@RoomTmp2,~, ,1)};
    #Var MyYCoord {%Word(@RoomTmp2,~, ,2)};
    #If {%NumWords(@RoomTmp2,~,)=3} {#Var MyZCoord {%Word(@RoomTmp2,~, ,3)}} {#Var MyZCoord {}};
-   #If {@MyXCoord=@ArchArtiXCoord and @MyYCoord=@ArchArtiYCoord and @MyZCoord=@ArchArtiZCoord} {
-    msplay General\Archaeology\ArtifactHere@Ext
+   #If {%IfWord(%1,Asteroid Surface,|)=0} {
+    #If {@MyXCoord=@ArchArtiXCoord and @MyYCoord=@ArchArtiYCoord and @MyZCoord=@ArchArtiZCoord} {
+     msplay General\Archaeology\ArtifactHere@Ext
+    }
    }
   };
   #Var RoomTmp2 {%Word(%2,~(,@RoomTmp1)};
