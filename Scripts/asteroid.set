@@ -16,12 +16,12 @@
 #Trigger {The vehicle halts on the asteroid surface.} {
  msplay General\Asteroid\RampEnd@Ext;
  ExpPipe {%0} {%0} {};
- #sub {@ExpString}
+ #Sub {@ExpString}
 } {Main|Vehicle}
 #Trigger {The vehicle is seized by a pair of robotic arms and deposited back into the vehicle bay.} {
  msplay General\Asteroid\RampEnd@Ext;
  ExpPipe {%0} {%0} {};
- #sub {@ExpString}
+ #Sub {@ExpString}
 } {Main|Vehicle}
 #Trigger {The vehicle is jarred as a pair of robotic arms clamp around it and lift it into a small chamber above the docking bay.} {
  #GagLine 1 all;
@@ -33,7 +33,7 @@
   #Class asteroid enable;
   #Var Peers 1;
   ExpPipe {%0} {Moving %1 to %2.} {[%2]};
-  #sub {@ExpString}
+  #Sub {@ExpString}
  }
 } {Main|Vehicle}
 #Trigger {[[]Asteroid Surface]} {#gagline 1 all} {Main|asteroid}
@@ -58,41 +58,41 @@
 #Trigger {[{]*, *} (*)} {#if {@Surveying = 1} {#gagline 1 all}} {Main|NotStarship}
 #Trigger {You pull a cord out of a bulky diagnostic device and plug it into an available port on *.} {
  ExpPipe {%0} {[Diag] %1} {};
- #sub @ExpString
+ #Sub @ExpString
 } {Main|NotStarship}
 #Trigger {You unplug the cord from * and retract it back into a bulky diagnostic device.} {Msplay General\Asteroid\Diag@Ext;
 ExpPipe {%0} {You unplug the cord from %1.} {};
-#sub @ExpString} {Main}
+#Sub @ExpString} {Main}
 #Trigger {Mineral Pocket Detected: *} {#if {@ExperienceLevel = 3} {
 #gagline 1 all;
 #var MineralPocket %1
 }} {Main}
 #Trigger {Mineral Concentration: *} {#if {@ExperienceLevel = 3} {
-#sub {[@MineralPocket]: %1}
+#Sub {[@MineralPocket]: %1}
 }} {Main}
 #Trigger {The commotion from the storage bay stops as the cargo transfer is completed.} {msplay Ship\Misc\TransferEnd@Ext;
 ExpPipe {%0} {%0} {};
-#sub @ExpString} {Main}
+#Sub @ExpString} {Main}
 #Trigger {The ground shudders underfoot as materials are moved by *.} {ExpPipe {%0} {} {};
-#sub @ExpString;
+#Sub @ExpString;
 msplay General\Asteroid\Drill*@DrillSounds@Ext} {Main}
 #Trigger {A cloud of particulate matter floats up from the drilling area of * as it extracts * from a nearby source.} {ExpPipe {%0} {} {};
-#sub @ExpString;
+#Sub @ExpString;
 msplay General\Asteroid\Drill*@DrillSounds@Ext} {Main}
 #Trigger {A small light on * suddenly begins to glow as power pours into the unit.} {msplay General\Asteroid\Power@Ext} {Main}
 #Trigger {A small light on * suddenly fades as power to the unit is severed.} {msplay General\Asteroid\ReactorDisable@Ext} {Main}
 #Trigger {You orient the business end of * away from your face and activate it. A brilliant blue energy beam, carefully controlled to lose energy after about an inch of exposure, begins to issue forth from the barrel. You lean toward * and apply the beam to the nearest tear and begin sealing it.} {msplay General\Asteroid\MicroSealer*4@Ext;
 ExpPipe {%0} {%0} {You use %1 on %2.};
-#sub @ExpString} {Main}
+#Sub @ExpString} {Main}
 #Trigger {The drill bit of an excavation unit spins aimlessly as it attempts to drill into the area.} {msplay General\Asteroid\BrokenDrillBit@Ext} {Main}
 #Trigger {An excavation unit shudders violently as the drill bit, shakier than what seems normal, moves materials from a nearby source.} {msplay General\Asteroid\ShakyDrillBit@Ext} {Main}
 #Trigger {The drill bit of * suddenly catches, seizing up for a moment before drilling resumes.} {msplay General\Asteroid\ShakyDrillBit@Ext} {Main}
 #Trigger {The rover shudders violently as the arm * and begins rotating.} {msplay General\Asteroid\Rotating@Ext;
 ExpPipe {%0} {%0} {};
-#sub @ExpString} {Main}
+#Sub @ExpString} {Main}
 #Trigger {The mechanical whines begin again as the arm retracts back into the front of the rover.} {msplay General\Asteroid\Retract@Ext;
 ExpPipe {%0} {%0} {};
-#sub @ExpString} {Main}
+#Sub @ExpString} {Main}
 #Trigger {You input a* * command into *.} {#if {%2 = "activation"} {
 msplay General\Asteroid\ReactorEnable@Ext
 };
@@ -101,19 +101,27 @@ msplay General\Asteroid\ReactorDisable@Ext
 }} {Main}
 #Trigger {An excavation unit vibrates heavily as it encounters an area of difficulty drilling.} {msplay General\Asteroid\BrokenDrillBit@Ext} {Main}
 #Trigger {*You watch as a small ramp is extended from outside the hull to the asteroid surface.} {ExpPipe {%0} {} {};
-#sub @ExpString;
+#Sub @ExpString;
 msplay General\Asteroid\RampDown@Ext} {Main}
 #Trigger {The mechanical whines begin again as the arms retract and the top panel begins to close.} {msplay General\Asteroid\Retract@Ext;
 ExpPipe {%0} {} {};
-#sub @ExpString} {Main}
-#Trigger {Several loud banging sounds emanate from the cargo area behind you.} {msplay General\Asteroid\CargoBangs@Ext;
-ExpPipe {%0} {} {};
-#sub @ExpString} {Main}
-#Trigger {You carefully secure the end of a length of tubing to *.} {ExpPipe {%0} {%0} {Tubing attached to %1.};
-#sub @ExpString;
-msplay General\Asteroid\TubingAttach@Ext -30} {Main}
-#Trigger {You carefully disconnect the end of a length of tubing from *.} {ExpPipe {%0} {%0} {Tubing detached from %1.};
-#sub @ExpString} {Main}
+#Sub @ExpString} {Main}
+#Trigger {Several loud banging sounds emanate from the cargo area behind you.} {
+ msplay General\Asteroid\CargoBangs@Ext;
+ ExpPipe {%0} {} {};
+ #Sub @ExpString
+} {Main}
+#Trigger {You carefully * the end of a length of tubing *.} {
+ #If {%IfWord(%1,disconnect|secure,|)=0} {#Abort};
+ #If {%1="secure"} {
+  ExpPipe {%0} {%0} {Tubing secured %2.};
+  msplay General\Asteroid\TubingAttach@Ext -20
+ } {
+  ExpPipe {%0} {%0} {Tubing disconnected %2.};
+  msplay General\Asteroid\CableDetach@Ext -20
+ };
+ #Sub {@ExpString}
+} {Main|Ground}
 #Trigger {[{]*, *}} {#if {@Surveying = 2} {#gagline 1 all}} {Main}
 #Trigger {A large panel on the bottom of * slowly opens, causing a cascade of * to come tumbling out.} {msplay General\Asteroid\Dump@Ext} {Main}
 #Trigger {A small amount of * trickles out of a tear in *.} {msplay General\Asteroid\Trickle@Ext} {Main}
@@ -180,7 +188,7 @@ msplay General\Asteroid\TubingAttach@Ext -30} {Main}
    #var AsteroidObjectList {@@AsteroidObjectList@AtSaBetweenObjects@AsteroidObjectDirs}
   }
  };
- #sub {@AsteroidObjectList.};
+ #Sub {@AsteroidObjectList.};
  #Class AMap disable
 } {Main|AMap}
 #Trigger {You carefully secure the end of a thick power cable to *.} {msplay General\Asteroid\WireAttach@Ext} {Main}

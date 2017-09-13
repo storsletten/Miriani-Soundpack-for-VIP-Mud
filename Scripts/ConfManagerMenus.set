@@ -135,6 +135,7 @@ CameraPan|N:-4000^4000
 [5] Format string for Point Units  [~@PointUnitOutputString].
 [6] Show last known point values when using a point unit out of comms  [~%If(~@ShowPointsOOLS=1,On,Off)].
 [7] Show sector names as numbers in flight control messages  [~%If(~@ShowFCSectorNamesAsNumbers=1,On,Off)].
+[8] Calculate directions when using directional archaeology dig site scanners  [~%If(~@ArchaeologyCalculateDirection=1,On,Off)].
 %Chr(250)
 FormatMessageBoards|B
 MessageBoardFormatString|S:*||Use $SENDER for the message sender, $DATE for the date, $REFERENCE for the message reference, $SUBJECT for the subject line, and $VOTES for the votes (if any).
@@ -143,6 +144,7 @@ ShoppingGuideFormatString|S:*
 PointUnitOutputString|S:*
 ShowPointsOOLS|B
 ShowFCSectorNamesAsNumbers|B
+ArchaeologyCalculateDirection|B
 }
 
 #Var ConfMenuSocials {Configure socials:

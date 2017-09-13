@@ -1,127 +1,221 @@
+#If {%Defined(ArchArtiDepth)=0} {#Var ArchArtiDepth 0}
+#If {%Defined(ArchDigDepth)=0} {#Var ArchDigDepth 0}
+
 #Alias {MArchPlay} {mrandomplay General\Archaeology\Random*9@Ext} {}
-#trigger {A level * archaeological dig site scanner indicates that you *} {
- msplay general\archaeology\artifactNear@Ext;
- ExpPipe {%0} {You %2.} {You %2};
+
+#Trigger {You press a small button on the side of a level * archaeological dig site scanner and begin directing it toward several likely locations.} {
+ #Var ArchDigDepth 0;
+ #Var ArchArtiDepth 0;
+ msplay general\archaeology\scanner*4@Ext;
+ ExpPipe {%0} {:Voice:%0} {:Voice:Scanning...};
  #Sub {@ExpString}
-} {Main|NotStarship}
-#Trigger {A level * archaeological dig site scanner reports that there is a* object *.} {
- ExpPipe {%0} {%0} {Object %3.};
- #sub {@ExpString};
- msplay General\Archaeology\ArtifactNear@Ext
-} {Main|NotStarship}
-#Trigger {A level * archaeological dig site scanner reports that there is an object in the immediate area.} {
- ExpPipe {%0} {%0} {Object in the immediate area.};
- #sub {@ExpString};
- msplay General\Archaeology\ArtifactNear@Ext
-} {Main|NotStarship}
-#Trigger {A level * archaeological dig site scanner indicates that there is an artifact buried approximately * feet beneath the surface.} {
- msplay General\Archaeology\ArtifactHere@Ext
- msplay general\archaeology\artifacthere@Ext;
- ExpPipe {%0} {There is an artifact approximately %2 feet beneath the surface.} {%2};
- #Sub {@ExpString}
-} {Main|NotStarship}
-#Trigger {A level * archaeological dig site scanner reports nothing nearby.} {
- ExpPipe {%0} {%0} {Nothing nearby.};
- #sub {@ExpString};
- msplay General\Archaeology\NothingFound@Ext
-} {Main|NotStarship}
-#trigger {A level * archaeological dig site scanner indicates that nothing is buried nearby.} {
- ExpPipe {%0} {%0} {Nothing buried in this site};
- #sub {@ExpString};
- msplay General\Archaeology\NothingFound@Ext
-} {Main|NotStarship}
-#trigger {Your digging reveals *. You stoop down and quickly retrieve it.} {
- SetVariable ArchaeologyHelperArtifactName %1;
+} {Main|Ground}
+#Trigger {A level * archaeological dig site scanner *} {
+ #If {%IfWord(%Word(%2, ,1),indicates reports, )=1} {
+  #If {%IfWord(%2,indicates that nothing is buried nearby.|reports nothing nearby.,|)=1} {
+   #If {%Pos(reports,%2)=1} {
+    ExpPipe {%0} {%0} {Nothing nearby.}
+   } {
+    ExpPipe {%0} {%0} {Nothing buried in this dig site.}
+   };
+   #Sub {@ExpString};
+   msplay General\Archaeology\NothingFound@Ext;
+   #Abort
+  };
+  #If {%Pos(indicates that there is an artifact buried approximately ,%2)=1} {
+   #Var ArchArtiDepth {%Word(%2, ,9)};
+   ExpPipe {%0} {There is an artifact approximately @ArchArtiDepth feet beneath the surface.} {@ArchArtiDepth feet.};
+   #Sub {@ExpString};
+   #If {%Pos(.,@ArchArtiDepth)>0} {
+    #If {%Word(@ArchArtiDepth,.,1)=0} {
+     #Var ArchArtiDepth {%Left(%Word(@ArchArtiDepth,.,2),1)}
+    } {
+     #Var ArchArtiDepth {%Copy(@ArchArtiDepth,1,%Eval(%Pos(.,@ArchArtiDepth)+1))};
+     #Var ArchArtiDepth {%Replace(@ArchArtiDepth,.,)}
+    }
+   } {
+    #Var ArchArtiDepth {@{ArchArtiDepth}0}
+   };
+   #If {%IsNumber(@ArchArtiDepth)=0} {#Var ArchArtiDepth 0};
+   msplay General\Archaeology\ArtifactHere@Ext;
+   #Abort
+  };
+  #If {@ArchaeologyCalculateDirection=1 and %Pos(indicates that you should move to ~(,%2)=1 and %Right(%2,2)=")."} {
+   #Var ArchTmp1 {%Word(%2,~(,2)};
+   #Var ArchTmp1 {%Word(@ArchTmp1,~),1)};
+   #If {%Pos(~, ,@ArchTmp1)>0 and %NumWords(@ArchTmp1, )<4} {
+    #Var ArchArtiXCoord {%Word(@ArchTmp1,~, ,1)};
+    #Var ArchArtiYCoord {%Word(@ArchTmp1,~, ,2)};
+    #If {%NumWords(@ArchTmp1,~,)=3} {#Var ArchArtiZCoord {%Word(@ArchTmp1,~, ,3)}} {#Var ArchArtiZCoord {@MyZCoord}};
+    #If {%Defined(MyXCoord)=1 and %Defined(MyYCoord)=1 and %Defined(MyZCoord)=1} {
+     #Var ArchTmp1 0;
+     #Var ArchTmp2 {};
+     #If {@ArchArtiXCoord<>@MyXCoord} {
+      #If {@ArchArtiXcoord>@MyXCoord} {
+       #Math ArchTmp1 {@ArchArtiXCoord-@MyXCoord};
+       #Var ArchTmp2 {@{ArchTmp2}, @{ArchTmp1}E}
+      } {
+       #Math ArchTmp1 {@MyXCoord-@ArchArtiXCoord};
+       #Var ArchTmp2 {@{ArchTmp2}, @{ArchTmp1}W}
+      }
+     };
+     #If {@ArchArtiYCoord<>@MyYCoord} {
+      #If {@ArchArtiYCoord>@MyYCoord} {
+       #Math ArchTmp1 {@ArchArtiYCoord-@MyYCoord};
+       #Var ArchTmp2 {@{ArchTmp2}, @{ArchTmp1}S}
+      } {
+       #Math ArchTmp1 {@MyYCoord-@ArchArtiYCoord};
+       #Var ArchTmp2 {@{ArchTmp2}, @{ArchTmp1}N}
+      }
+     };
+     #If {@ArchArtiZCoord<>@MyZCoord} {
+      #If {@ArchArtiZCoord>@MyZCoord} {
+       #Math ArchTmp1 {@ArchArtiZCoord-@MyZCoord};
+       #Var ArchTmp2 {@{ArchTmp2}, @{ArchTmp1}D}
+      } {
+       #Math ArchTmp1 {@MyZCoord-@ArchArtiZCoord};
+       #Var ArchTmp2 {@{ArchTmp2}, @{ArchTmp1}U}
+      }
+     };
+     #If {%Length(@ArchTmp2)>0} {#Sub {%Copy(@ArchTmp2,3,%Eval(%Length(@ArchTmp2)-2))}};
+     #UnVar ArchTmp2
+    }
+   };
+   #UnVar ArchTmp1;
+   msplay General\Archaeology\ArtifactNear@Ext;
+   #Abort
+  };
+  #If {%Pos( object ,%2)>0} {
+   ExpPipe {%0} {%0} {Object %Word(%2, object ,2)};
+   #Sub {@ExpString};
+   msplay General\Archaeology\ArtifactNear@Ext;
+   #Abort
+  };
+  #If {%Word(%2, ,2)="that"} {
+   ExpPipe {%0} {%0} {%Proper(%Delete(%2,1,%Eval(%Pos( ,%2)+5)))};
+   #Sub {@ExpString}
+  };
+  msplay General\Archaeology\ArtifactNear@Ext
+ }
+} {Main|Ground}
+#Trigger {Your digging reveals *. You stoop down and quickly retrieve it.} {
+ #Var ArchArtiDepth 0;
+ #Var ArchaeologyHelperArtifactName %1;
  ExpPipe {%0} {%0} {You get %1.};
  #if {@ArchaeologyHelperCountArtifacts=1} {
   #if {%IsNumber(@ArchaeologyHelperNumberOfArtifacts)=1} {
    #Math ArchaeologyHelperNumberOfArtifacts {@ArchaeologyHelperNumberOfArtifacts + 1}
   } {
-   SetVariable ArchaeologyHelperNumberOfArtifacts 1
+   #Var ArchaeologyHelperNumberOfArtifacts 1
   };
   #var ExpString {[@ArchaeologyHelperNumberOfArtifacts]: @ExpString}
  };
  #sub {@ExpString};
  msplay General\Archaeology\ArtifactGet@Ext
-} {Main|NotStarship}
+} {Main|Ground}
+
+#Trigger {A clump of loose soil comes free from * and plops back to the ground.} {
+ msplay General\Archaeology\Soil@Ext;
+ MArchPlay;
+ ExpPipe {%0} {%0} {:Voice:%0};
+ #Sub {@ExpString}
+} {Main|Ground}
 #Trigger {A few pebbles fall to the bottom of the hole.} {
  msplay General\Archaeology\Pebbles@Ext;
  ExpPipe {%0} {%0} {:Voice:%0};
  #Sub {@ExpString}
-} {Main|NotStarship}
-#Trigger {A clump of loose soil comes free from * and plops back to the ground.} {
- msplay General\Archaeology\Soil@Ext;
- ExpPipe {%0} {%0} {:Voice:%0};
- #Sub {@ExpString}
-} {Main|NotStarship}
-#Trigger {A clump of loose soil comes free from A small shovel and plops back to the ground.} {
-MArchPlay;
- ExpPipe {%0} {%0} {:Voice:%0};
- #Sub {@ExpString}
-} {Main|NotStarship}
+} {Main|Ground}
 #Trigger {A furry animal burrows deeper into the ground as * threatens to fully expose it.} {
  MArchPlay;
  ExpPipe {%0} {%0} {:Voice:%0};
  #Sub {@ExpString}
-} {Main|NotStarship}
+} {Main|Ground}
 #Trigger {A hard-shelled green insect scuttles up the wall of the hole and scurries away.} {
  MArchPlay;
  ExpPipe {%0} {%0} {:Voice:%0};
  #Sub {@ExpString}
-} {Main|NotStarship}
-#Trigger {An eighteen-legged insect that greatly resembles an orange stone sidles along the walls of the hole before eventually falling back to the bottom.} {
- MArchPlay;
- ExpPipe {%0} {%0} {:Voice:%0};
- #Sub {@ExpString}
-} {Main|NotStarship}
-#Trigger {A strange bug suddenly sidles out of the freshly dug dirt.} {
- MArchPlay;
- ExpPipe {%0} {%0} {:Voice:%0};
- #Sub {@ExpString}
-} {Main|NotStarship}
-#Trigger {A plump red insect burrows deeper into the dirt as * comes near.} {
- MArchPlay;
- ExpPipe {%0} {%0} {:Voice:%0};
- #Sub {@ExpString}
-} {Main|NotStarship}
-#Trigger {A small pool of sludge bubbles to the surface and evens out over the ground.} {
- msplay General\Socials\SlimePuddleSplat@Ext;
- ExpPipe {%0} {%0} {:Voice:%0};
- #Sub {@ExpString}
-} {Main|NotStarship}
+} {Main|Ground}
 #Trigger {A large insect with a rather prominent stinger whizzes by.} {
  MArchPlay;
  ExpPipe {%0} {%0} {:Voice:%0};
  #Sub {@ExpString}
-} {Main|NotStarship}
-#Alias ArchGoal {
- #if {%IsNumber(%1)=1} {
-  SetVariable ArchGoalTmp1 %1;
-  #class archgoal enable;
-  info archaeology
- } {
-  ConfPrint {Please supply a number.}
- }
-} {}
-#Trigger {Archaeological artifacts: *} {
- #sub {You need %eval(@ArchGoalTmp1 - %1) artifacts to reach your goal of @ArchGoalTmp1 artifacts.};
- #class archgoal disable
-} {archgoal}
+} {Main|Ground}
+#Trigger {A plump red insect burrows deeper into the dirt as * comes near.} {
+ MArchPlay;
+ ExpPipe {%0} {%0} {:Voice:%0};
+ #Sub {@ExpString}
+} {Main|Ground}
+#Trigger {A small pool of sludge bubbles to the surface and evens out over the ground.} {
+ msplay General\Socials\SlimePuddleSplat@Ext;
+ ExpPipe {%0} {%0} {:Voice:%0};
+ #Sub {@ExpString}
+} {Main|Ground}
+#Trigger {A strange bug suddenly sidles out of the freshly dug dirt.} {
+ MArchPlay;
+ ExpPipe {%0} {%0} {:Voice:%0};
+ #Sub {@ExpString}
+} {Main|Ground}
+#Trigger {An eighteen-legged insect that greatly resembles an orange stone sidles along the walls of the hole before eventually falling back to the bottom.} {
+ MArchPlay;
+ ExpPipe {%0} {%0} {:Voice:%0};
+ #Sub {@ExpString}
+} {Main|Ground}
+
 #Trigger {The hud on a* flashes alarmingly, indicating the oxygen supply has dropped below *.} {
  msplay {General\Misc\Warning@Ext};
  ExpPipe {%0} {%0} {Oxygen supply is below %2.};
  #Sub {@ExpString}
 } {Main}
-#Trigger {You firmly wedge a sleek metallic digging apparatus into the ground and press a trigger on the handle. The attached shovel immediately goes to work, sending debris *.} {
- #GagLine 1 All;
- msplay general\archaeology\shovel*14@Ext
+#Trigger {* thrust* a small shovel into the ground and begin* methodically removing large chunks of dirt.} {
+ #Var ArchLastDigAmount 5;
+ #Math ArchDigDepth {@ArchDigDepth+@ArchLastDigAmount};
+ #If {%Pos(You,%1)=1 and %Length(%1)=3} {
+  #GagLine 1 All;
+  msplay general\archaeology\shovel*14@Ext
+ } {
+  ExpPipe {%0} {%0} {%1 digs.};
+  #Sub {@ExpString};
+  msplay general\archaeology\shovel*14@Ext -10
+ }
 } {Main|Ground}
-#Trigger {You *cease digging.} {
- #gagline 1 all;
- msplay General\Archaeology\Cease@Ext
+#Trigger {* firmly wedge* a sleek metallic digging apparatus into the ground and press* a trigger on the handle. The attached shovel immediately goes to work, sending debris *.} {
+ #Var ArchLastDigAmount 20;
+ #Math ArchDigDepth {@ArchDigDepth+@ArchLastDigAmount};
+ #Var ArchTmp1 {};
+ #If {@ArchDigDepth<=@ArchArtiDepth and %Eval(@ArchDigDepth+20)>=@ArchArtiDepth} {
+  #Math ArchTmp1 {@ArchArtiDepth-@ArchDigDepth};
+  #If {@ArchTmp1>9} {#Var ArchTmp1 {%Left(@ArchTmp1,1).%Right(@ArchTmp1,1)}} {#Var ArchTmp1 {0.@ArchTmp1}}
+ };
+ #If {%Pos(You,%1)=1 and %Length(%1)=3} {
+  #If {%Length(@ArchTmp1)>0} {
+   #Sub {@ArchTmp1 feet left.}
+  } {
+   #GagLine 1 All
+  };
+  msplay general\archaeology\shovel*14@Ext
+ } {
+  #If {%Length(@ArchTmp1)>0} {
+   ExpPipe {%0} {%0} {%1 digs with an automatic shovel, and it seems that it's only @ArchTmp1 feet left to the artifact.}
+  } {
+   ExpPipe {%0} {%0} {%1 digs with an automatic shovel.}
+  };
+  #Sub {@ArchTmp1};
+  msplay general\archaeology\shovel*14@Ext -10
+ };
+ #UnVar ArchTmp1
 } {Main|Ground}
-#Trigger {You press a small button on the side of a level * archaeological dig site scanner and begin directing it toward several likely locations.} {
- msplay general\archaeology\scanner*4@Ext;
- ExpPipe {%0} {Scanning.} {:Voice:Scanning};
- #Sub {@ExpString}
-} {Main}
+#Trigger {* digging.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0 and %IfWord(%Word(%1, ,%NumWords(%1, )),cease ceases stop stops, )=1} {
+  #If {%Pos(You ,%1)=1} {
+   #GagLine 1 All;
+   msplay General\Archaeology\Cease@Ext
+  } {
+   #If {%Defined(ArchLastDigAmount)=1} {#GagLine 1 All};
+   msplay General\Archaeology\Cease@Ext -10
+  };
+  #If {%Defined(ArchLastDigAmount)=1} {
+   #If {@ArchDigDepth=0} {#Math ArchDigDepth {@ArchDigDepth+@ArchLastDigAmount}};
+   #UnVar ArchLastDigAmount
+  }
+ }
+} {Main|Ground}

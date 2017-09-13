@@ -1,8 +1,0 @@
-#Exec {SetVariable DigDepth 0}
-#Trigger {You firmly wedge a sleek metallic digging apparatus into the ground and press a trigger on the handle. The attached shovel immediately goes to work, sending debris *.} {#math DigDepth {@DigDepth + 15}} {}
-#Trigger {* cease digging.} {
- #math DigDepth {@DigDepth + 5};
- SetVariable DigDepthTxt {%eval(%eval(%if(%eval(@DigDepth \ 10) > 0,%eval(@DigDepth + 5),%eval(@DigDepth + 10)) / 10) - 1).%eval(@DigDepth \ 10)};
- ConfPrint {You have dug @DigDepthTxt feet down.}
-} {}
-#Trigger {You can go *} {SetVariable DigDepth 0} {}

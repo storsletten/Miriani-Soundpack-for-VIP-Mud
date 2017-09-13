@@ -151,6 +151,7 @@ MoveMarkers:Ship:Marker
 LoadExtraScriptBabies:1
 LoadExtraScriptGames:1
 LoadExtraScriptSocials:1
+ArchaeologyCalculateDirection:0
 ArchaeologyHelperCountArtifacts:1
 ArchaeologyHelperStoreFromCount:1
 }}

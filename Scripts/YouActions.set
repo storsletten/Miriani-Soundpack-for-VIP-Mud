@@ -242,30 +242,26 @@ feel a slight acceleration as the starship begins an inter-bay landing procedure
  msplay Ship\Move\RingEnd~@Ext;
  ExpPipe {~%0} {The starship begins an inter-bay landing procedure.} {}
 |
-thrust a small shovel into the ground and begin methodically removing large chunks of dirt.^
- #gagline 1 all;
- msplay general\archaeology\shovel*14~@Ext
-|
 begin gently brushing dirt aside with a small brush.^
- #gagline 1 all;
+ #GagLine 1 all;
  msplay General\Archaeology\Brush*8~@Ext
 |
 suddenly feel more skilled in Archaeology!^msplay General\Archaeology\practice~@Ext
 |
 spend a moment searching for a suitable location to deploy an asteroid anchor.^
- #Gagline 1 ALL;
+ #GagLine 1 ALL;
  msplay General\Asteroid\AnchorStart~@Ext
 |
 begin to painstakingly tie a coil of sturdy line to an asteroid anchor.^
- #Gagline 1 ALL;
+ #GagLine 1 ALL;
  msplay General\Asteroid\LineStart~@Ext
 |
 step back and admire your handiwork.^
- #Gagline 1 ALL;
+ #GagLine 1 ALL;
  msplay General\Asteroid\LineEnd~@Ext
 |
 press a button on the side of an asteroid anchor, which works its way out of the ground. You pick it up.^
- #Gagline 1 ALL;
+ #GagLine 1 ALL;
  msplay General\Asteroid\AnchorRemove~@Ext
 |
 grab a gargantuan multi-colored heavily rounded bloated sparkling shiny insectoid creature by an antenna and begin forcibly hauling it around.^msplay General\Misc\Joins~@Ext
@@ -292,7 +288,7 @@ press your hand against a door sensor^
  DontStopSpeaking
 |
 feel the pull of acceleration as the craft navigates through the atmosphere.^
- #Gagline 1 ALL;
+ #GagLine 1 ALL;
  msplay Atmo\Salvagemove~@Ext
 |
 climb out of the vehicle.^
@@ -302,18 +298,18 @@ climb out of the vehicle.^
  #var AllowEnhancedNumpad 1
 |
 carefully pilot the vehicle into a small chamber above the docking bay.^
- #gagline 1 all;
+ #GagLine 1 all;
  msplay Atmo\LaunchSequence~@Ext
 |
 hear a sharp hissing as the hatch seals itself and the cockpit is pressurized.^
- #gagline 1 all;
+ #GagLine 1 all;
  msplay Atmo\Hatch~@Ext
 |
 start spraying a damaged section of the cockpit with repair paste which quickly hardens into a plastic-like substance, sealing off the tiny cracks in the hull.^
  msplay Atmo\RepairStart~@Ext
 |
 are suddenly hurled into your seat as the vehicle speeds up even more to escape from the planet's gravity.^
- #gagline 1 all;
+ #GagLine 1 all;
  msplay Atmo\Engine~@Ext
 |
 are suddenly seized by a powerful EM field and deposited into an escape pod.^
@@ -326,15 +322,15 @@ feel mild acceleration as the pod descends.^msplay Ship\Misc\EscapePodDescend~@E
 hear a gentle hum as the weapons power up.^
  mtplay;
  msplay Ship\Combat\WeaponsOn~@Ext;
- #Gagline 1 ALL
+ #GagLine 1 ALL
 |
 hear the gentle hum begin to fade as the weapons power down.^
  thememusicfadeout;
  msplay Ship\Combat\WeaponsOff~@Ext;
- #Gagline 1 ALL
+ #GagLine 1 ALL
 |
 hear a high-pitched squeal followed by three distinct pulsing sounds as the laser turrets are fired in synch.^
- #gagline 1 all;
+ #GagLine 1 all;
  msplay Ship\Combat\PlanetaryLaser~@Ext
 |
 press a large button marked CYCLE.^
@@ -351,32 +347,32 @@ push a small lever away from you, activating the ship's systems.^msplay Ship\Mis
 |
 feel a mild vibration as the starship's asteroid anchor buries itself into the asteroid's surface.^
  msplay General\Asteroid\ShipAnchorStart~@Ext;
- #Gagline 1 ALL
+ #GagLine 1 ALL
 |
 hear the sounds of cargo being transferred.^
  mrandomplay Ship\Misc\TransferStart~@Ext;
- #Gagline 1 ALL
+ #GagLine 1 ALL
 |
 hear the bustle of activity from the ship's cargo hold.^
  mrandomplay Ship\Misc\Transfer*3~@Ext;
- #Gagline 1 ALL
+ #GagLine 1 ALL
 |
 hear several loud thuds as cargo is transferred from the ship.^
  mrandomplay Ship\Misc\TransferStart~@Ext;
- #Gagline 1 ALL
+ #GagLine 1 ALL
 |
 seem to be having difficulty with the controls in your inebriated condition.^msplay Ship\Misc\Drunk~@Ext
 |
 press a few keys on a keypad.^msplay Ship\Misc\DoorUnlock~@Ext
 |
-are in uncharted space. As you float around in your protective cocoon you notice there are no planets visible in the vicinity. As you stare out into the black of space a bleak, dark nothingness stares back.^#Gagline 1 All
+are in uncharted space. As you float around in your protective cocoon you notice there are no planets visible in the vicinity. As you stare out into the black of space a bleak, dark nothingness stares back.^#GagLine 1 All
 |
 carefully replace a heavy panel back on the wall, concealing the exposed equipment.^msplay Ship\Misc\PanelClose~@Ext
 |
 lift a heavy panel from the wall, exposing an assortment of wires, switches, and equipment.^msplay Ship\Misc\PanelOpen~@Ext
 |
 hear a piercing sound emanating from deep within the bowels of the ship.^
- #gagline 1 all;
+ #GagLine 1 all;
  mrandomplay Ship\Misc\Repair*11~@Ext
 |
 pull on a small lever, but it seems to be stuck in the ON position. You fear any further force would snap it right off.^msplay Ship\Misc\Drunk~@Ext
@@ -534,7 +530,7 @@ feel the pull of acceleration as the ship begins ascending through the planet's 
  msplay Atmo\Salvagemove~@Ext
 |
 feel the pull of acceleration as the craft navigates through the atmosphere.^
- #Gagline 1 ALL;
+ #GagLine 1 ALL;
  msplay Atmo\Salvagemove~@Ext
 |
 hear a thunk as a chunk of charged weapons-grade bardenium is fired from the ship's cannons.^
