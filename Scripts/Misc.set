@@ -496,9 +496,11 @@ msplay General\Misc\LeftPerson@Ext
   } {
    #Say {This is the first check since the soundpack was loaded.}
   };
-  #Conf DisplayCommandsInOutput False;
-  #Exec {>#$#soundpack_ping};
-  #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
+  #Alarm {0@{DecimalChar}2} {
+   #Conf DisplayCommandsInOutput False;
+   #Exec {>#$#soundpack_ping};
+   #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
+  }
  }
 } {}
 
