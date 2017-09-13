@@ -1,3 +1,6 @@
+Version 5.8.22, released 2017-09-13:
+* For 2.0: Possibly made whoc a little more reliable.
+
 Version 5.8.21, released 2017-09-13:
 * For 2.0: Integrated most of the extras pertaining to archaeology into the main soundpack code, and greatly improved things in the process. For those of you who were used to the ArchaeologyHelper extra, there's now a new option in conf gadgets which toggles that functionality. And archaeology should now work without throwing errors in 3D aquatic environments. I hope these new changes are not too buggy.
 
