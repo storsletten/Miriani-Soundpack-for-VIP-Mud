@@ -1,6 +1,5 @@
 #Var ExtraScriptFiles {
 Babies^Baby sounds
-Books^Makes reading books a bit easier (try turnpage after reading a page)
 Cannons^Alerts you of how many shots you have remaining, and plays a sound after the last shot is fired
 Development^Contains useful tools for soundpack development
 Fishing^Adds sounds for fishing

@@ -131,9 +131,9 @@
  ExpPipe {%0} {%0} {%1 shuts down};
  #Sub {@ExpString}
 } {Main}
-#Trigger {A * falls to the ground, disabled.} {
+#Trigger {A* falls to the ground, disabled.} {
  msplay General\Combat\Shutdown*4@Ext;
- ExpPipe {%0} {%0} {%1 disabled};
+ ExpPipe {%0} {%0} {A%1 disabled.};
  #Sub {@ExpString}
 } {Main}
 #Trigger {You crouch behind *, using * for cover.} {

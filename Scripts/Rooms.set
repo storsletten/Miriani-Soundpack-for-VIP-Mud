@@ -483,3 +483,22 @@ Apartment
  DontStopSpeaking
 } {Main}
 #Trigger {* press* a button on the wall to summon the lift.} {msplay general/lift/LiftButton@Ext} {Main}
+#Trigger {With a gentle rock, the pod sets down *.} {
+ msplay General\Misc\ITPNArrive@Ext;
+ ExpPipe {%0} {The pod sets down %1.} {};
+ #sub @ExpString
+} {Main|NotStarship}
+#Trigger {You hear the sound of the pod's engines as it accelerates *.} {
+ #If {%Pos(toward,%1)=1} {
+  msplay Ship\Move\YouLanding@Ext;
+  ExpPipe {%0} {The pod accelerates %1.} {:Voice:The pod accelerates %1.}
+ } {
+  msplay ACV\ACVStart@Ext;
+  ExpPipe {%0} {The pod accelerates %1.} {}
+ };
+ #Sub @ExpString
+} {Main|NotStarship}
+#Trigger {*The sound of the pod's engine suddenly fills the area as the pod begins moving toward its destination*} {#GagLine 1 All;
+msplay general\misc\podgo@Ext} {Main}
+#Trigger {*You feel the mild pull of acceleration as the pod begins to set down*} {#GagLine 1 All;
+msplay general\misc\podstop@Ext} {Main}

@@ -168,8 +168,6 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
 }
 } {Main}
 
-#Trigger {* The siege begins!} {msplay music\*30@Ext} {Main}
-#Trigger {*, having no army remaining, has failed to defeat *!} {msplay music*30@Ext} {Main}
 #Trigger {Directions from * to *: *.} {expPipe {:0:%0} {:0:%1 to %2: %3.} {:0:%2: %3.};
 #sub @ExpString} {Main}
 #Trigger {* arrives, looking vaguely puzzled.} {msplay General\Misc\DoorChime@Ext} {Main}
