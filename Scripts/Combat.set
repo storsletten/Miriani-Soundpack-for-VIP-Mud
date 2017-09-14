@@ -51,11 +51,6 @@
   }
  }
 } {Main}
-#Trigger {A loud clicking is followed by the clatter of an empty cartridge to the floor.} {
- msplay General\Combat\EmptyGun2@Ext;
- ExpPipe {%0} {:Voice:%0} {:Voice:Empty};
- #Sub {@ExpString}
-} {Main}
 #Trigger {* aims a* at * and activates it.} {
  msplay General\Combat\EMPulse@Ext;
  ExpPipe {%0} {%0} {%1 aims a%2 at %3 and activates it};
@@ -260,7 +255,6 @@ msplay General\Combat\ShotMisses@Ext} {Main}
  };
  #Sub {@ExpString}
 } {Main}
-#Trigger {A bulky stun armor battery pack} {#Class BatteryPackScanner Enable} {Main}
 #Trigger {It appears to be *.} {
  #If {@ExperienceLevel>1} {
   #class BatteryPack Enable;

@@ -120,42 +120,12 @@
  ExpPipe {%0} {%0} {:Voice:%0};
  #Sub {@ExpString}
 } {Main|Ground}
-#Trigger {A few pebbles fall to the bottom of the hole.} {
- msplay General\Archaeology\Pebbles@Ext;
- ExpPipe {%0} {%0} {:Voice:%0};
- #Sub {@ExpString}
-} {Main|Ground}
 #Trigger {A furry animal burrows deeper into the ground as * threatens to fully expose it.} {
  MArchPlay;
  ExpPipe {%0} {%0} {:Voice:%0};
  #Sub {@ExpString}
 } {Main|Ground}
-#Trigger {A hard-shelled green insect scuttles up the wall of the hole and scurries away.} {
- MArchPlay;
- ExpPipe {%0} {%0} {:Voice:%0};
- #Sub {@ExpString}
-} {Main|Ground}
-#Trigger {A large insect with a rather prominent stinger whizzes by.} {
- MArchPlay;
- ExpPipe {%0} {%0} {:Voice:%0};
- #Sub {@ExpString}
-} {Main|Ground}
 #Trigger {A plump red insect burrows deeper into the dirt as * comes near.} {
- MArchPlay;
- ExpPipe {%0} {%0} {:Voice:%0};
- #Sub {@ExpString}
-} {Main|Ground}
-#Trigger {A small pool of sludge bubbles to the surface and evens out over the ground.} {
- msplay General\Socials\SlimePuddleSplat@Ext;
- ExpPipe {%0} {%0} {:Voice:%0};
- #Sub {@ExpString}
-} {Main|Ground}
-#Trigger {A strange bug suddenly sidles out of the freshly dug dirt.} {
- MArchPlay;
- ExpPipe {%0} {%0} {:Voice:%0};
- #Sub {@ExpString}
-} {Main|Ground}
-#Trigger {An eighteen-legged insect that greatly resembles an orange stone sidles along the walls of the hole before eventually falling back to the bottom.} {
  MArchPlay;
  ExpPipe {%0} {%0} {:Voice:%0};
  #Sub {@ExpString}

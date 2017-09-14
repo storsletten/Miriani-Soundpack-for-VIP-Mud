@@ -150,17 +150,9 @@ ExpPipe {%0} {Ship transported to %1.} {};
 #Gagline 1 all} {Main|Starship}
 #Trigger {A loud bang emanates from the * as * haul cargo *.} {mrandomplay Ship\Misc\Transfer*3@Ext;
 #Gagline 1 all} {Main|Starship}
-#Trigger {A haunting screech drifts in from the storage room as something heavy is dragged across the floor.} {mrandomplay Ship\Misc\Transfer*3@Ext;
-#Gagline 1 all} {Main|Starship}
 #Trigger {*A fuzzy creature, appearing momentarily dazed, disengages itself from *.*} {msplay General\Combat\Fuzzy@Ext} {Main|Starship}
 #Trigger {* *s through the hatch.} {msplay Ship\Misc\Hatch@Ext} {Main}
 #Alias {music} {cmusic} {}
-#Trigger {A security drone appears and drags you off the ship.} {
- thememusicfadeout;
- msplay Ship\Misc\AirlockExit@Ext;
- ExpPipe {%0} {%0} {:Voice:Booted.};
- #Sub {@ExpString}
-} {Main|Starship}
 #Trigger {A security drone suddenly appears to escort you off the ship*} {thememusicfadeout;
 msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
 #Trigger {Space.} {

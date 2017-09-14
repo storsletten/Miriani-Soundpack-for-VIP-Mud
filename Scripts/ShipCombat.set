@@ -226,8 +226,6 @@ ConfPrint {@ShipCombatTmp1}
  ExpPipe {%0} {%0} {Hit by %1};
  #Sub {@ExpString}
 } {Main|Starship}
-#Trigger {A high-pitched, wobbling alarm sounds as the hull begins breaking up around you.} {msplay Ship\Combat\YouDestroyed*3@Ext;
-#Gagline 1 ALL} {Main|Starship}
 #Trigger {With one final burst of acceleration, the pod emerges from the wormhole and begins accelerating through space under the power of the relativity drive.} {ExpPipe {%0} {} {};
 #Sub @ExpString;
 msplay Ship\Misc\EscapePodWormHoleJump2@Ext} {Main|InEscapePod}
@@ -416,14 +414,6 @@ msplay Ship\Misc\DockingBayDoorClose@Ext
  ExpPipe {%0} {The ship comes into contact with %1.} {The ship hits %1.};
  #Sub @ExpString;
  msplay Ship\Combat\YouHit*6@Ext
-} {Main|Starship}
-#Trigger {A faint crackling can be heard as the interdiction field generator continues to power up.} {
- ExpPipe {%0} {%0} {};
- #Sub @ExpString;
- msplay Ship\Combat\InterdictStart@Ext
-} {Main|Starship}
-#Trigger {You hear a high-pitched squeal followed by three distinct pulsing sounds as the laser turrets are fired in sync.} {#Gagline ALL;
- msplay Ship\Combat\mod@Ext
 } {Main|Starship}
 #Trigger {You hear a series of loud bangs as * missiles explode on the hull.} {
  MrandomPlay Ship\Combat\Projectile*3.wav;

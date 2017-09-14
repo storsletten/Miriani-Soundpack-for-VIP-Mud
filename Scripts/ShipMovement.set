@@ -47,7 +47,6 @@
  ExpPipe {%0} {Slip complete.} {};
  #sub {@ExpString}
 } {Main|Starship}
-#Trigger {A bright flash of blue light floods the room as the starship travels through the wormhole.} {#GagLine 1 All} {Main|Starship}
 #Trigger {With a sharp lurch, the starship completes its intrasector wavewarp. The pulsing sound stops as the wavewarp drive powers down.} {
  msplay General\Misc\Beep*10@Ext;
  msplay Ship\Misc\Background*5@Ext;
@@ -58,8 +57,6 @@
 ExpPipe {%0} {} {};
 #sub {@ExpString}} {Main|Starship}
 #Trigger {Uninhabited landing is not supported at this time.} {msplay Ship\Move\DontLand@Ext} {Main|Starship}
-#Trigger {A wave of nausea comes over you as gravity around the ship is twisted and bent.} {#GagLine 1 All;
-msplay Ship\Move\BiasContinues@Ext} {Main|Starship}
 #Trigger {The mild vibration of acceleration eases off *.} {
  msplay General\Misc\Beep*10@Ext;
  ExpPipe {%0} {:Voice:%0} {:Voice:Landed};
@@ -157,11 +154,6 @@ msplay Ship\Move\QVAContinue@Ext} {Main|Starship}
  #Sub @ExpString;
  msplay Ship\Move\ArrayLight@Ext
 } {Main|Starship}
-#Trigger {An intense burst of static begins emanating from every nearby radio. The lights dim momentarily as a barely perceptible rumbling vibrates the deck below you.} {
- ExpPipe {%0} {%0} {};
- #Sub @ExpString;
- msplay Ship\Move\ArrayStatic@Ext
-} {Main|Starship}
 #Trigger {With no warning, the gravity in the room increases, pinning you to the floor. It sounds like the ship's computer is saying something, but you can't make the exact message out in the static.} {
  ExpPipe {%0} {It sounds like the ship's computer is saying something, but you can't make the exact message out in the static.} {};
  #Sub @ExpString
@@ -170,11 +162,6 @@ msplay Ship\Move\QVAContinue@Ext} {Main|Starship}
  ExpPipe {%0} {%0} {};
  #Sub @ExpString;
  Msplay Ship\Move\ArrayPop@Ext
-} {Main|Starship}
-#Trigger {As the starship lurches forward ever so slightly, your ears pop. You glance out the window and see that it has been restored to nominal luminocity and the sector has changed.} {
- ExpPipe {%0} {%0} {};
- #Sub @ExpString;
- Msplay Ship\Move\QVAComplete@Ext
 } {Main|Starship}
 #Trigger {* inputs a series of commands into a navigation console.} {
  msplay Ship\Computer\Keyboard*15@Ext;
@@ -325,19 +312,11 @@ msplay Ship\Move\QVAContinue@Ext} {Main|Starship}
 } {}
 #Trigger {Sensors register an anomalous event as * appears on scans.} {Msplay Ship\Move\EnterSector*2@Ext} {Main}
 #Trigger {Flashes of color dominate the window as you peer out, swirling into one another until they collide and explode into new, even more vibrant colors. Looking through the wall of colors, you can make out the dim shine of a star and, occasionally, what looks to be a larger celestial body flashing by. A surge of blue energy is intermittently thrown into the mix from the ship's wormhole drive, seemingly fueling the show of color outside.} {#Var Peers 0} {Main}
-#Trigger {An array of enormous flesh-colored hooks wave in front of the ship, latching deep into the hull. The starship is pulled toward the docking orifice.} {
- MsPlay Ship\Move\YouLanding@Ext;
- ExpPipe {%0} {%0} {};
- #Sub @ExpString
-} {Main|Starship}
 #Trigger {A series of Praelor hisses and squelches come over the starship's speakers. The computer's translation matrix activates and the starship's viewscreen flashes: *} {
  msplay Ship\Comm\CommLink@Ext -30;
  ExpPipe {%0} {The view screen flashes: %1} {%1};
  #Sub @ExpString
 } {Main|Starship}
-#Trigger {A torrent of yellow fluid leaks from a large vesical in front of the station's docking doors, momentarily blotting out the viewport.} {
- msplay Ship\Move\PraelorOutpostDockStart@Ext
-} {Main}
 #Trigger {* has initiated an intrasector *.} {
  #If {%Pos(~(,%1)<>1} {
   mrandomplay Ship/Move/DriveAlert@Ext;

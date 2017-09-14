@@ -14,7 +14,6 @@ msplay Ship\misc\hatchenter@Ext} {Main}
 #Trigger {An electromagnetic field suddenly snaps into place as a large docking bay door opens above you. *.} {msplay Ship\Misc\PanelsOn@Ext} {Main}
 #Trigger {The vehicle shudders violently as it makes contact with the topmost gas clouds. *} {#gagline 1 all;
 msplay Atmo\Contact@Ext} {Main|Vehicle}
-#Trigger {A sudden instability in the layer of gasses around the ship causes it to rapidly sink deeper into the atmosphere.} {msplay ship\misc\wind@Ext} {Main}
 #Trigger {The heavy vibration of the running engine ceases as the vehicle glides out of the top levels of the atmosphere and into space. The sound of the thrusters can be heard as the craft orients itself toward the *.} {#gagline 1 all;
 msplay Atmo\Stop@Ext} {Main|Vehicle}
 #Trigger {Without any warning sign, the ship tilts over and the engine section is quickly detached through a short series of explosions just behind the cockpit, giving what remains a great upwards speed.} {

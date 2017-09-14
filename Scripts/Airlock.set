@@ -11,16 +11,6 @@
 #Trigger {* arrives from outside.} {msplay Ship\Misc\AirlockEnter@Ext} {Main}
 #Trigger {* exits the ship.} {msplay Ship\Misc\AirlockExit@Ext} {Main}
 #Trigger {* floats outside into space.} {msplay Ship\Misc\AirlockExit@Ext} {Main}
-#Trigger {A chime is piped through a nearby speaker, indicating that somebody has entered the airlock.} {
- msplay Ship\Misc\Bell@Ext;
- ExpPipe {%0} {You hear the airlock chime sound from a nearby speaker.} {};
- #Sub @ExpString
-} {Main|Starship}
-#Trigger {A chime sounds, indicating that somebody has entered the airlock.} {
- msplay Ship\Misc\Bell@Ext;
- ExpPipe {%0} {You hear the airlock chime.} {:Voice:You hear the airlock chime.};
- #Sub {@ExpString}
-} {Main|Starship}
 #Trigger {The computer flashes a message next to * cycle button* "*} {
  #If {%Pos(beginning,%3) > 0} {
   msplay Ship\Misc\AirlockCycleStart@Ext;

@@ -429,17 +429,8 @@ Apartment
 #Trigger {[[]Planet *]} {#if {%isnumber(%1)=1} {mplanetsounds}} {Main}
 #Trigger {[[]"*" Airlock]*} {mplanetsounds stop} {Main}
 #Trigger {The doors to the pod close and the pod *begins *.} {msplay General\Misc\Pod@Ext} {Main}
-#Trigger {As you enter, the doors slam shut behind you. A loud click echoes through the room as they lock.} {
- #Sub {The doors lock behind you.};
- msplay Ship\Misc\DoorLocked@Ext
-} {Main}
 #Trigger {The red light above the door to the * turns on. A pair of ominous-looking stun turrets lower from the ceiling, suggesting that this isn't a regular decontamination.} {
  msplay Ship\Combat\WeaponsOn@Ext
-} {Main}
-#Trigger {A loud click echoes through the room as the doors unlock.} {
- #GagLine 1 All;
- mrplay stop;
- msplay General\Rooms\DecontaminationEnds@Rext
 } {Main}
 #Trigger {A puff of smoke is suddenly expelled from *.} {mrandomplay General\Misc\Smoke*7@Ext} {Main}
 #Trigger {[[]"*" Escape Pod]} {mrplay Ship\Rooms\EscapePod@Rext} {Main}
@@ -447,9 +438,6 @@ Apartment
  msplay ACV\ACVStop@Ext;
  ExpPipe {%0} {} {};
  #Sub @ExpString
-} {Main}
-#Trigger {A guard steps aside, allowing you to pass through.} {
- DontStopSpeaking
 } {Main}
 #Trigger {The pod quickly slows as it reaches *.*} {DontStopSpeaking} {Main}
 #Trigger {[[]Transport Pod]} {

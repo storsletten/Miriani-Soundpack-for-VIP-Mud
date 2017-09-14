@@ -1,8 +1,4 @@
 #Alias rem {#Exec {remove%RTrim( %0)}}
-#Trigger {A loud buzz sounds.} {
- #GagLine 1 All;
- msplay Ship\Move\Blocked@Ext
-} {Main}
 #Trigger {*--*} {
  #If {%Length(%Trim(%Replace(%0,-,)))=0} {
   #If {@GagDashes=1 and (@Main<-9 or @Main>0)} {#GagLine 1 All};
@@ -304,7 +300,7 @@ msplay General\Misc\LeftPerson@Ext
  #If {@Main<0} {MainTrigSwitch 1}
 } {}
 
-#Trigger {A * firework launches itself into the air and begins to rapidly expand into a *.} {
+#Trigger {A* firework launches itself into the air and begins to rapidly expand into a *.} {
  msplay General\Misc\Firework*2@Ext
 } {Main}
 #Trigger {A bright ring of light emerges from the * and comes to a halt. * steps off.} {
@@ -317,18 +313,7 @@ msplay General\Misc\LeftPerson@Ext
  #Sub @ExpString;
  mwplay General\Misc\HGLift@Ext
 } {Main}
-#Trigger {As the lift comes to a halt, the lights vanish and you step off.} {
- ExpPipe {%0} {You step off a lift.} {};
- #Sub @ExpString
-} {Main}
 #Trigger {*ancient pirate chest*here.} {msplay General\Archaeology\practice@Ext} {Main}
-#Trigger {Unbolting is quite dangerous, and could result in loss of the item. Are you sure you wish to unbolt *} {
- ExpPipe {%0} {Are you sure you wish to unbolt %1} {Unbolt %1};
- #Sub @ExpString
-} {Main}
-#Trigger {A small hovering drone flies in front of you, scans you, then photographs your face before floating off into the distance.} {
- mrandomplay General\Device\CameraOff@Ext
-} {Main}
 #Trigger {* ha* been loaded into your courier ship. Your destination is * in Sector *.} {
  Speech Stop;
  ExpPipe {%0} {%0} {%1 for %3 in %4.};

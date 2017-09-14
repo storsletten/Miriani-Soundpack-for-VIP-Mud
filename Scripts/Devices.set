@@ -98,10 +98,6 @@
   #Sub {@ExpString}
  }
 } {Main}
-#Trigger {A small handheld radio receiver beeps twice, indicating the detection of a radio transmission.} {msplay general\device\radioreceiver@ext} {Main}
-#Trigger {A small handheld radio receiver gives a series of beeps and automatically unplugs from the console.} {
- msplay General\Device\CameraOff@Ext
-} {Main}
 #Trigger {You access * and note you have *.* license points and *.* combat points.} {
  #If {%NumWords(@LicensePoints,|)<>2} {
   #If {%IsNumber(@LicensePoints)=1} {#Var LicensePoints {@LicensePoints|0}} {#Var LicensePoints {%2|%3}}

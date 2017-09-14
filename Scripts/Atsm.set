@@ -145,12 +145,4 @@
  #sub @ExpString
 } {Main|Vehicle}
 
-#Trigger {A slight breeze enters the cockpit as the storage compartment is opened and closed.} {
- mrandomplay Ship\Misc\Transfer*3@Ext;
- #Gagline 1 all
-} {Main|Vehicle}
-#Trigger {A series of drones lift canisters of atmospheric debris and cart them off.} {
- mrandomplay Ship\Misc\Transfer*3@Ext;
- #Gagline 1 all
-} {Main|Vehicle}
 #Trigger {You bang* on the hatch*.} {msplay General\Misc\Knock1@Ext} {Main}

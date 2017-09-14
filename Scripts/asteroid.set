@@ -3,10 +3,6 @@
  #GagLine 1 ALL;
  msplay General\Asteroid\AnchorEnd@Ext
 } {Main|Ground}
-#Trigger {A light envelops the room and quickly sucks your asteroid hauling supplies into an asteroid hauling kit.} {
- #GagLine 1 ALL;
- msplay General\Asteroid\KitRetrieve@Ext
-} {Main}
 #Trigger {*Lifting anchor and establishing standard dock*} {
  msplay {General\Asteroid\ShipAnchorEnd@Ext};
  ExpPipe {:Voice:%0} {:Voice:%0} {};
@@ -74,7 +70,6 @@ msplay General\Asteroid\Drill*9@Ext} {Main|Ground}
 #Trigger {You orient the business end of * away from your face and activate it. A brilliant blue energy beam, carefully controlled to lose energy after about an inch of exposure, begins to issue forth from the barrel. You lean toward * and apply the beam to the nearest tear and begin sealing it.} {msplay General\Asteroid\MicroSealer*4@Ext;
 ExpPipe {%0} {%0} {You use %1 on %2.};
 #Sub @ExpString} {Main}
-#Trigger {An excavation unit shudders violently as the drill bit, shakier than what seems normal, moves materials from a nearby source.} {msplay General\Asteroid\ShakyDrillBit@Ext} {Main|Ground}
 #Trigger {The drill bit of * suddenly catches, seizing up for a moment before drilling resumes.} {msplay General\Asteroid\ShakyDrillBit@Ext} {Main|Ground}
 #Trigger {The rover shudders violently as the arm * and begins rotating.} {msplay General\Asteroid\Rotating@Ext;
 ExpPipe {%0} {%0} {};
@@ -88,7 +83,6 @@ ExpPipe {%0} {%0} {};
   }
  }
 } {Main|Ground}
-#Trigger {An excavation unit vibrates heavily as it encounters an area of difficulty drilling.} {msplay General\Asteroid\BrokenDrillBit@Ext} {Main|Ground}
 #Trigger {*You watch as a small ramp is extended from outside the hull to the asteroid surface.} {ExpPipe {%0} {} {};
 #Sub @ExpString;
 msplay General\Asteroid\RampDown@Ext} {Main}

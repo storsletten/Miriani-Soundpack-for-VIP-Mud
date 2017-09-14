@@ -251,10 +251,6 @@ Goodbye.^msplay Ship\Computer\SelfDestructEnd@Ext
  }
 } {Main}
 
-#Trigger {An interdiction field prevents the ship from communicating with the navigational beacons.} {
-msplay Ship\Computer\Error@Ext
-} {Main|Starship}
-
 #Trigger {The computer reports *} {
  #Var ExpString {};
  #Var ShipComputerTmp1 {%Replace(%1,~",)};

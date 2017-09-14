@@ -13,10 +13,6 @@
  };
  #Sub @ExpString
 } {Main|NotStarship}
-#Trigger {A bright blue light floods the room as the pod begins traveling through the wormhole.} {
- ExpPipe {%0} {The pod begins traveling through the wormhole.} {};
- #sub @ExpString
-} {Main|NotStarship}
 #Trigger {*The sound of the pod's engine suddenly fills the area as the pod begins moving toward its destination*} {#GagLine 1 All;
 msplay general\misc\podgo@Ext} {Main}
 #Trigger {*You feel the mild pull of acceleration as the pod begins to set down*} {#GagLine 1 All;
