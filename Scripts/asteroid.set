@@ -12,20 +12,6 @@
  ExpPipe {:Voice:%0} {:Voice:%0} {};
  #Sub {@ExpString}
 } {Main|Starship}
-#Trigger {The vehicle halts on the asteroid surface.} {
- msplay General\Asteroid\RampEnd@Ext;
- ExpPipe {%0} {%0} {};
- #Sub {@ExpString}
-} {Main|Vehicle}
-#Trigger {The vehicle is seized by a pair of robotic arms and deposited back into the vehicle bay.} {
- msplay General\Asteroid\RampEnd@Ext;
- ExpPipe {%0} {%0} {};
- #Sub {@ExpString}
-} {Main|Vehicle}
-#Trigger {The vehicle is jarred as a pair of robotic arms clamp around it and lift it into a small chamber above the docking bay.} {
- #GagLine 1 all;
- msplay General\Asteroid\Launch@Ext
-} {Main|Vehicle}
 #Trigger {You accelerate the vehicle *. Navigation instruments instruct you that your coordinates are now *.} {
  DontStopSpeaking;
  #If {%IfWord(%1,@DirList, )=1} {
@@ -70,9 +56,6 @@
   #UnVar MineralPocket
  }
 } {Main|Ground}
-#Trigger {The commotion from the storage bay stops as the cargo transfer is completed.} {msplay Ship\Misc\TransferEnd@Ext;
-ExpPipe {%0} {%0} {};
-#Sub @ExpString} {Main}
 #Trigger {The ground shudders underfoot as materials are moved by *.} {ExpPipe {%0} {} {};
 #Sub @ExpString;
 msplay General\Asteroid\Drill*9@Ext} {Main|Ground}
@@ -91,13 +74,9 @@ msplay General\Asteroid\Drill*9@Ext} {Main|Ground}
 #Trigger {You orient the business end of * away from your face and activate it. A brilliant blue energy beam, carefully controlled to lose energy after about an inch of exposure, begins to issue forth from the barrel. You lean toward * and apply the beam to the nearest tear and begin sealing it.} {msplay General\Asteroid\MicroSealer*4@Ext;
 ExpPipe {%0} {%0} {You use %1 on %2.};
 #Sub @ExpString} {Main}
-#Trigger {The drill bit of an excavation unit spins aimlessly as it attempts to drill into the area.} {msplay General\Asteroid\BrokenDrillBit@Ext} {Main|Ground}
 #Trigger {An excavation unit shudders violently as the drill bit, shakier than what seems normal, moves materials from a nearby source.} {msplay General\Asteroid\ShakyDrillBit@Ext} {Main|Ground}
 #Trigger {The drill bit of * suddenly catches, seizing up for a moment before drilling resumes.} {msplay General\Asteroid\ShakyDrillBit@Ext} {Main|Ground}
 #Trigger {The rover shudders violently as the arm * and begins rotating.} {msplay General\Asteroid\Rotating@Ext;
-ExpPipe {%0} {%0} {};
-#Sub @ExpString} {Main}
-#Trigger {The mechanical whines begin again as the arm retracts back into the front of the rover.} {msplay General\Asteroid\Retract@Ext;
 ExpPipe {%0} {%0} {};
 #Sub @ExpString} {Main}
 #Trigger {* input* command into *.} {
@@ -113,9 +92,6 @@ ExpPipe {%0} {%0} {};
 #Trigger {*You watch as a small ramp is extended from outside the hull to the asteroid surface.} {ExpPipe {%0} {} {};
 #Sub @ExpString;
 msplay General\Asteroid\RampDown@Ext} {Main}
-#Trigger {The mechanical whines begin again as the arms retract and the top panel begins to close.} {msplay General\Asteroid\Retract@Ext;
-ExpPipe {%0} {} {};
-#Sub @ExpString} {Main}
 #Trigger {Several loud banging sounds emanate from the cargo area behind you.} {
  msplay General\Asteroid\CargoBangs@Ext;
  ExpPipe {%0} {} {};
@@ -151,9 +127,6 @@ ExpPipe {%0} {} {};
 #Trigger {[{]*, *}} {#If {@Surveying = 2} {#GagLine 1 all}} {Main}
 #Trigger {A large panel on the bottom of * slowly opens, causing a cascade of * to come tumbling out.} {msplay General\Asteroid\Dump@Ext} {Main}
 #Trigger {A small amount of * trickles out of a tear in *.} {msplay General\Asteroid\Trickle@Ext} {Main|Ground}
-#Trigger {The dusty gray landscape around you is a mass of dips and climbs, each of which is the result of an impact with another body in space. Aside from the occasional rock, little else breaks the monotony of the surface.} {
- #If {@GagRoidDesc=1} {#GagLine 1 All}
-} {Main|Ground}
 
 #Alias AMap {
  #If {%Pos(Asteroid,@ZoneName)>0} {

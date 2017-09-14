@@ -327,10 +327,6 @@
  #sub {@ExpString}
 } {Main}
 #Trigger {The target coordinates lie *} {msplay Ship\Computer\Scan*4@Ext} {Main}
-#Trigger {The sensors detect no objects in range of the long-range scanners.} {
- ExpPipe {%0} {No objects in range of the long-range scanners.} {Nothing detected};
- #Sub {@ExpString}
-} {Main|Starship}
 #Trigger {General sector report for *: *:} {
  MainTrigSwitch 1;
  ExpPipe {%0} {%0} {%1: %2:};

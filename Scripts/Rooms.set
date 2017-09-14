@@ -429,28 +429,12 @@ Apartment
 #Trigger {[[]Planet *]} {#if {%isnumber(%1)=1} {mplanetsounds}} {Main}
 #Trigger {[[]"*" Airlock]*} {mplanetsounds stop} {Main}
 #Trigger {The doors to the pod close and the pod *begins *.} {msplay General\Misc\Pod@Ext} {Main}
-#Trigger {The large metal doors slide open and allow you to pass through.} {msplay Ship\Misc\hatch@Ext} {Main}
 #Trigger {As you enter, the doors slam shut behind you. A loud click echoes through the room as they lock.} {
  #Sub {The doors lock behind you.};
  msplay Ship\Misc\DoorLocked@Ext
 } {Main}
 #Trigger {The red light above the door to the * turns on. A pair of ominous-looking stun turrets lower from the ceiling, suggesting that this isn't a regular decontamination.} {
  msplay Ship\Combat\WeaponsOn@Ext
-} {Main}
-#Trigger {The nozzles on the floor and ceiling start to spray a thick white gas into the room.} {
- #GagLine 1 All;
- msplay Ship\Misc\descent@Ext
-} {Main}
-#Trigger {The room is filled with the thick fog. It is surprisingly easy to breathe, and cleanses your lungs as you take a breath of it in.} {
- #GagLine 1 All;
- msplay Ship\Misc\AirStart@Ext
-} {Main}
-#Trigger {The fog begins to dissipate just as quickly as it filled the room.} {
- #GagLine 1 All;
- msplay Ship\Misc\AirEnd@Ext
-} {Main}
-#Trigger {The red light turns off and the green light activates as the stun turrets retract into the ceiling.} {
- msplay Ship\Combat\WeaponsOff@Ext
 } {Main}
 #Trigger {A loud click echoes through the room as the doors unlock.} {
  #GagLine 1 All;
@@ -461,21 +445,6 @@ Apartment
 #Trigger {[[]"*" Escape Pod]} {mrplay Ship\Rooms\EscapePod@Rext} {Main}
 #Trigger {The pod's suicidal pace  slows as it reaches *, gently touching down. *} {
  msplay ACV\ACVStop@Ext;
- ExpPipe {%0} {} {};
- #Sub @ExpString
-} {Main}
-#Trigger {The pod starts picking up speed, very quickly reaching top trajectory.} {
- msplay Ship\Move\BiasStart@Ext;
- ExpPipe {%0} {} {};
- #Sub @ExpString
-} {Main}
-#Trigger {The pod is buffeted in all directions in the planet's atmosphere.} {
- msplay Ship\Move\EnterSector*2@Ext;
- ExpPipe {%0} {} {};
- #Sub @ExpString
-} {Main}
-#Trigger {The pod continues its trek at breakneck speed.} {
- msplay Atmo\Engine@Ext;
  ExpPipe {%0} {} {};
  #Sub @ExpString
 } {Main}
@@ -525,3 +494,4 @@ Apartment
  msplay General\Misc\Door@Ext;
  DontStopSpeaking
 } {Main}
+#Trigger {* press* a button on the wall to summon the lift.} {msplay general/lift/LiftButton@Ext} {Main}

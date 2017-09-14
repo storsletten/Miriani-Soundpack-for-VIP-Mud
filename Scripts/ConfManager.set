@@ -5,7 +5,7 @@ GagGenMessages:0
 GagExits:0
 RoundTimeThreshold:1
 GagTreadLine:0
-ExperienceLevel:1
+ExperienceLevel:3
 Real:0
 AlterArmor:1
 FormatRoomTitles:0
@@ -40,7 +40,7 @@ HistoryVolumeOffset:20
 HistoryPanning:0
 ModifyShoppingGuide:0
 ShoppingGuideFormatString:[$ITEM ($PRICE)] $POINTS,$COMBATPOINTS at $STORE on $LOCATION
-MissionMode:0
+MissionMode:1
 UseHitCounter:0
 HitCounterFormatString:Total hits: $TOTALHITS ($DIRECTHITS direct, $PARTIALHITS partial). $DESTROYEDSHIPS ships, and $DESTROYEDDEBRIS debris were destroyed
 ExtraFiringSound:1

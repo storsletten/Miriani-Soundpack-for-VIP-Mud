@@ -1,5 +1,4 @@
-; Terminate all blocks with the | character on a blank line.
-#Var YouActions {
+#Var TTYou {
 hear a quiet hiss as the ship's maneuvering thrusters fire.^PlayRelDriveStart;
  ExpPipe {~%0} {~%0} {}
 |
@@ -553,18 +552,23 @@ hear several scraping sounds as bardenium is transferred from the ship's storage
  msplay Ship\Combat\CannonReload~@Ext;
  ExpPipe {~%0} {Reloading cannons.} {}
 |
+can only scoop from a planet.^MainTrigSwitch 1
+|
+hear scrapes and scratching coming from the storage compartment as debris is transferred.^
+ mrandomplay Ship\Misc\Transfer*3~@Ext;
+ #GagLine 1 All
+|
 depress the trigger on a cutting torch. A jet of dark blue flame immediately issues forth as fuel from the canister is projected through the torch's fuel pipes.^
  msplay Ship\Misc\CuttingTorch~@Ext;
  ExpPipe {~%0} {~%0} {:Voice:~%0}
-|
 }
 
 #Trigger {You *} {
- #Var ActionTmp1 {%Replace(%1,~",)};
- #Var ActionTmp2 {};
+ #Var TTTmp1 {%Replace(%1,~",)};
+ #Var TTTmp2 {};
  #Var ActionSuccess 0;
  #If {@RoomReader=1 or @Peers=1} {
-  #If {@ActionTmp1="see nowhere obvious to go."} {
+  #If {@TTTmp1="see nowhere obvious to go."} {
    #Var RoomReader 0;
    #If {@Peers=1} {
     #Var Peers 0
@@ -578,7 +582,7 @@ depress the trigger on a cutting torch. A jet of dark blue flame immediately iss
     #Sub {@ExpString}
    }
   } {
-   #If {@ActionTmp1=*"can go *."} {
+   #If {@TTTmp1=*"can go *."} {
     #Var RoomReader 0;
     #If {@Peers=1} {
      #Var Peers 0
@@ -597,15 +601,15 @@ depress the trigger on a cutting torch. A jet of dark blue flame immediately iss
      #Sub {@ExpString}
     }
    } {
-    #If {@ZoneType="space" and @ActionTmp1=*"see *"} {
+    #If {@ZoneType="space" and @TTTmp1=*"see *"} {
      #Var RoomReader 0
     }
    }
   };
   #Var ActionSuccess 1
  } {
-  #If {%Word(@ActionTmp1, ,1)="see"} {
-   #If {@ActionTmp1="see nothing special."} {
+  #If {%Word(@TTTmp1, ,1)="see"} {
+   #If {@TTTmp1="see nothing special."} {
     #If {@NoDescString="_gag_"} {
      #GagLine 1 All
     } {
@@ -615,12 +619,12 @@ depress the trigger on a cutting torch. A jet of dark blue flame immediately iss
     };
     #Var ActionSuccess 1
    } {
-    #If {%NumWords(@ActionTmp1,~,)>20} {
+    #If {%NumWords(@TTTmp1,~,)>20} {
      #Var ActionSuccess 1
     }
    }
   } {
-   #If {@ActionTmp1=*"* through the * hatch of *"} {
+   #If {@TTTmp1=*"* through the * hatch of *"} {
     #GagLine 1 All;
     #Alarm 0 {MStep You Leave In};
     #Var ActionSuccess 1
@@ -629,16 +633,16 @@ depress the trigger on a cutting torch. A jet of dark blue flame immediately iss
  };
  #If {@ActionSuccess=0} {
   #If {%Pos( into ,%1)>0} {
-   #Var ActionTmp2 {%Copy(%1,1,%Eval(%Pos( into ,%1)-1))}
+   #Var TTTmp2 {%Copy(%1,1,%Eval(%Pos( into ,%1)-1))}
   } {
    #If {%Pos( through ,%1)>0} {
-    #Var ActionTmp2 {%Copy(%1,1,%Eval(%Pos( through ,%1)-1))}
+    #Var TTTmp2 {%Copy(%1,1,%Eval(%Pos( through ,%1)-1))}
    } {
-    #Var ActionTmp2 {}
+    #Var TTTmp2 {}
    }
   };
-  #If {%Length(@ActionTmp2)>0} {
-   #If {%IfWord(@ActionTmp2,@WalkStyles,%CRLF)=1} {
+  #If {%Length(@TTTmp2)>0} {
+   #If {%IfWord(@TTTmp2,@WalkStyles,%CRLF)=1} {
     #Var Dir {In};
     #If {@GagTreadLine=1} {#GagLine 1 All};
     #Alarm 0 {MStep You Leave {In}};
@@ -648,16 +652,13 @@ depress the trigger on a cutting torch. A jet of dark blue flame immediately iss
   }
  };
  #If {@ActionSuccess=0} {
-  #Var ExpString {};
-  #Var ActionTmp1 {%Pos(%CRLF%1,@YouActions)};
-  #If {@ActionTmp1>0} {
-   #Math ActionTmp1 {@ActionTmp1+%Pos(%CRLF,%1%CRLF)+1};
-   #Var ActionTmp1 {%Delete(@YouActions,1,@ActionTmp1)};
-   #Exec {%Word(@ActionTmp1,%CRLF|%CRLF,1)};
-   #Var ActionTmp1 {@ExpString%CRLF};
-   #If {%Pos(%CRLF,@ActionTmp1)>1} {
-    #Sub {@ExpString}
-   }
+  #Var TTTmp1 {%CRLF%1^};
+  #Var TTTmp1 {%Pos(@TTTmp1,@TTYou)};
+  #If {@TTTmp1>0} {
+   #Var ExpString {};
+   #Var TTTmp1 {%Delete(@TTYou,1,%Eval(@TTTmp1+%Length(%1)+2))};
+   #Exec {%Word(@TTTmp1,%CRLF|%CRLF,1)};
+   #If {%Length(@ExpString)>0} {#Sub {@ExpString}}
   }
  }
 } {Main}

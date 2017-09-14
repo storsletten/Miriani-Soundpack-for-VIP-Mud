@@ -136,8 +136,6 @@ ExpPipe {%0} {%0} {%1 disappears};
  msplay General\Misc\Cancel@Ext;
  #If {@Main<0} {MainTrigSwitch 1}
 } {}
-#Trigger {The ship must be powered before you can do that.} {MainTrigSwitch 1} {Main}
-#Trigger {The ship is not in space.} {MainTrigSwitch 1} {Main}
 
 #Trigger {* gestures for you to join * group, which you promptly do.} {
  ExpPipe {%0} {%0} {%1 adds you to %2 group.};
@@ -151,11 +149,6 @@ ExpPipe {%0} {%0} {%1 disappears};
 } {Main}
 #Trigger {* indicates that * no longer wishes you to follow *.*} {msplay General\Misc\disband@Ext} {Main}
 #Trigger {* leaves your group.*} {msplay General\Misc\disband@Ext} {Main}
-#Trigger {The door opens with a soft hiss and admits you into the room.} {
- msplay {General\Misc\door open@Ext};
- ExpPipe {%0} {The door admits you into the room.} {};
- #sub {@ExpString}
-} {Main}
 #Trigger {A small lock destroying explosive suddenly explodes, *.} {msplay Ship\Misc\HatchBomb@Ext} {Main}
 
 #Trigger {*You carefully place * along the edge of * hatch. You press a small button and step back as the charge begins its * second countdown*} {msplay Ship\Misc\HatchBombPlace@Ext} {Main}
@@ -184,7 +177,6 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
 #Trigger {Directions from * to *: *.} {expPipe {:0:%0} {:0:%1 to %2: %3.} {:0:%2: %3.};
 #sub @ExpString} {Main}
 #Trigger {* arrives, looking vaguely puzzled.} {msplay General\Misc\DoorChime@Ext} {Main}
-#Trigger {The robotic arms pull the syringes out and you glance into a mirror noticing your new nose size.} {msplay General\Misc\MedicalEnd@Ext} {Main}
 #Trigger {* several automated drones begin healing *.} {msplay General\Misc\ITPNStart@Ext} {Main}
 #Trigger {* stands up, looking much healthier than before.} {msplay Stand@Ext} {Main}
 #Trigger {You follow *.} {

@@ -139,21 +139,13 @@
  };
  MainTrigSwitch 1
 } {AtSaStarmap}
-#Trigger {You can only scoop from a planet.} {MainTrigSwitch 1} {AtSaStarmap}
-#TRIGGER {The sounds drop in pitch and eventually cease.} {ExpPipe {%0} {} {};
-#sub @ExpString;
-msplay General\Asteroid\Trickle@Ext} {Main|Vehicle}
-#TRIGGER {Vehicle Status: *} {
+#Trigger {Vehicle Status: *} {
  msplay Ship\Computer\Display@Ext;
  ExpPipe {%0} {%1} {%1};
  #sub @ExpString
 } {Main|Vehicle}
 
 #Trigger {A slight breeze enters the cockpit as the storage compartment is opened and closed.} {
- mrandomplay Ship\Misc\Transfer*3@Ext;
- #Gagline 1 all
-} {Main|Vehicle}
-#Trigger {You hear scrapes and scratching coming from the storage compartment as debris is transferred.} {
  mrandomplay Ship\Misc\Transfer*3@Ext;
  #Gagline 1 all
 } {Main|Vehicle}

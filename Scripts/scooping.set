@@ -1,14 +1,9 @@
-#TRIGGER {The pull of acceleration eases off as the ship ceases its *.} {
+#Trigger {The pull of acceleration eases off as the ship ceases its *.} {
  ExpPipe {%0} {Salvager stopped.} {};
  #sub {@ExpString};
  msplay Atmo\salvagestop@Ext
 } {Main}
-#TRIGGER {The pull of acceleration eases off as the craft completes its maneuvering.} {
- ExpPipe {%0} {Salvager stopped.} {};
- #sub {@ExpString};
- msplay Atmo\salvagestop@Ext
-} {Main|Vehicle}
-#TRIGGER {You open the hatch of a* and climb inside.} {#if {%Pos(atmospheric combat vehicle,%1)>0} {
+#Trigger {You open the hatch of a* and climb inside.} {#if {%Pos(atmospheric combat vehicle,%1)>0} {
 #class ACVMoveMode enable;
 #If {@ACVPromptNavig=1} {#Class ACVPromptNavig Enable} {#Class ACVPromptNavig Disable}
 };
@@ -16,51 +11,21 @@
 msplay Ship\misc\hatchenter@Ext} {Main}
 #Trigger {A gust of atmospheric wind suddenly buffets the ship*} {msplay ship\misc\wind@Ext} {Main}
 #Trigger {The vehicle suddenly hits a pocket of fierce wind*} {msplay ship\misc\wind@Ext} {Main|Vehicle}
-#TRIGGER {The vehicle carefully maneuvers into the docking bay.} {
- msplay Atmo\SalvagerReturns@Ext;
- #gagline 1 all
-} {Main|Vehicle}
-#TRIGGER {The vehicle begins slowly gliding through the atmosphere, occasionally firing thrusters to ensure it stays on course.} {
- ExpPipe {%0} {The salvager has re-entered the atmosphere.} {};
- #sub {@ExpString}
-} {Main|Vehicle}
-#TRIGGER {An electromagnetic field suddenly snaps into place as a large docking bay door opens above you. *.} {msplay Ship\Misc\PanelsOn@Ext} {Main}
-#trigger {The vehicle manages to break free from the pocket of wind and stabilize its course.} {#Gagline 1 ALL;
-msplay Atmo\salvagestop@Ext} {Main|Vehicle}
-#trigger {The vehicle shudders violently as it makes contact with the topmost gas clouds. *} {#gagline 1 all;
+#Trigger {An electromagnetic field suddenly snaps into place as a large docking bay door opens above you. *.} {msplay Ship\Misc\PanelsOn@Ext} {Main}
+#Trigger {The vehicle shudders violently as it makes contact with the topmost gas clouds. *} {#gagline 1 all;
 msplay Atmo\Contact@Ext} {Main|Vehicle}
-#trigger {The planet's atmosphere finally stabilizes and the ship comes to a halt.} {#gagline 1 all;
-msplay Atmo\salvagestop@Ext} {Main}
-#TRIGGER {The engine spins up briefly to keep the vehicle on course as it enters a different cloud of gasses.} {ExpPipe {%0} {%0} {};
-msplay Atmo\Engine@Ext} {Main|Vehicle}
-#trigger {A sudden instability in the layer of gasses around the ship causes it to rapidly sink deeper into the atmosphere.} {msplay ship\misc\wind@Ext} {Main}
-#TRIGGER {The vehicle finally reaches a calm level and comes to a stop.} {ExpPipe {%0} {%0} {};
-#sub {@ExpString};
+#Trigger {A sudden instability in the layer of gasses around the ship causes it to rapidly sink deeper into the atmosphere.} {msplay ship\misc\wind@Ext} {Main}
+#Trigger {The heavy vibration of the running engine ceases as the vehicle glides out of the top levels of the atmosphere and into space. The sound of the thrusters can be heard as the craft orients itself toward the *.} {#gagline 1 all;
 msplay Atmo\Stop@Ext} {Main|Vehicle}
-#TRIGGER {The room suddenly tilts as an internal explosion rocks the craft.} {mwplay Atmo\GasExplodes*3@Ext;
-ExpPipe {%0} {%0} {};
-#sub {@ExpString}} {Main|Vehicle}
-#TRIGGER {The heavy vibration of the running engine ceases as the vehicle glides out of the top levels of the atmosphere and into space. The sound of the thrusters can be heard as the craft orients itself toward the *.} {#gagline 1 all;
-msplay Atmo\Stop@Ext} {Main|Vehicle}
-#Trigger {The overhead lights suddenly flicker and extinguish altogether as the gentle hum of the engine comes to a gradual halt.} {
- ExpPipe {%0} {The gentle hum of the engine comes to a gradual halt.} {};
- #Sub @ExpString;
- msplay Ship\Combat\Rebound*5@Ext;
- mrplay
-} {Main}
 #Trigger {Without any warning sign, the ship tilts over and the engine section is quickly detached through a short series of explosions just behind the cockpit, giving what remains a great upwards speed.} {
 ExpPipe {%0} {The remains of the cockpit are blasted away from the damaged engined.} {};
 #Sub @ExpString;
 msplay Ship\Combat\YouDestroyed*3@Ext
 } {Main}
-#Trigger {The improvised escape pod continues to travel through the planet's atmosphere, while the various instruments on the control panel in front of you slowly move into the red zones as your speed decreases.} {
-ExpPipe {%0} {The various instruments on the control panel in front of you slowly move into the red zones as your speed decreases.} {};
-msplay Ship\Move\QVABegin@Ext
-} {Main}
 #Trigger {The clouds of gas get thinner and the haze of violent purple and yellow is replaced by the view of space. Having drained the last of their emergency power, the thrusters burn out and are released through two more short explosions, sending your capsule forward and leaving it in a sickening spin while slowly falling back towards the planet. Moments later the entire cockpit shakes violently as it is caught by a set of salvage lines that abruptly stop the tumbling and rapidly hauled back to *.} {
-ExpPipe {%0} {he thrusters burn out and are released through two more short explosions, sending your capsule forward and leaving it in a sickening spin while slowly falling back towards the planet. Moments later the entire cockpit shakes violently as it is caught by a set of salvage lines that abruptly stop the tumbling and rapidly hauled back to %1.} {You are hauled back to %1.};
-#Sub @ExpString;
-msplay Ship\Misc\Salvage*3@Ext
+ ExpPipe {%0} {%0} {You are hauled back to %1.};
+ #Sub @ExpString;
+ msplay Ship\Misc\Salvage*3@Ext
 } {Main}
 #Trigger {* in from the salvager bay.} {
  #if {%ifword(%Word(%1, ,%Numwords(%1, )),@EntryStyles,%CRLF)=1} {
@@ -69,36 +34,20 @@ msplay Ship\Misc\Salvage*3@Ext
 } {Main}
 #Trigger {A whirlpool forms nearby, sucking the craft downward into its swirling vortex*} {
  msplay Atmo\whirlpool@Ext;
- msplay Atmo\wave@Ext;
- #Class Whirlpool Enable
+ msplay Atmo\wave@Ext
 } {Main|Vehicle}
-#Trigger {The craft spins around and around as it's sucked downward.} {
- ExpPipe {%0} {} {};
- #Sub {@ExpString}
-} {Main|Whirlpool|Vehicle}
-#Trigger {The craft manages to stabilize itself and break free from the whirlpool.} {
- msplay Atmo\SalvageStop@Ext;
- #Class Whirlpool Disable;
- ExpPipe {%0} {:Voice:%0} {:Voice:%0};
- #Sub {@ExpString}
-} {Main|Whirlpool|Vehicle}
 #Trigger {A bubble in the vicinity bursts and you hear the engines strain to keep the craft on course*} {
  msplay Atmo\bubble@Ext;
  ExpPipe {%0} {The engines strain to keep the vehicle on course.} {};
  #Sub {@ExpString}
 } {Main|Vehicle}
-#trigger {*A disruption in the water near the craft has caused a massive wave which has resulted in the current trajectory being rerouted. Please stand by*} {msplay Atmo\wave@Ext} {Main|Vehicle}
-#trigger {The craft makes a tremendous splash as it lands in the planet's watery atmosphere. It turns a few times and then the stabilizers kick in, righting the craft*} {
+#Trigger {*A disruption in the water near the craft has caused a massive wave which has resulted in the current trajectory being rerouted. Please stand by*} {msplay Atmo\wave@Ext} {Main|Vehicle}
+#Trigger {The craft makes a tremendous splash as it lands in the planet's watery atmosphere. It turns a few times and then the stabilizers kick in, righting the craft*} {
  msplay Atmo\landingsplash@Ext;
  ExpPipe {%0} {The vehicle stops in the planet's atmosphere.} {};
  #Sub @ExpString
 } {Main|Vehicle}
-#trigger {*The craft has slammed into a massive life form. A breach in the outer hull has been detected*} {msplay Atmo\fishcrash@Ext} {Main|Vehicle}
-#Trigger {The craft comes to a halt, a plume of bubbles surrounding it before dissipating.} {
- msplay Atmo\salvagestop@Ext;
- ExpPipe {%0} {The vehicle stops.} {};
- #Sub @ExpString
-} {Main|Vehicle}
+#Trigger {*The craft has slammed into a massive life form. A breach in the outer hull has been detected*} {msplay Atmo\fishcrash@Ext} {Main|Vehicle}
 #Trigger {You hear a sharp whine as the vehicle accelerates through the*} {
  msplay ship\misc\descent@Ext;
  #gagline 1 all

@@ -363,9 +363,6 @@ msplay Ship\Computer\Probe*3@Ext} {Main}
  msplay Ship\Computer\Error@Ext
 } {Main|Starship}
 #Trigger {* is unable to function without sensors.} {msplay Ship\Computer\Error@Ext} {Main|Starship}
-#Trigger {The overhead lights dim for a moment before returning to normal.} {ExpPipe {%0} {The overhead lights flicker for a moment.} {};
-#sub {@ExpString.};
-msplay Ship\Misc\FuzzyChewing@Ext} {Main|Starship}
 #Trigger {There is * that prevents movement.} {msplay Ship\Computer\Error@Ext} {Main}
 #Trigger {Control room computer announcements will now be *.} {#if {%1 = "announced ship-wide"} {
 msplay Ship\Computer\PipeOn@Ext
@@ -374,11 +371,6 @@ msplay Ship\Computer\PipeOff@Ext
 }} {Main|Starship}
 #Trigger {* emerges from a nearby console.} {msplay Ship\Computer\ScanRetrieved@Ext} {Main|Starship}
 #Trigger {The * cannot function without operational sensors.} {msplay Ship\Computer\Error@Ext} {Main|Starship}
-#Trigger {The computer indicates that it has no beacon information for that sector.} {
- ExpPipe {%0} {No information for that sector.} {:Voice:No information for that sector.};
- #sub {@ExpString};
- msplay Ship\Computer\Error@Ext
-} {Main|Starship}
 #Trigger {Alert: Sensor interference detected.} {ExpPipe {%0} {Sensor interference detected.} {};
 #sub @ExpString;
 msplay Ship\Computer\SensorInterference@Ext} {Main|Starship}

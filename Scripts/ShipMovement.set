@@ -41,92 +41,25 @@
 #Trigger {* rises smoothly off the ground and hovers for a brief moment before rapidly accelerating towards space.} {
  mrandomplay Ship\Move\OtherLaunch*3@Ext
 } {Main}
-#Trigger {The deck beneath you vibrates slightly as the relativity drive begins accelerating the starship through space.} {
- PlayRelDriveStart;
- ExpPipe {%0} {} {};
- #Sub {@ExpString}
-} {Main|Starship}
-#Trigger {The sounds of the relativity drive slowly cease as the starship comes to a halt.} {
- PlayRelDriveStop;
- ExpPipe {%0} {} {};
- #Sub {@ExpString}
-} {Main|Starship}
-#Trigger {The sound of the relativity drive echoes through the room as it propels the ship towards space.} {
- msplay Ship\Move\YouLaunch*5@Ext;
- ExpPipe {%0} {} {};
- #Sub {@ExpString};
- InSpace 1
-} {Main|Starship}
-#Trigger {The sounds of the relativity drive calm as the starship completes its final maneuver into space.} {
- msplay General\Misc\Beep*10@Ext;
- msplay Ship\Misc\Background*5@Ext;
- ExpPipe {%0} {:Voice:%0} {:Voice:In space};
- #Sub {@ExpString}
-} {Main|Starship}
-#Trigger {The starship begins vibrating violently as the hum picks up in intensity.} {#GagLine 1 All} {Main|Starship}
-#Trigger {The vibration diminishes as the starship completes its subwarp.} {
- msplay General\Misc\Beep*10@Ext;
- msplay Ship\Misc\Background*5@Ext;
- ExpPipe {%0} {The ship ends it's subwarp.} {};
- #sub {@ExpString}
-} {Main|Starship}
-#Trigger {The starship shudders beneath your feet. It feels like the hull is breaking apart around you.} {#GagLine 1 All} {Main|Starship}
 #Trigger {With a sharp lurch, the starship completes its intrasector slip.} {
  msplay General\Misc\Beep*10@Ext;
  msplay Ship\Misc\Background*5@Ext;
  ExpPipe {%0} {Slip complete.} {};
  #sub {@ExpString}
 } {Main|Starship}
-#Trigger {The starship vibrates violently as it nears the wormhole's event horizon.} {#GagLine 1 All} {Main|Starship}
 #Trigger {A bright flash of blue light floods the room as the starship travels through the wormhole.} {#GagLine 1 All} {Main|Starship}
-#Trigger {The bright light vanishes as the starship emerges at the other side of the wormhole.} {
- msplay General\Misc\Beep*10@Ext;
- msplay Ship\Misc\Background*5@Ext;
- ExpPipe {%0} {:Voice:Wormhole jump complete.} {:Voice:Wormhole jump complete};
- #Sub {@ExpString}
-} {Main|Starship}
-#Trigger {The windows automatically dim as gate after gate becomes visible, each causing a brilliant flash of light as it redirects the wormhole.} {#GagLine 1 All} {Main|Starship}
-#Trigger {The experience abruptly ends as the starship exits from the companion jumpgate and the relativity drive takes over to slow the ship to a stop.} {
- msplay General\Misc\Beep*10@Ext;
- msplay Ship\Misc\Background*5@Ext;
- ExpPipe {%0} {:Voice:Jump complete.} {:Voice:Jump complete};
- #Sub {@ExpString}
-} {Main|Starship}
-#Trigger {The starship rocks gently as the docking ring comes into contact with another starship.} {msplay Ship\Move\RingRemove@Ext} {Main|Starship}
-#Trigger {The whine of strained components echos throughout the area as the starship struggles to haul the asteroid.} {msplay Ship\Move\Haul@Ext;
-#GagLine 1 All} {Main|Starship}
-#Trigger {The starship shudders beneath your feet as it continues propelling itself forward.} {#GagLine 1 All} {Main|Starship}
 #Trigger {With a sharp lurch, the starship completes its intrasector wavewarp. The pulsing sound stops as the wavewarp drive powers down.} {
  msplay General\Misc\Beep*10@Ext;
  msplay Ship\Misc\Background*5@Ext;
  ExpPipe {%0} {Wavewarp complete.} {};
  #sub {@ExpString}
 } {Main|Starship}
-#Trigger {The starship vibrates violently as it nears the natural wormhole's event horizon.} {msplay Ship\Move\PreciseFTL@Ext;
-ExpPipe {%0} {} {};
-#sub {@ExpString}} {Main|Starship}
-#Trigger {The starship shakes violently as it continues through the wormhole.} {mwplay Ship\Combat\YouHit*6@Ext;
-msplay Ship\Move\Slip@Ext;
-ExpPipe {%0} {} {};
-#sub {@ExpString}} {Main|Starship}
 #Trigger {There is a brilliant flash of blue light as the ship emerges on the other side of the wormhole.} {msplay Ship\Combat\OtherDestroyed*10@Ext;
 ExpPipe {%0} {} {};
-#sub {@ExpString}} {Main|Starship}
-#Trigger {The ship wrenches violently as the wavewarp drive interacts with stellar material.} {mwplay Ship\Combat\YouHit*6@Ext;
-ExpPipe {%0} {%0} {The ship wavewarps through a star.};
-#sub {@ExpString}} {Main|Starship}
-#Trigger {The ship accelerates slightly as it enters through a special access door of the battlecruiser.} {msplay Ship\Move\RingStart@Ext;
-ExpPipe {%0} {%0} {};
-#sub {@ExpString}} {Main|Starship}
-#Trigger {The ship settles onto the bay floor, immediately connecting the power couplings.} {msplay Ship\Move\BCFighterDock@Ext;
-ExpPipe {%0} {%0} {};
 #sub {@ExpString}} {Main|Starship}
 #Trigger {Uninhabited landing is not supported at this time.} {msplay Ship\Move\DontLand@Ext} {Main|Starship}
 #Trigger {A wave of nausea comes over you as gravity around the ship is twisted and bent.} {#GagLine 1 All;
 msplay Ship\Move\BiasContinues@Ext} {Main|Starship}
-#Trigger {The feeling of nausea passes as the starship moves rapidly. *} {#GagLine 1 All;
-msplay Ship\Move\BiasEnds@Ext;
-msplay General\Misc\Beep*10@Ext} {Main|Starship}
 #Trigger {The mild vibration of acceleration eases off *.} {
  msplay General\Misc\Beep*10@Ext;
  ExpPipe {%0} {:Voice:%0} {:Voice:Landed};
@@ -142,36 +75,20 @@ msplay General\Misc\Beep*10@Ext} {Main|Starship}
   #Var TotalShips 0
  }
 } {Main|Starship}
-#Trigger {*The sound of the pod's engine suddenly fills the area as the pod begins moving toward its destination*} {#GagLine 1 All;
-msplay general\misc\podgo@Ext} {Main}
-#Trigger {*You feel the mild pull of acceleration as the pod begins to set down*} {#GagLine 1 All;
-msplay general\misc\podstop@Ext} {Main}
 #Trigger {The * drive is still recharging. Time remaining: *.} {ExpPipe {%0} {%0} {%2 until %1 recharge.};
 #sub {@ExpString}} {Main}
 #Trigger {The * is nonfunctional due to high levels of sensor interference.} {msplay Ship\Computer\DriveError@Ext} {Main}
 #Trigger {Cruise Control detects no possible destinations.} {msplay Ship\Computer\NothingToScan@Ext} {Main}
-#Trigger {The artificial gravity, along with the contents of your stomach, momentarily fluctuates as the starship translates back into normal space, returning illumination and window opacity to standard levels.} {ExpPipe {%0} {The starship translates back into normal space.} {};
-#sub {@ExpString};
-msplay Ship\Move\QVAComplete@Ext;
-msplay Ship\Move\QVAEnd*3@Ext} {Main|Starship}
 #Trigger {Swirls of magenta and cyan light flicker on the walls as the starship continues its transition through the very fabric of the universe.} {#GagLine 1 All;
 msplay Ship\Move\QVAFlicker@Ext;
 msplay Ship\Move\FTL@Ext} {Main|Starship}
 #Trigger {Without warning, the overhead lights suddenly increase to maximum illumination as the windows darken to complete black. * announces, "Realspace transition in progress."} {#GagLine 1 All;
 msplay Ship\Move\QVAContinue@Ext} {Main|Starship}
 #Trigger {Water from the pool suddenly sloshes over the side and covers the floor of the room.} {mwplay General\Misc\WaterSplash@Ext} {Main|Starship}
-#Trigger {The ship jerks violently as an unknown energy source impacts the hull.} {mwplay Ship\Combat\Rebound*5@Ext;
-ExpPipe {%0} {An unknown energy source impacts the hull.} {};
-#sub @ExpString} {Main|Starship}
-#Trigger {The gentle hum of the ship's engines momentarily amplifies as the starship moves through space.} {mrandomplay Ship\Misc\BackgroundHigh*4@Ext;
-#GagLine 1 All} {Main|Starship}
-#Trigger {The hull creaks alarmingly around you as the starship is pulled by intense gravitational forces.} {mrandomplay Ship\Move\BlackHole@Ext;
-mwplay Ship\Combat\YouHit*11@Ext;
-ExpPipe {%0} {The starship is pulled by intense gravitational forces.} {};
-#sub @ExpString} {Main|Starship}
 #Trigger {With a slight thud, the ship sets down.} {InSpace 0;
 #GagLine 1 All} {Main|Starship}
 #Trigger {* has jumped out of the sector.} {msplay Ship\Move\ExitSector*2@Ext} {Main}
+
 #Alias MoveMark {
  #if {@ZoneType<>"starship"} {
   ConfPrint {You must be in a starship for this command to work.}
@@ -413,12 +330,6 @@ ExpPipe {%0} {The starship is pulled by intense gravitational forces.} {};
  ExpPipe {%0} {%0} {};
  #Sub @ExpString
 } {Main|Starship}
-#Trigger {The starship clears the docking bay doors. The yellow secretion is slowly drained away as the doors ominously close.} {
- MsPlay Ship\Move\PraelorOutpostDockEnd@Ext;
- PlayRelDriveStop;
- ExpPipe {%0} {%0} {};
- #Sub @ExpString
-} {Main|Starship}
 #Trigger {A series of Praelor hisses and squelches come over the starship's speakers. The computer's translation matrix activates and the starship's viewscreen flashes: *} {
  msplay Ship\Comm\CommLink@Ext -30;
  ExpPipe {%0} {The view screen flashes: %1} {%1};
@@ -457,3 +368,6 @@ ExpPipe {%0} {The starship is pulled by intense gravitational forces.} {};
  ExpPipe {%0} {%0} {};
  #Sub {@ExpString}
 } {Main}
+#Trigger {The feeling of nausea passes as the starship moves rapidly. *} {#GagLine 1 All;
+msplay Ship\Move\BiasEnds@Ext;
+msplay General\Misc\Beep*10@Ext} {Main|Starship}

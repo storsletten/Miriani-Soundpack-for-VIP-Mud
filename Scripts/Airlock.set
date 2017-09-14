@@ -44,8 +44,6 @@
   #GagLine 1 All
  }
 } {Main}
-#Trigger {The water reaches the top of the airlock, filling it completely. A yellow light on the wall becomes green.} {msplay Ship\Misc\AirEnd@Ext;
-#Gagline 1 all} {Main}
 #trigger {The hiss of air slowly fades away into nothingness, and the * light becomes *.} {msplay Ship\Misc\AirEnd@Ext;
 #Gagline 1 ALL} {Main}
 #trigger {Some lovely elevator music begins playing as the airlock cycles*} {msplay Music\*30@Ext;

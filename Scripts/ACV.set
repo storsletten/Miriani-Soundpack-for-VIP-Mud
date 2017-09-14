@@ -127,7 +127,7 @@
  %Pop(ACVNextMoveZ)
 } {Main}
 
-#TRIGGER {The ship comes to a halt in the planet's atmosphere.} {
+#Trigger {The ship comes to a halt in the planet's atmosphere.} {
  #var AcvCoordX {};
  #var AcvCoordY {};
  #var AcvCoordZ {};
@@ -139,16 +139,7 @@
  };
  msplay ACV\ACVStop@Ext
 } {Main}
-#TRIGGER {The tug of acceleration ceases as the vehicle completes its thrust and resumes stationary mode.} {ExpPipe {%0} {} {};
-#sub {@ExpString};
-msplay ACV\ACVStop@Ext} {Main}
-#TRIGGER {The view gradually fades into a view of space.} {#gagline 1 all;
-msplay Ship\Move\YouLanding@Ext} {Main}
-#TRIGGER {With the sickening lurch of acceleration, the vehicle begins accelerating through the atmosphere toward space.} {#gagline 1 all} {Main}
-#TRIGGER {The room shudders violently from the recoil as the automatic weapons begin firing.} {ExpPipe {%0} {The automatic weapons begin firing.} {};
-#sub @ExpString;
-msplay ACV\Weapons*9@Ext} {Main}
-#TRIGGER {Weapon launch sequence initiated. Bomb's away!} {ExpPipe {%0} {Bomb's away!} {};
+#Trigger {Weapon launch sequence initiated. Bomb's away!} {ExpPipe {%0} {Bomb's away!} {};
 #sub @ExpString;
 msplay ACV\Bomb*4@Ext} {Main}
 #Trigger {The vehicle * pelted by automatic weapon fire from *.} {
@@ -157,11 +148,7 @@ msplay ACV\Bomb*4@Ext} {Main}
  #Sub @{ExpString};
  mwplay Ship\Combat\YouHit*11@Ext
 } {Main}
-#Trigger {The vehicle is jarred as a missile impacts the hull.} {
- ExpPipe {%0} {%0} {Hit by a missile};
- #Sub @{ExpString};
- mwplay Ship\Combat\Projectile*3@Ext
-} {Main}
+#Trigger {With the sickening lurch of acceleration, the vehicle begins accelerating through the atmosphere toward space.} {#gagline 1 all} {Main}
 #Trigger {Current coordinates: &{AcvCoordX}, &{AcvCoordY}, &{AcvCoordZ}} {
  #Sub {@AcvCoordX @AcvCoordY @AcvCoordZ}
 } {Main|ACVMoveMode}

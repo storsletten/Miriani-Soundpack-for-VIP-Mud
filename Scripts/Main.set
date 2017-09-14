@@ -27,7 +27,6 @@ Display|
 History|
 ITPN|
 KeyStrokes|
-Lift|
 Lore|
 MessageBoard|
 Misc|
@@ -41,7 +40,8 @@ ShipMovement|
 SmFilter|
 Socials|
 SoundpackML|
-YouActions|
+TriggerTables/The|
+TriggerTables/You|
 Extras|
 ConfManagerMenus|
 }
