@@ -1,3 +1,7 @@
+Version 5.8.23, released 2017-09-14:
+* For 2.0: Moved code for Laser Tag into an extra. It's enabled by default, but you can disable it for a little better performance.
+* For 2.0: Added another performance booster for the soundpack.
+
 Version 5.8.22, released 2017-09-13:
 * For 2.0: Possibly made whoc a little more reliable.
 
