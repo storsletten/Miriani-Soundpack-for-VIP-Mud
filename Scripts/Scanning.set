@@ -1,6 +1,6 @@
 #Class Scanning Disable
 #Class CGC Disable
-#Var ScanOutputLabels {Atmospheric Composition|Available charge|Average Component Damage|Cargo|Classification|Composition|Coordinates|Courier ship status|Damage|Distance|Hull Damage|Identifiable Power Sources|IFF|Integrity|Landing beacons|Launched by|Natural Resources|Occupancy|Orbiting|Pilot status|Power|Power sources|Size|Starships|Structural Integrity|Surface Conditions|Type|Weapons}
+#Var ScanOutputLabels {Atmospheric Composition|Available charge|Average Component Damage|Cargo|Classification|Composition|Coordinates|Courier ship status|Damage|Discernable Aircraft|Distance|Hull Damage|Identifiable Power Sources|IFF|Integrity|Landing beacons|Launched by|Natural Resources|Occupancy|Orbiting|Pilot status|Power|Power sources|Size|Starships|Structural Integrity|Surface Conditions|Type|Weapons}
 #Var ScanFormatVarLabels {@ScanOutputLabels|Alliance|Full Name|Name|New|Number of Occupants|Object Type}
 #Var ScanFormatVarLabels {%Sort(@ScanFormatVarLabels,0)}
 #Var ScanFormatVars {%Replace(@ScanFormatVarLabels, ,)}
@@ -28,8 +28,8 @@
  #Exec {>%1%RTrim( @ScanTarget)}
 } {}
 
-#Trigger {* (*)} {
- #If {%IfWord(%2,AIE|Blue|CHRISTMAS|Combat Drone|Commonwealth|Courier|CTN|Green|Hale|High Guard|Krenelia|Observer|Ontanka|Pink|Praelor|Red|Unknown,|)=1} {
+#Trigger {* (*)*} {
+ #If {%IfWord(%2,AIE|Blue|CHRISTMAS|Combat Drone|Commonwealth|Courier|CTN|Green|Hale|High Guard|Krenelia|Observer|Ontanka|Pink|Praelor|Red|Unknown,|)=1 and %Pos(:,%1)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
   #If {@ScanFilters>0 or %Defined(ScanFilter)=1} {
    #If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}
   } {
@@ -162,7 +162,6 @@
 } {Main|Starship}
 #Trigger {You'll have better results scanning in space.} {MainTrigSwitch 1} {Main|Starship}
 
-#Alias sh {shipscan sc {%RTrim( %0)} {Hull Damage}} {}
 #Alias sca {shipscan sc {%RTrim( %0)} {Average Component Damage}} {}
 #Alias scc {shipscan sc {%RTrim( %0)} {Coordinates}} {}
 #Alias scd {shipscan sc {%RTrim( %0)} {Distance}} {}
