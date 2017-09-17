@@ -1,3 +1,6 @@
+Version 5.8.27, released 2017-09-17:
+* For 2.0: Fixed a bug that caused the soundpack to strip away a little too much of sitting messages under certain conditions.
+
 Version 5.8.26, released 2017-09-16:
 * For 2.0: Fixed issues with scanning filters. Newbie ships and discernable crafts on planets should now be recognized.
 
