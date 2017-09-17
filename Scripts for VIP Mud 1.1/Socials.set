@@ -18,6 +18,7 @@ spank:General\Socials\Spank
 strangle:General\Socials\strangle*2
 vomit:puke:General\socials\vomit
 whistle:whistles:general\socials\whistle*5
+yodel:yodels:general\socials\Yodel
 }
 #Var Socials {
 boo:boos:General\Socials\Boo*4
