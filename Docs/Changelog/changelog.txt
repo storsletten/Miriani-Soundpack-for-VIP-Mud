@@ -1,3 +1,6 @@
+Version 5.8.29, released 2017-09-17:
+* For 2.0: You can now look at Anny Rain without triggering the clip thing to belt sound.
+
 Version 5.8.28, released 2017-09-17:
 * Added a sound for the yodel social.
 
