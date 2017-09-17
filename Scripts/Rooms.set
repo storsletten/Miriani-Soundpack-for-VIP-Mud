@@ -329,10 +329,11 @@ Apartment
   #Var RoomTmp2 {%Word(%2,~(,@RoomTmp1)};
   #Var RoomTmp2 {%Word(@RoomTmp2,~),1)};
   #If {%IfWord(%Word(@RoomTmp2, ,1),buckled flying lying riding sitting soaking swimming, )=1} {
-   #If {%Pos( on the ,@RoomTmp2)>0} {
-    #Var Sitting {%Word(@RoomTmp2, ,1)}
-   } {
-    #Var Sitting {@RoomTmp2}
+   #Var Sitting {@RoomTmp2};
+   #Var RoomTmp2 {%Pos( ,@RoomTmp2)};
+   #If {@RoomTmp2>0} {
+    #Var RoomTmp2 {%Delete(@Sitting,1,@RoomTmp2)};
+    #If {%IfWord(@RoomTmp2,on the floor|on the ground,|)=1} {#Var Sitting {%Word(@Sitting, ,1)}}
    }
   }
  };
