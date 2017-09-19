@@ -168,8 +168,10 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
 }
 } {Main}
 
-#Trigger {Directions from * to *: *.} {expPipe {:0:%0} {:0:%1 to %2: %3.} {:0:%2: %3.};
-#sub @ExpString} {Main}
+#Trigger {Directions from * to *: *.} {
+ ExpPipe {%0} {%1 to %2: %3.} {%2: %3.};
+ #Sub {@ExpString}
+} {Main}
 #Trigger {* arrives, looking vaguely puzzled.} {msplay General\Misc\DoorChime@Ext} {Main}
 #Trigger {* several automated drones begin healing *.} {msplay General\Misc\ITPNStart@Ext} {Main}
 #Trigger {* stands up, looking much healthier than before.} {msplay Stand@Ext} {Main}

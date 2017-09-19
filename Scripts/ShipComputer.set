@@ -284,9 +284,11 @@ Goodbye.^msplay Ship\Computer\SelfDestructEnd@Ext
 #Trigger {* presses a button on a navigation console and examines the display.} {msplay Ship\Computer\Keyboard*15@Ext;
 ExpPipe {%0} {%0} {%1 checks the navigation console.};
 #sub {@ExpString}} {Main|Starship}
-#Trigger {A destination appears on the ship's navigation controls: *.} {msplay Ship\Computer\Keyboard*15@Ext;
-ExpPipe {%0} {Heading to %1} {:0:Destination: %1};
-#sub {@ExpString}} {Main|Starship}
+#Trigger {A destination appears on the ship's navigation controls: *} {
+ msplay Ship\Computer\Keyboard*15@Ext;
+ ExpPipe {%0} {Heading to %1} {Destination: %1};
+ #Sub {@ExpString}
+} {Main|Starship}
 #Trigger {There are no damaged components.} {
  msplay Ship\Computer\Display@Ext;
  MainTrigSwitch 1
