@@ -1,3 +1,6 @@
+Version 5.8.33, released 2017-09-19:
+* For 2.0: Fixed bugs with starship computer messages.
+
 Version 5.8.32, released 2017-09-19:
 * For 2.0: Fixed a bug with the output of the move command for starships.
 
