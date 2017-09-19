@@ -603,3 +603,23 @@ msplay General\Misc\LeftPerson@Ext
  }
 } {Main}
 #Trigger {You are seated in a chair with several syringes on robotic arms around it.  *} {msplay General\Misc\MedicalOpperation@Ext} {Main}
+
+#Trigger {A large planetary mining drone beeps quietly*} {
+ msplay General\PMining\store@Ext;
+ #GagLine 1 All
+} {Main|Ground}
+#Trigger {A recorded voice on a large planetary mining drone whispers, "A pocket of valuable minerals has been detected." You set it on the ground and *} {
+ msplay General\PMining\detected@Ext;
+ #Sub {Starting dig.}
+} {Main|Ground}
+#Trigger {The transport, wasting no time, lifts off and*} {msplay General\PMining\Transport@Ext} {Main|Ground}
+#Trigger {With a barely noticeable jolt, the mining transport *} {msplay General\PMining\TRExit@Ext} {Main|Ground}
+#Trigger {A large planetary mining drone} {
+ #GagLine 1 all
+} {Main|Ground}
+#Trigger {There is a large number * stenciled on the side of the drone.} {
+ #Sub {Drone %1.}
+} {Main|Ground}
+#Trigger {A small screen indicates that it has stored * out of 20 minerals. It *.} {
+ #Sub {%1 of 20. %If(%Pos(digging,%2)>0,Active,Inactive).}
+} {Main|Ground}

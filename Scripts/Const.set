@@ -17,23 +17,20 @@ Triggers and extra sounds provided by the retired David Kieran, bringing more li
 #If {%Defined(IgnoredScriptFiles)=0} {#Var IgnoredScriptFiles {Dummy}}
 #Var CR {%Chr(13)}
 #Var LF {%Chr(10)}
-#var PerCent {~%}
-#var SpeechTypes {None|Sapi|Jaws|SystemAccess|WindowEyes|NVDA}
+#Var SpeechTypes {None|Sapi|Jaws|SystemAccess|WindowEyes|NVDA}
 
 #Var GunSoundsPath {General\Combat\Guns}
 #Var DefaultGunSound {GunDefault*2@Ext}
 #Var GunList {
-a * stun assault rifle:BulkyAssaultRifle*2@Ext
-a* stun turret:StunTurret@Ext
+* turret:StunTurret@Ext
+* rifle:BulkyAssaultRifle*2@Ext
 *CTN *stun*:Blaster@Ext
-a* hollow cylindrical device:HollowDevice@Ext
-A *stun shotgun:Shotgun@Ext
-*pistol*:Pistol@Ext
-an old fashioned nickle-plated pistol:Shotgun@Ext
+*hollow cylindrical device:HollowDevice@Ext
+* shotgun*:Shotgun@Ext
+* pistol*:Pistol@Ext
 }
 
-#Var Numbers {1|2|3|4|5|6|7|8|9|0}
-#var DirList {north east south west northeast northwest southeast southwest up down out outside}
+#Var DirList {north east south west northeast northwest southeast southwest up down out outside}
 
 #Var WalkStyles {
 amble
@@ -173,11 +170,8 @@ walk
 walks
 }
 
-#if {@SetEntrySpeechOff = 1} {#setspeech entry off}
-#var ChangelogFilePath {/Scripts}
-#var DocsPath {%replace(%replace(@ScriptPath,\,/),@ChangelogFilePath,"")/Docs}
-#var ChangelogFilePath {@DocsPath/Changelog/Changelog.txt}
-#var DecimalChar {%If(%IsNumber(1.4),.,~,)}
-#Config slowwalk on // Ensures that global speedwalks don't kick you
-#var And { and }
+#Var ChangelogFilePath {/Scripts}
+#Var DocsPath {%replace(%replace(@ScriptPath,\,/),@ChangelogFilePath,"")/Docs}
+#Var ChangelogFilePath {@DocsPath/Changelog/Changelog.txt}
+#Var DecimalChar {%If(%IsNumber(1.4)=1,.,~,)}
 #Var VirtualDisplays {Internal camera feeds|External camera feeds|Flight control scanners|Intrasector combat messages|Metafrequency messages|Communicator messages}

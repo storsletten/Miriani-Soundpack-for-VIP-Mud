@@ -17,7 +17,7 @@ ShipComputer|
 ACV|
 Archaeology|
 Asteroid|
-Atsm|
+Atmo|
 CameraFeed|
 Combat|
 Communication|
@@ -25,13 +25,9 @@ Devices|
 Display|
 History|
 KeyStrokes|
-Lore|
-MessageBoard|
 Misc|
-PMining|
 Rooms|
 Scanning|
-Scooping|
 ShipCombat|
 ShipMisc|
 ShipMovement|
@@ -48,6 +44,7 @@ ConfManagerMenus|
 #Conf ScriptReadOnly True
 #Conf AutoSave False
 #Conf Explicit False
+#Conf SlowWalk True
 
 #GAlias login {
  #If {%Defined(Main)=0} {
@@ -82,6 +79,7 @@ ConfManagerMenus|
   };
   #Load {%MudName\Variables.set};
   #If {%Defined(ConfOptionVars)=0} {#Load {@ScriptPath\ConfManager.set}};
+  #If {@SetEntrySpeechOff=1} {#SetSpeech Entry Off};
   #If {@PassThru=1} {#Conf ExpandCommandLineVars False};
   #Conf DisplayCommandsInOutput False;
   #If {@LoadTmp1=1} {

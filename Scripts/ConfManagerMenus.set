@@ -57,7 +57,7 @@ Docs
 [1] Experience level  [~%Case(~@ExperienceLevel,Newbie,Middbie,Oldbie)].
 [2] Alter the output of the ARMOR command  [~%If(~@AlterArmor=1,On,Off)].
 [3] Room title formatting  [~%If(~@FormatRoomTitles=1,On,Off)].
-[4] Alt Space hotkey for showing the number of exits in a room  [~%If(~@ShowExpertExits=1,On,Off)].
+[4] Show number of exits when using the Alt Space hotkey  [~%If(~@ShowExpertExits=1,On,Off)].
 [5] Beep when roundtime is over  [~%If(~@PlayRoundtimeSound=1,On,Off)].
 [6] Beep when your commands are blocked by roundtime or stuntime  [~%If(~@PlayWhenThwarted=1,On,Off)].
 [7] Alert when anybody other than the person you are following is in the room  [~%If(~@AlertOnPlayers=1,On,Off)].
@@ -397,17 +397,16 @@ UseAlternativeCombatSounds|B
 [5] Relativity drive sound volume offset  [~@{RelDriveVolume}~~~%].
 [6] Relativity drive sound style  [~%Case(~@RelDriveStyle,Standard Miriani,Standard Star Conquest,MonkeyTerm)].
 [7] Play a beep when relativity drive starts and stops  [~%If(~@RelDriveBeep=1,On,Off)].
-[8] Gag the name of holographic avatars  [~%If(~@GagAvatars=1,On,Off)]. (only affects experience level 3).
+[8] Gag the name of holographic avatars  [~%If(~@GagAvatars=1,On,Off)].
 [9] PA prefix  [~@PaPrefix].
 [10] External PA prefix  [~@ExtPrefix].
-[11] Play sounds when objects are reported via pipe  [~%If(~@PlaySoundsOnPipe=1,On,Off)].
-[12] Play recorded computer messages when possible  [~%If(~@SpeakWhenPossible=1,On,Off)].
-[13] Show ship name first when ships enter and exit sectors  [~%If(~@FlipSectorInfo=1,On,Off)].
-[14] Mute the sounds that play when lights continue to flash during red alert  [~%If(~@MuteAlertContSounds=1,On,Off)].
-[15] Mute the sound that indicates hostile praelor when you scan  [~%If(~@MutePraelorIsEnemySound=1,On,Off)].
-[16] Format string for target patterns  [~@PatternFormatString].
-[17] Enhanced lock alert system  [~%Case(~%Eval(~@EnhancedAimSoundSystem+1),Off,Change lock sound for currently focused target,Mute all lock sounds except for currently focused target)].
-[18] Hit volume depends on praelor ship class  [~%If(~@ClassDependant=1,On,Off)].
+[11] Play recorded computer messages when possible  [~%If(~@SpeakWhenPossible=1,On,Off)].
+[12] Show ship name first when ships enter and exit sectors  [~%If(~@FlipSectorInfo=1,On,Off)].
+[13] Mute the sounds that play when lights continue to flash during red alert  [~%If(~@MuteAlertContSounds=1,On,Off)].
+[14] Mute the sound that indicates hostile praelor when you scan  [~%If(~@MutePraelorIsEnemySound=1,On,Off)].
+[15] Format string for target patterns  [~@PatternFormatString].
+[16] Enhanced lock alert system  [~%Case(~%Eval(~@EnhancedAimSoundSystem+1),Off,Change lock sound for currently focused target,Mute all lock sounds except for currently focused target)].
+[17] Hit volume depends on praelor ship class  [~%If(~@ClassDependant=1,On,Off)].
 %Chr(250)
 Missions|M
 Scanning|M
@@ -419,7 +418,6 @@ RelDriveBeep|B
 GagAvatars|B
 PaPrefix|S:*
 ExtPrefix|S:*
-PlaySoundsOnPipe|B
 SpeakWhenPossible|B
 FlipSectorInfo|B
 MuteAlertContSounds|B

@@ -66,7 +66,6 @@ FocusOutputString:$COORDS ($NAME)
 GagAvatars:0
 PaPrefix:[PA]&SPC;
 ExtPrefix:[Ext]&SPC;
-PlaySoundsOnPipe:1
 SpeakWhenPossible:0
 FlipSectorInfo:0
 MuteAlertContSounds:0

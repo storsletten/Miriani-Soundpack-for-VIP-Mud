@@ -422,19 +422,13 @@ station:General\Footsteps\Station*8@Ext
 ; of the sound.
 #Alias MGunPlay {
  #Var GunCommand {%If(%2<>1,msplay,mrandomplay)};
- #var GunTmp1 {@DefaultGunSound};
- #Var GunFound 0;
+ #Var GunSound {};
  #ForAll {%Replace(@GunList,%CRLF,|)} {
-  #if {%I<>"" AND @GunFound<>1} {
-   #Var GunTmp2 {%Replace(%i,%CRLF,"")};
-   #Var GunTmp3 {%Word(@GunTmp2,~:,1)};
-   #if {%1=*@GunTmp3} {
-    #Var GunFound 1;
-    #Var GunTmp1 {%Word(@GunTmp2,:,2)}
-   }
+  #If {%Length(%i)>0 and %Length(@GunSound)=0} {
+   #If {%1=*%Word(%i,:,1)} {#Var GunSound {%Word(%i,:,2)}}
   }
  };
- #Exec {@GunCommand @GunSoundsPath\@GunTmp1}
+ #Exec {@GunCommand @GunSoundsPath\%If(%Length(@GunSound)>0,@GunSound,@DefaultGunSound)}
 } {}
 
 ; SSpeak:

@@ -454,11 +454,11 @@ Apartment
 } {Main}
 #Key {Alt-SPACE} {
  speech stop;
- #say @exits;
- #if {@ShowExpertExits = 1} {
-  #var AndString {and };
-  #say {(%if(%ifword(@Exits,None),0,%numwords(%replace(@Exits,@AndString,""), )) exits.)};
-  #var AndString {}
+ #Say @exits;
+ #If {@ShowExpertExits=1} {
+  #Var AndString {and };
+  #Say {(%if(%ifword(@Exits,None),0,%numwords(%replace(@Exits,@AndString,""), )) exits.)};
+  #UnVar AndString
  }
 } {}
 #Trigger {Noticing a * Commoveo membership ring, the guard waves you through.} {DontStopSpeaking} {Main}
