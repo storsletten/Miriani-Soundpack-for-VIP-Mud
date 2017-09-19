@@ -292,3 +292,44 @@ msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
  #Sub {@ExpString}
 } {Main}
 #Trigger {You are turned away by the locked hatch of *.} {msplay General\Misc\CantGo*5@Ext} {Main}
+#Trigger {The hatch acknowledges your key and unlocks, allowing you to * through.} {
+ #GagLine 1 All;
+ msplay Ship\Misc\AirlockEnter@Ext;
+ #If {%1="float"} {
+  InSpace 1
+ } {
+  InSpace 0
+ }
+} {Main}
+#Trigger {* drags you into the ship.} {#if {@RoomName<>"Airlock"} {msplay Ship\Misc\AirlockEnter@Ext}} {Main}
+#Trigger {* arrives from outside.} {msplay Ship\Misc\AirlockEnter@Ext} {Main}
+#Trigger {* exits the ship.} {msplay Ship\Misc\AirlockExit@Ext} {Main}
+#Trigger {* floats outside into space.} {msplay Ship\Misc\AirlockExit@Ext} {Main}
+#Trigger {The computer flashes a message next to * cycle button* "*} {
+ #If {%Pos(beginning,%3) > 0} {
+  msplay Ship\Misc\AirlockCycleStart@Ext;
+  ExpPipe {%0} {:Voice:%0} {:Voice:%0}
+ } {
+  msplay Ship\Computer\Beep@Ext;
+  ExpPipe {%0} {:Voice:%0} {Cycling complete.}
+ };
+ #Sub {@ExpString}
+} {Main}
+#Trigger {A small light on the airlock control panel turns from * to *. *} {
+ #If {%Pos("hiss of air",%3) > 0} {
+  msplay Ship\Misc\AirStart@Ext;
+  #If {%Pos(entering,%3) > 0} {
+   ExpPipe {%0} {:Voice:%3} {Airlock cycling to normal environment.}
+  } {
+   ExpPipe {%0} {:Voice:%3} {Airlock cycling to hostile environment.}
+  };
+  #Sub {@ExpString}
+ } {
+  #GagLine 1 All
+ }
+} {Main}
+#trigger {The hiss of air slowly fades away into nothingness, and the * light becomes *.} {msplay Ship\Misc\AirEnd@Ext;
+#Gagline 1 ALL} {Main}
+#trigger {Some lovely elevator music begins playing as the airlock cycles*} {msplay Music\*30@Ext;
+#Gagline 1 ALL} {Main}
+#trigger {Some lovely elevator music abruptly stops playing as the airlock ceases cycling*} {#Gagline 1 ALL} {Main}

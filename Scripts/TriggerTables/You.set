@@ -445,8 +445,8 @@ input a command into the navigational controls to return to the ship.^
  msplay ACV\ACVReturn1~@Ext
 |
 feel the pull of acceleration as the vehicle begins moving.^
- SetVariable ACVTmp1 {~%Pop(ACVNextMoveXY)};
- SetVariable ACVTmp2 {~%Pop(ACVNextMoveZ)};
+ #Var ACVTmp1 {~%Pop(ACVNextMoveXY)};
+ #Var ACVTmp2 {~%Pop(ACVNextMoveZ)};
  #If {~@ACVTmp1="3" or ~@ACVTmp1="6" or ~@ACVTmp1="9"} {
   #Math AcvCoordX {~@AcvCoordX+1}
  } {

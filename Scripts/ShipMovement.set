@@ -85,70 +85,6 @@ msplay Ship\Move\QVAContinue@Ext} {Main|Starship}
 #Trigger {With a slight thud, the ship sets down.} {InSpace 0;
 #GagLine 1 All} {Main|Starship}
 #Trigger {* has jumped out of the sector.} {msplay Ship\Move\ExitSector*2@Ext} {Main}
-
-#Alias MoveMark {
- #if {@ZoneType<>"starship"} {
-  ConfPrint {You must be in a starship for this command to work.}
- } {
-  #if {%1="clear"} {
-   #if {%2="all"} {
-    #var MoveMarkers {%Copy(@ConfOptionVars,%Pos(MoveMarkers,@ConfOptionVars),%Pos(%CRLF,%Delete(@ConfOptionVars,1,%Pos(MoveMarkers,@ConfOptionVars))))};
-    #var MoveMarkers {%Delete(@MoveMarkers,1,%Pos(:,@MoveMarkers))};
-    #say {All markers cleared.}
-   } {
-    #if {%2<>""} {
-     SetVariable TmpMoveMarker {*%2*}
-    } {
-     SetVariable TmpMoveMarker @ZoneName
-    };
-    #ForAll @MoveMarkers {
-     #if {%Word(%i,:,1)=*@TmpMoveMarker} {
-      #say {Clearing marker for %Word(%I,:,1)}
-     } {
-      #AddItem TmpMoveMarkers {%i}
-     }
-    };
-    UnsetVariables TmpMoveMarker;
-    #var MoveMarkers {@TmpMoveMarkers};
-    #unvar TmpMoveMarkers
-   }
-  } {
-   #if {%1="show"} {
-    ConfPrint {%Replace(%Replace(@MoveMarkers,|,%CRLF),:,: )}
-   } {
-    #if {%1="help"} {
-     ConfPrint {Usage:
-     MoveMark with no arguments sets a move marker for this ship
-     MoveMark clear <ship>|all clears the move marker for ship, or this ship if no argument is given, or all markers if the all argument is used
-     MoveMark show shows the set move markers};
-    } {
-     #var MoveMark 1;
-     record
-    }
-   }
-  }
- }
-} {}
-#Trigger {Sectors Travelled* (* LY)} {
- #var MoveMarkTmp1 {%Replace(%1,.,"")};
- #if {@MoveMark=1} {
-  #unvar MoveMark;
-  MoveMark clear;
-  #AddItem MoveMarkers {@ZoneName:@MoveMarkTmp1}
- } {
-  #var MoveMarkTmp2 0;
-  #ForAll @MoveMarkers {
-   #if {%Word(%i,:,1)=@ZoneName} {
-    #Var MoveMarkTmp2 {%Word(%I,:,2)}
-   }
-  };
-  #if {@MoveMarkTmp2>0} {
-   #Sub {%0. %Eval(@MoveMarkTmp1 - @MoveMarkTmp2) %If(%Eval(@MoveMarkTmp1 - @MoveMarkTmp2) = 1,sector,sectors) since last mark.};
-   #unvar MoveMarkTmp1;
-   #unvar MoveMarkTmp2
-  }
- }
-} {Main}
 #Trigger {The windows automatically darken as an intense burst of light radiates outward from *.} {
  ExpPipe {%0} {Light shoots out from %1.} {};
  #Sub @ExpString;
@@ -237,8 +173,8 @@ msplay Ship\Move\QVAContinue@Ext} {Main|Starship}
 } {}
 #Key {Control-Alt-L} {scgc} {}
 #Alias acgc {
- SetVariable ACGCTmp1 {};
- SetVariable ACGCTmp2 3;
+ #Var ACGCTmp1 {};
+ #Var ACGCTmp2 3;
  #While {%Replace(%{@ACGCTmp2},~","")<>""} {
   #Math ACGCTmp2 {@ACGCTmp2 + 1};
   #Var ACGCTmp1 {@ACGCTmp1 %{@ACGCTMP2}}

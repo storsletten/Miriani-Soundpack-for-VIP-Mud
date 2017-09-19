@@ -1,14 +1,4 @@
-#Exec {
- SetVariable SomeoneElseFires 0;
- SetVariable TargetCoordinatesRaw {};
-SetVariable ComputerAction {};
-SetVariable ComputerSaid {};
-SetVariable ComputerName {Computer};
-SetVariable ComputerSpoken 0;
-SetVariable ComputerTmp1 0
-}
-
-#var ComputerActions {
+#Var ComputerActions {
 Warning! Aquatic life form has entered scooper chamber. Expulsion in progress...^msplay Atmo/fishscoop@Ext|
 Intruder alert! *^msplay Ship\Combat\Intruder~@Ext|
 Long-Range Laser * is locking onto *.^GetWildcardValues {~@ComputerAction} {~@ComputerSaid};

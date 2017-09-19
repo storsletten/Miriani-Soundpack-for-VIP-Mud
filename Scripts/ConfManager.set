@@ -6,7 +6,6 @@ GagExits:0
 RoundTimeThreshold:1
 GagTreadLine:0
 ExperienceLevel:3
-Real:0
 AlterArmor:1
 FormatRoomTitles:0
 FormatMessageBoards:0
@@ -22,7 +21,7 @@ AutoSave:1
 CommandEcho:1
 KeepAlive:120
 KeepAliveRespond:0
-SaveOnIdle:1
+SaveOnIdle:0
 AlertOnUpdate:1
 OrgName:NOORG
 CourierCompany:NOCOURIERCOMPANY
@@ -147,7 +146,6 @@ LoadMiscKeys:1
 UserLanguage:EN
 PassThru:0
 NumberOfConnections:0
-MoveMarkers:Ship:Marker
 LoadExtraScriptBabies:1
 LoadExtraScriptGames:1
 LoadExtraScriptLaserTag:1

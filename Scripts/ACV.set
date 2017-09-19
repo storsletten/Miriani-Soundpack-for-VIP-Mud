@@ -3,15 +3,6 @@
 ; Should the ACV move up and down by using the direction prompt?
 #Var ACVPromptNavig 0
 
-#Exec {
- SetVariable RelativeNumericTmpX 0;
- SetVariable RelativeNumericTmpY 0;
- SetVariable RelativeNumericTmpZ 0;
- SetVariable RelativeNumericTmpXDir {Nothing};
- SetVariable RelativeNumericTmpYDir {Nothing};
- SetVariable RelativeNumericTmpZDir {}
-}
-
 #Var RelativeNumericDir {Nothing.}
 #Var RelativeNumericDirPrefix {}
 #Var AcvCoordX {}
@@ -108,8 +99,8 @@
   #Var ACVTmp1 {%Right(%1,1)};
   #Var ACVTmp2 {%Left(%1,1)}
  };
- #If {@ACVNextMoveXY=""} {SetVariable ACVNextMoveXY {@ACVTmp1}} {SetVariable ACVNextMoveXY {@ACVNextMoveXY|@ACVTmp1}};
- #If {@ACVNextMoveZ=""} {SetVariable ACVNextMoveZ {@ACVTmp2}} {SetVariable ACVNextMoveZ {@ACVNextMoveZ|@ACVTmp2}};
+ #If {@ACVNextMoveXY=""} {#Var ACVNextMoveXY {@ACVTmp1}} {#Var ACVNextMoveXY {@ACVNextMoveXY|@ACVTmp1}};
+ #If {@ACVNextMoveZ=""} {#Var ACVNextMoveZ {@ACVTmp2}} {#Var ACVNextMoveZ {@ACVNextMoveZ|@ACVTmp2}};
  #If {@ACVTmp2<>""} {
   #If {@ACVPromptNavig=0} {
    #Exec {>@ACVTmp2@ACVTmp1}

@@ -1,4 +1,4 @@
-#Exec {SetVariable Tracked 0}
+#Var Tracked 0
 #Trigger {* makes a selection on a* Lore computer.} {
  #If {%Pos([,%1)=0 and %Pos(~(,%1)=0} {
   ExpPipe {%0} {%1 uses a%2 Lore.} {%1 uses a%2 Lore.};
@@ -81,29 +81,29 @@
 #Trigger {Item: *} {
  #If {@ModifyShoppingGuide=1} {
   #GagLine 1 All;
-  SetVariable LoreTmpItem %1;
+  #Var LoreTmpItem %1;
   #Class shopping enable
  }
 } {Main}
 #Trigger {Price: *} {
- SetVariable LoreTmpPrice %1;
+ #Var LoreTmpPrice %1;
  #GagLine 1 All
 } {Main|Shopping}
 #Trigger {Points: *} {
- SetVariable LoreTmpPoints %1;
+ #Var LoreTmpPoints %1;
  #GagLine 1 All
 } {Main|Shopping}
 #Trigger {Combat points: *} {
- SetVariable LoreTmpCombatPoints %1;
+ #Var LoreTmpCombatPoints %1;
  #GagLine 1 All
 } {Main|Shopping}
 #Trigger {Location*: *} {
- SetVariable LoreTmpLocation %2;
+ #Var LoreTmpLocation %2;
  #GagLine 1 All
 } {Main|Shopping}
 #Trigger {Store*: *} {
- SetVariable LoreTmpStore %2;
- SetVariable LoreTmp1 {%Replace(@ShoppingGuideFormatString,$ITEM,@LoreTmpItem)};
+ #Var LoreTmpStore %2;
+ #Var LoreTmp1 {%Replace(@ShoppingGuideFormatString,$ITEM,@LoreTmpItem)};
  #Var LoreTmp1 {%Replace(@LoreTmp1,$PRICE,@LoreTmpPrice)};
  #Var LoreTmp1 {%Replace(@LoreTmp1,$POINTS,@LoreTmpPoints)};
  #Var LoreTmp1 {%Replace(@LoreTmp1,$COMBATPOINTS,@LoreTmpCombatPoints)};
@@ -112,11 +112,11 @@
  #Sub {@LoreTmp1};
  #Class Shopping disable
 } {Main|Shopping}
-#Trigger {A* beeps quietly, indicating that its TransLink tracking functionality has been activated.} {
+#Trigger {A* beeps quietly, indicating that its TransLink tracking functionality has been activated*.} {
  #Math Tracked {@Tracked+1};
- MsPlay General\Lore\Tracked@Ext;
- ExpPipe {%0} {%1 TransLink tracking functionality has been activated.} {:Voice:A%1 has been tracked};
- #Sub @ExpString
+ msplay General\Lore\Tracked@Ext;
+ ExpPipe {%0} {%1 TransLink tracking functionality has been activated%2.} {:Voice:A%1 has been tracked%2.};
+ #Sub {@ExpString}
 } {Main}
 #Alias {tracked} {
  #If {%1="Clear"} {

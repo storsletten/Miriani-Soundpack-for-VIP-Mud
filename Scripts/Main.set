@@ -15,7 +15,6 @@
 #Var DefaultScriptFiles {
 ShipComputer|
 ACV|
-Airlock|
 Archaeology|
 Asteroid|
 Atsm|
@@ -81,10 +80,7 @@ ConfManagerMenus|
    #Load {@SoundsPath\Main.set};
    #If {%CharInfo(Connected)=1} {#Var Connected 1}
   };
-  #If {%Defined(PreservedVariables)=0} {
-   #Load {@ScriptPath\Variables.set};
-   #Load {%MudName\Variables.set}
-  };
+  #Load {%MudName\Variables.set};
   #If {%Defined(ConfOptionVars)=0} {#Load {@ScriptPath\ConfManager.set}};
   #If {@PassThru=1} {#Conf ExpandCommandLineVars False};
   #Conf DisplayCommandsInOutput False;
@@ -646,3 +642,47 @@ You are currently using version @Version of the @SoundpackName.};
  #UnVar NewPatchVersion;
  #UnVar NewVersion
 } {Main}
+
+#If {%Defined(DeclaredVariables)=0} {#Var DeclaredVariables {}}
+#If {%Defined(PreservedVariables)=0} {#Var PreservedVariables {}}
+
+#Alias MakeVarName {
+ #If {%Length(%1)=0} {#Var VarNameTmp2 {Tmp}} {#Var VarNameTmp2 {%1}};
+ #If {%Length(%2)=0} {#Var VarNameTmp2 {VarName}} {#Var VarNameTmp2 {%2}};
+ #Var VarNameTmp1 {%Replace(%1,~",)};
+ #Var VarNameTmp1 {%Replace(@VarNameTmp1,~~,)};
+ #Var VarNameTmp1 {%Replace(@VarNameTmp1, ,0)};
+ #Var {@VarNameTmp2} {};
+ #Var VarNameTmp3 0;
+ #Var VarNameTmp4 {%Length(@VarNameTmp1)};
+ #While {@VarNameTmp3<@VarNameTmp4} {
+  #Math VarNameTmp3 {@VarNameTmp3+1};
+  #If {%Copy(@VarNameTmp1,@VarNameTmp3,1)=*"[a-z0-9]"} {#Var {@VarNameTmp2} {@{@VarNameTmp2}%Copy(@VarNameTmp1,@VarNameTmp3,1)}}
+ };
+ #Var {@{@VarNameTmp2}} {};
+ #UnVar VarNameTmp1;
+ #UnVar VarNameTmp2;
+ #UnVar VarNameTmp3;
+ #UnVar VarNameTmp4
+} {}
+#Alias PreserveVariable {
+ #If {%IfWord(%1,@PreservedVariables,|)=0} {#Var PreservedVariables {@PreservedVariables|%1}}
+} {}
+#Alias SetPreservedVariable {
+ #If {%IfWord(%1,@PreservedVariables,|)=0} {#Var PreservedVariables {@PreservedVariables|%1}};
+ #Var {%1} {%2}
+} {}
+#Alias UnsetPreservedVariables {
+ #Var VarTmp1 {};
+ #ForAll {@PreservedVariables} {
+  #If {%Length(%i)>0} {
+   #If {%i=*%1} {
+    #Exec {#UnVar {%i}}
+   } {
+    #Var VarTmp1 {@VarTmp1|%i}
+   }
+  }
+ };
+ #Var PreservedVariables {@VarTmp1};
+ #UnVar VarTmp1
+} {}
