@@ -38,7 +38,6 @@ ShipMisc|
 ShipMovement|
 SmFilter|
 Socials|
-SoundpackML|
 TriggerTables/A|
 TriggerTables/The|
 TriggerTables/You|
@@ -354,45 +353,24 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
   #Var WildcardTmp3 {%Delete(@WildcardTmp3,1,%Eval(@WildcardTmp6+@WildcardTmp7))}
  }
 } {}
+
 #Alias ExpPipe {
- #Var ExpString {%Trim(%{@ExperienceLevel})};
- #If {%Replace(%Left(@ExpString,1),~",)=":"} {
+ #Var ExpString {%{@ExperienceLevel}};
+ #If {%Pos(:,@ExpString)=1} {
   #If {%NumWords(@ExpString,:)>2} {
-   #Math ExpGagLines {%Pos(:,%Delete(@ExpString,1,1))+1};
-   #Var ExpGagType {%Copy(@ExpString,2,%Eval(@ExpGagLines-2))};
-   #Var ExpString {%Delete(@ExpString,1,@ExpGagLines)}
-  } {
-   #Var ExpGagType {%Delete(@ExpString,1,1)};
-   #Var ExpString {}
-  };
-  #If {%NumWords(@ExpGagType, )=2} {
-   #Var ExpGagLines {%Word(@ExpGagType, ,1)};
-   #Var ExpGagType {%Word(@ExpGagType, ,2)}
-  } {
-   #If {%IsNumber(@ExpGagType)} {
-    #Var ExpGagLines @ExpGagType;
-    #Var ExpGagType {All}
-   } {
-    #Var ExpGagLines 1
-   }
+   #Var ExpGag {%Word(@ExpString,:,2)};
+   #Var ExpString {%Copy(@ExpString,%Length(@ExpGag)+3)};
+   #If {%Length(@ExpString)=0} {#Var ExpString { }}
+  } {#Var ExpGag {%Copy(@ExpString,2)};#Var ExpString { }};
+  #If {%NumWords(@ExpGag, )=2} {#GagLine {%Word(@ExpGag, ,1)} {%Word(@ExpGag, ,2)}} {
+   #If {%IsNumber(@ExpGag)=1} {#GagLine {@ExpGag} All} {#GagLine 1 {@ExpGag}}
   }
  } {
-  #Var ExpGagLines -1
- };
- #If {%Replace(@ExpString,~",Q)=""} {
-  #Var ExpString { };
-  #If {@ExpGagLines=-1} {
-   #Var ExpGagLines 1;
-   #Var ExpGagType {All}
-  }
- };
- #If {@ExpGagLines>0} {
-  #GagLine @ExpGagLines @ExpGagType
+  #If {%Length(@ExpString)=0} {#Var ExpString { };#GagLine 1 All}
  }
 } {}
 
-
-#Alias {wn} {#edit @ChangelogFilePath} {}
+#Alias wn {#edit @ChangelogFilePath} {}
 #Alias GagEverything {
  #Var GagEverything {%Eval(NOT @GagEverything)};
  #If {@GagEverything=1} {
@@ -588,3 +566,83 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
   }
  }
 } {ShowSPPrompt}
+
+#Alias soundpack {
+ #Conf DisplayCommandsInOutput False;
+ #If {%1="register"} {#Exec {>#$#register_soundpack @SoundpackName | @Version}};
+ #If {%1="unregister"} {#Exec {>#$#unregister_soundpack}};
+ #If {%1="version"} {#Exec {>#$#soundpack_version_query @SoundpackName}};
+ #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True};
+ #If {%1="reload"} {
+  #Say {Reloading the soundpack... Please remain calm.};
+  SPReload 1
+ }
+} {}
+#Trigger {Your soundpack appears to be out of date! You're using version '*', but the most recent version is '*'. You can download the most recent version from: *} {
+ #Var NewVersion {%2};
+ #Var NewMajorVersion {%Word(@NewVersion,.,1)};
+ #Var NewMinorVersion {%Word(@NewVersion,.,2)};
+ #Var NewPatchVersion {%Word(@NewVersion,.,3)};
+ #If {@NewMajorVersion>@MajorVersion or @NewMinorVersion>@MinorVersion or @NewPatchVersion>@PatchVersion} {
+  #If {@AlertOnUpdate=1 or @NewMajorVersion>@MajorVersion} {
+   #If {@NewMajorVersion>@MajorVersion} {
+    msplay {General\Misc\UpdateAlert@Ext}
+   } {
+    msplay {General\Misc\MOTD@Ext}
+   };
+   #If {@NewPatchVersion>@PatchVersion} {#Var UpdateTmp1 {There's a patch update available for your soundpack.}};
+   #If {@NewMinorVersion>@MinorVersion} {#Var UpdateTmp1 {There is a minor update available for your soundpack.}};
+   #If {@NewMajorVersion>@MajorVersion} {#Var UpdateTmp1 {There is a major update available for your soundpack!}};
+   #Var UpdateTmp1 {*** @UpdateTmp1 ***
+If you're running the soundpack from the actively maintained shared folder in Dropbox, then you should make sure your Dropbox is up to date and then type SPRELOAD or reconnect to Miriani. If not, you should consider downloading the latest version from:
+%3
+The latest version is @NewVersion.
+You are currently using version @Version of the @SoundpackName.};
+   #If {@NewMajorVersion=@MajorVersion} {#Var UpdateTmp1 {@UpdateTmp1%{CRLF}If you don't want to see these update alerts in the future, then you can disable soundpack update notifications in conf gen.}};
+   #Sub {@UpdateTmp1};
+   #UnVar UpdateTmp1
+  } {
+   #GagLine 1 All
+  }
+ } {
+  #GagLine 1 All
+ };
+ #UnVar NewMajorVersion;
+ #UnVar NewMinorVersion;
+ #UnVar NewPatchVersion;
+ #UnVar NewVersion
+} {Main}
+#Trigger {Your soundpack has been updated to version '*'! You can download it here: *} {
+ #Var NewVersion {%1};
+ #Var NewMajorVersion {%Word(@NewVersion,.,1)};
+ #Var NewMinorVersion {%Word(@NewVersion,.,2)};
+ #Var NewPatchVersion {%Word(@NewVersion,.,3)};
+ #If {@NewMajorVersion>@MajorVersion or @NewMinorVersion>@MinorVersion or @NewPatchVersion>@PatchVersion} {
+  #If {@AlertOnUpdate=1 or @NewMajorVersion>@MajorVersion} {
+   #If {@NewMajorVersion>@MajorVersion} {
+    msplay {General\Misc\UpdateAlert@Ext}
+   } {
+    msplay {General\Misc\MOTD@Ext}
+   };
+   #If {@NewPatchVersion>@PatchVersion} {#Var UpdateTmp1 {There's a patch update available for your soundpack.}};
+   #If {@NewMinorVersion>@MinorVersion} {#Var UpdateTmp1 {There is a minor update available for your soundpack.}};
+   #If {@NewMajorVersion>@MajorVersion} {#Var UpdateTmp1 {There is a major update available for your soundpack!}};
+   #Var UpdateTmp1 {*** @UpdateTmp1 ***
+If you're running the soundpack from the actively maintained shared folder in Dropbox, then you should make sure your Dropbox is up to date and then type SPRELOAD or reconnect to Miriani. If not, you should consider downloading the latest version from:
+%2
+The latest version is @NewVersion.
+You are currently using version @Version of the @SoundpackName.};
+   #If {@NewMajorVersion=@MajorVersion} {#Var UpdateTmp1 {@UpdateTmp1%{CRLF}If you don't want to see these update alerts in the future, then you can disable soundpack update notifications in conf gen.}};
+   #Sub {@UpdateTmp1};
+   #UnVar UpdateTmp1
+  } {
+   #GagLine 1 All
+  }
+ } {
+  #GagLine 1 All
+ };
+ #UnVar NewMajorVersion;
+ #UnVar NewMinorVersion;
+ #UnVar NewPatchVersion;
+ #UnVar NewVersion
+} {Main}
