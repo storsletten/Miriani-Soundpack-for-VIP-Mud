@@ -1,3 +1,6 @@
+Version 5.8.37, released 2017-09-22:
+* For 2.0: Fixed certain notification sounds not playing. Thanks Anny Rain for reporting this.
+
 Version 5.8.36, released 2017-09-22:
 * For 2.0: Removed some superfluous Lore computer output for experience level 3.
 
