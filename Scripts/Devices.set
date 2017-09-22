@@ -191,44 +191,44 @@
  }
 } {Main}
 #Trigger {You make a selection on a* Lore computer.} {
- ExpPipe %0 {%Proper(%1) Lore} {:Voice:%Proper(%1) Lore};
- #Sub @ExpString
+ ExpPipe {%0} {:Voice:A%1 Lore.} {};
+ #Sub {@ExpString}
 } {Main}
 #Trigger {Your * Lore computer suddenly beeps quietly, indicating a new incoming *.} {
  msplay General\Lore\Import@Ext;
- ExpPipe %0 {New incoming %2 in your %1 Lore} {New %2 in your %1 Lore};
- #Sub @ExpString
+ ExpPipe {%0} {New incoming %2 in your %1 Lore.} {New %2 in your %1 Lore.};
+ #Sub {@ExpString}
 } {Main}
 #Trigger {A* Lore computer beeps quietly, indicating that there * to import.} {
  msplay General\Lore\FilesWaiting@Ext;
- ExpPipe %0 {New %Word(%2, ,%NumWords(%2, )) to import in a%1 Lore} {New %Word(%2, ,%NumWords(%2, )) to import in a%1 Lore};
+ ExpPipe {%0} {New %Word(%2, ,%NumWords(%2, )) to import in a%1 Lore.} {New %Word(%2, ,%NumWords(%2, )) to import in a%1 Lore.};
  #Sub {@ExpString}
 } {Main}
 #Trigger {Several short bleeps emit from a* Lore computer, followed by a* "*"*.} {
  msplay General\Lore\Print@Ext;
- ExpPipe %0 {A%1 Lore prints a %2 %3.} {:Voice:A%1 Lore prints a %2 %3.};
+ ExpPipe {%0} {A%1 Lore prints a %2 %3.} {:Voice:A%1 Lore prints a %2 %3.};
  #Sub {@ExpString}
 } {Main}
 #Trigger {Enter a name for the new file:} {
  msplay General\Lore\Name@Ext;
- ExpPipe %0 {:Voice:%0} {:Voice:Filename:};
- #Sub @ExpString
+ ExpPipe {%0} {:Voice:%0} {:Voice:Filename:};
+ #Sub {@ExpString}
 } {Main}
 #Trigger {File "*" exported.} {
  msplay General\Lore\Export@Ext;
- ExpPipe %0 {:Voice:%0} {:Voice:%1 exported};
- #Sub @ExpString
+ ExpPipe {%0} {:Voice:%0} {:Voice:%1 exported.};
+ #Sub {@ExpString}
 } {Main}
 #Trigger {Via the TransLink network, the LoreTech device "*" reports current location pinpointed *} {
  msplay General\Lore\Track@Ext;
  #If {%Word(%2, ,1)="aboard" and %NumWords(%2,~")=3} {
   #If {%Word(%2,~",2)=%1} {
-   ExpPipe %0 {LoreTech device "%1" %2} {T%Delete(%2,1,8)}
+   ExpPipe {%0} {LoreTech device "%1" %2} {T%Delete(%2,1,8)}
   } {
    ExpPipe {%0} {LoreTech device "%1" %2} {%1 %2}
   }
  } {
-  ExpPipe %0 {LoreTech device "%1" %2} {%1 %2}
+  ExpPipe {%0} {LoreTech device "%1" %2} {%1 %2}
  };
  #Sub {@ExpString}
 } {Main}
@@ -249,8 +249,8 @@
  #If {%IfWord(%1,Root Folder,|)=1 or %Pos(File:,%1)>0 or %Pos(Folder:,%1)>0} {
   ExpPipe {%0} {Lore Memo %1} {%1}
  } {
-  ExpPipe {%0} {Lore %1} {:Voice:Lore %1};
-  #If {%Pos(Lore Lore ,@ExpString)>0} {#Var ExpString {%Copy(@ExpString,6,%Eval(%Length(@ExpString)-5))}}
+  ExpPipe {%0} {:Voice:Lore %1} {};
+  #If {%Pos(Lore Lore ,@ExpString)>0} {#Var ExpString {%Copy(@ExpString,6,%Length(@ExpString)-5)}}
  };
  #Sub {@ExpString}
 } {Main}
@@ -267,7 +267,7 @@
  #If {@ModifyShoppingGuide=1} {
   #GagLine 1 All;
   #Var LoreTmpItem %1;
-  #Class shopping enable
+  #Class Shopping Enable
  }
 } {Main}
 #Trigger {Price: *} {
@@ -295,7 +295,7 @@
  #Var LoreTmp1 {%Replace(@LoreTmp1,$LOCATION,@LoreTmpLocation)};
  #Var LoreTmp1 {%Replace(@LoreTmp1,$STORE,@LoreTmpStore)};
  #Sub {@LoreTmp1};
- #Class Shopping disable
+ #Class Shopping Disable
 } {Main|Shopping}
 #Trigger {A* beeps quietly, indicating that its TransLink tracking functionality has been activated*.} {
  #Math Tracked {@Tracked+1};
