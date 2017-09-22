@@ -379,13 +379,11 @@ HistoryLoggingInterval|N:5^100
 [1] Mission mode  [~%If(~@MissionMode=1,On,Off)].
 [2] Use hit counter  [~%If(~@UseHitCounter=1,On,Off)].
 [3] Hit counter formatter string  [~@HitCounterFormatString].
-[4] Extra firing sound  [~%If(~@ExtraFiringSound=1,On,Off)].
-[5] Alternative combat sounds  [~%If(~@UseAlternativeCombatSounds=1,On,Off)].
+[4] Alternative combat sounds  [~%If(~@UseAlternativeCombatSounds=1,On,Off)].
 %Chr(250)
 MissionMode|B
 UseHitCounter|B
 HitCounterFormatString|S:*
-ExtraFiringSound|B
 UseAlternativeCombatSounds|B
 }
 

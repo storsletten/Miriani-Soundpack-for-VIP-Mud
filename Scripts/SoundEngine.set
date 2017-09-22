@@ -397,11 +397,12 @@ station:General\Footsteps\Station*8@Ext
 ; Mobject:
 ; Is used when entering a sector, just chuck it the entire computer string.
 #Alias MObject {
- #If {%Pos(artifact,%1)>0} {MirianiSoundPlay {Sector Alerts} Ship\Computer\Artifact@Ext};
- #If {%Pos(starship,%1)>0} {MirianiSoundPlay {Sector Alerts} Ship\Computer\ShipHere@Ext -10};
- #If {%Pos(planet,%1)>0} {MirianiSoundPlay {Sector Alerts} Ship\Computer\PlanetHere@Ext};
- #If {%Pos(wormhole,%1)>0} {MirianiSoundPlay {Sector Alerts} Ship\Computer\WormholeHere@Ext};
- #If {%Pos(space station,%1)>0} {MirianiSoundPlay {Sector Alerts} Ship\Computer\Station@Ext}
+ #Var MObjectFound {};
+ #If {%Pos(artifact,%1)>0} {#AddItem MObjectFound {Artifact};MirianiSoundPlay {Sector Alerts} Ship\Computer\Artifact@Ext};
+ #If {%Pos(starship,%1)>0} {#AddItem MObjectFound {Starship};MirianiSoundPlay {Sector Alerts} Ship\Computer\ShipHere@Ext -10};
+ #If {%Pos(planet,%1)>0} {#AddItem MObjectFound {Planet};MirianiSoundPlay {Sector Alerts} Ship\Computer\PlanetHere@Ext};
+ #If {%Pos(wormhole,%1)>0} {#AddItem MObjectFound {Wormhole};MirianiSoundPlay {Sector Alerts} Ship\Computer\WormholeHere@Ext};
+ #If {%Pos(space station,%1)>0} {#AddItem MObjectFound {Station};MirianiSoundPlay {Sector Alerts} Ship\Computer\Station@Ext}
 } {}
 
 ; MGunPlay:
