@@ -36,7 +36,7 @@
 #Var Fadeout 0
 #Var RoomSoundHandle 0
 #Var PlanetSoundsAlarm 0
-#if {%Defined(NumberOfSounds)=0} {#var NumberOfSounds 0}
+#If {%Defined(NumberOfSounds)=0} {#var NumberOfSounds 0}
 
 #var FootstepsList {
 planet:General\Footsteps\Planet*8@Ext
@@ -47,7 +47,7 @@ station:General\Footsteps\Station*8@Ext
 }
 
 #Alias {DontStopSpeaking} {
- #if {@UseSpeechInterrupts=1} {
+ #If {@UseSpeechInterrupts=1} {
   speech stop;
   #Var DontStopSpeaking 1
  }
@@ -152,15 +152,15 @@ station:General\Footsteps\Station*8@Ext
 ; For use with weapon fire etc.
 ; Respects the pan and volume stuff in Conf Sound.
 #Alias mwplay {
- #if {%2=*"*:*"} {
+ #If {%2=*"*:*"} {
   #Var MwplayTmp1 {%Word(%2,:,1)};
   #Var MwplayTmp2 {:%Word(%2,:,2)}
  } {
   #Var MwplayTmp1 %2;
   #Var MwplayTmp2 {}
  };
- #if {%IsNumber(@MwplayTmp1)=0} {#Var MwplayTmp1 0};
- #if {@RandomiseCombatVolume=1} {#math MwplayTmp1 {@MwplayTmp1 + %Random(-30,30)}};
+ #If {%IsNumber(@MwplayTmp1)=0} {#Var MwplayTmp1 0};
+ #If {@RandomiseCombatVolume=1} {#math MwplayTmp1 {@MwplayTmp1 + %Random(-30,30)}};
  #math MwplayTmp1 {@MwplayTmp1 + @RelativeCombatVolume};
  MirianiSoundPlay Weapons %1 {@MwplayTmp1@MwplayTmp2} %3;
  #If {@SoundIsPlaying=1 and @RandomiseCombatPan=1 and %mp3loop<>@WeaponSoundHandle and %playhandle>0} {
@@ -226,13 +226,13 @@ station:General\Footsteps\Station*8@Ext
 ; Mplanetsounds
 ; Play sounds on randomly generated planets.
 #Alias mplanetsounds {
- #if {%1 = "stop"} {
-  #if {@PlanetSoundsAlarm > 0} {#unalarm PlanetSoundsAlarm};
+ #If {%1 = "stop"} {
+  #If {@PlanetSoundsAlarm > 0} {#unalarm PlanetSoundsAlarm};
   #var PlanetSoundsAlarm 0
  } {
-  #if {@PlanetSounds > 0} {
+  #If {@PlanetSounds > 0} {
    #alarm {PlanetSoundsAlarm} {-5} {
-    #if {%random(0,3)=3} {
+    #If {%random(0,3)=3} {
      MirianiSoundPlay Planet Random\*24@Ext -60
     }
    }
@@ -270,15 +270,15 @@ station:General\Footsteps\Station*8@Ext
 ; Mtplay:
 ; Plays the theme music.
 #Alias mtplay {
- #if {@ThemeMusic=1} {
+ #If {@ThemeMusic=1} {
   thememusicstop;
-  #if {@FadeOut>0} {#unalarm Fadeout};
+  #If {@FadeOut>0} {#unalarm Fadeout};
   MirianiSoundPlay Themes {l^@ThemesPath\Theme (*@{NumOfThemes}).mp3};
   setthememusicvolume
  }
 } {}
 #Alias {thememusicstop} {
- #if {%Mp3Loop>0} {
+ #If {%Mp3Loop>0} {
   #pc %Mp3Loop stop
  }
 } {}
@@ -294,12 +294,12 @@ station:General\Footsteps\Station*8@Ext
 } {}
 
 #Alias ThemeMusicFadeout {
- #if {%Mp3Loop>0} {
+ #If {%Mp3Loop>0} {
   #Var FadeoutCounter {-0@{DecimalChar}25};
   #alarm FadeOut {@FadeoutCounter} {
-   #if {@ThemeVol > 0} {
+   #If {@ThemeVol > 0} {
     #math ThemeVol {@ThemeVol - @ThemeFadeOutValue};
-    #if {@Silent<>1} {
+    #If {@Silent<>1} {
      #pc %Mp3Loop volume @ThemeVol
     } {
      #var ThemeVol 0
@@ -366,7 +366,7 @@ station:General\Footsteps\Station*8@Ext
 ; Does what it says on the tin. Is used for random events, like cargo transfer sounds etc.
 #Alias {mrandomplay} {
  MirianiSoundPlay Random %1 %2 %3;
- #if {@SoundIsPlaying=1 and @RandomisePlay=1} {
+ #If {@SoundIsPlaying=1 and @RandomisePlay=1} {
   #pc %PlayHandle pan %Random(-4000,4000)
  }
 } {}
@@ -396,22 +396,12 @@ station:General\Footsteps\Station*8@Ext
 
 ; Mobject:
 ; Is used when entering a sector, just chuck it the entire computer string.
-#Alias {MObject} {
- #if {%pos(artifact,%1)>0} {
-  MirianiSoundPlay {Sector Alerts} Ship\Computer\Artifact@Ext
- };
- #if {%pos(starship,%1)>0} {
-  MirianiSoundPlay {Sector Alerts} Ship\Computer\ShipHere@Ext -10
- };
- #if {%pos(planet,%1)>0} {
-  MirianiSoundPlay {Sector Alerts} Ship\Computer\PlanetHere@Ext
- };
- #if {%pos(wormhole,%1)>0} {
-  MirianiSoundPlay {Sector Alerts} Ship\Computer\WormholeHere@Ext
- };
- #if {%pos(space station,%1)>0} {
-  MirianiSoundPlay {Sector Alerts} Ship\Computer\Station@Ext
- }
+#Alias MObject {
+ #If {%Pos(artifact,%1)>0} {MirianiSoundPlay {Sector Alerts} Ship\Computer\Artifact@Ext};
+ #If {%Pos(starship,%1)>0} {MirianiSoundPlay {Sector Alerts} Ship\Computer\ShipHere@Ext -10};
+ #If {%Pos(planet,%1)>0} {MirianiSoundPlay {Sector Alerts} Ship\Computer\PlanetHere@Ext};
+ #If {%Pos(wormhole,%1)>0} {MirianiSoundPlay {Sector Alerts} Ship\Computer\WormholeHere@Ext};
+ #If {%Pos(space station,%1)>0} {MirianiSoundPlay {Sector Alerts} Ship\Computer\Station@Ext}
 } {}
 
 ; MGunPlay:
@@ -439,8 +429,8 @@ station:General\Footsteps\Station*8@Ext
 #Alias SSpeak {
  #SetSpeech VoiceOnly SAPI @SAPIVoice @SAPIVolume @SAPIRate;
  #Say %1 VoiceOnly;
- #if {@DefaultSpeechType<>"SAPI"} {
-  #if {@DefaultSpeechType="NVDA"} {
+ #If {@DefaultSpeechType<>"SAPI"} {
+  #If {@DefaultSpeechType="NVDA"} {
    #SetSpeech VoiceOnly SystemAccess
   } {
    #SetSpeech VoiceOnly @DefaultSpeechType
