@@ -1,3 +1,6 @@
+Version 5.8.35, released 2017-09-22:
+* For 2.0: Fixed weird output of hit and partial hit messages.
+
 Version 5.8.34, released 2017-09-22:
 * For 2.0: Fixed issues with computer messages.
 
