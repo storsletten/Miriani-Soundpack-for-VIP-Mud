@@ -109,11 +109,20 @@ Cargo capacity has been filled. Shutting down atmospheric scooper.^
  ExpPipe {~@ComputerSaid} {Cargo capacity has been filled.} {Cargo capacity filled.}
 |
 The target is no longer available. Probable cause for lost sensor contact is destruction.^
- #Math DirectHits {~@DirectHits+1};
- #Math DestroyedShips {~@DestroyedShips+1};
- #Math TotalShips {~@TotalShips+1};
+ #If {~%Defined(SomeoneElseFires)=0} {
+  #Math DirectHits {~@DirectHits+1};
+  #Math DestroyedShips {~@DestroyedShips+1};
+  #Math TotalShips {~@TotalShips+1}
+ } {#UnVar SomeoneElseFires};
  MirianiSoundPlay {Standard} Ship\Combat\OtherDestroyed*11~@Ext;
  ExpPipe {~@ComputerSaid} {~@ComputerSaid} {Target destroyed.}
+|
+Direct hit. Target was not destroyed.^
+ #If {~%Defined(SomeoneElseFires)=0} {#Math DirectHits {~@DirectHits+1}} {#UnVar SomeoneElseFires};
+ mwplay Ship\Combat\OtherHit4~@Ext;
+ ExpPipe {~@ComputerSaid} {~@ComputerSaid} {Direct hit.}
+|
+Push pulse device destroyed safely.^MirianiSoundPlay Standard Ship\Combat\OtherDestroyed*11~@Ext
 |
 There is no target at those coordinates. Aborting.^MirianiSoundPlay {Standard} General\Misc\Cancel~@Ext
 |
@@ -159,38 +168,34 @@ Bardenium Cannon* locked on *. Firing.^
   #If {~@CannonsAvailableBard<=0} {MirianiSoundPlay {Standard} Ship\Combat\NoBard~@Ext}
  }
 %Chr(250)
-Hit on * "*"*.^
- #If {~@SomeoneElseFires<>1} {
-  #math DirectHits {~@DirectHits + 1}
- };
- #Var SomeoneElseFires 0;
- #Var TmpComputer1 {~%replace(~@ComputerAction,~~", )};
- #Var TmpComputer2 {~%replace(~@ComputerSaid,~~", )};
- GetWildcardValues {~%replace(~@TmpComputer1,  , )} {~%replace(~@TmpComputer2,  , )};
- mwplay Ship\Combat\OtherHit5@Ext;
- ExpPipe {~@ComputerSaid} {Hit on ~@Wildcard1 ~@Wildcard2~@Wildcard3.} {Hit on ~@Wildcard2~@Wildcard3.}
+Hit on *.^
+ #If {~%Defined(SomeoneElseFires)=0} {#Math DirectHits {~@DirectHits+1}} {#UnVar SomeoneElseFires};
+ mwplay Ship\Combat\OtherHit5~@Ext
 %Chr(250)
-Partial hit on * "*"*.^
- #If {~@SomeoneElseFires<>1} {
-  #Math PartialHits {~@PartialHits + 1}
- };
- #Var Tmp1 {~%replace(~@ComputerAction,~~", )};
- #Var Tmp2 {~%replace(~@ComputerSaid,~~", )};
- GetWildcardValues {~%replace(~@Tmp1,  , )} {~%replace(~@Tmp2,  , )};
- mwplay Ship\Combat\OtherHit*5@Ext;
- MirianiSoundPlay {Standard} Ship\Combat\PartialHit@Ext 20;
- ExpPipe {~@ComputerSaid} {Partial hit on ~@Wildcard1 ~@Wildcard2~@Wildcard3.} {Partial hit on ~@Wildcard2~@Wildcard3.}
+Partial hit on *.^
+ #If {~%Defined(SomeoneElseFires)=0} {#Math PartialHits {~@PartialHits+1}} {#UnVar SomeoneElseFires};
+ mwplay Ship\Combat\OtherHit3~@Ext;
+ MirianiSoundPlay {Standard} Ship\Combat\PartialHit~@Ext 20
 %Chr(250)
 * destroyed.^
- GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
- #If {~@Wildcard1="Debris"} {
-  #Math DestroyedDebris {~@DestroyedDebris + 1};
-  mwplay Ship\Combat\DebrisDestroyed@Ext
+ #If {~%Pos(Direct hit. ,~@ComputerSaid)=1} {
+  MirianiSoundPlay Standard Ship\Combat\OtherDestroyed*11~@Ext;
+  ExpPipe {~@ComputerSaid} {~@ComputerSaid} {~%Copy(~@ComputerSaid,13)}
  } {
-  #Math DirectHits {~@DirectHits + 1};
-  #Math DestroyedShips {~@DestroyedShips + 1};
-  #Math TotalShips {~@TotalShips + 1};
-  MirianiSoundPlay {Standard} Ship\Combat\OtherDestroyed*11@Ext
+  #Var Wildcard1 {~%Copy(~@ComputerSaid,1,~%Length(~@ComputerSaid)-11)};
+  #If {~%IfWord(~@Wildcard1,Blockade|Debris,|)=1} {
+   #If {~@Wildcard1="Debris"} {
+    #Math DestroyedDebris {~@DestroyedDebris+1};
+    mwplay Ship\Combat\DebrisDestroyed~@Ext
+   } {
+    MirianiSoundPlay Standard Ship\Combat\OtherDestroyed*11~@Ext
+   }
+  } {
+   #Math DirectHits {~@DirectHits+1};
+   #Math DestroyedShips {~@DestroyedShips+1};
+   #Math TotalShips {~@TotalShips+1};
+   MirianiSoundPlay {Standard} Ship\Combat\OtherDestroyed*11~@Ext
+  }
  }
 %Chr(250)
 * is locking onto empty space.^MirianiSoundPlay {Standard} General\Misc\Cancel~@Ext
