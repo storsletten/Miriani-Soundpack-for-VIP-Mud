@@ -147,15 +147,17 @@
   msplay General\Combat\UnloadAmmo*5@Ext
  }
 } {Main}
-#Trigger {You depress the cartridge release lever on a*, causing the loaded cartridge to slide out of the weapon, and into your hand.} {
- msplay General\Combat\UnloadGun*2@Ext;
- ExpPipe {%0} {%0} {You unload a%1};
- #Sub {@ExpString}
-} {Main}
-#Trigger {* depresses the cartridge release lever on a*, causing the loaded cartridge to slide out of the weapon, and into * hand.} {
- msplay General\Combat\UnloadGun*2@Ext;
- ExpPipe {%0} {%0} {%1 unloads a%2};
- #Sub {@ExpString}
+#Trigger {* depress* the cartridge release lever on *, causing the loaded cartridge to slide out of the weapon and into * hand.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  #If {%IfWord(%1,You,|)=1} {
+   msplay General\Combat\UnloadGun*2@Ext;
+   ExpPipe {%0} {%0} {You unload %3.}
+  } {
+   msplay General\Combat\UnloadGun*2@Ext -10;
+   ExpPipe {%0} {%0} {%1 unloads %3.}
+  };
+  #Sub {@ExpString}
+ }
 } {Main}
 #Trigger {The shot hits your *.} {
  msplay General\Combat\YouShot@Ext;

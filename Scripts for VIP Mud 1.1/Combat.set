@@ -147,12 +147,12 @@
 } {Main}
 #TRIGGER {You unload * from *} {msplay General\Combat\UnloadAmmo*5@Ext} {Main}
 #TRIGGER {* unloads * from *} {msplay General\Combat\UnloadAmmo*5@Ext} {Main}
-#TRIGGER {You depress the cartridge release lever on a*, causing the loaded cartridge to slide out of the weapon, and into your hand.} {
+#TRIGGER {You depress the cartridge release lever on a*, causing the loaded cartridge to slide out of the weapon and into your hand.} {
  msplay General\Combat\UnloadGun*2@Ext;
  ExpPipe {%0} {%0} {You unload a%1};
  #Sub {@ExpString}
 } {Main}
-#TRIGGER {* depresses the cartridge release lever on a*, causing the loaded cartridge to slide out of the weapon, and into * hand.} {
+#TRIGGER {* depresses the cartridge release lever on a*, causing the loaded cartridge to slide out of the weapon and into * hand.} {
  msplay General\Combat\UnloadGun*2@Ext;
  ExpPipe {%0} {%0} {%1 unloads a%2};
  #Sub {@ExpString}
