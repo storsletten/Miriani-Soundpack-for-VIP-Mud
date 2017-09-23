@@ -1,3 +1,6 @@
+Version 5.8.40, released 2017-09-23:
+* For 2.0: Ported some legacy 1.1 code to 2.0, for better performance.
+
 Version 5.8.39, released 2017-09-23:
 * For 2.0: Fixed several issues with scanning. Station format string works again, and several scan titles are now being properly gagged.
 
