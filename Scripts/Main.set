@@ -179,7 +179,7 @@ ConfManagerMenus|
   #If {%Defined(WhoOriginalHeader)=1} {
    WhoCheck {} {ReadingComplete};
    #UnGagLine;
-   #Sub {%Delete(@WhoData,1,2)};
+   #Sub {%Copy(@WhoData,3)};
    #UnVar WhoData
   } {
    #Exec {>#$#soundpack_ping_reply ms};
@@ -211,7 +211,7 @@ ConfManagerMenus|
  #If {@oobTmp1=*"soundpack echo | *"} {
   #If {%Defined(SPPromptAwaitingUserInput)=1} {
    #If {@SPPromptAcceptBlankUserInput=1 or %Length(%1)>17} {
-    #Exec {#Alarm 0 {SPPrompt Disable;@SPPromptCallback {%Copy(%1,18,%Eval(%Length(%1)-17))} {@SPPromptCallbackLastArg}}}
+    #Exec {#Alarm 0 {SPPrompt Disable;@SPPromptCallback {%Copy(%1,18)} {@SPPromptCallbackLastArg}}}
    } {
     msplay General\Misc\Cancel@Ext;
     #Say {Aborted.} NoVoice;
@@ -327,24 +327,20 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  #While {@WildcardTmp1<@WildcardTmp2} {
   #Math WildcardTmp1 {@WildcardTmp1+1};
   #Var WildcardTmp4 {%Word(%1,*,@WildcardTmp1)};
-  #Var WildcardTmp5 {%Word(%1,*,%Eval(@WildcardTmp1+1))};
-  #Math WildcardTmp6 {%Pos(%CRLF,@WildcardTmp4%CRLF)-1};
-  #Var {Wildcard@WildcardTmp1} {%Delete(@WildcardTmp3,1,@WildcardTmp6)};
-  #If {@WildcardTmp5<>""} {
-   #Math WildcardTmp7 {%Pos(@WildcardTmp5,@{Wildcard@WildcardTmp1})-1};
-   #If {@WildcardTmp7<0} {
-    #Var WildcardTmp7 0;
+  #Var WildcardTmp5 {%Word(%1,*,@WildcardTmp1+1)};
+  #Var {Wildcard@WildcardTmp1} {%Copy(@WildcardTmp3,%Length(@WildcardTmp4)+1)};
+  #If {%Length(@WildcardTmp5)>0} {
+   #Math WildcardTmp6 {%Pos(@WildcardTmp5,@{Wildcard@WildcardTmp1})-1};
+   #If {@WildcardTmp6<0} {
+    #Var WildcardTmp6 0;
     #Var {Wildcard@WildcardTmp1} {}
    } {
-    #Var {Wildcard@WildcardTmp1} {%Copy(@{Wildcard@WildcardTmp1},1,@WildcardTmp7)}
+    #Var {Wildcard@WildcardTmp1} {%Copy(@{Wildcard@WildcardTmp1},1,@WildcardTmp6)}
    }
   } {
-   #Math WildcardTmp7 {%Pos(%CRLF,@{Wildcard@WildcardTmp1}%CRLF)-1};
-   #If {@WildcardTmp7<0} {
-    #Var WildcardTmp7 0
-   }
+   #Var WildcardTmp6 {%Length(@{Wildcard@WildcardTmp1})}
   };
-  #Var WildcardTmp3 {%Delete(@WildcardTmp3,1,%Eval(@WildcardTmp6+@WildcardTmp7))}
+  #Var WildcardTmp3 {%Copy(@WildcardTmp3,%Length(@WildcardTmp4)+@WildcardTmp6+1)}
  }
 } {}
 
@@ -526,11 +522,11 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
    #If {%IfWord(%Right(@SPPromptCaption,1),. : ! ?, )=0} {#Var SPPromptCaption {@SPPromptCaption:}};
    #Say {@SPPromptCaption} NoDisplay
   };
-  #If {%Right(%2,2)=%CRLF} {#Var SPPromptOptions {%Copy(%2,1,%Eval(%Length(%2)-2))}} {#Var SPPromptOptions {%2}};
-  #If {%Left(@SPPromptOptions,2)=%CRLF} {#Var SPPromptOptions {%Copy(@SPPromptOptions,3,%Eval(%Length(@SPPromptOptions)-2))}};
+  #If {%Right(%2,2)=%CRLF} {#Var SPPromptOptions {%Copy(%2,1,%Length(%2)-2)}} {#Var SPPromptOptions {%2}};
+  #If {%Left(@SPPromptOptions,2)=%CRLF} {#Var SPPromptOptions {%Copy(@SPPromptOptions,3)}};
   #If {%Pos(:,%3)=1} {
    #Var SPPromptAcceptBlankUserInput 1;
-   #Var SPPromptCallback {%Copy(%3,2,%Eval(%Length(%3)-1))}
+   #Var SPPromptCallback {%Copy(%3,2)}
   } {
    #Var SPPromptAcceptBlankUserInput 0;
    #Var SPPromptCallback {%3}

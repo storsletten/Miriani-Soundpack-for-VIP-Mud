@@ -163,7 +163,7 @@ ArchaeologyCalculateDirection:0
  #Var ConfTmp1 {%Expand(@ConfTmp1)};
  #If {%Length(@ConfPreviousMenus)>0} {#Var ConfTmp1 {@ConfTmp1[0] Go back.%{CRLF}}};
  #Var ConfTmp3 {%Pos(%CRLF,@ConfTmp1)};
- SPPrompt {%Copy(@ConfTmp1,1,%Eval(@ConfTmp3-1))} {%Copy(@ConfTmp1,%Eval(@ConfTmp3+2),%Eval(%Length(@ConfTmp1)-@ConfTmp3-3))} {conf @ConfTmp2};
+ SPPrompt {%Copy(@ConfTmp1,1,@ConfTmp3-1)} {%Copy(@ConfTmp1,@ConfTmp3+2,%Length(@ConfTmp1)-@ConfTmp3-3)} {conf @ConfTmp2};
  #ForAll {MenuSetByAlias|MenuSetByPrompt|MenuVar|Tmp1|Tmp2|Tmp3} {#Exec {#UnVar {Conf%i}}}
 } {}
 
@@ -176,7 +176,7 @@ ArchaeologyCalculateDirection:0
  #Var ConfTriggeredByPrompt {%If(%Pos(:,%1)=1,1,0)};
  #Var ConfMenuSetByPrompt {%If(@ConfTriggeredByPrompt=1,%Copy(%1,2,1),0)};
  #Var ConfOptionSetByPrompt {%If(@ConfTriggeredByPrompt=1,%Copy(%1,3,1),0)};
- #If {@ConfTriggeredByPrompt=1} {#Var ConfPreviousMenus {%Copy(%1,4,%Eval(%Length(%1)-3))}} {#Var ConfPreviousMenus {}};
+ #If {@ConfTriggeredByPrompt=1} {#Var ConfPreviousMenus {%Copy(%1,4,%Length(%1)-3)}} {#Var ConfPreviousMenus {}};
  #Var ConfMenuSetByAlias 0;
  #Var ConfOptionSetByAlias 0;
  #Var ConfTmp1 {%If(@ConfTriggeredByPrompt=1,2,1)};
@@ -186,7 +186,7 @@ ArchaeologyCalculateDirection:0
  #If {@ConfTriggeredByPrompt=0} {
   #Var ConfTmp1 {%Pos(%CRLF@ConfMenu:,@ConfAliases)};
   #If {@ConfTmp1>0} {
-   #Var ConfTmp1 {%Delete(@ConfAliases,1,%Eval(@ConfTmp1+1))};
+   #Var ConfTmp1 {%Copy(@ConfAliases,@ConfTmp1+2)};
    #Var ConfTmp1 {%Word(@ConfTmp1,%CRLF,1)};
    #Var ConfMenu {%Word(@ConfTmp1,:,2)};
    #Var ConfMenuSetByAlias 1;
@@ -243,7 +243,7 @@ ArchaeologyCalculateDirection:0
    }
   } {
    #Var ConfTmp1 {%Word(@ConfMenus,%Chr(250),2)};
-   #Var ConfMenu {%Word(@ConfTmp1,%CRLF,%Eval(@ConfMenu+1))}
+   #Var ConfMenu {%Word(@ConfTmp1,%CRLF,@ConfMenu+1)}
   }
  };
  #If {%Length(@ConfMenu)=0} {
@@ -295,7 +295,7 @@ ArchaeologyCalculateDirection:0
   #Abort
  };
  #Var ConfTmp1 {%Word(@{@ConfMenuVar},%Chr(250),2)};
- #Var ConfOptionData {%Word(@ConfTmp1,%CRLF,%Eval(@ConfOption+1))};
+ #Var ConfOptionData {%Word(@ConfTmp1,%CRLF,@ConfOption+1)};
  #Var ConfOptionVar {%Word(@ConfOptionData,|,1)};
  #Var ConfOptionType {%Word(@ConfOptionData,|,2)};
  #Var ConfTmp1 {%NumWords(@ConfOptionType,:)};
@@ -310,7 +310,7 @@ ArchaeologyCalculateDirection:0
  #Var ConfOptionCaption {%If(@ConfTmp1>2,%Word(@ConfOptionData,|,3),)};
  #Var ConfOptionHint {%If(@ConfTmp1>3,%Word(@ConfOptionData,|,4),)};
  #Var ConfTmp1 {%Word(@{@ConfMenuVar},%Chr(250),1)};
- #Var ConfTmp1 {%Word(@ConfTmp1,%CRLF,%Eval(@ConfOption+1))};
+ #Var ConfTmp1 {%Word(@ConfTmp1,%CRLF,@ConfOption+1)};
  #Var ConfOptionLabel {%Word(@ConfTmp1,],2)};
  #Var ConfOptionLabel {%Word(@ConfOptionLabel,[,1)};
  #Var ConfOptionLabel {%Trim(@ConfOptionLabel)};
@@ -318,9 +318,9 @@ ArchaeologyCalculateDirection:0
  #Var ConfOptionValueOutput {};
  #Var ConfTmp1 {%Pos(%CRLF@ConfOptionVar:,@ConfOptionVars)};
  #If {@ConfTmp1>0} {
-  #Var ConfOptionDefaultValue {%Delete(@ConfOptionVars,1,@ConfTmp1)};
+  #Var ConfOptionDefaultValue {%Copy(@ConfOptionVars,@ConfTmp1+1)};
   #Math ConfTmp1 {%Pos(:,@ConfOptionDefaultValue)+1};
-  #Var ConfOptionDefaultValue {%Copy(@ConfOptionDefaultValue,@ConfTmp1,%Eval(%Length(@ConfOptionDefaultValue)+1-@ConfTmp1))};
+  #Var ConfOptionDefaultValue {%Copy(@ConfOptionDefaultValue,@ConfTmp1,%Length(@ConfOptionDefaultValue)+1-@ConfTmp1)};
   #Var ConfOptionDefaultValue {%Word(@ConfOptionDefaultValue,%CRLF,1)};
   #Var ConfOptionDefaultValue {%Replace(@ConfOptionDefaultValue,$CRLF,~%CRLF)};
   #Var ConfOptionDefaultValue {%Replace(@ConfOptionDefaultValue,$SPC, )};
@@ -356,11 +356,11 @@ ArchaeologyCalculateDirection:0
    #Var ConfTmp2 {%Pos(~,,%i)};
    #If {@ConfTmp2>0} {
     #If {@ConfTmp2=1} {
-     #Var ConfTmpOptionValue {%Copy(%i,2,%Eval(%Length(%i)-2))};
+     #Var ConfTmpOptionValue {%Copy(%i,2,%Length(%i)-2)};
      #Var ConfTmpOptionValueLabel {@ConfTmpOptionValue}
     } {
-     #Var ConfTmpOptionValue {%Copy(%i,1,%Eval(@ConfTmp2-1))};
-     #Var ConfTmpOptionValueLabel {%Copy(%i,%Eval(@ConfTmp2+1),%Eval(%Length(%i)-@ConfTmp2))}
+     #Var ConfTmpOptionValue {%Copy(%i,1,@ConfTmp2-1)};
+     #Var ConfTmpOptionValueLabel {%Copy(%i,@ConfTmp2+1,%Length(%i)-@ConfTmp2)}
     }
    } {
     #Var ConfTmpOptionValue {@ConfTmp1};
@@ -387,7 +387,7 @@ ArchaeologyCalculateDirection:0
     }
    }
   };
-  #If {%Left(@ConfOptionHint,2)=%CRLF} {#Var ConfOptionHint {%Delete(@ConfOptionHint,1,2)}};
+  #If {%Left(@ConfOptionHint,2)=%CRLF} {#Var ConfOptionHint {%Copy(@ConfOptionHint,3)}};
   #If {@ConfOptionSuccess=1 and %Length(@ConfOptionCallback)>0} {#Exec {@ConfOptionCallback}};
   #If {@ConfOptionSuccess=0} {
    #If {%Length(@ConfOptionValue)>0 or @ConfOptionSetByPrompt=1} {
@@ -511,7 +511,7 @@ ArchaeologyCalculateDirection:0
    #If {%Length(%i)>0} {
     #Var ConfTmp6 {%Word(%i,:,1)};
     #If {%NumWords(%i,:)>2} {
-     #Var {@ConfTmp6} {%Copy(%i,%Eval(%Length(@ConfTmp6)+2),%Eval(%Length(%i)-%Length(@ConfTmp6)-1))}
+     #Var {@ConfTmp6} {%Copy(%i,%Length(@ConfTmp6)+2,%Length(%i)-%Length(@ConfTmp6)-1)}
     } {
      #Var {@ConfTmp6} {%Word(%i,:,2)}
     };
@@ -595,7 +595,7 @@ ArchaeologyCalculateDirection:0
    #Var ConfTmp6 {%Word(%i,:,1)};
    #If {%Defined(@ConfTmp6)=0} {
     #If {%NumWords(%i,:)>2} {
-     #Var {@ConfTmp6} {%Copy(%i,%Eval(%Length(@ConfTmp6)+2),%Eval(%Length(%i)-%Length(@ConfTmp6)-1))}
+     #Var {@ConfTmp6} {%Copy(%i,%Length(@ConfTmp6)+2,%Length(%i)-%Length(@ConfTmp6)-1)}
     } {
      #Var {@ConfTmp6} {%Word(%i,:,2)}
     };
@@ -615,7 +615,7 @@ ArchaeologyCalculateDirection:0
   #Exec {#%Eval(@ConfPrintLines-10) {#Var ConfTmp6 {~@ConfTmp6~%Word(~@ConfEchoText,%CRLF,~%i)%CRLF}}};
   #Say @ConfTmp6 NoReturn
  };
- #Sub {%Word(@ConfEchoText,%CRLF,%Eval(1+@ConfPrintLines-(%Min(@ConfPrintLines,10)-%1)))};
+ #Sub {%Word(@ConfEchoText,%CRLF,1+@ConfPrintLines-(%Min(@ConfPrintLines,10)-%1))};
  #If {%Min(@ConfPrintLines,10)=%Eval(%1+1)} {
   #Class ConfEcho Disable;
   #Var ConfEchoText {}

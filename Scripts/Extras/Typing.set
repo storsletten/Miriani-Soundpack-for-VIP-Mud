@@ -146,3 +146,26 @@ Numpad*:Flip,Flip
  #Var NumpadTypingIndex 0;
  #Var NumpadTypingLetter {}
 } {}
+
+#Alias typespeed {
+ #Var TypeSpeedTmp1 {%Trim(%0)};
+ #Var TypeSpeedTmp1 {%Replace(@TypeSpeedTmp1,~",)};
+ #Var TypeSpeedTmp1 {%Replace(@TypeSpeedTmp1,~~,)};
+ #If {@TypeSpeedTmp1=""} {
+  #UnAlarm -1;
+  #Alarm 60 {
+   #Say {Time's up! Hit enter to see your result.};
+   msplay {LaserTag\NoTargets@Ext}
+  };
+  #Say {typespeed } Entry|NoReturn;
+  #Say {Start typing!}
+ } {
+  #Var TypeSpeedTmp2 {%Pos(%CRLF,%0%CRLF)};
+  #Math TypeSpeedTmp2 {@TypeSpeedTmp2-2};
+  #Math TypeSpeedTmp3 {@TypeSpeedTmp2/5};
+  #Say {Approximately @TypeSpeedTmp3 words per minute!};
+  #UnVar TypeSpeedTmp2;
+  #UnVar TypeSpeedTmp3
+ };
+ #UnVar TypeSpeedTmp1
+} {}

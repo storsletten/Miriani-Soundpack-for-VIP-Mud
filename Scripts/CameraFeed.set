@@ -2,8 +2,8 @@
  #Var CameraTmp1 {%Replace(%2,~~,)};
  #Var CameraTmp1 {%Replace(@CameraTmp1,~",)};
  #If {@CameraTmp1=*"(*) *"} {
-  #Var CameraTmp2 {(%1, %Copy(%2,2,%Eval(%Pos(~~~~~~~),%2)-1))};
-  #Var CameraTmp3 {%Delete(%2,1,%Eval(%Pos(~~~~~~~),%2)+1))};
+  #Var CameraTmp2 {(%1, %Copy(%2,2,%Pos(~~~),%2)-1)};
+  #Var CameraTmp3 {%Copy(%2,%Pos(~~~),%2)+2)};
   #Var CameraTmp1 {%Replace(@CameraTmp3,~",)}
  } {
   #Var CameraTmp2 {(%1)};
@@ -30,7 +30,7 @@
    #Var CameraTmp1 {%Copy(@CameraTmp1,1,@CameraTmp3)};
    #Var CameraTmp3 { has fired at };
    #Var CameraTmp3 {%Pos(@CameraTmp3,@CameraTmp1)};
-   #Var CameraTmp3 {%Delete(@CameraTmp1,1,%Eval(@CameraTmp3+13)) hit by %Copy(@CameraTmp1,1,@CameraTmp3)}
+   #Var CameraTmp3 {%Copy(@CameraTmp1,@CameraTmp3+14) hit by %Copy(@CameraTmp1,1,@CameraTmp3)}
   } {
    #Var CameraTmp3 {@CameraTmp1}
   }

@@ -43,15 +43,15 @@
    #If {%IfWord(%2,Ontanka|Praelor,|)=1 and @MutePraelorIsEnemySound=0} {msplay Ship\Computer\PraelorIsEnemy@Ext};
    #If {%Pos(Praelor ,%1)=1} {
     #If {%IsNumber(%Word(%1, ,%NumWords(%1, )))=1} {
-     #Var ScanObjectTypeRaw {%Word(%1, ,%Eval(%NumWords(%1, )-1))}
+     #Var ScanObjectTypeRaw {%Word(%1, ,%NumWords(%1, )-1)}
     };
-    #Var ScanObjectNameRaw {%Copy(%1,9,%Eval(%Length(%1)-8))}
+    #Var ScanObjectNameRaw {%Copy(%1,9)}
    }
   } {
    #If {%IfWord(%2,AIE|Blue|CHRISTMAS|Commonwealth|Courier|CTN|Green|Hale|High Guard|Observer|Pink|Red,|)=1 and %NumWords(%1,~")=3} {
     #If {%Pos(The ,%1)=1 and %Pos(-person ,%1)>0} {
      #Var ScanObjectTypeRaw {%Word(%1,~",1)};
-     #Var ScanObjectTypeRaw {%Copy(@ScanObjectTypeRaw,5,%Eval(%Length(@ScanObjectTypeRaw)-5))};
+     #Var ScanObjectTypeRaw {%Copy(@ScanObjectTypeRaw,5,%Length(@ScanObjectTypeRaw)-5)};
      #Var ScanObjectNameRaw {%Word(%1,~",2)}
     }
    }
@@ -82,7 +82,7 @@
 #Alias ScanProcessOutput {
  MainTrigSwitch 1;
  #If {@ScanObjectDistanceRaw=1} {#Var ScanObjectDistanceUnits {unit}} {#Var ScanObjectDistanceUnits {units}};
- #If {%Left(@ScanObjectCoordinatesRaw,1)="("} {#Var ScanObjectCoordinatesRaw {%Copy(@ScanObjectCoordinatesRaw,2,%Eval(%Length(@ScanObjectCoordinatesRaw)-2))}};
+ #If {%Left(@ScanObjectCoordinatesRaw,1)="("} {#Var ScanObjectCoordinatesRaw {%Copy(@ScanObjectCoordinatesRaw,2,%Length(@ScanObjectCoordinatesRaw)-2)}};
  #Var ScanObjectCoordinatesRaw {%Replace(@ScanObjectCoordinatesRaw,~,,)};
  #If {%Length(@ScanObjectObjectTypeRaw)=0} {
   #If {%Length(@ScanObjectWeaponsRaw)>0} {#Var ScanObjectObjectTypeRaw {Starship};#Abort};
@@ -129,7 +129,7 @@
   };
   #Math ScanTmp1 {@ScanTmp1 + 1}
  };
- #If {%Length(@ScanObjectEverythingElse)>0} {#Var ScanObjectEverythingElse {%Copy(@ScanObjectEverythingElse,3,%Eval(%Length(@ScanObjectEverythingElse)-3))}};
+ #If {%Length(@ScanObjectEverythingElse)>0} {#Var ScanObjectEverythingElse {%Copy(@ScanObjectEverythingElse,3,%Length(@ScanObjectEverythingElse)-3)}};
  #UnVar ScanTmp1;
  #UnVar ScanTmp2;
  msplay Ship\Computer\Scan*4@Ext;
@@ -150,9 +150,9 @@
   #Var ScanFormatOutput {%Replace(@ScanFormatOutput,%CRLF.%CRLF,%CRLF)};
   #Var ScanFormatOutput {%Replace(@ScanFormatOutput,%CRLF%CRLF,%CRLF)}
  };
- #If {%Pos(.,@ScanFormatOutput)=1} {#Var ScanFormatOutput {%Copy(@ScanFormatOutput,2,%Eval(%Length(@ScanFormatOutput)-1))}};
- #If {%Pos(%CRLF,@ScanFormatOutput)=1} {#Var ScanFormatOutput {%Copy(@ScanFormatOutput,3,%Eval(%Length(@ScanFormatOutput)-2))}};
- #If {%Replace(%Right(@ScanFormatOutput,2),~",)=%CRLF} {#Var ScanFormatOutput {%Copy(@ScanFormatOutput,1,%Eval(%Length(@ScanFormatOutput)-2))}};
+ #If {%Pos(.,@ScanFormatOutput)=1} {#Var ScanFormatOutput {%Copy(@ScanFormatOutput,2)}};
+ #If {%Pos(%CRLF,@ScanFormatOutput)=1} {#Var ScanFormatOutput {%Copy(@ScanFormatOutput,3)}};
+ #If {%Replace(%Right(@ScanFormatOutput,2),~",)=%CRLF} {#Var ScanFormatOutput {%Copy(@ScanFormatOutput,1,%Length(@ScanFormatOutput)-2)}};
  #UnVar ScanTmp1;
  #UnVar ScanObject
 } {}

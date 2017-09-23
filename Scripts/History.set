@@ -139,7 +139,7 @@
       #If {"say"=*@HistoryTmp1} {
        #Say {Message %Min(%3,@HistoryTmp4) to %Max(%3,@HistoryTmp4) in the %Replace(@HistoryTmp2,0, ) buffer:@HistoryTmp5}
       } {
-       #Clipboard {%Delete(@HistoryTmp5,1,2)};
+       #Clipboard {%Copy(@HistoryTmp5,3)};
        #Say {Copied message %Min(%3,@HistoryTmp4) to %Max(%3,@HistoryTmp4) from the %Replace(@HistoryTmp2,0, ) buffer} NoDisplay
       }
      } {
@@ -177,7 +177,7 @@
      #If {@HistoryTmp2="Output"} {
       #Var HistoryTmp3 {};
       #If {"say"=*@HistoryTmp1} {
-       #10 {#Var HistoryTmp3 {@HistoryTmp3%CRLF %LastLine(%Eval(11-%i))}}
+       #10 {#Var HistoryTmp3 {@HistoryTmp3%CRLF %LastLine(11-%i)}}
       } {
        #10 {#Var HistoryTmp3 {@HistoryTmp3%CRLF%LastLine(%i)}}
       }
@@ -195,7 +195,7 @@
      #If {"say"=*@HistoryTmp1} {
       #Say {All content of the %Replace(@HistoryTmp2,0, ) buffer:@HistoryTmp3}
      } {
-      #Clipboard {%Delete(@HistoryTmp3,1,2)};
+      #Clipboard {%Copy(@HistoryTmp3,3)};
       #Say {Copied the %Replace(@HistoryTmp2,0, ) buffer} NoDisplay
      }
     }
@@ -307,7 +307,7 @@
   #Say {%LastLine(@CurrentHistoryBufferPosition)} NoDisplay;
   #If {@PrintVoiceOnly=1} {#Say {[Review] %LastLine(@CurrentHistoryBufferPosition)} NoVoice}
  } {
-  #Var HistoryTmp1 {%Word(@{History@{CurrentHistoryBuffer}Messages},|,%Eval(%NumWords(@{History@{CurrentHistoryBuffer}Messages},|)+1-@CurrentHistoryBufferPosition))};
+  #Var HistoryTmp1 {%Word(@{History@{CurrentHistoryBuffer}Messages},|,%NumWords(@{History@{CurrentHistoryBuffer}Messages},|)+1-@CurrentHistoryBufferPosition)};
   #Var HistoryTmp1 {%Replace(@HistoryTmp1,@CR@CR,|)};
   #If {@CurrentHistoryBuffer="Played0Sounds" and @PlaySoundsOnReview=1 and @Silent=0} {
    #If {%Pos(:,@HistoryTmp1)>0} {
@@ -322,7 +322,7 @@
     #If {%Defined(HistorySoundHandle)=1} {
      #PC @HistorySoundHandle Stop
     };
-    #Play {@HistoryTmp4%Copy(@HistoryTmp1,%Eval(@HistoryTmp2+2),%Eval(@HistoryTmp3-(@HistoryTmp2+2)))} {%Min(%Eval(@Vol+@HistoryVolumeOffset),100)};
+    #Play {@HistoryTmp4%Copy(@HistoryTmp1,@HistoryTmp2+2,@HistoryTmp3-(@HistoryTmp2+2))} {%Min(@Vol+@HistoryVolumeOffset,100)};
     #Var HistorySoundHandle %PlayHandle;
     #PC @HistorySoundHandle Pan @HistoryPanning
    }
@@ -399,7 +399,7 @@
      #Var BuffersForReview {@BuffersForReview,%I}
     }
    };
-   #Var BuffersForReview {%Delete(@BuffersForReview,1,1)};
+   #Var BuffersForReview {%Copy(@BuffersForReview,2)};
    #If {@SelectedBuffer<>""} {
     #Say {Set!}
    };

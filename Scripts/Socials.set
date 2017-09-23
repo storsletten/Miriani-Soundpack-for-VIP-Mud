@@ -82,13 +82,13 @@ yawn:yawns:General\Socials\yawn*2
    #If {@SocialsTmp1=0} {
     #Var SocialsTmp1 {}
    } {
-    #Var SocialsTmp2 {%Word(%Delete(@Actions,1,@SocialsTmp1),%CRLF,1)};
+    #Var SocialsTmp2 {%Word(%Copy(@Actions,@SocialsTmp1+1),%CRLF,1)};
     #Var SocialsTmp1 {%Copy(@Actions,1,@SocialsTmp1)};
     #Var SocialsTmp1 {%Word(@SocialsTmp1,%CRLF,%NumWords(@SocialsTmp1,@LF))};
     #Var SocialsTmp1 {@SocialsTmp1@SocialsTmp2}
    }
   } {
-   #Var SocialsTmp1 {%Word(%Delete(@Actions,1,%Eval(@SocialsTmp1+1)),%CRLF,1)}
+   #Var SocialsTmp1 {%Word(%Copy(@Actions,@SocialsTmp1+2),%CRLF,1)}
   };
   #If {@SocialsTmp1<>""} {
    #If {@BypassActionToggles=0} {
@@ -132,13 +132,13 @@ yawn:yawns:General\Socials\yawn*2
    #If {@SocialsTmp1=0} {
     #Var SocialsTmp1 {}
    } {
-    #Var SocialsTmp2 {%Word(%Delete(@Socials,1,@SocialsTmp1),%CRLF,1)};
+    #Var SocialsTmp2 {%Word(%Copy(@Socials,@SocialsTmp1+1),%CRLF,1)};
     #Var SocialsTmp1 {%Copy(@Socials,1,@SocialsTmp1)};
     #Var SocialsTmp1 {%Word(@SocialsTmp1,%CRLF,%NumWords(@SocialsTmp1,@LF))};
     #Var SocialsTmp1 {@SocialsTmp1@SocialsTmp2}
    }
   } {
-   #Var SocialsTmp1 {%Word(%Delete(@Socials,1,%Eval(@SocialsTmp1+1)),%CRLF,1)}
+   #Var SocialsTmp1 {%Word(%Copy(@Socials,@SocialsTmp1+2),%CRLF,1)}
   };
   #If {@SocialsTmp1<>""} {
    #If {@BypassSocialToggles=0} {

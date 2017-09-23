@@ -64,7 +64,7 @@ Omega Sector:115
   #Var CharEncoderTmp2 {@{%1}};
   #Var CharEncoderTmp1 {%Pos(~%~{,@CharEncoderTmp2)};
   #While {@CharEncoderTmp1>0} {
-   #Var CharEncoderTmp2 {%Delete(@CharEncoderTmp2,1,%Eval(@CharEncoderTmp1+1))};
+   #Var CharEncoderTmp2 {%Copy(@CharEncoderTmp2,@CharEncoderTmp1+2)};
    #If {%Pos(~},@CharEncoderTmp2)>0} {#Var CharEncoderTmp1 {%Word(@CharEncoderTmp2,~},1)}};
    #If {%IsNumber(@CharEncoderTmp1)=1} {
     #Var CharEncoderTmp3 {%Chr(@CharEncoderTmp1)};
@@ -115,7 +115,7 @@ Omega Sector:115
   #Var TmpCommunication5 {};
   #If {@TmpCommunication1=*"Frequency *.*"} {
    #Var TmpCommunication5 {Comms Framework|General\Comm\Metaf@Ext};
-   #Var TmpCommunication2 {%Delete(@TmpCommunication1,1,10)};
+   #Var TmpCommunication2 {%Copy(@TmpCommunication1,11)};
    #If {%Word(@TmpCommunication2,.,2)="0"} {
     #Var TmpCommunication2 {%Word(@TmpCommunication2,.,1)}
    } {
@@ -131,13 +131,13 @@ Omega Sector:115
   };
   #If {@TmpCommunication1=*"AIE | *" or @TmpCommunication1=*"Commonwealth | *" or @TmpCommunication1=*"Hale | *"} {
    #Var TmpCommunication5 {Comms Framework|General\Comm\Alliance@Ext};
-   #Var TmpCommunication2 {[%Delete(@TmpCommunication1,1,%Eval(%Pos(|,@TmpCommunication1)+1))]};
+   #Var TmpCommunication2 {[%Copy(@TmpCommunication1,%Pos(|,@TmpCommunication1)+2)]};
    #Var TmpCommunication4 {Alliance0Channel};
    #Var TmpCommunication1 {}
   };
   #If {@TmpCommunication1=*"* Alliance"} {
    #Var TmpCommunication5 {Comms Framework|General\Comm\Alliance@Ext};
-   #Var TmpCommunication2 {[%Copy(@TmpCommunication1,1,%Eval(%Pos(" Alliance",@TmpCommunication1)-1))]};
+   #Var TmpCommunication2 {[%Copy(@TmpCommunication1,1,%Pos( Alliance,@TmpCommunication1)-1)]};
    #Var TmpCommunication4 {Interalliance0Channel};
    #Var TmpCommunication1 {}
   };
@@ -191,7 +191,7 @@ Omega Sector:115
   };
   #If {@TmpCommunication1=*"Private | *"} {
    #Var TmpCommunication5 {Comms Framework|General\Comm\Private@Ext};
-   #Var TmpCommunication2 {%Delete(@TmpCommunication1,1,10)};
+   #Var TmpCommunication2 {%Copy(@TmpCommunication1,11)};
    #Var TmpCommunication3 {%Replace(%2,~~,)};
    #Var TmpCommunication3 {%Replace(@TmpCommunication3,~",)};
    #Var TmpCommunication1 {@TmpCommunication2*};
@@ -202,20 +202,20 @@ Omega Sector:115
    };
    #If {@TmpCommunication3=*@TmpCommunication1} {
     #Var TmpCommunication2 {[@TmpCommunication2]};
-    #Var TmpCommunication1 {%Eval(%Pos("*",@TmpCommunication1)+1)};
-    #Var TmpCommunication3 {%Eval(%Pos(~~",%2)+1)};
+    #Math TmpCommunication1 {%Pos(*,@TmpCommunication1)+1};
+    #Math TmpCommunication3 {%Pos(~",%2)+1};
     #If {@TmpCommunication1>@TmpCommunication3} {
-     #Var TmpCommunication3 {:%Delete(%2,1,%Eval(@TmpCommunication1-1))}
+     #Var TmpCommunication3 {:%Copy(%2,@TmpCommunication1)}
     } {
-     #Var TmpCommunication3 {:%Copy(%2,@TmpCommunication1,%Eval(@TmpCommunication3-@TmpCommunication1-3)): %Copy(%2,@TmpCommunication3,%Eval(%Length(%2)-@TmpCommunication3))}
+     #Var TmpCommunication3 {:%Copy(%2,@TmpCommunication1,@TmpCommunication3-@TmpCommunication1-3): %Copy(%2,@TmpCommunication3,%Length(%2)-@TmpCommunication3)}
     }
    } {
     #Var TmpCommunication2 {[@TmpCommunication2]};
-    #Var TmpCommunication1 {%Eval(%Pos(~~",%2)+1)};
+    #Math TmpCommunication1 {%Pos(~",%2)+1};
     #If {@TmpCommunication1=1} {
      #Var TmpCommunication3 {:}
     } {
-     #Var TmpCommunication3 {:%Copy(%2,1,%Eval(@TmpCommunication1-4)): %Copy(%2,@TmpCommunication1,%Eval(%Length(%2)-@TmpCommunication1))}
+     #Var TmpCommunication3 {:%Copy(%2,1,@TmpCommunication1-4): %Copy(%2,@TmpCommunication1,%Length(%2)-@TmpCommunication1)}
     }
    };
    #Var TmpCommunication1 {}
@@ -234,7 +234,7 @@ Omega Sector:115
   };
   #If {@TmpCommunication1=""} {
    #If {%Pos(:,@TmpCommunication3)=1} {
-    #Var TmpCommunication3 {%Delete(@TmpCommunication3,1,1)};
+    #Var TmpCommunication3 {%Copy(@TmpCommunication3,2)};
     #If {%Length(@TmpCommunication3)=0} {
      #Var TmpCommunication3 {%2}
     };
@@ -244,17 +244,17 @@ Omega Sector:115
      #Var TmpCommunication3 {%2}
     };
     #If {%NumWords(%2,~")>2 and %Replace(%Right(%2,1),~",)=""} {
-     #Var TmpCommunication1 {%Eval(%Pos(~~",%2)+1)};
-     #Var TmpCommunication3 {%Copy(%2,1,%Eval(@TmpCommunication1-4)): %Copy(%2,@TmpCommunication1,%Eval(%Length(%2)-@TmpCommunication1))};
+     #Math TmpCommunication1 {%Pos(~",%2)+1};
+     #Var TmpCommunication3 {%Copy(%2,1,@TmpCommunication1-4): %Copy(%2,@TmpCommunication1,%Length(%2)-@TmpCommunication1)};
      #Var TmpCommunication1 {%Pos(:,@TmpCommunication3)};
      #If {@StripMessagePrefix=1 and @TmpCommunication1>9} {
-      #Var TmpCommunication1 {%Replace(%Copy(@TmpCommunication3,1,%Eval(@TmpCommunication1+1)),~",)};
+      #Var TmpCommunication1 {%Replace(%Copy(@TmpCommunication3,1,@TmpCommunication1+1),~",)};
       #Var TmpCommunication1 {%Replace(@TmpCommunication1,~~,)};
       #If {@TmpCommunication1=*"*transmits: "} {
        #If {@TmpCommunication1=*"* and transmits: "} {
         #Var TmpCommunication1 {@TmpCommunication3}
        } {
-        #Var TmpCommunication1 {%Delete(@TmpCommunication3,%Eval(%Pos(:,@TmpCommunication3)-10),10)}
+        #Var TmpCommunication1 {%Delete(@TmpCommunication3,%Pos(:,@TmpCommunication3)-10,10)}
        }
       } {
        #Var TmpCommunication1 {@TmpCommunication3}
@@ -265,13 +265,13 @@ Omega Sector:115
     } {
      #Var TmpCommunication1 {%Pos(~,,@TmpCommunication3)};
      #If {@TmpCommunication1>9} {
-      #Var TmpCommunication1 {%Replace(%Copy(@TmpCommunication3,1,%Eval(@TmpCommunication1+1)),~",)};
+      #Var TmpCommunication1 {%Replace(%Copy(@TmpCommunication3,1,@TmpCommunication1+1),~",)};
       #Var TmpCommunication1 {%Replace(@TmpCommunication1,~~,)};
       #If {@StripMessagePrefix=1 and @TmpCommunication1=*"*transmits, "} {
        #If {@TmpCommunication1=*"* and transmits, "} {
         #Var TmpCommunication1 {@TmpCommunication3}
        } {
-        #Var TmpCommunication1 {%Delete(@TmpCommunication3,%Eval(%Pos(~~~~~,,@TmpCommunication3)-10),10)}
+        #Var TmpCommunication1 {%Delete(@TmpCommunication3,%Pos(~~,,@TmpCommunication3)-10,10)}
        }
       } {
        #Var TmpCommunication1 {@TmpCommunication3}
@@ -320,7 +320,7 @@ Omega Sector:115
     #Var TmpCommunication1 {You say: }
    };
    #If {%Length(%2)>1} {
-    CharEncoder TmpCommunication3 {%Copy(%2,1,%Eval(%Length(%2)-3))} decode
+    CharEncoder TmpCommunication3 {%Copy(%2,1,%Length(%2)-3)} decode
    } {
     #Var TmpCommunication3 {}
    };
@@ -331,12 +331,12 @@ Omega Sector:115
   };
   #If {@TmpCommunication1=*"[[] * shatters immersion and says"} {
    msplay General\Comm\Rooc@ext;
-   #Var TmpCommunication1 {%Copy(@TmpCommunication1,3,%Eval(%Length(@TmpCommunication1)-30))};
+   #Var TmpCommunication1 {%Copy(@TmpCommunication1,3,%Length(@TmpCommunication1)-30)};
    #If {@StripMessagePrefix=0} {
     #Var TmpCommunication1 {@TmpCommunication1 says}
    };
    #If {%Length(%2)>1} {
-    CharEncoder TmpCommunication3 {%Copy(%2,1,%Eval(%Length(%2)-3))} decode
+    CharEncoder TmpCommunication3 {%Copy(%2,1,%Length(%2)-3)} decode
    } {
     #Var TmpCommunication3 {}
    };
@@ -356,7 +356,7 @@ Omega Sector:115
     } {
      #Var PaString 0
     };
-    CharEncoder PaString {%Copy(%1,1,%Eval(%Length(%1)-@PaString)): %Copy(%2,1,%Eval(%Length(%2)-46))} decode;
+    CharEncoder PaString {%Copy(%1,1,%Length(%1)-@PaString): %Copy(%2,1,%Length(%2)-46)} decode;
     MirianiSoundPlay {Comms Framework} Ship\Comm\pa*9@Ext;
     #Sub {@PaPrefix@PaString};
     PushMessage PA {@PaPrefix@PaString};
@@ -368,7 +368,7 @@ Omega Sector:115
     } {
      #Var TmpCommunication1 {%1: }
     };
-    CharEncoder TmpCommunication3 {%Copy(%2,1,%Eval(%Length(%2)-84))} decode;
+    CharEncoder TmpCommunication3 {%Copy(%2,1,%Length(%2)-84)} decode;
     MirianiSoundPlay {Comms Framework} Ship\Comm\PA*9@Ext;
     #Sub {@ExtPrefix@TmpCommunication1@TmpCommunication3};
     PushMessage PA {@ExtPrefix@TmpCommunication1@TmpCommunication3};
@@ -377,16 +377,16 @@ Omega Sector:115
    #If {@TmpCommunication4=" (A quick note of the power level reveals that your message did not carry outside of this room.)"} {
     #Var TmpCommunication1 {%Pos(" and ",%1)};
     #Math TmpCommunication1 {@TmpCommunication1+3};
-    #Var TmpCommunication1 {%Delete(%1,1,@TmpCommunication1)};
+    #Var TmpCommunication1 {%Copy(%1,@TmpCommunication1+1)};
     #If {@StripMessagePrefix=1 and @TmpCommunication2="say" and %Pos(" and ",@TmpCommunication1)=0} {
      #Var TmpCommunication1 {}
     } {
      #Var TmpCommunication1 { and };
      #Var TmpCommunication1 {%Pos(@TmpCommunication1,%1)};
-     #Var TmpCommunication1 {You %Delete(%1,1,%Eval(@TmpCommunication1+4)): }
+     #Var TmpCommunication1 {You %Copy(%1,@TmpCommunication1+5): }
     };
     MirianiSoundPlay {Comms Framework} General\Rooms\Beep9@RExt;
-    CharEncoder TmpCommunication3 {[Dead PA] @TmpCommunication1%Left(%2,%Eval(%Length(%2)-97))} decode;
+    CharEncoder TmpCommunication3 {[Dead PA] @TmpCommunication1%Left(%2,%Length(%2)-97)} decode;
     #Sub {@TmpCommunication3};
     PushMessage PA {@TmpCommunication3};
     #Var TmpCommunication1 {}
@@ -395,17 +395,17 @@ Omega Sector:115
    #If {%Length(%2)<=1} {
     #Var TmpCommunication3 {}
    } {
-    CharEncoder TmpCommunication3 {%Copy(%2,1,%Eval(%Length(%2)-1))} decode
+    CharEncoder TmpCommunication3 {%Copy(%2,1,%Length(%2)-1)} decode
    };
    #If {@TmpCommunication1=*"* flight control scanner announce*"} {
     #If {@ShowFCSectorNamesAsNumbers=1 and %NumWords(@TmpCommunication3,~,)>1} {
      #Var TmpCommunication1 {%Word(@TmpCommunication3,~,,1)};
      #If {%Pos(Flight control in ,@TmpCommunication1)=1} {
-      #Var TmpCommunication1 {%Delete(@TmpCommunication1,1,18)}
+      #Var TmpCommunication1 {%Copy(@TmpCommunication1,19)}
      } {
       #If {%Replace(@TmpCommunication1,~",)=*"* to * flight control"} {
-       #Var TmpCommunication1 {%Delete(@TmpCommunication1,1,%Eval(%Pos( to ,@TmpCommunication1)+3))};
-       #Var TmpCommunication1 {%Copy(@TmpCommunication1,1,%Eval(%Length(@TmpCommunication1)-15))}
+       #Var TmpCommunication1 {%Copy(@TmpCommunication1,%Pos( to ,@TmpCommunication1)+4)};
+       #Var TmpCommunication1 {%Copy(@TmpCommunication1,1,%Length(@TmpCommunication1)-15)}
       } {
        #Var TmpCommunication1 {}
       }
@@ -414,14 +414,14 @@ Omega Sector:115
       #Var TmpCommunication2 {%CRLF@TmpCommunication1:};
       #Var TmpCommunication2 {%Pos(@TmpCommunication2,@NumberedSectors)};
       #If {@TmpCommunication2>0} {
-       #Var TmpCommunication2 {%Delete(@NumberedSectors,1,@TmpCommunication2)};
+       #Var TmpCommunication2 {%Copy(@NumberedSectors,@TmpCommunication2+1)};
        #Var TmpCommunication2 {%Word(@TmpCommunication2,:,2)};
        #Var TmpCommunication2 {sector %Word(@TmpCommunication2,%CRLF,1)};
        #If {%Pos(Flight control in ,@TmpCommunication3)=1} {
-        #Var TmpCommunication3 {Flight control in @TmpCommunication2,%Delete(@TmpCommunication3,1,%Pos(~~~,,@TmpCommunication3))}
+        #Var TmpCommunication3 {Flight control in @TmpCommunication2,%Copy(@TmpCommunication3,%Pos(~~~,,@TmpCommunication3)+1)}
        } {
         #Var TmpCommunication2 {%Replace(%Word(@TmpCommunication3,~~~,,1), to @TmpCommunication1 flight control, to @TmpCommunication2 flight control)};
-        #Var TmpCommunication3 {@TmpCommunication2,%Delete(@TmpCommunication3,1,%Pos(~~~,,@TmpCommunication3))}
+        #Var TmpCommunication3 {@TmpCommunication2,%Copy(@TmpCommunication3,%Pos(~~~,,@TmpCommunication3)+1)}
        }
       }
      }
@@ -457,7 +457,7 @@ Omega Sector:115
      #If {@TmpCommunication2<>"says" or @StripMessagePrefix=0 or @TmpCommunication1=*"* and says"} {
       #Var TmpCommunication1 {%1}
      } {
-      #Var TmpCommunication1 {%Copy(%1,1,%Eval(%Length(%1)-5))}
+      #Var TmpCommunication1 {%Copy(%1,1,%Length(%1)-5)}
      };
      #Sub {@TmpCommunication1: @TmpCommunication3};
      PushMessage Say {@TmpCommunication1: @TmpCommunication3};
@@ -490,7 +490,7 @@ Omega Sector:115
     #Var TmpCommunication2 {%Trim(@TmpCommunication2)};
     #Var TmpPAWorkaround1 {%Word(@TmpCommunication2, ,3)};
     #Math TmpPAWorkaround1 {%Length(@TmpPAWorkaround1)+12};
-    #Var TmpCommunication2 {%Delete(@TmpCommunication2,1,@TmpPAWorkaround1) };
+    #Var TmpCommunication2 {%Copy(@TmpCommunication2,@TmpPAWorkaround1+1) };
     #Var TmpCommunication2 {%Trim(@TmpCommunication2)};
     #If {@StripMessagePrefix=1 and @TmpCommunication2="say"} {
      #Var TmpCommunication2 {@TmpCommunication1: }
@@ -506,7 +506,7 @@ Omega Sector:115
    #If {@TmpCommunication1=*"From a large speaker on *, you hear *"} {
     MirianiSoundPlay {Comms Framework} Ship\Comm\PA*9@Ext;
     #Var TmpCommunication1 {%Pos(", you hear ",%1)};
-    #Var TmpCommunication1 {From %Copy(%1,25,%Eval(@TmpCommunication1-25)), you hear %Delete(%1,1,%Eval(@TmpCommunication1+10)): };
+    #Var TmpCommunication1 {From %Copy(%1,25,@TmpCommunication1-25), you hear %Copy(%1,@TmpCommunication1+11): };
     #Sub {@ExtPrefix@TmpCommunication1@TmpCommunication3};
     PushMessage PA {@ExtPrefix@TmpCommunication1@TmpCommunication3};
     #Var TmpCommunication1 {}
@@ -515,7 +515,7 @@ Omega Sector:115
     #If {@TmpCommunication1=%Trim(@TmpCommunication1) and %Word(@TmpCommunication1, ,1)<>"This"} {
      MirianiSoundPlay {Comms Framework} General\Socials\Transmit@Ext;
      #If {@StripMessagePrefix=1} {
-      #Var TmpCommunication1 {%Copy(%1,1,%Eval(%Length(%1)-10))}
+      #Var TmpCommunication1 {%Copy(%1,1,%Length(%1)-10)}
      } {
       #Var TmpCommunication1 {%1}
      };
@@ -533,13 +533,13 @@ Omega Sector:115
    #If {@TmpCommunication1=*"You press a small button * the wall and *" or @TmpCommunication1=*"You patch your suit radio through the ship's PA system and *"} {
     #Var TmpCommunication1 {%Pos(" and ",%1)};
     #Math TmpCommunication1 {@TmpCommunication1+3};
-    #Var TmpCommunication1 {%Delete(%1,1,@TmpCommunication1)};
+    #Var TmpCommunication1 {%Copy(%1,@TmpCommunication1+1)};
     #If {@StripMessagePrefix=1 and @TmpCommunication2="say" and %Pos(" and ",@TmpCommunication1)=0} {
      #Var TmpCommunication1 {}
     } {
      #Var TmpCommunication1 { and };
      #Var TmpCommunication1 {%Pos(@TmpCommunication1,%1)};
-     #Var TmpCommunication1 {You %Delete(%1,1,%Eval(@TmpCommunication1+4)): }
+     #Var TmpCommunication1 {You %Copy(%1,@TmpCommunication1+5): }
     };
     MirianiSoundPlay {Comms Framework} Ship\Comm\pa*9@Ext;
     CharEncoder TmpCommunication3 {@PaPrefix@TmpCommunication1@TmpCommunication3} decode;

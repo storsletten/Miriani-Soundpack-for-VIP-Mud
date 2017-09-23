@@ -137,7 +137,7 @@ Here is the entire list of SmFilter aliases:
  #If {%Length(@SmFilter)>0 and @ZoneType="starship" and @Powered=1} {
   #Var SmFilterTmp1 {%Pos(@SmFilter:,@SmAliases)};
   #If {@SmFilterTmp1>0} {
-   #Var SmFilter {%Delete(@SmAliases,1,@SmFilterTmp1)};
+   #Var SmFilter {%Copy(@SmAliases,@SmFilterTmp1+1)};
    #Var SmFilter {%Word(@SmFilter,%CRLF,1)};
    #Var SmFilter {%Word(@SmFilter,:,2)}
   };
@@ -280,7 +280,7 @@ Here is the entire list of SmFilter aliases:
        }
       }
      };
-     #Var SmFilterTmp1 {%Delete(@SmFilterTmp1,1,2)}
+     #Var SmFilterTmp1 {%Copy(@SmFilterTmp1,3)}
     }
    };
    #If {@InterruptOnFocus=1} {speech stop};

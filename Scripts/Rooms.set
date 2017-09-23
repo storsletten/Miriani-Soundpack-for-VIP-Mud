@@ -290,7 +290,7 @@ Apartment
    #If {%Word(%1, ,8)="dark"} {#Var Light 0} {#Var Light 1}
   } {
    #If {@ZoneType="planet"} {
-    #Var Classification {%Copy(%1,8,%Eval(%Pos(|,%1)-9))};
+    #Var Classification {%Copy(%1,8,%Pos(|,%1)-9)};
     #If {%Trim(%Word(%1,|,2))="safe"} {#Var Hostile 0} {#Var Hostile 1};
     #If {%Trim(%Word(%1,|,3))="dark"} {#Var Light 0} {#Var Light 1}
    } {
@@ -332,7 +332,7 @@ Apartment
    #Var Sitting {@RoomTmp2};
    #Var RoomTmp2 {%Pos( ,@RoomTmp2)};
    #If {@RoomTmp2>0} {
-    #Var RoomTmp2 {%Delete(@Sitting,1,@RoomTmp2)};
+    #Var RoomTmp2 {%Copy(@Sitting,@RoomTmp2+1)};
     #If {%IfWord(@RoomTmp2,on the floor|on the ground,|)=1} {#Var Sitting {%Word(@Sitting, ,1)}}
    }
   }
@@ -343,12 +343,12 @@ Apartment
   #Var RoomSound {Ship\Rooms\MiscShipRooms@Rext};
   #Var RoomTmp1 {%Pos(@LF@RoomName@CR,@ShipRooms)};
   #If {@RoomTmp1>0} {
-   #Var RoomSound {%Word(%Delete(@ShipRooms,1,@RoomTmp1),%CRLF,2)}
+   #Var RoomSound {%Word(%Copy(@ShipRooms,@RoomTmp1+1),%CRLF,2)}
   } {
-   #Var RoomTmp1 {%Eval(%NumWords(@ShipRoomsW,@CR)-2)};
+   #Math RoomTmp1 {%NumWords(@ShipRoomsW,@CR)-2};
    #While {@RoomTmp1>0} {
     #If {%replace(@RoomName,~",)=*%Word(@ShipRoomsW,%CRLF,@RoomTmp1)} {
-     #Var RoomSound {%Word(@ShipRoomsW,%CRLF,%Eval(@RoomTmp1+1))};
+     #Var RoomSound {%Word(@ShipRoomsW,%CRLF,@RoomTmp1+1)};
      #Var RoomTmp1 -1
     } {
      #Math RoomTmp1 {@RoomTmp1-2}
@@ -372,7 +372,7 @@ Apartment
  } {
   #If {%Pos("; ",%1)>0} {
    #Var ZoneName {%Word(%1,"; ",1)};
-   #Var RoomName {%Delete(%1,1,%Eval(%Pos("; ",%1)+1))};
+   #Var RoomName {%Copy(%1,%Pos("; ",%1)+2)};
    #If {@FormatRoomTitles=1} {
     #If {%Replace(%2,~",)=*"*(#*, #*)*"} {
      #Sub {[@RoomName%2 (@ZoneName)]}
@@ -412,12 +412,12 @@ Apartment
   };
   #Var RoomTmp1 {%Pos(@LF@RoomName@CR,@Rooms)};
   #If {@RoomTmp1>0} {
-   #Var RoomSound {%Word(%Delete(@Rooms,1,@RoomTmp1),%CRLF,2)}
+   #Var RoomSound {%Word(%Copy(@Rooms,@RoomTmp1+1),%CRLF,2)}
   } {
-   #Var RoomTmp1 {%Eval(%NumWords(@RoomsW,@CR)-2)};
+   #Math RoomTmp1 {%NumWords(@RoomsW,@CR)-2};
    #While {@RoomTmp1>0} {
     #If {%replace(@RoomName,~",)=*%Word(@RoomsW,%CRLF,@RoomTmp1)} {
-     #Var RoomSound {%Word(@RoomsW,%CRLF,%Eval(@RoomTmp1+1))};
+     #Var RoomSound {%Word(@RoomsW,%CRLF,@RoomTmp1+1)};
      #Var RoomTmp1 -1
     } {
      #Math RoomTmp1 {@RoomTmp1-2}

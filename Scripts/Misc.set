@@ -53,7 +53,7 @@ ConfPrint {Bypass mode %if(@PassThru = 1,enabled,disabled).}
 #Trigger {(* second* roundtime.)} {
  #If {%IsNumber(%1)=1} {
   #If {@PlayRoundtimeSound=1} {
-   #Alarm {%eval(%1-1)} {msplay ship\computer\beep@Ext}
+   #Alarm {%Eval(%1-1)} {msplay ship\computer\beep@Ext}
   };
   #If {%1<@RoundTimeThreshold} {
    #GagLine 1 Voice
@@ -196,11 +196,11 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
    #Var MovementTestTmp1 {%Pos( on a ,%1)};
    #If {@MovementTestTmp1=0} {#Var MovementTestTmp1 {%Pos( on an ,%1)}};
    #If {@MovementTestTmp1>0} {
-    #Var MovementTestTmp1 {%Copy(%1,1,%Eval(@MovementTestTmp1-1))};
+    #Var MovementTestTmp1 {%Copy(%1,1,@MovementTestTmp1-1)};
     #Var MovementTestTmp2 {%Word(@MovementTestTmp1, ,%NumWords(@MovementTestTmp1, ))};
     #If {%IfWord(@MovementTestTmp2,@DirList, )=1} {
-     #Var MovementTestTmp3 {%Delete(%1,1,%Eval(%Length(@MovementTestTmp1)+4))};
-     #Var MovementTestTmp1 {%Copy(%1,1,%Eval(%Length(@MovementTestTmp1)-%Length(@MovementTestTmp2)-1))}
+     #Var MovementTestTmp3 {%Copy(%1,%Length(@MovementTestTmp1)+5)};
+     #Var MovementTestTmp1 {%Copy(%1,1,%Length(@MovementTestTmp1)-%Length(@MovementTestTmp2)-1)}
     } {
      #Var MovementTestTmp2 {}
     }
@@ -208,7 +208,7 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
     #Var MovementTestTmp2 {}
    }
   } {
-   #Var MovementTestTmp1 {%Copy(%1,1,%Eval(%Length(%1)-%Length(@MovementTestTmp2)-1))}
+   #Var MovementTestTmp1 {%Copy(%1,1,%Length(%1)-%Length(@MovementTestTmp2)-1)}
   };
   #If {%Length(@MovementTestTmp2)>0} {
    #Var MovementTmp1 {@MovementTestTmp1};
@@ -236,7 +236,7 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
    } {
     #Var MovementTmp2 {%Pos( in from ,@MovementTmp1 )};
     #If {@MovementTmp2>0} {
-     #Var MovementTmp1 {%Copy(@MovementTmp1,1,%Eval(@MovementTmp2-1))};
+     #Var MovementTmp1 {%Copy(@MovementTmp1,1,@MovementTmp2-1)};
      #Var MovementTmp2 {%NumWords(@MovementTmp1, )};
      #Var MovementTmp3 {%Word(@MovementTmp1, ,@MovementTmp2)};
      #While {@MovementTmp2>1 and @MovementTmp4>0} {
@@ -265,7 +265,7 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
      };
      #If {@MovementTmp2=-1} {
       #Var OtherDir {@MovementDir};
-      #Var OtherName {%Copy(@MovementTmp1,1,%Eval(%Length(@MovementTmp1)-%Length(@MovementTmp3)-1))};
+      #Var OtherName {%Copy(@MovementTmp1,1,%Length(@MovementTmp1)-%Length(@MovementTmp3)-1)};
       MStep Other Leave {@MovementDir}
      }
     }
@@ -277,13 +277,19 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
 
 #Trigger {Please do not enter so many commands at once.} {msplay General\Misc\spam@Ext} {Main|SpamAlerts}
 #Trigger {Spamming weapon commands will get you nowhere. Please be considerate. If you are experiencing lag, it would be best to wait for one command to successfully go through before attempting another. Thank you.} {msplay General\Misc\spam@Ext} {Main|SpamAlerts}
-#Trigger {*A* sanitation drone arrives.} {mrandomplay General\Misc\DroneEnters*2@Ext} {Main}
-#Trigger {*A * sanitation drone goes *} {mrandomplay General\Misc\DroneLeaves*2@Ext} {Main}
-#Trigger {*A * sanitation drone whirls around.} {mrandomplay General\Misc\DroneWhirls*5@Ext} {Main}
-#Trigger {*A * sanitation drone collects *} {mrandomplay General\Misc\DroneCollects*2@Ext} {Main}
-#Trigger {*A * drone rushes into the room and begins recharging any nearby drones. Just as quickly as it enters, it vanishes.} {ExpPipe {%0} {A %1 drone begins recharging all nearby drones.} {Drones recharged.};
-#sub @ExpString;
-msplay General\Misc\DroneRecharge@Ext} {Main}
+#Trigger {A* sanitation drone *.} {
+ #If {%IfWord(%Word(%2, ,1),arrives collects goes whirls, )=1} {
+  #If {%Word(%2, ,1)="arrives"} {mrandomplay General\Misc\DroneEnters*2@Ext};
+  #If {%Word(%2, ,1)="collects"} {mrandomplay General\Misc\DroneCollects*2@Ext};
+  #If {%Word(%2, ,1)="goes"} {mrandomplay General\Misc\DroneLeaves*2@Ext};
+  #If {%Word(%2, ,1)="whirls"} {mrandomplay General\Misc\DroneWhirls*5@Ext}
+ }
+} {Main}
+#Trigger {A* drone rushes into the room and begins recharging any nearby drones. Just as quickly as it enters, it vanishes.} {
+ ExpPipe {%0} {A %1 drone begins recharging all nearby drones.} {Drones recharged.};
+ #Sub @ExpString;
+ msplay General\Misc\DroneRecharge@Ext
+} {Main}
 #Trigger {* drags you *} {
  #If {%Word(%2, ,1)<>"off"} {
   #Var Following 1
@@ -331,33 +337,6 @@ msplay General\Misc\LeftPerson@Ext
 } {Main}
 
 #Trigger {You push through a metal turnstile.} {DontStopSpeaking} {Main}
-#Trigger {It has been signed by *} {
- #Sub {(%NumWords(%1,~,)) %1}
-} {Main}
-#trigger {k} {#gagline all} {main}
-
-#Alias typespeed {
- #Var TypeSpeedTmp1 {%Trim(%0)};
- #Var TypeSpeedTmp1 {%Replace(@TypeSpeedTmp1,~",)};
- #Var TypeSpeedTmp1 {%Replace(@TypeSpeedTmp1,~~,)};
- #If {@TypeSpeedTmp1=""} {
-  #UnAlarm -1;
-  #Alarm 60 {
-   #Say {Time's up! Hit enter to see your result.};
-   msplay {LaserTag\NoTargets@Ext}
-  };
-  #Say {typespeed } Entry|NoReturn;
-  #Say {Start typing!}
- } {
-  #Var TypeSpeedTmp2 {%Pos(%CRLF,%0%CRLF)};
-  #Math TypeSpeedTmp2 {@TypeSpeedTmp2-2};
-  #Math TypeSpeedTmp3 {@TypeSpeedTmp2/5};
-  #Say {Approximately @TypeSpeedTmp3 words per minute!};
-  #UnVar TypeSpeedTmp2;
-  #UnVar TypeSpeedTmp3
- };
- #UnVar TypeSpeedTmp1
-} {}
 #Trigger {To the immediate * you see *} {
  ExpPipe {%0} {%0} {%1: %2};
  #Sub {@ExpString}
@@ -498,7 +477,7 @@ msplay General\Misc\LeftPerson@Ext
    };
    #Var WhoTmp1 {%Trim(@WhoTmp1)};
    #If {%Left(@WhoTmp1,1)="*" or %Left(@WhoTmp1,1)="^"} {
-    #Var WhoTmp1 {%Delete(@WhoTmp1,1,1)}
+    #Var WhoTmp1 {%Copy(@WhoTmp1,2)}
    };
    #If {%Length(@ConnectedPlayers)=0} {#Var ConnectedPlayers {@WhoTmp1}} {#AddItem ConnectedPlayers {@WhoTmp1}}
   }

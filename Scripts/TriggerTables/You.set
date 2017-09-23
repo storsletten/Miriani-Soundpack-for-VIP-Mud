@@ -596,7 +596,7 @@ press a button on a large planetary mining drone. A recorded voice lightly whisp
       #UnGagLine;
       #GagLine 1 Voice
      };
-     #Var Exits {%Delete(%1,1,7)};
+     #Var Exits {%Copy(%1,8)};
      #If {@GagExits<>0} {
       #Var ExpString {}
      } {
@@ -637,10 +637,10 @@ press a button on a large planetary mining drone. A recorded voice lightly whisp
  };
  #If {@ActionSuccess=0} {
   #If {%Pos( into ,%1)>0} {
-   #Var TTTmp2 {%Copy(%1,1,%Eval(%Pos( into ,%1)-1))}
+   #Var TTTmp2 {%Copy(%1,1,%Pos( into ,%1)-1)}
   } {
    #If {%Pos( through ,%1)>0} {
-    #Var TTTmp2 {%Copy(%1,1,%Eval(%Pos( through ,%1)-1))}
+    #Var TTTmp2 {%Copy(%1,1,%Pos( through ,%1)-1)}
    } {
     #Var TTTmp2 {}
    }
@@ -660,7 +660,7 @@ press a button on a large planetary mining drone. A recorded voice lightly whisp
   #Var TTTmp1 {%Pos(@TTTmp1,@TTYou)};
   #If {@TTTmp1>0} {
    #Var ExpString {};
-   #Var TTTmp1 {%Delete(@TTYou,1,%Eval(@TTTmp1+%Length(%1)+2))};
+   #Var TTTmp1 {%Copy(@TTYou,@TTTmp1+%Length(%1)+3)};
    #Exec {%Word(@TTTmp1,%CRLF|%CRLF,1)};
    #If {%Length(@ExpString)>0} {#Sub {@ExpString}}
   }
