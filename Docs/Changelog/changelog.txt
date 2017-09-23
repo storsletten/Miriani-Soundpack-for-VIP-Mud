@@ -1,3 +1,6 @@
+Version 5.8.39, released 2017-09-23:
+* For 2.0: Fixed several issues with scanning. Station format string works again, and several scan titles are now being properly gagged.
+
 Version 5.8.38, released 2017-09-22:
 * Fixed unload gun sound not working. Thanks again Anny for reporting.
 
