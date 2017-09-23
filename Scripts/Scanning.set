@@ -1,6 +1,6 @@
 #Class Scanning Disable
 #Class CGC Disable
-#Var ScanOutputLabels {Atmospheric Composition|Available charge|Average Component Damage|Cargo|Classification|Composition|Coordinates|Courier ship status|Damage|Discernable Aircraft|Distance|Hull Damage|Identifiable Power Sources|IFF|Integrity|Landing beacons|Launched by|Natural Resources|Occupancy|Orbiting|Pilot status|Power|Power sources|Size|Starships|Structural Integrity|Surface Conditions|Type|Weapons}
+#Var ScanOutputLabels {Atmospheric Composition|Available charge|Average Component Damage|Cargo|Classification|Composition|Coordinates|Courier ship status|Damage|Discernable Aircraft|Distance|Hull Damage|Identifiable Power Sources|IFF|Integrity|Landing beacons|Launched by|Natural Resources|Occupancy|Orbiting|Pilot status|Power|Power sources|Size|Starships|Surface Conditions|Type|Weapons}
 #Var ScanFormatVarLabels {@ScanOutputLabels|Alliance|Full Name|Name|New|Number of Occupants|Object Type}
 #Var ScanFormatVarLabels {%Sort(@ScanFormatVarLabels,0)}
 #Var ScanFormatVars {%Replace(@ScanFormatVarLabels, ,)}
@@ -67,8 +67,17 @@
   }
  }
 } {Main|Scanning}
-#Trigger {Video Probe} {#Var ScanObjectObjectTypeRaw {Probe}} {Main|Scanning}
-#Trigger {Interdictor} {#Var ScanObjectObjectTypeRaw {Interdictor}} {Main|Scanning}
+#Trigger {[ABDIPSV]*} {
+ #If {%IfWord(%0,Asteroid|Automated Laser Turret|Blockade|Debris|Interdictor|Push Pulse|Space Mine|Video Probe,|)=1} {
+  #GagLine 1 Voice;
+  #If {%IfWord(%0,Interdictor|Video Probe,|)=1} {#Var ScanObjectObjectTypeRaw {%Word(%0, ,%NumWords(%0, ))}}
+ } {
+  #If {%IfWord(%Word(%0, ,1),Asteroid Planet Sector Space Star, )=1} {
+   #Var ScanTmp1 {%Word(%0, ,%NumWords(%0, ))};
+   #If {%IsNumber(@ScanTmp1)=1 or %IfWord(@ScanTmp1,Star, )=1} {#Var ScanObjectNameRaw {%0};#GagLine 1 Voice}
+  }
+ }
+} {Main|Scanning}
 
 #Alias ScanProcessOutput {
  MainTrigSwitch 1;
@@ -80,7 +89,7 @@
   #If {%IfWord(@ScanObjectClassificationRaw,O B A F G K M, )=1} {#Var ScanObjectObjectTypeRaw {Star};#Abort};
   #If {%Length(@ScanObjectOrbitingRaw)>0} {#Var ScanObjectObjectTypeRaw {Moon};#Abort};
   #If {%Length(@ScanObjectAtmosphericCompositionRaw)>0} {#Var ScanObjectObjectTypeRaw {Planet};#Abort};
-  #If {%Length(@ScanObjectStructuralIntegrityRaw)>0} {#Var ScanObjectObjectTypeRaw {Station};#Abort};
+  #If {%Length(@ScanObjectIntegrityRaw)>0} {#Var ScanObjectObjectTypeRaw {Station};#Abort};
   #If {%Length(@ScanObjectCompositionRaw)>0} {#Var ScanObjectObjectTypeRaw {Asteroid};#Abort};
   #If {%Length(@ScanObjectSizeRaw)>0} {#Var ScanObjectObjectTypeRaw {Debris};#Abort};
   #If {%Length(@ScanObjectDamageRaw)>0} {#Var ScanObjectObjectTypeRaw {Weapon};#Abort};
