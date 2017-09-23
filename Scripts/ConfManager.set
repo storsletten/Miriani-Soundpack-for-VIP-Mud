@@ -631,6 +631,68 @@ ArchaeologyCalculateDirection:0
   #Class MiscKeys {%If(@LoadMiscKeys=1,Enable,Disable)}
  }
 } {}
+#Alias VD {
+ #Var NumberOfDisplays {%NumWords(@VirtualDisplays,|)};
+ #Var vdError {};
+ #Var vdSuccess {};
+ #If {%Length(%1)>0} {
+  #If {%IsNumber(%1)=1} {
+   #If {%1<1 or %1>@NumberOfDisplays} {
+    #Var vdError {Number out of range. @NumberOfDisplays virtual displays are currently implemented.}
+   } {
+    #Var {HideDisplay%1} {%If(Not @{HideDisplay%1},1,0)};
+    #If {%2="SPPrompt"} {
+     #Var vdSuccess {Now %If(@{HideDisplay%1}=1,hiding,showing) it.}
+    } {
+     #Var vdSuccess {Now %If(@{HideDisplay%1}=1,hiding,showing) Virtual Display %1: %Word(@VirtualDisplays,|,%1).}
+    }
+   }
+  } {
+   #Var vdTmp1 {%Pos(|%1,|@VirtualDisplays)};
+   #If {@vdTmp1=0} {
+    #Var vdError {Couldn't find that virtual display.}
+   } {
+    #Var vdTmp1 {%Copy(@VirtualDisplays,1,@vdTmp1)};
+    #Var vdTmp1 {%NumWords(@vdTmp1,|)};
+    #Var {HideDisplay@vdTmp1} {%If(Not @{HideDisplay@vdTmp1},1,0)};
+    #Var vdSuccess {Now %If(@{HideDisplay@vdTmp1}=1,hiding,showing) %Word(@VirtualDisplays,|,@vdTmp1).}
+   }
+  }
+ };
+ #If {%Length(@vdSuccess)>0} {#Say {@vdSuccess}};
+ #If {%Length(@vdError)>0} {#Say {@vdError}};
+ #If {%Length(%1)=0 or %2="SPPrompt"} {
+  #Var vdTmp1 0;
+  #Var vdTmp2 {};
+  #Var vdTmp3 {};
+  #Var HiddenDisplays 0;
+  #While {@vdTmp1<@NumberOfDisplays} {
+   #Math vdTmp1 {@vdTmp1 + 1};
+   #If {@{HideDisplay@vdTmp1}=1} {
+    #Var vdTmp3 {%Replace(@{Display@{vdTmp1}Filter},~",~%0x22~%)};
+    #Var vdTmp3 {%Replace(@vdTmp3,~~,~%0x7e~%)};
+    #If {@vdTmp3="*"} {
+     #Var vdTmp3 {hidden.}
+    } {
+     #Var vdTmp3 {hidden (when matching with: @{Display@{vdTmp1}Filter}).}
+    };
+    #Math HiddenDisplays {@HiddenDisplays + 1}
+   } {
+    #Var vdTmp3 {visible.}
+   };
+   #Var vdTmp2 {@vdTmp2[@vdTmp1] %Word(@VirtualDisplays,|,@vdTmp1): @vdTmp3%CRLF}
+  };
+  #Var vdTmp2 {@vdTmp2    Hidden displays: @HiddenDisplays.};
+  SPPrompt {} {@vdTmp2} {VD} {SPPrompt};
+  #UnVar vdTmp2;
+  #UnVar vdTmp3;
+  #UnVar HiddenDisplays
+ };
+ #UnVar vdError;
+ #UnVar vdSuccess;
+ #UnVar vdTmp1;
+ #UnVar NumberOfDisplays
+} {}
 
 #Exec {
  ConfFix quick;

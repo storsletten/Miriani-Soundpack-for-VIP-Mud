@@ -241,6 +241,10 @@ feel a slight acceleration as the starship begins an inter-bay landing procedure
  msplay Ship\Move\RingEnd~@Ext;
  ExpPipe {~%0} {The starship begins an inter-bay landing procedure.} {}
 |
+hear a thunk as a salvaging line is deployed into space. You watch as the line slowly winds its way to a piece of debris, projects an energy net around it and begins to slowly make its way back to the ship.^
+ msplay Ship\Misc\Salvage*3~@Ext;
+ ExpPipe {~%0} {Salvage line deployed.} {}
+|
 begin gently brushing dirt aside with a small brush.^
  #GagLine 1 all;
  msplay General\Archaeology\Brush*8~@Ext

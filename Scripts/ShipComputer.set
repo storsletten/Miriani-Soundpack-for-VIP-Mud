@@ -228,6 +228,8 @@ Scans reveal the debris to be a lifeform*.^
   ExpPipe {~@ComputerSaid} {~@ComputerSaid} {Salvaged a lifeform~@Wildcard1}
  }
 %Chr(250)
+* pulse is locking *...^MirianiSoundPlay Standard Ship\Combat\PulseLock*2~@Ext
+%Chr(250)
 Mission objective has been completed in approximately *. Return to base.^
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
  MirianiSoundPlay Standard Music\*30~@Ext;
@@ -282,6 +284,7 @@ Via synchronized text message broadcasts, *^
 
 #Trigger {* announces, *} {
  #If {%Pos(:,%1)=0 and %Pos(~, ~",%1)=0 and %IfWord(%Left(%1,1),>| |#|-|[|~(,|)=0} {
+  #If {%Pos(A computerized voice on ,%1)=1} {MirianiSoundPlay Standard Ship\Computer\LFD@Ext;#Abort};
   #If {%Pos( flickers ,%1)>0} {#Var ComputerName {%Copy(%1,1,%Pos( flickers ,%1)-1)}} {#Var ComputerName {Computer}};
   #Var ComputerSaid {%Copy(%2,1)};
   #If {%Pos(Control room reports: ,@ComputerSaid)=1} {#Var ComputerPiped 1;#Var ComputerSaid {%Copy(@ComputerSaid,23)}} {#Var ComputerPiped 0};
@@ -397,18 +400,11 @@ ExpPipe {%0} {%0} {%1 checks the navigation console.};
  #sub {@ExpString};
  #class AtSaStarmap disable
 } {Main}
-#Trigger {A * beep sounds as the computer announces* "* charge remaining."} {MirianiSoundPlay Standard Ship\Computer\LowCharge*3@Ext;
-ExpPipe {%0} {[Alert]: %3 charge remaining!} {%3 charge remaining!};
-#sub {@ExpString}} {Main}
-#Trigger {The starship is at * status.} {
- #If {%1 = "red" AND @Peers <> 1} {
-  #If {@ThemeSoundHandle = 0} {
-   mtplay
-  }
- } {
-  thememusicfadeout
- }
-} {Main|Starship}
+#Trigger {A * beep sounds as the computer announces* "* charge remaining."} {
+ MirianiSoundPlay Standard Ship\Computer\LowCharge*3@Ext;
+ ExpPipe {%0} {[Alert]: %3 charge remaining!} {%3 charge remaining!};
+ #sub {@ExpString}
+} {Main}
 #Trigger {* Lights overhead indicate that the ship is on * status. *} {
  #If {%2 = "red alert"} {
   #If {%Mp3Loop=0} {
@@ -418,8 +414,7 @@ ExpPipe {%0} {[Alert]: %3 charge remaining!} {%3 charge remaining!};
   thememusicfadeout
  }
 } {Main|Starship}
-#Trigger {A computerized voice on * announces, "*"} {MirianiSoundPlay Standard Ship\Computer\LFD@Ext} {Main}
-#Trigger {A * suddenly emerges from a console.} {MirianiSoundPlay Standard Ship\Computer\ScanRetrieved@Ext} {Main|Starship}
+#Trigger {A* suddenly emerges from a console.} {MirianiSoundPlay Standard Ship\Computer\ScanRetrieved@Ext} {Main|Starship}
 #Trigger {Video probe history:} {ExpPipe {%0} {%0} {};
 #sub {@ExpString};
 MirianiSoundPlay Standard Ship\Computer\Probe*3@Ext} {Main}

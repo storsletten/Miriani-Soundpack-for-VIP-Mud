@@ -1,109 +1,90 @@
-#Alias MissionMode {
- #Var MissionMode {%Eval(NOT @MissionMode)};
- #say {Mission mode %If(@MissionMode = 1,enabled,disabled).}
-} {}
-
-#Var TotalHits {%If(%IsNumber(@TotalHits)=0,0,@TotalHits)}
-#Var TotalHitsOnThisShip {%If(%IsNumber(@TotalHitsOnThisShip)=0,0,@TotalHitsOnThisShip)}
-#Var DirectHits {%If(%IsNumber(@DirectHits)=0,0,@DirectHits)}
-#Var PartialHits {%If(%IsNumber(@PartialHits)=0,0,@PartialHits)}
-#Var DestroyedShips {%If(%IsNumber(@DestroyedShips)=0,0,@DestroyedShips)}
-#Var TotalShips {%If(%IsNumber(@TotalShips)=0,0,@TotalShips)}
-#Var DestroyedDebris {%If(%IsNumber(@DestroyedDebris)=0,0,@DestroyedDebris)}
+#Var TotalHits 0
+#Var TotalHitsOnThisShip 0
+#Var DirectHits 0
+#Var PartialHits 0
+#Var DestroyedShips 0
+#Var TotalShips 0
+#Var DestroyedDebris 0
 
 #Var ShipClasses {
-Bzani:-40:0
-Ontanka:-30:0
-Otono:-25:0
-Otona:-25:0
-Muzati:-25:0
-Orta:-20:0
-Onz:-5:0
-Onno:0:0
-Onati:10:0
-Muzano:15:0
-Potate:15:0
-Ohaxx:20:0
+Bzani:-70
+Ontanka:-40
+Otono:-25
+Otona:-25
+Muzati:-15
+Orta:-15
+Onati:10
+Muzano:20
+Potate:20
+Ohaxx:20
 }
 
-#Alias {HitCounter} {#if {%1="clear"} {
-#Var DirectHits 0;
-#Var PartialHits 0;
-#Var DestroyedShips 0;
-#Var TotalHits 0;
-#Var TotalHitsOnThisShip 0;
-#Var TotalShips 0;
-#Var DestroyedDebris 0;
-#if {%2<>1} {ConfPrint {Hit counter cleared.}}
-} {
-#Var DirectHits {%If(%IsNumber(@DirectHits)=0,0,@DirectHits)};
-#Var PartialHits {%If(%IsNumber(@PartialHits)=0,0,@PartialHits)};
-#Var DestroyedShips {%If(%IsNumber(@DestroyedShips)=0,0,@DestroyedShips)};
-#Var TotalShips {%If(%IsNumber(@TotalShips)=0,0,@TotalShips)};
-#Var TotalHitsOnThisShip {%If(%IsNumber(@TotalHitsOnThisShip)=0,0,@TotalHitsOnThisShip)};
-#Var DestroyedDebris {%If(%IsNumber(@DestroyedDebris)=0,0,@DestroyedDebris)};
-#Var ShipCombatTmp1 {Total hits: %eval(@DirectHits + @PartialHits), of which @DirectHits were direct and @PartialHits were partial.
+#Alias {HitCounter} {
+ #If {%1="clear"} {
+  #Var DirectHits 0;
+  #Var PartialHits 0;
+  #Var DestroyedShips 0;
+  #Var TotalHits 0;
+  #Var TotalHitsOnThisShip 0;
+  #Var TotalShips 0;
+  #Var DestroyedDebris 0;
+  #If {%2<>1} {ConfPrint {Hit counter cleared.}}
+ } {
+  #Var ShipCombatTmp1 {Total hits: %Eval(@DirectHits+@PartialHits), of which @DirectHits were direct and @PartialHits were partial.
 You have destroyed @DestroyedShips ships of @TotalShips ships, and @DestroyedDebris debris.
 You have been hit @TotalHitsOnThisShip times.
 Use HitCounter clear to clear these stats.};
-#if {@UseHitCounter=0} {
-#var ShipCombatTmp1 {@ShipCombatTmp1
+  #If {@UseHitCounter=0} {#Var ShipCombatTmp1 {@ShipCombatTmp1
 Note: You have use hit counter disabled. You can enable this in Conf Ship.}
-};
-ConfPrint {@ShipCombatTmp1}
-}} {}
+  };
+  ConfPrint {@ShipCombatTmp1}
+ }
+} {}
+
 #Trigger {Locked onto coordinates: *} {
  ExpPipe {%0} {%1} {};
  #Sub {@ExpString};
- #if {@UseAlternativeCombatSounds=1 OR %1=@FocusShipCoords} {
-  msplay Ship\Combat\LockedOnOther2@Ext
- }
+ #If {@UseAlternativeCombatSounds=1 or %1=@FocusShipCoords} {MirianiSoundPlay Standard Ship\Combat\LockedOnOther2@Ext}
 } {Main|Starship}
 #Trigger {A blinding flash of light suddenly permeates the *.} {
- msplay Ship\Combat\YouHit*9@Ext;
+ MirianiSoundPlay Standard Ship\Combat\YouHit*9@Ext;
  ExpPipe {%0} {A blinding flash of light suddenly permeates the entire area} {};
  #Sub {@ExpString}
 } {Main|Starship}
 #Trigger {Target: *} {
- msplay Ship\Combat\LockedOnOther@Ext;
- #If {%Word(%1, ,1)="Starship" and %NumWords(%1,~")=3} {
-  #If {@MissionMode=1 and %Pos("Starship ~"Praelor ",%1)=1} {
-   #GagLine 1 Voice
-  };
-  ExpPipe {%0} {%0} {Target %Word(%1,~",2)}
+ MirianiSoundPlay Standard Ship\Combat\LockedOnOther@Ext;
+ #If {%Pos(Starship ~",%1)=1} {
+  #If {@MissionMode=1 and %Pos(Starship ~"Praelor ,%1)=1} {#GagLine 1 Voice};
+  ExpPipe {%0} {%0} {Target %Copy(%1,11,%Length(%1)-11).}
  } {
-  ExpPipe {%0} {%0} {%1 targeted}
+  ExpPipe {%0} {%0} {%1 targeted.}
  };
  #Sub {@ExpString}
 } {Main|Starship}
 #Trigger {* has a lock on this starship.} {
  #If {@EnhancedAimSoundSystem>0} {
   #If {%Replace(%1,~",)=%Replace(@FocusShipName,~",)} {
-   msplay Ship\Combat\LockedOnYou2@Ext 15;
+   MirianiSoundPlay Standard Ship\Combat\LockedOnYou2@Ext 15;
    #PC %PlayHandle Frequency 66000
   } {
-   #if {@EnhancedAimSoundSystem<2} {
-    msplay Ship\Combat\LockedOnYou2@Ext -10;
+   #If {@EnhancedAimSoundSystem<2} {
+    MirianiSoundPlay Standard Ship\Combat\LockedOnYou2@Ext -10;
     #PC %PlayHandle Frequency 44100
    }
   }
  } {
-  msplay Ship\Combat\LockedOnYou@Ext -10;
+  MirianiSoundPlay Standard Ship\Combat\LockedOnYou@Ext -10;
   #PC %PlayHandle Frequency 44100
  };
- #If {@MissionMode=1 and %Pos("Praelor",%1)=1} {
-  #GagLine 1 Voice
- };
- ExpPipe {%0} {%0} {Lock by %1};
+ #If {@MissionMode=1 and %Pos(Praelor ,%1)=1} {#GagLine 1 Voice};
+ ExpPipe {%0} {%0} {Lock by %1.};
  #Sub {@ExpString}
 } {Main|Starship}
 #Trigger {* has fired at *.} {
  #If {%Pos(~(,%1)=1 and %Pos(~),%1)>1} {} {
-  ExpPipe {%0} {%0} {%2 hit by %1};
+  ExpPipe {%0} {%0} {%2 hit by %1.};
   #If {%Word(%2, ,1)="Praelor"} {
-   #If {@MissionMode=1} {
-    #GagLine 1 Voice
-   }
+   #If {@MissionMode=1} {#GagLine 1 Voice}
   } {
    PushMessage {Intrasector0Combat} {@ExpString}
   };
@@ -116,19 +97,19 @@ ConfPrint {@ShipCombatTmp1}
  #If {%3=*"continue to *"} {
   #If {%2="red" and @MuteAlertContSounds<>1} {
    #If {%mp3loop=0} {mtplay};
-   msplay Ship\Combat\RedCont*3@Ext;
+   MirianiSoundPlay Standard Ship\Combat\RedCont*3@Ext;
    #If {@SoundIsPlaying=1} {#Var AlertSoundHandle {%PlayHandle}} {#UnVar AlertSoundHandle}
   };
   #If {%2="orange" and @MuteAlertContSounds<>1} {
-   msplay Ship\Combat\OrangeCont@Ext;
+   MirianiSoundPlay Standard Ship\Combat\OrangeCont@Ext;
    #If {@SoundIsPlaying=1} {#Var AlertSoundHandle {%PlayHandle}} {#UnVar AlertSoundHandle}
   };
   #If {%2="purple" and @MuteAlertContSounds<>1} {
-   msplay Ship\Combat\PurpleCont@Ext;
+   MirianiSoundPlay Standard Ship\Combat\PurpleCont@Ext;
    #If {@SoundIsPlaying=1} {#Var AlertSoundHandle {%PlayHandle}} {#UnVar AlertSoundHandle}
   };
   #If {%2="blue"} {
-   msplay Ship\Computer\SelfDestructStart@ext;
+   MirianiSoundPlay Standard Ship\Computer\SelfDestructStart@ext;
    #If {@SoundIsPlaying=1} {#Var AlertSoundHandle {%PlayHandle}} {#UnVar AlertSoundHandle}
   };
   #If {%IfWord(%2,red blue orange purple, )>0} {
@@ -145,69 +126,57 @@ ConfPrint {@ShipCombatTmp1}
     #If {@Silent=1} {dnd off}
    };
    #If {%2="red"} {
-    msplay Ship\Combat\RedStart*2@Ext;
+    MirianiSoundPlay Standard Ship\Combat\RedStart*2@Ext;
     #If {@SoundIsPlaying=1} {#Var AlertSoundHandle {%PlayHandle}} {#UnVar AlertSoundHandle}
    };
    #If {%2="blue"} {
-    msplay Ship\Computer\SelfDestructStart@ext;
+    MirianiSoundPlay Standard Ship\Computer\SelfDestructStart@ext;
     #If {@SoundIsPlaying=1} {#Var AlertSoundHandle {%PlayHandle}} {#UnVar AlertSoundHandle}
    };
    #If {%2="purple"} {
-    msplay Ship\Combat\PurpleAlert@Ext;
+    MirianiSoundPlay Standard Ship\Combat\PurpleAlert@Ext;
     #If {@SoundIsPlaying=1} {#Var AlertSoundHandle {%PlayHandle}} {#UnVar AlertSoundHandle}
    };
-   ExpPipe {%0} {:Voice:%0} {:Voice:%2 alert initiated.}
+   ExpPipe {%0} {:Voice:%0} {:Voice:%Proper(%2) alert initiated.}
   }
  };
  #Sub {@ExpString}
 } {Main|Starship}
 #Trigger {This starship has been hit by *.} {
  #Math TotalHitsOnThisShip {@TotalHitsOnThisShip+1};
- #If {@EnhancedAimSoundSystem>0 and %Replace(%1,~",)=%Replace(@FocusShipName,~",)} {Msplay Ship\Computer\SensorInterference@Ext};
+ #If {@EnhancedAimSoundSystem>0 and %Replace(%1,~",)=%Replace(@FocusShipName,~",)} {MirianiSoundPlay Standard Ship\Computer\SensorInterference@Ext};
  #Var ShipCombatTmp1 0;
- #Var ShipCombatTmp2 44100;
  #If {%Word(%1, ,1)="Praelor"} {
-  #if {@MissionMode=1} {
-   #GagLine 1 Voice
-  };
+  #If {@MissionMode=1} {#GagLine 1 Voice};
   #If {%NumWords(%1, )>1 and @ClassDependant=1} {
-   #ForAll {%Replace(@ShipClasses,%CRLF,|)} {
-    #If {%NumWords(%i,:)=3} {
-     #If {%Word(%i,:,1)=%Word(%1, ,2)} {
-      #Var ShipCombatTmp1 {%Word(%i,:,2)};
-      #Math ShipCombatTmp2 {@ShipCombatTmp2 + %Word(%i,:,3)}
-     }
-    }
-   }
+   #Var ShipCombatTmp1 {%CRLF%Word(%1, ,2):};
+   #Var ShipCombatTmp1 {%Pos(@ShipCombatTmp1,@ShipClasses)};
+   #If {@ShipCombatTmp1>0} {
+    #Var ShipCombatTmp1 {%NumWords(%Copy(@ShipClasses,1,@ShipCombatTmp1+2),@LF)};
+    #Var ShipCombatTmp1 {%Word(@ShipClasses,%CRLF,@ShipCombatTmp1)};
+    #Var ShipCombatTmp1 {%Word(@ShipCombatTmp1,:,2)}
+   } {#Var ShipCombatTmp1 0}
   }
  };
  mwplay Ship\Combat\YouHit*11@Ext @ShipCombatTmp1;
- #If {%PlayHandle>0 and %IsNumber(@ShipCombatTmp2)=1 and @ShipCombatTmp2>1024} {#PC %PlayHandle Frequency @ShipCombatTmp2};
- ExpPipe {%0} {%0} {Hit by %1};
+ ExpPipe {%0} {%0} {Hit by %1.};
  #Sub {@ExpString}
 } {Main|Starship}
 #Trigger {The room is flooded with a brilliant * light as lasers from * impact the hull.} {
  mwplay Ship\Combat\YouHit*11@Ext;
- ExpPipe {%0} {%1 colored lasers strikes you from %2.} {Hit by %2's %1 laser fire};
+ ExpPipe {%0} {%0} {Hit by %2's %1 laser fire.};
  #Sub {@ExpString}
 } {Main|Starship}
-#Trigger {The ship rocks slightly as it's hit by *.} {mwplay Ship\Combat\YouHit*11@Ext;
+#Trigger {The ship rocks slightly as it's hit by *.} {
+ mwplay Ship\Combat\YouHit*11@Ext;
  ExpPipe {%0} {%0} {Hit by %1};
  #Sub {@ExpString}
 } {Main|Starship}
-#Trigger {With one final burst of acceleration, the pod emerges from the wormhole and begins accelerating through space under the power of the relativity drive.} {ExpPipe {%0} {} {};
-#Sub @ExpString;
-msplay Ship\Misc\EscapePodWormHoleJump2@Ext} {Main|InEscapePod}
-#Trigger {With a final jolt, the pod completes its landing. As you depart, you notice an army of automated drones arrive to clear the spent pod away.} {#Class InEscapePod disable} {Main|InEscapePod}
 #Trigger {The room is filled with * as the laser turrets are fired.} {
  mwplay Ship\Combat\Laser*17@Ext;
  #GagLine 1 All
 } {Main|Starship}
-#Trigger {*"Disarmament pulse is locking*..."} {msplay Ship\Combat\pulselock*2@Ext} {Main|Starship}
-#Trigger {*"Immobilization pulse is locking*..."} {msplay Ship\Combat\pulselock*2@Ext} {Main|Starship}
-#Trigger {*"Sensor interruption pulse is locking*..."} {msplay Ship\Combat\pulselock*2@Ext} {Main|Starship}
-#Trigger {*"Computer disruption pulse is locking*..."} {msplay Ship\Combat\pulselock*2@Ext} {Main|Starship}
-#Trigger {* has launched an interdictor.} {msplay ship\misc\intradictor@Ext} {Main}
+#Trigger {* has launched an interdictor.} {MirianiSoundPlay Standard ship\misc\intradictor@Ext} {Main}
 #Trigger {*A distant whirring noise can be heard as the *'s laser aligns itself, followed by a faint pulse as it fires.} {
 ExpPipe {%0} {%1's laser fired.} {};
 #sub {@ExpString};
@@ -233,31 +202,31 @@ mrandomplay Ship\Combat\PlanetaryLaser@Ext} {Main}
  }
 } {Focus}
 #Trigger {There are no ships here.} {
- msplay Ship\Computer\NothingToScan@Ext;
+ MirianiSoundPlay Standard Ship\Computer\NothingToScan@Ext;
  MainTrigSwitch 1 Focus
 } {Focus}
 #Trigger {That's not a ship.} {MainTrigSwitch 1 Focus} {Focus}
 #Trigger {The focused ship is no longer in the sector.} {MainTrigSwitch 1 Focus} {Focus}
 #Trigger {Invalid coordinates. Range: (*) to (*).} {
- msplay Ship\Misc\Drunk@Ext;
+ MirianiSoundPlay Standard Ship\Misc\Drunk@Ext;
  ExpPipe {%0} {%0} {Invalid coordinates.};
  #sub {@ExpString}
 } {Main|Starship}
 #Trigger {You hear * as * launched.} {mwplay Ship\Combat\CombatDroneLaunch*8@Ext;
 ExpPipe {%0} {%0} {%2 launched.};
 #sub {@ExpString}} {Main|Starship}
-#Trigger {You input a command to *.} {msplay Ship\Computer\CombatDroneRecall@Ext;
+#Trigger {You input a command to *.} {MirianiSoundPlay Standard Ship\Computer\CombatDroneRecall@Ext;
 ExpPipe {%0} {%0} {You %1.};
 #sub {@ExpString}} {Main|Starship}
 #Trigger {You * the stun turret camera*.} {
  #If {%Pos(enable,%1)>0} {
-  msplay General\Device\Activate@Ext
+  MirianiSoundPlay Standard General\Device\Activate@Ext
  } {
-  msplay General\Device\Deactivate@Ext
+  MirianiSoundPlay Standard General\Device\Deactivate@Ext
  }
 } {Main}
 #Trigger {Those coordinates are too far away to establish a lock.} {
-msplay Ship\Combat\OutOfRange@Ext;
+MirianiSoundPlay Standard Ship\Combat\OutOfRange@Ext;
 ExpPipe {%0} {Target out of range.} {Out of range.};
 #sub {@ExpString}
 } {Main|Starship}
@@ -291,31 +260,31 @@ ExpPipe {%0} {Target out of range.} {Out of range.};
   }
  }
 } {Main|Craft|DamageReader}
-#Trigger {*An escape pod suddenly lands nearby.} {msplay Ship\Misc\EscapePodDescend@Ext} {Main}
+#Trigger {*An escape pod suddenly lands nearby.} {MirianiSoundPlay Standard Ship\Misc\EscapePodDescend@Ext} {Main}
 #Trigger {You hear a soft mechanical whine as the fighter bay's hatch *s.} {ExpPipe {%0} {The fighter bay's hatch %1s.} {};
 #sub @ExpString;
-#if {%1="open"} {
-msplay Ship\Move\BCFighterDock@Ext
+#If {%1="open"} {
+MirianiSoundPlay Standard Ship\Move\BCFighterDock@Ext
 };
-#if {%1="close"} {
-msplay Ship\Misc\DockingBayDoorClose@Ext
+#If {%1="close"} {
+MirianiSoundPlay Standard Ship\Misc\DockingBayDoorClose@Ext
 }} {Main}
 #Trigger {The lights overhead suddenly flicker as they change from * to green.} {
- thememusicfadeout;
- msplay Ship\Combat\GreenAlert*2@Ext;
- #if {%IsNumber(@AlertSoundHandle)=1 AND @AlertSoundHandle>0} {
-  #pc @AlertSoundHandle Stop;
-  #var AlertSoundHandle 0
+ ThemeMusicFadeOut;
+ MirianiSoundPlay Standard Ship\Combat\GreenAlert*2@Ext;
+ #If {%IsNumber(@AlertSoundHandle)=1 and @AlertSoundHandle>0} {
+  #PC @AlertSoundHandle Stop;
+  #UnVar AlertSoundHandle 0
  }
 } {Main|Starship}
-#Trigger {* damaged beyond repair.} {msplay Ship\Computer\Error@Ext} {Main}
+#Trigger {* damaged beyond repair.} {MirianiSoundPlay Standard Ship\Computer\Error@Ext} {Main|Craft}
 #Trigger {* fiercely inputs commands into a firing control console.} {
- #var SomeoneElseFires 1;
- msplay Ship\Computer\Keyboard*15@Ext
+ #Var SomeoneElseFires 1;
+ MirianiSoundPlay Standard Ship\Computer\Keyboard*15@Ext
 } {Main|Starship}
 #Trigger {Praelor * has *.} {
- #var PraelorActions {launched undocked entered docked jumped};
- #if {%IfWord(%word(%2, ,1),@PraelorActions, )=1} {
+ #Var PraelorActions {launched undocked entered docked jumped};
+ #If {%IfWord(%word(%2, ,1),@PraelorActions, )=1} {
   MirianiSoundPlay {Praelor} Ship\Combat\Praelor@Ext;
   PushMessage Praelor0Activity {%0}
  }
@@ -356,12 +325,12 @@ msplay Ship\Misc\DockingBayDoorClose@Ext
  #Class CombatDrone disable
 } {CombatDrone|Main}
 #Trigger {There is a dull thudding noise from outside the hull, following by the loud boom of static from nearby consoles. It seems that the ship's sensors are malfunctioning.} {
- msplay Ship\Misc\InternalExpl*12@Ext
+ MirianiSoundPlay Standard Ship\Misc\InternalExpl*12@Ext
 } {Main|Starship}
 #Trigger {The ship rocks violently as it comes into contact with *.} {
  ExpPipe {%0} {The ship comes into contact with %1.} {The ship hits %1.};
  #Sub @ExpString;
- msplay Ship\Combat\YouHit*6@Ext
+ MirianiSoundPlay Standard Ship\Combat\YouHit*6@Ext
 } {Main|Starship}
 #Trigger {You hear a series of loud bangs as * missiles explode on the hull.} {
  MrandomPlay Ship\Combat\Projectile*3.wav;
@@ -370,35 +339,26 @@ msplay Ship\Misc\DockingBayDoorClose@Ext
 } {Main}
 #Trigger {You hear a series of * as the ship fires * missiles.} {
  ExpPipe {%0} {%0} {};
- msplay Ship\Combat\Missiles@Ext;
+ MirianiSoundPlay Standard Ship\Combat\Missiles@Ext;
  #Sub {@ExpString}
 } {Main}
 #Trigger {You hear a loud * sound as a disarmament pulse is fired.} {
  ExpPipe {%0} {Disarmament pulse fired.} {Disarmament pulse fired.};
- msplay Ship\Combat\disarm@Ext;
+ MirianiSoundPlay Standard Ship\Combat\disarm@Ext;
  #Sub {@ExpString}
 } {Main}
 #Trigger {You hear * sound as * immobilization pulse *.} {
- msplay Ship\Combat\immobilize@Ext;
+ MirianiSoundPlay Standard Ship\Combat\immobilize@Ext;
  ExpPipe {%0} {Immobilization pulse fired.} {Immobilization pulse fired.};
  #Sub {@ExpString}
 } {Main}
 #Trigger {You hear * the starship's CDP launcher.} {
- msplay Ship\Combat\disrupt@Ext;
+ MirianiSoundPlay Standard Ship\Combat\disrupt@Ext;
  ExpPipe {%0} {Computer disruption pulse fired.} {CDP fired.};
  #Sub {@ExpString}
 } {Main}
 #Trigger {You hear a sharp * sound as a sensor interruption pulse is fired.} {
- msplay Ship\Combat\interrupt@Ext;
+ MirianiSoundPlay Standard Ship\Combat\interrupt@Ext;
  ExpPipe {%0} {Sensor interruption pulse fired.} {Sensor interruption pulse fired.};
  #Sub {@ExpString}
-} {Main}
-#Trigger {You earn * credits for the successful completion of a combat mission.} {
- #Var TotalHits {%If(%IsNumber(@TotalHits)=0,0,@TotalHits)};
- #Var DirectHits {%If(%IsNumber(@DirectHits)=0,0,@DirectHits)};
- #Var PartialHits {%If(%IsNumber(@PartialHits)=0,0,@PartialHits)};
- #Var DestroyedShips {%If(%IsNumber(@DestroyedShips)=0,0,@DestroyedShips)};
- #Var TotalShips {%If(%IsNumber(@TotalShips)=0,0,@TotalShips)};
- #Var DestroyedDebris {%If(%IsNumber(@DestroyedDebris)=0,0,@DestroyedDebris)};
- msplay General\Misc\Credits*4@Ext
 } {Main}

@@ -286,3 +286,7 @@ msplay Ship\Move\QVAContinue@Ext} {Main|Starship}
 #Trigger {The feeling of nausea passes as the starship moves rapidly. *} {#GagLine 1 All;
 msplay Ship\Move\BiasEnds@Ext;
 msplay General\Misc\Beep*10@Ext} {Main|Starship}
+#Trigger {With one final burst of acceleration, the pod emerges from the wormhole and begins accelerating through space under the power of the relativity drive.} {ExpPipe {%0} {} {};
+#Sub @ExpString;
+MirianiSoundPlay Standard Ship\Misc\EscapePodWormHoleJump2@Ext} {Main|InEscapePod}
+#Trigger {With a final jolt, the pod completes its landing. As you depart, you notice an army of automated drones arrive to clear the spent pod away.} {#Class InEscapePod disable} {Main|InEscapePod}

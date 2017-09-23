@@ -104,16 +104,11 @@
 #Trigger {You press a large * reset button on a * starship simulator.} {msplay General\Misc\Beep*10@Ext;
 ExpPipe {%0} {You reset the %1 starship simulator.} {};
 #sub {@ExpString}} {Main}
-#Trigger {* crawls in through a large panel.} {
- #if {%Pos(stream of light,%1)=0} {
-  msplay Ship\Misc\ExitDucts*2@Ext
- } {
+#Trigger {* crawls in through a * panel.} {
+ #If {%Pos(stream of light,%1)=0 or %2="small"} {msplay Ship\Misc\ExitDucts*2@Ext} {
   msplay Ship\Misc\EnterDucts*2@Ext;
   MirianiSoundPlay Footstep General\Footsteps\Duct*7@Ext
  }
-} {Main|Starship}
-#Trigger {* crawls in through a small panel.} {
-msplay Ship\Misc\ExitDucts*2@Ext
 } {Main|Starship}
 #Trigger {* lifts a small panel and crawls through it.} {
   msplay Ship\Misc\EnterDucts*2@Ext
@@ -125,8 +120,8 @@ msplay Ship\Misc\ExitDucts*2@Ext
 } {Main|Starship}
 #Trigger {You flip a heavy switch, *.} {
  msplay Ship\Misc\Lever*5@Ext;
- #if {%pos(power systems,%1)>0} {
-  #if {%pos(enabling,%1)>0} {
+ #If {%pos(power systems,%1)>0} {
+  #If {%pos(enabling,%1)>0} {
    mrplay @RoomSound
   } {
    mrplay Ship\Rooms\NoPower@Rext
@@ -138,10 +133,10 @@ msplay Ship\Misc\ExitDucts*2@Ext
 #Trigger {A small console nearby flashes for your attention. A quick glance reveals that you have new mail waiting for you at*.} {msplay Ship\Misc\NewMail@Ext;
 ExpPipe {%0} {A small console nearbye tells you have new mail waiting for you at %1.} {You have new mail at %1.};
 #sub {@ExpString}} {Main|Starship}
-#Trigger {You hear a loud clang as robotic arms seize the ship and transport it to the *.} {#if {%1 = "landing pad"} {
+#Trigger {You hear a loud clang as robotic arms seize the ship and transport it to the *.} {#If {%1 = "landing pad"} {
 msplay Ship\Misc\LandingPad@Ext
 };
-#if {%1 = "garage"} {
+#If {%1 = "garage"} {
 msplay Ship\Misc\Garage@Ext
 };
 ExpPipe {%0} {Ship transported to %1.} {};
@@ -153,7 +148,7 @@ ExpPipe {%0} {Ship transported to %1.} {};
 #Trigger {*A fuzzy creature, appearing momentarily dazed, disengages itself from *.*} {msplay General\Combat\Fuzzy@Ext} {Main|Starship}
 #Trigger {* *s through the hatch.} {msplay Ship\Misc\Hatch@Ext} {Main}
 #Alias {music} {cmusic} {}
-#Trigger {A security drone suddenly appears to escort you off the ship*} {thememusicfadeout;
+#Trigger {A security drone suddenly appears to escort you off the ship*} {ThemeMusicFadeOut;
 msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
 #Trigger {Space.} {
  #Sub {The ship is in space.};
@@ -174,14 +169,14 @@ msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
  }
 } {Main}
 #Trigger {You * through *.} {
- #if {%ifword(%1,@WalkStyles,%CRLF)=1} {
+ #If {%ifword(%1,@WalkStyles,%CRLF)=1} {
   #Var ShipMiscTmp1 {%Replace(%2,~",)};
-  #if {%ifword(%word(@ShipMiscTmp1, ,2),unlocked broken, )>0} {
+  #If {%ifword(%word(@ShipMiscTmp1, ,2),unlocked broken, )>0} {
    DontStopSpeaking;
    #say {%Word(%2, ,2)};
    msplay Ship\Misc\AirlockEnter@Ext
   } {
-   #if {@ShipMiscTmp1 <> "the hatch"} {
+   #If {@ShipMiscTmp1 <> "the hatch"} {
     msplay General\Misc\Door@Ext
    } {
     msplay Ship\Misc\Hatch@Ext
@@ -190,20 +185,18 @@ msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
  }
 } {Main}
 #Trigger {You * out of the ship.} {
- thememusicfadeout;
+ ThemeMusicFadeOut;
  #Gagline 1 ALL;
  msplay Ship\Misc\AirlockExit@Ext
 } {Main|Starship}
 #Trigger {*A small light near the airlock of the * "*" flashes briefly.} {msplay General\Rooms\Beep18@RExt} {Main}
 #Trigger {* is deposited nearby.} {mrandomplay Atmo\CargoDeposited@Ext} {Main}
 #Trigger {Several drones begin depositing canisters of gas nearby.} {mrandomplay Atmo\CargoDeposited@Ext} {Main}
-#Trigger {* drags you outside the ship.} {thememusicfadeout} {Main}
 #Trigger {The * opens and allows you to pass.} {
  msplay {General\Misc\door open@Ext};
  ExpPipe {%0} {%0} {:Voice:%0};
  #Sub {@ExpString}
 } {Main}
-#Trigger {A * air freshener freshens the room with the scent of *.} {msplay Ship\Misc\Scent@Ext} {Main}
 #Trigger {Power to that system has been cut.} {msplay Ship\Misc\PowerCut@Ext} {Main}
 #Trigger {A mechanical groan permeates the room as *.} {
  #If {%Pos(aside,%1)>0} {
@@ -239,7 +232,7 @@ msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
  msplay General\Misc\Cancel@Ext
 } {Main|Starship}
 #Trigger {The ship is already on *.} {
- #var auto 1;
+ #Var auto 1;
  msplay General\Misc\Cancel@Ext
 } {Main|Starship}
 #Trigger {[[]##/##/#### - *:* [ap].m.] (*) *} {
@@ -273,8 +266,8 @@ msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
 } {Main}
 #Trigger {You watch as a* is brought in by several salvage lines.} {msplay Ship\Misc\PanelsOff@Ext} {Main}
 #Trigger {You follow * outside the ship*} {
- #var Following 1;
- thememusicfadeout;
+ #Var Following 1;
+ ThemeMusicFadeOut;
  msplay Ship\Misc\AirlockExit@Ext
 } {Main}
 #Trigger {You float out of the ship into space.*} {msplay Ship\Misc\AirlockExit@Ext} {Main}
@@ -284,11 +277,6 @@ msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
 #Trigger {You abort the *.} {
  ExpPipe {%0} {%0} {%1 aborted.};
  msplay Ship\Computer\Abort@Ext;
- #Sub {@ExpString}
-} {Main}
-#Trigger {You hear a thunk as a salvaging line is deployed into space. You watch as the line slowly winds its way to a piece of debris, projects an energy net around it and begins to slowly make its way back to the ship.} {
- ExpPipe {%0} {Salvage line deployed.} {};
- msplay Ship\Misc\Salvage*3@Ext;
  #Sub {@ExpString}
 } {Main}
 #Trigger {You are turned away by the locked hatch of *.} {msplay General\Misc\CantGo*5@Ext} {Main}
@@ -301,7 +289,13 @@ msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
   InSpace 0
  }
 } {Main}
-#Trigger {* drags you into the ship.} {#if {@RoomName<>"Airlock"} {msplay Ship\Misc\AirlockEnter@Ext}} {Main}
+#Trigger {* drags you * the ship.} {
+ #If {%IfWord(%2,into|outside,|)=1} {
+  #If {%2="into"} {
+   #If {@RoomName<>"Airlock"} {msplay Ship\Misc\AirlockEnter@Ext}
+  } {ThemeMusicFadeOut}
+ }
+} {Main}
 #Trigger {* arrives from outside.} {msplay Ship\Misc\AirlockEnter@Ext} {Main}
 #Trigger {* exits the ship.} {msplay Ship\Misc\AirlockExit@Ext} {Main}
 #Trigger {* floats outside into space.} {msplay Ship\Misc\AirlockExit@Ext} {Main}
@@ -328,8 +322,11 @@ msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
   #GagLine 1 All
  }
 } {Main}
-#trigger {The hiss of air slowly fades away into nothingness, and the * light becomes *.} {msplay Ship\Misc\AirEnd@Ext;
-#Gagline 1 ALL} {Main}
-#trigger {Some lovely elevator music begins playing as the airlock cycles*} {msplay Music\*30@Ext;
-#Gagline 1 ALL} {Main}
-#trigger {Some lovely elevator music abruptly stops playing as the airlock ceases cycling*} {#Gagline 1 ALL} {Main}
+#Trigger {The hiss of air slowly fades away into nothingness, and the * light becomes *.} {
+ msplay Ship\Misc\AirEnd@Ext;
+ #GagLine 1 All
+} {Main}
+#Trigger {Some lovely elevator music * playing as the airlock *} {
+ #If {%1="begins"} {msplay Music\*30@Ext};
+ #GagLine 1 All
+} {Main|Starship}

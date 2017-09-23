@@ -602,3 +602,4 @@ msplay General\Misc\LeftPerson@Ext
 #Trigger {A small screen indicates that it has stored * out of 20 minerals. It *.} {
  #Sub {%1 of 20. %If(%Pos(digging,%2)>0,Active,Inactive).}
 } {Main|Ground}
+#Trigger {A* air freshener freshens the room with the scent of *.} {msplay Ship\Misc\Scent@Ext} {Main}
