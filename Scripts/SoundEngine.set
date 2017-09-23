@@ -171,7 +171,7 @@ station:General\Footsteps\Station*8@Ext
 ; SetRoomSoundVolume:
 ; Simply sets the room sounds volume, used with the master volume faders.
 #Alias SetRoomSoundVolume {
- #Math RoomVol {@Vol + @RoomSoundsVolumeDiff};
+ #Math RoomVol {@Vol+@RoomSoundsVolumeDiff};
  #If {@RoomVol<0} {
   #Var RoomVol 0
  } {
@@ -188,7 +188,7 @@ station:General\Footsteps\Station*8@Ext
 ; Loop plays room sounds.
 #Alias mrplay {
  #Exec {
-  #If {"%1"<>"Change" AND (@RoomSounds=0 OR %IfWord(@ZoneType,@SilentZoneTypes,|)=1 OR %IfWord(@ZoneName,@SilentZoneNames,|)=1 OR %IfWord(@RoomName,@SilentRoomNames,|)=1)} {
+  #If {"%1"<>"Change" and (@RoomSounds=0 or %IfWord(@ZoneType,@SilentZoneTypes,|)=1 or %IfWord(@ZoneName,@SilentZoneNames,|)=1 or %IfWord(@RoomName,@SilentRoomNames,|)=1)} {
    #Alarm 0 {MrplayOriginal}
   } {
    #Alarm 0 {mrplayOriginal {%1} {%2} {%3} {%4} {%5} {%6} {%7} {%8} {%9}}
@@ -203,7 +203,7 @@ station:General\Footsteps\Station*8@Ext
   };
   #Var CurrentRoomSound {}
  } {
-  #If {@Silent=0 and @RoomSounds=1} {
+  #If {@Silent=0 and @RoomSounds>0} {
    #If {%1<>@CurrentRoomSound and %1<>"change"} {
     #If {@RoomSoundHandle<>0} {
      #PC @RoomSoundHandle Stop
@@ -358,8 +358,8 @@ station:General\Footsteps\Station*8@Ext
   Speech Stop;
   #Say {@Vol percent.} VoiceOnly
  };
- #If {@RoomSounds=1} {setroomsoundvolume};
- setthememusicvolume
+ #If {@RoomSounds>0} {SetRoomSoundVolume};
+ SetThemeMusicVolume
 } {}
 
 ; Mrandomplay:

@@ -89,6 +89,8 @@ Ship\Rooms\RepAndRearm@Rext
 #Var Rooms {
 A Suborbital Pod
 General\Rooms\ITPN@Rext
+Transport Pod
+General\Rooms\ITPN@Rext
 Artificial Garden
 General\Rooms\Planet@Rext
 Asteroid Rover Control Center
@@ -163,12 +165,10 @@ Ship\Rooms\Brig@Rext
 Ship\Rooms\Salvager@Rext
 *Docking*
 General\Rooms\LandingPad@Rext
-*lake*
+*Lake*
 General\Rooms\Lake@Rext
 *Launch Pad*
 General\Rooms\LandingPad@Rext
-*river*
-General\Rooms\Lake@Rext
 *River*
 General\Rooms\Lake@Rext
 *Escape Pod
@@ -179,7 +179,7 @@ General\Rooms\Garage@Rext
 General\Rooms\Garage@Rext
 *Parking*
 General\Rooms\Garage@Rext
-Hangar *
+*Hangar*
 General\Rooms\Garage@Rext
 *Landing*
 General\Rooms\LandingPad@Rext
@@ -342,12 +342,13 @@ Apartment
   #Var RoomName {%LTrim(%Word(~%1,~~~",3))};
   #Var RoomSound {Ship\Rooms\MiscShipRooms@Rext};
   #Var RoomTmp1 {%Pos(@LF@RoomName@CR,@ShipRooms)};
+  #If {%IfWord(@RoomName,Airlock,|)=1} {MPlanetSounds stop};
   #If {@RoomTmp1>0} {
    #Var RoomSound {%Word(%Copy(@ShipRooms,@RoomTmp1+1),%CRLF,2)}
   } {
-   #Math RoomTmp1 {%NumWords(@ShipRoomsW,@CR)-2};
+   #If {@RoomSounds=1} {#Math RoomTmp1 {%NumWords(@ShipRoomsW,@CR)-2}} {#Var RoomTmp1 0};
    #While {@RoomTmp1>0} {
-    #If {%replace(@RoomName,~",)=*%Word(@ShipRoomsW,%CRLF,@RoomTmp1)} {
+    #If {%Replace(@RoomName,~",)=*%Word(@ShipRoomsW,%CRLF,@RoomTmp1)} {
      #Var RoomSound {%Word(@ShipRoomsW,%CRLF,@RoomTmp1+1)};
      #Var RoomTmp1 -1
     } {
@@ -360,7 +361,7 @@ Apartment
    #Var RoomSound {Ship\Rooms\NoPower@Rext};
    Mrplay @RoomSound
   } {
-   #If {@InSpace=1 OR %Pos(Pool,@RoomName)>0} {
+   #If {@InSpace=1 or %Pos(Pool,@RoomName)>0} {
     mrplay @RoomSound Frequency 44100
    } {
     mrplay @RoomSound Frequency 22050
@@ -414,7 +415,7 @@ Apartment
   #If {@RoomTmp1>0} {
    #Var RoomSound {%Word(%Copy(@Rooms,@RoomTmp1+1),%CRLF,2)}
   } {
-   #Math RoomTmp1 {%NumWords(@RoomsW,@CR)-2};
+   #If {@RoomSounds=1} {#Math RoomTmp1 {%NumWords(@RoomsW,@CR)-2}} {#Var RoomTmp1 0};
    #While {@RoomTmp1>0} {
     #If {%replace(@RoomName,~",)=*%Word(@RoomsW,%CRLF,@RoomTmp1)} {
      #Var RoomSound {%Word(@RoomsW,%CRLF,@RoomTmp1+1)};
@@ -428,7 +429,6 @@ Apartment
  }
 } {Main|RoomReader}
 #Trigger {[[]Planet *]} {#if {%isnumber(%1)=1} {mplanetsounds}} {Main}
-#Trigger {[[]"*" Airlock]*} {mplanetsounds stop} {Main}
 #Trigger {The doors to the pod close and the pod *begins *.} {msplay General\Misc\Pod@Ext} {Main}
 #Trigger {The red light above the door to the * turns on. A pair of ominous-looking stun turrets lower from the ceiling, suggesting that this isn't a regular decontamination.} {
  msplay Ship\Combat\WeaponsOn@Ext
@@ -441,10 +441,6 @@ Apartment
  #Sub @ExpString
 } {Main}
 #Trigger {The pod quickly slows as it reaches *.*} {DontStopSpeaking} {Main}
-#Trigger {[[]Transport Pod]} {
- mrplay General\Rooms\ITPN@Rext;
- #class RoomReader Disable
-} {Main|RoomReader}
 #Key {Control-Alt-Shift-F12} {
  #Var GagExits {%Eval(NOT @GagExits)};
  #Say {Exits will now be %If(@GagExits = 1,gagged,shown).}
@@ -461,7 +457,7 @@ Apartment
   #UnVar AndString
  }
 } {}
-#Trigger {Noticing a * Commoveo membership ring, the guard waves you through.} {DontStopSpeaking} {Main}
+#Trigger {Noticing a* Commoveo membership ring, the guard waves you through.} {DontStopSpeaking} {Main}
 #Trigger {You step on to a small platform on the floor. Sensing your presence, a ring of lights along the perimeter of the circle light up as the platform *.} {
  ExpPipe {%0} {:Voice:%0} {};
  msplay General\Misc\HGLift.wav;

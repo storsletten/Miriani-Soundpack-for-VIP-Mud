@@ -170,7 +170,7 @@ BypassActionToggles|B
 #Var ConfMenuSounds {Sound configuration
 [1] Master mute  [~%If(~@Silent=1,On,Off)]. (F11).
 [2] Master volume  [~@{Vol}~~~%]. (F9 / F10).
-[3] Room sound configuration.  [Room sounds are currently ~%If(~@RoomSounds=1,On,Off)].
+[3] Room sound configuration.  [Room sounds are ~%Case(~@RoomSounds+1,off,on,partially on)].
 [4] Theme music configuration.  [Theme music is currently ~%If(~@ThemeMusic=1,On,Off)].
 [5] Play a sound when your character is walking  [~%If(~@PlayTreadSound=1,On,Off)].
 [6] Play a sound when other characters are walking  [~%If(~@PlayOtherTreadSound=1,On,Off)].
@@ -194,7 +194,7 @@ SpamAlert|B::#Class SpamAlerts {~%If(~@SpamAlert=1,Enable,Disable)}
 }
 
 #Var ConfMenuRoomSounds {Room sound configuration:
-[1] Global room sounds  [~%If(~@RoomSounds=1,On,Off)]. (Shift F11).
+[1] Global room sounds  [~%Case(~@RoomSounds+1,Off,On,Partially On)]. (Shift F11).
 [2] Room sounds volume offset  [~@{RoomSoundsVolumeDiff}~~~%].
 [3] Room sounds for discovered planets in uncharted space  [~%If(~@PlanetSounds=1,On,Off)].
 [4] Room sounds for rooms named ~@RoomName  [~%If(~%IfWord(~@RoomName,~@SilentRoomNames,|)=0,On,Off)].
@@ -204,7 +204,7 @@ SpamAlert|B::#Class SpamAlerts {~%If(~@SpamAlert=1,Enable,Disable)}
 [8] Clear the list of silenced zone names.
 [9] Clear the list of silenced zone types.
 %Chr(250)
-RoomSounds|B::mrplay {~@RoomSound};InSpace {~@InSpace}
+RoomSounds|C:0,Off^1,On^2,Partially On:mrplay {~@RoomSound};InSpace {~@InSpace}
 RoomSoundsVolumeDiff|N:-100^100:SetRoomSoundVolume
 PlanetSounds|B::mrplay {~@RoomSound};InSpace {~@InSpace}
 RoomName|E::#If {~%IfWord(~@RoomName,~@SilentRoomNames,~%Chr(124))=0} {#AddItem SilentRoomNames {~@RoomName} NoDuplicates;#Say {Disabled room sounds for rooms named ~@RoomName.}} {#Var SilentRoomNames {~%DelItem(~@SilentRoomNames,~@RoomName)};#Say {Enabled room sounds for rooms named ~@RoomName.}};mrplay {~@RoomSound};InSpace {~@InSpace}
