@@ -1,3 +1,6 @@
+Version 5.8.41, released 2017-09-23:
+* For 2.0: Made it possible to turn room sounds partially on. This means the soundpack will skip the step of iterating through wildcards to find the correct room sound, which might boost performance when walking or looking in the room.
+
 Version 5.8.40, released 2017-09-23:
 * For 2.0: Ported some legacy 1.1 code to 2.0, for better performance.
 
