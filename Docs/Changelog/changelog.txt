@@ -1,3 +1,6 @@
+Version 5.8.44, released 2017-09-24:
+* For 2.0: Fixed footstep sounds being triggered by lifts moving up and down. Thanks to Josh Westen for reporting this.
+
 Version 5.8.43, released 2017-09-24:
 * For 2.0: Added an ExpPipe for the output of the ABOUT command.
 * For 2.0: Fixed an error when changing the alert status to green. Thanks Anny Rain for letting me know about this error.
