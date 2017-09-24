@@ -374,10 +374,6 @@ ExpPipe {%0} {%0} {%1 checks the navigation console.};
  ExpPipe {%0} {Heading to %1} {Destination: %1};
  #Sub {@ExpString}
 } {Main|Starship}
-#Trigger {There are no damaged components.} {
- MirianiSoundPlay Standard Ship\Computer\Display@Ext;
- MainTrigSwitch 1
-} {Main}
 #Trigger {Charge Readout:} {MirianiSoundPlay Standard Ship\Computer\Display@Ext} {Main}
 #Trigger {Total Weight: *} {MirianiSoundPlay Standard Ship\Computer\Display@Ext} {Main}
 #Trigger {There is nothing in the cargo hold.*} {MirianiSoundPlay Standard Ship\Computer\Display@Ext} {Main|Craft}

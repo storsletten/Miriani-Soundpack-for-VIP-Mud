@@ -306,4 +306,3 @@ Here is the entire list of SmFilter aliases:
   }
  }
 } {SmFilterClass}
-#Trigger {There is nothing to see.} {MainTrigSwitch 1 SmFilterClass} {SmFilterClass}

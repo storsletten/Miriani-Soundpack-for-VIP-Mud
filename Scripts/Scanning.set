@@ -157,10 +157,6 @@
  #UnVar ScanObject
 } {}
 
-#Trigger {There is nothing here to scan.} {
- msplay Ship\Computer\NothingToScan@Ext;
- MainTrigSwitch 1
-} {Scanning}
 #Trigger {Nothing was detected at those coordinates.} {
  msplay Ship\Computer\NothingToScan@Ext;
  MainTrigSwitch 1

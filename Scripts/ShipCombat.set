@@ -201,12 +201,7 @@ mrandomplay Ship\Combat\PlanetaryLaser@Ext} {Main}
   MainTrigSwitch 1 Focus
  }
 } {Focus}
-#Trigger {There are no ships here.} {
- MirianiSoundPlay Standard Ship\Computer\NothingToScan@Ext;
- MainTrigSwitch 1 Focus
-} {Focus}
 #Trigger {That's not a ship.} {MainTrigSwitch 1 Focus} {Focus}
-#Trigger {The focused ship is no longer in the sector.} {MainTrigSwitch 1 Focus} {Focus}
 #Trigger {Invalid coordinates. Range: (*) to (*).} {
  MirianiSoundPlay Standard Ship\Misc\Drunk@Ext;
  ExpPipe {%0} {%0} {Invalid coordinates.};
@@ -292,11 +287,6 @@ MirianiSoundPlay Standard Ship\Misc\DockingBayDoorClose@Ext
  MirianiSoundPlay {Praelor} Ship\Combat\Praelor@Ext;
  PushMessage Praelor0Activity {%0}
 } {Main}
-#Trigger {There is a sharp clank from somewhere nearby. You hear a buzzing noise.} {
- ExpPipe {%0} {You hear a buzzing noise.} {};
- #Sub @ExpString;
- mrandomplay Ship\Combat\PraelorBoarding*5@Ext
-} {Main|Starship}
 #Trigger {* slam* into the hull. You hear a loud grinding noise.} {
  ExpPipe {%0} {%1 hit%2 the hull.} {Hit by %1.};
  #Sub @ExpString;
@@ -321,9 +311,6 @@ MirianiSoundPlay Standard Ship\Misc\DockingBayDoorClose@Ext
  #sub @ExpString;
  #Class CombatDrone disable
 } {CombatDrone|Main}
-#Trigger {There is a dull thudding noise from outside the hull, following by the loud boom of static from nearby consoles. It seems that the ship's sensors are malfunctioning.} {
- MirianiSoundPlay Standard Ship\Misc\InternalExpl*12@Ext
-} {Main|Starship}
 #Trigger {The ship rocks violently as it comes into contact with *.} {
  ExpPipe {%0} {The ship comes into contact with %1.} {The ship hits %1.};
  #Sub @ExpString;

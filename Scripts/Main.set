@@ -32,9 +32,8 @@ ShipMisc|
 ShipMovement|
 SmFilter|
 Socials|
-TriggerTables/A|
-TriggerTables/The|
-TriggerTables/You|
+TriggerTables|
+YouActions|
 Extras|
 ConfManagerMenus|
 }
@@ -390,7 +389,8 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
   #If {%Defined(StartupMusicHandle)=1} {
    #PC @StartupMusicHandle Stop;
    #UnVar StartupMusicHandle
-  }
+  };
+  SetRoomSoundVolume
  };
  soundpack register
 } {}
@@ -478,9 +478,9 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  #If {%1<>"1"} {#Say {Reloading}};
  #Ignore Key On;
  #Ignore Trigger On;
+ #If {@AutoSave=1} {ConfSaveAll Quiet};
  #PC 0 Stop;
  #UnAlarm -1;
- #If {@AutoSave=1} {ConfSaveAll Quiet};
  #Alarm 0 {
   #Exec {
    #Reload;
@@ -501,7 +501,7 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
    SPLoad1 0
   }
  }
-}
+} {}
 #Key {Control-S} {
  #SetSpeech incoming stop;
  ConfSaveAll

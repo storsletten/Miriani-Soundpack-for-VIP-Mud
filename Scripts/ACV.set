@@ -11,7 +11,7 @@
 
 ; Syntax: CalculateRelativeNumericDir TargetX TargetY TargetZ CurrentX CurrentY CurrentZ
 #Alias CalculateRelativeNumericDir {
- #if {%IsNumber(%1)=0 OR %IsNumber(%2)=0 OR %IsNumber(%3)=0 OR %IsNumber(%4)=0 OR %IsNumber(%5)=0 OR %IsNumber(%6)=0} {
+ #If {%IsNumber(%1)=0 OR %IsNumber(%2)=0 OR %IsNumber(%3)=0 OR %IsNumber(%4)=0 OR %IsNumber(%5)=0 OR %IsNumber(%6)=0} {
   #Var RelativeNumericDir {%1 %2 %3}
  } {
   #Var RelativeNumericDir {};
@@ -20,73 +20,73 @@
   #Math RelativeNumericTmpY {%max(%2,%5) - %min(%2,%5)};
   #Math RelativeNumericTmpZ {%max(%3,%6) - %min(%3,%6)};
   #If {(@RelativeNumericTmpX>1 OR @RelativeNumericTmpY>1 OR @RelativeNumericTmpZ>1) OR (@RelativeNumericTmpX=0 AND @RelativeNumericTmpY=0 AND @RelativeNumericTmpZ=0)} {
-   #if {@RelativeNumericTmpX>1 OR @RelativeNumericTmpY>1 OR @RelativeNumericTmpZ>1} {
-    #if {@RelativeNumericTmpX>0} {
-     #var RelativeNumericTmpXDir {@RelativeNumericTmpX%if(%4 > %1,W,E)};
+   #If {@RelativeNumericTmpX>1 OR @RelativeNumericTmpY>1 OR @RelativeNumericTmpZ>1} {
+    #If {@RelativeNumericTmpX>0} {
+     #Var RelativeNumericTmpXDir {@RelativeNumericTmpX%if(%4 > %1,W,E)};
      #If {@RelativeNumericTmpY>0 OR @RelativeNumericTmpZ>0} {
-     #var RelativeNumericTmpXDir {@RelativeNumericTmpXDir, }
+     #Var RelativeNumericTmpXDir {@RelativeNumericTmpXDir, }
      }
     } {
-     #var RelativeNumericTmpXDir {}
+     #Var RelativeNumericTmpXDir {}
     };
-    #if {@RelativeNumericTmpY>0} {
-     #var RelativeNumericTmpYDir {@RelativeNumericTmpY%if(%5 > %2,N,S)};
+    #If {@RelativeNumericTmpY>0} {
+     #Var RelativeNumericTmpYDir {@RelativeNumericTmpY%if(%5 > %2,N,S)};
      #If {@RelativeNumericTmpZ>0} {
-     #var RelativeNumericTmpYDir {@RelativeNumericTmpYDir, }
+     #Var RelativeNumericTmpYDir {@RelativeNumericTmpYDir, }
      }
     } {
-     #var RelativeNumericTmpYDir {}
+     #Var RelativeNumericTmpYDir {}
     };
-    #if {@RelativeNumericTmpZ>0} {
-     #var RelativeNumericTmpZDir {@RelativeNumericTmpZ%if(%6 > %3,U,D)}
+    #If {@RelativeNumericTmpZ>0} {
+     #Var RelativeNumericTmpZDir {@RelativeNumericTmpZ%if(%6 > %3,U,D)}
     } {
-     #var RelativeNumericTmpZDir {}
+     #Var RelativeNumericTmpZDir {}
     };
-    #var RelativeNumericDir {@RelativeNumericTmpXDir@RelativeNumericTmpYDir@RelativeNumericTmpZDir}
+    #Var RelativeNumericDir {@RelativeNumericTmpXDir@RelativeNumericTmpYDir@RelativeNumericTmpZDir}
    } {
-    #var RelativeNumericDir {C}
+    #Var RelativeNumericDir {C}
    }
   } {
-   #if {%3>%6} {
-    #var RelativeNumericDirPrefix {Minus }
+   #If {%3>%6} {
+    #Var RelativeNumericDirPrefix {Minus }
    };
-   #if {%3<%6} {
-    #var RelativeNumericDirPrefix {Plus }
+   #If {%3<%6} {
+    #Var RelativeNumericDirPrefix {Plus }
    };
-   #if {%1=%4 AND %2=%5} {
-    #var RelativeNumericDir 5
+   #If {%1=%4 AND %2=%5} {
+    #Var RelativeNumericDir 5
    } {
-    #if {%1=%4} {
-     #if {%2>%5} {
-      #var RelativeNumericDir 2
+    #If {%1=%4} {
+     #If {%2>%5} {
+      #Var RelativeNumericDir 2
      } {
-      #var RelativeNumericDir 8
+      #Var RelativeNumericDir 8
      }
     } {
-     #if {%2=%5} {
-      #if {%1>%4} {
-       #var RelativeNumericDir 6
+     #If {%2=%5} {
+      #If {%1>%4} {
+       #Var RelativeNumericDir 6
       } {
-       #var RelativeNumericDir 4
+       #Var RelativeNumericDir 4
       }
      } {
-      #if {%1>%4} {
-       #if {%2>%5} {
-        #var RelativeNumericDir 3
+      #If {%1>%4} {
+       #If {%2>%5} {
+        #Var RelativeNumericDir 3
        } {
-        #var RelativeNumericDir 9
+        #Var RelativeNumericDir 9
        }
       } {
-       #if {%2>%5} {
-        #var RelativeNumericDir 1
+       #If {%2>%5} {
+        #Var RelativeNumericDir 1
        } {
-        #var RelativeNumericDir 7
+        #Var RelativeNumericDir 7
        }
       }
      }
     }
    };
-   #var RelativeNumericDir {@RelativeNumericDirPrefix@RelativeNumericDir}
+   #Var RelativeNumericDir {@RelativeNumericDirPrefix@RelativeNumericDir}
   }
  }
 } {}
@@ -118,18 +118,6 @@
  %Pop(ACVNextMoveZ)
 } {Main}
 
-#Trigger {The ship comes to a halt in the planet's atmosphere.} {
- #var AcvCoordX {};
- #var AcvCoordY {};
- #var AcvCoordZ {};
- #if {@ModifyAcvOutput=1 AND %Pos(atmospheric combat,@RoomName)>0} {
-  #Sub {Now type coords to set your current coordinates.}
- } {
-  ExpPipe {%0} {} {};
-  #sub {@ExpString}
- };
- msplay ACV\ACVStop@Ext
-} {Main}
 #Trigger {Weapon launch sequence initiated. Bomb's away!} {ExpPipe {%0} {Bomb's away!} {};
 #sub @ExpString;
 msplay ACV\Bomb*4@Ext} {Main}
@@ -139,15 +127,14 @@ msplay ACV\Bomb*4@Ext} {Main}
  #Sub @{ExpString};
  mwplay Ship\Combat\YouHit*11@Ext
 } {Main}
-#Trigger {With the sickening lurch of acceleration, the vehicle begins accelerating through the atmosphere toward space.} {#gagline 1 all} {Main}
 #Trigger {Current coordinates: &{AcvCoordX}, &{AcvCoordY}, &{AcvCoordZ}} {
  #Sub {@AcvCoordX @AcvCoordY @AcvCoordZ}
 } {Main|ACVMoveMode}
 #Trigger {Coordinates: *, *, *} {
- #var AcvObjectX %1;
- #var AcvObjectY %2;
- #var AcvObjectZ %3;
- #if {@ModifyAcvOutput=1} {
+ #Var AcvObjectX %1;
+ #Var AcvObjectY %2;
+ #Var AcvObjectZ %3;
+ #If {@ModifyAcvOutput=1} {
   CalculateRelativeNumericDir @AcvObjectX @AcvObjectY @AcvObjectZ @AcvCoordX @AcvCoordY @AcvCoordZ;
   #Sub {@RelativeNumericDir}
  }

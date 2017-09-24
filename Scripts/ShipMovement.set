@@ -41,21 +41,6 @@
 #Trigger {* rises smoothly off the ground and hovers for a brief moment before rapidly accelerating towards space.} {
  mrandomplay Ship\Move\OtherLaunch*3@Ext
 } {Main}
-#Trigger {With a sharp lurch, the starship completes its intrasector slip.} {
- msplay General\Misc\Beep*10@Ext;
- msplay Ship\Misc\Background*5@Ext;
- ExpPipe {%0} {Slip complete.} {};
- #sub {@ExpString}
-} {Main|Starship}
-#Trigger {With a sharp lurch, the starship completes its intrasector wavewarp. The pulsing sound stops as the wavewarp drive powers down.} {
- msplay General\Misc\Beep*10@Ext;
- msplay Ship\Misc\Background*5@Ext;
- ExpPipe {%0} {Wavewarp complete.} {};
- #sub {@ExpString}
-} {Main|Starship}
-#Trigger {There is a brilliant flash of blue light as the ship emerges on the other side of the wormhole.} {msplay Ship\Combat\OtherDestroyed*10@Ext;
-ExpPipe {%0} {} {};
-#sub {@ExpString}} {Main|Starship}
 #Trigger {Uninhabited landing is not supported at this time.} {msplay Ship\Move\DontLand@Ext} {Main|Starship}
 #Trigger {The mild vibration of acceleration eases off *.} {
  msplay General\Misc\Beep*10@Ext;
@@ -82,22 +67,11 @@ msplay Ship\Move\FTL@Ext} {Main|Starship}
 #Trigger {Without warning, the overhead lights suddenly increase to maximum illumination as the windows darken to complete black. * announces, "Realspace transition in progress."} {#GagLine 1 All;
 msplay Ship\Move\QVAContinue@Ext} {Main|Starship}
 #Trigger {Water from the pool suddenly sloshes over the side and covers the floor of the room.} {mwplay General\Misc\WaterSplash@Ext} {Main|Starship}
-#Trigger {With a slight thud, the ship sets down.} {InSpace 0;
-#GagLine 1 All} {Main|Starship}
 #Trigger {* has jumped out of the sector.} {msplay Ship\Move\ExitSector*2@Ext} {Main}
 #Trigger {The windows automatically darken as an intense burst of light radiates outward from *.} {
  ExpPipe {%0} {Light shoots out from %1.} {};
  #Sub @ExpString;
  msplay Ship\Move\ArrayLight@Ext
-} {Main|Starship}
-#Trigger {With no warning, the gravity in the room increases, pinning you to the floor. It sounds like the ship's computer is saying something, but you can't make the exact message out in the static.} {
- ExpPipe {%0} {It sounds like the ship's computer is saying something, but you can't make the exact message out in the static.} {};
- #Sub @ExpString
-} {Main|Starship}
-#Trigger {With an abrupt and unexplainable popping sound, the gravity in the room fails entirely. You begin to feel the effects of weightlessness as the gravity plating returns to normal levels. You fall to the ground with an uncomfortable thud.} {
- ExpPipe {%0} {%0} {};
- #Sub @ExpString;
- Msplay Ship\Move\ArrayPop@Ext
 } {Main|Starship}
 #Trigger {* inputs a series of commands into a navigation console.} {
  msplay Ship\Computer\Keyboard*15@Ext;
@@ -283,10 +257,8 @@ msplay Ship\Move\QVAContinue@Ext} {Main|Starship}
  ExpPipe {%0} {%0} {};
  #Sub {@ExpString}
 } {Main}
-#Trigger {The feeling of nausea passes as the starship moves rapidly. *} {#GagLine 1 All;
-msplay Ship\Move\BiasEnds@Ext;
-msplay General\Misc\Beep*10@Ext} {Main|Starship}
-#Trigger {With one final burst of acceleration, the pod emerges from the wormhole and begins accelerating through space under the power of the relativity drive.} {ExpPipe {%0} {} {};
-#Sub @ExpString;
-MirianiSoundPlay Standard Ship\Misc\EscapePodWormHoleJump2@Ext} {Main|InEscapePod}
-#Trigger {With a final jolt, the pod completes its landing. As you depart, you notice an army of automated drones arrive to clear the spent pod away.} {#Class InEscapePod disable} {Main|InEscapePod}
+#Trigger {The feeling of nausea passes as the starship moves rapidly. *} {
+ #GagLine 1 All;
+ msplay Ship\Move\BiasEnds@Ext;
+ msplay General\Misc\Beep*10@Ext
+} {Main|Starship}

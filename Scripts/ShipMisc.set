@@ -244,10 +244,6 @@ msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
  ExpPipe {%0} {:Voice:%0} {:Voice:%1 scans for debris.};
  #sub {@ExpString}
 } {Main|Starship}
-#Trigger {There is insufficient sensor bandwidth for additional debris scanning.} {
- ExpPipe {%0} {:Voice:%0} {};
- #sub {@ExpString}
-} {Main|Starship}
 #Trigger {The *-* * "*" is located at *.} {
  ExpPipe {%0} {%1-%2 %3 %4 at %5} {%4 at %5 (%3)};
  #Sub @ExpString

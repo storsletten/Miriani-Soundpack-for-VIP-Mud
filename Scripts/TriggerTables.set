@@ -1,3 +1,143 @@
+#Var TTA {
+bright flash of blue light floods the room as the starship travels through the wormhole.^#GagLine 1 All
+|
+wave of nausea comes over you as gravity around the ship is twisted and bent.^
+ #GagLine 1 All;
+ msplay Ship\Move\BiasContinues~@Ext
+|
+intense burst of static begins emanating from every nearby radio. The lights dim momentarily as a barely perceptible rumbling vibrates the deck below you.^
+ msplay Ship\Move\ArrayStatic~@Ext;
+ ExpPipe {~%0} {} {}
+|
+the starship lurches forward ever so slightly, your ears pop. You glance out the window and see that it has been restored to nominal luminocity and the sector has changed.^
+ msplay Ship\Move\QVAComplete~@Ext;
+ ExpPipe {~%0} {} {}
+|
+array of enormous flesh-colored hooks wave in front of the ship, latching deep into the hull. The starship is pulled toward the docking orifice.^
+ msplay Ship\Move\YouLanding~@Ext;
+ ExpPipe {~%0} {} {}
+|
+torrent of yellow fluid leaks from a large vesical in front of the station's docking doors, momentarily blotting out the viewport.^msplay Ship\Move\PraelorOutpostDockStart~@Ext
+|
+haunting screech drifts in from the storage room as something heavy is dragged across the floor.^
+ mrandomplay Ship\Misc\Transfer*3~@Ext;
+ #GagLine 1 All
+|
+security drone appears and drags you off the ship.^
+ thememusicfadeout;
+ msplay Ship\Misc\AirlockExit~@Ext;
+ ExpPipe {~%0} {~%0} {:Voice:Booted.}
+|
+interdiction field prevents the ship from communicating with the navigational beacons.^msplay Ship\Computer\Error~@Ext
+|
+high-pitched, wobbling alarm sounds as the hull begins breaking up around you.^
+ msplay Ship\Combat\YouDestroyed*3~@Ext;
+ #GagLine 1 All
+|
+faint crackling can be heard as the interdiction field generator continues to power up.^
+ msplay Ship\Combat\InterdictStart~@Ext;
+ ExpPipe {~%0} {} {}
+|
+sudden instability in the layer of gasses around the ship causes it to rapidly sink deeper into the atmosphere.^msplay ship\misc\wind~@Ext
+|
+you enter, the doors slam shut behind you. A loud click echoes through the room as they lock.^
+ #Var ExpString {The doors lock behind you.};
+ msplay Ship\Misc\DoorLocked~@Ext
+|
+loud click echoes through the room as the doors unlock.^
+ #GagLine 1 All;
+ mrplay stop;
+ msplay General\Rooms\DecontaminationEnds~@Rext
+|
+guard steps aside, allowing you to pass through.^DontStopSpeaking
+|
+recorded voice on a large planetary mining drone whispers, "No minerals of value could be found. Please scan another area."^
+ msplay {General\PMining\no minerals~@Ext};
+ #Var ExpString {No minerals found.}
+|
+loud buzz sounds.^
+ #GagLine 1 All;
+ msplay Ship\Move\Blocked~@Ext
+|
+the lift comes to a halt, the lights vanish and you step off.^ExpPipe {~%0} {} {}
+|
+small hovering drone flies in front of you, scans you, then photographs your face before floating off into the distance.^mrandomplay General\Device\CameraOff~@Ext
+|
+bright blue light floods the room as the pod begins traveling through the wormhole.^ExpPipe {~%0} {} {}
+|
+small handheld radio receiver beeps twice, indicating the detection of a radio transmission.^msplay general\device\radioreceiver~@ext
+|
+small handheld radio receiver gives a series of beeps and automatically unplugs from the console.^msplay General\Device\CameraOff~@Ext
+|
+loud clicking is followed by the clatter of an empty cartridge to the floor.^
+ msplay General\Combat\EmptyGun2~@Ext;
+ ExpPipe {~%0} {:Voice:~%0} {:Voice:Empty.}
+|
+bulky stun armor battery pack^#Class BatteryPackScanner Enable
+|
+slight breeze enters the cockpit as the storage compartment is opened and closed.^
+ mrandomplay Ship\Misc\Transfer*3~@Ext;
+ #GagLine 1 All
+|
+series of drones lift canisters of atmospheric debris and cart them off.^
+ mrandomplay Ship\Misc\Transfer*3~@Ext;
+ #GagLine 1 All
+|
+light envelops the room and quickly sucks your asteroid hauling supplies into an asteroid hauling kit.^
+ #GagLine 1 All;
+ msplay General\Asteroid\KitRetrieve~@Ext
+|
+excavation unit shudders violently as the drill bit, shakier than what seems normal, moves materials from a nearby source.^msplay General\Asteroid\ShakyDrillBit~@Ext
+|
+excavation unit vibrates heavily as it encounters an area of difficulty drilling.^msplay General\Asteroid\BrokenDrillBit~@Ext
+|
+few pebbles fall to the bottom of the hole.^
+ msplay General\Archaeology\Pebbles~@Ext;
+ ExpPipe {~%0} {~%0} {:Voice:~%0}
+|
+hard-shelled green insect scuttles up the wall of the hole and scurries away.^
+ MArchPlay;
+ ExpPipe {~%0} {~%0} {:Voice:~%0}
+|
+large insect with a rather prominent stinger whizzes by.^
+ MArchPlay;
+ ExpPipe {~%0} {~%0} {:Voice:~%0}
+|
+small pool of sludge bubbles to the surface and evens out over the ground.^
+ msplay General\Socials\SlimePuddleSplat~@Ext;
+ ExpPipe {~%0} {~%0} {:Voice:~%0}
+|
+strange bug suddenly sidles out of the freshly dug dirt.^
+ MArchPlay;
+ ExpPipe {~%0} {~%0} {:Voice:~%0}
+|
+eighteen-legged insect that greatly resembles an orange stone sidles along the walls of the hole before eventually falling back to the bottom.^
+ MArchPlay;
+ ExpPipe {~%0} {~%0} {:Voice:~%0}
+|
+chime sounds, indicating that somebody has entered the airlock.^
+ msplay Ship\Misc\Bell~@Ext;
+ ExpPipe {~%0} {You hear the airlock chime.} {:Voice:Airlock chime.}
+|
+chime is piped through a nearby speaker, indicating that somebody has entered the airlock.^
+ msplay Ship\Misc\Bell~@Ext;
+ ExpPipe {~%0} {You hear the airlock chime sound from a nearby speaker.} {:Voice:Airlock chime.}
+}
+
+#Trigger {A*} {
+ #If {%IfWord(%Word(%0, ,1),A An As, )=1} {
+  #Var TTTmp1 {%Copy(%0,%Pos( ,%0)+1)};
+  #Var TTTmp2 {%CRLF@TTTmp1^};
+  #Var TTTmp2 {%Pos(@TTTmp2,@TTA)};
+  #If {@TTTmp2>0} {
+   #Var ExpString {};
+   #Var TTTmp2 {%Copy(@TTA,@TTTmp2+%Length(@TTTmp1)+3)};
+   #Exec {%Word(@TTTmp2,%CRLF|%CRLF,1)};
+   #If {%Length(@ExpString)>0} {#Sub {@ExpString}}
+  }
+ }
+} {Main}
+
 #Var TTThe {
 deck beneath you vibrates slightly as the relativity drive begins accelerating the starship through space.^
  PlayRelDriveStart;
@@ -32,6 +172,10 @@ bright light vanishes as the starship emerges at the other side of the wormhole.
  msplay General\Misc\Beep*10~@Ext;
  msplay Ship\Misc\Background*5~@Ext;
  ExpPipe {~%0} {:Voice:Wormhole jump complete.} {:Voice:Wormhole jump complete.}
+|
+is a brilliant flash of blue light as the ship emerges on the other side of the wormhole.^
+ msplay Ship\Combat\OtherDestroyed*10~@Ext;
+ ExpPipe {~%0} {} {}
 |
 windows automatically dim as gate after gate becomes visible, each causing a brilliant flash of light as it redirects the wormhole.^#GagLine 1 All
 |
@@ -110,6 +254,10 @@ ship jerks violently as an unknown energy source impacts the hull.^
 gentle hum of the ship's engines momentarily amplifies as the starship moves through space.^
  mrandomplay Ship\Misc\BackgroundHigh*4~@Ext;
  #GagLine 1 All
+|
+are no damaged components.^
+ MirianiSoundPlay Standard Ship\Computer\Display~@Ext;
+ MainTrigSwitch 1
 |
 hull creaks alarmingly around you as the starship is pulled by intense gravitational forces.^
  mrandomplay Ship\Move\BlackHole~@Ext;
@@ -373,14 +521,86 @@ room shudders violently from the recoil as the automatic weapons begin firing.^
 vehicle is jarred as a missile impacts the hull.^
  mwplay Ship\Combat\Projectile*3~@Ext;
  ExpPipe {~%0} {~%0} {Hit by a missile.}
+|
+ship comes to a halt in the planet's atmosphere.^
+ #Var AcvCoordX {};#Var AcvCoordY {};#Var AcvCoordZ {};
+ msplay ACV\ACVStop~@Ext;
+ #If {~@ModifyAcvOutput=1 and ~%Pos(atmospheric combat,~@RoomName)>0} {#Say {Now type coords to set your current coordinates.}};
+ ExpPipe {~%0} {} {}
+|
+is a sharp clank from somewhere nearby. You hear a buzzing noise.^
+ mrandomplay Ship\Combat\PraelorBoarding*5~@Ext;
+ ExpPipe {~%0} {~%0} {:Voice:~%0}
+|
+is a dull thudding noise from outside the hull, following by the loud boom of static from nearby consoles. It seems that the ship's sensors are malfunctioning.^
+ MirianiSoundPlay Standard Ship\Misc\InternalExpl*12~@Ext;
+ ExpPipe {~%0} {~%0} {:Voice:~%0}
+|
+is nothing to see.^MainTrigSwitch 1
+|
+is nothing here to scan.^
+ msplay Ship\Computer\NothingToScan~@Ext;
+ MainTrigSwitch 1
+|
+are no ships here.^
+ MirianiSoundPlay Standard Ship\Computer\NothingToScan~@Ext;
+ MainTrigSwitch 1
+|
+focused ship is no longer in the sector.^MainTrigSwitch 1
+|
+is insufficient sensor bandwidth for additional debris scanning.^ExpPipe {~%0} {:Voice:~%0} {}
 }
 
-#Trigger {The *} {
+#Trigger {The*} {
+ #If {%IfWord(%Word(%0, ,1),The There, )=1} {
+  #Var TTTmp1 {%Copy(%0,%Pos( ,%0)+1)};
+  #Var TTTmp2 {%CRLF@TTTmp1^};
+  #Var TTTmp2 {%Pos(@TTTmp2,@TTThe)};
+  #If {@TTTmp2>0} {
+   #Var ExpString {};
+   #Var TTTmp2 {%Copy(@TTThe,@TTTmp2+%Length(@TTTmp1)+3)};
+   #Exec {%Word(@TTTmp2,%CRLF|%CRLF,1)};
+   #If {%Length(@ExpString)>0} {#Sub {@ExpString}}
+  }
+ }
+} {Main}
+
+#Var TTWith {
+a sharp lurch, the starship completes its intrasector slip.^
+ msplay General\Misc\Beep*10~@Ext;
+ msplay Ship\Misc\Background*5~@Ext;
+ ExpPipe {~%0} {Slip complete.} {}
+|
+a sharp lurch, the starship completes its intrasector wavewarp. The pulsing sound stops as the wavewarp drive powers down.^
+ msplay General\Misc\Beep*10~@Ext;
+ msplay Ship\Misc\Background*5~@Ext;
+ ExpPipe {~%0} {Wavewarp complete.} {}
+|
+a slight thud, the ship sets down.^
+ InSpace 0;
+ #GagLine 1 All
+|
+no warning, the gravity in the room increases, pinning you to the floor. It sounds like the ship's computer is saying something, but you can't make the exact message out in the static.^ExpPipe {~%0} {~%0} {}
+|
+an abrupt and unexplainable popping sound, the gravity in the room fails entirely. You begin to feel the effects of weightlessness as the gravity plating returns to normal levels. You fall to the ground with an uncomfortable thud.^
+ msplay Ship\Move\ArrayPop~@Ext;
+ ExpPipe {~%0} {~%0} {}
+|
+one final burst of acceleration, the pod emerges from the wormhole and begins accelerating through space under the power of the relativity drive.^
+ MirianiSoundPlay Standard Ship\Misc\EscapePodWormHoleJump2~@Ext;
+ ExpPipe {~%0} {} {}
+|
+a final jolt, the pod completes its landing. As you depart, you notice an army of automated drones arrive to clear the spent pod away.^ExpPipe {~%0} {~%0} {:Voice:Escape pod landed.}
+|
+the sickening lurch of acceleration, the vehicle begins accelerating through the atmosphere toward space.^#GagLine 1 All
+}
+
+#Trigger {With *} {
  #Var TTTmp1 {%CRLF%1^};
- #Var TTTmp1 {%Pos(@TTTmp1,@TTThe)};
+ #Var TTTmp1 {%Pos(@TTTmp1,@TTWith)};
  #If {@TTTmp1>0} {
   #Var ExpString {};
-  #Var TTTmp1 {%Copy(@TTThe,@TTTmp1+%Length(%1)+3)};
+  #Var TTTmp1 {%Copy(@TTWith,@TTTmp1+%Length(%1)+3)};
   #Exec {%Word(@TTTmp1,%CRLF|%CRLF,1)};
   #If {%Length(@ExpString)>0} {#Sub {@ExpString}}
  }

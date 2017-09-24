@@ -1,42 +1,8 @@
-; SoundEngine.set
-; 
-; This file contains all routines and aliases, pertaining
-; to the sounds of this soundpack.
-; 
-; Technical notes:
-; Vipmud (at the time of this writing), will only
-; play sounds, which are encoded as 16 bit, mono or stereo.
-; If a sound will not play, throwing up an error in Vipmud,
-; open it in your wave editor, and ensure it's saved as a 16-bit
-; sound.
-; 
-; ------------------
-; 
-; Variables:
-; 
-; These variables are for use by the various functions in
-; this file, and should not be edited,
-; unless you know what you're doing.
-
-
 #If {%Defined(SoundIsPlaying)=0} {#Var SoundIsPlaying 0}
 #If {%Defined(CurrentRoomSound)=0} {#Var CurrentRoomSound {}}
 #If {%Defined(Ext)=0} {#Var Ext {.wav}}
 #If {%Defined(RExt)=0} {#Var RExt {.wav}}
 #Var DontStopSpeaking 0
-#Var McPlayTmp1 0
-#Var McPlayTmp2 0
-#Var MwPlayTmp1 0
-#Var MwPlayTmp2 0
-#Var GunTmp1 0
-#Var GunTmp2 0
-#Var GunTmp3 0
-#Var GunCommand {}
-#Var GunFound 0
-#Var Fadeout 0
-#Var RoomSoundHandle 0
-#Var PlanetSoundsAlarm 0
-#If {%Defined(NumberOfSounds)=0} {#var NumberOfSounds 0}
 
 #var FootstepsList {
 planet:General\Footsteps\Planet*8@Ext
@@ -52,14 +18,6 @@ station:General\Footsteps\Station*8@Ext
   #Var DontStopSpeaking 1
  }
 } {}
-
-; Aliases:
-; These aliases are usually called by triggers,
-; to bring the world to life.
-; 
-; MirianiSoundPlay:
-; This is the master play alias, which is called by all the other baby
-; aliases.
 
 #Alias MirianiSoundPlay {
  #Var SoundIsPlaying {%If(@Silent=1,0,1)};
@@ -90,45 +48,12 @@ station:General\Footsteps\Station*8@Ext
    #Var SoundTmp3 {Playing}
   };
   #Exec {%Word(@SoundTmp2,^,1) {@SoundTmp4%Word(@SoundTmp2,^,2)} @SoundTmp1};
-  #Math NumberOfSounds {@NumberOfSounds+1};
   #Var SoundTmpString {[%1]: @SoundTmp3 %Word(@SoundTmp2,^,2) at @{SoundTmp1}~~~% volume.};
   #If {%Defined(HistoryBuffers)=1 and @Connected=1} {#Exec {#Alarm 0 {PushMessage Played0Sounds {@SoundTmpString}}}}
  }
 } {}
 
-; msplay:
-; This alias plays a single sound,
-; and accepts the syntax:
-; msplay soundpath volume
-; 
-; Where soundpath is a path relative to the contents
-; of the soundpath variable (see Conf.set, confmanager.set,
-; and / or the conf alias.
-; 
-; Volume, is an offset to the overall volume, again, see configuration files.
-; 
-; Examples:
-; msplay testsound@Ext
-; Plays testsound@Ext at the standard volume
-; 
-; msplay testsound@Ext 5
-; Plays testsound@Ext at 5% higher than the overall volume.
-; 
-; msplay sounds\testsound@Ext
-; Plays the sound file testsound@Ext,
-; from inside the folder sounds, which is
-; located in the folder referenced by soundpath. This sound is
-; played at the standard volume.
-; 
-; msplay sounds\testsound@Ext -5
-; This version plays the sound testsound@Ext from inside
-; the folder sounds, which is it's self inside
-; the folder referenced by soundpath, at -5
-; the standard volume.
-
-#Alias msplay {
- MirianiSoundPlay Standard %1 %2 %3
-} {}
+#Alias msplay {MirianiSoundPlay Standard %1 %2 %3} {}
 
 ; McPlay
 ; For use with camera output:
@@ -172,16 +97,8 @@ station:General\Footsteps\Station*8@Ext
 ; Simply sets the room sounds volume, used with the master volume faders.
 #Alias SetRoomSoundVolume {
  #Math RoomVol {@Vol+@RoomSoundsVolumeDiff};
- #If {@RoomVol<0} {
-  #Var RoomVol 0
- } {
-  #If {@RoomVol>100} {
-   #Var RoomVol 100
-  }
- };
- #If {@RoomSoundHandle>0} {
-  #PC @RoomSoundHandle Volume @RoomVol
- }
+ #If {@RoomVol<0} {#Var RoomVol 0} {#If {@RoomVol>100} {#Var RoomVol 100}};
+ #If {%Defined(RoomSoundHandle)=1} {#PC @RoomSoundHandle Volume @RoomVol}
 } {}
 
 ; Mrplay:
@@ -197,22 +114,17 @@ station:General\Footsteps\Station*8@Ext
 } {}
 #Alias mrplayOriginal {
  #If {%1="" or %1="stop"} {
-  #If {@RoomSoundHandle<>0} {
-   #PC @RoomSoundHandle Stop;
-   #Var RoomSoundHandle 0
-  };
+  #If {%Defined(RoomSoundHandle)=1} {#PC @RoomSoundHandle Stop;#UnVar RoomSoundHandle};
   #Var CurrentRoomSound {}
  } {
   #If {@Silent=0 and @RoomSounds>0} {
    #If {%1<>@CurrentRoomSound and %1<>"change"} {
-    #If {@RoomSoundHandle<>0} {
-     #PC @RoomSoundHandle Stop
-    };
+    #If {%Defined(RoomSoundHandle)=1} {#PC @RoomSoundHandle Stop;#UnVar RoomSoundHandle};
     MirianiSoundPlay {Room sounds} {l^%1} @RoomSoundsVolumeDiff;
-    #Var RoomSoundHandle %PlayHandle;
+    #If {@SoundIsPlaying=1} {#Var RoomSoundHandle %PlayHandle};
     #Var CurrentRoomSound {%1}
    };
-   #If {@RoomSoundHandle<>0} {
+   #If {%Defined(RoomSoundHandle)=1} {
     #Var SoundTmp5 2;
     #While {%{@SoundTmp5}<>""} {
      #PC @RoomSoundHandle {%{@SoundTmp5}} {%{%Eval(@SoundTmp5+1)}};
@@ -223,18 +135,15 @@ station:General\Footsteps\Station*8@Ext
  }
 } {}
 
-; Mplanetsounds
+; MPlanetSounds
 ; Play sounds on randomly generated planets.
 #Alias mplanetsounds {
  #If {%1 = "stop"} {
-  #If {@PlanetSoundsAlarm > 0} {#unalarm PlanetSoundsAlarm};
-  #var PlanetSoundsAlarm 0
+  #If {%Defined(PlanetSoundsAlarm)=1} {#UnAlarm PlanetSoundsAlarm;#UnVar PlanetSoundsAlarm}
  } {
   #If {@PlanetSounds > 0} {
-   #alarm {PlanetSoundsAlarm} {-5} {
-    #If {%random(0,3)=3} {
-     MirianiSoundPlay Planet Random\*24@Ext -60
-    }
+   #Alarm PlanetSoundsAlarm {-5} {
+    #If {%Random(0,3)=3} {MirianiSoundPlay Planet Random\*24@Ext -60}
    }
   }
  }
@@ -432,5 +341,3 @@ station:General\Footsteps\Station*8@Ext
   }
  }
 } {}
-
-#Exec {SetRoomSoundVolume}
