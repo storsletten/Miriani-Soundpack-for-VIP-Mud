@@ -577,8 +577,9 @@ msplay General\Misc\LeftPerson@Ext
 #Trigger {* impatiently knock* on the *.} {msplay General\Misc\Knock2@Ext} {Main}
 #Trigger {* kick* furiously on the *.} {msplay General\Misc\Knock3@Ext} {Main}
 #Trigger {You * credit*} {
- #If {%IfWord(%Word(%1, ,1),earn|receive,|)=1} {
-  msplay General\Misc\Credits*4@Ext
+ #If {%Defined(RewardAlarmHandle)=0 and %IfWord(%Word(%1, ,1),earn receive, )=1} {
+  #Alarm RewardAlarmHandle 1 {#UnVar RewardAlarmHandle};
+  MirianiSoundPlay Reward {General\Misc\Credits%If(%Pos(earn,%1)=1,4@Ext,*3@Ext)}
  }
 } {Main}
 #Trigger {You are seated in a chair with several syringes on robotic arms around it.  *} {msplay General\Misc\MedicalOpperation@Ext} {Main}
