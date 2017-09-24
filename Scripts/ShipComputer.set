@@ -271,15 +271,20 @@ I have completed the repair of *.^
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
  ExpPipe {~@ComputerSaid} {Completed the repair of ~@Wildcard1.} {~@Wildcard1 repaired.}
 %Chr(250)
-The game has ended! The winner is *^
- mrplay;
- MirianiSoundPlay Standard Music\*30~@Ext
-%Chr(250)
 Via synchronized text message broadcasts, *^
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
  MirianiSoundPlay Standard Ship\Comm\STMB~@Ext;
  #Var ExpPipe {[Synchronized Text Message Broadcast] ~@WildCard1};
  PushMessage Comm {~@ComputerSaid}
+%Chr(250)
+This vessel is of the * design. It was manufactured on * at the * and commissioned by the *. The vessel came under licensed control on * and is presently licensed to *.^
+ MirianiSoundPlay Standard Ship\Computer\Announce*4~@Ext;
+ GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
+ ExpPipe {~@ComputerSaid} {~@ComputerSaid} {This ~@Wildcard1 is presently licensed to ~@Wildcard6.~%{CRLF}It came under licensed control on ~@Wildcard5.~%{CRLF}It was manufactured on ~@Wildcard2 at the ~@Wildcard3, and commissioned by the ~@Wildcard4.}
+%Chr(250)
+The game has ended! The winner is *^
+ mrplay;
+ MirianiSoundPlay Standard Music\*30~@Ext
 }
 
 #Trigger {* announces, *} {
