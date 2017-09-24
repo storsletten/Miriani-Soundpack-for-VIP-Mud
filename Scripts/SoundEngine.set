@@ -305,7 +305,11 @@ station:General\Footsteps\Station*8@Ext
  #If {%Pos(starship,%1)>0} {#AddItem MObjectFound {Starship};MirianiSoundPlay {Sector Alerts} Ship\Computer\ShipHere@Ext -10};
  #If {%Pos(planet,%1)>0} {#AddItem MObjectFound {Planet};MirianiSoundPlay {Sector Alerts} Ship\Computer\PlanetHere@Ext};
  #If {%Pos(wormhole,%1)>0} {#AddItem MObjectFound {Wormhole};MirianiSoundPlay {Sector Alerts} Ship\Computer\WormholeHere@Ext};
- #If {%Pos(space station,%1)>0} {#AddItem MObjectFound {Station};MirianiSoundPlay {Sector Alerts} Ship\Computer\Station@Ext}
+ #If {%Pos(space station,%1)>0} {#AddItem MObjectFound {Station};MirianiSoundPlay {Sector Alerts} Ship\Computer\Station@Ext};
+ #If {@SoundsVersion>2} {
+  #If {%Pos(asteroid,%1)>0} {#AddItem MObjectFound {Asteroid};MirianiSoundPlay {Sector Alerts} Ship\Computer\AsteroidHere@Ext};
+  #If {%Pos(star ,%1)>0 or %Pos(star~,,%1)>0} {#AddItem MObjectFound {Star};MirianiSoundPlay {Sector Alerts} Ship\Computer\StarHere@Ext}
+ }
 } {}
 
 ; MGunPlay:

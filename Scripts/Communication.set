@@ -195,7 +195,8 @@ Omega Sector:115
    #Var TmpCommunication3 {%Replace(%2,~~,)};
    #Var TmpCommunication3 {%Replace(@TmpCommunication3,~",)};
    #Var TmpCommunication1 {@TmpCommunication2*};
-   #If {@TmpCommunication2="Auction Service" or @TmpCommunication2="Combat Mission Notification Service" or @TmpCommunication2="Communication Loopback Recipient" or @TmpCommunication2="Reminder Service"} {
+   #If {%IfWord(@TmpCommunication2,Auction Service|Combat Mission Notification Service|Communication Loopback Recipient|Reminder Service,|)=1} {
+    #If {@SoundsVersion>2} {#Var TmpCommunication5 {Comms Framework|General\Comm\Services@Ext}};
     #Var TmpCommunication4 {Services}
    } {
     #Var TmpCommunication4 {Private0Comm}
@@ -282,29 +283,17 @@ Omega Sector:115
     }
    };
    CharEncoder {TmpCommunication1} {@TmpCommunication1} decode;
-   #If {%NumWords(@TmpCommunication5,|)>2} {
-    #Var TmpCommunication6 {%Word(@TmpCommunication5,|,3)}
-   } {
-    #Var TmpCommunication6 {0}
-   };
+   #If {%NumWords(@TmpCommunication5,|)>2} {#Var TmpCommunication6 {%Word(@TmpCommunication5,|,3)}} {#Var TmpCommunication6 0};
    #If {%IfWord(@TmpCommunication4,Beta0Channel|Design0Channel|Newbie|Tradesman0Market,|)=0} {
-    #If {@TmpCommunication4="Metafrequency0Channels"} {
-     #Var TmpCommunication6 {@TmpCommunication6:5}
-    } {
-     #Var TmpCommunication6 {@TmpCommunication6:6}
-    };
+    #If {@TmpCommunication4="Metafrequency0Channels"} {#Var TmpCommunication6 {@TmpCommunication6:5}} {#Var TmpCommunication6 {@TmpCommunication6:6}};
     DisplayPrint {%Word(@TmpCommunication6,:,2)} {@TmpCommunication2 @TmpCommunication1} {%0};
     #Sub {@DisplayString};
     PushMessage Comm {@TmpCommunication2 @TmpCommunication1}
    } {
     #Sub {@TmpCommunication2 @TmpCommunication1}
    };
-   #If {@TmpCommunication4<>""} {
-    PushMessage {@TmpCommunication4} {@TmpCommunication2 @TmpCommunication1}
-   };
-   #If {@TmpCommunication5<>""} {
-    MirianiSoundPlay {%Word(@TmpCommunication5,|,1)} {%Word(@TmpCommunication5,|,2)} {@TmpCommunication6}
-   }
+   #If {@TmpCommunication4<>""} {PushMessage {@TmpCommunication4} {@TmpCommunication2 @TmpCommunication1}};
+   #If {@TmpCommunication5<>""} {MirianiSoundPlay {%Word(@TmpCommunication5,|,1)} {%Word(@TmpCommunication5,|,2)} {@TmpCommunication6}}
   }
  }
 } {}
