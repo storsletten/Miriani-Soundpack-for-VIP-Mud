@@ -271,16 +271,14 @@ station:General\Footsteps\Station*8@Ext
 ; Plays the theme music.
 #Alias mtplay {
  #If {@ThemeMusic=1} {
-  thememusicstop;
-  #If {@FadeOut>0} {#unalarm Fadeout};
+  ThemeMusicStop;
+  #If {%Defined(FadeOut)=1} {#UnAlarm Fadeout;#UnVar FadeOut};
   MirianiSoundPlay Themes {l^@ThemesPath\Theme (*@{NumOfThemes}).mp3};
-  setthememusicvolume
+  SetThemeMusicVolume
  }
 } {}
-#Alias {thememusicstop} {
- #If {%Mp3Loop>0} {
-  #pc %Mp3Loop stop
- }
+#Alias ThemeMusicStop {
+ #If {%Mp3Loop>0} {#PC %Mp3Loop stop}
 } {}
 
 ; setthememusicvolume:
@@ -288,26 +286,22 @@ station:General\Footsteps\Station*8@Ext
 ; theme music.
 #Alias SetThemeMusicVolume {
  #If {%Mp3Loop>0} {
-  #Math ThemeVol {@vol - @ThemeSoundVolumeDiff};
-  #pc %Mp3Loop volume @ThemeVol
+  #Math ThemeVol {@Vol-@ThemeSoundVolumeDiff};
+  #PC %Mp3Loop Volume @ThemeVol
  }
 } {}
 
 #Alias ThemeMusicFadeout {
  #If {%Mp3Loop>0} {
   #Var FadeoutCounter {-0@{DecimalChar}25};
-  #alarm FadeOut {@FadeoutCounter} {
-   #If {@ThemeVol > 0} {
-    #math ThemeVol {@ThemeVol - @ThemeFadeOutValue};
-    #If {@Silent<>1} {
-     #pc %Mp3Loop volume @ThemeVol
-    } {
-     #var ThemeVol 0
-    }
+  #Alarm FadeOut {@FadeoutCounter} {
+   #If {@ThemeVol>0} {
+    #Math ThemeVol {@ThemeVol-@ThemeFadeOutValue};
+    #If {@Silent<>1} {#PC %Mp3Loop Volume @ThemeVol} {#Var ThemeVol 0}
    } {
-    thememusicstop;
-    #unalarm FadeOut;
-    #var FadeOut 0
+    #UnAlarm FadeOut;
+    #UnVar FadeOut;
+    ThemeMusicStop
    }
   }
  }
