@@ -154,10 +154,8 @@ ConfManagerMenus|
   l;
   #Abort
  };
- #If {@MainTmp1=*"The server will be shut down *"} {
-  msplay General\Misc\Announcement@Ext;
-  #Abort
- }
+ #If {@MainTmp1="You have entered a starship simulator. To exit, please type END."} {msplay General\Device\MovieStart@Ext;#Abort};
+ #If {@MainTmp1=*"The server will be shut down *"} {msplay General\Misc\Announcement@Ext;#Abort}
 } {Main}
 
 #Alias ping {

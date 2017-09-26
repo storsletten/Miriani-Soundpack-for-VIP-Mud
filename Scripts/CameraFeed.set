@@ -110,12 +110,8 @@
   #Sub {  @DisplayString}
  }
 } {Main}
-#TRIGGER {The holographic projection abruptly ends as * shuts down.} {
- ExpPipe {%0} {%0} {The holographic projection abruptly ends.};
- #sub {@ExpString};
- msplay General\Device\MovieEnd@Ext
-} {Main}
-#TRIGGER {*, you suddenly find yourself immersed in a realistic holographic projection that makes you feel as if reality has actually been altered.} {
+#Trigger {The holographic projection abruptly ends as * shuts down.} {msplay General\Device\MovieEnd@Ext} {Main}
+#Trigger {*, you suddenly find yourself immersed in a realistic holographic projection that makes you feel as if reality has actually been altered.} {
  ExpPipe {%0} {%0} {A holographic projection begins.};
  #sub {@ExpString};
  msplay General\Device\MovieStart@Ext

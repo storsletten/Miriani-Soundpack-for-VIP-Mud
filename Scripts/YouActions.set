@@ -568,7 +568,9 @@ depress the trigger on a cutting torch. A jet of dark blue flame immediately iss
 |
 press a button on a large planetary mining drone. A recorded voice lightly whispers, "Scanning for minerals of value. Please wait."^
  msplay General\PMining\scanning~@Ext;
- #Var ExpString {Scanning. Please wait...}
+ #Var ExpString {Scanning, please wait...}
+|
+disconnect from your avatar.^MirianiSoundPlay Standard General\Device\MovieEnd~@Ext
 }
 
 #Trigger {You *} {
