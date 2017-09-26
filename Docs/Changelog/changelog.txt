@@ -1,3 +1,6 @@
+Version 5.8.48, released 2017-09-26:
+* For 2.0: Added sounds for exiting simulators in general, and for entering starship simulators in particular.
+
 Version 5.8.47, released 2017-09-24:
 * For 2.0: Added new sounds for comm services, asteroid notification, and star notification. These new sounds will only play if you have Miriani Soundpack Sounds version 3 or higher. Thanks to Jessie Vargus for providing these new sounds.
 
