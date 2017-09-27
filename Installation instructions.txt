@@ -57,7 +57,7 @@ Step 7:
 
 Step 8:
   Now you need to link the sounds and themes folders:
-  To do this, open up the Miriani Soundpack Sounds folder, and run the file called: Link the sounds and themes folder.
+  To do this, open up the Miriani Soundpack Sounds folder, and run the file called: Link the sounds and themes folders.
   If there is no such file in your Miriani Soundpack Sounds folder, then copy it from the Miriani Soundpack for VIP Mud folder into the Miriani Soundpack Sounds folder.
   Alternatively, if you only want to link the sounds folder and not the themes folder, you could use the file called Link the sounds folder.
   Whichever link script you choose, you will need to run it as administrator if you're using VIP Mud 1.1. To do that, you press Enter on the corresponding linking file that ends with the word Admin.

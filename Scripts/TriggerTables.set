@@ -124,7 +124,7 @@ chime is piped through a nearby speaker, indicating that somebody has entered th
  ExpPipe {~%0} {You hear the airlock chime sound from a nearby speaker.} {:Voice:Airlock chime.}
 }
 
-#Trigger {A*} {
+#Trigger {A[ns ]*} {
  #If {%IfWord(%Word(%0, ,1),A An As, )=1} {
   #Var TTTmp1 {%Copy(%0,%Pos( ,%0)+1)};
   #Var TTTmp2 {%CRLF@TTTmp1^};
@@ -551,7 +551,7 @@ focused ship is no longer in the sector.^MainTrigSwitch 1
 is insufficient sensor bandwidth for additional debris scanning.^ExpPipe {~%0} {:Voice:~%0} {}
 }
 
-#Trigger {The*} {
+#Trigger {The[r ]*} {
  #If {%IfWord(%Word(%0, ,1),The There, )=1} {
   #Var TTTmp1 {%Copy(%0,%Pos( ,%0)+1)};
   #Var TTTmp2 {%CRLF@TTTmp1^};

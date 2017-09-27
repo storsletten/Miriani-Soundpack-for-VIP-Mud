@@ -149,6 +149,21 @@ Here is the entire list of SmFilter aliases:
  ~sm
 } {}
 
+; Syntax: CalculateRelativeNumericDir TargetX TargetY TargetZ CurrentX CurrentY CurrentZ
+#Alias CalculateRelativeNumericDir {
+ #Var RelativeNumericDir {};
+ #Math RelativeNumericTmpX {%Max(%1,%4)-%Min(%1,%4)};
+ #Math RelativeNumericTmpY {%Max(%2,%5)-%Min(%2,%5)};
+ #Math RelativeNumericTmpZ {%Max(%3,%6)-%Min(%3,%6)};
+ #If {@RelativeNumericTmpX>0} {#Var RelativeNumericDir {@RelativeNumericTmpX%If(%1>%4,e,w)}};
+ #If {@RelativeNumericTmpY>0} {#Var RelativeNumericDir {@RelativeNumericDir @RelativeNumericTmpY%If(%2>%5,s,n)}};
+ #If {@RelativeNumericTmpZ>0} {#Var RelativeNumericDir {@RelativeNumericDir @RelativeNumericTmpZ%If(%3>%6,d,u)}};
+ #If {%Length(@RelativeNumericDir)>0} {
+  #Var RelativeNumericDir {%LTrim(@RelativeNumericDir)};
+  #If {@RelativeNumericTmpX<2 and @RelativeNumericTmpY<2 and @RelativeNumericTmpZ<2} {#Var RelativeNumericDir {%Replace(@RelativeNumericDir,1,)}}
+ } {#Var RelativeNumericDir C}
+} {}
+
 #Trigger {Uncharted Space: Empty Space*} {#GagLine 1 All} {SmFilterClass}
 #Trigger {a* starship simulator (Unclaimed)*} {#GagLine 1 All} {SmFilterClass}
 #Trigger {*: *} {
@@ -217,7 +232,7 @@ Here is the entire list of SmFilter aliases:
       }
      };
      #If {@SmFilterTmp1<10} {#Var SmFilterTmp1 {0@SmFilterTmp1}};
-     #Var ObjectDirs {@ObjectDirs|@{SmFilterTmp1}^@SmPriorityTmp3^@SmFilterTmp3^@ObjectCoordsX,@ObjectCoordsY,@ObjectCoordsZ^@{ObjectTmpString}(@{RelativeNumericDir})}
+     #Var ObjectDirs {@ObjectDirs|@{SmFilterTmp1}^@SmPriorityTmp3^@SmFilterTmp3^@ObjectCoordsX,@ObjectCoordsY,@ObjectCoordsZ^@ObjectTmpString@RelativeNumericDir}
     }
    };
    #UnVar SmSearchTmp1;
@@ -259,12 +274,8 @@ Here is the entire list of SmFilter aliases:
      #ForAll {@ObjectDirs} {
       #If {@SmShips=1} {
        #Var SmFilterTmp2 {%Word(%i,^,3)};
-       #If {%Copy(@SmFilterTmp2,1,1)="0"} {
-        #Var SmFilterTmp2 {%Copy(@SmFilterTmp2,2,3)}
-       };
-       #If {%Copy(@SmFilterTmp2,1,1)="0"} {
-        #Var SmFilterTmp2 {%Copy(@SmFilterTmp2,2,3)}
-       };
+       #If {%Copy(@SmFilterTmp2,1,1)="0"} {#Var SmFilterTmp2 {%Copy(@SmFilterTmp2,2,3)}};
+       #If {%Copy(@SmFilterTmp2,1,1)="0"} {#Var SmFilterTmp2 {%Copy(@SmFilterTmp2,2,3)}};
        #If {@SmShowCoords=1} {
         #Var SmFilterTmp3 {%Word(%i,^,4)};
         #Var SmFilterTmp1 {@SmFilterTmp1%CRLF%Word(@SmFilterTmp3,~,,1) %Word(@SmFilterTmp3,~,,2) %Word(@SmFilterTmp3,~,,3), [@SmFilterTmp2] %Word(%i,^,5).}
@@ -276,7 +287,7 @@ Here is the entire list of SmFilter aliases:
         #Var SmFilterTmp3 {%Word(%i,^,4)};
         #Var SmFilterTmp1 {@SmFilterTmp1%CRLF %Word(@SmFilterTmp3,~,,1) %Word(@SmFilterTmp3,~,,2) %Word(@SmFilterTmp3,~,,3), %Word(%i,^,5).}
        } {
-        #Var SmFilterTmp1 {@SmFilterTmp1  %Word(%i,^,5)}
+        #Var SmFilterTmp1 {@SmFilterTmp1  %Word(%i,^,5).}
        }
       }
      };
