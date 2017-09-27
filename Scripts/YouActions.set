@@ -608,7 +608,10 @@ disconnect from your avatar.^MirianiSoundPlay Standard General\Device\MovieEnd~@
      } {
       ExpPipe {%0} {[Exits]: @Exits} {@Exits}
      };
-     #Sub {@ExpString}
+     #Sub {@ExpString};
+     #If {@ZoneType="vehicle"} {
+      #If {%Defined(AtSaDistanceToShip)=0} {#Alarm 0 {#Load {@ScriptPath\ACV.set};#Load {@ScriptPath\Atmo.set}}}
+     }
     }
    } {
     #If {@ZoneType="space" and @TTTmp1=*"see *"} {

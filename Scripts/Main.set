@@ -14,10 +14,7 @@
 
 #Var DefaultScriptFiles {
 ShipComputer|
-ACV|
-Archaeology|
 Asteroid|
-Atmo|
 CameraFeed|
 Combat|
 Communication|

@@ -3,8 +3,6 @@
 ; Should the ACV move up and down by using the direction prompt?
 #Var ACVPromptNavig 0
 
-#Var RelativeNumericDir {Nothing.}
-#Var RelativeNumericDirPrefix {}
 #Var AcvCoordX {}
 #Var AcvCoordY {}
 #Var AcvCoordZ {}

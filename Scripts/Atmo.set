@@ -1,11 +1,5 @@
 #Class AtSaStarmap Disable
 
-#Alias CalculateRelativeTextDir {
- #Math RelativeTextAtSaTmpX {%max(%1,%3) - %min(%1,%3)};
- #Math RelativeTextAtSaTmpY {%max(%2,%4) - %min(%2,%4)};
- #Var RelativeTextDir {%if(@RelativeTextAtSaTmpX > 0,@RelativeTextAtSaTmpX%if(%3 > %1,W,E),), %if(@RelativeTextAtSaTmpY > 0,@RelativeTextAtSaTmpY%if(%4 > %2,N,S),)}
-} {}
-
 #Var AtSaCurXCoord 0
 #Var AtSaCurYCoord 0
 #Var AtSaDistanceToShip 0
@@ -17,7 +11,7 @@
 #Var AtSaObjects {}
 #Var AtSaInformationVars {X:CurXCoord|Y:CurYCoord|Dist:DistanceToShip|Power:PowerTotal|PowerEst:Power|Cargo:CargoFilled|CargoRem:RemainingStorageCapacity|CargoTotal:TotalStorageCapacity}
 
-#Alias {atsm} {
+#Alias atsm {
  #Exec {>sm};
  MainTrigSwitch 0 AtSaStarmap
 } {}
@@ -145,21 +139,13 @@
  #sub @ExpString
 } {Main|Vehicle}
 
-#Trigger {You bang* on the hatch*.} {msplay General\Misc\Knock1@Ext} {Main}
 #Trigger {The pull of acceleration eases off as the ship ceases its *.} {
  ExpPipe {%0} {Salvager stopped.} {};
  #sub {@ExpString};
  msplay Atmo\salvagestop@Ext
 } {Main}
-#Trigger {You open the hatch of a* and climb inside.} {#if {%Pos(atmospheric combat vehicle,%1)>0} {
-#class ACVMoveMode enable;
-#If {@ACVPromptNavig=1} {#Class ACVPromptNavig Enable} {#Class ACVPromptNavig Disable}
-};
-#var AllowEnhancedNumpad  0;
-msplay Ship\misc\hatchenter@Ext} {Main}
 #Trigger {A gust of atmospheric wind suddenly buffets the ship*} {msplay ship\misc\wind@Ext} {Main}
 #Trigger {The vehicle suddenly hits a pocket of fierce wind*} {msplay ship\misc\wind@Ext} {Main|Vehicle}
-#Trigger {An electromagnetic field suddenly snaps into place as a large docking bay door opens above you. *.} {msplay Ship\Misc\PanelsOn@Ext} {Main}
 #Trigger {The vehicle shudders violently as it makes contact with the topmost gas clouds. *} {#gagline 1 all;
 msplay Atmo\Contact@Ext} {Main|Vehicle}
 #Trigger {The heavy vibration of the running engine ceases as the vehicle glides out of the top levels of the atmosphere and into space. The sound of the thrusters can be heard as the craft orients itself toward the *.} {#gagline 1 all;
@@ -168,12 +154,12 @@ msplay Atmo\Stop@Ext} {Main|Vehicle}
 ExpPipe {%0} {The remains of the cockpit are blasted away from the damaged engined.} {};
 #Sub @ExpString;
 msplay Ship\Combat\YouDestroyed*3@Ext
-} {Main}
+} {Main|Vehicle}
 #Trigger {The clouds of gas get thinner and the haze of violent purple and yellow is replaced by the view of space. Having drained the last of their emergency power, the thrusters burn out and are released through two more short explosions, sending your capsule forward and leaving it in a sickening spin while slowly falling back towards the planet. Moments later the entire cockpit shakes violently as it is caught by a set of salvage lines that abruptly stop the tumbling and rapidly hauled back to *.} {
  ExpPipe {%0} {%0} {You are hauled back to %1.};
  #Sub @ExpString;
  msplay Ship\Misc\Salvage*3@Ext
-} {Main}
+} {Main|Vehicle}
 #Trigger {* in from the salvager bay.} {
  #if {%ifword(%Word(%1, ,%Numwords(%1, )),@EntryStyles,%CRLF)=1} {
   msplay Ship\Misc\Hatch@Ext

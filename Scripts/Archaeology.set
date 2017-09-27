@@ -1,7 +1,7 @@
-#If {%Defined(ArchArtiDepth)=0} {#Var ArchArtiDepth 0}
-#If {%Defined(ArchDigDepth)=0} {#Var ArchDigDepth 0}
+#Var ArchArtiDepth 0
+#Var ArchDigDepth 0
 
-#Alias {MArchPlay} {mrandomplay General\Archaeology\Random*9@Ext} {}
+#Alias MArchPlay {mrandomplay General\Archaeology\Random*9@Ext} {}
 
 #Trigger {You press a small button on the side of a level * archaeological dig site scanner and begin directing it toward several likely locations.} {
  #Var ArchDigDepth 0;
