@@ -1,3 +1,7 @@
+Version 5.8.49, released 2017-09-27:
+* For 2.0: Made the routine for calculating relative numeric directions more efficient. Maybe the performance improvement will be slightly noticeable when using sms and other commands that rely on this routine. Who knows.
+* For 2.0: Triggers pertaining to atmo, ACV, and archaeology will be loaded when needed, rather than when the soundpack starts. This means the soundpack might load a little faster when you connect to Miriani.
+
 Version 5.8.48, released 2017-09-26:
 * For 2.0: Added sounds for exiting simulators in general, and for entering starship simulators in particular.
 
