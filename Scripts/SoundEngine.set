@@ -137,13 +137,13 @@ station:General\Footsteps\Station*8@Ext
 
 ; MPlanetSounds
 ; Play sounds on randomly generated planets.
-#Alias mplanetsounds {
- #If {%1 = "stop"} {
+#Alias MPlanetSounds {
+ #If {%1="stop"} {
   #If {%Defined(PlanetSoundsAlarm)=1} {#UnAlarm PlanetSoundsAlarm;#UnVar PlanetSoundsAlarm}
  } {
-  #If {@PlanetSounds > 0} {
+  #If {@PlanetSounds>0} {
    #Alarm PlanetSoundsAlarm {-5} {
-    #If {%Random(0,3)=3} {MirianiSoundPlay Planet Random\*24@Ext -60}
+    #If {%Random(0,3)=3} {MirianiSoundPlay Planet Random\*24@Ext -50}
    }
   }
  }

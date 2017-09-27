@@ -397,6 +397,8 @@ Apartment
    };
    #If {%IfWord(Apartment,@ZoneName, )=1} {
     #Var RoomSound {Ship\Rooms\LivingQuarters*3@Rext}
+   } {
+    #If {%Pos(Planet,%1)=1 and %IsNumber(%Word(%1, ,%NumWords(%1, )))=1} {MPlanetSounds}
    }
   } {
    #If {@ZoneType="station"} {
@@ -430,7 +432,6 @@ Apartment
   mrplay @RoomSound Frequency 44100
  }
 } {Main|RoomReader}
-#Trigger {[[]Planet *]} {#if {%isnumber(%1)=1} {mplanetsounds}} {Main}
 #Trigger {The doors to the pod close and the pod *begins *.} {msplay General\Misc\Pod@Ext} {Main}
 #Trigger {The red light above the door to the * turns on. A pair of ominous-looking stun turrets lower from the ceiling, suggesting that this isn't a regular decontamination.} {
  msplay Ship\Combat\WeaponsOn@Ext
