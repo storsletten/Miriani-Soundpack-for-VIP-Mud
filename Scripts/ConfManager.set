@@ -33,7 +33,6 @@ PrintVoiceOnly:0
 HistoryTimeout:0.25
 BuffersForReview:Output,Comm,Say,Flight,PA
 SuppressDuplicateEntries:0
-IgnoredHistoryBuffers:None
 PlaySoundsOnReview:1
 HistoryVolumeOffset:20
 HistoryPanning:0

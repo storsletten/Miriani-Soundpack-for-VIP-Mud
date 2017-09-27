@@ -10,29 +10,37 @@
 #Class Main Enable
 #Class MainOff Disable
 #Var Main 1
-#If {%Defined(IgnoredScriptFiles)=0} {#Var IgnoredScriptFiles {}}
 
-#Var DefaultScriptFiles {
-ShipComputer|
-Asteroid|
-CameraFeed|
-Combat|
-Communication|
-Devices|
-History|
-KeyStrokes|
-Misc|
-Rooms|
-Scanning|
-ShipCombat|
-ShipMisc|
-ShipMovement|
-SmFilter|
-Socials|
-TriggerTables|
-YouActions|
-Extras|
-ConfManagerMenus|
+#Var DefaultScriptFiles {ShipComputer
+Asteroid
+CameraFeed
+Combat
+Communication
+Devices
+History
+KeyStrokes
+Misc
+Rooms
+Scanning
+ShipCombat
+ShipMisc
+ShipMovement
+SmFilter
+Socials
+TriggerTables
+YouActions
+ConfManagerMenus}
+
+#Var ExtraScriptFiles {
+Babies^Baby sounds
+Cannons^Alerts you of how many shots you have remaining, and plays a sound after the last shot is fired
+Development^Contains useful tools for soundpack development
+Fishing^Adds sounds for fishing
+Games^Sounds for games such as air hockey, skeeball, assault, etc
+LaserTag^Sounds for Laser Tag
+Shenanigans^Sounds for slime dispensers, blades, etc
+Socials^Sounds for kitchen appliances, swimming, campfires, swings, showers, punching bags, and much more
+Typing^Allows you to type with only one hand, using the number pad
 }
 
 ; VIP Mud config overrides:
@@ -98,9 +106,8 @@ ConfManagerMenus|
  #Var LoadTmp2 {%1};
  #If {%Replace(@LoadedSoundpackVersion,.,)<>%Replace(@Version,.,)} {
   #Alarm 0 {
-   #ForAll {%Replace(@DefaultScriptFiles,%CRLF,)} {
-    #If {%Length(%i)>0 and %IfWord(%i,@IgnoredScriptFiles,|)=0} {#Load {@ScriptPath\%i.set}}
-   };
+   #ForAll {%Replace(@DefaultScriptFiles,%CRLF,|)} {#Load {@ScriptPath\%i.set}};
+   LoadExtras {NoUnload|Quiet};
    #Load {%MudName\Custom.set};
    Speech Set {@DefaultSpeechType} 1;
    #If {@AlertOnUpdate=1 and @RequiredSoundsVersion>@SoundsVersion} {
@@ -644,6 +651,27 @@ You are currently using version @Version of the @SoundpackName.};
  #UnVar NewPatchVersion;
  #UnVar NewVersion
 } {Main}
+
+#Alias LoadExtras {
+ #ForAll {%Replace(@ExtraScriptFiles,%CRLF,|)} {
+  #If {%Pos(^,%i)>0} {LoadExtra {%Word(%i,^,1)} {%1}}
+ }
+} {}
+#Alias LoadExtra {
+ #Var ExtraTmp1 {LoadExtraScript%1};
+ #If {%Defined(@ExtraTmp1)=1} {
+  #If {@{@ExtraTmp1}=1} {
+   #If {%IfWord(Quiet,%2,|)=0} {#Say {Loading the %1 extra.}};
+   #Load {@ScriptPath\Extras\%1.set}
+  } {
+   #If {%IfWord(NoUnload,%2,|)=0} {
+    #If {%IfWord(Quiet,%2,|)=0} {#Say {Unloading the %1 extra.}};
+    #UnLoad {@ScriptPath\Extras\%1.set}
+   }
+  }
+ };
+ #UnVar ExtraTmp1
+} {}
 
 #If {%Defined(DeclaredVariables)=0} {#Var DeclaredVariables {}}
 #If {%Defined(PreservedVariables)=0} {#Var PreservedVariables {}}

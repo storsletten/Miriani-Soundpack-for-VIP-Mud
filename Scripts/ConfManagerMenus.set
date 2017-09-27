@@ -351,17 +351,15 @@ Dev|E::#Edit {~@DocsPath\Developer.txt}
 [3] Keystrokes for reviewing history buffers.
 [4] Timeframe for double clicking a history review keystroke for copying  [This needs fixing, please remind me someday].
 [5] Suppress duplicate entries  [~%Case(~%Eval(~@SuppressDuplicateEntries+1),Off,Suppress entries that are present at the start of the buffer,Suppress entries that are present anywhere in the buffer)].
-[6] Space-separated list of ignored history buffers  [~@IgnoredHistoryBuffers].
-[7] Play sounds as you review the history buffer for played sounds  [~%If(~@PlaySoundsOnReview=1,On,Off)].
-[8] Volume offset for reviewing played sounds  [~@{HistoryVolumeOffset}~~~%].
-[9] Pan for reviewing played sounds  [~@HistoryPanning].
+[6] Play sounds as you review the history buffer for played sounds  [~%If(~@PlaySoundsOnReview=1,On,Off)].
+[7] Volume offset for reviewing played sounds  [~@{HistoryVolumeOffset}~~~%].
+[8] Pan for reviewing played sounds  [~@HistoryPanning].
 %Chr(250)
 HistoryBufferSize|N:5^100
 PrintVoiceOnly|B
 BufferConfig|E::#Var ConfOptionSuccess 0;#Say {Entering the BufferConfig command.};BufferConfig
 HistoryTimeout|S:*
 SuppressDuplicateEntries|C:0,Off^1,Suppress entries that are present at the start of the buffer^2,Suppress entries that are present anywhere in the buffer
-IgnoredHistoryBuffers|S
 PlaySoundsOnReview|B
 HistoryVolumeOffset|N:-100^100
 HistoryPanning|N:-4000^4000

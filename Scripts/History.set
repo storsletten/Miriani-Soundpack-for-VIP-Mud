@@ -28,54 +28,37 @@
 } {}
 
 #Alias PushMessage {
- #If {%IfWord(%1,@IgnoredHistoryBuffers, )=0} {
-  #Var {History%{1}Tmp1} {%Replace(%2,|,@CR@CR)};
-  #Var {History%{1}Tmp2} {%Replace(@{History%{1}Tmp1},~~,)};
-  #Var {History%{1}Tmp2} {%Replace(@{History%{1}Tmp2},~",)};
-  #Var {History%{1}Tmp3} {%Replace(@{History%{1}Messages},~~,)};
-  #Var {History%{1}Tmp3} {%Replace(@{History%{1}Tmp3},~",)};
-  #If {@{History%{1}Tmp3}=""} {
-   #Var {History%{1}Tmp4} {}
-  } {
-   #Var {History%{1}Tmp4} {%Word(@{History%{1}Tmp3},|,%NumWords(@{History%{1}Tmp3},|))}
-  };
-  #If {@SuppressDuplicateEntries=0 or (@SuppressDuplicateEntries=1 and @{History%{1}Tmp2}<>@{History%{1}Tmp4}) or (@SuppressDuplicateEntries=2 and %IfWord(@{History%{1}Tmp1},@{History%{1}Messages},|)=0)} {
-   #If {%IfWord(%1,@HistoryBuffers,|)=0} {
-    #Var HistoryBuffers {%Sort(@HistoryBuffers|%1,0)}
-   };
-   #If {%NumWords(@{History%{1}Tmp3},|)>=@HistoryBufferSize} {
-    #Var {History%{1}Messages} {%DelNItem(@{History%{1}Messages},1)|@{History%{1}Tmp1}}
-   } {
-    #If {@{History%{1}Tmp3}=""} {
-     #Var {History%{1}Messages} {@{History%{1}Tmp1}}
-    } {
-     #AddItem {History%{1}Messages} {@{History%{1}Tmp1}}
-    }
-   };
-   #If {@LogHistory=1} {
-    #Math NumberOfBufferedLogMessages {@NumberOfBufferedLogMessages+1};
-    #Exec {
-     #If {~%Defined(History%{1}LogBufferEntries)=0} {
-      #Var {History%{1}LogInitialization} 1;
-      #Var {History%{1}LogBuffer} {};
-      #Var {History%{1}LogBufferEntries} 0
-     }
-    };
-    #Math {History%{1}LogBufferEntries} {@{History%{1}LogBufferEntries}+1};
-    #Var {History%{1}LogBuffer} {@{History%{1}LogBuffer}%2%CRLF};
-    #If {@NumberOfBufferedLogMessages>@HistoryLoggingInterval} {
-     #Var NumberOfBufferedLogMessages 0;
-     #Alarm 0 {WriteToLogFile}
-    }
-   }
-  };
-  #Exec {
-   #UnVar {History%{1}Tmp1};
-   #UnVar {History%{1}Tmp2};
-   #UnVar {History%{1}Tmp3};
-   #UnVar {History%{1}Tmp4}
+ #Var {History%{1}Tmp1} {%Replace(%2,|,@CR@CR)};
+ #If {@SuppressDuplicateEntries>0} {
+  #If {%IfWord(@{History%{1}Tmp1},@{History%{1}Messages},|)=1} {
+   #If {@SuppressDuplicateEntries=2 or %IfWord(@{History%{1}Tmp1},%Word(@{History%{1}Messages},|,%NumWords(@{History%{1}Messages},|)),|)=1} {#Var {History%{1}Tmp1} {}}
   }
- }
+ };
+ #If {%Length(@{History%{1}Tmp1})>0} {
+  #If {%IfWord(%1,@HistoryBuffers,|)=0} {#Var HistoryBuffers {%Sort(@HistoryBuffers|%1,0)}};
+  #If {%NumWords(@{History%{1}Messages},|)>=@HistoryBufferSize} {
+   #Var {History%{1}Messages} {%DelNItem(@{History%{1}Messages},1)|@{History%{1}Tmp1}}
+  } {
+   #If {%Length(@{History%{1}Messages})=0} {#Var {History%{1}Messages} {@{History%{1}Tmp1}}} {#AddItem {History%{1}Messages} {@{History%{1}Tmp1}}}
+  };
+  #If {@LogHistory=1} {
+   #Math NumberOfBufferedLogMessages {@NumberOfBufferedLogMessages+1};
+   #Exec {
+    #If {~%Defined(History%{1}LogBufferEntries)=0} {
+     #Var {History%{1}LogInitialization} 1;
+     #Var {History%{1}LogBuffer} {};
+     #Var {History%{1}LogBufferEntries} 0
+    }
+   };
+   #Math {History%{1}LogBufferEntries} {@{History%{1}LogBufferEntries}+1};
+   #Var {History%{1}LogBuffer} {@{History%{1}LogBuffer}%2%CRLF};
+   #If {@NumberOfBufferedLogMessages>@HistoryLoggingInterval} {
+    #Var NumberOfBufferedLogMessages 0;
+    #Alarm 0 {WriteToLogFile}
+   }
+  }
+ };
+ #Exec {#UnVar {History%{1}Tmp1}}
 } {}
 #Alias Hist {#Exec {#Alarm 0 {History %0}}}
 #Alias History {
