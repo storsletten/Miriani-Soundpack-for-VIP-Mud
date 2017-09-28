@@ -322,7 +322,7 @@ Apartment
    #If {%NumWords(@RoomTmp2,~,)=3} {#Var MyZCoord {%Word(@RoomTmp2,~, ,3)}} {#Var MyZCoord {}};
    #If {%IfWord(%1,Asteroid Surface,|)=0} {
     #If {%Defined(ArchDigDepth)=0} {
-     #Alarm 0 {#Load {@ScriptPath\Archaeology.set}}
+     #Var RoomLoadScripts {@ScriptPath\Archaeology.set}
     } {
      #If {@MyXCoord=@ArchArtiXCoord and @MyYCoord=@ArchArtiYCoord and @MyZCoord=@ArchArtiZCoord} {msplay General\Archaeology\ArtifactHere@Ext}
     }

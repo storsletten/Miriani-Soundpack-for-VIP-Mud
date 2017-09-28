@@ -610,7 +610,7 @@ disconnect from your avatar.^MirianiSoundPlay Standard General\Device\MovieEnd~@
      };
      #Sub {@ExpString};
      #If {@ZoneType="vehicle"} {
-      #If {%Defined(AtSaDistanceToShip)=0} {#Alarm 0 {#Load {@ScriptPath\ACV.set};#Load {@ScriptPath\Atmo.set}}}
+      #If {%Defined(AtSaDistanceToShip)=0} {#Var RoomLoadScripts {@ScriptPath\ACV.set|@ScriptPath\Atmo.set}}
      }
     }
    } {
@@ -673,5 +673,9 @@ disconnect from your avatar.^MirianiSoundPlay Standard General\Device\MovieEnd~@
    #Exec {%Word(@TTTmp1,%CRLF|%CRLF,1)};
    #If {%Length(@ExpString)>0} {#Sub {@ExpString}}
   }
+ };
+ #If {%Defined(RoomLoadScripts)=1} {
+  #Exec {#Alarm 0 {#ForAll {@RoomLoadScripts} {#Load {~%i}}}};
+  #UnVar RoomLoadScripts
  }
 } {Main}
