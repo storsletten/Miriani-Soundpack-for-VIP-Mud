@@ -1,3 +1,6 @@
+Version 5.8.51, released 2017-09-28:
+* For 2.0: Maybe I fixed issues with dig sites producing lots and lots of errors.
+
 Version 5.8.50, released 2017-09-27:
 * For 2.0: Removed the option to block history buffers.
 
