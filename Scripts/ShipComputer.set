@@ -3,13 +3,13 @@ Autopilot engaged.^
  #If {@SpeakWhenPossible=1} {
   #GagLine 1 Voice;
   MirianiSoundPlay Standard Ship\Move\AutopilotEngaged~@Ext
- } {MirianiSoundPlay Standard Ship\Computer\Announce*4~@Ext}
+ } {#Var PlayComputerSound 1}
 |
 Autopilot disengaged.^
  #If {@SpeakWhenPossible=1} {
   #GagLine 1 Voice;
   MirianiSoundPlay Standard Ship\Move\AutopilotDisengaged~@Ext
- } {MirianiSoundPlay Standard Ship\Computer\Announce*4~@Ext}
+ } {#Var PlayComputerSound 1}
 |
 Self-destruct sequence initiated. Destruction in sixty seconds.^
  MirianiSoundPlay Standard Ship\Computer\Self-Distruct~@Ext;
@@ -46,7 +46,7 @@ One.^
 Goodbye.^MirianiSoundPlay Standard Ship\Computer\SelfDestructEnd~@Ext
 |
 Warning! Aquatic life form has entered scooper chamber. Expulsion in progress...^
- MirianiSoundPlay Standard Ship\Computer\Announce*4~@Ext;
+ #Var PlayComputerSound 1;
  MirianiSoundPlay Standard Atmo/fishscoop~@Ext
 |
 The destination specified is beyond the range of the wormhole drive.  Attempting to utilize jumpgate network.^
@@ -62,11 +62,11 @@ Scans reveal the debris to be a life form.^
  ExpPipe {~@ComputerSaid} {~@ComputerSaid} {Lifeform salvaged!}
 |
 Docking complete.^
- MirianiSoundPlay Standard Ship\Computer\Announce*4~@Ext;
+ #Var PlayComputerSound 1;
  MirianiSoundPlay Standard Ship\Misc\DockingBayDoorClose~@Ext
 |
 Sensors detect an obstacle in the path of the wormhole. Aborting FTL travel...^
- MirianiSoundPlay Standard Ship\Computer\Announce*4~@Ext;
+ #Var PlayComputerSound 1;
  #If {@SpeakWhenPossible=1} {MirianiSoundPlay Standard Ship\Move\PathBlocked~@Ext}
 |
 There is insufficient weapons-grade bardenium available for firing.^
@@ -75,7 +75,7 @@ There is insufficient weapons-grade bardenium available for firing.^
  ExpPipe {~@ComputerSaid} {There is insufficient bardenium available for firing.} {Insufficient bardenium available.}
 |
 The cannons now have sufficient ammunition for firing.^
- MirianiSoundPlay Standard Ship\Computer\Announce*4~@Ext;
+ #Var PlayComputerSound 1;
  #If {~%Defined(CannonsAvailable)=1} {
   #Math CannonsAvailableBard {~@CannonsAvailable*10};
   #If {~@CannonsAvailableBard<20} {#Var CannonsAvailableBard 20}
@@ -87,11 +87,11 @@ The target has moved from the locked coordinates.^
  ExpPipe {~@ComputerSaid} {~@ComputerSaid} {:Voice:Target has moved.}
 |
 Precision wormhole drive is powering up. Calculating optimal path for precision entry...^
- MirianiSoundPlay Standard Ship\Computer\Announce*4~@Ext;
+ #Var PlayComputerSound 1;
  MirianiSoundPlay Standard Ship\Move\PreciseFTL~@Ext
 |
 The starship has entered an H II region. Caution is advised.^
- MirianiSoundPlay Standard Ship\Computer\Announce*4~@Ext;
+ #Var PlayComputerSound 1;
  MirianiSoundPlay Standard Ship\Computer\Nebula~@Ext
 |
 NAVI was unable to continue due to sensor interference.^MirianiSoundPlay Standard Ship\Computer\Anomaly~@Ext
@@ -99,13 +99,13 @@ NAVI was unable to continue due to sensor interference.^MirianiSoundPlay Standar
 NAVI program has been interrupted. Autopilot is unable to continue.^MirianiSoundPlay Standard Ship/Computer/Error~@Ext
 |
 Warning, avian lifeform in processing chamber. Expelling...^
- MirianiSoundPlay Standard Ship\Computer\Announce*4~@Ext;
+ #Var PlayComputerSound 1;
  MirianiSoundPlay Standard Ship\Misc\SalvageLifeForm~@Ext;
  mrandomplay ACV\AvianExpulsion*38~@Ext;
  ExpPipe {~@ComputerSaid} {Expelling avian lifeform from processing chamber.} {}
 |
 Cargo capacity has been filled. Shutting down atmospheric scooper.^
- MirianiSoundPlay Standard Ship\Computer\Announce*4~@Ext;
+ #Var PlayComputerSound 1;
  ExpPipe {~@ComputerSaid} {Cargo capacity has been filled.} {Cargo capacity filled.}
 |
 The target is no longer available. Probable cause for lost sensor contact is destruction.^
@@ -213,7 +213,7 @@ Intruder alert! *^MirianiSoundPlay Standard Ship\Combat\Intruder~@Ext
 %Chr(250)
 * been detected in the sector.^
  MObject {~@ComputerSaid};
- #If {~%Length(~@MObjectFound)=0} {MirianiSoundPlay Standard Ship\Computer\Announce*4~@Ext}
+ #If {~%Length(~@MObjectFound)=0} {#Var PlayComputerSound 1}
 %Chr(250)
 Warning, power level has dropped to *~%.^
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
@@ -255,18 +255,18 @@ Mission objective has been completed in approximately *. Return to base.^
  }
 %Chr(250)
 I am beginning the repair of *. Estimated time to completion: *.^
- MirianiSoundPlay Standard Ship\Computer\Announce*4~@Ext;
+ #Var PlayComputerSound 1;
  MirianiSoundPlay Standard Ship\Computer\RepairStart~@Ext 10;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
  ExpPipe {~@ComputerSaid} {Repairing ~@Wildcard1. ~@Wildcard2 until complete.} {Repairing ~@Wildcard1, ~@Wildcard2.}
 %Chr(250)
 * will be completely repaired in approximately *.^
- MirianiSoundPlay Standard Ship\Computer\Announce*4~@Ext;
+ #Var PlayComputerSound 1;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
  ExpPipe {~@ComputerSaid} {~@Wildcard1 will be repaired in approximately ~@Wildcard2.} {~@Wildcard1 will be repaired in ~@Wildcard2.}
 %Chr(250)
 I have completed the repair of *.^
- MirianiSoundPlay Standard Ship\Computer\Announce*4~@Ext;
+ #Var PlayComputerSound 1;
  MirianiSoundPlay Standard Ship\Computer\RepairComplete~@Ext;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
  ExpPipe {~@ComputerSaid} {Completed the repair of ~@Wildcard1.} {~@Wildcard1 repaired.}
@@ -278,7 +278,7 @@ Via synchronized text message broadcasts, *^
  PushMessage Comm {~@ComputerSaid}
 %Chr(250)
 This vessel is of the * design. It was manufactured on * at the * and commissioned by the *. The vessel came under licensed control on * and is presently licensed to *.^
- MirianiSoundPlay Standard Ship\Computer\Announce*4~@Ext;
+ #Var PlayComputerSound 1;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
  ExpPipe {~@ComputerSaid} {~@ComputerSaid} {This ~@Wildcard1 is presently licensed to ~@Wildcard6.~%{CRLF}It came under licensed control on ~@Wildcard5.~%{CRLF}It was manufactured on ~@Wildcard2 at the ~@Wildcard3, and commissioned by the ~@Wildcard4.}
 %Chr(250)
@@ -313,7 +313,13 @@ The game has ended! The winner is *^
    }
   };
   #Var ExpString {@ComputerSaid};
-  #If {%Length(@ComputerCommands)>0} {#Exec {@ComputerCommands}} {MirianiSoundPlay Standard {Ship\Computer\%If(@ComputerPiped=1,LFD@Ext,Announce*4@Ext)}};
+  #If {%Length(@ComputerCommands)>0} {
+   #Exec {@ComputerCommands};
+   #If {%Defined(PlayComputerSound)=1} {
+    MirianiSoundPlay Standard {Ship\Computer\%If(@ComputerPiped=1,LFD@Ext,Announce*4@Ext)};
+    #UnVar PlayComputerSound
+   }
+  } {MirianiSoundPlay Standard {Ship\Computer\%If(@ComputerPiped=1,LFD@Ext,Announce*4@Ext)}};
   #If {@GagAvatars=0 and (@ExperienceLevel<3 or @ComputerName<>"Computer")} {#Var ExpString {@ComputerName: @ExpString}};
   PushMessage Computer {@ExpString};
   #If {@SpeakComputerMessagesThroughSAPI=1 AND @ComputerSpoken<>1} {
