@@ -1,3 +1,6 @@
+Version 5.8.52, released 2017-09-30:
+* For 2.0: Fixed the computer announcement sound so that it plays the right sound when the announcement is piped from the control room.
+
 Version 5.8.51, released 2017-09-28:
 * For 2.0: Maybe I fixed issues with dig sites producing lots and lots of errors.
 
