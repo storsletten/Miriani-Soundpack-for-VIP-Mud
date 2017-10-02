@@ -1,3 +1,6 @@
+Version 5.8.54, released 2017-10-02:
+* For 2.0: conf gen 3 now has support for room-o 22. Or in less cryptic words, room title formatting is now capable of indicating if a room is outdoors.
+
 Version 5.8.53, released 2017-10-02:
 * For 2.0: Receiving contributions should no longer trigger the credit reward sound if it's less than a second since you earned credits for completing a mission.
 
