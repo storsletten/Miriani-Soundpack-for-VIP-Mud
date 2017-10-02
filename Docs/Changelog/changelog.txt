@@ -1,3 +1,6 @@
+Version 5.8.55, released 2017-10-02:
+* For 2.0: Moved CGC and related code to a CGC extra. You can toggle it with conf x cgc.
+
 Version 5.8.54, released 2017-10-02:
 * For 2.0: conf gen 3 now has support for room-o 22. Or in less cryptic words, room title formatting is now capable of indicating if a room is outdoors.
 
