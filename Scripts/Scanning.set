@@ -1,5 +1,4 @@
 #Class Scanning Disable
-#Class CGC Disable
 #Var ScanOutputLabels {Atmospheric Composition|Available charge|Average Component Damage|Cargo|Classification|Composition|Coordinates|Courier ship status|Damage|Discernable Aircraft|Distance|Hull Damage|Identifiable Power Sources|IFF|Integrity|Landing beacons|Launched by|Natural Resources|Occupancy|Orbiting|Pilot status|Power|Power sources|Size|Starships|Surface Conditions|Type|Weapons}
 #Var ScanFormatVarLabels {@ScanOutputLabels|Alliance|Full Name|Name|New|Number of Occupants|Object Type}
 #Var ScanFormatVarLabels {%Sort(@ScanFormatVarLabels,0)}
@@ -176,161 +175,16 @@
 #Alias scs {shipscan sc {%RTrim( %0)} {Cargo}} {}
 #Alias scw {shipscan sc {%RTrim( %0)} {Weapons}} {}
 
-#Alias CGCBackend {
- #If {%IsNumber(%1)=1 AND %IsNumber(%2)=1 AND %IsNumber(%3)=1 AND %IsNumber(%4)=1 AND %IsNumber(%5)=1 AND %IsNumber(%6)=1} {
-  #Math CGCTmpX {%Max(%1,%4) - %Min(%1,%4)};
-  #Math CGCTmpY {%Max(%2,%5) - %Min(%2,%5)};
-  #Math CGCTmpZ {%Max(%3,%6) - %Min(%3,%6)};
-  #Var CGCDestString {};
-  #If {@CGCTmpX>0} {
-   #If {@CGCTmpX=1} {#Var CGCTmpX {@CGCTmpX sector}} {#Var CGCTmpX {@CGCTmpX sectors}};
-   #If {%1<%4} {#Var CGCTmpX {@CGCTmpX west}} {#Var CGCTmpX {@CGCTmpX east}};
-   #Var CGCDestString {@CGCDestString|@CGCTmpX}
-  };
-  #If {@CGCTmpY>0} {
-   #If {@CGCTmpY=1} {#Var CGCTmpY {@CGCTmpY sector}} {#Var CGCTmpY {@CGCTmpY sectors}};
-   #If {%2<%5} {#Var CGCTmpY {@CGCTmpY north}} {#Var CGCTmpY {@CGCTmpY south}};
-   #Var CGCDestString {@CGCDestString|@CGCTmpY}
-  };
-  #If {@CGCTmpZ>0} {
-   #If {@CGCTmpZ=1} {#Var CGCTmpZ {@CGCTmpZ sector}} {#Var CGCTmpZ {@CGCTmpZ sectors}};
-   #If {%3<%6} {#Var CGCTmpZ {@CGCTmpZ up}} {#Var CGCTmpZ {@CGCTmpZ down}};
-   #Var CGCDestString {@CGCDestString|@CGCTmpZ}
-  };
-  #If {@CGCDestString<>""} {
-   #Var CGCDestString {%Delete(@CGCDestString,1,1)};
-   #Var CGCTmp {%NumWords(@CGCDestString,|)};
-   #If {@CGCTmp=3} {
-    #Var CGCDestString {%Word(@CGCDestString,|,1), %Word(@CGCDestString,|,2), and %Word(@CGCDestString,|,3)}
-   } {
-    #If {@CGCTmp=2} {
-     #Var CGCDestString {%Word(@CGCDestString,|,1) and %Word(@CGCDestString,|,2)}
-    }
-   }
-  } {
-   #Var CGCDestString {right here}
-  }
- } {
-  #Var CGCDestString {nowhere, because you didn't type CGC X Y Z}
- }
-} {}
-#Var SectorBeacons {
-0: -603120, 41, 450
-1: -603080, 1, 420
-2: -603079, 0, 420
-3: -603078, -1, 420
-4: -603077, -2, 420
-5: -603200, 22, -375
-6: -603328, 58, 467
-7: -603109, 20, -117
-8: -603129, -58, 200
-9: -603105, 7, 50
-10: -603225, -58, 271
-11: -603128, 22, 184
-12: -603229, 58, 200
-13: -603129, 30, 580
-14: -603107, 59, 479
-15: -603126, 40, 507
-16: -602433, 111, 57
-17: -602419, 1, 21
-18: -602410, -21, -1
-19: -604622, 27, 167
-20: -602410, -21, 90
-21: -602422, -47, 117
-22: -602432, -52, 217
-23: -602632, 40, 467
-24: -602630, -13, 214
-25: -602662, 109, 417
-26: -602622, 27, 167
-27: -602232, 23, 377
-28: -602637, 32, 400
-29: -602632, 22, 407
-30: -602632, 13, 467
-31: -602662, -101, 251
-32: -602652, -115, 211
-33: -602682, -50, 219
-34: -602750, -25, 250
-35: -602620, 10, 222
-36: -602500, 35, -95
-37: -602611, 49, -324
-38: -602823, 143, -67
-39: -602555, 47, 324
-40: -602876, 83, 199
-115: -603127, 103, 466
-}
-#Alias cgc {
- #If {%IsNumber(%1)=1 AND %IsNumber(%Trim(%0))=1} {
-  #Var CGCTarget {%Trim(%0)};
-  #Var CGCTmp {%Pos(%CRLF@CGCTarget:,@SectorBeacons)};
-  #If {@CGCTmp>0} {
-   #Var CGCTmp {%Delete(@SectorBeacons,1,@CGCTmp)};
-   #Var CGCTmp {%Word(@CGCTmp,:,2)};
-   #Var CGCTmp {%Word(@CGCTmp,%CRLF,1)};
-   #Var CGCX {%Word(@CGCTmp,~,,1)};
-   #Var CGCY {%Word(@CGCTmp,~,,2)};
-   #Var CGCZ {%Word(@CGCTmp,~,,3)};
-   #Var CGCX {%Trim(@CGCX)};
-   #Var CGCY {%Trim(@CGCY)};
-   #Var CGCZ {%Trim(@CGCZ)};
-   #Var CGCTarget {Sector @CGCTarget};
-   MainTrigSwitch 0 CGC;
-   gc
-  } {
-   #UnVar CGCTarget;
-   ConfPrint {CGC has no information about that sector number.}
-  }
- } {
-  #Var CGCX {%Replace(%1,~,,)};
-  #Var CGCX {%Replace(@CGCX,~(,)};
-  #Var CGCY {%Replace(%2,~,,)};
-  #Var CGCZ {%Replace(%3,~),)};
-  #If {%IsNumber(@CGCX)=1 AND %IsNumber(@CGCY)=1 AND %IsNumber(@CGCZ)=1} {
-   #Var CGCTarget {%4};
-   MainTrigSwitch 0 CGC;
-   gc
-  } {
-   #UnVar CGCTarget;
-   ConfPrint {Syntax: CGC <galactic coordinates>, or CGC <sector number>}
-  }
- }
-} {}
-#Trigger {Current galactic coordinates: *, *, *} {
- #If {%IsNumber(@CGCX)=1 and %IsNumber(@CGCY)=1 and %IsNumber(@CGCZ)=1} {
-  #If {@UseSMStyle=1} {
-   #Exec {CalculateRelativeNumericDir @CGCX @CGCY @CGCZ %1 %2 %3}
-  } {
-   #Exec {CGCBackend @CGCX @CGCY @CGCZ %1 %2 %3}
-  };
-  msplay Ship\Computer\Scan*4@Ext;
-  #If {%Replace(@CGCTarget,~",)<>""} {
-   #Var CGCTmp {@CGCTarget is}
-  } {
-   #Var CGCTmp {The target coordinates lie}
-  };
-  #sub {@CGCTmp %If(@UseSMStyle=1,@RelativeNumericDir,@CGCDestString).}
- };
- MainTrigSwitch 1;
- #UnVar CGCTarget;
- #UnVar CGCTmp;
- #UnVar CGCTmpX;
- #UnVar CGCTmpY;
- #UnVar CGCTmpZ;
- #UnVar CGCDestString
-} {Main|cgc}
-#Trigger {Your ship has no Galactic Map Unit.} {MainTrigSwitch 1} {CGC}
-#TRIGGER {Current galactic coordinates: *, *, *} {#var GalCoordsX %1;
-#var GalCoordsY %2;
-#var GalCoordsZ %3} {Main}
 #Trigger {Objects*Direction*Lightyears*Coordinates*} {
  ExpPipe {%0} {%0} {:Voice:%0};
  #sub {@ExpString};
  msplay Ship\Computer\LRScan*4@Ext
 } {Main}
-#TRIGGER {Coordinate scan for: *:} {
+#Trigger {Coordinate scan for: *:} {
  ExpPipe {%0} {%1:} {};
  #sub {@ExpString}
 } {Main}
-#Trigger {The target coordinates lie *} {msplay Ship\Computer\Scan*4@Ext} {Main}
+#Trigger {The target coordinates lie *} {msplay Ship\Computer\Scan*4@Ext} {Main|Starship}
 #Trigger {General sector report for *: *:} {
  MainTrigSwitch 1;
  ExpPipe {%0} {%0} {%1: %2:};

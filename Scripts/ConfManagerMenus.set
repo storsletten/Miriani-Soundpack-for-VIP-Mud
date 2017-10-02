@@ -388,7 +388,7 @@ UseAlternativeCombatSounds|B
 #Var ConfMenuShip {Ship options
 [1] Mission configuration.
 [2] Scanning options.
-[3] SCGC options.
+[3] SCGC options.~%If(~@LoadExtraScriptCGC=0, ~(The CGC extra is currently disabled~).,)
 [4] Relativity drive sound frequency  [~@RelDriveFreq Hz].
 [5] Relativity drive sound volume offset  [~@{RelDriveVolume}~~~%].
 [6] Relativity drive sound style  [~%Case(~@RelDriveStyle,Standard Miriani,Standard Star Conquest,MonkeyTerm)].

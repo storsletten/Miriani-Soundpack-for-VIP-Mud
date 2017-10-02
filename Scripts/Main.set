@@ -34,8 +34,9 @@ ConfManagerMenus}
 #Var ExtraScriptFiles {
 Babies^Baby sounds
 Cannons^Alerts you of how many shots you have remaining, and plays a sound after the last shot is fired
-Development^Contains useful tools for soundpack development
-Fishing^Adds sounds for fishing
+CGC^The calculator routines for galactic coordinates
+Development^Tools for soundpack development
+Fishing^Sounds for fishing at Augustus
 Games^Sounds for games such as air hockey, skeeball, assault, etc
 LaserTag^Sounds for Laser Tag
 Shenanigans^Sounds for slime dispensers, blades, etc
