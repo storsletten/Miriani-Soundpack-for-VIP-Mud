@@ -266,8 +266,9 @@ Apartment
  #If {@InterruptOnRoom=1 and (@Following=0 or (@InterruptOnFollow=1 and @SpeakRoomTitleFirst=0)) AND @DontStopSpeaking<>1} {speech stop};
  #Var DontStopSpeaking 0;
  #If {@Peers=1} {#Abort All};
+ #Var RoomIsOutdoors 0;
  #If {%0<>@SoundpackEnvironment} {
-  #Var SoundpackEnvironment %0;
+  #Var SoundpackEnvironment {%0};
   #Var ZoneName {Unknown};
   #Var RoomName {Unknown};
   #Var OldZoneType {@ZoneType};
@@ -313,31 +314,35 @@ Apartment
  #Var MyYCoord {};
  #Var MyZCoord {};
  #Var RoomTmp1 {%NumWords(%2,~()};
- #If {@RoomTmp1>1} {
-  #Var RoomTmp2 {%Word(%2,~(,2)};
+ #While {@RoomTmp1>1} {
+  #Var RoomTmp2 {%Word(%2,~(,@RoomTmp1)};
   #Var RoomTmp2 {%Word(@RoomTmp2,~),1)};
-  #If {%Pos(~, ,@RoomTmp2)>0 and %NumWords(@RoomTmp2, )<4} {
-   #Var MyXCoord {%Word(@RoomTmp2,~, ,1)};
-   #Var MyYCoord {%Word(@RoomTmp2,~, ,2)};
-   #If {%NumWords(@RoomTmp2,~,)=3} {#Var MyZCoord {%Word(@RoomTmp2,~, ,3)}} {#Var MyZCoord {}};
-   #If {%IfWord(%1,Asteroid Surface,|)=0} {
-    #If {%Defined(ArchDigDepth)=0} {
-     #Var RoomLoadScripts {@ScriptPath\Archaeology.set}
-    } {
-     #If {@MyXCoord=@ArchArtiXCoord and @MyYCoord=@ArchArtiYCoord and @MyZCoord=@ArchArtiZCoord} {msplay General\Archaeology\ArtifactHere@Ext}
+  #If {%IfWord(@RoomTmp2,indoors|outdoors,|)=1} {
+   #Var RoomIsOutdoors {%Pos(outdoor,@RoomTmp2)}
+  } {
+   #If {%Pos(~, ,@RoomTmp2)>0 and %NumWords(@RoomTmp2, )<4} {
+    #Var MyXCoord {%Word(@RoomTmp2,~, ,1)};
+    #Var MyYCoord {%Word(@RoomTmp2,~, ,2)};
+    #If {%NumWords(@RoomTmp2,~,)=3} {#Var MyZCoord {%Word(@RoomTmp2,~, ,3)}} {#Var MyZCoord {}};
+    #If {%IfWord(%1,Asteroid Surface,|)=0} {
+     #If {%Defined(ArchDigDepth)=0} {
+      #Var RoomLoadScripts {@ScriptPath\Archaeology.set}
+     } {
+      #If {@MyXCoord=@ArchArtiXCoord and @MyYCoord=@ArchArtiYCoord and @MyZCoord=@ArchArtiZCoord} {msplay General\Archaeology\ArtifactHere@Ext}
+     }
+    }
+   } {
+    #If {%IfWord(%Word(@RoomTmp2, ,1),buckled flying lying riding sitting soaking swimming, )=1} {
+     #Var Sitting {@RoomTmp2};
+     #Var RoomTmp2 {%Pos( ,@RoomTmp2)};
+     #If {@RoomTmp2>0} {
+      #Var RoomTmp2 {%Copy(@Sitting,@RoomTmp2+1)};
+      #If {%IfWord(@RoomTmp2,on the floor|on the ground,|)=1} {#Var Sitting {%Word(@Sitting, ,1)}}
+     }
     }
    }
   };
-  #Var RoomTmp2 {%Word(%2,~(,@RoomTmp1)};
-  #Var RoomTmp2 {%Word(@RoomTmp2,~),1)};
-  #If {%IfWord(%Word(@RoomTmp2, ,1),buckled flying lying riding sitting soaking swimming, )=1} {
-   #Var Sitting {@RoomTmp2};
-   #Var RoomTmp2 {%Pos( ,@RoomTmp2)};
-   #If {@RoomTmp2>0} {
-    #Var RoomTmp2 {%Copy(@Sitting,@RoomTmp2+1)};
-    #If {%IfWord(@RoomTmp2,on the floor|on the ground,|)=1} {#Var Sitting {%Word(@Sitting, ,1)}}
-   }
-  }
+  #Math RoomTmp1 {@RoomTmp1-1}
  };
  #If {@ZoneType="starship"} {
   #Var ZoneName {%Word(%1,~",2)};
@@ -370,18 +375,22 @@ Apartment
    }
   };
   #If {@FormatRoomTitles=1} {
-   #Sub {[@RoomName "@ZoneName"]%RTrim( %If(~@Hostile=1~,~~~(Hostile~~~)~,) %If(~@Powered=0~,~~~(Unpowered~~~)~,) @Sitting)}
+   #Var RoomTmp1 {[@RoomName "@ZoneName"]};
+   #If {@Hostile=1} {#Var RoomTmp1 {@RoomTmp1 (Hostile)}};
+   #If {@Powered=0} {#Var RoomTmp1 {@RoomTmp1 (Unpowered)}};
+   #If {%Length(@Sitting)>0} {#Var RoomTmp1 {@RoomTmp1 @Sitting%If(@RoomIsOutdoors=1, outdoors,)}} {#If {@RoomIsOutdoors=1} {#Var RoomTmp1 {@RoomTmp1 (Outdoors)}}};
+   #Sub {@RoomTmp1}
   }
  } {
   #If {%Pos("; ",%1)>0} {
    #Var ZoneName {%Word(%1,"; ",1)};
    #Var RoomName {%Copy(%1,%Pos("; ",%1)+2)};
    #If {@FormatRoomTitles=1} {
-    #If {%Replace(%2,~",)=*"*(#*, #*)*"} {
-     #Sub {[@RoomName%2 (@ZoneName)]}
-    } {
-     #Sub {[@RoomName (@ZoneName)]%RTrim( %If(~@Hostile=1~,~~~(Hostile~~~)~,) @Sitting)}
-    }
+    #Var RoomTmp1 {[@RoomName (@ZoneName)]};
+    #If {%IsNumber(@MyXCoord)=1} {#Var RoomTmp1 {@RoomTmp1 (@MyXCoord, @MyYCoord%If(%IsNumber(@MyZCoord)=1,~, @MyZCoord,))}};
+    #If {%Length(@Sitting)>0} {#Var RoomTmp1 {@RoomTmp1 @Sitting%If(@RoomIsOutdoors=1, outdoors,)}} {#If {@RoomIsOutdoors=1} {#Var RoomTmp1 {@RoomTmp1 (Outdoors)}}};
+    #If {@Hostile=1} {#Var RoomTmp1 {@RoomTmp1 (Hostile)}};
+    #Sub {@RoomTmp1}
    }
   } {
    #Var ZoneName {%1};
