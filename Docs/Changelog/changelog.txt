@@ -1,3 +1,6 @@
+Version 5.8.53, released 2017-10-02:
+* For 2.0: Receiving contributions should no longer trigger the credit reward sound if it's less than a second since you earned credits for completing a mission.
+
 Version 5.8.52, released 2017-09-30:
 * For 2.0: Fixed the computer announcement sound so that it plays the right sound when the announcement is piped from the control room.
 
