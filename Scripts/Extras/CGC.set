@@ -53,7 +53,7 @@
     #Var SCGCTmp1 {%Word(@SCGCList,|,@SCGCItemIndex)};
     #Var SCGCTmp1 {%Word(@SCGCTmp1,:,2)};
     #If {@SendCommandDirectly=1} {
-     #Exec {CGC @SCGCTmp1 {%Word(%Word(@SCGCList,|,@SCGCItemIndex),:,1)}}
+     #Exec {#Alarm 0 {CGC @SCGCTmp1 {%Word(%Word(@SCGCList,|,@SCGCItemIndex),:,1)}}}
     } {
      #Exec {#Say {CGC @SCGCTmp1} Entry|NoReturn}
     };
