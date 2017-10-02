@@ -22,8 +22,8 @@
  ExpPipe {%0} {%0} {You receive %1 from %3.};
  #Sub {@ExpString};
  PushMessage Contributions {@ExpString};
- MirianiSoundPlay {Standard} {General\Misc\Credits*4@Ext};
- #ForAll {ID|Length|Times|Var} {#UnVar {Contrib%i}}
+ #If {%Defined(RewardAlarmHandle)=0} {MirianiSoundPlay Standard {General\Misc\Credits*3@Ext}};
+ #UnVar ContribID;#UnVar ContribLength;#UnVar ContribTimes;#UnVar ContribVar
 } {Main|Starship}
 
 #Alias Contribs {
