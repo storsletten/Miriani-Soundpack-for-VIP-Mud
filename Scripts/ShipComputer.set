@@ -380,20 +380,15 @@ ExpPipe {%0} {%0} {%1 checks the navigation console.};
  ExpPipe {%0} {Heading to %1} {Destination: %1};
  #Sub {@ExpString}
 } {Main|Starship}
-#Trigger {Charge Readout:} {MirianiSoundPlay Standard Ship\Computer\Display@Ext} {Main}
 #Trigger {Total Weight: *} {MirianiSoundPlay Standard Ship\Computer\Display@Ext} {Main}
 #Trigger {There is nothing in the cargo hold.*} {MirianiSoundPlay Standard Ship\Computer\Display@Ext} {Main|Craft}
-#Trigger {Starship *} {
- #If {%IfWord(%1,Security Status:|Status:|Weapon Configuration:|Weapon Information,|)=1} {
-  MirianiSoundPlay Standard Ship\Computer\Display@Ext;#Abort
+#Trigger {*:} {
+ #If {%IfWord(%1,Charge Readout|Critical Damage|Light Damage|Moderate Damage|Starship Damage|Starship Security Status|Starship Status|Starship Weapon Configuration|Weapon Information|Weapon Configuration|Weapon Status,|)=1} {
+  ExpPipe {%0} {:Voice:%0} {:Voice:%0};
+  #Sub {@ExpString};
+  MirianiSoundPlay Standard Ship\Computer\Display@Ext
  }
-} {Main|Starship}
-#Trigger {* Damage:} {
- ExpPipe {%0} {:Voice:%0} {:Voice:%0};
- #Sub {@ExpString};
- MirianiSoundPlay Standard Ship\Computer\Display@Ext
 } {Main}
-#Trigger {Weapon Status:} {MirianiSoundPlay Standard Ship\Computer\Display@Ext} {Main|Starship}
 #Trigger {Current coordinates: *} {
  #Var MyCoordsX {%Word(%1,~, ,1)};
  #Var MyCoordsY {%Word(%1,~, ,2)};

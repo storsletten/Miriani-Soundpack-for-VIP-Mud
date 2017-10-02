@@ -438,7 +438,7 @@ hear a loud buzzing sound, indicating somebody is at the door.^
 |
 input some commands into a console and access the starship's service record.^
  msplay Ship\Computer\Display~@Ext;
- ExpPipe {~%0} {~%0} {You call up the starship's service record.}
+ ExpPipe {~%0} {~%0} {:Voice:Starship Service Record:}
 |
 press a button to scan for recent wormhole activity.^
  msplay Ship\Computer\WormholeTracer~@Ext;
