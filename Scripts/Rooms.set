@@ -266,7 +266,6 @@ Apartment
  #If {@InterruptOnRoom=1 and (@Following=0 or (@InterruptOnFollow=1 and @SpeakRoomTitleFirst=0)) AND @DontStopSpeaking<>1} {speech stop};
  #Var DontStopSpeaking 0;
  #If {@Peers=1} {#Abort All};
- #Var RoomIsOutdoors 0;
  #If {%0<>@SoundpackEnvironment} {
   #Var SoundpackEnvironment {%0};
   #Var ZoneName {Unknown};
@@ -284,23 +283,12 @@ Apartment
     #Var AlertSoundHandle 0
    }
   };
-  #If {@ZoneType="starship"} {
-   #If {%Word(%1, ,2)="landed"} {#Var InSpace 0} { #Var InSpace 1};
-   #If {%Word(%1, ,4)="unpowered"} {#Var Powered 0} {#Var Powered 1};
-   #If {%Word(%1, ,6)="safe"} {#Var Hostile 0} {#Var Hostile 1};
-   #If {%Word(%1, ,8)="dark"} {#Var Light 0} {#Var Light 1}
-  } {
-   #If {@ZoneType="planet"} {
-    #Var Classification {%Copy(%1,8,%Pos(|,%1)-9)};
-    #If {%Trim(%Word(%1,|,2))="safe"} {#Var Hostile 0} {#Var Hostile 1};
-    #If {%Trim(%Word(%1,|,3))="dark"} {#Var Light 0} {#Var Light 1}
-   } {
-    #If {@ZoneType="room"} {
-     #If {%Word(%1, ,2)="safe"} {#Var Hostile 0} {#Var Hostile 1};
-     #If {%Word(%1, ,4)="dark"} {#Var Light 0} {#Var Light 1}
-    }
-   }
-  }
+  #If {%Pos( hostile ,%1)>0} {#Var Hostile 1} {#Var Hostile 0};
+  #If {%Pos( light ,%1)>0} {#Var Light 1} {#Var Light 0};
+  #If {%Pos( outdoors ,%1)>0} {#Var RoomIsOutdoors 1} {#Var RoomIsOutdoors 0};
+  #If {%Pos( landed ,%1)>0} {#Var Landed 1} {#Var Landed 0};
+  #If {%Pos( unpowered ,%1)>0} {#Var Powered 0} {#Var Powered 1};
+  #If {@ZoneType="planet"} {#Var Classification {%Copy(%1,8,%Pos(|,%1)-9)}} {#Var Classification {}}
  };
  #Var RoomReader 1;
  #Class RoomReader Enable
@@ -317,28 +305,24 @@ Apartment
  #While {@RoomTmp1>1} {
   #Var RoomTmp2 {%Word(%2,~(,@RoomTmp1)};
   #Var RoomTmp2 {%Word(@RoomTmp2,~),1)};
-  #If {%IfWord(@RoomTmp2,indoors|outdoors,|)=1} {
-   #Var RoomIsOutdoors {%Pos(outdoor,@RoomTmp2)}
-  } {
-   #If {%Pos(~, ,@RoomTmp2)>0 and %NumWords(@RoomTmp2, )<4} {
-    #Var MyXCoord {%Word(@RoomTmp2,~, ,1)};
-    #Var MyYCoord {%Word(@RoomTmp2,~, ,2)};
-    #If {%NumWords(@RoomTmp2,~,)=3} {#Var MyZCoord {%Word(@RoomTmp2,~, ,3)}} {#Var MyZCoord {}};
-    #If {%IfWord(%1,Asteroid Surface,|)=0} {
-     #If {%Defined(ArchDigDepth)=0} {
-      #Var RoomLoadScripts {@ScriptPath\Archaeology.set}
-     } {
-      #If {@MyXCoord=@ArchArtiXCoord and @MyYCoord=@ArchArtiYCoord and @MyZCoord=@ArchArtiZCoord} {msplay General\Archaeology\ArtifactHere@Ext}
-     }
+  #If {%Pos(~, ,@RoomTmp2)>0 and %NumWords(@RoomTmp2, )<4} {
+   #Var MyXCoord {%Word(@RoomTmp2,~, ,1)};
+   #Var MyYCoord {%Word(@RoomTmp2,~, ,2)};
+   #If {%NumWords(@RoomTmp2,~,)=3} {#Var MyZCoord {%Word(@RoomTmp2,~, ,3)}} {#Var MyZCoord {}};
+   #If {%IfWord(%1,Asteroid Surface,|)=0} {
+    #If {%Defined(ArchDigDepth)=0} {
+     #Var RoomLoadScripts {@ScriptPath\Archaeology.set}
+    } {
+     #If {@MyXCoord=@ArchArtiXCoord and @MyYCoord=@ArchArtiYCoord and @MyZCoord=@ArchArtiZCoord} {msplay General\Archaeology\ArtifactHere@Ext}
     }
-   } {
-    #If {%IfWord(%Word(@RoomTmp2, ,1),buckled flying lying riding sitting soaking swimming, )=1} {
-     #Var Sitting {@RoomTmp2};
-     #Var RoomTmp2 {%Pos( ,@RoomTmp2)};
-     #If {@RoomTmp2>0} {
-      #Var RoomTmp2 {%Copy(@Sitting,@RoomTmp2+1)};
-      #If {%IfWord(@RoomTmp2,on the floor|on the ground,|)=1} {#Var Sitting {%Word(@Sitting, ,1)}}
-     }
+   }
+  } {
+   #If {%IfWord(%Word(@RoomTmp2, ,1),buckled flying lying riding sitting soaking swimming, )=1} {
+    #Var Sitting {@RoomTmp2};
+    #Var RoomTmp2 {%Pos( ,@RoomTmp2)};
+    #If {@RoomTmp2>0} {
+     #Var RoomTmp2 {%Copy(@Sitting,@RoomTmp2+1)};
+     #If {%IfWord(@RoomTmp2,on the floor|on the ground,|)=1} {#Var Sitting {%Word(@Sitting, ,1)}}
     }
    }
   };
