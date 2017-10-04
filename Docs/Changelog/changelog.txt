@@ -1,3 +1,6 @@
+Version 5.8.58, released 2017-10-04:
+* For 2.0: Added support for indoors/outdoors in OOB environment messages, and fixed bugs related to environment messages on stations and in vehicles.
+
 Version 5.8.57, released 2017-10-02:
 * For 2.0: Fixed display sound not playing when checking weapons from an engineering room. Thanks Anny Rain for reporting.
 
