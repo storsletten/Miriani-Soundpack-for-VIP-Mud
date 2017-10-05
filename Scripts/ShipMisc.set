@@ -8,8 +8,7 @@
 #Trigger {You have received a contribution of * credit* from *.} {
  #Var ContribID {%Pos(|%3|,@Contributors)};
  #If {@ContribID=0} {
-  #Math ContribID {%Length(@Contributors)+1};
-  #If {%Length(@Contributors)=0} {#Var Contributors {|}};
+  #If {%Length(@Contributors)=0} {#Var Contributors {|};#Var ContribID 1} {#Var ContribID {%Length(@Contributors)}};
   #Var Contributors {@Contributors%3|}
  };
  #Var ContribVar {ContribID@ContribID};
