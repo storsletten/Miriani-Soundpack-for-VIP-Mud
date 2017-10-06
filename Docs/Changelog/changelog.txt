@@ -1,3 +1,6 @@
+Version 5.8.60, released 2017-10-06:
+* For 2.0: The soundpack will no longer play the join sound when requesting to take control of someone's group.
+
 Version 5.8.59, released 2017-10-05:
 * For 2.0: Fixed a horrible bug with the contribs command. It should work better now.
 
