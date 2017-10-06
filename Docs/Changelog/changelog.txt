@@ -1,3 +1,6 @@
+Version 5.8.62, released 2017-10-06:
+* For 2.0: Fixed a bug that would reset parts of your conf file to default settings if you had auto save enabled and then disconnected from Miriani before the soundpack was even fully loaded.
+
 Version 5.8.61, released 2017-10-06:
 * For 2.0: Removed the auto login option in conf. Use the Auto Login feature under Character Setup in VIP Mud instead. Reason for this is that auto login is closely related to the name and password you insert there, so I figured it would be best to keep all that jazz in the same place. Also moved conf options that override VIP Mud options into a new conf menu. You can access it with conf vip.
 
