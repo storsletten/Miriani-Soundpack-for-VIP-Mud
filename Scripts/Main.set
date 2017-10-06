@@ -7,6 +7,7 @@
 #Var LoadedSoundpackVersion {}
 
 #PC 0 Stop
+#Class LoggingIn Disable
 #Class Main Enable
 #Class MainOff Disable
 #Var Main 1
@@ -45,18 +46,23 @@ Typing^Allows you to type with only one hand, using the number pad
 }
 
 ; VIP Mud config overrides:
-#Conf ScriptReadOnly True
-#Conf AutoSave False
-#Conf Explicit False
-#Conf SlowWalk True
+#Config ScriptReadOnly True
+#Config AutoSave False
+#Config Explicit False
+#Config SlowWalk True
 
 #GAlias login {
- #If {%Defined(Main)=0} {
-  #Exec {%charInfo(name);%charInfo(password)}
+ #If {%Defined(Main)=1 and %Defined(LoadedSoundpackVersion)=1} {
+  #If {%Length(%CharInfo(Name))>0} {
+   #If {%IfWord(Ready,%1,|)=1 or %IfWord(%LastLine(1),Username:,%CRLF)=1} {
+    #Exec {>%CharInfo(Name)};
+    #If {%Length(%CharInfo(Password))>0} {#Exec {>%CharInfo(Password)}}
+   } {#Var AutoLogin 1}
+  }
  } {
-  #Var AutoLogin 1
+  #Wait 2;#Exec {>%CharInfo(Name)};#Exec {>%CharInfo(Password)}
  }
-}
+} {}
 
 #Trigger {Welcome to*} {
  #If {%IfWord(%1,...| Miriani!,|)=1} {
@@ -68,7 +74,6 @@ Typing^Allows you to type with only one hand, using the number pad
   #Alarm 0 {
    #Load {@ScriptPath\Const.set};
    #Load {@SoundsPath\Main.set};
-   #Class LoggingIn Enable;
    #Alarm 0 {SPLoad1 1}
   }
  }
@@ -80,29 +85,33 @@ Typing^Allows you to type with only one hand, using the number pad
    #Load {@ScriptPath\Const.set};
    #Load {@SoundsPath\Main.set};
    #If {%CharInfo(Connected)=1} {#Var Connected 1}
+  } {
+   #Config DisplayCommandsInOutput False;
+   #Exec {>register_soundpack @SoundpackName | @Version}
   };
   #Load {%MudName\Variables.set};
   #If {%Defined(ConfOptionVars)=0} {#Load {@ScriptPath\ConfManager.set}};
   #If {@SetEntrySpeechOff=1} {#SetSpeech Entry Off};
-  #If {@PassThru=1} {#Conf ExpandCommandLineVars False};
-  #Conf DisplayCommandsInOutput False;
-  #If {@LoadTmp1=1} {
-   #Exec {>register_soundpack @SoundpackName | @Version};
-   #If {@AutoLogin=1} {#Exec {%CharInfo(Name);%CharInfo(Password)}}
-  };
-  #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True};
+  #Config ExpandCommandLineVars {%If(@PassThru=1,False,True)};
   #If {%Defined(SoundIsPlaying)=0} {#Load {@ScriptPath\SoundEngine.set}};
-  #If {@LoadTmp1=1 and @PlayStartupMusic=1} {
-   MirianiSoundPlay {Startup Music} {Music\*63@Ext};
-   #If {@SoundIsPlaying=1} {#Var StartupMusicHandle %PlayHandle}
-  };
-  #If {@LoadTmp1<>1} {SPLoad2 {@LoadTmp1}}
+  #If {@LoadTmp1=1} {
+   #If {@PlayStartupMusic=1} {
+    MirianiSoundPlay {Startup Music} {Music\*63@Ext};
+    #If {@SoundIsPlaying=1} {#Var StartupMusicHandle %PlayHandle}
+   };
+   #If {%Defined(AutoLogin)=1} {
+    #Class LoggingIn Enable;
+    login Ready;
+    #UnVar AutoLogin
+   } {#Alarm 0 {SPLoad2 1}};
+   #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
+  } {SPLoad2 {@LoadTmp1}}
  }
 } {}
 #Trigger {Input your selection:} {
  #Class LoggingIn Disable;
  #Alarm 0 {SPLoad2 1}
-} {Main|LoggingIn}
+} {LoggingIn}
 #Alias SPLoad2 {
  #Var LoadTmp2 {%1};
  #If {%Replace(@LoadedSoundpackVersion,.,)<>%Replace(@Version,.,)} {
@@ -166,12 +175,12 @@ Typing^Allows you to type with only one hand, using the number pad
 #Alias ping {
  #Var ShowPong {};
  #Var ShowPingPongLagReport {};
- #Conf DisplayCommandsInOutput False;
+ #Config DisplayCommandsInOutput False;
  #Exec {>#$#soundpack_ping};
- #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
+ #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
 } {}
 #Trigger {[#]$[#]*} {
- #Conf DisplayCommandsInOutput False;
+ #Config DisplayCommandsInOutput False;
  #GagLine 1 All;
  #Var oobTmp1 {%Replace(%1,~",)};
  #Var oobTmp1 {%Replace(@oobTmp1,~~,)};
@@ -222,7 +231,7 @@ Typing^Allows you to type with only one hand, using the number pad
    msplay General\Misc\Cancel@Ext
   }
  };
- #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
+ #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
 } {}
 #Alias SPKeepAlive {
  #If {%IsNumber(%1)=1} {
@@ -252,9 +261,9 @@ Typing^Allows you to type with only one hand, using the number pad
     };
     #If {%3<>"Replied"} {
      #Var KeepAliveState 0;
-     #Conf DisplayCommandsInOutput False;
+     #Config DisplayCommandsInOutput False;
      #Exec {>#$#soundpack_ping};
-     #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
+     #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
     };
     #If {%Defined(KeepAliveHandle)=1} {#UnAlarm KeepAliveHandle};
     #Alarm KeepAliveHandle {@KeepAlive} {
@@ -551,10 +560,10 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
   #UnVar SPPromptTmp1;
   #UnVar SPPromptAwaitingUserInput;
   #Class ShowSPPrompt Enable;
-  #Conf DisplayCommandsInOutput False;
+  #Config DisplayCommandsInOutput False;
   #Exec { };
   #Exec {>secho};
-  #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
+  #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
  }
 } {}
 #Trigger {What would you like to be repeated back to you using soundpack echo?} {
@@ -574,11 +583,11 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
 } {ShowSPPrompt}
 
 #Alias soundpack {
- #Conf DisplayCommandsInOutput False;
+ #Config DisplayCommandsInOutput False;
  #If {%1="register"} {#Exec {>#$#register_soundpack @SoundpackName | @Version}};
  #If {%1="unregister"} {#Exec {>#$#unregister_soundpack}};
  #If {%1="version"} {#Exec {>#$#soundpack_version_query @SoundpackName}};
- #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True};
+ #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True};
  #If {%1="reload"} {
   #Say {Reloading the soundpack... Please remain calm.};
   SPReload 1

@@ -40,16 +40,6 @@
  #Var ShowPingPongLagReport {};
  #Sub {There is currently an estimated %1 of server processing lag.}
 } {LagTest}
-#Alias PassThru {
-#if {@PassThru=1} {
-#Var PassThru 0;
-#configure ExpandCommandLineVars True
-} {
-#var PassThru 1;
-#Configure ExpandCommandLineVars False
-};
-ConfPrint {Bypass mode %if(@PassThru = 1,enabled,disabled).}
-} {}
 #Trigger {(* second* roundtime.)} {
  #If {%IsNumber(%1)=1} {
   #If {@PlayRoundtimeSound=1} {

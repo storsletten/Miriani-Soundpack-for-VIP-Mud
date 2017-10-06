@@ -15,7 +15,6 @@ PlayRoundtimeSound:0
 PlayWhenThwarted:0
 AlertOnPlayers:0
 PlayStartupMusic:1
-AutoLogin:1
 BypassLoginMenu:0
 AutoSave:1
 CommandEcho:1
