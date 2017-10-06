@@ -528,7 +528,7 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  ConfSaveAll
 } {}
 #Trigger {[[]1] Connect as *.} {
- #Var CharacterName %2;
+ #Var CharacterName %1;
  #If {@BypassLoginMenu=1} {
   #If {%Defined(LoadTmp2)=0} {#Exec {1}} {#Var BypassLoginMenuPostponed 1}
  }
