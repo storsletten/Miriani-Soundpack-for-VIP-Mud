@@ -156,7 +156,7 @@ Typing^Allows you to type with only one hand, using the number pad
   mrplay stop;
   #Var Connected 0;
   #PC 0 Stop;
-  #If {@AutoSave=1} {ConfSaveAll Quiet};
+  #If {@AutoSave=1 and %Defined(ConfManagerMenusLoaded)=1} {ConfSaveAll Quiet};
   #Abort
  };
  #If {@MainTmp1="Redirecting old connection to this port"} {

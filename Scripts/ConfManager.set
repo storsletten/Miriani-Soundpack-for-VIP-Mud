@@ -535,6 +535,10 @@ ArchaeologyCalculateDirection:0
   #Say {Sorry, you can't overwrite the default configuration.};
   #Abort
  };
+ #If {%Defined(ConfManagerMenusLoaded)=0} {
+  #Say {Can't save the configuration, because the conf manager menus aren't loaded.};
+  #Abort
+ };
  #If {%Length(%1)>0} {
   #Var ConfTmpFile {%MudName/Conf.%1.set};
   #File 3 {@ConfTmpFile};
