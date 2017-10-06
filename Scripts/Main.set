@@ -54,9 +54,11 @@ Typing^Allows you to type with only one hand, using the number pad
 #GAlias login {
  #If {%Defined(Main)=1 and %Defined(LoadedSoundpackVersion)=1} {
   #If {%Length(%CharInfo(Name))>0} {
-   #If {%IfWord(Ready,%1,|)=1 or %IfWord(%LastLine(1),Username:,%CRLF)=1} {
+   #If {%IfWord(Ready,%1,|)=1 or (%IfWord(%LastLine(1),Username:,%CRLF)=1 and %Defined(LoadTmp1)=0 and %Defined(LoadTmp2)=0)} {
     #Exec {>%CharInfo(Name)};
-    #If {%Length(%CharInfo(Password))>0} {#Exec {>%CharInfo(Password)}}
+    #If {%Length(%CharInfo(Password))>0} {#Exec {>%CharInfo(Password)}};
+    #UnVar AutoLogin;
+    #GUnVar AutoLogin
    } {#Var AutoLogin 1}
   }
  } {
@@ -74,7 +76,7 @@ Typing^Allows you to type with only one hand, using the number pad
   #Alarm 0 {
    #Load {@ScriptPath\Const.set};
    #Load {@SoundsPath\Main.set};
-   #Alarm 0 {SPLoad1 1}
+   SPLoad1 1
   }
  }
 } {Main}
@@ -101,17 +103,17 @@ Typing^Allows you to type with only one hand, using the number pad
    };
    #If {%Defined(AutoLogin)=1} {
     #Class LoggingIn Enable;
-    login Ready;
-    #UnVar AutoLogin
-   } {#Alarm 0 {SPLoad2 1}};
+    login Ready
+   } {
+    #Class LoggingIn Disable;
+    SPLoad2 {@LoadTmp1}
+   };
    #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
-  } {SPLoad2 {@LoadTmp1}}
+  } {SPLoad2 {@LoadTmp1}};
+  #UnVar LoadTmp1
  }
 } {}
-#Trigger {Input your selection:} {
- #Class LoggingIn Disable;
- #Alarm 0 {SPLoad2 1}
-} {LoggingIn}
+#Trigger {Input your selection:} {#Class LoggingIn Disable;SPLoad2 1} {LoggingIn}
 #Alias SPLoad2 {
  #Var LoadTmp2 {%1};
  #If {%Replace(@LoadedSoundpackVersion,.,)<>%Replace(@Version,.,)} {
@@ -137,11 +139,28 @@ Typing^Allows you to type with only one hand, using the number pad
     };
     SPKeepAlive Start Quiet;
     #Say {Reloading complete. Please look in the room with your character so that the soundpack will know the current environment.}
+   } {
+    #If {%Defined(AutoLogin)=0} {
+     #If {%Defined(BypassLoginMenuPostponed)=1} {
+      #Exec {1};
+      #UnVar BypassLoginMenuPostponed
+     }
+    } {login Ready}
    };
-   #Var LoadedSoundpackVersion {@Version}
+   #Var LoadedSoundpackVersion {@Version};
+   #UnVar LoadTmp2
   }
  } {
-  msplay Ship\Computer\Beep@Ext
+  #If {@LoadTmp2=1} {
+   #If {%Defined(AutoLogin)=0} {
+    #If {%Defined(BypassLoginMenuPostponed)=1} {
+     #Exec {1};
+     #UnVar BypassLoginMenuPostponed
+    }
+   } {login Ready}
+  };
+  #UnVar LoadTmp2;
+  MirianiSoundPlay Standard Ship\Computer\Beep@Ext
  }
 } {}
 #Trigger {[*][*][*] * [*][*][*]} {
@@ -448,16 +467,6 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  };
  #If {%Defined(DecimalChar)=1 and %Defined(LoadedSoundpackVersion)=1 and %Defined(Connected)=1 and %Defined(GagEverything)=1 and %Defined(DefaultScriptFiles)=1} {
   #Var TestTmp1 {@TestTmp1%{CRLF}+ Main.set variables seems to be loaded.};
-  #If {%Defined(LoadTmp1)=1} {
-   #Var TestTmp1 {@TestTmp1%{CRLF}+ First loadcode exists, and is currently set to @LoadTmp1.}
-  } {
-   #Var TestTmp1 {@TestTmp1%{CRLF}- First loadcode missing. Try type SPRELOAD to fix this.}
-  };
-  #If {%Defined(LoadTmp2)=1} {
-   #Var TestTmp1 {@TestTmp1%{CRLF}+ Second loadcode exists, and is currently set to @LoadTmp2.}
-  } {
-   #Var TestTmp1 {@TestTmp1%{CRLF}- Second loadcode missing. Try type SPRELOAD to fix this.}
-  };
   #If {%Replace(@LoadedSoundpackVersion,.,) = %Replace(@Version,.,)} {
    #Var TestTmp1 {@TestTmp1%{CRLF}+ Scripts for your soundpack version have been loaded according to the version checker.}
   } {
@@ -518,13 +527,10 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  #SetSpeech incoming stop;
  ConfSaveAll
 } {}
-#Trigger {[[]*] Connect as *.} {
+#Trigger {[[]1] Connect as *.} {
  #Var CharacterName %2;
  #If {@BypassLoginMenu=1} {
-  #Exec {1}
- };
- #If {%IfWord(@CharacterName,@BlacklistedPlayers,|)=1} {
-  #Class Main Disable
+  #If {%Defined(LoadTmp2)=0} {#Exec {1}} {#Var BypassLoginMenuPostponed 1}
  }
 } {Main}
 
