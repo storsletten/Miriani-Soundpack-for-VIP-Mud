@@ -1,3 +1,28 @@
+#Config ScriptReadOnly True
+#Config AutoSave False
+#Config Explicit False
+#Config SlowWalk True
+#GUnKey Numpad2
+#GUnKey Numpad4
+#GUnKey Numpad5
+#GUnKey Numpad6
+#GUnKey Numpad8
+#GUnKey Numpad9
+#GUnAlias login
+#Alias login {
+ #If {%Length(%CharInfo(Name))>0} {
+  #If {%IfWord(Ready,%1,|)=1 or (%IfWord(%LastLine(1),Username:,%CRLF)=1 and %Defined(LoadTmp1)=0 and %Defined(LoadTmp2)=0)} {
+   #Exec {>%CharInfo(Name)};
+   #If {%Length(%CharInfo(Password))>0} {#Exec {>%CharInfo(Password)}};
+   #UnVar AutoLogin;
+   #GUnVar AutoLogin
+  } {#Var AutoLogin 1}
+ }
+} {}
+
+#Alias PushMessage {#AddItem AliasesCalledPrematurely PushMessage NoDuplicates} {}
+#Alias MirianiSoundPlay {#AddItem AliasesCalledPrematurely MirianiSoundPlay NoDuplicates} {}
+
 #If {%IsNumber(%Version)=0} {
  #Say {WARNING! You seem to be running VIP Mud 1.1, and therefore you'll need to install the 1.1 compatible version of this soundpack.}
 }
@@ -44,27 +69,6 @@ Shenanigans^Sounds for slime dispensers, blades, etc
 Socials^Sounds for kitchen appliances, swimming, campfires, swings, showers, punching bags, and much more
 Typing^Allows you to type with only one hand, using the number pad
 }
-
-; VIP Mud config overrides:
-#Config ScriptReadOnly True
-#Config AutoSave False
-#Config Explicit False
-#Config SlowWalk True
-
-#GAlias login {
- #If {%Defined(Main)=1 and %Defined(LoadedSoundpackVersion)=1} {
-  #If {%Length(%CharInfo(Name))>0} {
-   #If {%IfWord(Ready,%1,|)=1 or (%IfWord(%LastLine(1),Username:,%CRLF)=1 and %Defined(LoadTmp1)=0 and %Defined(LoadTmp2)=0)} {
-    #Exec {>%CharInfo(Name)};
-    #If {%Length(%CharInfo(Password))>0} {#Exec {>%CharInfo(Password)}};
-    #UnVar AutoLogin;
-    #GUnVar AutoLogin
-   } {#Var AutoLogin 1}
-  }
- } {
-  #Wait 2;#Exec {>%CharInfo(Name)};#Exec {>%CharInfo(Password)}
- }
-} {}
 
 #Trigger {Welcome to*} {
  #If {%IfWord(%1,...| Miriani!,|)=1} {
@@ -131,9 +135,9 @@ Typing^Allows you to type with only one hand, using the number pad
    Speech Set {@DefaultSpeechType} 1;
    #If {@AlertOnUpdate=1 and @RequiredSoundsVersion>@SoundsVersion} {
     #Say {Warning: You are not using the latest version of the Miriani Soundpack Sounds. Certain sounds might not work until you upgrade to the most recent sounds folder.};
-    msplay {General\Misc\MOTD@Ext}
+    MirianiSoundPlay Standard {General\Misc\MOTD@Ext}
    };
-   msplay Ship\Computer\Beep@Ext;
+   MirianiSoundPlay Standard Ship\Computer\Beep@Ext;
    #If {@LoadTmp2=0} {
     #Ignore Key Off;
     #Ignore Trigger Off;
@@ -249,12 +253,12 @@ Typing^Allows you to type with only one hand, using the number pad
    #If {@SPPromptAcceptBlankUserInput=1 or %Length(%1)>17} {
     #Exec {#Alarm 0 {SPPrompt Disable;@SPPromptCallback {%Copy(%1,18)} {@SPPromptCallbackLastArg}}}
    } {
-    msplay General\Misc\Cancel@Ext;
+    MirianiSoundPlay Standard General\Misc\Cancel@Ext;
     #Say {Aborted.} NoVoice;
     SPPrompt Disable
    }
   } {
-   msplay General\Misc\Cancel@Ext
+   MirianiSoundPlay Standard General\Misc\Cancel@Ext
   }
  };
  #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}

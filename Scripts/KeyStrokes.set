@@ -3,13 +3,6 @@
 #If {@LoadSoundKeys=1} {#Class SoundKeys Enable} {#Class SoundKeys Disable}
 #If {@ExcludeAltGRNumrow=0} {#Class AltGRNumrow Enable} {#Class AltGRNumrow Disable}
 
-#GUnKey Numpad2;
-#GUnKey Numpad4;
-#GUnKey Numpad5;
-#GUnKey Numpad6;
-#GUnKey Numpad8;
-#GUnKey Numpad9
-
 #Var LastReviewKeyPressed {}
 #Alias ReviewKeyPressed {
  #If {%IsNumber(%2)=1} {
@@ -39,16 +32,6 @@
  #UnVar ReviewKeyTmp2
 } {HistoryReviewKeys}
 
-#Key {Control-E} {history switch forward} {HistoryReviewKeys}
-#Key {Control-Shift-E} {history switch back} {HistoryReviewKeys}
-#Key {Control-Q} {history back} {HistoryReviewKeys}
-#Key {Control-W} {history forward} {HistoryReviewKeys}
-#Key {Shift-Control-Q} {history back all} {HistoryReviewKeys}
-#Key {Shift-Control-W} {history forward all} {HistoryReviewKeys}
-#key {Alt-Control-Shift-E} {history copy {@CurrentHistoryBuffer}} {HistoryReviewKeys}
-#Key {Alt-Control-Shift-Q} {history copy {@CurrentHistoryBuffer} {@CurrentHistoryBufferPosition} 1} {HistoryReviewKeys}
-#Key {Alt-Control-Shift-W} {history copy {@CurrentHistoryBuffer} {@CurrentHistoryBufferPosition}} {HistoryReviewKeys}
-
 #Var HistoryReviewNumber 0
 #While {@HistoryReviewNumber<10} {
  #Math HistoryReviewNumber {@HistoryReviewNumber+1};
@@ -64,6 +47,16 @@
 }
 #UnVar ReviewKeyNumber
 #UnVar HistoryReviewNumber
+
+#Key {Control-E} {history switch forward} {HistoryReviewKeys}
+#Key {Control-Shift-E} {history switch back} {HistoryReviewKeys}
+#Key {Control-Q} {history back} {HistoryReviewKeys}
+#Key {Control-W} {history forward} {HistoryReviewKeys}
+#Key {Shift-Control-Q} {history back all} {HistoryReviewKeys}
+#Key {Shift-Control-W} {history forward all} {HistoryReviewKeys}
+#key {Alt-Control-Shift-E} {history copy {@CurrentHistoryBuffer}} {HistoryReviewKeys}
+#Key {Alt-Control-Shift-Q} {history copy {@CurrentHistoryBuffer} {@CurrentHistoryBufferPosition} 1} {HistoryReviewKeys}
+#Key {Alt-Control-Shift-W} {history copy {@CurrentHistoryBuffer} {@CurrentHistoryBufferPosition}} {HistoryReviewKeys}
 
 #Key {Shift-Control-Backspace} {
  #Var InterruptOnScanningStarships {%Eval(NOT @InterruptOnScanningStarships)};
@@ -82,10 +75,10 @@
  #say {Movement keystrokes %If(@FlipMovementKeystrokes=1,flipped,standard).}
 } {MiscKeys}
 
-#Key {F11} {MasterMute} {SoundKeys}
 #Key {F9} {SetMasterVolume down} {SoundKeys}
 #Key {F10} {SetMasterVolume up} {SoundKeys}
-#key shift-f11 {conf roomsounds 1} {SoundKeys}
+#Key {F11} {MasterMute} {SoundKeys}
+#key {Shift-F11} {conf roomsounds 1} {SoundKeys}
 #Key {Shift-Alt-F11} {#if {@ThemeMusic <> 0} {
 thememusicfadeout;
 #var ThemeMusic 0;
