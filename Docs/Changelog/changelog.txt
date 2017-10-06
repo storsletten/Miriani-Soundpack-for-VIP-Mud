@@ -1,3 +1,6 @@
+Version 5.8.64, released 2017-10-06:
+* For 2.0: Fixed another tiny bug related to connecting.
+
 Version 5.8.63, released 2017-10-06:
 * For 2.0: Possibly fixed bugs related to connecting.
 
