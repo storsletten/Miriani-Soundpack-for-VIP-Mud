@@ -49,22 +49,21 @@
 #Key {Alt-Control-Shift-Q} {history copy {@CurrentHistoryBuffer} {@CurrentHistoryBufferPosition} 1} {HistoryReviewKeys}
 #Key {Alt-Control-Shift-W} {history copy {@CurrentHistoryBuffer} {@CurrentHistoryBufferPosition}} {HistoryReviewKeys}
 
-#10 {
- #If {%i=10} {
-  #Var ReviewKeyNumber 0
- } {
-  #Var ReviewKeyNumber %i
- };
+#Var HistoryReviewNumber 0
+#While {@HistoryReviewNumber<10} {
+ #Math HistoryReviewNumber {@HistoryReviewNumber+1};
+ #Var ReviewKeyNumber {%If(@HistoryReviewNumber=10,0,@HistoryReviewNumber)};
  #Exec {
-  #Key {Alt-@ReviewKeyNumber} {ReviewKeyPressed {Alt-@ReviewKeyNumber} {1} %i} {HistoryReviewKeys};
-  #Key {Alt-Shift-@ReviewKeyNumber} {ReviewKeyPressed {Alt-Shift-@ReviewKeyNumber} {2} %i} {HistoryReviewKeys};
-  #Key {Control-@ReviewKeyNumber} {ReviewKeyPressed {Control-@ReviewKeyNumber} {~@CurrentHistoryBuffer} %i} {HistoryReviewKeys};
-  #Key {Control-Shift-@ReviewKeyNumber} {ReviewKeyPressed {Control-Shift-@ReviewKeyNumber} {3} %i} {HistoryReviewKeys};
-  #Key {Alt-Control-@ReviewKeyNumber} {ReviewKeyPressed {Alt-Control-@ReviewKeyNumber} {4} %i} {HistoryReviewKeys|AltGRNumrow};
-  #Key {Alt-Control-Shift-@ReviewKeyNumber} {ReviewKeyPressed {Alt-Control-Shift-@ReviewKeyNumber} {5} %i} {HistoryReviewKeys}
+  #Key {Alt-@ReviewKeyNumber} {ReviewKeyPressed {Alt-@ReviewKeyNumber} {1} {@HistoryReviewNumber}} {HistoryReviewKeys};
+  #Key {Alt-Shift-@ReviewKeyNumber} {ReviewKeyPressed {Alt-Shift-@ReviewKeyNumber} {2} {@HistoryReviewNumber}} {HistoryReviewKeys};
+  #Key {Control-@ReviewKeyNumber} {ReviewKeyPressed {Control-@ReviewKeyNumber} {~@CurrentHistoryBuffer} {@HistoryReviewNumber}} {HistoryReviewKeys};
+  #Key {Control-Shift-@ReviewKeyNumber} {ReviewKeyPressed {Control-Shift-@ReviewKeyNumber} {3} {@HistoryReviewNumber}} {HistoryReviewKeys};
+  #Key {Alt-Control-@ReviewKeyNumber} {ReviewKeyPressed {Alt-Control-@ReviewKeyNumber} {4} {@HistoryReviewNumber}} {HistoryReviewKeys|AltGRNumrow};
+  #Key {Alt-Control-Shift-@ReviewKeyNumber} {ReviewKeyPressed {Alt-Control-Shift-@ReviewKeyNumber} {5} {@HistoryReviewNumber}} {HistoryReviewKeys}
  }
 }
 #UnVar ReviewKeyNumber
+#UnVar HistoryReviewNumber
 
 #Key {Shift-Control-Backspace} {
  #Var InterruptOnScanningStarships {%Eval(NOT @InterruptOnScanningStarships)};
