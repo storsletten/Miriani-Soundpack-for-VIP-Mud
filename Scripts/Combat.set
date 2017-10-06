@@ -170,8 +170,6 @@
  #Sub {@ExpString}
 } {Main}
 #Trigger {* takes aim at you*} {msplay General\Combat\DrawEMPulse*3@Ext} {Main}
-#Trigger {* begins following you.*} {msplay General\Misc\joins@Ext} {Main}
-#Trigger {* take*control of*group*} {msplay General\Misc\joins@Ext} {Main}
 
 #Trigger {* insectoid creature scurries in*} {mrandomplay General\Combat\PraelorScurry*2@Ext} {Main}
 #Trigger {*You see * insectoid creature*here*} {msplay General\Combat\PraelorScurry*2@Ext} {Main}

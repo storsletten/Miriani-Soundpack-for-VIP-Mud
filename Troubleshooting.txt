@@ -1,13 +1,16 @@
   Troubleshooting!!
-* Cracked versions of VIP Mud are well known to crash the soundpack.
+
+* Cracked versions of VIP Mud are notorious for crashing the soundpack.
   If you are using a cracked version of VIP Mud and something doesn't work, please try with a legal copy of VIP Mud before reporting bugs.
 
-* Try to turn off Auto Login in the Character Configuration. The soundpack has its own auto login feature, and it will attempt to disable VIP Mud's auto login feature. However, in some rare cases, VipMud will perform its auto login before loading the soundpack, thus causing the username and password to be sent twice when connecting, which in turn causes surprisingly many many unexpected errors.
-
-* Make sure the speech settings in VIP Mud are set correctly. To change those settings, you press the Alt key to open up VIP Mud's main menu, find Tools and Preferences, and in there you'll find SPEECH. All the categories must be set to either No Speech, or a speech that actually works. E.g. if you're using NVDA, you'll crash the soundpack if you set Incoming to JAWS.
+* Make sure the speech settings in VIP Mud are set correctly.
+  To change those settings, you press the Alt key to open up VIP Mud's main menu, find Tools and Preferences, and in there you'll find SPEECH.
+  All the categories must be set to either No Speech, or a speech that actually works.
+  E.g. if you're using NVDA, you'll crash the soundpack if you set Incoming to JAWS.
 
 * If the soundpack suddenly starts crashing one day, then the configuration file might have been damaged. Try removing the Conf.set file from your Miriani folder, reinstall the soundpack, and hope for the best.
 
 * If the soundpack is sending lots of weird things to the game, then you could try to open up the aliases dialog box and then close it again. This is actually the solution in some cases. You can do this with Control Shift A, and then hit Escape. Unfortunately you might need to do this after every time you restart VIP Mud or the soundpack. It's just one of these bugs in VIP Mud that we can only hope GMA Games will fix one day.
 
-* Finally, the last resort is to throw a tantrum on the message board OOC / Soundpacks in Miriani and hope that someone will hear you out and offer some helpful help.
+* Finally, the last resort is to throw your tantrum on the message board "OOC / Soundpacks" in Miriani, and hope that someone will hear you out and offer some helpful help.
+  Alternatively, you could try to ask on the metafrequency channel 372.8 in Miriani.

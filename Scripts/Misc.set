@@ -145,6 +145,13 @@ ExpPipe {%0} {%0} {%1 disappears};
 } {Main}
 #Trigger {* indicates that * no longer wishes you to follow *.*} {msplay General\Misc\disband@Ext} {Main}
 #Trigger {* leaves your group.*} {msplay General\Misc\disband@Ext} {Main}
+#Trigger {* begins following you.*} {msplay General\Misc\joins@Ext} {Main}
+#Trigger {* take* control of *'s group.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  #If {%Pos(You request,%1)=0} {msplay General\Misc\joins@Ext}
+ }
+} {Main}
+
 #Trigger {A small lock destroying explosive suddenly explodes, *.} {msplay Ship\Misc\HatchBomb@Ext} {Main}
 
 #Trigger {*You carefully place * along the edge of * hatch. You press a small button and step back as the charge begins its * second countdown*} {msplay Ship\Misc\HatchBombPlace@Ext} {Main}
