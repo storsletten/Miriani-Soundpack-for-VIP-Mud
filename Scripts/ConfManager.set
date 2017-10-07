@@ -20,7 +20,6 @@ AutoSave:1
 CommandEcho:1
 KeepAlive:120
 KeepAliveRespond:0
-SaveOnIdle:0
 AlertOnUpdate:1
 OrgName:NOORG
 CourierCompany:NOCOURIERCOMPANY
@@ -75,7 +74,6 @@ GagDontUnderstandMessages:0
 NoDescString:You see nothing special.
 GagRoidDesc:0
 Surveying:0
-GagSaveOnIdle:1
 PointUnitOutputString:You access $UNIT and note you have $LP license points and $CP combat points.$CRLFYou have acquired $DIFFLP license points and $DIFFCP combat points since last check.
 ShowPointsOOLS:0
 ShowFCSectorNamesAsNumbers:0
@@ -140,7 +138,7 @@ LoadHistoryReviewKeys:1
 ExcludeAltGRNumrow:1
 LoadMiscKeys:1
 UserLanguage:EN
-PassThru:0
+PassThru:1
 NumberOfConnections:0
 LoadExtraScriptBabies:1
 LoadExtraScriptGames:1

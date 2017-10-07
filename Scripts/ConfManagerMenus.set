@@ -71,10 +71,9 @@ Docs
 [10] Startup music  [~%If(~@PlayStartupMusic=1,On,Off)].
 [11] Auto selecting your character after logging in  [~%If(~@BypassLoginMenu=1,On,Off)].
 [12] Auto save soundpack configuration on exit  [~%If(~@AutoSave=1,On,Off)].
-[13] Auto save soundpack configuration when idle  [~%If(~@SaveOnIdle=1,On,Off)].
-[14] Keep-Alive duration (in seconds)  [~@KeepAlive].
-[15] Keep-Alive responding  [~%If(~@KeepAliveRespond=1,On,Off)].
-[16] Soundpack update notifications  [~%If(~@AlertOnUpdate=1,On,Off)].
+[13] Keep-Alive duration (in seconds)  [~@KeepAlive].
+[14] Keep-Alive responding  [~%If(~@KeepAliveRespond=1,On,Off)].
+[15] Soundpack update notifications  [~%If(~@AlertOnUpdate=1,On,Off)].
 %Chr(250)
 ExperienceLevel|C:Newbie^Middbie^Oldbie|Set your level of experience in Miriani
 AlterArmor|B
@@ -88,7 +87,6 @@ WakeOnRed|B
 PlayStartupMusic|B
 BypassLoginMenu|B
 AutoSave|B
-SaveOnIdle|B
 KeepAlive|N:0:#Alarm 0 {SPKeepAlive {~%If(~@KeepAlive>0,Start,0)} Quiet}
 KeepAliveRespond|B
 AlertOnUpdate|B
@@ -112,7 +110,6 @@ PassThru|B::#Config ExpandCommandLineVars {~%If(~@PassThru=1,False,True)}
 [7] String to replace the line "You see nothing special."  [~@NoDescString].
 [8] Gag the description of asteroid rooms  [~%If(~@GagRoidDesc=1,On,Off)].
 [9] Surveying mode (for use with mineral scanners)  [~%Case(~%Eval(~@Surveying+1),Off,Surveying,Review)].
-[10] Gag save messages when idle  [~%If(~@GagSaveOnIdle=1,On,Off)].
 %Chr(250)
 GagTreadLine|B
 GagGenMessages|B
@@ -123,7 +120,6 @@ GagDontUnderstandMessages|B
 NoDescString|S|Enter a new format string for the "You see nothing special" message|Use _gag_ (underscore gag underscore) to gag the line, or a single space to leave it alone.
 GagRoidDesc|B
 Surveying|C:0,Off^1,Surveying mode^2,Reviewing mode
-GagSaveOnIdle|B
 }
 
 #Var ConfMenuCameraFeeds {Camera feed options:
