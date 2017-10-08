@@ -29,16 +29,15 @@
 #If {%IsNumber(%Version)=0} {
  #Say {WARNING! You seem to be running VIP Mud 1.1, and therefore you'll need to install the 1.1 compatible version of this soundpack.}
 }
-#If {%Defined(Connected)=0} {#Var Connected 0}
-#Var GagEverything 0
-#Var Idle 0
-#Var LoadedSoundpackVersion {}
 
 #PC 0 Stop
 #Class LoggingIn Disable
 #Class Main Enable
 #Class MainOff Disable
 #Var Main 1
+#Var GagEverything 0
+#Var Idle 0
+#If {%Defined(Connected)=0} {#Var Connected 0}
 
 #Trigger {Welcome to*} {
  #If {%IfWord(%1,...| Miriani!,|)=1} {

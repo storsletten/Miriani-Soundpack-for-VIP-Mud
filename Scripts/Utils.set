@@ -259,20 +259,15 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  } {
   #Var TestTmp1 {@TestTmp1%{CRLF}- Soundpack version is missing. Try type SPRELOAD to fix this.}
  };
- #If {%Defined(DecimalChar)=1 and %Defined(LoadedSoundpackVersion)=1 and %Defined(Connected)=1 and %Defined(GagEverything)=1 and %Defined(DefaultScriptFiles)=1} {
-  #Var TestTmp1 {@TestTmp1%{CRLF}+ Main.set variables seems to be loaded.};
-  #If {%Replace(@LoadedSoundpackVersion,.,) = %Replace(@Version,.,)} {
-   #Var TestTmp1 {@TestTmp1%{CRLF}+ Scripts for your soundpack version have been loaded according to the version checker.}
-  } {
-   #Var TestTmp1 {@TestTmp1%{CRLF}- Scripts for your soundpack version have not been loaded according to the version checker. Try type SPRELOAD to fix this.}
-  };
+ #If {%Defined(DecimalChar)=1 and %Defined(Connected)=1 and %Defined(GagEverything)=1 and %Defined(Main)=1} {
+  #Var TestTmp1 {@TestTmp1%{CRLF}+ The soundpack core seems to be loaded.};
   #If {%Defined(DeclaredVariables)=1 and %Defined(PreservedVariables)=1} {
    #Var TestTmp1 {@TestTmp1%{CRLF}+ The Variables framework seems to be loaded.}
   } {
    #Var TestTmp1 {@TestTmp1%{CRLF}- The Variables framework does not seem to have been loaded. Try type SPRELOAD to fix this.}
   }
  } {
-  #Var TestTmp1 {@TestTmp1%{CRLF}- Main.set variables missing. Aborting the test.}
+  #Var TestTmp1 {@TestTmp1%{CRLF}- Core variables missing. Aborting the test.}
  };
  #Var TestTmp2 {%{CRLF}-};
  #If {%Pos(@TestTmp2,@TestTmp1)>0} {
