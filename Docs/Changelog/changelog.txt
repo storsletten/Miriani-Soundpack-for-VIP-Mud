@@ -1,3 +1,6 @@
+Version 5.9.2, released 2017-10-08:
+* The prod social will now produce the same sound as the poke social.
+
 Version 5.9.1, released 2017-10-08:
 * Fixed a bug in the conf loader that meant class states for socials, actions, and emotes weren't updated when using conf load.
 
