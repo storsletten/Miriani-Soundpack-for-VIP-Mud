@@ -1,3 +1,6 @@
+Version 5.9.1, released 2017-10-08:
+* Fixed a bug in the conf loader that meant class states for socials, actions, and emotes weren't updated when using conf load.
+
 Version 5.9.0, released 2017-10-08:
 * For 2.0: Redesigned the soundpack loading framework. Hopefully the new one is a little bit faster and more stable. There might be a few new bugs though as a result of this change, but feel free to report them through appropriate channels, such as the soundpack metaf, or the soundpack board.
 * For 2.0: Removed the option to save configuration when idle, since it's just unnecessary. The option to auto save on exit is much better.
