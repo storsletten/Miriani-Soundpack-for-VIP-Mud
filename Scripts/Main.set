@@ -1,16 +1,14 @@
 #Config ScriptReadOnly True
 #Config AutoSave False
+#Config ExpandCommandLineVars False
 #Config Explicit False
 #Config SlowWalk True
 
-#GUnKey Numpad2
-#GUnKey Numpad4
-#GUnKey Numpad5
-#GUnKey Numpad6
-#GUnKey Numpad8
-#GUnKey Numpad9
 #GUnAlias login
 #GUnAlias sc
+#GUnAlias music
+#GUnAlias StopMusic
+#GUnAlias capture
 
 #Alias login {
  #If {%Length(%CharInfo(Name))>0} {

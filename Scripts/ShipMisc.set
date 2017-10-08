@@ -146,7 +146,6 @@ ExpPipe {%0} {Ship transported to %1.} {};
 #Gagline 1 all} {Main|Starship}
 #Trigger {*A fuzzy creature, appearing momentarily dazed, disengages itself from *.*} {msplay General\Combat\Fuzzy@Ext} {Main|Starship}
 #Trigger {* *s through the hatch.} {msplay Ship\Misc\Hatch@Ext} {Main}
-#Alias {music} {cmusic} {}
 #Trigger {A security drone suddenly appears to escort you off the ship*} {ThemeMusicFadeOut;
 msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
 #Trigger {Space.} {

@@ -5,9 +5,6 @@ keepalive:General:KeepAlive
 load:Conf:Load
 mission:Missions:MissionMode
 mute:Sounds:Silent
-over:VIP
-override:VIP
-overrides:VIP
 room:RoomSounds
 rooms:RoomSounds
 save:Conf:Save
@@ -34,9 +31,8 @@ x:Extras
 [13] Keystroke configuration.
 [14] Extras.
 [15] Conf Manager.
-[16] VIP Mud overrides.
-[17] Log options.
-[18] Soundpack documentation.
+[16] Log options.
+[17] Soundpack documentation.
 %Chr(250)
 General
 Gag
@@ -53,7 +49,6 @@ Speech
 Keystrokes
 Extras
 Conf
-VIP
 Logs
 Docs
 }
@@ -73,7 +68,8 @@ Docs
 [12] Auto save soundpack configuration on exit  [~%If(~@AutoSave=1,On,Off)].
 [13] Keep-Alive duration (in seconds)  [~@KeepAlive].
 [14] Keep-Alive responding  [~%If(~@KeepAliveRespond=1,On,Off)].
-[15] Soundpack update notifications  [~%If(~@AlertOnUpdate=1,On,Off)].
+[15] Echo commands in the output window  [~%If(~@CommandEcho=1,On,Off)].
+[16] Soundpack update notifications  [~%If(~@AlertOnUpdate=1,On,Off)].
 %Chr(250)
 ExperienceLevel|C:Newbie^Middbie^Oldbie|Set your level of experience in Miriani
 AlterArmor|B
@@ -89,15 +85,8 @@ BypassLoginMenu|B
 AutoSave|B
 KeepAlive|N:0:#Alarm 0 {SPKeepAlive {~%If(~@KeepAlive>0,Start,0)} Quiet}
 KeepAliveRespond|B
-AlertOnUpdate|B
-}
-
-#Var ConfMenuVIP {Overrides for VIP Mud options:
-[1] Echo commands in the output window  [~%If(~@CommandEcho=1,On,Off)].
-[2] Pass special characters directly to the mud  [~%If(~@PassThru=1,On,Off)]. (useful if you are having problems with commands such as ~~~@soundpacks, or ~~~@custom-s).
-%Chr(250)
 CommandEcho|B::#Config DisplayCommandsInOutput {~%If(~@CommandEcho=1,True,False)}
-PassThru|B::#Config ExpandCommandLineVars {~%If(~@PassThru=1,False,True)}
+AlertOnUpdate|B
 }
 
 #Var ConfMenuGag {Soundpack gag options:
