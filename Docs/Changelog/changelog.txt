@@ -1,3 +1,6 @@
+Version 5.9.4, released 2017-10-08:
+* Removed the conf option to have variables expanded in the entry window, since it served no purpose other than to fuck up things for people. As a consequence, I also removed conf vip, since there was only one option left in there and I thought it would be better to just move it to conf gen.
+
 Version 5.9.3, released 2017-10-08:
 * Fixed SPTest not working. Thanks Cria for reporting this.
 
