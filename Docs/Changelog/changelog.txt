@@ -1,3 +1,6 @@
+Version 5.9.3, released 2017-10-08:
+* Fixed SPTest not working. Thanks Cria for reporting this.
+
 Version 5.9.2, released 2017-10-08:
 * The prod social will now produce the same sound as the poke social.
 
