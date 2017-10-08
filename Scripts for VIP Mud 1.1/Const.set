@@ -1,4 +1,5 @@
-#Load {@ScriptPath\Version.set}
+#Var Version {5.8.38}
+#Var RequiredSoundsVersion {2}
 #Var MajorVersion {%Word(@Version,.,1)}
 #Var MinorVersion {%Word(@Version,.,2)}
 #Var PatchVersion {%Word(@Version,.,3)}

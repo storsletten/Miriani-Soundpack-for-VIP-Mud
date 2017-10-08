@@ -1,4 +1,4 @@
-#If {%defined(NumberOfSoundpackMessages)=0} {#var NumberOfSoundpackMessages 0}
+#If {%Defined(NumberOfSoundpackMessages)=0} {#var NumberOfSoundpackMessages 0}
 #Alias soundpack {
  #If {%1="register"} {#Exec {>#$#register_soundpack @SoundpackName | @Version}};
  #If {%1="unregister"} {#Exec {>#$#unregister_soundpack}};
@@ -24,6 +24,8 @@
  #Math NumberOfSoundpackMessages {@NumberOfSoundpackMessages + 1}
 } {Main}
 #Trigger {Your soundpack appears to be out of date! You're using version '*', but the most recent version is '*'. You can download the most recent version from: *} {
+ #GagLine 1 All;
+ #Abort;
  #Var NewVersion {%2};
  #Var NewMajorVersion {%Word(@NewVersion,.,1)};
  #Var NewMinorVersion {%Word(@NewVersion,.,2)};
@@ -59,6 +61,8 @@ Be aware that most soundpack updates at this point apply for VIP Mud 2.0 only, a
  #UnVar NewVersion
 } {Main}
 #Trigger {Your soundpack has been updated to version '*'! You can download it here: *} {
+ #GagLine 1 All;
+ #Abort;
  #Var NewVersion {%1};
  #Var NewMajorVersion {%Word(@NewVersion,.,1)};
  #Var NewMinorVersion {%Word(@NewVersion,.,2)};
