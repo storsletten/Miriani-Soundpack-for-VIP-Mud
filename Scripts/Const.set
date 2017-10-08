@@ -1,5 +1,3 @@
-#Load {@ScriptPath\Version.set}
-
 #Var MajorVersion {%Word(@Version,.,1)}
 #Var MinorVersion {%Word(@Version,.,2)}
 #Var PatchVersion {%Word(@Version,.,3)}

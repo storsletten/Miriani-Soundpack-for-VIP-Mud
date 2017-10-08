@@ -4,9 +4,6 @@
 #Var ScanFormatVarLabels {%Sort(@ScanFormatVarLabels,0)}
 #Var ScanFormatVars {%Replace(@ScanFormatVarLabels, ,)}
 
-; sc is an alias that exists in VIP Mud's start.set. It needs to go.
-#GUnAlias sc
-
 #Alias sc {shipscan sc {%0}} {Starship}
 #Alias scan {shipscan scan {%0}} {Starship}
 #Alias shipscan {

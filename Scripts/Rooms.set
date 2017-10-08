@@ -437,22 +437,9 @@ Apartment
  #Sub @ExpString
 } {Main}
 #Trigger {The pod quickly slows as it reaches *.*} {DontStopSpeaking} {Main}
-#Key {Control-Alt-Shift-F12} {
- #Var GagExits {%Eval(NOT @GagExits)};
- #Say {Exits will now be %If(@GagExits = 1,gagged,shown).}
-} {}
 #Trigger {* is closed.} {
  msplay General\Misc\CantGo*5@Ext
 } {Main}
-#Key {Alt-SPACE} {
- speech stop;
- #Say @exits;
- #If {@ShowExpertExits=1} {
-  #Var AndString {and };
-  #Say {(%if(%ifword(@Exits,None),0,%numwords(%replace(@Exits,@AndString,""), )) exits.)};
-  #UnVar AndString
- }
-} {}
 #Trigger {Noticing a* Commoveo membership ring, the guard waves you through.} {DontStopSpeaking} {Main}
 #Trigger {You step on to a small platform on the floor. Sensing your presence, a ring of lights along the perimeter of the circle light up as the platform *.} {
  ExpPipe {%0} {:Voice:%0} {};

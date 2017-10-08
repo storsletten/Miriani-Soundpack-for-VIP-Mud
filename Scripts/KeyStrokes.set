@@ -1,8 +1,3 @@
-#If {@LoadHistoryReviewKeys=1} {#Class HistoryReviewKeys Enable} {#Class HistoryReviewKeys Disable}
-#If {@LoadMiscKeys=1} {#Class MiscKeys Enable} {#Class MiscKeys Disable}
-#If {@LoadSoundKeys=1} {#Class SoundKeys Enable} {#Class SoundKeys Disable}
-#If {@ExcludeAltGRNumrow=0} {#Class AltGRNumrow Enable} {#Class AltGRNumrow Disable}
-
 #Var LastReviewKeyPressed {}
 #Alias ReviewKeyPressed {
  #If {%IsNumber(%2)=1} {
@@ -103,3 +98,22 @@ setthememusicvolume;
 #say {@ThemeVol per cent.} voiceonly}} {SoundKeys}
 #Key {Shift-Control-F12} {mtplay} {SoundKeys}
 #Key {Shift-Control-Alt-F12} {thememusicfadeout} {SoundKeys}
+
+#Key {Shift-F1} {aboutscripts} {}
+#Key {Control-S} {
+ #SetSpeech Incoming Stop;
+ ConfSaveAll
+} {}
+#Key {Control-Alt-Shift-F12} {
+ #Var GagExits {%Eval(NOT @GagExits)};
+ #Say {Exits will now be %If(@GagExits = 1,gagged,shown).}
+} {}
+#Key {Alt-Space} {
+ Speech Stop;
+ #Say {@exits};
+ #If {@ShowExpertExits=1} {
+  #Var AndString {and };
+  #Say {(%if(%ifword(@Exits,None),0,%numwords(%replace(@Exits,@AndString,""), )) exits.)};
+  #UnVar AndString
+ }
+} {}

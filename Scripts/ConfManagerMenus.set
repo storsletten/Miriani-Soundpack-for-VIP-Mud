@@ -69,7 +69,7 @@ Docs
 [8] Alert when you leave group members behind  [~%If(~@WarnWhenLeft=1,On,Off)].
 [9] Disable DND on Red, Blue, Purple, and Orange Alert  [~%If(~@WakeOnRed=1,On,Off)].
 [10] Startup music  [~%If(~@PlayStartupMusic=1,On,Off)].
-[11] Auto selecting your character after logging in  [~%If(~@BypassLoginMenu=1,On,Off)].
+[11] Auto select your character after signing in  [~%If(~@BypassLoginMenu=1,On,Off)].
 [12] Auto save soundpack configuration on exit  [~%If(~@AutoSave=1,On,Off)].
 [13] Keep-Alive duration (in seconds)  [~@KeepAlive].
 [14] Keep-Alive responding  [~%If(~@KeepAliveRespond=1,On,Off)].

@@ -1,0 +1,57 @@
+#Load {@ScriptPath\Version.set}
+#Load {@ScriptPath\Const.set}
+#Load {@SoundsPath\Main.set}
+#Load {%MudName\Variables.set}
+#Load {@ScriptPath\SoundEngine.set}
+#Load {@ScriptPath\ConfManager.set}
+
+#If {%IfWord(Reloading,@SoundpackIsLoading,|)=0} {
+ #Exec {>register_soundpack @SoundpackName | @Version};
+ #If {@PlayStartupMusic=1} {
+  MirianiSoundPlay {Startup Music} {Music\*63@Ext};
+  #If {@SoundIsPlaying=1} {#Var StartupMusicHandle %PlayHandle}
+ }
+}
+
+#Load {@ScriptPath\Utils.set}
+#Load {@ScriptPath\ShipComputer.set}
+#Load {@ScriptPath\History.set}
+#Load {@ScriptPath\Asteroid.set}
+#Load {@ScriptPath\CameraFeed.set}
+#Load {@ScriptPath\Combat.set}
+#Load {@ScriptPath\Communication.set}
+#Load {@ScriptPath\Devices.set}
+#Load {@ScriptPath\Misc.set}
+#Load {@ScriptPath\Rooms.set}
+#Load {@ScriptPath\Scanning.set}
+#Load {@ScriptPath\ShipCombat.set}
+#Load {@ScriptPath\ShipMisc.set}
+#Load {@ScriptPath\ShipMovement.set}
+#Load {@ScriptPath\SmFilter.set}
+#Load {@ScriptPath\Socials.set}
+#Load {@ScriptPath\TriggerTables.set}
+#Load {@ScriptPath\YouActions.set}
+#Load {@ScriptPath\ConfManagerMenus.set}
+#Load {@ScriptPath\KeyStrokes.set}
+
+#ForAll {%Replace(@ExtraScriptFiles,%CRLF,|)} {#If {@{LoadExtraScript%Word(%i,^,1)}=1} {#Load {@ScriptPath\Extras\%Word(%i,^,1).set}}}
+
+#Load {%MudName\Custom.set}
+
+#Exec {ConfActivate}
+
+#If {@AlertOnUpdate=1 and @RequiredSoundsVersion>@SoundsVersion} {
+ #Say {Warning: You are not using the latest version of the Miriani Soundpack Sounds. Some sounds may not work until you upgrade to the most recent sounds folder.};
+ MirianiSoundPlay Standard {General\Misc\MOTD@Ext}
+}
+
+#If {%IfWord(Reloading,@SoundpackIsLoading,|)=1} {
+ #Ignore Key Off;
+ #Ignore Trigger Off;
+ #Say {Reloading complete. Please look in the room with your character to let the soundpack know the current environment.}
+} {
+ #If {%Defined(AutoLogin)=1} {login now}
+}
+
+#UnVar SoundpackIsLoading
+#Exec {MirianiSoundPlay Standard Ship\Computer\Beep@Ext}
