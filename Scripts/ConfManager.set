@@ -617,11 +617,14 @@ ArchaeologyCalculateDirection:0
 
 #Alias ConfActivate {
  #Exec {#Alarm 0 {
-  #Class SpamAlerts {%If(@SpamAlert=1,Enable,Disable)};
-  #Class SoundKeys {%If(@LoadSoundKeys=1,Enable,Disable)};
-  #Class HistoryReviewKeys {%If(@LoadHistoryReviewKeys=1,Enable,Disable)};
-  #Class AltGRNumrow {%If(@ExcludeAltGRNumrow=0,Enable,Disable)};
-  #Class MiscKeys {%If(@LoadMiscKeys=1,Enable,Disable)};
+  #Class SpamAlerts %If(@SpamAlert=1,Enable,Disable);
+  #Class SoundKeys %If(@LoadSoundKeys=1,Enable,Disable);
+  #Class HistoryReviewKeys %If(@LoadHistoryReviewKeys=1,Enable,Disable);
+  #Class AltGRNumrow %If(@ExcludeAltGRNumrow=0,Enable,Disable);
+  #Class MiscKeys %If(@LoadMiscKeys=1,Enable,Disable);
+  #Class Socials %If(@SocialsOn=1,Enable,Disable);
+  #Class Actions %If(@ActionsOn=1,Enable,Disable);
+  #Class Emotes %If(@EmotesOn=1,Enable,Disable);
   #Config ExpandCommandLineVars %If(@PassThru=1,False,True);
   #Config DisplayCommandsInOutput %If(@CommandEcho=1,True,False);
   #If {@SetEntrySpeechOff=1} {#SetSpeech Entry Off};

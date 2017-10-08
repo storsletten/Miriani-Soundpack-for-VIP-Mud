@@ -42,9 +42,7 @@ snort:snorts:General\Socials\Snort
 yawn:yawns:General\Socials\yawn*2
 }
 
-#var FerryHandle 0
-
-#Alias {SocialsToggle} {#if {@SocialsOn <> 1} {
+#Alias SocialsToggle {#if {@SocialsOn <> 1} {
 #var SocialsOn 1;
 #class socials enable;
 #say {Socials enabled.}
@@ -68,11 +66,6 @@ yawn:yawns:General\Socials\yawn*2
 #var EmotesOn 0;
 #class emotes disable;
 #say {Emotes disabled.}}} {}
-#If {@SocialsOn=1} {#Class socials Enable}
-#If {@ActionsOn=1} {#Class actions Enable}
-#If {@EmotesOn=1} {#Class emotes Enable}
-
-#Key Control-F11 {SocialsToggle} {}
 
 #Trigger {[#]$[#]soundpack social | * | *} {
  #If {@ActionsOn=1} {

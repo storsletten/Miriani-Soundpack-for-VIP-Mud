@@ -117,3 +117,5 @@ setthememusicvolume;
   #UnVar AndString
  }
 } {}
+#Key {Shift-Control-Alt-F11} {BufferConfig} {}
+#Key {Control-F11} {SocialsToggle} {}

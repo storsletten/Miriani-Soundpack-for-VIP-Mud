@@ -411,4 +411,3 @@
  #UnVar BufferConfigTmp1;
  #UnVar BufferConfigTmp2
 } {}
-#Key {Shift-Control-Alt-F11} {BufferConfig} {}

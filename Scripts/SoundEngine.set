@@ -4,20 +4,13 @@
 #If {%Defined(RExt)=0} {#Var RExt {.wav}}
 #Var DontStopSpeaking 0
 
-#var FootstepsList {
+#Var FootstepsList {
 planet:General\Footsteps\Planet*8@Ext
 room:General\Footsteps\Room*4@Ext
 starship.Duct:General\Footsteps\Duct*7@Ext
 starship:General\Footsteps\Ship*8@Ext
 station:General\Footsteps\Station*8@Ext
 }
-
-#Alias {DontStopSpeaking} {
- #If {@UseSpeechInterrupts=1} {
-  speech stop;
-  #Var DontStopSpeaking 1
- }
-} {}
 
 #Alias MirianiSoundPlay {
  #Var SoundIsPlaying {%If(@Silent=1,0,1)};
