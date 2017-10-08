@@ -1,0 +1,5 @@
+Version 5.9.0, released 2017-10-08:
+* For 2.0: Redesigned the soundpack loading framework. Hopefully the new one is a little bit faster and more stable. There might be a few new bugs though as a result of this change, but feel free to report them through appropriate channels, such as the soundpack metaf, or the soundpack board.
+* For 2.0: Removed the option to save configuration when idle, since it's just unnecessary. The option to auto save on exit is much better.
+* For 1.1: Officially discontinuing to maintain the soundpack for 1.1. Future updates will apply for 2.0 only, unless changelog entries indicate otherwise. The SP for 1.1 will no longer notify you of soundpack updates.
+
