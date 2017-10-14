@@ -300,7 +300,7 @@
 #Trigger {A* beeps quietly, indicating that its TransLink tracking functionality has been activated*.} {
  #Math Tracked {@Tracked+1};
  msplay General\Lore\Tracked@Ext;
- ExpPipe {%0} {%1 TransLink tracking functionality has been activated%2.} {:Voice:A%1 has been tracked%2.};
+ ExpPipe {%0} {:Voice:%0} {:Voice:A%1 has been tracked%2.};
  #Sub {@ExpString}
 } {Main}
 #Alias {tracked} {
