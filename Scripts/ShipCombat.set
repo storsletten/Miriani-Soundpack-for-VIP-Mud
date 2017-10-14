@@ -113,9 +113,9 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
    #If {@SoundIsPlaying=1} {#Var AlertSoundHandle {%PlayHandle}} {#UnVar AlertSoundHandle}
   };
   #If {%IfWord(%2,red blue orange purple, )>0} {
-   ExpPipe {%0} {:Voice:%Proper(%1) lights continue to flash overhead.} {}
+   ExpPipe {%0} {:Voice:%Proper(%2) lights continue to flash overhead.} {}
   } {
-   #Var ExpString %0
+   #Var ExpString {%0}
   }
  } {
   #If {%1="loud rendition of Jingle Bells sounds"} {
