@@ -1,3 +1,6 @@
+Version 5.9.6, released 2017-10-15:
+* Removed the entire experience level framework. It might make the soundpack slightly faster, and maybe it will also help bypassing the bug in VIP Mud that prevents aliases and keystrokes from being loaded properly.
+
 Version 5.9.5, released 2017-10-14:
 * Fixed a small bug with how conf exp 2 treated messages about lights flashing overhead.
 
