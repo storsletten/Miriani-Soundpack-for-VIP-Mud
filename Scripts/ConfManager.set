@@ -5,7 +5,6 @@ GagGenMessages:0
 GagExits:0
 RoundTimeThreshold:1
 GagTreadLine:0
-ExperienceLevel:3
 AlterArmor:1
 FormatRoomTitles:0
 FormatMessageBoards:0
@@ -95,7 +94,6 @@ PlayOtherTreadSound:1
 PlanetSounds:0
 CameraVolumeDiff:-10
 CameraPan:2000
-WarnWhenLeft:1
 ThemeMusic:0
 ThemeSoundVolumeDiff:0
 NumOfThemes:31

@@ -6,8 +6,9 @@
  #gagline 1 all;
  mrplay LaserTag\LaserTag*3@Ext
 } {Main}
-#Trigger {You see nothing special. You see a number of boxes scattered throughout the room.} {ExpPipe {%0} {You see a number of boxes scattered throughout the room.} {Boxes are here.};
-#sub {@ExpString}} {Main}
+#Trigger {You see nothing special. You see a number of boxes scattered throughout the room.} {
+ #Sub {Boxes are here.}
+} {Main}
 #Trigger {You quickly hide behind a large holographic box.} {msplay LaserTag\Box@Ext} {Main}
 #Trigger {You settle into your hiding place.} { msplay crouch@Ext} {Main}
 #Trigger {You emerge from hiding.} {msplay Uncrouch@Ext} {Main}
@@ -41,5 +42,3 @@ msplay LaserTag\Gun*3@Ext}} {Main}
 #Trigger {You find nothing in the area.} {msplay LaserTag\NoTargets@Ext} {Main}
 #Trigger {A grenade suddenly flies in from *!} {#if {%ifword(%1,@DirList, )=1} {
 mwplay LaserTag\GrenadeThrown@Ext}} {Main}
-#Trigger {You see nothing special.} {expPipe {%0} {} {};
-#sub {@ExpString}} {Main}

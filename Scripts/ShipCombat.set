@@ -39,27 +39,24 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
   };
   ConfPrint {@ShipCombatTmp1}
  }
-} {}
+}
 
 #Trigger {Locked onto coordinates: *} {
- ExpPipe {%0} {%1} {};
- #Sub {@ExpString};
+ #GagLine 1 Voice;
  #If {@UseAlternativeCombatSounds=1 or %1=@FocusShipCoords} {MirianiSoundPlay Standard Ship\Combat\LockedOnOther2@Ext}
 } {Main|Starship}
 #Trigger {A blinding flash of light suddenly permeates the *.} {
  MirianiSoundPlay Standard Ship\Combat\YouHit*9@Ext;
- ExpPipe {%0} {A blinding flash of light suddenly permeates the entire area} {};
- #Sub {@ExpString}
+ #GagLine 1 All
 } {Main|Starship}
 #Trigger {Target: *} {
  MirianiSoundPlay Standard Ship\Combat\LockedOnOther@Ext;
  #If {%Pos(Starship ~",%1)=1} {
   #If {@MissionMode=1 and %Pos(Starship ~"Praelor ,%1)=1} {#GagLine 1 Voice};
-  ExpPipe {%0} {%0} {Target %Copy(%1,11,%Length(%1)-11).}
+  #Sub {Target %Copy(%1,11,%Length(%1)-11).}
  } {
-  ExpPipe {%0} {%0} {%1 targeted.}
- };
- #Sub {@ExpString}
+  #Sub {%1 targeted.}
+ }
 } {Main|Starship}
 #Trigger {* has a lock on this starship.} {
  #If {@EnhancedAimSoundSystem>0} {
@@ -77,18 +74,17 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
   #PC %PlayHandle Frequency 44100
  };
  #If {@MissionMode=1 and %Pos(Praelor ,%1)=1} {#GagLine 1 Voice};
- ExpPipe {%0} {%0} {Lock by %1.};
- #Sub {@ExpString}
+ #Sub {Lock by %1.}
 } {Main|Starship}
 #Trigger {* has fired at *.} {
  #If {%Pos(~(,%1)=1 and %Pos(~),%1)>1} {} {
-  ExpPipe {%0} {%0} {%2 hit by %1.};
+  #Var DisplayString {%2 hit by %1.};
   #If {%Word(%2, ,1)="Praelor"} {
    #If {@MissionMode=1} {#GagLine 1 Voice}
   } {
-   PushMessage {Intrasector0Combat} {@ExpString}
+   PushMessage {Intrasector0Combat} {@DisplayString}
   };
-  DisplayPrint 4 {@ExpString} {%0};
+  DisplayPrint 4 {@DisplayString} {%0};
   mwplay {Ship\Combat\OtherFired*6@Ext} {0:4};
   #Sub {@DisplayString}
  }
@@ -113,13 +109,11 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
    #If {@SoundIsPlaying=1} {#Var AlertSoundHandle {%PlayHandle}} {#UnVar AlertSoundHandle}
   };
   #If {%IfWord(%2,red blue orange purple, )>0} {
-   ExpPipe {%0} {:Voice:%Proper(%2) lights continue to flash overhead.} {}
-  } {
-   #Var ExpString {%0}
+   #GagLine 1 All
   }
  } {
   #If {%1="loud rendition of Jingle Bells sounds"} {
-   ExpPipe {%0} {:Voice:%0} {}
+   #GagLine 1 All
   } {
    #If {@WakeOnRed=1 and %IfWord(%2,blue orange purple red, )=1} {
     #If {@GagEverything=1} {GagEverything};
@@ -137,10 +131,10 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
     MirianiSoundPlay Standard Ship\Combat\PurpleAlert@Ext;
     #If {@SoundIsPlaying=1} {#Var AlertSoundHandle {%PlayHandle}} {#UnVar AlertSoundHandle}
    };
-   ExpPipe {%0} {:Voice:%0} {:Voice:%Proper(%2) alert initiated.}
+   #Sub {%Proper(%2) alert initiated.};
+   #GagLine 1 Voice
   }
- };
- #Sub {@ExpString}
+ }
 } {Main|Starship}
 #Trigger {This starship has been hit by *.} {
  #Math TotalHitsOnThisShip {@TotalHitsOnThisShip+1};
@@ -159,18 +153,15 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
   }
  };
  mwplay Ship\Combat\YouHit*11@Ext @ShipCombatTmp1;
- ExpPipe {%0} {%0} {Hit by %1.};
- #Sub {@ExpString}
+ #Sub {Hit by %1.}
 } {Main|Starship}
 #Trigger {The room is flooded with a brilliant * light as lasers from * impact the hull.} {
  mwplay Ship\Combat\YouHit*11@Ext;
- ExpPipe {%0} {%0} {Hit by %2's %1 laser fire.};
- #Sub {@ExpString}
+ #Sub {Hit by %2's %1 laser fire.}
 } {Main|Starship}
-#Trigger {The ship rocks slightly as it's hit by *.} {
+#Trigger {The ship rocks slightly as it's hit by *} {
  mwplay Ship\Combat\YouHit*11@Ext;
- ExpPipe {%0} {%0} {Hit by %1};
- #Sub {@ExpString}
+ #Sub {Hit by %1}
 } {Main|Starship}
 #Trigger {The room is filled with * as the laser turrets are fired.} {
  mwplay Ship\Combat\Laser*17@Ext;
@@ -178,14 +169,14 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
 } {Main|Starship}
 #Trigger {* has launched an interdictor.} {MirianiSoundPlay Standard ship\misc\intradictor@Ext} {Main}
 #Trigger {*A distant whirring noise can be heard as the *'s laser aligns itself, followed by a faint pulse as it fires.} {
-ExpPipe {%0} {%1's laser fired.} {};
-#sub {@ExpString};
-mrandomplay Ship\Combat\PlanetaryLaser@Ext} {Main}
+ mrandomplay Ship\Combat\PlanetaryLaser@Ext;
+ #GagLine 1 All
+} {Main}
 #Alias focus {
  #If {@InterruptOnFocus=1} {speech stop};
  MainTrigSwitch 0 Focus;
  #Exec {>focus%RTrim( %0)}
-} {}
+}
 #Trigger {*: *} {
  #If {@InterruptOnFocus=1} {speech stop};
  #Var ShipCombatTmp1 {%Replace(%2,~, ,)};
@@ -204,15 +195,16 @@ mrandomplay Ship\Combat\PlanetaryLaser@Ext} {Main}
 #Trigger {That's not a ship.} {MainTrigSwitch 1 Focus} {Focus}
 #Trigger {Invalid coordinates. Range: (*) to (*).} {
  MirianiSoundPlay Standard Ship\Misc\Drunk@Ext;
- ExpPipe {%0} {%0} {Invalid coordinates.};
- #sub {@ExpString}
+ #Sub {Invalid coordinates.}
 } {Main|Starship}
-#Trigger {You hear * as * launched.} {mwplay Ship\Combat\CombatDroneLaunch*8@Ext;
-ExpPipe {%0} {%0} {%2 launched.};
-#sub {@ExpString}} {Main|Starship}
-#Trigger {You input a command to *.} {MirianiSoundPlay Standard Ship\Computer\CombatDroneRecall@Ext;
-ExpPipe {%0} {%0} {You %1.};
-#sub {@ExpString}} {Main|Starship}
+#Trigger {You hear * as * launched.} {
+ mwplay Ship\Combat\CombatDroneLaunch*8@Ext;
+ #Sub {%2 launched.}
+} {Main|Starship}
+#Trigger {You input a command to *.} {
+ MirianiSoundPlay Standard Ship\Computer\CombatDroneRecall@Ext;
+ #Sub {You %1.}
+} {Main|Starship}
 #Trigger {You * the stun turret camera*.} {
  #If {%Pos(enable,%1)>0} {
   MirianiSoundPlay Standard General\Device\Activate@Ext
@@ -221,18 +213,15 @@ ExpPipe {%0} {%0} {You %1.};
  }
 } {Main}
 #Trigger {Those coordinates are too far away to establish a lock.} {
-MirianiSoundPlay Standard Ship\Combat\OutOfRange@Ext;
-ExpPipe {%0} {Target out of range.} {Out of range.};
-#sub {@ExpString}
+ MirianiSoundPlay Standard Ship\Combat\OutOfRange@Ext;
+ #Sub {Out of range.}
 } {Main|Starship}
-#Trigger {The ship rocks and shakes intensely as it is thrown violently by *.} {
- ExpPipe {%0} {Ship hit by %1!} {Hit by %1.};
- #sub {@ExpString};
+#Trigger {The ship rocks and shakes intensely as it is thrown violently by *} {
+ #Sub {Hit by %1};
  mwplay Ship\Combat\PushPulse@Ext
 } {Main|Starship}
 #Trigger {Those coordinates are already locked.} {
- ExpPipe {%0} {%0} {Already locked.};
- #Sub {@ExpString}
+ #Sub {Already locked.}
 } {Main|Starship}
 #Alias dam {MainTrigSwitch 0 DamageReader;#Exec {>dam%RTrim( %0)}} {Craft}
 #Alias damage {MainTrigSwitch 0 DamageReader;#Exec {>damage%RTrim( %0)}} {Craft}
@@ -256,14 +245,11 @@ ExpPipe {%0} {Target out of range.} {Out of range.};
  }
 } {Main|Craft|DamageReader}
 #Trigger {*An escape pod suddenly lands nearby.} {MirianiSoundPlay Standard Ship\Misc\EscapePodDescend@Ext} {Main}
-#Trigger {You hear a soft mechanical whine as the fighter bay's hatch *s.} {ExpPipe {%0} {The fighter bay's hatch %1s.} {};
-#sub @ExpString;
-#If {%1="open"} {
-MirianiSoundPlay Standard Ship\Move\BCFighterDock@Ext
-};
-#If {%1="close"} {
-MirianiSoundPlay Standard Ship\Misc\DockingBayDoorClose@Ext
-}} {Main}
+#Trigger {You hear a soft mechanical whine as the fighter bay's hatch *s.} {
+ #GagLine 1 Voice;
+ #If {%1="open"} {MirianiSoundPlay Standard Ship\Move\BCFighterDock@Ext};
+ #If {%1="close"} {MirianiSoundPlay Standard Ship\Misc\DockingBayDoorClose@Ext}
+} {Main}
 #Trigger {The lights overhead suddenly flicker as they change from * to green.} {
  ThemeMusicFadeOut;
  MirianiSoundPlay Standard Ship\Combat\GreenAlert*2@Ext;
@@ -282,67 +268,54 @@ MirianiSoundPlay Standard Ship\Misc\DockingBayDoorClose@Ext
  }
 } {Main}
 #Trigger {* ha* * from Praelor *.} {
- ExpPipe {%0} {%0} {%1 %3 from %4.};
- #sub @ExpString;
+ #Sub {%1 %3 from %4.};
  MirianiSoundPlay {Praelor} Ship\Combat\Praelor@Ext;
- PushMessage Praelor0Activity {%0}
+ PushMessage Praelor0Activity {%1 %3 from %4.}
 } {Main}
 #Trigger {* slam* into the hull. You hear a loud grinding noise.} {
- ExpPipe {%0} {%1 hit%2 the hull.} {Hit by %1.};
- #Sub @ExpString;
+ #Sub {Hit by %1.};
  mwplay Ship\Combat\YouHit*11@Ext 20
 } {Main|Starship}
 #Trigger {There is a gut-wrenching clang as the ship collides with * at high velocity.} {
  mwplay Ship\Combat\Rebound*5@Ext;
- ExpPipe {%0} {This ship has colided with %1.} {Colition with %1.};
- #Sub @ExpString
+ #Sub {Collition with %1.}
 } {Main|Starship}
 #Trigger {Combat Drone Control:} {
- ExpPipe {%0} {%0} {};
- #Sub @ExpString;
- #Class CombatDrone enable
+ #GagLine 1 Voice;
+ #Class CombatDrone Enable
 } {Main|Starship}
 #Trigger {* Combat Drones: */*} {
- ExpPipe {%0} {[%1]: %2/%3} {%1: %2/%3};
- #sub @ExpString
-} {CombatDrone|Main}
+ #Sub {%1: %2/%3}
+} {CombatDrone}
 #Trigger {Currently Targetting: *.} {
- ExpPipe {%0} {[Targetting]: %1} {%1};
- #sub @ExpString;
- #Class CombatDrone disable
-} {CombatDrone|Main}
-#Trigger {The ship rocks violently as it comes into contact with *.} {
- ExpPipe {%0} {The ship comes into contact with %1.} {The ship hits %1.};
- #Sub @ExpString;
+ #Sub {%1};
+ #Class CombatDrone Disable
+} {CombatDrone}
+#Trigger {The ship rocks violently as it comes into contact with *} {
+ #Sub {The ship hits %1};
  MirianiSoundPlay Standard Ship\Combat\YouHit*6@Ext
 } {Main|Starship}
 #Trigger {You hear a series of loud bangs as * missiles explode on the hull.} {
  MrandomPlay Ship\Combat\Projectile*3.wav;
- ExpPipe {%0} {Missiles explode on the hull.} {};
- #Sub {@ExpString}
+ #GagLine 1 All
 } {Main}
 #Trigger {You hear a series of * as the ship fires * missiles.} {
- ExpPipe {%0} {%0} {};
  MirianiSoundPlay Standard Ship\Combat\Missiles@Ext;
- #Sub {@ExpString}
+ #GagLine 1 All
 } {Main}
 #Trigger {You hear a loud * sound as a disarmament pulse is fired.} {
- ExpPipe {%0} {Disarmament pulse fired.} {Disarmament pulse fired.};
- MirianiSoundPlay Standard Ship\Combat\disarm@Ext;
- #Sub {@ExpString}
+ #Sub {Disarmament pulse fired.};
+ MirianiSoundPlay Standard Ship\Combat\disarm@Ext
 } {Main}
 #Trigger {You hear * sound as * immobilization pulse *.} {
  MirianiSoundPlay Standard Ship\Combat\immobilize@Ext;
- ExpPipe {%0} {Immobilization pulse fired.} {Immobilization pulse fired.};
- #Sub {@ExpString}
+ #Sub {Immobilization pulse fired.}
 } {Main}
 #Trigger {You hear * the starship's CDP launcher.} {
  MirianiSoundPlay Standard Ship\Combat\disrupt@Ext;
- ExpPipe {%0} {Computer disruption pulse fired.} {CDP fired.};
- #Sub {@ExpString}
+ #Sub {CDP fired.}
 } {Main}
 #Trigger {You hear a sharp * sound as a sensor interruption pulse is fired.} {
  MirianiSoundPlay Standard Ship\Combat\interrupt@Ext;
- ExpPipe {%0} {Sensor interruption pulse fired.} {Sensor interruption pulse fired.};
- #Sub {@ExpString}
+ #Sub {Sensor interruption pulse fired.}
 } {Main}

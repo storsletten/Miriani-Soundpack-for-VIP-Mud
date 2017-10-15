@@ -15,8 +15,7 @@
 
 #Trigger {That space is occupied.} {
  msplay Ship\Move\Blocked@Ext;
- ExpPipe {%0} {%0} {};
- #Sub {@ExpString}
+ #GagLine 1 All
 } {Main|Starship}
 #Trigger {The * "*" has * the sector.} {
  #If {%3="left"} {
@@ -44,10 +43,10 @@
 #Trigger {Uninhabited landing is not supported at this time.} {msplay Ship\Move\DontLand@Ext} {Main|Starship}
 #Trigger {The mild vibration of acceleration eases off *.} {
  msplay General\Misc\Beep*10@Ext;
- ExpPipe {%0} {:Voice:%0} {:Voice:Landed};
- #Sub {@ExpString};
+ #Sub {Landed.};
+ #GagLine 1 Voice;
  InSpace 0;
- #If {%1="and is replaced by the firm pull of gravity as the ship touches down smoothly on the moon's surface" or %1="and is replaced by the firm pull of gravity as the ship touches down smoothly on the planet's surface" or %1="and is replaced by the firm pull of the space station's local artificial gravity"} {
+ #If {%IfWord(%1,and is replaced by the firm pull of gravity as the ship touches down smoothly on the moon's surface|and is replaced by the firm pull of gravity as the ship touches down smoothly on the planet's surface|and is replaced by the firm pull of the space station's local artificial gravity,|)=1} {
   #Var DirectHits 0;
   #Var PartialHits 0;
   #Var TotalHits 0;
@@ -57,8 +56,9 @@
   #Var TotalShips 0
  }
 } {Main|Starship}
-#Trigger {The * drive is still recharging. Time remaining: *.} {ExpPipe {%0} {%0} {%2 until %1 recharge.};
-#sub {@ExpString}} {Main}
+#Trigger {The * drive is still recharging. Time remaining: *.} {
+ #Sub {%2 until %1 is recharged.}
+} {Main}
 #Trigger {The * is nonfunctional due to high levels of sensor interference.} {msplay Ship\Computer\DriveError@Ext} {Main}
 #Trigger {Cruise Control detects no possible destinations.} {msplay Ship\Computer\NothingToScan@Ext} {Main}
 #Trigger {Swirls of magenta and cyan light flicker on the walls as the starship continues its transition through the very fabric of the universe.} {#GagLine 1 All;
@@ -69,9 +69,8 @@ msplay Ship\Move\QVAContinue@Ext} {Main|Starship}
 #Trigger {Water from the pool suddenly sloshes over the side and covers the floor of the room.} {mwplay General\Misc\WaterSplash@Ext} {Main|Starship}
 #Trigger {* has jumped out of the sector.} {msplay Ship\Move\ExitSector*2@Ext} {Main}
 #Trigger {The windows automatically darken as an intense burst of light radiates outward from *.} {
- ExpPipe {%0} {Light shoots out from %1.} {};
- #Sub @ExpString;
- msplay Ship\Move\ArrayLight@Ext
+ msplay Ship\Move\ArrayLight@Ext;
+ #GagLine 1 All
 } {Main|Starship}
 #Trigger {* inputs a series of commands into a navigation console.} {
  msplay Ship\Computer\Keyboard*15@Ext;
@@ -81,14 +80,12 @@ msplay Ship\Move\QVAContinue@Ext} {Main|Starship}
 #Trigger {Flashes of color dominate the window as you peer out, swirling into one another until they collide and explode into new, even more vibrant colors. Looking through the wall of colors, you can make out the dim shine of a star and, occasionally, what looks to be a larger celestial body flashing by. A surge of blue energy is intermittently thrown into the mix from the ship's wormhole drive, seemingly fueling the show of color outside.} {#Var Peers 0} {Main}
 #Trigger {A series of Praelor hisses and squelches come over the starship's speakers. The computer's translation matrix activates and the starship's viewscreen flashes: *} {
  msplay Ship\Comm\CommLink@Ext -30;
- ExpPipe {%0} {The view screen flashes: %1} {%1};
- #Sub @ExpString
+ #Sub {%1}
 } {Main|Starship}
 #Trigger {* has initiated an intrasector *.} {
  #If {%Pos(~(,%1)<>1} {
   mrandomplay Ship/Move/DriveAlert@Ext;
-  ExpPipe {%0} {%0} {%1 initiates %2.};
-  #Sub {@ExpString}
+  #Sub {%1 initiates %2.}
  }
 } {Main}
 #Trigger {You decide not to travel through *.} {msplay Ship\Move\DontLand@Ext} {Main|Starship}
@@ -102,18 +99,17 @@ msplay Ship\Move\QVAContinue@Ext} {Main|Starship}
 } {Main|Craft}
 #Trigger {You notice a bright flash of light*a starship must be coming in*} {
  mrandomplay Ship\Move\OtherLanding*4@Ext;
- ExpPipe {%0} {Ship coming into land.} {};
- #Sub {@ExpString}
+ #GagLine 1 All
 } {Main}
 #Trigger {You notify flight control of your desire to *.} {
  #GagLine 1 All;
  msplay Ship\Computer\commchirp@Ext
 } {Main}
-#Trigger {You feel a mild vibration as the ship begins maneuvering into the docking area of the *.} {
+#Trigger {You feel a mild vibration as the ship begins maneuvering into the docking area of the *} {
  msplay Ship\Move\RingStart@Ext;
- ExpPipe {%0} {%0} {};
- #Sub {@ExpString}
-} {Main}
+ #Sub {Docking with the %1};
+ #GagLine 1 Voice
+} {Main|Craft}
 #Trigger {The feeling of nausea passes as the starship moves rapidly. *} {
  #GagLine 1 All;
  msplay Ship\Move\BiasEnds@Ext;

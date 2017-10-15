@@ -17,8 +17,7 @@
  };
  #Var DevicesTmp1 {%Pos(~",%3)};
  #Var DevicesTmp2 {%Copy(%3,1,%Eval(@DevicesTmp1-2)): %Copy(%3,%Eval(@DevicesTmp1+1),%Eval(%Length(%3)-@DevicesTmp1-2))};
- ExpPipe {%0} {N%2, p@DevicesTmp2} {N%2, p@DevicesTmp2};
- #Sub {@ExpString};
+ #Sub {N%2, p@DevicesTmp2};
  PushMessage Posts {[%Delete(%2,1,14)] P@DevicesTmp2}
 } {Main}
 #Trigger {* take* a snapshot of *.} {
@@ -29,9 +28,9 @@
 #Trigger {You tune a* metafrequency * to *.*.} {
  msplay General\Comm\Tune@Ext
 } {Main}
+#Trigger {Your communicator reports an error sending *.} {msplay General\Comm\CommInactive@Ext} {Main}
 #Trigger {Your communicator reports that the target is unavailable. They might not be awake to hear your transmission or they may have private communications disabled.} {
- ExpPipe {%0} {The target is not available.} {Not available};
- #Sub {@ExpString}
+ #Sub {Not available.}
 } {Main}
 #Trigger {You*activate *.} {
  #If {%NumWords(%0,~")=1} {
@@ -73,14 +72,12 @@
  #If {%NumWords(%0,~")=1} {
   #Var DevicesTmp1 {%Word(%2, ,%NumWords(%2, ))};
   #If {@DevicesTmp1="successful"} {
-   ExpPipe {%0} {Scan successful} {};
-   #Sub {@ExpString};
-   msplay General\Device\SurveyComplete@Ext
+   msplay General\Device\SurveyComplete@Ext;
+   #GagLine 1 All
   } {
    #If {@DevicesTmp1="failed"} {
-    ExpPipe {%0} {Scan failed.} {};
-    #Sub {@ExpString};
-    msplay General\Device\ScanFailed@Ext
+    msplay General\Device\ScanFailed@Ext;
+    #GagLine 1 Voice
    }
   }
  }
@@ -91,12 +88,7 @@
  }
 } {Main}
 #Trigger {Destination *Sector *Coordinates*} {
- #Var DevicesTmp1 {%Replace(%Trim(%1%2%3),~",)};
- #If {@DevicesTmp1=""} {
-  #Say {Results:} NoDisplay;
-  ExpPipe {%0} {%0} {:Voice:%0};
-  #Sub {@ExpString}
- }
+ #If {%Length(%Trim(%1%2%3))=0} {#GagLine 1 Voice}
 } {Main}
 #Trigger {You access * and note you have *.* license points and *.* combat points.} {
  #If {%NumWords(@LicensePoints,|)<>2} {
@@ -178,91 +170,70 @@
 #Trigger {You press a small button on * and watch as * fades into nothing.} {msplay General\Device\ForceFieldSuitOff@Ext} {Main}
 #Trigger {You press a small button on * and watch as * around you and slowly fades into a barely noticeable haze.} {msplay General\Device\ForceFieldSuitOn@Ext} {Main}
 #Trigger {You press a large * button.} {msplay General\Misc\Beep*10@Ext} {Main}
-#Trigger {You activate a* handheld planetary surveyor and begin scanning the area.} {
- ExpPipe {%0} {:Voice:%0} {};
- #Sub {@ExpString}
-} {Main|Ground}
+#Trigger {You activate a* handheld planetary surveyor and begin scanning the area.} {#GagLine 1 All} {Main|Ground}
 
 #Var Tracked 0
 #Trigger {* makes a selection on a* Lore computer.} {
- #If {%Pos([,%1)=0 and %Pos(~(,%1)=0} {
-  ExpPipe {%0} {%1 uses a%2 Lore.} {%1 uses a%2 Lore.};
-  #Sub {@ExpString}
- }
+ #If {%Pos([,%1)=0 and %Pos(~(,%1)=0} {#Sub {%1 uses a%2 Lore.}}
 } {Main}
-#Trigger {You make a selection on a* Lore computer.} {
- ExpPipe {%0} {:Voice:A%1 Lore.} {};
- #Sub {@ExpString}
-} {Main}
+#Trigger {You make a selection on a* Lore computer.} {#GagLine 1 All} {Main}
 #Trigger {Your * Lore computer suddenly beeps quietly, indicating a new incoming *.} {
  msplay General\Lore\Import@Ext;
- ExpPipe {%0} {New incoming %2 in your %1 Lore.} {New %2 in your %1 Lore.};
- #Sub {@ExpString}
+ #Sub {New %2 in your %1 Lore.}
 } {Main}
 #Trigger {A* Lore computer beeps quietly, indicating that there * to import.} {
  msplay General\Lore\FilesWaiting@Ext;
- ExpPipe {%0} {New %Word(%2, ,%NumWords(%2, )) to import in a%1 Lore.} {New %Word(%2, ,%NumWords(%2, )) to import in a%1 Lore.};
- #Sub {@ExpString}
+ #Sub {New %Word(%2, ,%NumWords(%2, )) to import in a%1 Lore.}
 } {Main}
 #Trigger {Several short bleeps emit from a* Lore computer, followed by a* "*"*.} {
  msplay General\Lore\Print@Ext;
- ExpPipe {%0} {A%1 Lore prints a %2 %3.} {:Voice:A%1 Lore prints a %2 %3.};
- #Sub {@ExpString}
+ #Sub {A%1 Lore prints a %2 %3.};
+ #GagLine 1 Voice
 } {Main}
 #Trigger {Enter a name for the new file:} {
  msplay General\Lore\Name@Ext;
- ExpPipe {%0} {:Voice:%0} {:Voice:Filename:};
- #Sub {@ExpString}
+ #Sub {Filename:};
+ #GagLine 1 Voice
 } {Main}
 #Trigger {File "*" exported.} {
  msplay General\Lore\Export@Ext;
- ExpPipe {%0} {:Voice:%0} {:Voice:%1 exported.};
- #Sub {@ExpString}
+ #Sub {%1 exported.};
+ #GagLine 1 Voice
 } {Main}
 #Trigger {Via the TransLink network, the LoreTech device "*" reports current location pinpointed *} {
  msplay General\Lore\Track@Ext;
  #If {%Word(%2, ,1)="aboard" and %NumWords(%2,~")=3} {
   #If {%Word(%2,~",2)=%1} {
-   ExpPipe {%0} {LoreTech device "%1" %2} {T%Delete(%2,1,8)}
+   #Sub {T%Copy(%2,9)}
   } {
-   ExpPipe {%0} {LoreTech device "%1" %2} {%1 %2}
+   #Sub {%1 %2}
   }
  } {
-  ExpPipe {%0} {LoreTech device "%1" %2} {%1 %2}
- };
- #Sub {@ExpString}
+  #Sub {%1 %2}
+ }
 } {Main}
 #Trigger {The LoreTech device "*" could not be located.} {
- ExpPipe %0 {LoreTech device "%1" could not be located} {%1 could not be located};
- #Sub @ExpString
+ #Sub {%1 could not be located.}
 } {Main}
 #Trigger {No LoreTech devices located on TransLink network with the ID tag of "*."} {
- ExpPipe %0 {LoreTech device "%1" could not be found} {%1 could not be found};
- #Sub @ExpString
+ #Sub {%1 doesn't exist.}
 } {Main}
 #Trigger {File "*" successfully transmitted to "*."} {
  msplay General\Lore\Transmit@Ext;
- ExpPipe {%0} {1 successfully transmitted to %2.} {%1 transmitted to %2.};
- #Sub {@ExpString}
+ #Sub {%1 transmitted to %2.}
 } {Main}
 #Trigger {LoreTech Personal Lore Computer - [[]*]} {
  #If {%IfWord(%1,Root Folder,|)=1 or %Pos(File:,%1)>0 or %Pos(Folder:,%1)>0} {
-  ExpPipe {%0} {Lore Memo %1} {%1}
+  #Sub {%1}
  } {
-  ExpPipe {%0} {:Voice:Lore %1} {};
-  #If {%Pos(Lore Lore ,@ExpString)>0} {#Var ExpString {%Copy(@ExpString,6,%Length(@ExpString)-5)}}
- };
- #Sub {@ExpString}
+  #GagLine 1 All
+ }
 } {Main}
 #Trigger {The display blurs suddenly as the current time and date, * * * *:*:* * GST, fades in, shimmers briefly and fades out, letting the display return to normal.} {
- ExpPipe {%0} {%0} {%4:%5:%6, %1 %2 %3, %7};
- #Sub {@ExpString}
+ #Sub {%4:%5:%6, %1 %2 %3, %7}
 } {Main}
 #Trigger {*. A barely visible grid of red and green lights runs along * for the briefest of moments*} {msplay General\Lore\SuccessfulImage@Ext} {Main}
-#Trigger {The result of your equation, *, briefly appears on the display.} {
- ExpPipe {%0} {The result of your equation, %1.} {%1};
- #Sub @ExpString
-} {Main}
+#Trigger {The result of your equation, *, briefly appears on the display.} {#Sub {%1}} {Main}
 #Trigger {Item: *} {
  #If {@ModifyShoppingGuide=1} {
   #GagLine 1 All;
@@ -300,8 +271,8 @@
 #Trigger {A* beeps quietly, indicating that its TransLink tracking functionality has been activated*.} {
  #Math Tracked {@Tracked+1};
  msplay General\Lore\Tracked@Ext;
- ExpPipe {%0} {:Voice:%0} {:Voice:A%1 has been tracked%2.};
- #Sub {@ExpString}
+ #Sub {A%1 has been tracked%2.};
+ #GagLine 1 Voice
 } {Main}
 #Alias {tracked} {
  #If {%1="Clear"} {

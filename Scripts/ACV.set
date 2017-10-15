@@ -34,13 +34,13 @@
  %Pop(ACVNextMoveZ)
 } {Main}
 
-#Trigger {Weapon launch sequence initiated. Bomb's away!} {ExpPipe {%0} {Bomb's away!} {};
-#sub @ExpString;
-msplay ACV\Bomb*4@Ext} {Main}
-#Trigger {The vehicle * pelted by automatic weapon fire from *.} {
- ExpPipe {%0} {%0} {Hit by %2};
+#Trigger {Weapon launch sequence initiated. Bomb's away!} {
+ #GagLine 1 All;
+ msplay ACV\Bomb*4@Ext
+} {Main}
+#Trigger {The vehicle * pelted by automatic weapon fire from *} {
  #If {@MissionMode=1} {#GagLine 1 Voice};
- #Sub @{ExpString};
+ #Sub {Hit by %2};
  mwplay Ship\Combat\YouHit*11@Ext
 } {Main}
 #Trigger {Current coordinates: &{AcvCoordX}, &{AcvCoordY}, &{AcvCoordZ}} {
@@ -56,9 +56,8 @@ msplay ACV\Bomb*4@Ext} {Main}
  }
 } {Main|ACVMoveMode}
 #Trigger {* Airspace; Grid *, *} {
- ExpPipe {%0} {[%1]: %2, %3} {};
- #Sub @ExpString;
- #Class ACVAirspace enable
+ #GagLine 1 Voice;
+ #Class ACVAirspace Enable
 } {Main}
 #Trigger {Current Coordinates: &{ACVCoordX}, &{ACVCoordY}, &{ACVCoordZ}} {
  #gagline 1 all;

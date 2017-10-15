@@ -124,7 +124,6 @@ setthememusicvolume;
 #Key Shift-Control-F12 {mtplay} {SoundKeys}
 #Key Shift-Control-Alt-F12 {thememusicfadeout} {SoundKeys}
 
-#Key Shift-F1 {aboutscripts} {}
 #Key Control-S {
  #SetSpeech Incoming Stop;
  ConfSaveAll

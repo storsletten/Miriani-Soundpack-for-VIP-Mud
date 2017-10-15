@@ -313,9 +313,8 @@ Omega Sector:115
    } {
     #Var TmpCommunication3 {}
    };
-   ExpPipe {%0} {[rooc] @TmpCommunication1@TmpCommunication3} {[rooc] @TmpCommunication1@TmpCommunication3};
-   PushMessage rooc {@ExpString};
-   #Sub {@ExpString};
+   #Sub {[rooc] @TmpCommunication1@TmpCommunication3};
+   PushMessage rooc {[rooc] @TmpCommunication1@TmpCommunication3};
    #Var TmpCommunication1 {}
   };
   #If {@TmpCommunication1=*"[[] * shatters immersion and says"} {
@@ -329,9 +328,8 @@ Omega Sector:115
    } {
     #Var TmpCommunication3 {}
    };
-   ExpPipe {%0} {[rooc] @TmpCommunication1: @TmpCommunication3} {[rooc] @TmpCommunication1: @TmpCommunication3};
-   PushMessage rooc {@ExpString};
-   #Sub {@ExpString};
+   #Sub {[rooc] @TmpCommunication1: @TmpCommunication3};
+   PushMessage rooc {[rooc] @TmpCommunication1: @TmpCommunication3};
    #Var TmpCommunication1 {}
   }
  } {
@@ -432,12 +430,10 @@ Omega Sector:115
    #If {%Length(@TmpCommunication1)>0 and (@TmpCommunication2="says" or @TmpCommunication2="exclaims" or @TmpCommunication2="asks")} {
     #If {@TmpCommunication1="A voice comes over the speaker and says"} {
      MirianiSoundPlay {Standard} {Ship\Computer\commchirp2@Ext};
-     ExpPipe {%0} {@TmpCommunication3} {@TmpCommunication3};
+     #Sub {@TmpCommunication3};
      #If {@SpeakComputerMessagesThroughSAPI=1} {
-      SSpeak @ExpString;
-      #Gagline 1 Voice
-     } {
-      #Sub {@ExpString}
+      SSpeak {@TmpCommunication3};
+      #GagLine 1 Voice
      };
      #Var TmpCommunication1 {}
     };
@@ -668,12 +664,10 @@ Omega Sector:115
  PushMessage Newbie {[Newbie] %1}
 } {Main}
 #Trigger {You ask * if * wishes to establish a secure communications link with you.  Note that this link can be used from a distance once it is established.} {
- ExpPipe {%0} {You ask %1 if %2 wants to establish a secure link with you.} {You ask %1 for a link.};
- #Sub @ExpString
+ #Sub {You ask %1 for a link.}
 } {Main}
 #Trigger {Your communicator flashes a series of cryptic looking numbers before confirming the secure link with *.} {
- ExpPipe {%0} {Your communicator flashes as the secure link with %1 is confirmed.} {Secure link with %1 established.};
- #Sub @ExpString
+ #Sub {Secure link with %1 established.}
 } {Main}
 #Trigger {Private Organization: * (*)} {
  #If {@OrgName<>%2} {
@@ -693,9 +687,8 @@ Omega Sector:115
 #Trigger {[[] * shatters immersion and * ]} {
  #If {%Word(%2,~",1) <> "says, " or %NumWords(%2,~")<3} {
   msplay General\Comm\Rooc@ext;
-  ExpPipe {%0} {%0} {[rooc] %1 %2};
-  PushMessage rooc {@ExpString};
-  #Sub {@ExpString}
+  #Sub {[rooc] %1 %2};
+  PushMessage rooc {[rooc] %1 %2}
  }
 } {Main}
 #Trigger {[[]Admin Message]: *} {

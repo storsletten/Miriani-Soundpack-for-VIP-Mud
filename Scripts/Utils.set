@@ -13,7 +13,7 @@ Typing^Allows you to type with only one hand, using the number pad}
  #ForAll {%Replace(@ExtraScriptFiles,%CRLF,|)} {
   #If {%Pos(^,%i)>0} {LoadExtra {%Word(%i,^,1)} {%1}}
  }
-} {}
+}
 #Alias LoadExtra {
  #Var ExtraTmp1 {LoadExtraScript%1};
  #If {%Defined(@ExtraTmp1)=1} {
@@ -28,7 +28,86 @@ Typing^Allows you to type with only one hand, using the number pad}
   }
  };
  #UnVar ExtraTmp1
-} {}
+}
+
+#Trigger {[*][*][*] * [*][*][*]} {
+ #Var MainTmp1 {%Replace(%1,~",)};
+ #If {@MainTmp1="Connected"} {
+  #GagLine 1 Voice;
+  SPConnect 1;
+  #Alarm 2 {SPKeepAlive Start Quiet};
+  #Abort
+ };
+ #If {@MainTmp1="Disconnected"} {
+  mrplay stop;
+  #Var Connected 0;
+  #PC 0 Stop;
+  #If {@AutoSave=1 and %Defined(ConfManagerMenusLoaded)=1} {ConfSaveAll Quiet};
+  #Abort
+ };
+ #If {@MainTmp1="Redirecting old connection to this port"} {
+  #GagLine 1 Voice;
+  #Say {Reconnected} NoDisplay;
+  #PC 0 Stop;
+  #UnAlarm -1;
+  SPConnect 1;
+  l;
+  #Abort
+ };
+ #If {@MainTmp1="You have entered a starship simulator. To exit, please type END."} {msplay General\Device\MovieStart@Ext;#Abort};
+ #If {@MainTmp1=*"The server will be shut down *"} {msplay General\Misc\Announcement@Ext;#Abort}
+}
+#Trigger {[#]$[#]*} {
+ #Config DisplayCommandsInOutput False;
+ #GagLine 1 All;
+ #Var oobTmp1 {%Replace(%1,~",)};
+ #Var oobTmp1 {%Replace(@oobTmp1,~~,)};
+ #If {%Defined(KeepAliveState)=1} {#Var KeepAliveState 1};
+ #If {@oobTmp1="soundpack_pong"} {
+  #If {%Defined(WhoOriginalHeader)=1} {
+   WhoCheck {} {ReadingComplete};
+   #UnGagLine;
+   #Sub {%Copy(@WhoData,3)};
+   #UnVar WhoData
+  } {
+   #Exec {>#$#soundpack_ping_reply ms};
+   #If {%Defined(ShowPong)=1} {
+    #UnGagLine;
+    #Sub {Pong!};
+    #UnVar ShowPong
+   }
+  }
+ };
+ #If {@oobTmp1="hjelp"} {
+  #If {@KeepAliveRespond=1 or @KeepAlive>0} {
+   #Exec {>#$#soundpack_ping_reply ms}
+  };
+  SPKeepAlive Start Quiet Replied
+ };
+ #If {@oobTmp1=*"soundpack_lag *"} {
+  #If {%Defined(ShowPingPongLagReport)=1} {
+   #Var ShowPingPongLagReport {%Word(%1, ,2)};
+   #Var ShowPingPongLagReport {%Word(@ShowPingPongLagReport,.,1)};
+   #UnGagLine;
+   #Sub {You have @ShowPingPongLagReport ms of local client lag.};
+   #UnVar ShowPingPongLagReport
+  }
+ };
+ #If {@oobTmp1=*"soundpack echo | *"} {
+  #If {%Defined(SPPromptAwaitingUserInput)=1} {
+   #If {@SPPromptAcceptBlankUserInput=1 or %Length(%1)>17} {
+    #Exec {#Alarm 0 {SPPrompt Disable;@SPPromptCallback {%Copy(%1,18)} {@SPPromptCallbackLastArg}}}
+   } {
+    MirianiSoundPlay Standard General\Misc\Cancel@Ext;
+    #Say {Aborted.} NoVoice;
+    SPPrompt Disable
+   }
+  } {
+   MirianiSoundPlay Standard General\Misc\Cancel@Ext
+  }
+ };
+ #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
+}
 
 #Alias ping {
  #Var ShowPong {};
@@ -36,7 +115,7 @@ Typing^Allows you to type with only one hand, using the number pad}
  #Config DisplayCommandsInOutput False;
  #Exec {>#$#soundpack_ping};
  #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
-} {}
+}
 #Alias lag {
  #Exec {>lag%RTrim( %0)};
  #If {%1=""} {
@@ -45,7 +124,7 @@ Typing^Allows you to type with only one hand, using the number pad}
   #Exec {>#$#soundpack_ping};
   #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
  }
-} {}
+}
 #Trigger {There is currently an estimated * of server CPU lag and *} {
  #Class LagTest Disable;
  #Var ShowPingPongLagReport {};
@@ -110,17 +189,7 @@ Typing^Allows you to type with only one hand, using the number pad}
    #Say {To turn SPKeepAlive off, set it to 0 seconds.}
   }
  }
-} {}
-
-#Alias aboutscripts {speech stop;
-ConfPrint {@{SoundpackName}, version @{version}.
-Originally written by Cory Martin.
-Rewritten, updated, and maintained by @SoundpackCreators.
-  Credits:
-@SoundpackContributors
-  Contact information:
-Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
-}} {}
+}
 
 #Alias MainTrigSwitch {
  #If {%Length(%2)>0} {
@@ -169,23 +238,8 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
   };
   #Var WildcardTmp3 {%Copy(@WildcardTmp3,%Length(@WildcardTmp4)+@WildcardTmp6+1)}
  }
-} {}
+}
 
-#Alias ExpPipe {
- #Var ExpString {%{@ExperienceLevel}};
- #If {%Pos(:,@ExpString)=1} {
-  #If {%NumWords(@ExpString,:)>2} {
-   #Var ExpGag {%Word(@ExpString,:,2)};
-   #Var ExpString {%Copy(@ExpString,%Length(@ExpGag)+3)};
-   #If {%Length(@ExpString)=0} {#Var ExpString { }}
-  } {#Var ExpGag {%Copy(@ExpString,2)};#Var ExpString { }};
-  #If {%NumWords(@ExpGag, )=2} {#GagLine {%Word(@ExpGag, ,1)} {%Word(@ExpGag, ,2)}} {
-   #If {%IsNumber(@ExpGag)=1} {#GagLine {@ExpGag} All} {#GagLine 1 {@ExpGag}}
-  }
- } {
-  #If {%Length(@ExpString)=0} {#Var ExpString { };#GagLine 1 All}
- }
-} {}
 #Alias DisplayPrint {
  #Var DisplayString {%2};
  #Var {Display%{1}IsHidden} {0};
@@ -199,9 +253,9 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
    #Var {Display%{1}IsHidden} {1}
   }
  }
-} {}
+}
 
-#Alias wn {#edit @ChangelogFilePath} {}
+#Alias wn {#edit @ChangelogFilePath}
 #Alias GagEverything {
  #Var GagEverything {%Eval(NOT @GagEverything)};
  #If {@GagEverything=1} {
@@ -211,7 +265,7 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
   #SetSpeech Incoming On;
   #Say {Gagging Disabled.}
  }
-} {}
+}
 #Alias SPConnect {
  #Var Connected 1;
  #If {%1="1"} {
@@ -222,7 +276,7 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
   SetRoomSoundVolume
  };
  #Exec {>#$#register_soundpack @SoundpackName | @Version}
-} {}
+}
 #Alias SPInfo {
  #If {%IsNumber(%Version)=0} {
   #Say {Warning: You have installed the scripts for VIP Mud 2.0, but you are using VIP Mud 1.1. It is likely that errors will occur unless you install the scripts for VIP Mud 1.1, or upgrade to VIP Mud 2.0.}
@@ -251,7 +305,7 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  #Say {Scripts path: @ScriptPath};
  #Say {Sounds path: @SoundsPath};
  #Say {Themes path: @ThemesPath}
-} {}
+}
 #Alias SPTest {
  #Var TestTmp1 {Soundpack Test:};
  #If {%Defined(Version)=1} {
@@ -283,7 +337,7 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
  };
  #UnVar TestTmp1;
  #UnVar TestTmp2
-} {}
+}
 #Alias SPReload {
  #If {%IfWord(Quiet,%1,|)=0} {#Say {Reloading...}};
  #Ignore Key On;
@@ -312,7 +366,7 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
    #Load {@ScriptPath\SoundpackLoader.set}
   }
  }
-} {}
+}
 
 #Alias SPPrompt {
  #If {%Length(%3)=0} {
@@ -351,7 +405,7 @@ Please use the OOC / Soundpacks board in Miriani for questions and stuffs.
   #Exec {>secho};
   #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
  }
-} {}
+}
 #Trigger {What would you like to be repeated back to you using soundpack echo?} {
  #Class ShowSPPrompt Disable;
  #If {%Defined(SPPromptCaption)=0} {
@@ -446,7 +500,7 @@ You are currently using version @Version of the @SoundpackName.};
   #Say {Reloading the soundpack... Please remain calm.};
   SPReload 1
  }
-} {}
+}
 
 #If {%Defined(DeclaredVariables)=0} {#Var DeclaredVariables {}}
 #If {%Defined(PreservedVariables)=0} {#Var PreservedVariables {}}
@@ -469,14 +523,14 @@ You are currently using version @Version of the @SoundpackName.};
  #UnVar VarNameTmp2;
  #UnVar VarNameTmp3;
  #UnVar VarNameTmp4
-} {}
+}
 #Alias PreserveVariable {
  #If {%IfWord(%1,@PreservedVariables,|)=0} {#Var PreservedVariables {@PreservedVariables|%1}}
-} {}
+}
 #Alias SetPreservedVariable {
  #If {%IfWord(%1,@PreservedVariables,|)=0} {#Var PreservedVariables {@PreservedVariables|%1}};
  #Var {%1} {%2}
-} {}
+}
 #Alias UnsetPreservedVariables {
  #Var VarTmp1 {};
  #ForAll {@PreservedVariables} {
@@ -490,7 +544,7 @@ You are currently using version @Version of the @SoundpackName.};
  };
  #Var PreservedVariables {@VarTmp1};
  #UnVar VarTmp1
-} {}
+}
 #Alias dnd {
  #If {%Length(%1)>0} {
   #Var Silent {%IfWord(%1,on 1 enable enabled, )}
@@ -504,7 +558,7 @@ You are currently using version @Version of the @SoundpackName.};
    #Say {%If(@Silent=1,Enabled,Disabled) Do Not Disturb.}
   }
  }}
-} {}
+}
 #Alias Speech {
  #If {%1="stop"} {
   #If {@UseSpeechInterrupts=1 AND @GagEverything=0} {#SetSpeech Incoming Stop}
@@ -534,20 +588,20 @@ You are currently using version @Version of the @SoundpackName.};
    }
   }
  }
-} {}
+}
 #Alias DontStopSpeaking {
  #If {@UseSpeechInterrupts=1} {
   speech stop;
   #Var DontStopSpeaking 1
  }
-} {}
+}
 
 #Alias who {
  #Class StartReadingWhoList Disable;
  #Class ReadWhoList Disable;
  #Exec {who%RTrim( %0)}
 } {StartReadingWhoList}
-#Alias whoc {#Exec {whocheck%RTrim( %0)}} {}
+#Alias whoc {#Exec {whocheck%RTrim( %0)}}
 #Alias WhoCheck {
  #If {%1="" and %2="ReadingComplete"} {
   #Class ReadWhoList Disable;
@@ -620,7 +674,7 @@ You are currently using version @Version of the @SoundpackName.};
    #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
   }
  }
-} {}
+}
 
 #Trigger {There are * players connected, * of whom have been active recently:} {
  #GagLine 1 All;
@@ -644,5 +698,5 @@ You are currently using version @Version of the @SoundpackName.};
    #If {%Length(@ConnectedPlayers)=0} {#Var ConnectedPlayers {@WhoTmp1}} {#AddItem ConnectedPlayers {@WhoTmp1}}
   }
  }
-} {Main|ReadWhoList}
-#Trigger {* - Out of *} {#GagLine 1 All} {Main|ReadWhoList}
+} {ReadWhoList}
+#Trigger {* - Out of *} {#GagLine 1 All} {ReadWhoList}

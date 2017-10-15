@@ -1,9 +1,8 @@
 #Var Contributors {}
 #Var LargestContributionLength 0
 #Trigger {You contribute * credit* to the owner of the ship.} {
- ExpPipe {%0} {%0} {You contribute %1 to the owner of @ZoneName.};
- #Sub {@ExpString};
- PushMessage Contributions {@ExpString}
+ #Sub {You contribute %1 to the owner of @ZoneName.};
+ PushMessage Contributions {You contribute %1 to the owner of @ZoneName.}
 } {Main|Starship}
 #Trigger {You have received a contribution of * credit* from *.} {
  #Var ContribID {%Pos(|%3|,@Contributors)};
@@ -18,9 +17,8 @@
  #Var {@ContribVar} {@ContribTimes|@BigAddResult|%Word(@{@ContribVar},|,3):%1};
  #Var ContribLength {%Pos(.,@BigAddResult)};
  #If {@ContribLength>@LargestContributionLength} {#Var LargestContributionLength {@ContribLength}};
- ExpPipe {%0} {%0} {You receive %1 from %3.};
- #Sub {@ExpString};
- PushMessage Contributions {@ExpString};
+ #Sub {You receive %1 from %3.};
+ PushMessage Contributions {You receive %1 from %3.};
  #If {%Defined(RewardAlarmHandle)=0} {MirianiSoundPlay Standard {General\Misc\Credits*3@Ext}};
  #UnVar ContribID;#UnVar ContribLength;#UnVar ContribTimes;#UnVar ContribVar
 } {Main|Starship}
@@ -100,9 +98,10 @@
  #ForAll {Int|Carry|Sep|Tmp1|Tmp2|Tmp3|TmpInt} {#UnVar {BigAdd%i}}
 } {}
 
-#Trigger {You press a large * reset button on a * starship simulator.} {msplay General\Misc\Beep*10@Ext;
-ExpPipe {%0} {You reset the %1 starship simulator.} {};
-#sub {@ExpString}} {Main}
+#Trigger {You press a large * reset button on a* starship simulator.} {
+ msplay General\Misc\Beep*10@Ext;
+ #Sub {You reset a%2 starship simulator.}
+} {Main}
 #Trigger {* crawls in through a * panel.} {
  #If {%Pos(stream of light,%1)=0 or %2="small"} {msplay Ship\Misc\ExitDucts*2@Ext} {
   msplay Ship\Misc\EnterDucts*2@Ext;
@@ -114,8 +113,7 @@ ExpPipe {%0} {You reset the %1 starship simulator.} {};
 } {Main|Starship}
 #Trigger {You lift a small panel and crawl through *} {
  msplay Ship\Misc\EnterDucts*2@Ext;
- ExpPipe {%0} {:Voice:%0} {};
- #Sub {@ExpString}
+ #GagLine 1 All
 } {Main|Starship}
 #Trigger {You flip a heavy switch, *.} {
  msplay Ship\Misc\Lever*5@Ext;
@@ -129,21 +127,20 @@ ExpPipe {%0} {You reset the %1 starship simulator.} {};
 } {Main}
 #Trigger {* pushes a small lever away from *, activating the ship's systems.} {msplay Ship\Misc\Lever*5@Ext} {Main|Starship}
 #Trigger {* pulls a small lever toward *, deactivating the ship's systems.} {msplay Ship\Misc\Lever*5@Ext} {Main|Starship}
-#Trigger {A small console nearby flashes for your attention. A quick glance reveals that you have new mail waiting for you at*.} {msplay Ship\Misc\NewMail@Ext;
-ExpPipe {%0} {A small console nearbye tells you have new mail waiting for you at %1.} {You have new mail at %1.};
-#sub {@ExpString}} {Main|Starship}
-#Trigger {You hear a loud clang as robotic arms seize the ship and transport it to the *.} {#If {%1 = "landing pad"} {
-msplay Ship\Misc\LandingPad@Ext
-};
-#If {%1 = "garage"} {
-msplay Ship\Misc\Garage@Ext
-};
-ExpPipe {%0} {Ship transported to %1.} {};
-#sub {@ExpString}} {Main}
-#Trigger {A loud whirring sound comes from the * as * haul cargo *.} {mrandomplay Ship\Misc\Transfer*3@Ext;
-#Gagline 1 all} {Main|Starship}
-#Trigger {A loud bang emanates from the * as * haul cargo *.} {mrandomplay Ship\Misc\Transfer*3@Ext;
-#Gagline 1 all} {Main|Starship}
+#Trigger {A small console nearby flashes for your attention. A quick glance reveals that you have new mail waiting for you at *} {
+ msplay Ship\Misc\NewMail@Ext;
+ #Sub {You have new mail at %1}
+} {Main|Starship}
+#Trigger {You hear a loud clang as robotic arms seize the ship and transport it to the *.} {
+ #If {%1="landing pad"} {msplay Ship\Misc\LandingPad@Ext};
+ #If {%1="garage"} {msplay Ship\Misc\Garage@Ext};
+ #Sub {Ship transported to %1.};
+ #GagLine 1 Voice
+} {Main|Starship}
+#Trigger {A loud * from the * as * haul cargo *.} {
+ mrandomplay Ship\Misc\Transfer*3@Ext;
+ #GagLine 1 All
+} {Main|Starship}
 #Trigger {*A fuzzy creature, appearing momentarily dazed, disengages itself from *.*} {msplay General\Combat\Fuzzy@Ext} {Main|Starship}
 #Trigger {* *s through the hatch.} {msplay Ship\Misc\Hatch@Ext} {Main}
 #Trigger {A security drone suddenly appears to escort you off the ship*} {ThemeMusicFadeOut;
@@ -192,34 +189,29 @@ msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
 #Trigger {Several drones begin depositing canisters of gas nearby.} {mrandomplay Atmo\CargoDeposited@Ext} {Main}
 #Trigger {The * opens and allows you to pass.} {
  msplay {General\Misc\door open@Ext};
- ExpPipe {%0} {%0} {:Voice:%0};
- #Sub {@ExpString}
+ #GagLine 1 Voice
 } {Main}
 #Trigger {Power to that system has been cut.} {msplay Ship\Misc\PowerCut@Ext} {Main}
 #Trigger {A mechanical groan permeates the room as *.} {
  #If {%Pos(aside,%1)>0} {
-  ExpPipe {%0} {%0} {:Voice:Door opening.};
-  MirianiSoundPlay Standard {Ship\Misc\DoorOpen@Ext}
+  #Sub {Door opening.};
+  MirianiSoundPlay Standard {Ship\Misc\DoorOpen@Ext};
+  #GagLine 1 Voice
  } {
-  ExpPipe {%0} {%0} {:Voice:Door closing.};
-  MirianiSoundPlay Standard {Ship\Misc\DoorClose@Ext}
- };
- #Sub {@ExpString}
+  #Sub {Door closing.};
+  MirianiSoundPlay Standard {Ship\Misc\DoorClose@Ext};
+  #GagLine 1 Voice
+ }
 } {Main|Starship}
 #Trigger {A mechanical groan gradually subsides as the *, * the exit *.} {
  #If {%Pos(block,%2)>0} {
-  ExpPipe {%0} {%0} {%3 closed.}
+  #Sub {%3 closed.}
  } {
-  ExpPipe {%0} {%0} {%3 open.}
+  #Sub {%3 open.}
  };
- MirianiSoundPlay Standard {Ship\Misc\DoorSettled@Ext};
- #Sub {@ExpString}
+ MirianiSoundPlay Standard {Ship\Misc\DoorSettled@Ext}
 } {Main|Starship}
 #Trigger {Your communicator rapidly beeps three times as it's paired to the ship.} {msplay Ship\Comm\RelayJoin@Ext} {Main|Starship}
-#Trigger {It's already *.} {
- ExpPipe {%0} {%0} {Already %1.};
- #Sub @ExpString
-} {Main}
 #Trigger {Those coordinates are occupied by this ship.} {
  msplay General\Misc\Cancel@Ext
 } {Main|Starship}
@@ -234,17 +226,15 @@ msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
  msplay General\Misc\Cancel@Ext
 } {Main|Starship}
 #Trigger {[[]##/##/#### - *:* [ap].m.] (*) *} {
- ExpPipe {%0} {%0} {%8  [%4:%5 %6.m. - %1/%2/%3]};
- #Sub {@ExpString}
+ #Sub {%8  [%4:%5 %6.m. - %1/%2/%3]}
 } {Main}
 #Trigger {* instructs the computer to begin scanning for debris.} {
  msplay {General\Misc\Beep*10.wav};
- ExpPipe {%0} {:Voice:%0} {:Voice:%1 scans for debris.};
- #sub {@ExpString}
+ #Sub {%1 scans for debris.};
+ #GagLine 1 Voice
 } {Main|Starship}
 #Trigger {The *-* * "*" is located at *.} {
- ExpPipe {%0} {%1-%2 %3 %4 at %5} {%4 at %5 (%3)};
- #Sub @ExpString
+ #Sub {%4 at %5  (%3).}
 } {Main}
 #Trigger {The * is suddenly seized by several robotic arms and hauled into the starship garage.} {mrandomplay Ship\Misc\Garage@Ext} {Main}
 #Trigger {* pull* a series of straps around * and securely buckle* into*} {msplay General\Misc\Buckle*3@Ext} {Main|Starship}
@@ -254,9 +244,8 @@ msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
 #Trigger {You suddenly notice the absence of * as the smell of * wafts into the *.} {msplay Ship\Misc\Scent@Ext} {Main}
 #Trigger {You hear a satisfying click as the ship's docking ring is *.} {msplay Ship\Move\RingEnd@Ext} {Main}
 #Trigger {You hear a mechanical rumbling sound as the ship*s repair arm goes to work.} {
- ExpPipe {%0} {Repair arm activated.} {};
  msplay Ship\Misc\RepairArm@Ext;
- #Sub {@ExpString}
+ #GagLine 1 All
 } {Main}
 #Trigger {You watch as a* is brought in by several salvage lines.} {msplay Ship\Misc\PanelsOff@Ext} {Main}
 #Trigger {You follow * outside the ship*} {
@@ -269,9 +258,8 @@ msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
 #Trigger {You snatch * from the cold, cruel hands of space.} {msplay General\Misc\SnatchArtifact*2@Ext} {Main}
 #Trigger {You press a button and quickly retrieve a printout of the ship's*.} {msplay Ship\Computer\Print@Ext} {Main|Starship}
 #Trigger {You abort the *.} {
- ExpPipe {%0} {%0} {%1 aborted.};
- msplay Ship\Computer\Abort@Ext;
- #Sub {@ExpString}
+ #Sub {%1 aborted.};
+ msplay Ship\Computer\Abort@Ext
 } {Main}
 #Trigger {You are turned away by the locked hatch of *.} {msplay General\Misc\CantGo*5@Ext} {Main}
 #Trigger {The hatch acknowledges your key and unlocks, allowing you to * through.} {
@@ -296,22 +284,20 @@ msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
 #Trigger {The computer flashes a message next to * cycle button* "*} {
  #If {%Pos(beginning,%3) > 0} {
   msplay Ship\Misc\AirlockCycleStart@Ext;
-  ExpPipe {%0} {:Voice:%0} {:Voice:%0}
+  #GagLine 1 Voice
  } {
   msplay Ship\Computer\Beep@Ext;
-  ExpPipe {%0} {:Voice:%0} {Cycling complete.}
- };
- #Sub {@ExpString}
+  #Sub {Cycling complete.}
+ }
 } {Main}
 #Trigger {A small light on the airlock control panel turns from * to *. *} {
  #If {%Pos("hiss of air",%3) > 0} {
   msplay Ship\Misc\AirStart@Ext;
   #If {%Pos(entering,%3) > 0} {
-   ExpPipe {%0} {:Voice:%3} {Airlock cycling to normal environment.}
+   #Sub {Airlock cycling to normal environment.}
   } {
-   ExpPipe {%0} {:Voice:%3} {Airlock cycling to hostile environment.}
-  };
-  #Sub {@ExpString}
+   #Sub {Airlock cycling to hostile environment.}
+  }
  } {
   #GagLine 1 All
  }

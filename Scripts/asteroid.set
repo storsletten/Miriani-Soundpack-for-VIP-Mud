@@ -5,15 +5,11 @@
 } {Main|Ground}
 #Trigger {*Lifting anchor and establishing standard dock*} {
  msplay {General\Asteroid\ShipAnchorEnd@Ext};
- ExpPipe {:Voice:%0} {:Voice:%0} {};
- #Sub {@ExpString}
+ #GagLine 1 All
 } {Main|Starship}
 #Trigger {You accelerate the vehicle *. Navigation instruments instruct you that your coordinates are now *.} {
  DontStopSpeaking;
- #If {%IfWord(%1,@DirList, )=1} {
-  ExpPipe {%0} {Moving %1 to %2.} {[%2]};
-  #Sub {@ExpString}
- }
+ #If {%IfWord(%1,@DirList, )=1} {#Sub {[%2]}}
 } {Main|Vehicle}
 
 #Alias {surveying} {
@@ -32,32 +28,26 @@
 } {Main}
 #Trigger {[{]*, *} (*)} {#If {@Surveying = 1} {#GagLine 1 all}} {Main|NotStarship}
 #Trigger {You pull a cord out of a bulky diagnostic device and plug it into an available port on *.} {
- ExpPipe {%0} {%0} {};
- #Sub @ExpString;
- msplay General\Asteroid\Diag@Ext
+ msplay General\Asteroid\Diag@Ext;
+ #GagLine 1 All
 } {Main|Ground}
-#Trigger {You unplug the cord from * and retract it back into a bulky diagnostic device.} {
- ExpPipe {%0} {%0} {};
- #Sub @ExpString
-} {Main|Ground}
+#Trigger {You unplug the cord from * and retract it back into a bulky diagnostic device.} {#GagLine 1 All} {Main|Ground}
 #Trigger {Mineral Pocket Detected: *} {
- #If {@ExperienceLevel=3} {
-  #GagLine 1 All;
-  #Var MineralPocket %1
- }
+ #GagLine 1 All;
+ #Var MineralPocket {%1}
 } {Main|Ground}
 #Trigger {Mineral Concentration: *} {
- #If {@ExperienceLevel=3} {
-  #Sub {[@MineralPocket]: %1};
-  #UnVar MineralPocket
- }
+ #Sub {[@MineralPocket]: %1};
+ #UnVar MineralPocket
 } {Main|Ground}
-#Trigger {The ground shudders underfoot as materials are moved by *.} {ExpPipe {%0} {} {};
-#Sub @ExpString;
-msplay General\Asteroid\Drill*9@Ext} {Main|Ground}
-#Trigger {A cloud of particulate matter floats up from the drilling area of * as it extracts * from a nearby source.} {ExpPipe {%0} {} {};
-#Sub @ExpString;
-msplay General\Asteroid\Drill*9@Ext} {Main|Ground}
+#Trigger {The ground shudders underfoot as materials are moved by *.} {
+ msplay General\Asteroid\Drill*9@Ext;
+ #GagLine 1 All
+} {Main|Ground}
+#Trigger {A cloud of particulate matter floats up from the drilling area of * as it extracts * from a nearby source.} {
+ msplay General\Asteroid\Drill*9@Ext;
+ #GagLine 1 All
+} {Main|Ground}
 #Trigger {A small light on * suddenly *.} {
  #If {%IfWord(%2,begins to glow as power pours into the unit|fades as power to the unit is severed,|)=1} {
   #If {%Pos(begins,%2)=1} {
@@ -67,13 +57,15 @@ msplay General\Asteroid\Drill*9@Ext} {Main|Ground}
   }
  }
 } {Main|Ground}
-#Trigger {You orient the business end of * away from your face and activate it. A brilliant blue energy beam, carefully controlled to lose energy after about an inch of exposure, begins to issue forth from the barrel. You lean toward * and apply the beam to the nearest tear and begin sealing it.} {msplay General\Asteroid\MicroSealer*4@Ext;
-ExpPipe {%0} {%0} {You use %1 on %2.};
-#Sub @ExpString} {Main}
+#Trigger {You orient the business end of * away from your face and activate it. A brilliant blue energy beam, carefully controlled to lose energy after about an inch of exposure, begins to issue forth from the barrel. You lean toward * and apply the beam to the nearest tear and begin sealing it.} {
+ msplay General\Asteroid\MicroSealer*4@Ext;
+ #Sub {You use %1 on %2.}
+} {Main}
 #Trigger {The drill bit of * suddenly catches, seizing up for a moment before drilling resumes.} {msplay General\Asteroid\ShakyDrillBit@Ext} {Main|Ground}
-#Trigger {The rover shudders violently as the arm * and begins rotating.} {msplay General\Asteroid\Rotating@Ext;
-ExpPipe {%0} {%0} {};
-#Sub @ExpString} {Main}
+#Trigger {The rover shudders violently as the arm * and begins rotating.} {
+ msplay General\Asteroid\Rotating@Ext;
+ #GagLine 1 All
+} {Main}
 #Trigger {* input* command into *.} {
  #If {%IfWord(%2, an activation| a deactivation|s an activation|s a deactivation,|)=1} {
   #If {%Pos(deactivation,%2)>0} {
@@ -83,23 +75,21 @@ ExpPipe {%0} {%0} {};
   }
  }
 } {Main|Ground}
-#Trigger {*You watch as a small ramp is extended from outside the hull to the asteroid surface.} {ExpPipe {%0} {} {};
-#Sub @ExpString;
-msplay General\Asteroid\RampDown@Ext} {Main}
+#Trigger {*You watch as a small ramp is extended from outside the hull to the asteroid surface.} {
+ msplay General\Asteroid\RampDown@Ext;
+ #GagLine 1 All
+} {Main}
 #Trigger {Several loud banging sounds emanate from the cargo area behind you.} {
  msplay General\Asteroid\CargoBangs@Ext;
- ExpPipe {%0} {} {};
- #Sub @ExpString
+ #GagLine 1 All
 } {Main}
 #Trigger {* carefully * the end of a *.} {
  #If {%IfWord(%2,disconnect|disconnects|secure|secures,|)=0 or %Pos(:,%0)>0 or %Pos(~, ~",%0)>0 or %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=1} {#Abort};
  #Var AsteroidTmp1 {%Word(%3, ,3)};
  #If {%IfWord(@AsteroidTmp1,cable tubing, )=1} {
   #If {%Pos(secure,%2)=1} {
-   #If {@ExperienceLevel>2 and %IfWord(%1,You,|)=1} {
-    #Var ExpString {%Proper(@AsteroidTmp1) secured %Delete(%3,1,%Pos( to ,%3)).}
-   } {
-    #Var ExpString {%0}
+   #If {%IfWord(%1,You,|)=1} {
+    #Sub {%Proper(@AsteroidTmp1) secured %Delete(%3,1,%Pos( to ,%3)).}
    };
    #If {@AsteroidTmp1="cable"} {
     msplay General\Asteroid\WireAttach@Ext
@@ -107,14 +97,11 @@ msplay General\Asteroid\RampDown@Ext} {Main}
     msplay General\Asteroid\TubingAttach@Ext -15
    }
   } {
-   #If {@ExperienceLevel>2 and %IfWord(%1,You,|)=1} {
-    #Var ExpString {%Proper(@AsteroidTmp1) disconnected %Delete(%3,1,%Pos( from ,%3)).}
-   } {
-    #Var ExpString {%0}
+   #If {%IfWord(%1,You,|)=1} {
+    #Sub {%Proper(@AsteroidTmp1) disconnected %Delete(%3,1,%Pos( from ,%3)).}
    };
    msplay General\Asteroid\CableDetach@Ext -20
-  };
-  #Sub {@ExpString}
+  }
  };
  #UnVar AsteroidTmp1
 } {Main|Ground}
@@ -188,6 +175,5 @@ msplay General\Asteroid\RampDown@Ext} {Main}
 #Trigger {You instruct the rover to begin *.} {msplay General\Asteroid\RoverCommand@Ext} {Main|Vehicle}
 #Trigger {You begin accelerating the vehicle * the ramp.} {
  msplay General\Asteroid\RampStart@Ext;
- ExpPipe {%0} {%0} {};
- #Sub {@ExpString}
+ #GagLine 1 All
 } {Main|Vehicle}

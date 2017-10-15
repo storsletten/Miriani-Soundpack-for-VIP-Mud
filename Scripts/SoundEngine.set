@@ -46,9 +46,9 @@ station:General\Footsteps\Station*8@Ext
    #Exec {#Alarm 0 {PushMessage Played0Sounds {@SoundTmpString}}}
   }
  }
-} {}
+}
 
-#Alias msplay {MirianiSoundPlay Standard %1 %2 %3} {}
+#Alias msplay {MirianiSoundPlay Standard %1 %2 %3}
 
 ; McPlay
 ; For use with camera output:
@@ -66,7 +66,7 @@ station:General\Footsteps\Station*8@Ext
  #Math McplayTmp1 {@McplayTmp1 + @CameraVolumeDiff};
  MirianiSoundPlay {Camera} {%1} {@McplayTmp1@McplayTmp2} {%3};
  #If {@SoundIsPlaying=1} {#pc %playhandle pan @CameraPan}
-} {}
+}
 
 ; Mwplay:
 ; For use with weapon fire etc.
@@ -86,7 +86,7 @@ station:General\Footsteps\Station*8@Ext
  #If {@SoundIsPlaying=1 and @RandomiseCombatPan=1 and %mp3loop<>@WeaponSoundHandle and %playhandle>0} {
   #PC %PlayHandle Pan %Random(-4000,4000)
  }
-} {}
+}
 
 ; SetRoomSoundVolume:
 ; Simply sets the room sounds volume, used with the master volume faders.
@@ -94,7 +94,7 @@ station:General\Footsteps\Station*8@Ext
  #Math RoomVol {@Vol+@RoomSoundsVolumeDiff};
  #If {@RoomVol<0} {#Var RoomVol 0} {#If {@RoomVol>100} {#Var RoomVol 100}};
  #If {%Defined(RoomSoundHandle)=1} {#PC @RoomSoundHandle Volume @RoomVol}
-} {}
+}
 
 ; Mrplay:
 ; Loop plays room sounds.
@@ -106,7 +106,7 @@ station:General\Footsteps\Station*8@Ext
    #Alarm 0 {mrplayOriginal {%1} {%2} {%3} {%4} {%5} {%6} {%7} {%8} {%9}}
   }
  }
-} {}
+}
 #Alias mrplayOriginal {
  #If {%1="" or %1="stop"} {
   #If {%Defined(RoomSoundHandle)=1} {#PC @RoomSoundHandle Stop;#UnVar RoomSoundHandle};
@@ -128,7 +128,7 @@ station:General\Footsteps\Station*8@Ext
    }
   }
  }
-} {}
+}
 
 ; MPlanetSounds
 ; Play sounds on randomly generated planets.
@@ -142,7 +142,7 @@ station:General\Footsteps\Station*8@Ext
    }
   }
  }
-} {}
+}
 
 
 ; meplay:
@@ -156,7 +156,7 @@ station:General\Footsteps\Station*8@Ext
  #If {@EmotesOn=1} {
   MirianiSoundPlay {Social Emote} %1 %2 %3
  }
-} {}
+}
 
 ; maplay:
 ; This alias plays output from emote
@@ -169,7 +169,7 @@ station:General\Footsteps\Station*8@Ext
  #If {@ActionsOn=1} {
   MirianiSoundPlay {Social Action} %1 %2 %3
  }
-} {}
+}
 
 ; Mtplay:
 ; Plays the theme music.
@@ -180,10 +180,10 @@ station:General\Footsteps\Station*8@Ext
   MirianiSoundPlay Themes {l^@ThemesPath\Theme (*@{NumOfThemes}).mp3};
   SetThemeMusicVolume
  }
-} {}
+}
 #Alias ThemeMusicStop {
  #If {%Mp3Loop>0} {#PC %Mp3Loop stop}
-} {}
+}
 
 ; setthememusicvolume:
 ; Use this alias with no arguments to set the volume of the
@@ -193,7 +193,7 @@ station:General\Footsteps\Station*8@Ext
   #Math ThemeVol {@Vol-@ThemeSoundVolumeDiff};
   #PC %Mp3Loop Volume @ThemeVol
  }
-} {}
+}
 
 #Alias ThemeMusicFadeout {
  #If {%Mp3Loop>0} {
@@ -209,7 +209,7 @@ station:General\Footsteps\Station*8@Ext
    }
   }
  }
-} {}
+}
 
 #Alias MasterMute {
  #If {%Length(%1)>0} {
@@ -226,7 +226,7 @@ station:General\Footsteps\Station*8@Ext
   mrplayOriginal @RoomSound
  };
  #If {%IfWord(Quiet,%2,|)=0} {#Say {Sounds %If(@Silent=1,off,on).}}
-} {}
+}
 
 ; SetMasterVolume:
 ; Sets the overall volume fader.
@@ -258,7 +258,7 @@ station:General\Footsteps\Station*8@Ext
  };
  #If {@RoomSounds>0} {SetRoomSoundVolume};
  SetThemeMusicVolume
-} {}
+}
 
 ; Mrandomplay:
 ; Does what it says on the tin. Is used for random events, like cargo transfer sounds etc.
@@ -267,7 +267,7 @@ station:General\Footsteps\Station*8@Ext
  #If {@SoundIsPlaying=1 and @RandomisePlay=1} {
   #pc %PlayHandle pan %Random(-4000,4000)
  }
-} {}
+}
 
 #Alias MStep {
  #If {%Pos( ,@RoomName)>0} {
@@ -289,7 +289,7 @@ station:General\Footsteps\Station*8@Ext
  };
  #If {%Length(@FootstepTmp1)>0 and ((%1="Other" and @PlayOtherTreadSound=1) or (%1="You" and @PlayTreadSound=1))} {MirianiSoundPlay Footstep {@FootstepTmp1}};
  #UnVar FootstepTmp1
-} {}
+}
 
 
 ; Mobject:
@@ -305,7 +305,7 @@ station:General\Footsteps\Station*8@Ext
   #If {%Pos(asteroid,%1)>0} {#AddItem MObjectFound {Asteroid};MirianiSoundPlay {Sector Alerts} Ship\Computer\AsteroidHere@Ext};
   #If {%Pos(star ,%1)>0 or %Pos(star~,,%1)>0} {#AddItem MObjectFound {Star};MirianiSoundPlay {Sector Alerts} Ship\Computer\StarHere@Ext}
  }
-} {}
+}
 
 ; MGunPlay:
 ; Used when firing a gun.
@@ -322,7 +322,7 @@ station:General\Footsteps\Station*8@Ext
   }
  };
  #Exec {@GunCommand @GunSoundsPath\%If(%Length(@GunSound)>0,@GunSound,@DefaultGunSound)}
-} {}
+}
 
 ; SSpeak:
 ; Speaks whatever you want through SAPI.
@@ -339,4 +339,4 @@ station:General\Footsteps\Station*8@Ext
    #SetSpeech VoiceOnly @DefaultSpeechType
   }
  }
-} {}
+}

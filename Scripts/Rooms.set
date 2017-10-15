@@ -240,7 +240,7 @@ Apartment
  } {
   ~InSpace %0
  }
-} {}
+}
 #Alias Powered {
  #If {%1=*"[01]"} {
   #If {%1<>@Powered} {
@@ -260,7 +260,7 @@ Apartment
  } {
   ~Powered %0
  }
-} {}
+}
 
 #Trigger {[#]$[#]soundpack environment *} {
  #If {@InterruptOnRoom=1 and (@Following=0 or (@InterruptOnFollow=1 and @SpeakRoomTitleFirst=0)) AND @DontStopSpeaking<>1} {speech stop};
@@ -433,8 +433,7 @@ Apartment
 #Trigger {[[]"*" Escape Pod]} {mrplay Ship\Rooms\EscapePod@Rext} {Main}
 #Trigger {The pod's suicidal pace  slows as it reaches *, gently touching down. *} {
  msplay ACV\ACVStop@Ext;
- ExpPipe {%0} {} {};
- #Sub @ExpString
+ #GagLine 1 All
 } {Main}
 #Trigger {The pod quickly slows as it reaches *.*} {DontStopSpeaking} {Main}
 #Trigger {* is closed.} {
@@ -442,9 +441,8 @@ Apartment
 } {Main}
 #Trigger {Noticing a* Commoveo membership ring, the guard waves you through.} {DontStopSpeaking} {Main}
 #Trigger {You step on to a small platform on the floor. Sensing your presence, a ring of lights along the perimeter of the circle light up as the platform *.} {
- ExpPipe {%0} {:Voice:%0} {};
  msplay General\Misc\HGLift.wav;
- #Sub {@ExpString}
+ #GagLine 1 All
 } {Main|Ground}
 #Trigger {You hear a loud creak as you * the rusted gate open, stepping through it.} {msplay General\Rooms\Gate*3@Rext} {Main|Ground}
 #Trigger {You hear a sudden rumbling as the walls of the room start to crumble and the floor shakes violently. *} {msplay General\Rooms\DestroyRoom@Rext} {Main}
@@ -452,8 +450,7 @@ Apartment
 #Trigger {You set a new access code for a * door and lock it.} {msplay Ship\Misc\DoorLocked@Ext} {Main}
 #Trigger {You peer * and see...} {
  #Var Peers 1;
- ExpPipe {%0} {} {};
- #Sub {@ExpString}
+ #GagLine 1 All
 } {Main}
 #Trigger {You pass through *.} {#var Following 1} {Main}
 #Trigger {You see the walls begin to crumble and the floor cracking. *} {msplay General\Rooms\DestroyRoom@Rext} {Main}
@@ -465,20 +462,23 @@ Apartment
 #Trigger {* press* a button on the wall to summon the lift.} {msplay general/lift/LiftButton@Ext} {Main}
 #Trigger {With a gentle rock, the pod sets down *.} {
  msplay General\Misc\ITPNArrive@Ext;
- ExpPipe {%0} {The pod sets down %1.} {};
- #sub @ExpString
+ #GagLine 1 Voice
 } {Main|NotStarship}
 #Trigger {You hear the sound of the pod's engines as it accelerates *.} {
  #If {%Pos(toward,%1)=1} {
   msplay Ship\Move\YouLanding@Ext;
-  ExpPipe {%0} {The pod accelerates %1.} {:Voice:The pod accelerates %1.}
+  #Sub {The pod accelerates %1.};
+  #GagLine 1 Voice
  } {
   msplay ACV\ACVStart@Ext;
-  ExpPipe {%0} {The pod accelerates %1.} {}
- };
- #Sub @ExpString
+  #GagLine 1 All
+ }
 } {Main|NotStarship}
-#Trigger {*The sound of the pod's engine suddenly fills the area as the pod begins moving toward its destination*} {#GagLine 1 All;
-msplay general\misc\podgo@Ext} {Main}
-#Trigger {*You feel the mild pull of acceleration as the pod begins to set down*} {#GagLine 1 All;
-msplay general\misc\podstop@Ext} {Main}
+#Trigger {*The sound of the pod's engine suddenly fills the area as the pod begins moving toward its destination*} {
+ #GagLine 1 All;
+ msplay general\misc\podgo@Ext
+} {Main}
+#Trigger {*You feel the mild pull of acceleration as the pod begins to set down*} {
+ #GagLine 1 All;
+ msplay general\misc\podstop@Ext
+} {Main}

@@ -7,25 +7,23 @@
  #Var ArchDigDepth 0;
  #Var ArchArtiDepth 0;
  msplay general\archaeology\scanner*4@Ext;
- ExpPipe {%0} {:Voice:%0} {:Voice:Scanning...};
- #Sub {@ExpString}
+ #GagLine 1 Voice;
+ #Sub {Scanning...}
 } {Main|Ground}
 #Trigger {A level * archaeological dig site scanner *} {
  #If {%IfWord(%Word(%2, ,1),indicates reports, )=1} {
   #If {%IfWord(%2,indicates that nothing is buried nearby.|reports nothing nearby.,|)=1} {
    #If {%Pos(reports,%2)=1} {
-    ExpPipe {%0} {%0} {Nothing nearby.}
+    #Sub {Nothing nearby.}
    } {
-    ExpPipe {%0} {%0} {Nothing buried in this dig site.}
+    #Sub {Nothing buried in this dig site.}
    };
-   #Sub {@ExpString};
    msplay General\Archaeology\NothingFound@Ext;
    #Abort
   };
   #If {%Pos(indicates that there is an artifact buried approximately ,%2)=1} {
    #Var ArchArtiDepth {%Word(%2, ,9)};
-   ExpPipe {%0} {There is an artifact approximately @ArchArtiDepth feet beneath the surface.} {@ArchArtiDepth feet.};
-   #Sub {@ExpString};
+   #Sub {@ArchArtiDepth feet.};
    #If {%Pos(.,@ArchArtiDepth)>0} {
     #If {%Word(@ArchArtiDepth,.,1)=0} {
      #Var ArchArtiDepth {%Left(%Word(@ArchArtiDepth,.,2),1)}
@@ -86,14 +84,12 @@
    #Abort
   };
   #If {%Pos( object ,%2)>0} {
-   ExpPipe {%0} {%0} {Object %Word(%2, object ,2)};
-   #Sub {@ExpString};
+   #Sub {Object %Word(%2, object ,2)};
    msplay General\Archaeology\ArtifactNear@Ext;
    #Abort
   };
   #If {%Word(%2, ,2)="that"} {
-   ExpPipe {%0} {%0} {%Proper(%Delete(%2,1,%Eval(%Pos( ,%2)+5)))};
-   #Sub {@ExpString}
+   #Sub {%Proper(%Delete(%2,1,%Eval(%Pos( ,%2)+5)))}
   };
   msplay General\Archaeology\ArtifactNear@Ext
  }
@@ -101,40 +97,35 @@
 #Trigger {Your digging reveals *. You stoop down and quickly retrieve it.} {
  #Var ArchArtiDepth 0;
  #Var ArchaeologyHelperArtifactName %1;
- ExpPipe {%0} {%0} {You get %1.};
- #if {@ArchaeologyHelperCountArtifacts=1} {
-  #if {%IsNumber(@ArchaeologyHelperNumberOfArtifacts)=1} {
+ #Sub {You get %1.};
+ #If {@ArchaeologyHelperCountArtifacts=1} {
+  #If {%IsNumber(@ArchaeologyHelperNumberOfArtifacts)=1} {
    #Math ArchaeologyHelperNumberOfArtifacts {@ArchaeologyHelperNumberOfArtifacts + 1}
   } {
    #Var ArchaeologyHelperNumberOfArtifacts 1
   };
-  #var ExpString {[@ArchaeologyHelperNumberOfArtifacts]: @ExpString}
+  #Sub {[@ArchaeologyHelperNumberOfArtifacts]: You get %1.}
  };
- #sub {@ExpString};
  msplay General\Archaeology\ArtifactGet@Ext
 } {Main|Ground}
 
 #Trigger {A clump of loose soil comes free from * and plops back to the ground.} {
  msplay General\Archaeology\Soil@Ext;
  MArchPlay;
- ExpPipe {%0} {%0} {:Voice:%0};
- #Sub {@ExpString}
+ #GagLine 1 Voice
 } {Main|Ground}
 #Trigger {A furry animal burrows deeper into the ground as * threatens to fully expose it.} {
  MArchPlay;
- ExpPipe {%0} {%0} {:Voice:%0};
- #Sub {@ExpString}
+ #GagLine 1 Voice
 } {Main|Ground}
 #Trigger {A plump red insect burrows deeper into the dirt as * comes near.} {
  MArchPlay;
- ExpPipe {%0} {%0} {:Voice:%0};
- #Sub {@ExpString}
+ #GagLine 1 Voice
 } {Main|Ground}
 
 #Trigger {The hud on a* flashes alarmingly, indicating the oxygen supply has dropped below *.} {
  msplay {General\Misc\Warning@Ext};
- ExpPipe {%0} {%0} {Oxygen supply is below %2.};
- #Sub {@ExpString}
+ #Sub {Oxygen supply is below %2.}
 } {Main}
 #Trigger {* thrust* a small shovel into the ground and begin* methodically removing large chunks of dirt.} {
  #Var ArchLastDigAmount 5;
@@ -143,8 +134,7 @@
   #GagLine 1 All;
   msplay general\archaeology\shovel*14@Ext
  } {
-  ExpPipe {%0} {%0} {%1 digs.};
-  #Sub {@ExpString};
+  #Sub {%1 digs.};
   msplay general\archaeology\shovel*14@Ext -10
  }
 } {Main|Ground}
@@ -165,11 +155,10 @@
   msplay general\archaeology\shovel*14@Ext
  } {
   #If {%Length(@ArchTmp1)>0} {
-   ExpPipe {%0} {%0} {%1 digs with an automatic shovel, and it seems that it's only @ArchTmp1 feet left to the artifact.}
+   #Sub {%1 digs with an automatic shovel, and it seems that it's only @ArchTmp1 feet left to the artifact.}
   } {
-   ExpPipe {%0} {%0} {%1 digs with an automatic shovel.}
+   #Sub {%1 digs with an automatic shovel.}
   };
-  #Sub {@ArchTmp1};
   msplay general\archaeology\shovel*14@Ext -10
  };
  #UnVar ArchTmp1

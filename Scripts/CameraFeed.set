@@ -25,15 +25,11 @@
   #If {@MissionMode=1 and %Pos(@CameraTmp3,@CameraTmp1)>0} {
    #GagLine 1 Voice
   };
-  #If {@ExperienceLevel>2} {
-   #Math CameraTmp3 {%Length(@CameraTmp1)-1};
-   #Var CameraTmp1 {%Copy(@CameraTmp1,1,@CameraTmp3)};
-   #Var CameraTmp3 { has fired at };
-   #Var CameraTmp3 {%Pos(@CameraTmp3,@CameraTmp1)};
-   #Var CameraTmp3 {%Copy(@CameraTmp1,@CameraTmp3+14) hit by %Copy(@CameraTmp1,1,@CameraTmp3)}
-  } {
-   #Var CameraTmp3 {@CameraTmp1}
-  }
+  #Math CameraTmp3 {%Length(@CameraTmp1)-1};
+  #Var CameraTmp1 {%Copy(@CameraTmp1,1,@CameraTmp3)};
+  #Var CameraTmp3 { has fired at };
+  #Var CameraTmp3 {%Pos(@CameraTmp3,@CameraTmp1)};
+  #Var CameraTmp3 {%Copy(@CameraTmp1,@CameraTmp3+14) hit by %Copy(@CameraTmp1,1,@CameraTmp3)}
  };
  #If {@CameraTmp1=*"You notice a bright flash of light*a starship must be coming in*"} {
   #Var CameraTmp4 {Starship|Ship\Move\OtherLanding*3@Ext};
@@ -112,8 +108,7 @@
 } {Main}
 #Trigger {The holographic projection abruptly ends as * shuts down.} {msplay General\Device\MovieEnd@Ext} {Main}
 #Trigger {*, you suddenly find yourself immersed in a realistic holographic projection that makes you feel as if reality has actually been altered.} {
- ExpPipe {%0} {%0} {A holographic projection begins.};
- #sub {@ExpString};
+ #Sub {A holographic projection begins.};
  msplay General\Device\MovieStart@Ext
 } {Main}
 #Trigger {> *} {

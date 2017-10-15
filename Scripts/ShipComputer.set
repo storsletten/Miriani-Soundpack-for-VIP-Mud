@@ -51,15 +51,15 @@ Warning! Aquatic life form has entered scooper chamber. Expulsion in progress...
 |
 The destination specified is beyond the range of the wormhole drive.  Attempting to utilize jumpgate network.^
  MirianiSoundPlay Standard Ship\Computer\JumpgateCalculate~@Ext;
- ExpPipe {~@ComputerSaid} {~@ComputerSaid} {:Voice:~@ComputerSaid}
+ #GagLine 1 Voice
 |
 Aborting repair task. Please stand by.^
  MirianiSoundPlay Standard Ship\Computer\Abort~@Ext;
- ExpPipe {~@ComputerSaid} {~@ComputerSaid} {Aborting repair task.}
+ #Var ComputerSaid {Aborting repair task.}
 |
 Scans reveal the debris to be a life form.^
  MirianiSoundPlay Standard Ship\Misc\SalvageLifeForm~@Ext;
- ExpPipe {~@ComputerSaid} {~@ComputerSaid} {Lifeform salvaged!}
+ #Var ComputerSaid {Lifeform salvaged!}
 |
 Docking complete.^
  #Var PlayComputerSound 1;
@@ -72,7 +72,7 @@ Sensors detect an obstacle in the path of the wormhole. Aborting FTL travel...^
 There is insufficient weapons-grade bardenium available for firing.^
  MirianiSoundPlay Standard Ship\Combat\NoBard~@Ext;
  #If {~%Defined(CannonsAvailableBard)=1} {#Var CannonsAvailableBard 0};
- ExpPipe {~@ComputerSaid} {There is insufficient bardenium available for firing.} {Insufficient bardenium available.}
+ #Var ComputerSaid {Insufficient bardenium available.}
 |
 The cannons now have sufficient ammunition for firing.^
  #Var PlayComputerSound 1;
@@ -80,11 +80,12 @@ The cannons now have sufficient ammunition for firing.^
   #Math CannonsAvailableBard {~@CannonsAvailable*10};
   #If {~@CannonsAvailableBard<20} {#Var CannonsAvailableBard 20}
  };
- ExpPipe {~@ComputerSaid} {Cannons reloaded.} {Reloaded.}
+ #Var ComputerSaid {Reloaded.}
 |
 The target has moved from the locked coordinates.^
  MirianiSoundPlay Standard Ship\Combat\Lostlock~@Ext;
- ExpPipe {~@ComputerSaid} {~@ComputerSaid} {:Voice:Target has moved.}
+ #Var ComputerSaid {Target has moved.};
+ #GagLine 1 Voice
 |
 Precision wormhole drive is powering up. Calculating optimal path for precision entry...^
  #Var PlayComputerSound 1;
@@ -102,11 +103,11 @@ Warning, avian lifeform in processing chamber. Expelling...^
  #Var PlayComputerSound 1;
  MirianiSoundPlay Standard Ship\Misc\SalvageLifeForm~@Ext;
  mrandomplay ACV\AvianExpulsion*38~@Ext;
- ExpPipe {~@ComputerSaid} {Expelling avian lifeform from processing chamber.} {}
+ #GagLine 1 All
 |
 Cargo capacity has been filled. Shutting down atmospheric scooper.^
  #Var PlayComputerSound 1;
- ExpPipe {~@ComputerSaid} {Cargo capacity has been filled.} {Cargo capacity filled.}
+ #Var ComputerSaid {Cargo capacity filled.}
 |
 The target is no longer available. Probable cause for lost sensor contact is destruction.^
  #If {~%Defined(SomeoneElseFires)=0} {
@@ -115,12 +116,12 @@ The target is no longer available. Probable cause for lost sensor contact is des
   #Math TotalShips {~@TotalShips+1}
  } {#UnVar SomeoneElseFires};
  MirianiSoundPlay Standard Ship\Combat\OtherDestroyed*11~@Ext;
- ExpPipe {~@ComputerSaid} {~@ComputerSaid} {Target destroyed.}
+ #Var ComputerSaid {Target destroyed.}
 |
 Direct hit. Target was not destroyed.^
  #If {~%Defined(SomeoneElseFires)=0} {#Math DirectHits {~@DirectHits+1}} {#UnVar SomeoneElseFires};
  mwplay Ship\Combat\OtherHit4~@Ext;
- ExpPipe {~@ComputerSaid} {~@ComputerSaid} {Direct hit.}
+ #Var ComputerSaid {Direct hit.}
 |
 Push pulse device destroyed safely.^MirianiSoundPlay Standard Ship\Combat\OtherDestroyed*11~@Ext
 |
@@ -145,7 +146,7 @@ Turret* locking onto *.^
  #If {~@UseAlternativeCombatSounds=1 AND ~%Pos(Praelor,~@Wildcard2)>0} {MirianiSoundPlay Standard Ship\Combat\FireAtPraelor~@Ext};
  #If {~%Replace(~@Wildcard2,~~",)="empty space"} {
   MirianiSoundPlay Standard General\Misc\Cancel@Ext;
-  ExpPipe {~@ComputerSaid} {Turret@Wildcard1 locking on nothing} {Nothing targeted.}
+  #Var ComputerSaid {Nothing targeted.}
  } {
   MirianiSoundPlay Standard Ship\Combat\WeaponsLocked~@Ext;
   MirianiSoundPlay Standard Ship\Computer\Keyboard*15~@Ext
@@ -156,7 +157,7 @@ Bardenium Cannon* locked on *. Firing.^
  #If {~@UseAlternativeCombatSounds=1 AND ~%Pos(Praelor,~@Wildcard2)>0} {MirianiSoundPlay Standard Ship\Combat\FireAtPraelor~@Ext};
  MirianiSoundPlay Standard Ship\Combat\WeaponsLocked~@Ext;
  MirianiSoundPlay Standard Ship\Computer\Keyboard*15~@Ext;
- ExpPipe {~@ComputerSaid} {Bardenium Cannon~@Wildcard1 locked on ~@Wildcard2.} {Cannon~@Wildcard1 locked on ~@Wildcard2.};
+ #Var ComputerSaid {Cannon~@Wildcard1 locked on ~@Wildcard2.};
  #If {~%Defined(CannonsSalvoSize)=1} {
   #Math CannonsAvailableBard {~@CannonsAvailableBard-~@CannonsSalvoSize};
   #If {~@CannonsAvailableBard<=0} {MirianiSoundPlay Standard Ship\Combat\NoBard~@Ext}
@@ -165,18 +166,18 @@ Bardenium Cannon* locked on *. Firing.^
 Hit on *.^
  #If {~%Defined(SomeoneElseFires)=0} {#Math DirectHits {~@DirectHits+1}} {#UnVar SomeoneElseFires};
  mwplay Ship\Combat\OtherHit5~@Ext;
- #If {~@MissionMode=1 and ~%Pos(Hit on Ontanka starship Praelor ,~@ComputerSaid)=1} {#Var ExpString {Hit on ~%Copy(~@ComputerSaid,33)}}
+ #If {~@MissionMode=1 and ~%Pos(Hit on Ontanka starship Praelor ,~@ComputerSaid)=1} {#Var ComputerSaid {Hit on ~%Copy(~@ComputerSaid,33)}}
 %Chr(250)
 Partial hit on *.^
  #If {~%Defined(SomeoneElseFires)=0} {#Math PartialHits {~@PartialHits+1}} {#UnVar SomeoneElseFires};
  mwplay Ship\Combat\OtherHit3~@Ext;
  MirianiSoundPlay Standard Ship\Combat\PartialHit~@Ext 20;
- #If {~@MissionMode=1 and ~%Pos(Partial hit on Ontanka starship Praelor ,~@ComputerSaid)=1} {#Var ExpString {Partial hit on ~%Copy(~@ComputerSaid,41)}}
+ #If {~@MissionMode=1 and ~%Pos(Partial hit on Ontanka starship Praelor ,~@ComputerSaid)=1} {#Var ComputerSaid {Partial hit on ~%Copy(~@ComputerSaid,41)}}
 %Chr(250)
 * destroyed.^
  #If {~%Pos(Direct hit. ,~@ComputerSaid)=1} {
   MirianiSoundPlay Standard Ship\Combat\OtherDestroyed*11~@Ext;
-  ExpPipe {~@ComputerSaid} {~@ComputerSaid} {~%Copy(~@ComputerSaid,13)}
+  #Var ComputerSaid {~%Copy(~@ComputerSaid,13)}
  } {
   #Var Wildcard1 {~%Copy(~@ComputerSaid,1,~%Length(~@ComputerSaid)-11)};
   #If {~%IfWord(~@Wildcard1,Blockade|Debris,|)=1} {
@@ -201,7 +202,7 @@ Long-Range Laser * is locking onto *.^
  #If {~@UseAlternativeCombatSounds=1 AND ~%Pos(Praelor,~@Wildcard2)>0} {MirianiSoundPlay Standard Ship\Combat\FireAtPraelor~@Ext};
  #If {~%Replace(~@Wildcard2,~~",)="empty space"} {
   MirianiSoundPlay Standard General\Misc\Cancel~@Ext;
-  ExpPipe {~@ComputerSaid} {Turret@Wildcard1 locking on nothing} {Nothing targeted.}
+  #Var ComputerSaid {Nothing targeted.}
  } {
   MirianiSoundPlay Standard Ship\Combat\WeaponsLocked~@Ext;
   MirianiSoundPlay Standard Ship\Computer\Keyboard*15~@Ext
@@ -223,9 +224,9 @@ Scans reveal the debris to be a lifeform*.^
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
  MirianiSoundPlay Standard Ship\Misc\Lifeform~@Ext;
  #If {~%Length(~@Wildcard1)=0} {
-  ExpPipe {~@ComputerSaid} {~@ComputerSaid} {Lifeform salvaged!}
+  #Var ComputerSaid {Lifeform salvaged!}
  } {
-  ExpPipe {~@ComputerSaid} {~@ComputerSaid} {Salvaged a lifeform~@Wildcard1}
+  #Var ComputerSaid {Salvaged a lifeform~@Wildcard1}
  }
 %Chr(250)
 * pulse is locking *...^MirianiSoundPlay Standard Ship\Combat\PulseLock*2~@Ext
@@ -240,47 +241,47 @@ Mission objective has been completed in approximately *. Return to base.^
   #Var TotalShips {~%If(~%IsNumber(~@TotalShips)=0,0,~@TotalShips)};
   #Var DestroyedDebris {~%If(~%IsNumber(~@DestroyedDebris)=0,0,~@DestroyedDebris)};
   #If {~@DirectHits=0 AND ~@PartialHits=0} {
-   #Var ExpString {No hits on ~@TotalShips ships}
+   #Var ComputerSaid {No hits on ~@TotalShips ships.}
   } {
    #Math TotalHits {~@DirectHits + ~@PartialHits};
-   #Var ExpString {~%Replace(~@HitCounterFormatString,$TOTALHITS,~@TotalHits)};
-   #Var ExpString {~%Replace(~@ExpString,$DIRECTHITS,~@DirectHits)};
-   #Var ExpString {~%Replace(~@ExpString,$PARTIALHITS,~@PartialHits)};
-   #Var ExpString {~%replace(~@ExpString,$DESTROYEDSHIPS,~@DestroyedShips)};
-   #Var ExpString {~%Replace(~@ExpString,$TOTALSHIPS,~@TotalShips)};
-   #Var ExpString {~%Replace(~@ExpString,$DESTROYEDDEBRIS,~@DestroyedDebris)}
+   #Var ComputerSaid {~%Replace(~@HitCounterFormatString,$TOTALHITS,~@TotalHits).};
+   #Var ComputerSaid {~%Replace(~@ComputerSaid,$DIRECTHITS,~@DirectHits)};
+   #Var ComputerSaid {~%Replace(~@ComputerSaid,$PARTIALHITS,~@PartialHits)};
+   #Var ComputerSaid {~%replace(~@ComputerSaid,$DESTROYEDSHIPS,~@DestroyedShips)};
+   #Var ComputerSaid {~%Replace(~@ComputerSaid,$TOTALSHIPS,~@TotalShips)};
+   #Var ComputerSaid {~%Replace(~@ComputerSaid,$DESTROYEDDEBRIS,~@DestroyedDebris)}
   };
-  #Var ExpString {~@ExpString in ~@Wildcard1.};
-  PushMessage Mission0Reports {~@ExpString}
+  #Var ComputerSaid {~@ComputerSaid in ~@Wildcard1.};
+  PushMessage Mission0Reports {~@ComputerSaid}
  }
 %Chr(250)
 I am beginning the repair of *. Estimated time to completion: *.^
  #Var PlayComputerSound 1;
  MirianiSoundPlay Standard Ship\Computer\RepairStart~@Ext 10;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
- ExpPipe {~@ComputerSaid} {Repairing ~@Wildcard1. ~@Wildcard2 until complete.} {Repairing ~@Wildcard1, ~@Wildcard2.}
+ #Var ComputerSaid {Repairing ~@Wildcard1, ~@Wildcard2.}
 %Chr(250)
 * will be completely repaired in approximately *.^
  #Var PlayComputerSound 1;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
- ExpPipe {~@ComputerSaid} {~@Wildcard1 will be repaired in approximately ~@Wildcard2.} {~@Wildcard1 will be repaired in ~@Wildcard2.}
+ #Var ComputerSaid {~@Wildcard1 will be repaired in ~@Wildcard2.}
 %Chr(250)
 I have completed the repair of *.^
  #Var PlayComputerSound 1;
  MirianiSoundPlay Standard Ship\Computer\RepairComplete~@Ext;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
- ExpPipe {~@ComputerSaid} {Completed the repair of ~@Wildcard1.} {~@Wildcard1 repaired.}
+ #Var ComputerSaid {~@Wildcard1 repaired.}
 %Chr(250)
 Via synchronized text message broadcasts, *^
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
  MirianiSoundPlay Standard Ship\Comm\STMB~@Ext;
- #Var ExpPipe {[Synchronized Text Message Broadcast] ~@WildCard1};
+ #Var ComputerSaid {[Synchronized Text Message Broadcast] ~@WildCard1};
  PushMessage Comm {~@ComputerSaid}
 %Chr(250)
 This vessel is of the * design. It was manufactured on * at the * and commissioned by the *. The vessel came under licensed control on * and is presently licensed to *.^
  #Var PlayComputerSound 1;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
- ExpPipe {~@ComputerSaid} {~@ComputerSaid} {This ~@Wildcard1 is presently licensed to ~@Wildcard6.~%{CRLF}It came under licensed control on ~@Wildcard5.~%{CRLF}It was manufactured on ~@Wildcard2 at the ~@Wildcard3, and commissioned by the ~@Wildcard4.}
+ #Var ComputerSaid {This ~@Wildcard1 is presently licensed to ~@Wildcard6.~%{CRLF}It came under licensed control on ~@Wildcard5.~%{CRLF}It was manufactured on ~@Wildcard2 at the ~@Wildcard3, and commissioned by the ~@Wildcard4.}
 %Chr(250)
 The game has ended! The winner is *^
  mrplay;
@@ -312,7 +313,6 @@ The game has ended! The winner is *^
     }
    }
   };
-  #Var ExpString {@ComputerSaid};
   #If {%Length(@ComputerCommands)>0} {
    #Exec {@ComputerCommands};
    #If {%Defined(PlayComputerSound)=1} {
@@ -320,39 +320,39 @@ The game has ended! The winner is *^
     #UnVar PlayComputerSound
    }
   } {MirianiSoundPlay Standard {Ship\Computer\%If(@ComputerPiped=1,LFD@Ext,Announce*4@Ext)}};
-  #If {@GagAvatars=0 and (@ExperienceLevel<3 or @ComputerName<>"Computer")} {#Var ExpString {@ComputerName: @ExpString}};
-  PushMessage Computer {@ExpString};
+  #If {@GagAvatars=0 and @ComputerName<>"Computer"} {#Var ComputerSaid {@ComputerName: @ComputerSaid}};
+  PushMessage Computer {@ComputerSaid};
   #If {@SpeakComputerMessagesThroughSAPI=1 AND @ComputerSpoken<>1} {
-   SSpeak @ExpString;
+   SSpeak {@ComputerSaid};
    #GagLine 1 Voice
   };
-  #Sub {@ExpString}
+  #Sub {@ComputerSaid}
  }
 } {Main}
 
 #Trigger {The computer reports *} {
- #Var ExpString {};
+ #Var ComputerSaid {};
  #Var ShipComputerTmp1 {%Replace(%1,~",)};
  #Var ShipComputerTmp2 {Ship\Computer\Report*4@Ext};
  #If {@ShipComputerTmp1="no nearby debris."} {
   #Var ShipComputerTmp2 {Ship\Computer\NoNearbyDebris@Ext};
-  ExpPipe {%0} {:Voice:%Proper(%1)} {}
+  #GagLine 1 All
  };
  #If {@ShipComputerTmp1=*"* is one unit away from this ship."} {
   #Var ShipComputerTmp2 {Ship\Computer\OneUnitAway@Ext};
-  ExpPipe {%0} {%1} {%Copy(%1,1,%Pos(is one unit away from this ship.%CRLF,%1%CRLF))n range.}
+  #Var ComputerSaid {%Copy(%1,1,%Pos(is one unit away from this ship.%CRLF,%1%CRLF))n range.}
  };
  #If {@ShipComputerTmp1=*"* has been destroyed."} {
   #Math TotalShips {@TotalShips + 1};
   mwplay Ship\Combat\OtherDestroyed*11@Ext;
-  ExpPipe {%0} {%0} {%Copy(%1,6,%Length(%1)-25) destroyed.}
+  #Var ComputerSaid {%Copy(%1,6,%Length(%1)-25) destroyed.}
  };
  #If {@ShipComputerTmp1=*"the starship is headed for *. The computer estimates approximately * until arrival at the destination at sublight speeds."} {
   #Var ShipComputerTmp3 {%Pos(. The computer estimates approximately ,%1)};
   #Var ShipComputerTmp4 {%Copy(%1,28,@ShipComputerTmp3-28)};
   #Var ShipComputerTmp5 {%Copy(%1,@ShipComputerTmp3+39)};
   #Var ShipComputerTmp5 {%Copy(@ShipComputerTmp5,1,%Pos(until arrival at the destination at sublight speeds,@ShipComputerTmp5)-2)};
-  ExpPipe {%0} {%0} {@ShipComputerTmp5 until arrival at @ShipComputerTmp4.};
+  #Var ComputerSaid {@ShipComputerTmp5 until arrival at @ShipComputerTmp4.};
   #UnVar ShipComputerTmp3;
   #UnVar ShipComputerTmp4;
   #UnVar ShipComputerTmp5
@@ -364,48 +364,46 @@ The game has ended! The winner is *^
    MirianiSoundPlay Computer {%Word(@ShipComputerTmp2,|,1)}
   }
  };
- #If {%Length(@ExpString)=0} {
+ #If {%Length(@ComputerSaid)=0} {
   #If {%Pos(that ,@ShipComputerTmp1)=1} {#Var ShipComputerTmp1 {%Copy(%1,6)}} {#Var ShipComputerTmp1 {%1}};
-  ExpPipe {%0} {%0} {%Proper(@ShipComputerTmp1)}
+  #Var ComputerSaid {%Proper(@ShipComputerTmp1)}
  };
- #Sub {@ExpString};
+ #Sub {@ComputerSaid};
  #UnVar ShipComputerTmp1;
  #UnVar ShipComputerTmp2
 } {Main|Starship}
-#Trigger {* presses a button on a navigation console and examines the display.} {MirianiSoundPlay Standard Ship\Computer\Keyboard*15@Ext;
-ExpPipe {%0} {%0} {%1 checks the navigation console.};
-#sub {@ExpString}} {Main|Starship}
+#Trigger {* presses a button on a navigation console and examines the display.} {
+ MirianiSoundPlay Standard Ship\Computer\Keyboard*15@Ext;
+ #Sub {%1 checks the navigation console.}
+} {Main|Starship}
 #Trigger {A destination appears on the ship's navigation controls: *} {
  MirianiSoundPlay Standard Ship\Computer\Keyboard*15@Ext;
- ExpPipe {%0} {Heading to %1} {Destination: %1};
- #Sub {@ExpString}
+ #Sub {Destination: %1}
 } {Main|Starship}
 #Trigger {Total Weight: *} {MirianiSoundPlay Standard Ship\Computer\Display@Ext} {Main}
 #Trigger {There is nothing in the cargo hold.*} {MirianiSoundPlay Standard Ship\Computer\Display@Ext} {Main|Craft}
 #Trigger {*:} {
  #If {%IfWord(%1,Charge Readout|Critical Damage|Light Damage|Moderate Damage|Starship Damage|Starship Security Status|Starship Status|Starship Weapon Configuration|Weapon Information|Weapon Configuration|Weapon Status,|)=1} {
-  ExpPipe {%0} {:Voice:%0} {:Voice:%0};
-  #Sub {@ExpString};
-  MirianiSoundPlay Standard Ship\Computer\Display@Ext
+  MirianiSoundPlay Standard Ship\Computer\Display@Ext;
+  #GagLine 1 Voice
  }
 } {Main}
 #Trigger {Current coordinates: *} {
+ #If {@InterruptOnFocus=1} {Speech Stop};
  #Var MyCoordsX {%Word(%1,~, ,1)};
  #Var MyCoordsY {%Word(%1,~, ,2)};
- #Var MyCoordsZ {%Word(%1,~, ,3)};
- #If {@InterruptOnFocus=1} {speech stop};
- #If {@currentroomsound="Ship\Rooms\Salvager.wav"} {
-  ExpPipe {%0} {%1} {@MyCoordsX @MyCoordsY}
+ #If {%NumWords(%1,~,)<3} {
+  #Var MyCoordsZ {};
+  #Sub {@MyCoordsX @MyCoordsY}
  } {
-  ExpPipe {%0} {%1} {@MyCoordsX @MyCoordsY @MyCoordsZ}
+  #Var MyCoordsZ {%Word(%1,~, ,3)};
+  #Sub {@MyCoordsX @MyCoordsY @MyCoordsZ}
  };
- #sub {@ExpString};
- #class AtSaStarmap disable
+ #Class AtSaStarmap Disable
 } {Main}
 #Trigger {A * beep sounds as the computer announces* "* charge remaining."} {
  MirianiSoundPlay Standard Ship\Computer\LowCharge*3@Ext;
- ExpPipe {%0} {[Alert]: %3 charge remaining!} {%3 charge remaining!};
- #sub {@ExpString}
+ #Sub {%3 charge remaining!}
 } {Main}
 #Trigger {* Lights overhead indicate that the ship is on * status. *} {
  #If {%2 = "red alert"} {
@@ -417,11 +415,12 @@ ExpPipe {%0} {%0} {%1 checks the navigation console.};
  }
 } {Main|Starship}
 #Trigger {A* suddenly emerges from a console.} {MirianiSoundPlay Standard Ship\Computer\ScanRetrieved@Ext} {Main|Starship}
-#Trigger {Video probe history:} {ExpPipe {%0} {%0} {};
-#sub {@ExpString};
-MirianiSoundPlay Standard Ship\Computer\Probe*3@Ext} {Main}
+#Trigger {Video probe history:} {
+ MirianiSoundPlay Standard Ship\Computer\Probe*3@Ext;
+ #GagLine 1 Voice
+} {Main}
 #Trigger {Scanning is made much more difficult by the lack of sensors.} {
- #class focus disable;
+ #Class focus disable;
  MirianiSoundPlay Standard Ship\Computer\Error@Ext
 } {Main|Starship}
 #Trigger {* is unable to function without sensors.} {MirianiSoundPlay Standard Ship\Computer\Error@Ext} {Main|Starship}
@@ -433,12 +432,12 @@ MirianiSoundPlay Standard Ship\Computer\PipeOff@Ext
 }} {Main|Starship}
 #Trigger {* emerges from a nearby console.} {MirianiSoundPlay Standard Ship\Computer\ScanRetrieved@Ext} {Main|Starship}
 #Trigger {The * cannot function without operational sensors.} {MirianiSoundPlay Standard Ship\Computer\Error@Ext} {Main|Starship}
-#Trigger {Alert: Sensor interference detected.} {ExpPipe {%0} {Sensor interference detected.} {};
-#sub @ExpString;
-MirianiSoundPlay Standard Ship\Computer\SensorInterference@Ext} {Main|Starship}
+#Trigger {Alert: Sensor interference detected.} {
+ MirianiSoundPlay Standard Ship\Computer\SensorInterference@Ext;
+ #GagLine 1 Voice
+} {Main|Starship}
 #Trigger {* voice comes over the intercom, announcing, *} {
  MirianiSoundPlay Standard Ship\Computer\Announce*4@Ext;
- ExpPipe {%0} {[%1]: %2} {%2};
- #Sub {@ExpString};
- PushMessage Computer {@ExpString};
+ #Sub {%2};
+ PushMessage Computer {%2}
 } {Main|Starship}

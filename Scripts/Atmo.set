@@ -135,35 +135,33 @@
 } {AtSaStarmap}
 #Trigger {Vehicle Status: *} {
  msplay Ship\Computer\Display@Ext;
- ExpPipe {%0} {%1} {%1};
- #sub @ExpString
+ #Sub {%1}
 } {Main|Vehicle}
 
 #Trigger {The pull of acceleration eases off as the ship ceases its *.} {
- ExpPipe {%0} {Salvager stopped.} {};
- #sub {@ExpString};
- msplay Atmo\salvagestop@Ext
-} {Main}
-#Trigger {A gust of atmospheric wind suddenly buffets the ship*} {msplay ship\misc\wind@Ext} {Main}
+ msplay Atmo\salvagestop@Ext;
+ #GagLine 1 All
+} {Main|Craft}
+#Trigger {A gust of atmospheric wind suddenly buffets the ship*} {msplay ship\misc\wind@Ext} {Main|Craft}
 #Trigger {The vehicle suddenly hits a pocket of fierce wind*} {msplay ship\misc\wind@Ext} {Main|Vehicle}
-#Trigger {The vehicle shudders violently as it makes contact with the topmost gas clouds. *} {#gagline 1 all;
-msplay Atmo\Contact@Ext} {Main|Vehicle}
-#Trigger {The heavy vibration of the running engine ceases as the vehicle glides out of the top levels of the atmosphere and into space. The sound of the thrusters can be heard as the craft orients itself toward the *.} {#gagline 1 all;
-msplay Atmo\Stop@Ext} {Main|Vehicle}
+#Trigger {The vehicle shudders violently as it makes contact with the topmost gas clouds. *} {
+ msplay Atmo\Contact@Ext;
+ #GagLine 1 All
+} {Main|Vehicle}
+#Trigger {The heavy vibration of the running engine ceases as the vehicle glides out of the top levels of the atmosphere and into space. The sound of the thrusters can be heard as the craft orients itself toward the *.} {
+ msplay Atmo\Stop@Ext;
+ #GagLine 1 All
+} {Main|Vehicle}
 #Trigger {Without any warning sign, the ship tilts over and the engine section is quickly detached through a short series of explosions just behind the cockpit, giving what remains a great upwards speed.} {
-ExpPipe {%0} {The remains of the cockpit are blasted away from the damaged engined.} {};
-#Sub @ExpString;
-msplay Ship\Combat\YouDestroyed*3@Ext
+ msplay Ship\Combat\YouDestroyed*3@Ext;
+ #GagLine 1 All
 } {Main|Vehicle}
 #Trigger {The clouds of gas get thinner and the haze of violent purple and yellow is replaced by the view of space. Having drained the last of their emergency power, the thrusters burn out and are released through two more short explosions, sending your capsule forward and leaving it in a sickening spin while slowly falling back towards the planet. Moments later the entire cockpit shakes violently as it is caught by a set of salvage lines that abruptly stop the tumbling and rapidly hauled back to *.} {
- ExpPipe {%0} {%0} {You are hauled back to %1.};
- #Sub @ExpString;
+ #Sub {You are hauled back to %1.};
  msplay Ship\Misc\Salvage*3@Ext
 } {Main|Vehicle}
 #Trigger {* in from the salvager bay.} {
- #if {%ifword(%Word(%1, ,%Numwords(%1, )),@EntryStyles,%CRLF)=1} {
-  msplay Ship\Misc\Hatch@Ext
- }
+ #If {%ifword(%Word(%1, ,%Numwords(%1, )),@EntryStyles,%CRLF)=1} {msplay Ship\Misc\Hatch@Ext}
 } {Main}
 #Trigger {A whirlpool forms nearby, sucking the craft downward into its swirling vortex*} {
  msplay Atmo\whirlpool@Ext;
@@ -171,14 +169,12 @@ msplay Ship\Combat\YouDestroyed*3@Ext
 } {Main|Vehicle}
 #Trigger {A bubble in the vicinity bursts and you hear the engines strain to keep the craft on course*} {
  msplay Atmo\bubble@Ext;
- ExpPipe {%0} {The engines strain to keep the vehicle on course.} {};
- #Sub {@ExpString}
+ #GagLine 1 All
 } {Main|Vehicle}
 #Trigger {*A disruption in the water near the craft has caused a massive wave which has resulted in the current trajectory being rerouted. Please stand by*} {msplay Atmo\wave@Ext} {Main|Vehicle}
 #Trigger {The craft makes a tremendous splash as it lands in the planet's watery atmosphere. It turns a few times and then the stabilizers kick in, righting the craft*} {
  msplay Atmo\landingsplash@Ext;
- ExpPipe {%0} {The vehicle stops in the planet's atmosphere.} {};
- #Sub @ExpString
+ #GagLine 1 All
 } {Main|Vehicle}
 #Trigger {*The craft has slammed into a massive life form. A breach in the outer hull has been detected*} {msplay Atmo\fishcrash@Ext} {Main|Vehicle}
 #Trigger {You hear a sharp whine as the vehicle accelerates through the*} {

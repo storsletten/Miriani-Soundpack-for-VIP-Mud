@@ -98,6 +98,8 @@
 #Trigger {* push* *'s head under the water in an attempt to drown *.} {msplay Pool\UnderWater@Ext} {Main}
 #Trigger {ACK! You are now soaked from head to toe with water from the fountain, thanks to *.} {
  msplay pool\splash1@Ext;
- ExpPipe {%0} {%0} {%1 splashes you.};
- #Sub @ExpString
+ #Sub {%1 splashes you.}
+} {Main}
+#Trigger {A* firework launches itself into the air and begins to rapidly expand into a *.} {
+ msplay General\Misc\Firework*2@Ext
 } {Main}

@@ -85,7 +85,7 @@ worm:Wormholes
 #Var SMSRange {1}
 #Alias smp {
  #Exec {#Alarm 0 {sm ships Praelor}}
-} {}
+}
 #Alias SMPri {
  #If {%1=""} {
   #Say {SMS priority list:%CRLF @SMSPriorityList}
@@ -93,7 +93,7 @@ worm:Wormholes
   #Var SMSPriorityList {%Trim(%0)};
   #Say {Done}
  }
-} {}
+}
 #Alias SMRange {
  #If {%IsNumber(%1)=0} {
   #Say {SMS range: @SMSRange}
@@ -101,30 +101,30 @@ worm:Wormholes
   #Var SMSRange {%1};
   #Say {Done}
  }
-} {}
+}
 
 #Var SmShowCoords 0
 #Var SmCount 0
 #Alias smc {
  #Var SmShowCoords 1;
  #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
-} {}
+}
 #Alias smf {
  #Var SmShowCoords 1;
  #If {%0<>""} {#Var SmSearchString {%Trim(%0)}};
  #Exec {#Alarm 0 {sm ships {@SmSearchString}}}
-} {}
+}
 #Alias SMCo {
  #Var SmCount 1;
  #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
-} {}
+}
 #Alias SMCount {
  #Var SmCount 1;
  #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
-} {}
+}
 #Alias sms {
  #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
-} {}
+}
 #Alias sm {
  #Var SmFilter {%Proper(%1)};
  #If {@SmFilter = "Help" or @SmFilter = "H"} {
@@ -147,7 +147,7 @@ Here is the entire list of SmFilter aliases:
   MainTrigSwitch 0 SmFilterClass
  };
  ~sm
-} {}
+}
 
 ; Syntax: CalculateRelativeNumericDir TargetX TargetY TargetZ CurrentX CurrentY CurrentZ
 #Alias CalculateRelativeNumericDir {
@@ -162,7 +162,7 @@ Here is the entire list of SmFilter aliases:
   #Var RelativeNumericDir {%LTrim(@RelativeNumericDir)};
   #If {@RelativeNumericTmpX<2 and @RelativeNumericTmpY<2 and @RelativeNumericTmpZ<2} {#Var RelativeNumericDir {%Replace(@RelativeNumericDir,1,)}}
  } {#Var RelativeNumericDir C}
-} {}
+}
 
 #Trigger {Uncharted Space: Empty Space*} {#GagLine 1 All} {SmFilterClass}
 #Trigger {a* starship simulator (Unclaimed)*} {#GagLine 1 All} {SmFilterClass}

@@ -54,4 +54,19 @@
 }
 
 #UnVar SoundpackIsLoading
-#Exec {MirianiSoundPlay Standard Ship\Computer\Beep@Ext}
+#Exec {
+ MirianiSoundPlay Standard Ship\Computer\Beep@Ext;
+ #Alarm 0 {
+  #Alias spabout {
+   Speech Stop;
+   ConfPrint {@{SoundpackName}, version @{version}.
+Originally written by Cory Martin.
+Rewritten, updated, and maintained by @SoundpackCreators.
+  Credits:
+@SoundpackContributors
+  Contact information:
+Please use the OOC / Soundpacks board in Miriani for questions and stuffs.}
+  };
+  #Key Shift-F1 {spabout}
+ }
+}
