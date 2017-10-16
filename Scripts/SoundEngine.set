@@ -324,19 +324,9 @@ station:General\Footsteps\Station*8@Ext
  #Exec {@GunCommand @GunSoundsPath\%If(%Length(@GunSound)>0,@GunSound,@DefaultGunSound)}
 }
 
-; SSpeak:
-; Speaks whatever you want through SAPI.
-; Syntax:
-; SSpeak {String to be spoken.}
-
+; Syntax: SSpeak {String to be spoken through SAPI.}
 #Alias SSpeak {
  #SetSpeech VoiceOnly SAPI @SAPIVoice @SAPIVolume @SAPIRate;
- #Say %1 VoiceOnly;
- #If {@DefaultSpeechType<>"SAPI"} {
-  #If {@DefaultSpeechType="NVDA"} {
-   #SetSpeech VoiceOnly SystemAccess
-  } {
-   #SetSpeech VoiceOnly @DefaultSpeechType
-  }
- }
+ #Say {%1} VoiceOnly;
+ #If {@DefaultSpeechType<>"Sapi"} {#SetSpeech VoiceOnly @DefaultSpeechType}
 }

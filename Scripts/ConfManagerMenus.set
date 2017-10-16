@@ -456,7 +456,6 @@ FocusOutputString|S:*
 [9] Interrupt on PA  [~%If(~@InterruptOnPa=1,On,Off)].
 [10] Default speech type  [~@DefaultSpeechType].
 [11] SAPI settings.
-[12] Disable speaking of the entry window on startup  [~%If(~@SetEntrySpeechOff=1,On,Off)].
 %Chr(250)
 UseSpeechInterrupts|B
 InterruptOnFocus|B
@@ -467,9 +466,8 @@ InterruptOnRoom|B
 SpeakRoomTitleFirst|B
 InterruptOnBoards|B
 InterruptOnPa|B
-DefaultSpeechType|C:None,No speech^Sapi,SAPI^Jaws,JAWS for Windows^SystemAccess,System Access^WindowEyes,Window Eyes^NVDA,NVDA (Non-Visual Desktop Access)
+DefaultSpeechType|C:None,No speech^ScreenReader,Screen reader^Sapi,SAPI
 SAPI|M
-SetEntrySpeechOff|B
 }
 
 #Var ConfMenuSAPI {SAPI settings:

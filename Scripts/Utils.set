@@ -561,32 +561,24 @@ You are currently using version @Version of the @SoundpackName.};
 }
 #Alias Speech {
  #If {%1="stop"} {
-  #If {@UseSpeechInterrupts=1 AND @GagEverything=0} {#SetSpeech Incoming Stop}
- } {
-  #If {%IfWord(%1,on off, )=1} {
-   #SetSpeech Incoming {%1};
-   #SetSpeech VoiceOnly {%1};
-   #If {%IfWord(Quiet,%2,|)=0} {#Say {Speech %Proper(%1).} VoiceOnly}
+  #If {@UseSpeechInterrupts=1 and @GagEverything=0} {#SetSpeech Incoming Stop}
+ };
+ #If {%IfWord(%1,on off, )=1} {
+  #SetSpeech Incoming {%1};
+  #SetSpeech VoiceOnly {%1};
+  #If {%IfWord(Quiet,%2,|)=0} {#Say {Speech %Proper(%1).} VoiceOnly}
+ };
+ #If {%1="set"} {
+  #If {%IfWord(%2,None|ScreenReader|Sapi,|)=1} {#Var SpeechTmp1 {%2}} {#Var SpeechTmp1 {ScreenReader}};
+  #If {@SpeechTmp1="Sapi"} {
+   #SetSpeech Incoming Sapi @SAPIVoice @SAPIVolume @SAPIRate;
+   #SetSpeech VoiceOnly Sapi @SAPIVoice @SAPIVolume @SAPIRate
   } {
-   #If {%1="set"} {
-    #If {%IfWord(%2,@SpeechTypes,|)=1} {
-     #If {%2="NVDA"} {
-      #Var SpeechTmp1 {SystemAccess}
-     } {
-      #Var SpeechTmp1 %2
-     };
-     #If {%2="SAPI"} {
-      #ForAll @WindowTypes {#SetSpeech %i @SpeechTmp1 @SAPIVoice @SAPIVolume @SAPIRate}
-     } {
-      #ForAll @WindowTypes {#SetSpeech %i {@SpeechTmp1}}
-     };
-     #If {%3<>1} {#Say {Speech Type set to %2.}};
-     #UnVar SpeechTmp1
-    } {
-     #Say {Syntax: Speech Set @SpeechTypes}
-    }
-   }
-  }
+   #SetSpeech Incoming {@SpeechTmp1};
+   #SetSpeech VoiceOnly {@SpeechTmp1}
+  };
+  #If {%3<>1} {#Say {Speech Type set to @SpeechTmp1.}};
+  #UnVar SpeechTmp1
  }
 }
 #Alias DontStopSpeaking {

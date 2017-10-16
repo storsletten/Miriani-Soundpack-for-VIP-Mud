@@ -103,7 +103,6 @@ RelativeCombatVolume:0
 RandomisePlay:1
 SpamAlert:1
 ThemeFadeOutValue:5
-WindowTypes:Incoming
 UseSpeechInterrupts:0
 InterruptOnFocus:0
 InterruptOnScanningStarships:0
@@ -113,12 +112,11 @@ InterruptOnRoom:0
 SpeakRoomTitleFirst:0
 InterruptOnBoards:0
 InterruptOnPa:0
-DefaultSpeechType:Jaws
+DefaultSpeechType:ScreenReader
 SAPIVoice:0
 SAPIVolume:100
 SAPIRate:50
 SpeakComputerMessagesThroughSAPI:0
-SetEntrySpeechOff:0
 AtSaBetweenObjects:.&SPC;
 AtSaObjectString:$XD$R $R$YD
 AtSaInformationString:Estimated $PowerEst~% of power left for scooping, $Dist unit$sDist to the ship, and $CargoRem remaining cargo
@@ -623,7 +621,6 @@ ArchaeologyCalculateDirection:0
   #Class Actions %If(@ActionsOn=1,Enable,Disable);
   #Class Emotes %If(@EmotesOn=1,Enable,Disable);
   #Config DisplayCommandsInOutput %If(@CommandEcho=1,True,False);
-  #If {@SetEntrySpeechOff=1} {#SetSpeech Entry Off};
   Speech Set {@DefaultSpeechType} 1;
   SetRoomSoundVolume;
   SetThemeMusicVolume;

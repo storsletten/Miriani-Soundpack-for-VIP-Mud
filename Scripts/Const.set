@@ -15,7 +15,6 @@ Triggers and extra sounds provided by the retired David Kieran, bringing more li
 #If {%Defined(IgnoredScriptFiles)=0} {#Var IgnoredScriptFiles {Dummy}}
 #Var CR {%Chr(13)}
 #Var LF {%Chr(10)}
-#Var SpeechTypes {None|Sapi|Jaws|SystemAccess|WindowEyes|NVDA}
 
 #Var GunSoundsPath {General\Combat\Guns}
 #Var DefaultGunSound {GunDefault*2@Ext}
