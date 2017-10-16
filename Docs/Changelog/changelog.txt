@@ -1,3 +1,6 @@
+Version 5.9.7, released 2017-10-16:
+* Cleaned up some legacy code related to speech types that was only relevant in VIP Mud 1.1. Speech types in VIP Mud 2.0 can be either None, Sapi, or Screen reader.
+
 Version 5.9.6, released 2017-10-15:
 * Removed the entire experience level framework. It might make the soundpack slightly faster, and maybe it will also help bypassing the bug in VIP Mud that prevents aliases and keystrokes from being loaded properly.
 
