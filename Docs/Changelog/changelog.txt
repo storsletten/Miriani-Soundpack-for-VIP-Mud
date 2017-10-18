@@ -1,3 +1,6 @@
+Version 5.9.8, released 2017-10-18:
+* SmFilters will try harder to avoid gagging things they shouldn't gag.
+
 Version 5.9.7, released 2017-10-16:
 * Cleaned up some legacy code related to speech types that was only relevant in VIP Mud 1.1. Speech types in VIP Mud 2.0 can be either None, Sapi, or Screen reader.
 
