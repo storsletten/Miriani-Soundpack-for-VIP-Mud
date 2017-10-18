@@ -1,3 +1,6 @@
+Version 5.9.11, released 2017-10-19:
+* Fixed certain starmap titles not being gagged when using starmap filters. Thanks Michael Calaway for reporting this!
+
 Version 5.9.10, released 2017-10-18:
 * Now it will also recognize vacuum-sealed packets of frozen food resembling star-shaped cookies. Hurray!
 
