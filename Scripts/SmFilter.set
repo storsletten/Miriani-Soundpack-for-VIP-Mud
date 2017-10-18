@@ -164,7 +164,6 @@ Here is the entire list of SmFilter aliases:
  } {#Var RelativeNumericDir C}
 }
 
-#Trigger {Uncharted Space: Empty Space*} {#GagLine 1 All} {SmFilterClass}
 #Trigger {a* starship simulator (Unclaimed)*} {#GagLine 1 All} {SmFilterClass}
 #Trigger {*: *} {
  #If {%IfWord(%1,Current Coordinates,|)=1} {
@@ -298,7 +297,7 @@ Here is the entire list of SmFilter aliases:
    #Sub {@SmFilterTmp1}
   }
  } {
-  #If {%IfWord(%1,Accelerators|Artifacts|Asteroids|Blockades|Combat Drones|Control Beacons|Debris|Dry Docks|Galactic Coordinates|Interdictors|Jumpgates|Missiles|Mobile Platforms|Moons|Pellets|Planets|Private Space Stations|Proximity Weapons|Relics|Satellites|Space Stations|Stars|Starships|Unknown|Wormholes,|)=1} {
+  #If {%IfWord(%1,Accelerators|Artifacts|Asteroids|Blockades|Combat Drones|Control Beacons|Debris|Dry Docks|Interdictors|Jumpgates|Missiles|Mobile Platforms|Moons|Pellets|Planets|Private Space Stations|Proximity Weapons|Relics|Satellites|Space Stations|Stars|Starships|Unknown|Wormholes,|)=1} {
    #GagLine 1 All;
    #If {%IfWord(@SmFilter,%1,%CRLF)=1} {
     #Var SmShips {%Eval(%Pos([,%2)>0)};
@@ -313,6 +312,10 @@ Here is the entire list of SmFilter aliases:
      #Var ObjectList {%Replace(@ObjectList,] ,])}
     };
     #Var ObjectList {%Replace(@ObjectList,~),)}
+   }
+  } {
+   #If {%IfWord(%1,Charted Space|Galactic Coordinates|Midway Point|Praelor Space|Uncharted Space,|)=1 or (%Pos(Sector ,%1)=1 and %Pos(~(,%2)>0)} {
+    #GagLine 1 All
    }
   }
  }
