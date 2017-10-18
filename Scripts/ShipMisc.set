@@ -255,7 +255,69 @@ msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
 } {Main}
 #Trigger {You float out of the ship into space.*} {msplay Ship\Misc\AirlockExit@Ext} {Main}
 #Trigger {You hear somebody knocking on the blast door to the *.} {msplay General\Misc\DoorChime@Ext} {Main}
-#Trigger {You snatch * from the cold, cruel hands of space.} {msplay General\Misc\SnatchArtifact*2@Ext} {Main}
+#Var ArtifactList {
+a cracked and empty stasis container:35,000,000:3:rare artifact more than 5k from locals
+a crystalline structure with an alien insect suspended in the center:20,000,000:2
+a device flashing numerous alien symbols:50,000,000:3:radio component more than 5k from locals
+an extremely light alien hull fragment:5,000,000:2
+a flat heavy object with a series of buttons and knobs on it:45,000,000:3:radio component more than 5k from locals
+a flexible piece of wire:13,000,000:2:radio component
+a fragment of alien bone:30,000,000:4
+a furry alien animal corpse:20,000,000:2
+a glittering oval object with two wires sticking out of one end:25,000,000:2
+a glossy metallic object:15,000,000:3
+a glowing metallic object with two terminals on top:23,000,000:3:radio component more than 5k from locals
+a lifeless tentacle:20,000,000:2
+a long deactivated energy weapon:20,000,000:2
+a long deactivated projectile weapon:20,000,000:2
+a long wicked-looking claw:50,000,000:4:very rare artifact more than 5k from locals
+a misshapen mass of metal:12,000,000:2:radio component
+a piece of stretchy string:1,000,000:2
+a piece of thick material that looks like part of a shoe:3,000,000:2
+a scrap of coarse alien fabric:1,000,000:2
+a scrap of silky alien fabric:1,000,000:2
+a scrap of unknown material with strange writing on it:10,000,000:2
+a shard of glass-like material:7,000,000:2
+a shaving from a strange metal:1,000,000:2
+a shimmering crystal sphere:30,000,000:3:rare artifact more than 5k from locals
+a small box with holes in it and a single knob on the side:19,000,000:2:radio component
+a small device depicting a holographic image of a strange octopus-like species:9,000,000:2
+a small epidermal layer:50,000,000:3:rare artifact more than 5k from locals
+a small monopole magnet:10,000,000:2:radio component
+a small orb containing an unknown chemical substance:5,000,000:2
+a small piece of plastic with a series of bumps etched on it:38,000,000:3:radio component more than 5k from locals
+a small plastic bag containing the cooked remains of an unknown animal:4,000,000:2
+a spoon-like object:1,000,000:2
+a strange looking bolt presumably from an alien starship:1,000,000:2
+a strange metallic device with several arrays of hooks on the end:5,000,000:2
+a stunning alien crystal suspended from a nearly invisible string:2,000,000:2
+a thin cube with a flashing red light:8,000,000:2
+a thin glass container filled with orange slime:7,000,000:2
+a thin glass sphere containing a smoky representation of an alien galaxy:7,000,000:2
+a thin sheet of unknown alloy engraved with strange alien pictographs:15,000,000:1.5
+a thin translucent disc:2,000,000:2
+a thin triangular piece of metal:7,000,000:2:radio component
+a three-leaf plant sealed in a clear cylindrical container:4,000,000:2
+a tiny metal chip:28,000,000:3:radio component more than 5k from locals
+a vacuum-sealed packet of frozen food resembling star-shape cookies:3,000,000:2
+}
+#Trigger {You snatch * from the cold, cruel hands of space.} {
+ msplay General\Misc\SnatchArtifact*2@Ext;
+ #Var ArtifactData {%Pos(%CRLF%1,@ArtifactList)};
+ #If {@ArtifactData>0} {
+  #Var ArtifactData {%Copy(@ArtifactList,@ArtifactData+2)};
+  #Var ArtifactData {%Word(@ArtifactData,%CRLF,1)};
+  #If {%NumWords(@ArtifactData,:)>3} {
+   msplay General\Archaeology\practice@Ext -30;
+   #Sub {You snatch %1.%CRLF %Proper(%Word(@ArtifactData,:,4))!%CRLF It is worth %Word(@ArtifactData,:,2) credits and %Word(@ArtifactData,:,3) points.}
+  } {
+   #Sub {You snatch %1.%CRLF It is worth %Word(@ArtifactData,:,2) credits and %Word(@ArtifactData,:,3) points.}
+  }
+ } {
+  #Sub {You snatch %1.}
+ };
+ #UnVar ArtifactData
+} {Main}
 #Trigger {You press a button and quickly retrieve a printout of the ship's*.} {msplay Ship\Computer\Print@Ext} {Main|Starship}
 #Trigger {You abort the *.} {
  #Sub {%1 aborted.};

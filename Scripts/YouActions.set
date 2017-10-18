@@ -618,11 +618,22 @@ disconnect from your avatar.^MirianiSoundPlay Standard General\Device\MovieEnd~@
  } {
   #If {%Word(@TTTmp1, ,1)="see"} {
    #If {@TTTmp1="see nothing special."} {
-    #If {@NoDescString="_gag_"} {
-     #GagLine 1 All
+    #If {%Pos(%LastLine(1),@ArtifactList)>0} {
+     #Var ArtifactData {%Copy(@ArtifactList,%Pos(%LastLine(1),@ArtifactList))};
+     #Var ArtifactData {%Word(@ArtifactData,%CRLF,1)};
+     #If {%NumWords(@ArtifactData,:)>3} {
+      #Sub { %Proper(%Word(@ArtifactData,:,4))!%CRLF This artifact is worth %Word(@ArtifactData,:,2) credits and %Word(@ArtifactData,:,3) points.}
+     } {
+      #Sub { This artifact is worth %Word(@ArtifactData,:,2) credits and %Word(@ArtifactData,:,3) points.}
+     };
+     #UnVar ArtifactData
     } {
-     #If {%Trim(@NoDescString)<>""} {
-      #Sub {@NoDescString}
+     #If {@NoDescString="_gag_"} {
+      #GagLine 1 All
+     } {
+      #If {%Trim(@NoDescString)<>""} {
+       #Sub {@NoDescString}
+      }
      }
     };
     #Var ActionSuccess 1

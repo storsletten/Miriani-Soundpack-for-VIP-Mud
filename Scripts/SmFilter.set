@@ -2,6 +2,8 @@
 
 #Var SmAliases {
 a:Artifacts
+ac:Accelerators
+acc:Accelerators
 ar:Artifacts
 art:Artifacts
 arti:Artifacts
