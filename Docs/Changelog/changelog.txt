@@ -1,3 +1,6 @@
+Version 5.9.10, released 2017-10-18:
+* Now it will also recognize vacuum-sealed packets of frozen food resembling star-shaped cookies. Hurray!
+
 Version 5.9.9, released 2017-10-18:
 * The soundpack will now attempt to be extra informational when you snatch artifacts from space. Maybe this will work when you look at artifacts too. Who knows.
 
