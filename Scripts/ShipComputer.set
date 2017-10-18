@@ -432,10 +432,6 @@ MirianiSoundPlay Standard Ship\Computer\PipeOff@Ext
 }} {Main|Starship}
 #Trigger {* emerges from a nearby console.} {MirianiSoundPlay Standard Ship\Computer\ScanRetrieved@Ext} {Main|Starship}
 #Trigger {The * cannot function without operational sensors.} {MirianiSoundPlay Standard Ship\Computer\Error@Ext} {Main|Starship}
-#Trigger {Alert: Sensor interference detected.} {
- MirianiSoundPlay Standard Ship\Computer\SensorInterference@Ext;
- #GagLine 1 Voice
-} {Main|Starship}
 #Trigger {* voice comes over the intercom, announcing, *} {
  MirianiSoundPlay Standard Ship\Computer\Announce*4@Ext;
  #Sub {%2};

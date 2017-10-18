@@ -83,9 +83,7 @@ worm:Wormholes
 
 #Var SMSPriorityList {mugatra|bezation|resa-onati|potate|ohaxx|muzano|onati|onno|onz|orta|otono|otona}
 #Var SMSRange {1}
-#Alias smp {
- #Exec {#Alarm 0 {sm ships Praelor}}
-}
+#Alias smp {#Exec {#Alarm 0 {sm ships Praelor}}} {Starship}
 #Alias SMPri {
  #If {%1=""} {
   #Say {SMS priority list:%CRLF @SMSPriorityList}
@@ -108,23 +106,23 @@ worm:Wormholes
 #Alias smc {
  #Var SmShowCoords 1;
  #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
-}
+} {Starship}
 #Alias smf {
  #Var SmShowCoords 1;
  #If {%0<>""} {#Var SmSearchString {%Trim(%0)}};
  #Exec {#Alarm 0 {sm ships {@SmSearchString}}}
-}
+} {Starship}
 #Alias SMCo {
  #Var SmCount 1;
  #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
-}
+} {Starship}
 #Alias SMCount {
  #Var SmCount 1;
  #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
-}
+} {Starship}
 #Alias sms {
  #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
-}
+} {Starship}
 #Alias sm {
  #Var SmFilter {%Proper(%1)};
  #If {@SmFilter = "Help" or @SmFilter = "H"} {
@@ -147,7 +145,7 @@ Here is the entire list of SmFilter aliases:
   MainTrigSwitch 0 SmFilterClass
  };
  ~sm
-}
+} {Starship}
 
 ; Syntax: CalculateRelativeNumericDir TargetX TargetY TargetZ CurrentX CurrentY CurrentZ
 #Alias CalculateRelativeNumericDir {
@@ -167,7 +165,6 @@ Here is the entire list of SmFilter aliases:
 #Trigger {Uncharted Space: Empty Space*} {#GagLine 1 All} {SmFilterClass}
 #Trigger {a* starship simulator (Unclaimed)*} {#GagLine 1 All} {SmFilterClass}
 #Trigger {*: *} {
- #Var SmFilterTmp1 {%Replace(%1,~",)};
  #If {%IfWord(%1,Current Coordinates,|)=1} {
   MainTrigSwitch 1;
   #If {%Length(@ObjectList)=0} {
@@ -299,21 +296,26 @@ Here is the entire list of SmFilter aliases:
    #Sub {@SmFilterTmp1}
   }
  } {
-  #If {@Main>0} {MainTrigSwitch -1};
-  #GagLine 1 All;
-  #If {%IfWord(@SmFilter,%1,%CRLF)=1} {
-   #Var SmShips {%Eval(%Pos([,%2)>0)};
-   #Var SmFilterTmp1 { and };
-   #Var ObjectDirs {};
-   #Var ObjectList {%Replace(%2,@SmFilterTmp1,|)};
-   #Var ObjectList {%Replace(@ObjectList,~(,)};
-   #Var ObjectList {%Replace(@ObjectList,~)~, ,|)};
-   #If {@SmShips=0} {
-    #Var ObjectList {%Replace(@ObjectList, ,)}
-   } {
-    #Var ObjectList {%Replace(@ObjectList,] ,])}
-   };
-   #Var ObjectList {%Replace(@ObjectList,~),)}
+  #If {%IfWord(%1,Accelerators|Artifacts|Asteroids|Blockades|Combat Drones|Control Beacons|Debris|Dry Docks|Galactic Coordinates|Interdictors|Jumpgates|Missiles|Mobile Platforms|Moons|Pellets|Planets|Private Space Stations|Proximity Weapons|Relics|Satellites|Space Stations|Stars|Starships|Unknown|Wormholes,|)=1} {
+   #GagLine 1 All;
+   #If {%IfWord(@SmFilter,%1,%CRLF)=1} {
+    #Var SmShips {%Eval(%Pos([,%2)>0)};
+    #Var SmFilterTmp1 { and };
+    #Var ObjectDirs {};
+    #Var ObjectList {%Replace(%2,@SmFilterTmp1,|)};
+    #Var ObjectList {%Replace(@ObjectList,~(,)};
+    #Var ObjectList {%Replace(@ObjectList,~)~, ,|)};
+    #If {@SmShips=0} {
+     #Var ObjectList {%Replace(@ObjectList, ,)}
+    } {
+     #Var ObjectList {%Replace(@ObjectList,] ,])}
+    };
+    #Var ObjectList {%Replace(@ObjectList,~),)}
+   }
   }
  }
 } {SmFilterClass}
+#Trigger {Alert: Sensor interference detected.} {
+ MirianiSoundPlay Standard Ship\Computer\SensorInterference@Ext;
+ #GagLine 1 Voice
+} {Main|Starship}
