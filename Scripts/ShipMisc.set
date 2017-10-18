@@ -299,7 +299,7 @@ a thin translucent disc:2,000,000:2
 a thin triangular piece of metal:7,000,000:2:radio component
 a three-leaf plant sealed in a clear cylindrical container:4,000,000:2
 a tiny metal chip:28,000,000:3:radio component more than 5k from locals
-a vacuum-sealed packet of frozen food resembling star-shape cookies:3,000,000:2
+a vacuum-sealed packet of frozen food resembling star-shaped cookies:3,000,000:2
 }
 #Trigger {You snatch * from the cold, cruel hands of space.} {
  msplay General\Misc\SnatchArtifact*2@Ext;
