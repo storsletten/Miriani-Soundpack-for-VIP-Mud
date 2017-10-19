@@ -144,33 +144,6 @@ station:General\Footsteps\Station*8@Ext
  }
 }
 
-
-; meplay:
-; This alias plays output from emote
-; It doesn't differ at all from msplay,
-; but it's part of the socials class,
-; so the sounds stop playing when socials are disabled
-; by the socials command, or in the configuration.
-
-#Alias meplay {
- #If {@EmotesOn=1} {
-  MirianiSoundPlay {Social Emote} %1 %2 %3
- }
-}
-
-; maplay:
-; This alias plays output from emote
-; It doesn't differ at all from msplay,
-; but it's part of the actions class,
-; so the sounds stop playing when actions are disabled
-; in the configuration.
-
-#Alias maplay {
- #If {@ActionsOn=1} {
-  MirianiSoundPlay {Social Action} %1 %2 %3
- }
-}
-
 ; Mtplay:
 ; Plays the theme music.
 #Alias mtplay {

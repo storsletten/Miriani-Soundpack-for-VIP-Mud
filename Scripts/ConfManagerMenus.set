@@ -136,20 +136,14 @@ ArchaeologyCalculateDirection|B
 
 #Var ConfMenuSocials {Configure socials:
 [1] Socials  [~%If(~@SocialsOn=1,On,Off)]. (Control F11).
-[2] Actions  [~%If(~@ActionsOn=1,On,Off)].
-[3] Emotes  [~%If(~@EmotesOn=1,On,Off)].
-[4] Toggle individual socials.
-[5] Toggle individual actions.
-[6] Ignore individual social toggles  [~%If(~@BypassSocialToggles=1,On,Off)].
-[7] Ignore individual action toggles  [~%If(~@BypassActionToggles=1,On,Off)].
+[2] Emotes  [~%If(~@EmotesOn=1,On,Off)].
+[3] Toggle individual socials.
+[4] Ignore individual social toggles  [~%If(~@BypassSocialToggles=1,On,Off)].
 %Chr(250)
 SocialsOn|E::SocialsToggle {~@ConfOptionValue}
-ActionsOn|E::ActionsToggle {~@ConfOptionValue}
 EmotesOn|E::EmotesToggle {~@ConfOptionValue}
 SpecificSocials|M
-SpecificActions|M
 BypassSocialToggles|B
-BypassActionToggles|B
 }
 
 #Var ConfMenuSounds {Sound configuration
@@ -533,25 +527,5 @@ UseSmStyle|B
  }
 }
 #Var ConfMenuSpecificSocials {@ConfMenuSpecificSocials@ConfTmp2}
-
-#Var ConfMenuSpecificActions {List of action toggles:
-}
-#Var ConfTmp1 0
-#Var ConfTmp2 {%Chr(250)
-}
-#ForAll {%Replace(@Actions,%CRLF,|)} {
- #If {%NumWords(%i,:)>1} {
-  #Math ConfTmp1 {@ConfTmp1+1};
-  #Var ConfTmp3 {%Proper(%Word(%i,:,1))};
-  #Var ConfTmp4 {%{CRLF}ActionToggle@ConfTmp3:};
-  #If {%Pos(@ConfTmp4,@ConfOptionVars)=0} {
-   #Var ConfOptionVars {@{ConfOptionVars}ActionToggle@ConfTmp3:1%CRLF};
-   #If {%IsNumber(@{ActionToggle@ConfTmp3})=0} {#Var {ActionToggle@ConfTmp3} 1}
-  };
-  #Var ConfMenuSpecificActions {@ConfMenuSpecificActions[@ConfTmp1] @ConfTmp3  [~%If(~@ActionToggle@ConfTmp3=1,On,Off)].%CRLF};
-  #Var ConfTmp2 {@{ConfTmp2}ActionToggle@ConfTmp3|B%CRLF}
- }
-}
-#Var ConfMenuSpecificActions {@ConfMenuSpecificActions@ConfTmp2}
 
 #Var ConfManagerMenusLoaded 1

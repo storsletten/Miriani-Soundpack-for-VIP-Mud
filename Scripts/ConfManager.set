@@ -86,7 +86,6 @@ SilentZoneNames:abcdefghijklmnopqrstuvwxyz
 SilentRoomNames:abcdefghijklmnopqrstuvwxyz
 RoomSoundsVolumeDiff:-20
 SocialsOn:1
-ActionsOn:1
 EmotesOn:1
 PlayTreadSound:1
 PlayOtherTreadSound:1
@@ -617,7 +616,6 @@ ArchaeologyCalculateDirection:0
   #Class AltGRNumrow %If(@ExcludeAltGRNumrow=0,Enable,Disable);
   #Class MiscKeys %If(@LoadMiscKeys=1,Enable,Disable);
   #Class Socials %If(@SocialsOn=1,Enable,Disable);
-  #Class Actions %If(@ActionsOn=1,Enable,Disable);
   #Class Emotes %If(@EmotesOn=1,Enable,Disable);
   #Config DisplayCommandsInOutput %If(@CommandEcho=1,True,False);
   Speech Set {@DefaultSpeechType} 1;

@@ -1,46 +1,44 @@
-#Var Actions {
-belch:belches:General\Socials\Belch*3
-bop:bops:General\Socials\Bop
-burp:burps:General\Socials\Burp*5
-cheekkiss:General\Socials\Kiss
-collapse:col:coll:colla:collap:collaps:collapses:General\Socials\collapse*3
-fall:falls:General\Socials\collapse*3
-fart:farts:General\Socials\Fart*F4|M9
-frenchkiss:french:General\Socials\Kiss
-gag:gags:General\Socials\gag*2
-kick:General\Socials\kick*20
-kiss:kisses:General\Socials\Kiss
-poke:prod:General\Socials\poke
-punch:General\Socials\punch*20
-slap:General\Socials\slap*5
-snap:General\Socials\snap*3
-spank:General\Socials\Spank
-strangle:General\Socials\strangle*2
-vomit:puke:General\Socials\vomit
-whistle:whistles:General\Socials\whistle*5
-yodel:yodels:General\Socials\Yodel
-}
 #Var Socials {
+belch:belches:General\Socials\Belch*3
+bop:General\Socials\Bop
 boo:boos:General\Socials\Boo*4
+burp:burps:General\Socials\Burp*5
 cackle:cackles:General\Socials\Cackle*2
+cheekkiss:General\Socials\Kiss
 cheer:cheers:General\Socials\Cheer*F3|M5
 chortle:chortles:chortl:chort:chor:cho:General\Socials\chortle
 chuckle:chuckles:chu:chuc:chuck:chuckl:General\Socials\Chuckle*M2
+collapse:col:coll:colla:collap:collaps:General\Socials\collapse*3
 cough:coughs:General\Socials\cough*5
 cry:cries:General\Socials\Cry*F4|M3
+fall:General\Socials\collapse*3
+fart:General\Socials\Fart*F4|M9
+frenchkiss:french:General\Socials\Kiss
+gag:gags:General\Socials\gag*2
 giggle:giggles:gig:General\Socials\Giggle*F7|M1
+kick:General\Socials\kick*20
+kiss:General\Socials\Kiss
 laugh:laughs:General\Socials\Laugh*F8|M6
 lol:General\Socials\lol*F2|M6
 moan:moans:General\Socials\Moan*F5|M2
 orgasm:orgasms:General\Socials\Orgasm*F6|M2
+poke:prod:General\Socials\poke
+punch:General\Socials\punch*20
 rofl:General\Socials\rofl*F2|M3
 scream:screams:bellow:bellows:General\Socials\Scream*F9|M5
 shriek:shrieks:General\Socials\Shriek*F2|M0
 sigh:sighs:General\Socials\sigh*6
+slap:General\Socials\slap*5
+snap:General\Socials\snap*3
 snore:snores:General\Socials\Snore*5
 snort:snorts:General\Socials\Snort
 sob:sobs:General\Socials\Cry*F4|M3
+spank:General\Socials\Spank
+strangle:General\Socials\strangle*2
+vomit:puke:General\Socials\vomit
+whistle:whistles:General\Socials\whistle*5
 yawn:yawns:General\Socials\yawn*2
+yodel:yodels:General\Socials\Yodel
 }
 #Var Emotes {
 belches|belching:General\Socials\Belch*3
@@ -89,17 +87,6 @@ yodels|yodling:General\Socials\Yodel
   #Say {Socials disabled.}
  }
 }
-#Alias ActionsToggle {
- #If {@ActionsOn <> 1} {
-  #Var ActionsOn 1;
-  #Class Actions Enable;
-  #Say {Actions enabled.}
- } {
-  #Var ActionsOn 0;
-  #Class Actions Disable;
-  #Say {Actions disabled.}
- }
-}
 #Alias EmotesToggle {
  #If {@EmotesOn <> 1} {
   #Var EmotesOn 1;
@@ -113,108 +100,52 @@ yodels|yodling:General\Socials\Yodel
 }
 
 #Trigger {[#]$[#]soundpack social | * | *} {
- #If {@ActionsOn=1} {
-  #Var SocialsTmp1 {%Pos(%CRLF%1:,@Actions)};
+ #Var SocialsTmp1 {%Pos(%CRLF%1:,@Socials)};
+ #If {@SocialsTmp1=0} {
+  #Var SocialsTmp1 {%Pos(:%1:,@Socials)};
   #If {@SocialsTmp1=0} {
-   #Var SocialsTmp1 {%Pos(:%1:,@Actions)};
-   #If {@SocialsTmp1=0} {
-    #Var SocialsTmp1 {}
-   } {
-    #Var SocialsTmp2 {%Word(%Copy(@Actions,@SocialsTmp1+1),%CRLF,1)};
-    #Var SocialsTmp1 {%Copy(@Actions,1,@SocialsTmp1)};
-    #Var SocialsTmp1 {%Word(@SocialsTmp1,%CRLF,%NumWords(@SocialsTmp1,@LF))};
-    #Var SocialsTmp1 {@SocialsTmp1@SocialsTmp2}
-   }
+   #Var SocialsTmp1 {}
   } {
-   #Var SocialsTmp1 {%Word(%Copy(@Actions,@SocialsTmp1+2),%CRLF,1)}
-  };
-  #If {@SocialsTmp1<>""} {
-   #If {@BypassActionToggles=0} {
-    #Var SocialsTmp2 {ActionToggle%Word(@SocialsTmp1,:,1)};
-    #If {@{@SocialsTmp2}=0} {#Abort All}
-   };
-   #Var SocialsTmp1 {%Word(@SocialsTmp1,:,%NumWords(@SocialsTmp1,:))};
-   #If {%Pos(*,@SocialsTmp1)>0} {
-    #Var SocialsTmp2 {%Word(@SocialsTmp1,*,2)};
-    #If {%IsNumber(@SocialsTmp2)=0} {
-     #Var SocialsTmp1 {%Word(@SocialsTmp1,*,1)};
-     #Var SocialsTmp4 {%NumWords(@SocialsTmp2,|)};
-     #While {@SocialsTmp4>0} {
-      #Var SocialsTmp3 {%Word(@SocialsTmp2,|,@SocialsTmp4)};
-      #If {%Left(@SocialsTmp3,1)=%Left(%2,1)} {
-       #Var SocialsTmp4 0
-      } {
-       #Math SocialsTmp4 {@SocialsTmp4-1}
-      }
-     };
-     #If {%IsNumber(%Right(@SocialsTmp3,1))=1} {
-      #Var SocialsTmp1 {@SocialsTmp1%Left(@SocialsTmp3,1)*%Copy(@SocialsTmp3,2,2)}
-     } {
-      #Var SocialsTmp1 {@SocialsTmp1@SocialsTmp3}
-     }
-    }
-   };
-   #If {%Pos(*,@SocialsTmp1)>0} {
-    #If {%Word(@SocialsTmp1,*,2)="0"} {
-     #Abort All
-    }
-   };
-   maplay {@SocialsTmp1@Ext};
-   #Abort All
+   #Var SocialsTmp2 {%Word(%Copy(@Socials,@SocialsTmp1+1),%CRLF,1)};
+   #Var SocialsTmp1 {%Copy(@Socials,1,@SocialsTmp1)};
+   #Var SocialsTmp1 {%Word(@SocialsTmp1,%CRLF,%NumWords(@SocialsTmp1,@LF))};
+   #Var SocialsTmp1 {@SocialsTmp1@SocialsTmp2}
   }
+ } {
+  #Var SocialsTmp1 {%Word(%Copy(@Socials,@SocialsTmp1+2),%CRLF,1)}
  };
- #If {@SocialsOn=1} {
-  #Var SocialsTmp1 {%Pos(%CRLF%1:,@Socials)};
-  #If {@SocialsTmp1=0} {
-   #Var SocialsTmp1 {%Pos(:%1:,@Socials)};
-   #If {@SocialsTmp1=0} {
-    #Var SocialsTmp1 {}
-   } {
-    #Var SocialsTmp2 {%Word(%Copy(@Socials,@SocialsTmp1+1),%CRLF,1)};
-    #Var SocialsTmp1 {%Copy(@Socials,1,@SocialsTmp1)};
-    #Var SocialsTmp1 {%Word(@SocialsTmp1,%CRLF,%NumWords(@SocialsTmp1,@LF))};
-    #Var SocialsTmp1 {@SocialsTmp1@SocialsTmp2}
-   }
-  } {
-   #Var SocialsTmp1 {%Word(%Copy(@Socials,@SocialsTmp1+2),%CRLF,1)}
+ #If {@SocialsTmp1<>""} {
+  #If {@BypassSocialToggles=0} {
+   #Var SocialsTmp2 {SocialToggle%Word(@SocialsTmp1,:,1)};
+   #If {@{@SocialsTmp2}=0} {#Abort All}
   };
-  #If {@SocialsTmp1<>""} {
-   #If {@BypassSocialToggles=0} {
-    #Var SocialsTmp2 {SocialToggle%Word(@SocialsTmp1,:,1)};
-    #If {@{@SocialsTmp2}=0} {#Abort All}
-   };
-   #Var SocialsTmp1 {%Word(@SocialsTmp1,:,%NumWords(@SocialsTmp1,:))};
-   #If {%Pos(*,@SocialsTmp1)>0} {
-    #Var SocialsTmp2 {%Word(@SocialsTmp1,*,2)};
-    #If {%IsNumber(@SocialsTmp2)=0} {
-     #Var SocialsTmp1 {%Word(@SocialsTmp1,*,1)};
-     #Var SocialsTmp4 {%NumWords(@SocialsTmp2,|)};
-     #While {@SocialsTmp4>0} {
-      #Var SocialsTmp3 {%Word(@SocialsTmp2,|,@SocialsTmp4)};
-      #If {%Left(@SocialsTmp3,1)=%Left(%2,1)} {
-       #Var SocialsTmp4 0
-      } {
-       #Math SocialsTmp4 {@SocialsTmp4-1}
-      }
-     };
-     #If {%IsNumber(%Right(@SocialsTmp3,1))=1} {
-      #Var SocialsTmp1 {@SocialsTmp1%Left(@SocialsTmp3,1)*%Copy(@SocialsTmp3,2,2)}
+  #Var SocialsTmp1 {%Word(@SocialsTmp1,:,%NumWords(@SocialsTmp1,:))};
+  #If {%Pos(*,@SocialsTmp1)>0} {
+   #Var SocialsTmp2 {%Word(@SocialsTmp1,*,2)};
+   #If {%IsNumber(@SocialsTmp2)=0} {
+    #Var SocialsTmp1 {%Word(@SocialsTmp1,*,1)};
+    #Var SocialsTmp4 {%NumWords(@SocialsTmp2,|)};
+    #While {@SocialsTmp4>0} {
+     #Var SocialsTmp3 {%Word(@SocialsTmp2,|,@SocialsTmp4)};
+     #If {%Left(@SocialsTmp3,1)=%Left(%2,1)} {
+      #Var SocialsTmp4 0
      } {
-      #Var SocialsTmp1 {@SocialsTmp1@SocialsTmp3}
+      #Math SocialsTmp4 {@SocialsTmp4-1}
      }
+    };
+    #If {%IsNumber(%Right(@SocialsTmp3,1))=1} {
+     #Var SocialsTmp1 {@SocialsTmp1%Left(@SocialsTmp3,1)*%Copy(@SocialsTmp3,2,2)}
+    } {
+     #Var SocialsTmp1 {@SocialsTmp1@SocialsTmp3}
     }
-   };
-   #If {%Pos(*,@SocialsTmp1)>0} {
-    #If {%Word(@SocialsTmp1,*,2)="0"} {
-     #Abort All
-    }
-   };
-   #If {@SocialsOn=1} {
-    MirianiSoundPlay {Social} {@SocialsTmp1@Ext}
    }
-  }
+  };
+  #If {%Pos(*,@SocialsTmp1)>0} {
+   #If {%Word(@SocialsTmp1,*,2)="0"} {#Var SocialsTmp1 {}}
+  };
+  #If {%Length(@SocialsTmp1)>0} {MirianiSoundPlay Social {@SocialsTmp1@Ext}}
  }
-} {Main}
+} {Main|Socials}
 #Trigger {[#]$[#]soundpack emote | * | *} {
  #Var EmotesFound {};
  #Var EmoteTmp1 1;
@@ -250,7 +181,7 @@ yodels|yodling:General\Socials\Yodel
    #If {%Pos(*,@EmoteTmp2)>0} {
     #If {%Word(@EmoteTmp2,*,2)="0"} {#Var EmoteTmp2 {}}
    };
-   #If {%Length(@EmoteTmp2)>0} {meplay {@EmoteTmp2@Ext}}
+   #If {%Length(@EmoteTmp2)>0} {MirianiSoundPlay Emote {@EmoteTmp2@Ext}}
   }
  }
 } {Main|Emotes}
