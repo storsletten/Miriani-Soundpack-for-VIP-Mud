@@ -86,7 +86,6 @@ SilentZoneNames:abcdefghijklmnopqrstuvwxyz
 SilentRoomNames:abcdefghijklmnopqrstuvwxyz
 RoomSoundsVolumeDiff:-20
 SocialsOn:1
-FormatBannedEmotees:1
 ActionsOn:1
 EmotesOn:1
 PlayTreadSound:1

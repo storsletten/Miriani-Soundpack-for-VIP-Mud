@@ -1,24 +1,24 @@
 #Var Actions {
 belch:belches:General\Socials\Belch*3
-bop:General\Socials\Bop
+bop:bops:General\Socials\Bop
 burp:burps:General\Socials\Burp*5
 cheekkiss:General\Socials\Kiss
-collapse:col:coll:colla:collap:collaps:General\Socials\collapse*3
-fall:General\Socials\collapse*3
+collapse:col:coll:colla:collap:collaps:collapses:General\Socials\collapse*3
+fall:falls:General\Socials\collapse*3
 fart:farts:General\Socials\Fart*F4|M9
 frenchkiss:french:General\Socials\Kiss
 gag:gags:General\Socials\gag*2
-kick:general\socials\kick*20
-kiss:General\Socials\Kiss
-poke:prod:general\socials\poke
-punch:general\socials\punch*20
-slap:general\socials\slap*5
+kick:General\Socials\kick*20
+kiss:kisses:General\Socials\Kiss
+poke:prod:General\Socials\poke
+punch:General\Socials\punch*20
+slap:General\Socials\slap*5
 snap:General\Socials\snap*3
 spank:General\Socials\Spank
 strangle:General\Socials\strangle*2
-vomit:puke:General\socials\vomit
-whistle:whistles:general\socials\whistle*5
-yodel:yodels:general\socials\Yodel
+vomit:puke:General\Socials\vomit
+whistle:whistles:General\Socials\whistle*5
+yodel:yodels:General\Socials\Yodel
 }
 #Var Socials {
 boo:boos:General\Socials\Boo*4
@@ -39,33 +39,78 @@ shriek:shrieks:General\Socials\Shriek*F2|M0
 sigh:sighs:General\Socials\sigh*6
 snore:snores:General\Socials\Snore*5
 snort:snorts:General\Socials\Snort
+sob:sobs:General\Socials\Cry*F4|M3
 yawn:yawns:General\Socials\yawn*2
 }
+#Var Emotes {
+belches|belching:General\Socials\Belch*3
+bops|bopping:General\Socials\Bop
+burps|burping:General\Socials\Burp*5
+cackles|cackling:General\Socials\Cackle*2
+cheers|cheering:General\Socials\Cheer*F3|M5
+chortles|chortling:General\Socials\chortle
+chuckles|chuckling:General\Socials\Chuckle*M2
+collapses|collapsing:General\Socials\collapse*3
+coughs|coughing:General\Socials\cough*5
+cries|crying:General\Socials\Cry*F4|M3
+fart|farting:General\Socials\Fart*F4|M9
+giggles|giggling:General\Socials\Giggle*F7|M1
+kicks|kicking:General\Socials\kick*20
+kisses|kissing:General\Socials\Kiss
+laughs|laughing:General\Socials\Laugh*F8|M6
+moans|moaning:General\Socials\Moan*F5|M2
+orgasms|climaxes|climaxing:General\Socials\Orgasm*F6|M2
+pokes|poking:General\Socials\poke
+pukes|puking:General\Socials\vomit
+punches|punching:General\Socials\punch*20
+screams|screaming:General\Socials\Scream*F9|M5
+shrieks|shrieking:General\Socials\Shriek*F2|M0
+sighs|sighing:General\Socials\sigh*6
+slaps|slapping:General\Socials\slap*5
+snaps|snapping:General\Socials\snap*3
+snores|snoring:General\Socials\Snore*5
+snorts|snorting:General\Socials\Snort
+spanks|spanking:General\Socials\Spank
+strangles|strangling:General\Socials\strangle*2
+vomits|vomiting|vomitting:General\Socials\vomit
+whistles|whistling:General\Socials\whistle*5
+yawns|yawning:General\Socials\yawn*2
+yodels|yodling:General\Socials\Yodel
+}
 
-#Alias SocialsToggle {#if {@SocialsOn <> 1} {
-#var SocialsOn 1;
-#class socials enable;
-#say {Socials enabled.}
-} {
-#var SocialsOn 0;
-#class socials disable;
-#say {Socials disabled.}}} {}
-#Alias {ActionsToggle} {#if {@ActionsOn <> 1} {
-#var ActionsOn 1;
-#class actions enable;
-#say {Actions enabled.}
-} {
-#var ActionsOn 0;
-#class actions disable;
-#say {Actions disabled.}}} {}
-#Alias {EmotesToggle} {#if {@EmotesOn <> 1} {
-#var EmotesOn 1;
-#class emotes enable;
-#say {Emotes enabled.}
-} {
-#var EmotesOn 0;
-#class emotes disable;
-#say {Emotes disabled.}}} {}
+#Alias SocialsToggle {
+ #If {@SocialsOn <> 1} {
+  #Var SocialsOn 1;
+  #Class Socials Enable;
+  #Say {Socials enabled.}
+ } {
+  #Var SocialsOn 0;
+  #Class Socials Disable;
+  #Say {Socials disabled.}
+ }
+}
+#Alias ActionsToggle {
+ #If {@ActionsOn <> 1} {
+  #Var ActionsOn 1;
+  #Class Actions Enable;
+  #Say {Actions enabled.}
+ } {
+  #Var ActionsOn 0;
+  #Class Actions Disable;
+  #Say {Actions disabled.}
+ }
+}
+#Alias EmotesToggle {
+ #If {@EmotesOn <> 1} {
+  #Var EmotesOn 1;
+  #Class Emotes Enable;
+  #Say {Emotes enabled.}
+ } {
+  #Var EmotesOn 0;
+  #Class Emotes Disable;
+  #Say {Emotes disabled.}
+ }
+}
 
 #Trigger {[#]$[#]soundpack social | * | *} {
  #If {@ActionsOn=1} {
@@ -170,4 +215,42 @@ yawn:yawns:General\Socials\yawn*2
   }
  }
 } {Main}
-#Trigger {EMOTE: (*)} {#If {@FormatBannedEmotees=1} {#Sub {%1}}} {Main}
+#Trigger {[#]$[#]soundpack emote | * | *} {
+ #Var EmotesFound {};
+ #Var EmoteTmp1 1;
+ #Math EmoteTmp2 {%NumWords(@Emotes,@LF) - 1};
+ #While {@EmoteTmp1<@EmoteTmp2} {
+  #Math EmoteTmp1 {@EmoteTmp1+1};
+  #ForAll {%Word(%Word(@Emotes,%CRLF,@EmoteTmp1),:,1)} {#If {%Pos(%i,%2)>0} {#AddItem EmotesFound {@EmoteTmp1} NoDuplicates}}
+ };
+ #ForAll {@EmotesFound} {
+  #If {%IsNumber(%i)=1} {
+   #Var EmoteTmp1 {%Word(@Emotes,%CRLF,%i)};
+   #Var EmoteTmp2 {%Word(@EmoteTmp1,:,2)};
+   #If {%Pos(*,@EmoteTmp2)>0} {
+    #Var EmoteTmp3 {%Word(@EmoteTmp2,*,2)};
+    #If {%IsNumber(@EmoteTmp3)=0} {
+     #Var EmoteTmp2 {%Word(@EmoteTmp2,*,1)};
+     #Var EmoteTmp4 {%NumWords(@EmoteTmp3,|)};
+     #While {@EmoteTmp4>0} {
+      #Var EmoteTmp5 {%Word(@EmoteTmp3,|,@EmoteTmp4)};
+      #If {%Left(@EmoteTmp5,1)=%Left(%1,1)} {
+       #Var EmoteTmp4 0
+      } {
+       #Math EmoteTmp4 {@EmoteTmp4-1}
+      }
+     };
+     #If {%IsNumber(%Right(@EmoteTmp5,1))=1} {
+      #Var EmoteTmp2 {@EmoteTmp2%Left(@EmoteTmp5,1)*%Copy(@EmoteTmp5,2,2)}
+     } {
+      #Var EmoteTmp2 {@EmoteTmp2@EmoteTmp5}
+     }
+    }
+   };
+   #If {%Pos(*,@EmoteTmp2)>0} {
+    #If {%Word(@EmoteTmp2,*,2)="0"} {#Var EmoteTmp2 {}}
+   };
+   #If {%Length(@EmoteTmp2)>0} {meplay {@EmoteTmp2@Ext}}
+  }
+ }
+} {Main|Emotes}

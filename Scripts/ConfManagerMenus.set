@@ -138,16 +138,14 @@ ArchaeologyCalculateDirection|B
 [1] Socials  [~%If(~@SocialsOn=1,On,Off)]. (Control F11).
 [2] Actions  [~%If(~@ActionsOn=1,On,Off)].
 [3] Emotes  [~%If(~@EmotesOn=1,On,Off)].
-[4] Normalize emotes by banned emotees  [~%If(~@FormatBannedEmotees=1,On,Off)].
-[5] Toggle individual socials.
-[6] Toggle individual actions.
-[7] Ignore individual social toggles  [~%If(~@BypassSocialToggles=1,On,Off)].
-[8] Ignore individual action toggles  [~%If(~@BypassActionToggles=1,On,Off)].
+[4] Toggle individual socials.
+[5] Toggle individual actions.
+[6] Ignore individual social toggles  [~%If(~@BypassSocialToggles=1,On,Off)].
+[7] Ignore individual action toggles  [~%If(~@BypassActionToggles=1,On,Off)].
 %Chr(250)
 SocialsOn|E::SocialsToggle {~@ConfOptionValue}
 ActionsOn|E::ActionsToggle {~@ConfOptionValue}
 EmotesOn|E::EmotesToggle {~@ConfOptionValue}
-FormatBannedEmotees|B
 SpecificSocials|M
 SpecificActions|M
 BypassSocialToggles|B
