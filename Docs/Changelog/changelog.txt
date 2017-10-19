@@ -1,3 +1,6 @@
+Version 5.9.12, released 2017-10-19:
+* Added sound support for emotes. Remember to enable emotes in conf socials if you turned it off in a previous life.
+
 Version 5.9.11, released 2017-10-19:
 * Fixed certain starmap titles not being gagged when using starmap filters. Thanks Michael Calaway for reporting this!
 
