@@ -1,3 +1,6 @@
+Version 5.9.14, released 2017-10-21:
+* Fixed an oversight in the ship computer framework that prevented it from playing the control room report sound sometimes.
+
 Version 5.9.13, released 2017-10-19:
 * Merged the list of actions into the list of socials, since it's all just socials anyway. This also gives a little performance boost, since I could remove alot of duplicated code.
 
