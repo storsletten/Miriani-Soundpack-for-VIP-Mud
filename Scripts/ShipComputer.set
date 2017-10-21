@@ -315,7 +315,7 @@ The game has ended! The winner is *^
   };
   #If {%Length(@ComputerCommands)>0} {
    #Exec {@ComputerCommands};
-   #If {%Defined(PlayComputerSound)=1} {
+   #If {%Defined(PlayComputerSound)=1 or @ComputerPiped=1} {
     MirianiSoundPlay Standard {Ship\Computer\%If(@ComputerPiped=1,LFD@Ext,Announce*4@Ext)};
     #UnVar PlayComputerSound
    }
