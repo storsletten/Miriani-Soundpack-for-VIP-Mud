@@ -1,3 +1,6 @@
+Version 5.9.15, released 2017-10-21:
+* Improved the focus output formatter string. Now it supports X, Y, and Z. It has also been moved from conf scan to conf ship. Furthermore, instead of showing the word unchanged, it will now beep when the coordinates change.
+
 Version 5.9.14, released 2017-10-21:
 * Fixed an oversight in the ship computer framework that prevented it from playing the control room report sound sometimes.
 
