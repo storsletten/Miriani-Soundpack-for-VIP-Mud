@@ -43,6 +43,7 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
 
 #Trigger {Locked onto coordinates: *} {
  #GagLine 1 Voice;
+ #Sub {Locked on %1};
  #If {@UseAlternativeCombatSounds=1 or %1=@FocusShipCoords} {MirianiSoundPlay Standard Ship\Combat\LockedOnOther2@Ext}
 } {Main|Starship}
 #Trigger {A blinding flash of light suddenly permeates the *.} {
@@ -60,7 +61,7 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
 } {Main|Starship}
 #Trigger {* has a lock on this starship.} {
  #If {@EnhancedAimSoundSystem>0} {
-  #If {%Replace(%1,~",)=%Replace(@FocusShipName,~",)} {
+  #If {%IfWord(%1,@FocusShipName,%CRLF)=1} {
    MirianiSoundPlay Standard Ship\Combat\LockedOnYou2@Ext 15;
    #PC %PlayHandle Frequency 66000
   } {
@@ -138,7 +139,7 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
 } {Main|Starship}
 #Trigger {This starship has been hit by *.} {
  #Math TotalHitsOnThisShip {@TotalHitsOnThisShip+1};
- #If {@EnhancedAimSoundSystem>0 and %Replace(%1,~",)=%Replace(@FocusShipName,~",)} {MirianiSoundPlay Standard Ship\Computer\SensorInterference@Ext};
+ #If {@EnhancedAimSoundSystem>0 and %IfWord(%1,@FocusShipName,%CRLF)=1} {MirianiSoundPlay Standard Ship\Computer\SensorInterference@Ext};
  #Var ShipCombatTmp1 0;
  #If {%Word(%1, ,1)="Praelor"} {
   #If {@MissionMode=1} {#GagLine 1 Voice};
@@ -178,18 +179,25 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
  #Exec {>focus%RTrim( %0)}
 }
 #Trigger {*: *} {
- #If {@InterruptOnFocus=1} {speech stop};
- #Var ShipCombatTmp1 {%Replace(%2,~, ,)};
- #If {%IfWord(%1,Coordinates|Current coordinates|Current galactic coordinates,|)=0 and %IsNumber(@ShipCombatTmp1)=1} {
-  #If {%2=@FocusShipCoords} {#Var FocusCoordsUnchanged 1} {#Var FocusCoordsUnchanged 0};
-  #Var FocusShipName {%1};
-  #Var FocusShipCoords {%2};
-  #Var TargetCoordinatesRaw {@FocusShipCoords};
-  #Var ShipCombatTmp1 {%Replace(@FocusOutputString,$NAME,@FocusShipName)};
-  #Var ShipCombatTmp1 {%Replace(@ShipCombatTmp1,$COORDS,@FocusShipCoords)};
-  #If {@FocusCoordsUnchanged=1} {#Var ShipCombatTmp1 {Unchanged (@ShipCombatTmp1)}};
-  #Sub {@ShipCombatTmp1};
-  MainTrigSwitch 1 Focus
+ #If {%IfWord(%1,Coordinates|Current coordinates|Current galactic coordinates,|)=1} {
+  MainTrigSwitch 1
+ } {
+  #Var ShipCombatTmp1 {%Replace(%2,~, ,)};
+  #If {%IsNumber(@ShipCombatTmp1)=1} {
+   #If {@InterruptOnFocus=1} {speech stop};
+   #If {%IfWord(%2,@FocusShipCoords,%CRLF)=0} {
+    #Var FocusShipCoords {%2};
+    MirianiSoundPlay Standard Ship\Computer\Beep@Ext 10
+   };
+   #Var FocusShip {$};
+   #Var FocusShipName {%1};
+   #Var FocusShipX {%Word(%2,~, ,1)};
+   #Var FocusShipY {%Word(%2,~, ,2)};
+   #Var FocusShipZ {%Word(%2,~, ,3)};
+   #Var ShipCombatTmp1 {%Replace(@FocusFormatString,$,~@FocusShip)};
+   #Sub {%Expand(@ShipCombatTmp1)};
+   MainTrigSwitch 1
+  }
  }
 } {Focus}
 #Trigger {That's not a ship.} {MainTrigSwitch 1 Focus} {Focus}

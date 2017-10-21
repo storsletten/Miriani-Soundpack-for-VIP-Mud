@@ -57,7 +57,7 @@ ScanFormatStringProbe:$DistanceRaw $DistanceUnits distant.$LaunchedBy.$Everythin
 ScanFormatStringInterdictor:$DistanceRaw $DistanceUnits distant.$LaunchedBy.$EverythingElse.$Coordinates.
 ScanFormatStringBlockade:$DistanceRaw $DistanceUnits distant.$LaunchedBy.$EverythingElse.$Coordinates.
 ScanFormatStringUnknown:$DistanceRaw $DistanceUnits away.$EverythingElse.$Coordinates.
-FocusOutputString:$COORDS ($NAME)
+FocusFormatString:$X $Y $Z, $Name
 GagAvatars:0
 PaPrefix:[PA]&SPC;
 ExtPrefix:[Ext]&SPC;
