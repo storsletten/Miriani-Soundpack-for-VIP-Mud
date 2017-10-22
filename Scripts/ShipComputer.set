@@ -259,12 +259,19 @@ I am beginning the repair of *. Estimated time to completion: *.^
  #Var PlayComputerSound 1;
  MirianiSoundPlay Standard Ship\Computer\RepairStart~@Ext 10;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
- #Var ComputerSaid {Repairing ~@Wildcard1, ~@Wildcard2.}
+ #Var ComputerSaid {~@Wildcard2 until ~@Wildcard1 is repaired.}
 %Chr(250)
 * will be completely repaired in approximately *.^
  #Var PlayComputerSound 1;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
- #Var ComputerSaid {~@Wildcard1 will be repaired in ~@Wildcard2.}
+ #Var ComputerSaid {~@Wildcard2 for ~@Wildcard1 to be repaired.}
+%Chr(250)
+I am currently repairing: *, which is *~% damaged. Estimated time to completion is *.^
+ #Var PlayComputerSound 1;
+ GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
+ #If {~%Pos(the ,~@Wildcard1)=0 and ~%IsNumber(~%Word(~@Wildcard1, ,~%NumWords(~@Wildcard1, )))=0} {#Var Wildcard1 {the ~@Wildcard1}};
+ #If {~%Pos(<,~@Wildcard2)=1} {#Var Wildcard2 {Less than ~%Copy(~@Wildcard2,2)}};
+ #Var ComputerSaid {~@Wildcard2~% of damage to ~@Wildcard1 will take ~@Wildcard3 to repair.}
 %Chr(250)
 I have completed the repair of *.^
  #Var PlayComputerSound 1;
@@ -272,16 +279,21 @@ I have completed the repair of *.^
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
  #Var ComputerSaid {~@Wildcard1 repaired.}
 %Chr(250)
-Via synchronized text message broadcasts, *^
+I have aborted the repair of *.^
+ #Var PlayComputerSound 1;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
- MirianiSoundPlay Standard Ship\Comm\STMB~@Ext;
- #Var ComputerSaid {[Synchronized Text Message Broadcast] ~@WildCard1};
- PushMessage Comm {~@ComputerSaid}
+ #Var ComputerSaid {Aborted repair of ~@Wildcard1.}
 %Chr(250)
 This vessel is of the * design. It was manufactured on * at the * and commissioned by the *. The vessel came under licensed control on * and is presently licensed to *.^
  #Var PlayComputerSound 1;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
  #Var ComputerSaid {This ~@Wildcard1 is presently licensed to ~@Wildcard6.~%{CRLF}It came under licensed control on ~@Wildcard5.~%{CRLF}It was manufactured on ~@Wildcard2 at the ~@Wildcard3, and commissioned by the ~@Wildcard4.}
+%Chr(250)
+Via synchronized text message broadcasts, *^
+ GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
+ MirianiSoundPlay Standard Ship\Comm\STMB~@Ext;
+ #Var ComputerSaid {[Synchronized Text Message Broadcast] ~@WildCard1};
+ PushMessage Comm {~@ComputerSaid}
 %Chr(250)
 The game has ended! The winner is *^
  mrplay;
