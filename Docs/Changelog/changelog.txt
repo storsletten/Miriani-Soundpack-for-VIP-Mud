@@ -1,3 +1,6 @@
+Version 5.9.16, released 2017-10-22:
+* Changed repair messages. The ETA command will now show the time first, and the CHECK command will show the amount of damage first.
+
 Version 5.9.15, released 2017-10-21:
 * Improved the focus output formatter string. Now it supports X, Y, and Z. It has also been moved from conf scan to conf ship. Furthermore, instead of showing the word unchanged, it will now beep when the coordinates change.
 
