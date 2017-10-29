@@ -482,3 +482,8 @@ Apartment
  #GagLine 1 All;
  msplay general\misc\podstop@Ext
 } {Main}
+#Trigger {You hitch up * and begin laboriously walking toward *...} {
+ #If {@ZoneType="starship"} {#Var WalkTmp1 {"@{ZoneName}" }} {#Var WalkTmp1 {@ZoneName; }};
+ #If {%Pos(@WalkTmp1,%2)=1} {#Sub {Walking to %Copy(%2,%Length(@ZoneName)+3+%Pos(starship,@ZoneType)).}} {#Sub {Walking to %2.}};
+ #UnVar WalkTmp1
+} {Main}

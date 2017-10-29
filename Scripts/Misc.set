@@ -1,4 +1,3 @@
-#Alias rem {#Exec {remove%RTrim( %0)}}
 #Trigger {*--*} {
  #If {%Length(%Trim(%Replace(%0,-,)))=0} {
   #If {@GagDashes=1 and (@Main<-9 or @Main>0)} {#GagLine 1 All};
@@ -423,3 +422,6 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
  #Sub {%1 of 20. %If(%Pos(digging,%2)>0,Active,Inactive).}
 } {Main|Ground}
 #Trigger {A* air freshener freshens the room with the scent of *.} {msplay Ship\Misc\Scent@Ext} {Main}
+
+#Alias rem {#Exec {remove%RTrim( %0)}}
+#Alias wa {#Exec {walk%RTrim( %0)}}
