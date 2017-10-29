@@ -426,7 +426,7 @@ feel the gentle pull of acceleration as the pod lifts off.^msplay General\Misc\I
 |
 feel a tingly sensation and notice that you are not what you were!^msplay General\Misc\Change~@Ext
 |
-notice the drones returning to niches in the wall. Assuming they're done, you stand up, feeling completely healed.^msplay Stand~@Ext
+notice the drones returning to niches in the wall. Assuming they're done, you stand up, feeling completely healed.^msplay General\Misc\Stand@Ext
 |
 hear a thunk as cargo is expelled from the ship's cargo hold.^
  mwplay Ship\Combat\DebrisDestroyed~@Ext;
