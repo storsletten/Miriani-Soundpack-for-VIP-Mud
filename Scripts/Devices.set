@@ -20,6 +20,7 @@
  #Sub {N%2, p@DevicesTmp2};
  PushMessage Posts {[%Delete(%2,1,14)] P@DevicesTmp2}
 } {Main}
+#Trigger {A* briefly flashes the content of the streamed thread (*) to the screen:} {#Sub {Streaming post %2:}} {Main}
 #Trigger {* take* a snapshot of *.} {
  #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
   msplay General\Device\Snapshot*5@Ext
