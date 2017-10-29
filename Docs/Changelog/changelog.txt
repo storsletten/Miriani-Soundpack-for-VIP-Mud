@@ -1,3 +1,6 @@
+Version 5.9.18, released 2017-10-29:
+* Made the start and end of streamed board posts less verbose.
+
 Version 5.9.17, released 2017-10-29:
 * Added the starship detected sound for when you scan an asteroid that has one or more starships on it. Thanks to Amy Draksen for suggesting this.
 
