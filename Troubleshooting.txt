@@ -1,7 +1,13 @@
   Troubleshooting!!
 
+* There is a bug in VIP Mud that occasionally prevents the soundpack from loading properly. Here are a few symptoms and solutions:
+  * If the soundpack sends weird commands to the game that results in messages like "I don't understand that." then you press Control Shift A, and then hit the Escape key to close the Aliases dialog box.
+  * If keystrokes are not working, then you press Control Shift K, and then hit the Escape key to close the Keystrokes dialog box.
+  * If triggers are not working, then you press Control Shift T, and then hit the Escape key to close the Triggers dialog box.
+  Bottom line is, if something seems like it's not working properly, then you could try all of the three solutions above.
+
 * Cracked versions of VIP Mud are notorious for crashing the soundpack.
-  If you are using a cracked version of VIP Mud and something doesn't work, please try with a legal copy of VIP Mud before reporting bugs.
+  If you are using a cracked version of VIP Mud and something does not work, please try with a legal copy of VIP Mud before reporting bugs.
 
 * Make sure the speech settings in VIP Mud are set correctly.
   To change those settings, you press the Alt key to open up VIP Mud's main menu, find Tools and Preferences, and in there you'll find SPEECH.
@@ -10,7 +16,7 @@
 
 * If the soundpack suddenly starts crashing one day, then the configuration file might have been damaged. Try removing the Conf.set file from your Miriani folder, reinstall the soundpack, and hope for the best.
 
-* If the soundpack is sending lots of weird things to the game, then you could try to open up the aliases dialog box and then close it again. This is actually the solution in some cases. You can do this with Control Shift A, and then hit Escape. Unfortunately you might need to do this after every time you restart VIP Mud or the soundpack. It's just one of these bugs in VIP Mud that we can only hope GMA Games will fix one day.
-
 * Finally, the last resort is to throw your tantrum on the message board "OOC / Soundpacks" in Miriani, and hope that someone will hear you out and offer some helpful help.
   Alternatively, you could try to ask on the metafrequency channel 372.8 in Miriani.
+  Please note that if you are using VIP Mud 1.1, it is likely that the only response you'll get is that you need to update to VIP Mud 2.0.
+  Support for the soundpack for VIP Mud 1.1 has been discontinued.

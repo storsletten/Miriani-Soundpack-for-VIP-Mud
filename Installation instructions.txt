@@ -71,3 +71,4 @@ Step 9:
   After connecting to Miriani, you can type spinfo to see information that lets you verify that the soundpack is installed the way you wanted it.
 
 And finally, if you encounter trouble with this installation, please see the Troubleshooting file before throwing an uncontrolled tantrum.
+Also please note that the soundpack for VIP Mud 1.1 is no longer being actively maintained, and so it's unlikely that bugs related to that version will be addressed.

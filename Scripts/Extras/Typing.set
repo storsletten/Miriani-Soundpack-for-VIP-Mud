@@ -47,10 +47,10 @@ Numpad*:Flip,Flip
 ; Alt-\:0,0
 ; }
 
-#ForAll %Replace(@NumpadTypingKeys,%CRLF,|) {
- #If {%I=*"*:*"} {
+#ForAll {%Replace(@NumpadTypingKeys,%CRLF,|)} {
+ #If {%i=*"*:*"} {
   #Exec {
-   #Key {%Word(%I,:,1)} {NumpadTyping {~%If(~@NumpadTypingFlip <> 1,%Word(%i,:,2))}} {NumpadTyping}
+   #Key {%Word(%i,:,1)} {NumpadTyping {~%If(~@NumpadTypingFlip <> 1,%Word(%i,:,2))}} {NumpadTyping}
   }
  }
 }
@@ -64,7 +64,7 @@ Numpad*:Flip,Flip
 #If {%Defined(NumpadTypingSpeech)=0} {
  #Var NumpadTypingSpeech 1
 } {
- #if {@NumpadTypingSpeech=3} {
+ #If {@NumpadTypingSpeech=3} {
   #SetSpeech Entry Off
  }
 }

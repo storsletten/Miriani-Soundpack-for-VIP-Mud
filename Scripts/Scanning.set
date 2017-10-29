@@ -60,7 +60,8 @@
   #Var {ScanObject%Replace(%1, ,)Raw} {%2};
   #If {@ScanFilters>0 or %Defined(ScanFilter)=1} {
    #If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}
-  }
+  };
+  #If {%1="Starships"} {MirianiSoundPlay {Standard} Ship\Computer\ShipHere@Ext -25}
  }
 } {Main|Scanning}
 #Trigger {[ABDIPSV]*} {
