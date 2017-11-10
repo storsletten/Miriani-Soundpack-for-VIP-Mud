@@ -286,12 +286,10 @@ Display@{ConfTmp1}VolumeDiff:-20
 Display@{ConfTmp1}GagType:All
 Display@{ConfTmp1}Filter:*
 };
-  #If {%IsNumber(@{HideDisplay@ConfTmp1})=0} {
-   #Var {HideDisplay@ConfTmp1} 0;
-   #Var {Display@{ConfTmp1}VolumeDiff} {-20};
-   #Var {Display@{ConfTmp1}GagType} {All};
-   #Var {Display@{ConfTmp1}Filter} {*}
-  }
+  #If {%IsNumber(@{HideDisplay@ConfTmp1})=0} {#Var {HideDisplay@ConfTmp1} 0};
+  #If {%IsNumber(@{Display@{ConfTmp1}VolumeDiff})=0} {#Var {Display@{ConfTmp1}VolumeDiff} {-20}};
+  #If {%Length(@{Display@{ConfTmp1}GagType})=0} {#Var {Display@{ConfTmp1}GagType} {All}};
+  #If {%Length(@{Display@{ConfTmp1}Filter})=0} {#Var {Display@{ConfTmp1}Filter} {*}}
  };
  #Var ConfMenuVD {@ConfMenuVD[@ConfTmp1] %i  [~%If(~@HideDisplay@ConfTmp1=1,hidden,not hidden)].%CRLF};
  #Var ConfTmp2 {@{ConfTmp2}VD@ConfTmp1|M%CRLF};
