@@ -85,53 +85,56 @@
  #Var InterruptOnScanningStarships {%Eval(NOT @InterruptOnScanningStarships)};
  #Say {%If(@InterruptOnScanningStarships=1,Enabled,Disabled) speech interrupt when scanning starships.}
 } {MiscKeys}
-#Key Alt-Backspace {#var InterruptOnFollow {%eval(NOT @InterruptOnFollow)};
-#say {Interrupt on follow %if(@InterruptOnFollow = 1,enabled,disabled).}} {MiscKeys}
-#Key Control-Backspace {conf numbers} {MiscKeys}
-#Key Control-Alt-Backspace {Conf Speech InterruptOnRoom} {MiscKeys}
-#Key Control-Alt-Shift-Backspace {
- #Var FlipMovementKeystrokes {%Eval(@FlipMovementKeystrokes=0)};
- #say {Movement keystrokes %If(@FlipMovementKeystrokes=1,flipped,standard).}
+#Key Alt-Backspace {
+ #Var InterruptOnFollow {%Eval(NOT @InterruptOnFollow)};
+ #Say {Interrupt on follow %If(@InterruptOnFollow = 1,enabled,disabled).}
 } {MiscKeys}
+#Key Control-Alt-Backspace {Conf Speech {Interrupt when entering a room}} {MiscKeys}
 
 #Key F9 {SetMasterVolume down} {SoundKeys}
 #Key F10 {SetMasterVolume up} {SoundKeys}
 #Key F11 {MasterMute} {SoundKeys}
 #key Shift-F11 {conf roomsounds 1} {SoundKeys}
-#Key Shift-Alt-F11 {#if {@ThemeMusic <> 0} {
-thememusicfadeout;
-#var ThemeMusic 0;
-} {
-#var ThemeMusic 1};
-#say {Theme music %if(@ThemeMusic = 1,enabled,disabled).}} {SoundKeys}
-#Key Shift-Control-Alt-F9 {#if {%Mp3Loop > 0 AND @FadeOut = 0} {
-#if {@ThemeSoundVolumeDiff < @Vol} {
-#math ThemeSoundVolumeDiff {@ThemeSoundVolumeDiff + 5}
-} {
-#var ThemeSoundVolumeDiff @Vol
-};
-setthememusicvolume;
-#say {@ThemeVol per cent.} voiceonly}} {SoundKeys}
-#Key Shift-Control-Alt-F10 {#if {%Mp3Loop > 0 AND @FadeOut = 0} {
-#if {@ThemeSoundVolumeDiff > %eval(@Vol - 100)} {
-#math ThemeSoundVolumeDiff {@ThemeSoundVolumeDiff - 5}
-} {
-#var ThemeSoundVolumeDiff {%eval(@Vol - 100)}
-};
-setthememusicvolume;
-#say {@ThemeVol per cent.} voiceonly}} {SoundKeys}
+#Key Shift-Alt-F11 {
+ #If {@ThemeMusic <> 0} {
+  thememusicfadeout;
+  #Var ThemeMusic 0
+ } {
+  #Var ThemeMusic 1
+ };
+ #Say {Theme music %If(@ThemeMusic = 1,enabled,disabled).}
+} {SoundKeys}
+#Key Shift-Control-Alt-F9 {
+ #If {%Mp3Loop > 0 and @FadeOut = 0} {
+  #If {@ThemeSoundVolumeDiff < @Vol} {
+   #Math ThemeSoundVolumeDiff {@ThemeSoundVolumeDiff + 5}
+  } {
+   #Var ThemeSoundVolumeDiff {@Vol}
+  };
+  setthememusicvolume;
+  #Say {@ThemeVol percent.} VoiceOnly
+ }
+} {SoundKeys}
+#Key Shift-Control-Alt-F10 {
+ #If {%Mp3Loop > 0 and @FadeOut = 0} {
+  #If {@ThemeSoundVolumeDiff > %Eval(@Vol - 100)} {
+   #Math ThemeSoundVolumeDiff {@ThemeSoundVolumeDiff - 5}
+  } {
+   #Math ThemeSoundVolumeDiff {@Vol - 100}
+  };
+  setthememusicvolume;
+  #Say {@ThemeVol percent.} VoiceOnly
+ }
+} {SoundKeys}
 #Key Control-F12 {GagEverything} {MiscKeys}
 #Key Shift-Control-F12 {mtplay} {SoundKeys}
 #Key Shift-Control-Alt-F12 {thememusicfadeout} {SoundKeys}
 
-#Key Control-S {
- #SetSpeech Incoming Stop;
- ConfSaveAll
-} {}
+#Key Control-S {#SetSpeech Incoming Stop;ConfSaveAll}
 #Key Control-Alt-Shift-F12 {
  #Var GagExits {%Eval(NOT @GagExits)};
  #Say {Exits will now be %If(@GagExits = 1,gagged,shown).}
-} {}
+}
 #Key Alt-Space {
  Speech Stop;
  #Say {@exits};
@@ -140,6 +143,6 @@ setthememusicvolume;
   #Say {(%if(%ifword(@Exits,None),0,%numwords(%replace(@Exits,@AndString,""), )) exits.)};
   #UnVar AndString
  }
-} {}
-#Key Shift-Control-Alt-F11 {BufferConfig} {}
-#Key Control-F11 {SocialsToggle} {}
+}
+#Key Shift-Control-Alt-F11 {BufferConfig}
+#Key Control-F11 {SocialsToggle}

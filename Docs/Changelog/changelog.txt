@@ -1,3 +1,6 @@
+Version 5.9.22, released 2017-11-12:
+* Fixed ammo unload sound being triggered by the room description at Outreach Mineral Processor Docking Bay. Thank you Anny Rain for reporting this.
+
 Version 5.9.21, released 2017-11-10:
 * Fixed virtual display configurations not migrating correctly from 1.1 to 2.0.
 
