@@ -129,7 +129,7 @@
 } {Main}
 #Trigger {You stop using * for cover.} {msplay General\Combat\uncrouch@Ext} {Main}
 #Trigger {* unload* from *} {
- #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+ #If {%Pos(.,%0)=%Length(%0) and %Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
   msplay General\Combat\UnloadAmmo*5@Ext
  }
 } {Main}
