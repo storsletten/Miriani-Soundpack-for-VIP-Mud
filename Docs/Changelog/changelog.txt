@@ -1,3 +1,6 @@
+Version 5.9.23, released 2017-11-19:
+* The scan filter for starships now includes org tags. Unfortunately I had to reset all scan filter formatters to their default values, so you may need to reconfigure your scan filters if you don't like those default settings.
+
 Version 5.9.22, released 2017-11-12:
 * Fixed ammo unload sound being triggered by the room description at Outreach Mineral Processor Docking Bay. Thank you Anny Rain for reporting this.
 
