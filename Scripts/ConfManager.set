@@ -45,18 +45,18 @@ RelDriveStyle:1
 RelDriveBeep:0
 ScanFilters:1
 DisplayOriginalScanOutput:0
-ScanFormatStringStarship:$New.$NameRaw is $DistanceRaw $DistanceUnits away.Damage $HullDamageRaw, $AverageComponentDamageRaw.Ship $PowerRaw, Weapons $WeaponsRaw.$NumberOfOccupants.$Occupancy.$Type.$Alliance.$Cargo.$Coordinates.
-ScanFormatStringPlanet:$ClassificationRaw planet $DistanceRaw $DistanceUnits away.$EverythingElse.$Coordinates.
-ScanFormatStringMoon:$ClassificationRaw moon $DistanceRaw $DistanceUnits away, orbiting $OrbitingRaw.$EverythingElse.$Coordinates.
-ScanFormatStringStation:Station $DistanceRaw $DistanceUnits away.$EverythingElse.$Coordinates.
-ScanFormatStringAsteroid:$SizeRaw asteroid $DistanceRaw $DistanceUnits away.$Starships.$LandingBeacons.$EverythingElse.$Coordinates.
-ScanFormatStringStar:Class $ClassificationRaw star $DistanceRaw $DistanceUnits away, at $CoordinatesRaw.$EverythingElse.
-ScanFormatStringDebris:$TypeRaw $DistanceRaw $DistanceUnits away, at $CoordinatesRaw.$EverythingElse.
-ScanFormatStringWeapon:$DistanceRaw $DistanceUnits distant.$Damage.$AvailableCharge.$LaunchedBy.$EverythingElse.$Coordinates.
-ScanFormatStringProbe:$DistanceRaw $DistanceUnits distant.$LaunchedBy.$EverythingElse.$Coordinates.
-ScanFormatStringInterdictor:$DistanceRaw $DistanceUnits distant.$LaunchedBy.$EverythingElse.$Coordinates.
-ScanFormatStringBlockade:$DistanceRaw $DistanceUnits distant.$LaunchedBy.$EverythingElse.$Coordinates.
-ScanFormatStringUnknown:$DistanceRaw $DistanceUnits away.$EverythingElse.$Coordinates.
+ScanFormatterForStarship:$New.$NameRaw is $DistanceRaw $DistanceUnits away.Damage $HullDamageRaw, $AverageComponentDamageRaw.Ship $PowerRaw, Weapons $WeaponsRaw.$NumberOfOccupants.$Occupancy.$Type.$Alliance.$Organization.$Cargo.$EverythingElse.$Coordinates.
+ScanFormatterForPlanet:$ClassificationRaw planet $DistanceRaw $DistanceUnits away, at $CoordinatesRaw.$EverythingElse.
+ScanFormatterForMoon:$ClassificationRaw moon $DistanceRaw $DistanceUnits away, orbiting $OrbitingRaw.$EverythingElse.$Coordinates.
+ScanFormatterForStation:Station $DistanceRaw $DistanceUnits away, at $CoordinatesRaw.$EverythingElse
+ScanFormatterForAsteroid:$SizeRaw asteroid $DistanceRaw $DistanceUnits away.$Starships.$LandingBeacons.$EverythingElse.$Coordinates.
+ScanFormatterForStar:Class $ClassificationRaw star $DistanceRaw $DistanceUnits away, at $CoordinatesRaw.$EverythingElse.
+ScanFormatterForDebris:$TypeRaw $DistanceRaw $DistanceUnits away, at $CoordinatesRaw.$EverythingElse.
+ScanFormatterForWeapon:$DistanceRaw $DistanceUnits distant.$Damage.$AvailableCharge.$LaunchedBy.$EverythingElse.$Coordinates.
+ScanFormatterForProbe:$DistanceRaw $DistanceUnits distant.$LaunchedBy.$EverythingElse.$Coordinates.
+ScanFormatterForInterdictor:$DistanceRaw $DistanceUnits distant.$LaunchedBy.$EverythingElse.$Coordinates.
+ScanFormatterForBlockade:$DistanceRaw $DistanceUnits distant.$LaunchedBy.$EverythingElse.$Coordinates.
+ScanFormatterForUnknown:$DistanceRaw $DistanceUnits away, at $CoordinatesRaw.$EverythingElse.
 FocusFormatString:$X $Y $Z, $Name
 GagAvatars:0
 PaPrefix:[PA]&SPC;

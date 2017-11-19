@@ -1,6 +1,6 @@
 #Class Scanning Disable
 #Var ScanOutputLabels {Atmospheric Composition|Available charge|Average Component Damage|Cargo|Classification|Composition|Coordinates|Courier ship status|Damage|Discernable Aircraft|Distance|Hull Damage|Identifiable Power Sources|IFF|Integrity|Landing beacons|Launched by|Natural Resources|Occupancy|Orbiting|Pilot status|Power|Power sources|Size|Starships|Surface Conditions|Type|Weapons}
-#Var ScanFormatVarLabels {@ScanOutputLabels|Alliance|Full Name|Name|New|Number of Occupants|Object Type}
+#Var ScanFormatVarLabels {@ScanOutputLabels|Alliance|Name|New|Number of Occupants|Object Type|Organization}
 #Var ScanFormatVarLabels {%Sort(@ScanFormatVarLabels,0)}
 #Var ScanFormatVars {%Replace(@ScanFormatVarLabels, ,)}
 
@@ -33,7 +33,7 @@
   };
   #Var ScanObjectAllianceRaw {%2};
   #Var ScanObjectNameRaw {%1};
-  #Var ScanObjectFullNameRaw {%1};
+  #If {%Pos( [Organization: ,%3)=1} {#Var ScanObjectOrganizationRaw {%Copy(%3,17,%Length(%3)-17)}};
   #If {%IfWord(%2,Krenelia|Ontanka|Praelor,|)=1} {
    #If {%2="Krenelia"} {msplay Ship\Computer\PraelorIsFriend@Ext};
    #If {%IfWord(%2,Ontanka|Praelor,|)=1 and @MutePraelorIsEnemySound=0} {msplay Ship\Computer\PraelorIsEnemy@Ext};
@@ -120,7 +120,7 @@
   #If {%Length(@{ScanObject%{i}Raw})>0} {
    #Var {ScanObject%i} {%Word(@ScanFormatVarLabels,|,@ScanTmp1): @{ScanObject%{i}Raw}};
    #Var ScanTmp2 {$%i};
-   #If {%i<>"ObjectType" and %Pos(@ScanTmp2,@{ScanFormatString@ScanObjectObjectTypeRaw})=0} {
+   #If {%i<>"ObjectType" and %Pos(@ScanTmp2,@{ScanFormatterFor@ScanObjectObjectTypeRaw})=0} {
     #Var ScanObjectEverythingElse {@ScanObjectEverythingElse%CRLF@{ScanObject%i}.}
    }
   };
@@ -134,7 +134,7 @@
  InSpace 1
 }
 #Alias ScanFormat {
- #If {%Length(%1)=0} {#Var ScanFormatOutput {@{ScanFormatString@ScanObjectObjectTypeRaw}}} {#Var ScanFormatOutput {@{ScanFormatString%1}}};
+ #If {%Length(%1)=0} {#Var ScanFormatOutput {@{ScanFormatterFor@ScanObjectObjectTypeRaw}}} {#Var ScanFormatOutput {@{ScanFormatterFor%1}}};
  #Var ScanObject {$};
  #Var ScanFormatOutput {%Replace(@ScanFormatOutput,.,.%CRLF)};
  #Var ScanFormatOutput {%Replace(@ScanFormatOutput,@ScanObject,~@ScanObject)};

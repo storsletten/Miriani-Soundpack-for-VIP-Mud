@@ -405,33 +405,33 @@ ClassDependant|B
 #Var ConfMenuScanning {Scanning options
 [1] Scan filters  [~%If(~@ScanFilters=1,On,Off)].
 [2] Always show original scan output in the output window  [~%If(~@DisplayOriginalScanOutput=1,On,Off)].
-[3] Starship format string  [~@ScanFormatStringStarship].
-[4] Planet format string  [~@ScanFormatStringPlanet].
-[5] Moon format string  [~@ScanFormatStringMoon].
-[6] Station format string  [~@ScanFormatStringStation].
-[7] Asteroid format string  [~@ScanFormatStringAsteroid].
-[8] Star format string  [~@ScanFormatStringStar].
-[9] Debris format string  [~@ScanFormatStringDebris].
-[10] Proximity weapons format string  [~@ScanFormatStringWeapon].
-[11] Video probe format string  [~@ScanFormatStringProbe].
-[12] Interdictor format string  [~@ScanFormatStringInterdictor].
-[13] Blockade format string  [~@ScanFormatStringBlockade].
-[14] Unknown objects format string  [~@ScanFormatStringUnknown].
+[3] Starship format string  [~@ScanFormatterForStarship].
+[4] Planet format string  [~@ScanFormatterForPlanet].
+[5] Moon format string  [~@ScanFormatterForMoon].
+[6] Station format string  [~@ScanFormatterForStation].
+[7] Asteroid format string  [~@ScanFormatterForAsteroid].
+[8] Star format string  [~@ScanFormatterForStar].
+[9] Debris format string  [~@ScanFormatterForDebris].
+[10] Proximity weapons format string  [~@ScanFormatterForWeapon].
+[11] Video probe format string  [~@ScanFormatterForProbe].
+[12] Interdictor format string  [~@ScanFormatterForInterdictor].
+[13] Blockade format string  [~@ScanFormatterForBlockade].
+[14] Unknown objects format string  [~@ScanFormatterForUnknown].
 %Chr(250)
 ScanFilters|B
 DisplayOriginalScanOutput|B
-ScanFormatStringStarship|S:*
-ScanFormatStringPlanet|S:*
-ScanFormatStringMoon|S:*
-ScanFormatStringStation|S:*
-ScanFormatStringAsteroid|S:*
-ScanFormatStringStar|S:*
-ScanFormatStringDebris|S:*
-ScanFormatStringWeapon|S:*
-ScanFormatStringProbe|S:*
-ScanFormatStringInterdictor|S:*
-ScanFormatStringBlockade|S:*
-ScanFormatStringUnknown|S:*
+ScanFormatterForStarship|S:*
+ScanFormatterForPlanet|S:*
+ScanFormatterForMoon|S:*
+ScanFormatterForStation|S:*
+ScanFormatterForAsteroid|S:*
+ScanFormatterForStar|S:*
+ScanFormatterForDebris|S:*
+ScanFormatterForWeapon|S:*
+ScanFormatterForProbe|S:*
+ScanFormatterForInterdictor|S:*
+ScanFormatterForBlockade|S:*
+ScanFormatterForUnknown|S:*
 }
 
 #Var ConfMenuSpeech {Speech and interrupts:
