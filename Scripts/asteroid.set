@@ -10,7 +10,7 @@
 #Trigger {You accelerate the vehicle *. Navigation instruments instruct you that your coordinates are now *.} {
  DontStopSpeaking;
  #If {%IfWord(%1,@DirList, )=1} {#Sub {[%2]}}
-} {Main|Vehicle}
+} {Main}
 
 #Alias {surveying} {
  #If {@Surveying=0} {

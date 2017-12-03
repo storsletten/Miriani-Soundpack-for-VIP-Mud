@@ -593,7 +593,7 @@ hear the distinct hiss of water being pumped through the ship's piping. Moments 
     }
    }
   } {
-   #If {@TTTmp1=*"can go *."} {
+   #If {@TTTmp1=*"can go *." or @TTTmp1=*"can navigate *."} {
     #Var RoomReader 0;
     #If {@Peers=1} {
      #Var Peers 0
@@ -603,7 +603,8 @@ hear the distinct hiss of water being pumped through the ship's piping. Moments 
       #UnGagLine;
       #GagLine 1 Voice
      };
-     #Var Exits {%Copy(%1,8)};
+     #Var Exits {%Word(%1, ,2)};
+     #Var Exits {%Copy(%1,6+%Length(@Exits))};
      #If {@GagExits<>0} {
       #GagLine 1 All
      } {
