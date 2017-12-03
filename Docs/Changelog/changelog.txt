@@ -1,3 +1,6 @@
+Version 5.9.26, released 2017-12-03:
+* Fixed issues with asteroid rovers. Now it should display the coordinates you move to, as well as processing the possible exits properly.
+
 Version 5.9.25, released 2017-12-03:
 * Added support for the jet black Santa boxes. Super squeezy hugs to Tom Tucker for contributing fully functional code for this. Thaaanks!
 
