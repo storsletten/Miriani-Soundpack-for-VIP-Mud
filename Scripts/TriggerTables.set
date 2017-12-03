@@ -126,6 +126,16 @@ chime is piped through a nearby speaker, indicating that somebody has entered th
  msplay Ship\Misc\Bell~@Ext;
  #Var DisplayString {Airlock chime.};
  #GagLine 1 Voice
+|
+fresh cloud of frozen water crystals rains down upon the room, drifting lazily down until it impacts the deck plating, where it immediately melts. Seconds later, the sound of rushing air comes somewhere from within the walls.^
+ #GagLine 1 Voice;
+ msplay general\misc\test@Ext;
+ #Alarm {0@{DecimalChar}2} {msplay general\rooms\ice@Ext -30}
+|
+blast of icy air suddenly explodes from the ceiling vents, carrying with it a flurry of white snowesque frozen water crystals. The hapless frozen water vapor drifts slowly, but inevitably, to the deck plating, where it is immediately melted back into water, effectively ending its life as snow.^
+ #GagLine 1 Voice;
+ msplay general\misc\test@Ext;
+ #Alarm {0@{DecimalChar}2} {msplay general\rooms\ice@Ext -30}
 }
 
 #Trigger {A[ns ]*} {

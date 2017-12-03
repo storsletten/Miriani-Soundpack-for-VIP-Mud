@@ -568,6 +568,11 @@ press a button on a large planetary mining drone. A recorded voice lightly whisp
  #Var DisplayString {Scanning, please wait...}
 |
 disconnect from your avatar.^MirianiSoundPlay Standard General\Device\MovieEnd~@Ext
+|
+hear the distinct hiss of water being pumped through the ship's piping. Moments later, a flurry of frozen water crystals begins to drift down from vents in the ceiling, lazily swirling through currents of air being pumped out until it settles on the deck plating, where it immediately melts into a hazardous water puddle.^
+ #GagLine 1 Voice;
+ msplay general\misc\test@Ext;
+ #Alarm {0@{DecimalChar}2} {msplay general\rooms\ice@Ext -30}
 }
 
 #Trigger {You *} {
