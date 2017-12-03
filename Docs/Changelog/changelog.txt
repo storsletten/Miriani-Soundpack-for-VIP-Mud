@@ -1,3 +1,6 @@
+Version 5.9.24, released 2017-12-03:
+* Possibly fixed a bug that sometimes resulted in the starship detected sound being played when looking at the starmap.
+
 Version 5.9.23, released 2017-11-19:
 * The scan filter for starships now includes org tags. Unfortunately I had to reset all scan filter formatters to their default values, so you may need to reconfigure your scan filters if you don't like those default settings.
 
