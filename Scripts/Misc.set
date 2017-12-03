@@ -104,7 +104,7 @@
 }
 #Trigger {Invalid selection.} {
  msplay General\Misc\Cancel@Ext;
- #If {@Main<0} {MainTrigSwitch 1}
+ MainTrigSwitch 1
 }
 
 #Trigger {* gestures for you to join * group, which you promptly do.} {
