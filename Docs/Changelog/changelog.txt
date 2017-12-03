@@ -1,3 +1,6 @@
+Version 5.9.25, released 2017-12-03:
+* Added support for the jet black Santa boxes. Super squeezy hugs to Tom Tucker for contributing fully functional code for this. Thaaanks!
+
 Version 5.9.24, released 2017-12-03:
 * Possibly fixed a bug that sometimes resulted in the starship detected sound being played when looking at the starmap.
 
