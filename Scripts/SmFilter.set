@@ -108,23 +108,23 @@ worm:Wormholes
 #Alias smc {
  #Var SmShowCoords 1;
  #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
-} {Starship}
+}
 #Alias smf {
  #Var SmShowCoords 1;
  #If {%0<>""} {#Var SmSearchString {%Trim(%0)}};
  #Exec {#Alarm 0 {sm ships {@SmSearchString}}}
-} {Starship}
+}
 #Alias SMCo {
  #Var SmCount 1;
  #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
-} {Starship}
+}
 #Alias SMCount {
  #Var SmCount 1;
  #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
-} {Starship}
+}
 #Alias sms {
  #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
-} {Starship}
+}
 #Alias sm {
  #Var SmFilter {%Proper(%1)};
  #If {@SmFilter = "Help" or @SmFilter = "H"} {
@@ -147,7 +147,7 @@ Here is the entire list of SmFilter aliases:
   MainTrigSwitch 0 SmFilterClass
  };
  ~sm
-} {Starship}
+}
 
 ; Syntax: CalculateRelativeNumericDir TargetX TargetY TargetZ CurrentX CurrentY CurrentZ
 #Alias CalculateRelativeNumericDir {
