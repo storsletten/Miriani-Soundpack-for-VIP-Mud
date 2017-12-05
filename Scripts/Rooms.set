@@ -283,11 +283,11 @@ Apartment
     #Var AlertSoundHandle 0
    }
   };
-  #If {%Pos( hostile ,%1)>0} {#Var Hostile 1} {#Var Hostile 0};
-  #If {%Pos( light ,%1)>0} {#Var Light 1} {#Var Light 0};
-  #If {%Pos( outdoors ,%1)>0} {#Var RoomIsOutdoors 1} {#Var RoomIsOutdoors 0};
-  #If {%Pos( landed ,%1)>0} {#Var Landed 1} {#Var Landed 0};
-  #If {%Pos( unpowered ,%1)>0} {#Var Powered 0} {#Var Powered 1};
+  #If {%Pos( hostile,%1)>0} {#Var Hostile 1} {#Var Hostile 0};
+  #If {%Pos( light,%1)>0} {#Var Light 1} {#Var Light 0};
+  #If {%Pos( outdoors,%1)>0} {#Var RoomIsOutdoors 1} {#Var RoomIsOutdoors 0};
+  #If {%Pos( landed,%1)>0} {#Var Landed 1} {#Var Landed 0};
+  #If {%Pos( unpowered,%1)>0} {#Var Powered 0} {#Var Powered 1};
   #If {@ZoneType="planet"} {#Var Classification {%Copy(%1,8,%Pos(|,%1)-9)}} {#Var Classification {}}
  };
  #Var RoomReader 1;
