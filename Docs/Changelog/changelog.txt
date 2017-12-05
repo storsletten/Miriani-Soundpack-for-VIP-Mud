@@ -1,3 +1,6 @@
+Version 5.9.28, released 2017-12-05:
+* Fixed a bug that preventedd the soundpack from differentiating between indoor and outdoor rooms.
+
 Version 5.9.27, released 2017-12-04:
 * Starmap filters should now work in observation centers too. Hopefully.
 
