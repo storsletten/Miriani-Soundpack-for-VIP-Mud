@@ -1,3 +1,6 @@
+Version 5.9.29, released 2017-12-06:
+* The soundpack will now respect room-o 22, but it will only say if a room is outdoors. Indoors is implied by the lack of outdoors.
+
 Version 5.9.28, released 2017-12-05:
 * Fixed a bug that preventedd the soundpack from differentiating between indoor and outdoor rooms.
 
