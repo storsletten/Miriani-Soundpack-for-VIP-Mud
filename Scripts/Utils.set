@@ -355,7 +355,7 @@ Typing^Allows you to type with only one hand, using the number pad}
    #Var Hostile {@Hostile};
    #Var InSpace {@InSpace};
    #Var Light {@Light};
-   #Var RoomIsOutdoors {@RoomIsOutdoors};
+   #Var Outdoors {@Outdoors};
    #Var HistoryLogBuffer {@HistoryLogBuffer};
    #Var HistoryLogInitialization {@HistoryLogInitialization};
    #Var RoomName {@RoomName};
