@@ -32,7 +32,7 @@ station:General\Footsteps\Station*8@Ext
   };
   #Math SoundTmp1 {@SoundTmp1*@Vol/100+@Vol};
   #Var SoundTmp1 {%Min(100,%Max(0,@SoundTmp1))};
-  #If {%Pos(:,%2)>1} {#Var SoundTmp4 {}} {#Var SoundTmp4 {@SoundsPath\}};
+  #If {%Pos(:,%2)>1} {#Var SoundTmp4 {}} {#Var SoundTmp4 {@StabilizedSoundsPath\}};
   #If {%Copy(%2,1,2)="l^"} {
    #Var SoundTmp2 {#PlayLoop^%Word(%2,^,2)};
    #Var SoundTmp3 {Looping}

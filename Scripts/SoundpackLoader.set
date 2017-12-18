@@ -34,7 +34,7 @@
 #Load {@ScriptPath\KeyStrokes.set}
 #Load {@ScriptPath\ConfManagerMenus.set}
 
-#Exec {#ForAll {%Replace(@ExtraScriptFiles,%CRLF,|)} {#If {~@{LoadExtraScript~%Word(~%i,^,1)}=1} {#Load {@ScriptPath\Extras\~%Word(~%i,^,1).set}}}}
+#ForAll {%Replace(@ExtraScriptFiles,%CRLF,|)} {#If {@{LoadExtraScript%Word(%i,^,1)}=1} {#Load {@ScriptPath\Extras\%Word(%i,^,1).set}}}
 
 #Load {%MudName\Custom.set}
 

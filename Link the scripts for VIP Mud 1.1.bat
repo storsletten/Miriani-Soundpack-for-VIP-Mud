@@ -17,7 +17,7 @@ ren "%MirianiFolder%\Conf.set" Conf.set.updating
 if exist "%MirianiFolder%\Conf.set" goto WriteError
 
 echo.>>"%MirianiFolder%\Conf.set.updating"
-echo #Var ScriptPath {%cd%\Scripts for VIP Mud 1.1}>>"%MirianiFolder%\Conf.set.updating"
+echo #Var ScriptPath {%cd:@=~@%\Scripts for VIP Mud 1.1}>>"%MirianiFolder%\Conf.set.updating"
 
 ren "%MirianiFolder%\Conf.set.updating" Conf.set
 if not exist "%MirianiFolder%\Conf.set" goto WriteError

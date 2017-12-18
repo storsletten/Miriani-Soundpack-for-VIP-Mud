@@ -78,7 +78,7 @@ if exist "%ProgFilesX86%\VipMud" (
  )
 )
 
-echo To install the soundpack, you'll need to copy this Install.bat script into the Miriani folder that should be located inside your VIP Mud folder.
+echo To install the soundpack, you'll need to copy this installation script into the Miriani folder that should be located inside your VIP Mud folder.
 echo For VIP Mud 1.1, this is typically located in Program Files (x86).
 echo For VIP Mud 2.0, the VIP Mud data folder is located in your Documents folder by default.
 echo Please see the installation instructions for more information.

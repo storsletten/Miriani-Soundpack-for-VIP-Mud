@@ -19,8 +19,8 @@ ren "%MirianiFolder%\Conf.set" Conf.set.updating
 if exist "%MirianiFolder%\Conf.set" goto WriteError
 
 echo.>>"%MirianiFolder%\Conf.set.updating"
-echo #Var SoundsPath {%cd%}>>"%MirianiFolder%\Conf.set.updating"
-echo #Var ThemesPath {%cd%\Themes}>>"%MirianiFolder%\Conf.set.updating"
+echo #Var SoundsPath {%cd:@=~@%}>>"%MirianiFolder%\Conf.set.updating"
+echo #Var ThemesPath {%cd:@=~@%\Themes}>>"%MirianiFolder%\Conf.set.updating"
 
 ren "%MirianiFolder%\Conf.set.updating" Conf.set
 if not exist "%MirianiFolder%\Conf.set" goto WriteError

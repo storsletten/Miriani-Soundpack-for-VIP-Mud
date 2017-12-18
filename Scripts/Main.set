@@ -4,6 +4,8 @@
 #Config Explicit False
 #Config SlowWalk True
 
+#Var StabilizedSoundsPath {%Replace(@SoundsPath,~@,~~~@)}
+
 #GUnAlias login
 #GUnAlias sc
 #GUnAlias music
