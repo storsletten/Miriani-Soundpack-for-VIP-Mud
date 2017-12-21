@@ -1,3 +1,6 @@
+Version 5.9.31, released 2017-12-21:
+* Added a post extra that makes it easier to post messages from a text editor like Notepad. It can be enabled using conf x post, and the command to use it is just POST.
+
 Version 5.9.30, released 2017-12-18:
 * Fixed an issue that caused a lot of errors if the script path or the sounds path contained any at symbols. You might need to reinstall the soundpack for this fix to take effect (if this was an issue for you in the first place). The linking scripts have been updated, although the most recent linking script for sounds have not been uploaded to the zip file for sounds yet. I included them in the zip file for the soundpack itself for now, so just copy them from there into your Miriani Sounds folder for now.
 
