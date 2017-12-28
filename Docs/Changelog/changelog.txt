@@ -1,3 +1,6 @@
+Version 5.9.32, released 2017-12-28:
+* Added an option for showing digging depth in archaeology. It can be found in conf gadgets.
+
 Version 5.9.31, released 2017-12-21:
 * Added a post extra that makes it easier to post messages from a text editor like Notepad. It can be enabled using conf x post, and the command to use it is just POST.
 
