@@ -1,3 +1,7 @@
+Version 5.9.33, released 2017-12-28:
+* Fixed a bug with default and current values in choice based conf options.
+* Changing binary conf options without going through the menus will now indicate the title of the option you're adjusting.
+
 Version 5.9.32, released 2017-12-28:
 * Added an option for showing digging depth in archaeology. It can be found in conf gadgets.
 
