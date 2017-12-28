@@ -1,3 +1,7 @@
+Version 5.9.34, released 2017-12-28:
+* Improved the way the archaeology framework handles output from directional scanners when conf gadget 8 is off.
+* Changed the room title formatter so that coordinates are displayed first in dynamic rooms (like dig sites and asteroids). Thanks Beatrice for bringing this to my attention. I'm sorry it took so long to get this done.
+
 Version 5.9.33, released 2017-12-28:
 * Fixed a bug with default and current values in choice based conf options.
 * Changing binary conf options without going through the menus will now indicate the title of the option you're adjusting.
