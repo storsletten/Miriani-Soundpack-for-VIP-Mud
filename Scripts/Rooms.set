@@ -371,9 +371,12 @@ Apartment
    #Var ZoneName {%Word(%1,"; ",1)};
    #Var RoomName {%Copy(%1,%Pos("; ",%1)+2)};
    #If {@FormatRoomTitles=1} {
-    #Var RoomTmp1 {[@RoomName (@ZoneName)]};
     #If {%Pos( ~(outdoors~),%2)>0} {#Var RoomTmp2 { outdoors}} {#Var RoomTmp2 {}};
-    #If {%IsNumber(@MyXCoord)=1} {#Var RoomTmp1 {@RoomTmp1 (@MyXCoord, @MyYCoord%If(%IsNumber(@MyZCoord)=1,~, @MyZCoord,))}};
+    #If {%IsNumber(@MyXCoord)=1} {
+     #Var RoomTmp1 {[@MyXCoord, @MyYCoord%If(%IsNumber(@MyZCoord)=1,~, @MyZCoord,): @RoomName (@ZoneName)]}
+    } {
+     #Var RoomTmp1 {[@RoomName (@ZoneName)]}
+    };
     #If {%Length(@Sitting)>0} {#Var RoomTmp1 {@RoomTmp1 @Sitting@RoomTmp2}} {#If {%Length(@RoomTmp2)>0} {#Var RoomTmp1 {@RoomTmp1 (%Trim(@RoomTmp2))}}};
     #If {@Hostile=1} {#Var RoomTmp1 {@RoomTmp1 (Hostile)}};
     #Sub {@RoomTmp1}
