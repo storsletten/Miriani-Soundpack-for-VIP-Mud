@@ -312,15 +312,32 @@ ShowDiggingDepth:2
   #Math ConfTmp1 {%Pos(:,@ConfOptionDefaultValue)+1};
   #Var ConfOptionDefaultValue {%Copy(@ConfOptionDefaultValue,@ConfTmp1,%Length(@ConfOptionDefaultValue)+1-@ConfTmp1)};
   #Var ConfOptionDefaultValue {%Word(@ConfOptionDefaultValue,%CRLF,1)};
-  #Var ConfOptionDefaultValue {%Replace(@ConfOptionDefaultValue,$CRLF,~%CRLF)};
-  #Var ConfOptionDefaultValue {%Replace(@ConfOptionDefaultValue,$SPC, )};
-  #Var ConfOptionValueOutput {@ConfOptionValueOutput%{CRLF}Default value: @ConfOptionDefaultValue}
+  #If {%IsNumber(@ConfOptionDefaultValue)=1} {
+   #If {@ConfOptionType="C"} {
+    #Var ConfTmp3 {};
+    #ForAll {%Replace(@ConfOptionValues,^,|)} {
+     #If {%Pos(~,,%i)>0 and %Word(%i,~,,1)=@ConfOptionDefaultValue} {#Var ConfTmp3 {%Word(%i,~,,2)}}
+    };
+    #If {%Length(@ConfTmp3)>0} {#Var ConfOptionDefaultValue {@ConfTmp3}}
+   }
+  } {
+   #Var ConfOptionDefaultValue {%Replace(@ConfOptionDefaultValue,$CRLF,~%CRLF)};
+   #Var ConfOptionDefaultValue {%Replace(@ConfOptionDefaultValue,$SPC, )}
+  };
+  #Var ConfOptionValueOutput {@ConfOptionValueOutput%{CRLF}Default value: @ConfOptionDefaultValue.}
  } {
   #UnVar ConfOptionDefaultValue
  };
  #If {%Defined(@ConfOptionVar)=1} {
   #Var ConfOptionCurrentValue {@{@ConfOptionVar}};
-  #Var ConfOptionValueOutput {@ConfOptionValueOutput%{CRLF}Current value: @ConfOptionCurrentValue}
+  #If {@ConfOptionType="C" and %IsNumber(@ConfOptionCurrentValue)=1} {
+   #Var ConfTmp3 {};
+   #ForAll {%Replace(@ConfOptionValues,^,|)} {
+    #If {%Pos(~,,%i)>0 and %Word(%i,~,,1)=@ConfOptionCurrentValue} {#Var ConfTmp3 {%Word(%i,~,,2)}}
+   };
+   #If {%Length(@ConfTmp3)>0} {#Var ConfOptionCurrentValue {@ConfTmp3}}
+  };
+  #Var ConfOptionValueOutput {@ConfOptionValueOutput%{CRLF}Current value: @ConfOptionCurrentValue.}
  } {
   #UnVar ConfOptionCurrentValue
  };
