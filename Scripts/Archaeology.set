@@ -38,14 +38,14 @@
    msplay General\Archaeology\ArtifactHere@Ext;
    #Abort
   };
-  #If {@ArchaeologyCalculateDirection=1 and %Pos(indicates that you should move to ~(,%2)=1 and %Right(%2,2)=")."} {
+  #If {%Pos(indicates that you should move to ~(,%2)=1 and %Right(%2,2)=")."} {
    #Var ArchTmp1 {%Word(%2,~(,2)};
    #Var ArchTmp1 {%Word(@ArchTmp1,~),1)};
    #If {%Pos(~, ,@ArchTmp1)>0 and %NumWords(@ArchTmp1, )<4} {
     #Var ArchArtiXCoord {%Word(@ArchTmp1,~, ,1)};
     #Var ArchArtiYCoord {%Word(@ArchTmp1,~, ,2)};
     #If {%NumWords(@ArchTmp1,~,)=3} {#Var ArchArtiZCoord {%Word(@ArchTmp1,~, ,3)}} {#Var ArchArtiZCoord {@MyZCoord}};
-    #If {%Defined(MyXCoord)=1 and %Defined(MyYCoord)=1 and %Defined(MyZCoord)=1} {
+    #If {@ArchaeologyCalculateDirection=1 and %Defined(MyXCoord)=1 and %Defined(MyYCoord)=1 and %Defined(MyZCoord)=1} {
      #Var ArchTmp1 0;
      #Var ArchTmp2 {};
      #If {@ArchArtiXCoord<>@MyXCoord} {
@@ -77,6 +77,8 @@
      };
      #If {%Length(@ArchTmp2)>0} {#Sub {%Copy(@ArchTmp2,3,%Eval(%Length(@ArchTmp2)-2))}};
      #UnVar ArchTmp2
+    } {
+     #Sub {@ArchTmp1}
     }
    };
    #UnVar ArchTmp1;
