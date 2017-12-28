@@ -351,8 +351,12 @@ ShowDiggingDepth:2
   #Var ConfOptionSuccess 1;
   #If {%Length(@ConfOptionCallback)>0} {#Exec {@ConfOptionCallback}};
   #If {@ConfOptionSuccess=1} {
-   #Say {It's now %If(@{@ConfOptionVar}=0,off,on).};
-   #If {@ConfMenuSetByPrompt=1} {ConfOpenMenu {@ConfMenu}}
+   #If {@ConfMenuSetByPrompt=1} {
+    #Say {It's now %If(@{@ConfOptionVar}=0,off,on).};
+    ConfOpenMenu {@ConfMenu}
+   } {
+    #Say {%If(@{@ConfOptionVar}=0,Disabled,Enabled): @ConfOptionLabel.}
+   }
   }
  };
  #If {@ConfOptionType="C"} {
