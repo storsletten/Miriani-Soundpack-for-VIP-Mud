@@ -123,6 +123,7 @@ CameraPan|N:-4000^4000
 [6] Show last known point values when using a point unit out of comms  [~%If(~@ShowPointsOOLS=1,On,Off)].
 [7] Show sector names as numbers in flight control messages  [~%If(~@ShowFCSectorNamesAsNumbers=1,On,Off)].
 [8] Calculate directions when using directional archaeology dig site scanners  [~%If(~@ArchaeologyCalculateDirection=1,On,Off)].
+[9] In archaeology, show digging depth  [~%Case(~%Eval(~@ShowDiggingDepth+1),Off,Always,Only when you should switch from automatic to regular shovel)].
 %Chr(250)
 FormatMessageBoards|B
 MessageBoardFormatString|S:*||Use $SENDER for the message sender, $DATE for the date, $REFERENCE for the message reference, $SUBJECT for the subject line, and $VOTES for the votes (if any).
@@ -132,6 +133,7 @@ PointUnitOutputString|S:*
 ShowPointsOOLS|B
 ShowFCSectorNamesAsNumbers|B
 ArchaeologyCalculateDirection|B
+ShowDiggingDepth|C:0,Off^1,Always^2,Only when you should switch from automatic to regular shovel
 }
 
 #Var ConfMenuSocials {Configure socials:

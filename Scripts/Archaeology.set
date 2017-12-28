@@ -130,38 +130,50 @@
 #Trigger {* thrust* a small shovel into the ground and begin* methodically removing large chunks of dirt.} {
  #Var ArchLastDigAmount 5;
  #Math ArchDigDepth {@ArchDigDepth+@ArchLastDigAmount};
- #If {%Pos(You,%1)=1 and %Length(%1)=3} {
-  #GagLine 1 All;
-  msplay general\archaeology\shovel*14@Ext
+ #If {%IfWord(%1,You,%CRLF)=1} {
+  msplay general\archaeology\shovel*14@Ext;
+  #If {@ShowDiggingDepth=1} {
+   #Var ArchTmp1 {};
+   #If {@ArchArtiDepth>0} {#Math ArchTmp1 {@ArchArtiDepth-@ArchDigDepth}} {#Var ArchTmp1 {@ArchDigDepth}};
+   #Var ArchTmp2 {%Right(@ArchTmp1,1)};
+   #Var ArchTmp1 {%Copy(@ArchTmp1,1,%Length(@ArchTmp1)-1)};
+   #If {%IsNumber(@ArchTmp1)=0} {#Var ArchTmp1 {@{ArchTmp1}0}};
+   #If {@ArchTmp2<>0} {#Var ArchTmp1 {@ArchTmp1.@ArchTmp2}};
+   #If {@ArchArtiDepth>0} {#Sub {@ArchTmp1 feet left.}} {#Sub {@ArchTmp1 feet.}};
+   #UnVar ArchTmp1;
+   #UnVar ArchTmp2
+  } {
+   #GagLine 1 All
+  }
  } {
   #Sub {%1 digs.};
+  #GagLine 1 Voice;
   msplay general\archaeology\shovel*14@Ext -10
  }
 } {Main|Ground}
 #Trigger {* firmly wedge* a sleek metallic digging apparatus into the ground and press* a trigger on the handle. The attached shovel immediately goes to work, sending debris *.} {
  #Var ArchLastDigAmount 20;
  #Math ArchDigDepth {@ArchDigDepth+@ArchLastDigAmount};
- #Var ArchTmp1 {};
- #If {@ArchDigDepth<=@ArchArtiDepth and %Eval(@ArchDigDepth+20)>=@ArchArtiDepth} {
-  #Math ArchTmp1 {@ArchArtiDepth-@ArchDigDepth};
-  #If {@ArchTmp1>9} {#Var ArchTmp1 {%Left(@ArchTmp1,1).%Right(@ArchTmp1,1)}} {#Var ArchTmp1 {0.@ArchTmp1}}
- };
  #If {%Pos(You,%1)=1 and %Length(%1)=3} {
-  #If {%Length(@ArchTmp1)>0} {
-   #Sub {@ArchTmp1 feet left.}
+  #If {@ShowDiggingDepth=1 or (@ShowDiggingDepth=2 and @ArchDigDepth<=@ArchArtiDepth and %Eval(@ArchDigDepth+20)>=@ArchArtiDepth)} {
+   #Var ArchTmp1 {};
+   #If {@ArchArtiDepth>0} {#Math ArchTmp1 {@ArchArtiDepth-@ArchDigDepth}} {#Var ArchTmp1 {@ArchDigDepth}};
+   #Var ArchTmp2 {%Right(@ArchTmp1,1)};
+   #Var ArchTmp1 {%Copy(@ArchTmp1,1,%Length(@ArchTmp1)-1)};
+   #If {%IsNumber(@ArchTmp1)=0} {#Var ArchTmp1 {@{ArchTmp1}0}};
+   #If {@ArchTmp2<>0} {#Var ArchTmp1 {@ArchTmp1.@ArchTmp2}};
+   #If {@ArchArtiDepth>0} {#Sub {@ArchTmp1 feet left.}} {#Sub {@ArchTmp1 feet.}};
+   #UnVar ArchTmp1;
+   #UnVar ArchTmp2
   } {
    #GagLine 1 All
   };
   msplay general\archaeology\shovel*14@Ext
  } {
-  #If {%Length(@ArchTmp1)>0} {
-   #Sub {%1 digs with an automatic shovel, and it seems that it's only @ArchTmp1 feet left to the artifact.}
-  } {
-   #Sub {%1 digs with an automatic shovel.}
-  };
+  #Sub {%1 digs with auto shovel.};
+  #GagLine 1 Voice;
   msplay general\archaeology\shovel*14@Ext -10
- };
- #UnVar ArchTmp1
+ }
 } {Main|Ground}
 #Trigger {* digging.} {
  #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0 and %IfWord(%Word(%1, ,%NumWords(%1, )),cease ceases stop stops, )=1} {

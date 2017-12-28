@@ -138,6 +138,7 @@ LoadExtraScriptGames:1
 LoadExtraScriptLaserTag:1
 LoadExtraScriptSocials:1
 ArchaeologyCalculateDirection:0
+ShowDiggingDepth:2
 }}
 
 #Alias ConfOpenMenu {
