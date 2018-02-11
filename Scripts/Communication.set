@@ -469,20 +469,15 @@ Omega Sector:115
    };
    #If {@TmpCommunication1=*"A message from * is piped through the ship's intercom from the external PA. You hear *"} {
     MirianiSoundPlay {Comms Framework} Ship\Comm\PA*9@Ext;
-    #Math TmpCommunication1 {%Pos(" is piped ",%1)-16};
+    #Math TmpCommunication1 {%Pos(" is piped through the ship",%1)-16};
     #Var TmpCommunication1 {%Copy(%1,16,@TmpCommunication1)};
-    #Var TmpCommunication2 {%Word(%1,.,2)};
-    #Var TmpCommunication2 {%Trim(@TmpCommunication2)};
-    #Var TmpPAWorkaround1 {%Word(@TmpCommunication2, ,3)};
-    #Math TmpPAWorkaround1 {%Length(@TmpPAWorkaround1)+12};
-    #Var TmpCommunication2 {%Copy(@TmpCommunication2,@TmpPAWorkaround1+1) };
-    #Var TmpCommunication2 {%Trim(@TmpCommunication2)};
+    #Var TmpCommunication2 {%Copy(%1,%Length(@TmpCommunication1)+%Length(@TmpCommunication1)+76)};
+    #Var TmpCommunication2 {%Copy(@TmpCommunication2,%Length(%Word(@TmpCommunication2, ,1))+2)};
     #If {@StripMessagePrefix=1 and @TmpCommunication2="say"} {
      #Var TmpCommunication2 {@TmpCommunication1: }
     } {
      #Var TmpCommunication2 {You hear @TmpCommunication1 @TmpCommunication2: }
     };
-    #UnVar TmpPAWorkaround1;
     #Sub {@ExtPrefix@TmpCommunication2@TmpCommunication3};
     PushMessage PA {@ExtPrefix@TmpCommunication2@TmpCommunication3};
     #Var TmpCommunication1 {};
