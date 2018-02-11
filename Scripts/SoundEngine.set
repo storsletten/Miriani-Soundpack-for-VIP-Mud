@@ -149,7 +149,7 @@ station:General\Footsteps\Station*8@Ext
 #Alias mtplay {
  #If {@ThemeMusic=1} {
   ThemeMusicStop;
-  #If {%Defined(FadeOut)=1} {#UnAlarm Fadeout;#UnVar FadeOut};
+  #If {%Defined(FadeOut)=1} {#UnAlarm FadeOut;#UnVar FadeOut};
   MirianiSoundPlay Themes {l^@ThemesPath\Theme (*@{NumOfThemes}).mp3};
   SetThemeMusicVolume
  }

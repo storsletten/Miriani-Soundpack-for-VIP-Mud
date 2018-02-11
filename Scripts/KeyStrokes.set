@@ -105,7 +105,7 @@
  #Say {Theme music %If(@ThemeMusic = 1,enabled,disabled).}
 } {SoundKeys}
 #Key Shift-Control-Alt-F9 {
- #If {%Mp3Loop > 0 and @FadeOut = 0} {
+ #If {%Mp3Loop > 0 and %Defined(FadeOut)=0} {
   #If {@ThemeSoundVolumeDiff < @Vol} {
    #Math ThemeSoundVolumeDiff {@ThemeSoundVolumeDiff + 5}
   } {
@@ -113,10 +113,12 @@
   };
   setthememusicvolume;
   #Say {@ThemeVol percent.} VoiceOnly
+ } {
+  #Say {Theme music is not playing.}
  }
 } {SoundKeys}
 #Key Shift-Control-Alt-F10 {
- #If {%Mp3Loop > 0 and @FadeOut = 0} {
+ #If {%Mp3Loop > 0 and %Defined(FadeOut)=0} {
   #If {@ThemeSoundVolumeDiff > %Eval(@Vol - 100)} {
    #Math ThemeSoundVolumeDiff {@ThemeSoundVolumeDiff - 5}
   } {
@@ -124,6 +126,8 @@
   };
   setthememusicvolume;
   #Say {@ThemeVol percent.} VoiceOnly
+ } {
+  #Say {Theme music is not playing.}
  }
 } {SoundKeys}
 #Key Control-F12 {GagEverything} {MiscKeys}

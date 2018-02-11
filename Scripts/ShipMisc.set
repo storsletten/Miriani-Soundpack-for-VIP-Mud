@@ -143,8 +143,10 @@
 } {Main|Starship}
 #Trigger {*A fuzzy creature, appearing momentarily dazed, disengages itself from *.*} {msplay General\Combat\Fuzzy@Ext} {Main|Starship}
 #Trigger {* *s through the hatch.} {msplay Ship\Misc\Hatch@Ext} {Main}
-#Trigger {A security drone suddenly appears to escort you off the ship*} {ThemeMusicFadeOut;
-msplay Ship\Misc\AirlockExit@Ext} {Main|Starship}
+#Trigger {A security drone suddenly appears to escort you off the ship*} {
+ ThemeMusicFadeOut;
+ msplay Ship\Misc\AirlockExit@Ext
+} {Main|Starship}
 #Trigger {Space.} {
  #Sub {The ship is in space.};
  InSpace 1

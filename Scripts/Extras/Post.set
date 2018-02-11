@@ -16,7 +16,7 @@
    #Say {Nothing to send. Remember that you need to save the message in your text editor first, typically by pressing Control S.}
   }
  } {
-  #If {%IfWord(edit,%0, )=0 and @PostFileIsEmpty=0} {
+  #If {%IfWord(new,%0, )=1 and @PostFileIsEmpty=0} {
    #DelFile {@PostFile};
    #File 2 {@PostFile};
    #Write 2 {} NoReturn;
