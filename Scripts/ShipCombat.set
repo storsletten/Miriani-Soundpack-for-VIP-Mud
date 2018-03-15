@@ -44,7 +44,7 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
 #Trigger {Locked onto coordinates: *} {
  #GagLine 1 Voice;
  #Sub {Locked on %1};
- #If {@UseAlternativeCombatSounds=1 or %1=@FocusShipCoords} {MirianiSoundPlay Standard Ship\Combat\LockedOnOther2@Ext}
+ #If {@UseAlternativeCombatSounds=1 or %IfWord(%1,@FocusShipCoords,%CRLF)=1} {MirianiSoundPlay Standard Ship\Combat\LockedOnOther2@Ext}
 } {Main|Starship}
 #Trigger {A blinding flash of light suddenly permeates the *.} {
  MirianiSoundPlay Standard Ship\Combat\YouHit*9@Ext;
