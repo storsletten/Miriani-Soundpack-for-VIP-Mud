@@ -1,3 +1,6 @@
+Version 5.9.36, released 2018-03-15:
+* Addressed an error that could pop up in some instances when aiming at starships. Thanks Anara Webster for reporting this!
+
 Version 5.9.35, released 2018-02-11:
 * Changed the post extra so that it won't overwrite the current message unless you type post new.
 * Fixed the letter y weirdly appearing in external PA messages sometimes.
