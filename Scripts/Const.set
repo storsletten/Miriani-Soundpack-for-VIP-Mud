@@ -167,6 +167,6 @@ walks
 
 #Var ChangelogFilePath {/Scripts}
 #Var DocsPath {%replace(%replace(@ScriptPath,\,/),@ChangelogFilePath,"")/Docs}
-#Var ChangelogFilePath {@DocsPath/Changelog/Changelog.txt}
+#Var ChangelogFilePath {@DocsPath/Changelog.txt}
 #Var DecimalChar {%If(%IsNumber(1.4)=1,.,~,)}
 #Var VirtualDisplays {Internal camera feeds|External camera feeds|Flight control scanners|Intrasector combat messages|Metafrequency messages|Communicator messages}

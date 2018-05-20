@@ -287,7 +287,8 @@ I have aborted the repair of *.^
 This vessel is of the * design. It was manufactured on * at the * and commissioned by the *. The vessel came under licensed control on * and is presently licensed to *.^
  #Var PlayComputerSound 1;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
- #Var ComputerSaid {This ~@Wildcard1 is presently licensed to ~@Wildcard6.~%{CRLF}It came under licensed control on ~@Wildcard5.~%{CRLF}It was manufactured on ~@Wildcard2 at the ~@Wildcard3, and commissioned by the ~@Wildcard4.}
+ #Var ComputerSaid {This ~@Wildcard1 is presently licensed to ~@Wildcard6.~%{CRLF}It came under licensed control on ~@Wildcard5.~%{CRLF}It was manufactured on ~@Wildcard2 at the ~@Wildcard3, and commissioned by the ~@Wildcard4.};
+ #If {~%Defined(NIRPShip)=1} {SetSpeed {~@Wildcard1|~@ZoneName} Quiet}
 %Chr(250)
 Via synchronized text message broadcasts, *^
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};

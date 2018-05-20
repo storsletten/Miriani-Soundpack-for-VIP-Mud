@@ -1,0 +1,64 @@
+#Var NIRPSpeed 0
+#Var NIRPShip {}
+
+#Alias SetSpeed {
+ #If {%IsNumber(%1)=1} {
+  #Var NIRPSpeed {%1};
+  #Var NIRPShip {};
+  #If {%IfWord(Quiet,%2,|)=0} {#Say {Speed is now set to @NIRPSpeed sectors per hour.}}
+ } {
+  #If {%Length(%1)=0} {
+   #If {%IfWord(Quiet,%2,|)=0} {#Say {Syntax: SetSpeed <number of sectors per hour>. For example: setspeed 60}}
+  } {
+   #Var NIRPSpeed 0;
+   #Var NIRPShip {};
+   #If {%Pos(transverser,%1)>0} {#Var NIRPSpeed 80;#Var NIRPShip {%1}};
+   #If {%IfWord(Quiet,%2,|)=0} {#Say {Speed is now set to @NIRPSpeed sectors per hour.}}
+  }
+ }
+}
+
+#Trigger {The destination coordinates lie *} {
+ #Var NIRPTmp1 0;
+ #Var NIRPTmp2 0;
+ #Var NIRPTmp3 0;
+ #If {@NIRPSpeed>0 and (%Length(@NIRPShip)=0 or %IfWord(@ZoneName,@NIRPShip,|)=1)} {
+  #ForAll {%Replace(%1, ,|)} {
+   #Var NIRPTmp3 {%Word(%i,.,1)};
+   #If {%IsNumber(@NIRPTmp3)=1} {
+    #If {%Pos(lightyear,%1)>0} {
+     #Math NIRPTmp2 {@NIRPTmp3 * 2};
+     #If {%NumWords(%i,.)=2} {
+      #If {%Word(%i,.,2)>2} {#Math NIRPTmp2 {@NIRPTmp2 + 1}}
+     }
+    } {
+     #Var NIRPTmp2 {@NIRPTmp3}
+    };
+    #If {@NIRPTmp2>@NIRPTmp1} {#Var NIRPTmp1 {@NIRPTmp2}}
+   }
+  }
+ };
+ #If {@NIRPTmp1>0} {
+  #If {(@NIRPTmp1>32767 and @NIRPSpeed<10) or (@NIRPTmp1>327670 and @NIRPSpeed<100) or (@NIRPTmp1>3276700 and @NIRPSpeed<1000)} {
+   #Math NIRPTmp1 {@NIRPTmp1 / @NIRPSpeed};
+   #Var NIRPTmp2 0
+  } {
+   #Math NIRPTmp1 {@{NIRPTmp1}00 / @NIRPSpeed};
+   #Math NIRPTmp2 {@NIRPTmp1 \ 100};
+   #If {@NIRPTmp1>99} {#Var NIRPTmp1 {%Copy(@NIRPTmp1,1,%Length(@NIRPTmp1)-2)}} {#Var NIRPTmp1 0}
+  };
+  #If {@NIRPTmp2>0} {
+   #Math NIRPTmp2 {@NIRPTmp2 * 6000 / 10000};
+   #If {@NIRPTmp1>0} {
+    #Sub {%0%{CRLF}You could be there in @NIRPTmp1 hour%If(@NIRPTmp1<>1,s,) and @NIRPTmp2 minute%If(@NIRPTmp2<>1,s,).}
+   } {
+    #Sub {%0%{CRLF}You could be there in @NIRPTmp2 minute%If(@NIRPTmp2<>1,s,).}
+   }
+  } {
+   #Sub {%0%{CRLF}You could be there in @NIRPTmp1 hour%If(@NIRPTmp1<>1,s,).}
+  }
+ };
+ #UnVar NIRPTmp1;
+ #UnVar NIRPTmp2;
+ #UnVar NIRPTmp3
+} {Main}

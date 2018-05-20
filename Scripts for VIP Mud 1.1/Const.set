@@ -170,7 +170,7 @@ walks
 #Var ConfFilePath {%MudName/Conf.set}
 #var ChangelogFilePath {/Scripts for VIP Mud 1.1}
 #var DocsPath {%replace(%replace(@ScriptPath,\,/),@ChangelogFilePath,"")/Docs}
-#var ChangelogFilePath {@DocsPath/Changelog/Changelog.txt}
+#var ChangelogFilePath {@DocsPath/Changelog.txt}
 #var DecimalChar {%If(%IsNumber(1.4),.,~,)}
 #Config slowwalk on // Ensures that global speedwalks don't kick you
 #var And { and }
