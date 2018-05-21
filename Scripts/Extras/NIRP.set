@@ -13,6 +13,7 @@
    #Var NIRPSpeed 0;
    #Var NIRPShip {};
    #If {%Pos(transverser,%1)>0} {#Var NIRPSpeed 80;#Var NIRPShip {%1}};
+   #If {%Pos(voyager,%1)>0} {#Var NIRPSpeed 80;#Var NIRPShip {%1}};
    #If {%IfWord(Quiet,%2,|)=0} {#Say {Speed is now set to @NIRPSpeed sectors per hour.}}
   }
  }
