@@ -147,11 +147,4 @@ Then:
 conf speech 8
 Then select your current screen reader. After which do a conf save to save your settings.
 
-++my lines are being cut off or something else equally as strange is occuring!
-This usually is caused by so many changes to the conf manager, and you used a backup from your lore that it's broken.
-Easiest way is to find conf.set, and varriables.set and delete them.
-Their located in the miriani folder inside VIP mud data folder, usually called VIP mud inside documents, unless you changed it. If you moved it, go find it, and open the miriani folder, and just delete conf.set and varriables.set.
-once done, refollow the instructions in installation.txt to reinstall. Once done, do *not!* restore your lore backup, simply reconfigure your soundpack manually.
-If you restore your lore backup anyhow, we're gonna stuff you inside a tumble dryer, and turn it on high, and watch you take a very dizzying ride, because did we not just say in the above line to not restore your lore backup? We did? ok, then why'd you do it! Repeat above procedure and stop restoring your lore backup!
-
 Happy gaming!
