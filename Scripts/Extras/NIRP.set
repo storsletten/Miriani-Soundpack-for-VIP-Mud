@@ -1,18 +1,20 @@
-#Var NIRPSpeed 0
-#Var NIRPShip {}
+#If {%Defined(NIRPSpeed)=0} {#Var NIRPSpeed 0}
+#If {%Defined(NIRPShip)=0} {#Var NIRPShip {}}
 
 #Alias SetSpeed {
  #If {%IsNumber(%1)=1} {
-  #Var NIRPSpeed {%1};
-  #Var NIRPShip {};
+  SetPreservedVariable NIRPSpeed {%1};
+  SetPreservedVariable NIRPShip {};
   #If {%IfWord(Quiet,%2,|)=0} {#Say {Speed is now set to @NIRPSpeed sectors per hour.}}
  } {
   #If {%Length(%1)=0} {
    #If {%IfWord(Quiet,%2,|)=0} {#Say {Syntax: SetSpeed <number of sectors per hour>. For example: setspeed 60}}
   } {
-   #Var NIRPSpeed 0;
-   #Var NIRPShip {};
-   #If {%Pos(transverser,%1)>0} {#Var NIRPSpeed 80;#Var NIRPShip {%1}};
+   SetPreservedVariable NIRPSpeed 54;
+   SetPreservedVariable NIRPShip {%1};
+   #If {%IfWord(%Word(%Word(%1,|,1), ,2),interceptor leviathan, )=1} {#Var NIRPSpeed 240};
+   #If {%IfWord(%Word(%Word(%1,|,1), ,2),transverser, )=1} {#Var NIRPSpeed 80};
+   #If {%IfWord(%Word(%Word(%1,|,1), ,2),ameliorator antagonizer battlecruiser blink contender dart destroyer eviscerator expediter expeditioner gunship heliogaster roborant sentinel voyager, )=1} {#Var NIRPSpeed 66};
    #If {%IfWord(Quiet,%2,|)=0} {#Say {Speed is now set to @NIRPSpeed sectors per hour.}}
   }
  }
