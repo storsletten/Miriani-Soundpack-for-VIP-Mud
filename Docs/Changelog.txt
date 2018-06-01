@@ -1,3 +1,6 @@
+Version 5.9.39, released 2018-06-01:
+* Added an option for displaying a message when roundtime is over. Thanks Ryan Salvatore for expressing a dire need for this feature.
+
 Version 5.9.38, released 2018-05-21:
 * Added more ship classes to the NIRP extra. It should be able to recognize most ship classes now, although I'm not sure if the speed values are very accurate. Feel free to report if something seems a little bit off. The soundpack will now also remember the speed value across sessions. Thanks to Kendle for being an eager helper. It was the motivation I needed to make this change!
 
