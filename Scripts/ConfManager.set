@@ -10,6 +10,7 @@ FormatRoomTitles:0
 FormatMessageBoards:0
 MessageBoardFormatString:$Subject.By $Sender.On $Date.$Votes votes.Ref $Reference
 ShowExpertExits:0
+ShowRoundtimeIsOver:0
 PlayRoundtimeSound:0
 PlayWhenThwarted:0
 AlertOnPlayers:0

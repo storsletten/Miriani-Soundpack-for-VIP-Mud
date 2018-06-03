@@ -27,8 +27,11 @@
 
 #Trigger {(* second* roundtime.)} {
  #If {%IsNumber(%1)=1} {
-  #If {@PlayRoundtimeSound=1} {
-   #Alarm {%Eval(%1-1)} {msplay ship\computer\beep@Ext}
+  #If {@PlayRoundtimeSound=1 or @ShowRoundtimeIsOver=1} {
+   #Alarm {%Eval(%1-1)} {
+    #If {@ShowRoundtimeIsOver=1} {#Say {Go!}};
+    #If {@PlayRoundtimeSound=1} {msplay ship\computer\beep@Ext}
+   }
   };
   #If {%1<@RoundTimeThreshold} {#GagLine 1 Voice};
   #Sub {%1 sec%2 roundtime.}

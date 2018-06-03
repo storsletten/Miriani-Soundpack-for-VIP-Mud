@@ -55,21 +55,23 @@ Docs
 #Var ConfMenuGeneral {General options:
 [1] Room title formatting  [~%If(~@FormatRoomTitles=1,On,Off)].
 [2] Show number of exits when using the Alt Space hotkey  [~%If(~@ShowExpertExits=1,On,Off)].
-[3] Beep when roundtime is over  [~%If(~@PlayRoundtimeSound=1,On,Off)].
-[4] Beep when your commands are blocked by roundtime or stuntime  [~%If(~@PlayWhenThwarted=1,On,Off)].
-[5] Alert when anybody other than the person you are following is in the room  [~%If(~@AlertOnPlayers=1,On,Off)].
-[6] Alter the output of the ARMOR command  [~%If(~@AlterArmor=1,On,Off)].
-[7] Disable DND on Red, Blue, Purple, and Orange Alert  [~%If(~@WakeOnRed=1,On,Off)].
-[8] Startup music  [~%If(~@PlayStartupMusic=1,On,Off)].
-[9] Auto select your character after signing in  [~%If(~@BypassLoginMenu=1,On,Off)].
-[10] Auto save soundpack configuration on exit  [~%If(~@AutoSave=1,On,Off)].
-[11] Keep-Alive duration (in seconds)  [~@KeepAlive].
-[12] Keep-Alive responding  [~%If(~@KeepAliveRespond=1,On,Off)].
-[13] Echo commands in the output window  [~%If(~@CommandEcho=1,On,Off)].
-[14] Soundpack update notifications  [~%If(~@AlertOnUpdate=1,On,Off)].
+[3] Say Go! when roundtime is over  [~%If(~@ShowRoundtimeIsOver=1,On,Off)].
+[4] Beep when roundtime is over  [~%If(~@PlayRoundtimeSound=1,On,Off)].
+[5] Beep when your commands are blocked by roundtime or stuntime  [~%If(~@PlayWhenThwarted=1,On,Off)].
+[6] Alert when anybody other than the person you are following is in the room  [~%If(~@AlertOnPlayers=1,On,Off)].
+[7] Alter the output of the ARMOR command  [~%If(~@AlterArmor=1,On,Off)].
+[8] Disable DND on Red, Blue, Purple, and Orange Alert  [~%If(~@WakeOnRed=1,On,Off)].
+[9] Startup music  [~%If(~@PlayStartupMusic=1,On,Off)].
+[10] Auto select your character after signing in  [~%If(~@BypassLoginMenu=1,On,Off)].
+[11] Auto save soundpack configuration on exit  [~%If(~@AutoSave=1,On,Off)].
+[12] Keep-Alive duration (in seconds)  [~@KeepAlive].
+[13] Keep-Alive responding  [~%If(~@KeepAliveRespond=1,On,Off)].
+[14] Echo commands in the output window  [~%If(~@CommandEcho=1,On,Off)].
+[15] Soundpack update notifications  [~%If(~@AlertOnUpdate=1,On,Off)].
 %Chr(250)
 FormatRoomTitles|B
 ShowExpertExits|B
+ShowRoundtimeIsOver|B
 PlayRoundtimeSound|B
 PlayWhenThwarted|B
 AlertOnPlayers|B
