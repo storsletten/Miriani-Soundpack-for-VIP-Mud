@@ -1,3 +1,6 @@
+Version 5.9.41, released 2018-07-01:
+* Added more things to the RP history buffer. Sitting, standing, buckling, unbuckling, and pulling people to their feet.
+
 Version 5.9.40, released 2018-07-01:
 * Added a history buffer for RP stuff. It will include emotes, socials, and other things people say in the room. Remember that you can use Control E for switching between history buffers, and Control W and Control Q for reviewing them. You can also type HIST S RP for printing out the entire RP history buffer.
 
