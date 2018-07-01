@@ -331,17 +331,20 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
 } {Main}
 #Trigger {* sit* down on *} {
  #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
-  msplay General\Misc\sit@Ext
+  msplay General\Misc\sit@Ext;
+  PushMessage RP {%0}
  }
 } {Main}
 #Trigger {* stand* up.} {
  #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
-  msplay General\Misc\stand@Ext
+  msplay General\Misc\stand@Ext;
+  PushMessage RP {%0}
  }
 } {Main}
 #Trigger {* pull* to * feet.} {
  #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
-  msplay General\Misc\stand@Ext
+  msplay General\Misc\stand@Ext;
+  PushMessage RP {%0}
  }
 } {Main}
 #Trigger {* yawns suddenly and collapses to the ground, asleep.} {
