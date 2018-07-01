@@ -144,7 +144,14 @@ yodels|yodling:General\Socials\Yodel
    #If {%Word(@SocialsTmp1,*,2)="0"} {#Var SocialsTmp1 {}}
   };
   #If {%Length(@SocialsTmp1)>0} {MirianiSoundPlay Social {@SocialsTmp1@Ext}}
- }
+ };
+ #Var SocialsTmp1 {%Replace(%LastLine(1),|,@CR@CR)};
+ #If {%Length(@HistoryRPMessages)>0} {
+  #Var SocialsTmp2 {%Word(@HistoryRPMessages,|,%NumWords(@HistoryRPMessages,|))}
+ } {
+  #Var SocialsTmp2 {Nothing}
+ };
+ #If {%IfWord(%Left(@SocialsTmp1,1),[, )=0 and %IfWord(@SocialsTmp1,@SocialsTmp2,%CRLF)=0} {PushMessage RP {@SocialsTmp1}}
 } {Main|Socials}
 #Trigger {[#]$[#]soundpack emote | * | *} {
  #Var EmotesFound {};
@@ -183,5 +190,6 @@ yodels|yodling:General\Socials\Yodel
    };
    #If {%Length(@EmoteTmp2)>0} {MirianiSoundPlay Emote {@EmoteTmp2@Ext}}
   }
- }
+ };
+ PushMessage RP {%LastLine(1)}
 } {Main|Emotes}

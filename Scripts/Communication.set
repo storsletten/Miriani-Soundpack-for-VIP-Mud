@@ -446,6 +446,7 @@ Omega Sector:115
      };
      #Sub {@TmpCommunication1: @TmpCommunication3};
      PushMessage Say {@TmpCommunication1: @TmpCommunication3};
+     PushMessage RP {%0};
      #Var TmpCommunication1 {}
     }
    };
@@ -501,6 +502,7 @@ Omega Sector:115
      };
      #Sub {@TmpCommunication1: @TmpCommunication3};
      PushMessage Say {@TmpCommunication1: @TmpCommunication3};
+     PushMessage RP {%0};
      #Var TmpCommunication1 {}
     }
    };
@@ -508,6 +510,7 @@ Omega Sector:115
     MirianiSoundPlay {Comms Framework} General\Socials\DroidSpeak@Ext;
     #Sub {%1, @TmpCommunication3};
     PushMessage Say {%1, @TmpCommunication3};
+    PushMessage RP {%0};
     #Var TmpCommunication1 {}
    };
    #If {@TmpCommunication1=*"You press a small button * the wall and *" or @TmpCommunication1=*"You patch your suit radio through the ship's PA system and *"} {
@@ -544,7 +547,8 @@ Omega Sector:115
     #If {@TmpCommunication1=*"* say*" or @TmpCommunication1=*"* ask*" or @TmpCommunication1=*"* exclaim*" or %IfWord(@TmpCommunication2,@CommSocialsExceptionList, )=1} {
      MirianiSoundPlay {Comms Framework} {General\Socials\say@Ext} -30;
      #Sub {%1: @TmpCommunication3};
-     PushMessage Say {%1: @TmpCommunication3}
+     PushMessage Say {%1: @TmpCommunication3};
+     PushMessage RP {%0}
     };
     #Var TmpCommunication1 {}
    };
@@ -554,6 +558,7 @@ Omega Sector:115
       MirianiSoundPlay {Comms Framework} General\Socials\say@Ext;
       #Sub {%1: @TmpCommunication3};
       PushMessage Say {%1: @TmpCommunication3};
+      PushMessage RP {%0};
       #Var TmpCommunication1 {}
      }
     }
@@ -613,7 +618,8 @@ Omega Sector:115
  #If {%Pos([,%1)=0 and %Pos(~,,%1)=0 and %Pos(%Chr(62),%1)=0} {
   #If {%Replace(%1,~",)<>"You"} {
    MirianiSoundPlay {Comms Framework} General\Socials\say@Ext;
-   PushMessage Say {%0}
+   PushMessage Say {%0};
+   PushMessage RP {%0}
   }
  }
 } {Main}
