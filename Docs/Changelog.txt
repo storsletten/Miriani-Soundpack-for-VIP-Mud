@@ -1,3 +1,6 @@
+Version 5.9.40, released 2018-07-01:
+* Added a history buffer for RP stuff. It will include emotes, socials, and other things people say in the room. Remember that you can use Control E for switching between history buffers, and Control W and Control Q for reviewing them. You can also type HIST S RP for printing out the entire RP history buffer.
+
 Version 5.9.39, released 2018-06-01:
 * Added an option for displaying a message when roundtime is over. Thanks Ryan Salvatore for expressing a dire need for this feature.
 
