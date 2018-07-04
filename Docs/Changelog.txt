@@ -1,3 +1,6 @@
+Version 5.9.42, released 2018-07-04:
+* Changed the trigger for the COURSE command so that it recognizes the new output text.
+
 Version 5.9.41, released 2018-07-01:
 * Added more things to the RP history buffer. Sitting, standing, buckling, unbuckling, and pulling people to their feet.
 
