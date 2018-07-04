@@ -360,15 +360,19 @@ The game has ended! The winner is *^
   mwplay Ship\Combat\OtherDestroyed*11@Ext;
   #Var ComputerSaid {%Copy(%1,6,%Length(%1)-25) destroyed.}
  };
- #If {@ShipComputerTmp1=*"the starship is headed for *. The computer estimates approximately * until arrival at the destination at sublight speeds."} {
+ #If {@ShipComputerTmp1=*"the starship is headed for *. The computer estimates approximately * until arrival at the destination at current relativity drive speed."} {
   #Var ShipComputerTmp3 {%Pos(. The computer estimates approximately ,%1)};
   #Var ShipComputerTmp4 {%Copy(%1,28,@ShipComputerTmp3-28)};
   #Var ShipComputerTmp5 {%Copy(%1,@ShipComputerTmp3+39)};
-  #Var ShipComputerTmp5 {%Copy(@ShipComputerTmp5,1,%Pos(until arrival at the destination at sublight speeds,@ShipComputerTmp5)-2)};
+  #Var ShipComputerTmp5 {%Copy(@ShipComputerTmp5,1,%Pos(until arrival at the destination at current relativity drive speed,@ShipComputerTmp5)-2)};
   #Var ComputerSaid {@ShipComputerTmp5 until arrival at @ShipComputerTmp4.};
   #UnVar ShipComputerTmp3;
   #UnVar ShipComputerTmp4;
   #UnVar ShipComputerTmp5
+ } {
+  #If {@ShipComputerTmp1=*"that the starship is currently headed *"} {
+   #Var ComputerSaid {%Proper(%Copy(%1,39))}
+  }
  };
  #If {%Length(@ShipComputerTmp2)>0} {
   #If {%NumWords(@ShipComputerTmp2,|)>1} {
