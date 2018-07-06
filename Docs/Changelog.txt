@@ -1,3 +1,6 @@
+Version 5.9.43, released 2018-07-06:
+* Fixed an issue with the NIRP extra where the workaround for one of VIP Mud's annoying division bugs did not kick in under certain conditions, causing VIP Mud's division bug to kick your butt instead.
+
 Version 5.9.42, released 2018-07-04:
 * Changed the trigger for the COURSE command so that it recognizes the new output text.
 
