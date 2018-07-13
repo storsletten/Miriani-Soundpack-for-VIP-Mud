@@ -1,3 +1,6 @@
+Version 5.9.44, released 2018-07-13:
+* Added an audio game to the soundpack. It's called Spacepace, and before you can play it you need to enable it through conf x. Just type conf x spacepace, and then type spacepace help to see instructions on how to play. It's a silly little game for those moments when you don't have anything better to do. It uses sounds from the soundpack. I wrote it as a little exercise for myself, but if anyone likes it then feel free to give me feedback. I might even be persuaded to add more features to it if somebody has any suggestions.
+
 Version 5.9.43, released 2018-07-06:
 * Fixed an issue with the NIRP extra where the workaround for one of VIP Mud's annoying division bugs did not kick in under certain conditions, causing VIP Mud's division bug to kick your butt instead.
 
