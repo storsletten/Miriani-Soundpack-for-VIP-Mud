@@ -8,6 +8,7 @@ LaserTag^Sounds for Laser Tag
 NIRP^Adds an ETA to NIRP output. For this to work, use the SetSpeed command to set the number of sectors per hour. Alternatively, use the ABOUT command, and the soundpack will attempt to guess the speed factor based on the ship class
 Post^Makes it easier to use a text editor for posting messages, by using the POST command
 Shenanigans^Sounds for slime dispensers, blades, etc
+Spacepace^A little audio game that you can play directly in VIP Mud. After enabling this extra, you can type spacepace help to see instructions.
 Socials^Sounds for kitchen appliances, swimming, campfires, swings, showers, punching bags, and much more
 Typing^Allows you to type with only one hand, using the number pad}
 
