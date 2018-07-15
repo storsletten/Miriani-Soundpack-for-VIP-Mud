@@ -574,13 +574,19 @@ You are currently using version @Version of the @SoundpackName.};
  #If {%1="set"} {
   #If {%IfWord(%2,None|ScreenReader|Sapi,|)=1} {#Var SpeechTmp1 {%2}} {#Var SpeechTmp1 {ScreenReader}};
   #If {@SpeechTmp1="Sapi"} {
-   #SetSpeech Incoming Sapi @SAPIVoice @SAPIVolume @SAPIRate;
-   #SetSpeech VoiceOnly Sapi @SAPIVoice @SAPIVolume @SAPIRate
+   #SetSpeech Incoming Sapi @SAPIVoice @SAPIVolume @SAPIRate
   } {
-   #SetSpeech Incoming {@SpeechTmp1};
-   #SetSpeech VoiceOnly {@SpeechTmp1}
+   #SetSpeech Incoming {@SpeechTmp1}
   };
-  #If {%3<>1} {#Say {Speech Type set to @SpeechTmp1.}};
+  #If {%4<>1} {#Say {Speech Type set to @SpeechTmp1.}};
+  #If {%IfWord(%3,None|ScreenReader|Sapi,|)=1} {
+   #If {%3="Sapi"} {
+    #SetSpeech VoiceOnly Sapi @SAPIVoice @SAPIVolume @SAPIRate
+   } {
+    #SetSpeech VoiceOnly {%3}
+   };
+   #If {%4<>1} {#Say {Speech Type for User Specifyable Voice is now set to %3.}}
+  };
   #UnVar SpeechTmp1
  }
 }

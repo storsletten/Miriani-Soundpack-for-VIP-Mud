@@ -112,6 +112,7 @@ SpeakRoomTitleFirst:0
 InterruptOnBoards:0
 InterruptOnPa:0
 DefaultSpeechType:ScreenReader
+DefaultSpeechTypeForVoiceOnly:Sapi
 SAPIVoice:0
 SAPIVolume:100
 SAPIRate:50
@@ -641,7 +642,7 @@ ShowDiggingDepth:2
   #Class Socials %If(@SocialsOn=1,Enable,Disable);
   #Class Emotes %If(@EmotesOn=1,Enable,Disable);
   #Config DisplayCommandsInOutput %If(@CommandEcho=1,True,False);
-  Speech Set {@DefaultSpeechType} 1;
+  Speech Set {@DefaultSpeechType} {@DefaultSpeechTypeForVoiceOnly} 1;
   SetRoomSoundVolume;
   SetThemeMusicVolume;
   mrplay {@RoomSound};
