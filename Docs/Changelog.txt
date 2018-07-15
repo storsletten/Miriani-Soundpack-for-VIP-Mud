@@ -1,3 +1,9 @@
+Version 5.9.45, released 2018-07-15:
+* Added an option in conf speech to set default speech type for the user specifyable voice in VIP Mud.
+* Fixed a bug that meant speech settings in VIP Mud did not update when you changed them in conf speech.
+* Added acceleration for the Spacepace game. It will now accelerate for every 50th level until you're at level 200, at which point each object exists for only 2 seconds from start to end.
+* Numerous bug fixes for Spacepace.
+
 Version 5.9.44, released 2018-07-13:
 * Added an audio game to the soundpack. It's called Spacepace, and before you can play it you need to enable it through conf x. Just type conf x spacepace, and then type spacepace help to see instructions on how to play. It's a silly little game for those moments when you don't have anything better to do. It uses sounds from the soundpack. I wrote it as a little exercise for myself, but if anyone likes it then feel free to give me feedback. I might even be persuaded to add more features to it if somebody has any suggestions.
 
