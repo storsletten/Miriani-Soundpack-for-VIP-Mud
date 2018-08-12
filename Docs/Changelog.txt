@@ -1,3 +1,6 @@
+Version 5.9.46, released 2018-08-12:
+* SM filters (like sms and smc) might now be a little more resilient when processing a huge number of ships. A consequence is that the output of these commands won't be added to the output history buffer, because VIP Mud just doesn't want to let me do that when using this workaround. Basically there are at least three serious bugs in VIP Mud that I'm trying to juggle workarounds for here, and it's just not possible to make it perfect. Also, SM filters will no longer show starships that occupy the same coordinates. If you don't like this, then let me know and maybe I can make a conf option for it. I might even be able to make a conf option for the workaround that inadvertently prevents the SM filter output from being reviewed by the history buffer for general output. Oh and lastly, thanks to Cria for making me change this.
+
 Version 5.9.45, released 2018-07-15:
 * Added an option in conf speech to set default speech type for the user specifyable voice in VIP Mud.
 * Fixed a bug that meant speech settings in VIP Mud did not update when you changed them in conf speech.
