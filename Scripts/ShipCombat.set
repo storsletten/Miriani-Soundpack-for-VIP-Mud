@@ -44,7 +44,11 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
 #Trigger {Locked onto coordinates: *} {
  #GagLine 1 Voice;
  #Sub {Locked on %1};
- #If {@UseAlternativeCombatSounds=1 or %IfWord(%1,@FocusShipCoords,%CRLF)=1} {MirianiSoundPlay Standard Ship\Combat\LockedOnOther2@Ext}
+ #If {%IfWord(%1,@FocusShipCoords,%CRLF)=1} {
+  MirianiSoundPlay Standard Ship\Combat\LockedOnOther2@Ext
+ } {
+  #Say {Locked} NoDisplay
+ }
 } {Main|Starship}
 #Trigger {A blinding flash of light suddenly permeates the *.} {
  MirianiSoundPlay Standard Ship\Combat\YouHit*9@Ext;
@@ -53,8 +57,9 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
 #Trigger {Target: *} {
  MirianiSoundPlay Standard Ship\Combat\LockedOnOther@Ext;
  #If {%Pos(Starship ~",%1)=1} {
-  #If {@MissionMode=1 and %Pos(Starship ~"Praelor ,%1)=1} {#GagLine 1 Voice};
-  #Sub {Target %Copy(%1,11,%Length(%1)-11).}
+  #GagLine 1 Voice;
+  #If {@MissionMode=0 or %Pos(Starship ~"Praelor ,%1)=0} {#Say {%Copy(%1,11,%Length(%1)-11)} NoDisplay};
+  #Sub {Target: %Copy(%1,11,%Length(%1)-11)}
  } {
   #Sub {%1 targeted.}
  }
