@@ -394,7 +394,7 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
  }
 } {Main}
 #Trigger {* knock* on the *.} {
- #If {%Pos(~, seeming vaguely puzzled,%0)=0 and %Pos(:,%0)=0 and %IfWord(%Left(%0,1),>| |[|~(|-,|)=0} {
+ #If {%Pos(~, seeming vaguely puzzled,%0)=0 and %Pos(:,%0)=0 and %IfWord(%Left(%0,1),>| |[|~(|-,|)=0 and %IfWord(%3,hull,|)=0} {
   msplay General\Misc\Knock1@Ext
  }
 } {Main}
