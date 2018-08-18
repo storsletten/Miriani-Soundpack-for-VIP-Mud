@@ -1,3 +1,6 @@
+Version 5.9.48, released 2018-08-18:
+* Fixed duplicate knocking sound when somebody knocks on the hull of the starship you're in.
+
 Version 5.9.47, released 2018-08-13:
 * The soundpack will now say the word locked after starship weapons are locked onto a set of coordinates. Hopefully no more wondering if you're lagging just because you aimed at empty space.
 
