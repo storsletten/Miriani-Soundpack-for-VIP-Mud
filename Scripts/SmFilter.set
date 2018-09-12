@@ -165,6 +165,7 @@ Here is the entire list of SmFilter aliases:
 }
 
 #Trigger {a* starship simulator (Unclaimed)*} {#GagLine 1 All} {SmFilterClass}
+#Trigger {Simulated * (Unclaimed)*} {#GagLine 1 All} {SmFilterClass}
 #Trigger {*: *} {
  #If {%IfWord(%1,Current Coordinates,|)=1} {
   MainTrigSwitch 1;
