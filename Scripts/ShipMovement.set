@@ -6,7 +6,11 @@
  }
 } {}
 #Alias PlayRelDriveStop {
- #If {@RelDriveBeep=1} {msplay Ship\Computer\Beep@Ext};
+ #If {@RelDriveBeep=1} {
+  msplay Ship\Computer\Beep@Ext
+ } {
+  #If {@RelDriveBeep=2} {#Alarm {1@{DecimalChar}5} {msplay Ship\Computer\Beep@Ext}}
+ };
  msplay Ship\Move\Decelerate@RelDriveStyle@Ext @RelDriveVolume;
  #If {@SoundIsPlaying=1 and %IsNumber(@RelDriveFreq)=1} {
   #PC %PlayHandle Frequency @RelDriveFreq

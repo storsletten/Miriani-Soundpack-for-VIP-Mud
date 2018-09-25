@@ -371,10 +371,10 @@ UseAlternativeCombatSounds|B
 [2] Scanning options.
 [3] SCGC options.~%If(~@LoadExtraScriptCGC=0, ~(The CGC extra is currently disabled~).,)
 [4] Focus output formatter string  [~@FocusFormatString].
-[5] Relativity drive sound frequency  [~@RelDriveFreq Hz].
-[6] Relativity drive sound volume offset  [~@{RelDriveVolume}~~~%].
+[5] Frequency for relativity drive sounds  [~@RelDriveFreq Hz].
+[6] Volume offset for relativity drive sounds  [~@{RelDriveVolume}~~~%].
 [7] Relativity drive sound style  [~%Case(~@RelDriveStyle,Standard Miriani,Standard Star Conquest,MonkeyTerm)].
-[8] Play a beep when relativity drive starts and stops  [~%If(~@RelDriveBeep=1,On,Off)].
+[8] Beep mode for relativity drive  [~%Case(~%Eval(~@RelDriveBeep+1),Off,Start and Stop,Delayed After Stop)].
 [9] Gag the name of holographic avatars  [~%If(~@GagAvatars=1,On,Off)].
 [10] PA prefix  [~@PaPrefix].
 [11] External PA prefix  [~@ExtPrefix].
@@ -393,7 +393,7 @@ FocusFormatString|S:*
 RelDriveFreq|C:22050,Half pitch^44100,Normal pitch^88200,Double pitch
 RelDriveVolume|N:-100^100
 RelDriveStyle|C:Standard Miriani^Standard Star Conquest^MonkeyTerm
-RelDriveBeep|B
+RelDriveBeep|C:0,Off^1,Beep when rel drive starts and stops^2,Beep one and a half seconds after rel drive stops
 GagAvatars|B
 PaPrefix|S:*
 ExtPrefix|S:*
