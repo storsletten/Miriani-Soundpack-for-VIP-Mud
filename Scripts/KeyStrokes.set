@@ -40,17 +40,17 @@
   #Var ReviewKeyTmp2 {%2}
  };
  #If {@LastReviewKeyPressed=%1} {
-  #Var ReviewKeyTmp1 {Copy};
+  #Var ReviewKeyTmp1 {copy};
   #Var LastReviewKeyPressed {}
  } {
-  #Var ReviewKeyTmp1 {Say};
+  #Var ReviewKeyTmp1 {read};
   #Var LastReviewKeyPressed %1;
   #If {%NumWords(@HistoryTimeout,.)<>2 or %IsNumber(%Replace(@HistoryTimeout,.,))=0} {
    #Var HistoryTimeout {0.25}
   };
   #Exec {#Alarm {%Replace(@HistoryTimeout,.,@DecimalChar)} {#If {~@LastReviewKeyPressed="%1"} {#Var LastReviewKeyPressed {}}}}
  };
- History {@ReviewKeyTmp1} {@ReviewKeyTmp2} {%3};
+ SPHB {@ReviewKeyTmp1} {@ReviewKeyTmp2} {%3};
  #UnVar ReviewKeyTmp1;
  #UnVar ReviewKeyTmp2
 } {HistoryReviewKeys}
@@ -71,15 +71,15 @@
 #UnVar ReviewKeyNumber
 #UnVar HistoryReviewNumber
 
-#Key Control-E {history switch forward} {HistoryReviewKeys}
-#Key Control-Shift-E {history switch back} {HistoryReviewKeys}
-#Key Control-Q {history back} {HistoryReviewKeys}
-#Key Control-W {history forward} {HistoryReviewKeys}
-#Key Shift-Control-Q {history back all} {HistoryReviewKeys}
-#Key Shift-Control-W {history forward all} {HistoryReviewKeys}
-#key Alt-Control-Shift-E {history copy {@CurrentHistoryBuffer}} {HistoryReviewKeys}
-#Key Alt-Control-Shift-Q {history copy {@CurrentHistoryBuffer} {@CurrentHistoryBufferPosition} 1} {HistoryReviewKeys}
-#Key Alt-Control-Shift-W {history copy {@CurrentHistoryBuffer} {@CurrentHistoryBufferPosition}} {HistoryReviewKeys}
+#Key Control-E {SPHB switch forward} {HistoryReviewKeys}
+#Key Control-Shift-E {SPHB switch back} {HistoryReviewKeys}
+#Key Control-Q {SPHB back} {HistoryReviewKeys}
+#Key Control-W {SPHB forward} {HistoryReviewKeys}
+#Key Shift-Control-Q {SPHB back all} {HistoryReviewKeys}
+#Key Shift-Control-W {SPHB forward all} {HistoryReviewKeys}
+#key Alt-Control-Shift-E {SPHB copy {@CurrentHistoryBuffer}} {HistoryReviewKeys}
+#Key Alt-Control-Shift-Q {SPHB copy {@CurrentHistoryBuffer} {@CurrentHistoryBufferPosition} 1} {HistoryReviewKeys}
+#Key Alt-Control-Shift-W {SPHB copy {@CurrentHistoryBuffer} {@CurrentHistoryBufferPosition}} {HistoryReviewKeys}
 
 #Key Control-Shift-Backspace {
  #Var InterruptOnScanningStarships {%Eval(NOT @InterruptOnScanningStarships)};
