@@ -1,3 +1,6 @@
+Version 5.9.51, released 2018-10-05:
+* Hist (and history) have now been changed to SPHB. And to make it more convenient, you can now use spr for SPHB read, spc for SPHB copy, and sps for SPHB switch. Sounds confusing to you? Just type sph to see a quick and dirty command reference for the history buffers.
+
 Version 5.9.50, released 2018-09-25:
 * Added a new beep mode for rel drive in conf ship.
 
