@@ -96,19 +96,36 @@
   msplay General\Archaeology\ArtifactNear@Ext
  }
 } {Main|Ground}
-#Trigger {Your digging reveals *. You stoop down and quickly retrieve it.} {
+#Trigger {Your digging reveals *. *} {
  #Var ArchArtiDepth 0;
  #Var ArchaeologyHelperArtifactName %1;
- #Sub {You get %1.};
+ #If {%Pos(Having no free hands,%2)>0} {
+  #Var ArchArtiMessage {You dig up %1, but having no free hands, you leave it lying on the ground.};
+  msplay General\Archaeology\ArtifactHere@Ext
+ } {
+  #Var ArchArtiMessage {You get %1.};
+  msplay General\Archaeology\ArtifactGet@Ext
+ };
  #If {@ArchaeologyHelperCountArtifacts=1} {
   #If {%IsNumber(@ArchaeologyHelperNumberOfArtifacts)=1} {
    #Math ArchaeologyHelperNumberOfArtifacts {@ArchaeologyHelperNumberOfArtifacts + 1}
   } {
    #Var ArchaeologyHelperNumberOfArtifacts 1
   };
-  #Sub {[@ArchaeologyHelperNumberOfArtifacts]: You get %1.}
+  #Sub {[@ArchaeologyHelperNumberOfArtifacts]: @ArchArtiMessage}
+ } {
+  #Sub {@ArchArtiMessage}
  };
+ #UnVar ArchArtiMessage
+} {Main|Ground}
+#Trigger {* stoops down and retrieves *} {
+ #Var ArchArtiDepth 0;
+ #Var ArchaeologyHelperArtifactName %2;
+ #Sub {%1 digs up %2};
  msplay General\Archaeology\ArtifactGet@Ext
+} {Main|Ground}
+#Trigger {* steps back and admires *} {
+ msplay General\Archaeology\ArtifactHere@Ext
 } {Main|Ground}
 
 #Trigger {A clump of loose soil comes free from * and plops back to the ground.} {
