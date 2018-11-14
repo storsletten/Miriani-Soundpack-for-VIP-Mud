@@ -290,8 +290,9 @@ Apartment
   #If {%Pos( unpowered,%1)>0} {#Var Powered 0} {#Var Powered 1};
   #If {@ZoneType="planet"} {#Var Classification {%Copy(%1,8,%Pos(|,%1)-9)}} {#Var Classification {}}
  };
- #Var RoomReader 1;
- #Class RoomReader Enable
+ #Var RoomReader {%Max(@RoomReader+1,1)};
+ #Class RoomReader Enable;
+ #Alarm {0@{DecimalChar}3} {#Math RoomReader {@RoomReader-1}}
 } {Main}
 #Trigger {[[]*]*} {
  #If {@InterruptOnRoom=1 and @Following=1 and @InterruptOnFollow=1 and @SpeakRoomTitleFirst=1} {speech stop};

@@ -579,10 +579,10 @@ hear the distinct hiss of water being pumped through the ship's piping. Moments 
  #Var TTTmp1 {%Replace(%1,~",)};
  #Var TTTmp2 {};
  #Var ActionSuccess 0;
- #If {@RoomReader=1 or @Peers=1} {
+ #If {@RoomReader>0 or @Peers>0} {
   #If {@TTTmp1="see nowhere obvious to go."} {
-   #Var RoomReader 0;
-   #If {@Peers=1} {
+   #Math RoomReader {@RoomReader-1};
+   #If {@Peers>0} {
     #Var Peers 0
    } {
     #Var Exits {None};
@@ -594,7 +594,7 @@ hear the distinct hiss of water being pumped through the ship's piping. Moments 
    }
   } {
    #If {@TTTmp1=*"can go *." or @TTTmp1=*"can navigate *."} {
-    #Var RoomReader 0;
+    #Math RoomReader {@RoomReader-1};
     #If {@Peers=1} {
      #Var Peers 0
     } {
@@ -616,7 +616,7 @@ hear the distinct hiss of water being pumped through the ship's piping. Moments 
     }
    } {
     #If {@ZoneType="space" and @TTTmp1=*"see *"} {
-     #Var RoomReader 0
+     #Math RoomReader {@RoomReader-1}
     }
    }
   };
