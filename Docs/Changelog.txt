@@ -1,3 +1,6 @@
+Version 5.9.53, released 2018-11-14:
+* Added a workaround for the bugs that arise as a result of VIP Mud breaking up the lines of text for room exits.
+
 Version 5.9.52, released 2018-10-25:
 * Added sound for when someone else digs up an archaeological artifact. Also added sound when you have no free hands at the time of digging up an artifact.
 
