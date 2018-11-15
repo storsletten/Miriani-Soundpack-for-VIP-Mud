@@ -1,3 +1,6 @@
+Version 5.9.54, released 2018-11-15:
+* Added more ship rooms that the soundpack now will recognize, including Control Center, Bedrooms of all kinds, Cargo Bay, and Combat Stations.
+
 Version 5.9.53, released 2018-11-14:
 * Added a workaround for the bugs that arise as a result of VIP Mud breaking up the lines of text for room exits.
 
