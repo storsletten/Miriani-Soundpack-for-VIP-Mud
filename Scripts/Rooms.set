@@ -21,10 +21,14 @@ Bzzr Oton Bznit Gran
 Ship\Rooms\Potate*5@Rext
 Cafeteria
 Ship\Rooms\StateRoom@Rext
+Cargo Bay
+Ship\Rooms\Storage@Rext
 Combat Drone Bay
 Ship\Rooms\CombatDroneBay@Rext
 Common Area
 Ship\Rooms\CommonArea@Rext
+Control Center
+Ship\Rooms\Control*3@Rext
 Control Room
 Ship\Rooms\Control*3@Rext
 Docking Bay
@@ -41,24 +45,34 @@ Gym
 Ship\Rooms\StateRoom@Rext
 Hallway
 Ship\Rooms\Corridors@Rext
+Hydroponics Bay
+Ship\Rooms\DockingBay1@Rext
 Library
-Ship\Rooms\MiscShipRooms@Rext
+Ship\Rooms\LivingQuarters*3@Rext
 Pool
 Ship\Rooms\PoolRoom*3@Rext
+Starship Docking Bay
+Ship\Rooms\DockingBay1@Rext
 Storage Crawlspace
 Ship\Rooms\Crawlspace@Rext
 Targetting Control Center
 Ship\Rooms\ObservationRoom@Rext
 Vehicle Docking Bay
 Ship\Rooms\VehicleBay@Rext
+Wellness Center
+Ship\Rooms\Medical*2@Rext
 }
 
 #Var ShipRoomsW {
-* Battery *
+*Battery *
 Ship\Rooms\WeaponsRoom@Rext
-Battle Station*
+Battle*
 Ship\Rooms\WeaponsRoom@Rext
-* Corridor*
+*Bedroom*
+Ship\Rooms\LivingQuarters*3@Rext
+Combat*
+Ship\Rooms\WeaponsRoom@Rext
+*Corridor*
 Ship\Rooms\Corridors@Rext
 *Deck*
 Ship\Rooms\Deck@Rext
@@ -67,7 +81,7 @@ Ship\Rooms\Engineering*5@Rext
 *Hangar*
 General\Rooms\Garage@Rext
 Living Quarters*
-Ship\Rooms\LivingQuarters*2@Rext
+Ship\Rooms\LivingQuarters*3@Rext
 Medical *
 Ship\Rooms\Medical*2@Rext
 Observation *
@@ -76,11 +90,9 @@ Room *
 Ship\Rooms\LivingQuarters*3@Rext
 Stateroom *
 Ship\Rooms\StateRoom@Rext
-Stateroom Corridor *
-Ship\Rooms\Corridors@Rext
 Storage*
 Ship\Rooms\Storage@Rext
-Weapons Room*
+Weapons*
 Ship\Rooms\WeaponsRoom@Rext
 *Repair and Rearm*
 Ship\Rooms\RepAndRearm@Rext
