@@ -301,8 +301,17 @@ Omega Sector:115
  #Var TmpCommunication1 {%Replace(%1,~~,)};
  #Var TmpCommunication1 {%Replace(@TmpCommunication1,~",)};
  #If {@TmpCommunication1=*"[[(]*"} {
-  #If {@TmpCommunication1=*"[[] You shatter immersion and say"} {
-   msplay General\Comm\Rooc@ext;
+  #If {@TmpCommunication1=*"[[] You shatter immersion *and say"} {
+   #If {%Pos(You shatter immersion ship-wide and say,@TmpCommunication1)>0} {
+    #Var TmpCommunication2 {sooc}
+   } {
+    #Var TmpCommunication2 {rooc}
+   };
+   #If {@SoundsVersion>3} {
+    msplay General\Comm\@TmpCommunication2@ext
+   } {
+    msplay General\Comm\Rooc@ext
+   };
    #If {@StripMessagePrefix=1} {
     #Var TmpCommunication1 {}
    } {
@@ -313,13 +322,23 @@ Omega Sector:115
    } {
     #Var TmpCommunication3 {}
    };
-   #Sub {[rooc] @TmpCommunication1@TmpCommunication3};
-   PushMessage rooc {[rooc] @TmpCommunication1@TmpCommunication3};
+   #Sub {[@TmpCommunication2] @TmpCommunication1@TmpCommunication3};
+   PushMessage {@TmpCommunication2} {[@TmpCommunication2] @TmpCommunication1@TmpCommunication3};
    #Var TmpCommunication1 {}
   };
-  #If {@TmpCommunication1=*"[[] * shatters immersion and says"} {
-   msplay General\Comm\Rooc@ext;
-   #Var TmpCommunication1 {%Copy(@TmpCommunication1,3,%Length(@TmpCommunication1)-30)};
+  #If {@TmpCommunication1=*"[[] * shatters immersion *and says"} {
+   #If {%Pos(shatters immersion ship-wide and says,@TmpCommunication1)>0} {
+    #Var TmpCommunication1 {%Copy(@TmpCommunication1,3,%Length(@TmpCommunication1)-40)};
+    #Var TmpCommunication2 {sooc}
+   } {
+    #Var TmpCommunication1 {%Copy(@TmpCommunication1,3,%Length(@TmpCommunication1)-30)};
+    #Var TmpCommunication2 {rooc}
+   };
+   #If {@SoundsVersion>3} {
+    msplay General\Comm\@TmpCommunication2@ext
+   } {
+    msplay General\Comm\Rooc@ext
+   };
    #If {@StripMessagePrefix=0} {
     #Var TmpCommunication1 {@TmpCommunication1 says}
    };
@@ -328,8 +347,8 @@ Omega Sector:115
    } {
     #Var TmpCommunication3 {}
    };
-   #Sub {[rooc] @TmpCommunication1: @TmpCommunication3};
-   PushMessage rooc {[rooc] @TmpCommunication1: @TmpCommunication3};
+   #Sub {[@TmpCommunication2] @TmpCommunication1: @TmpCommunication3};
+   PushMessage {@TmpCommunication2} {[@TmpCommunication2] @TmpCommunication1: @TmpCommunication3};
    #Var TmpCommunication1 {}
   }
  } {
@@ -685,11 +704,21 @@ Omega Sector:115
  };
  #Var CourierCompany %1
 } {Main}
-#Trigger {[[] * shatters immersion and * ]} {
- #If {%Word(%2,~",1) <> "says, " or %NumWords(%2,~")<3} {
-  msplay General\Comm\Rooc@ext;
-  #Sub {[rooc] %1 %2};
-  PushMessage rooc {[rooc] %1 %2}
+#Trigger {[[] * shatters immersion*and * ]} {
+ #If {%Word(%3,~",1) <> "says, " or %NumWords(%3,~")<3} {
+  #If {%2=" ship-wide "} {
+   #If {@SoundsVersion>3} {
+    msplay General\Comm\Sooc@ext
+   } {
+    msplay General\Comm\Rooc@ext
+   };
+   #Sub {[sooc] %1 %3};
+   PushMessage sooc {[sooc] %1 %3}
+  } {
+   msplay General\Comm\Rooc@ext;
+   #Sub {[rooc] %1 %3};
+   PushMessage rooc {[rooc] %1 %3}
+  }
  }
 } {Main}
 #Trigger {[[]Admin Message]: *} {
