@@ -1,3 +1,6 @@
+Version 5.9.55, released 2018-11-24:
+* Added support for sooc. Version 4 of the sounds folder has a slightly modified rooc sound for sooc, which is currently only available for those who have access to the shared Dropbox folder for sounds.
+
 Version 5.9.54, released 2018-11-15:
 * Added more ship rooms that the soundpack now will recognize, including Control Center, Bedrooms of all kinds, Cargo Bay, and Combat Stations.
 
