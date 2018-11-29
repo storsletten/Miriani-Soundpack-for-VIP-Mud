@@ -259,7 +259,7 @@ I am beginning the repair of *. Estimated time to completion: *.^
  #Var PlayComputerSound 1;
  MirianiSoundPlay Standard Ship\Computer\RepairStart~@Ext 10;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
- #Var ComputerSaid {~@Wildcard2 until ~@Wildcard1 is repaired.}
+ #Var ComputerSaid {~@Wildcard2 for ~@Wildcard1 to be repaired.}
 %Chr(250)
 * will be completely repaired in approximately *.^
  #Var PlayComputerSound 1;
