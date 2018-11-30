@@ -235,10 +235,10 @@ station:General\Footsteps\Station*8@Ext
 
 ; Mrandomplay:
 ; Does what it says on the tin. Is used for random events, like cargo transfer sounds etc.
-#Alias {mrandomplay} {
+#Alias MRandomPlay {
  MirianiSoundPlay Random %1 %2 %3;
  #If {@SoundIsPlaying=1 and @RandomisePlay=1} {
-  #pc %PlayHandle pan %Random(-4000,4000)
+  #PC %PlayHandle pan {%Random(-2500,2500)}
  }
 }
 
