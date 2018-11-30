@@ -385,6 +385,7 @@ UseAlternativeCombatSounds|B
 [16] Format string for target patterns  [~@PatternFormatString].
 [17] Enhanced lock alert system  [~%Case(~%Eval(~@EnhancedAimSoundSystem+1),Off,Change lock sound for currently focused target,Mute all lock sounds except for currently focused target)].
 [18] Hit volume depends on praelor ship class  [~%If(~@ClassDependant=1,On,Off)].
+[19] Enable repair notifications outside the engineering room  [~%If(~@RepairNotifs=1,On,Off)].
 %Chr(250)
 Missions|M
 Scanning|M
@@ -404,6 +405,7 @@ MutePraelorIsEnemySound|B
 PatternFormatString|S:*
 EnhancedAimSoundSystem|C:0,Off^1,Change lock sound for currently focused target^2,Mute all lock sounds except for currently focused target
 ClassDependant|B
+RepairNotifs|B
 }
 
 #Var ConfMenuScanning {Scanning options

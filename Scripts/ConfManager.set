@@ -69,6 +69,7 @@ MutePraelorIsEnemySound:1
 PatternFormatString:[$NAME]: $PATTERN. Now at ($COORDS)
 EnhancedAimSoundSystem:1
 ClassDependant:0
+RepairNotifs:0
 WakeOnRed:0
 GagDontUnderstandMessages:0
 NoDescString:You see nothing special.

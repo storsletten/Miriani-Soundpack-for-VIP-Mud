@@ -55,7 +55,8 @@ The destination specified is beyond the range of the wormhole drive.  Attempting
 |
 Aborting repair task. Please stand by.^
  MirianiSoundPlay Standard Ship\Computer\Abort~@Ext;
- #Var ComputerSaid {Aborting repair task.}
+ #Var ComputerSaid {Aborting repair task.};
+ SPShipRepairs Aborted
 |
 Scans reveal the debris to be a life form.^
  MirianiSoundPlay Standard Ship\Misc\SalvageLifeForm~@Ext;
@@ -259,25 +260,29 @@ I am beginning the repair of *. Estimated time to completion: *.^
  #Var PlayComputerSound 1;
  MirianiSoundPlay Standard Ship\Computer\RepairStart~@Ext 10;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
- #Var ComputerSaid {~@Wildcard2 for ~@Wildcard1 to be repaired.}
+ #Var ComputerSaid {~@Wildcard2 for ~@Wildcard1 to be repaired.};
+ SPShipRepairs Started {~@Wildcard1} {~@Wildcard2}
 %Chr(250)
 * will be completely repaired in approximately *.^
  #Var PlayComputerSound 1;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
- #Var ComputerSaid {~@Wildcard2 for ~@Wildcard1 to be repaired.}
+ #Var ComputerSaid {~@Wildcard2 for ~@Wildcard1 to be repaired.};
+ SPShipRepairs ETA {~@Wildcard1} {~@Wildcard2}
 %Chr(250)
 I am currently repairing: *, which is *~% damaged. Estimated time to completion is *.^
  #Var PlayComputerSound 1;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
  #If {~%Pos(the ,~@Wildcard1)=0 and ~%IsNumber(~%Word(~@Wildcard1, ,~%NumWords(~@Wildcard1, )))=0} {#Var Wildcard1 {the ~@Wildcard1}};
  #If {~%Pos(<,~@Wildcard2)=1} {#Var Wildcard2 {Less than ~%Copy(~@Wildcard2,2)}};
- #Var ComputerSaid {~@Wildcard2~% of damage to ~@Wildcard1 will take ~@Wildcard3 to repair.}
+ #Var ComputerSaid {~@Wildcard2~% of damage to ~@Wildcard1 will take ~@Wildcard3 to repair.};
+ SPShipRepairs ETA {~@Wildcard1} {~@Wildcard3}
 %Chr(250)
 I have completed the repair of *.^
  #Var PlayComputerSound 1;
  MirianiSoundPlay Standard Ship\Computer\RepairComplete~@Ext;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
- #Var ComputerSaid {~@Wildcard1 repaired.}
+ #Var ComputerSaid {~@Wildcard1 repaired.};
+ SPShipRepairs Completed {~@Wildcard1}
 %Chr(250)
 I have aborted the repair of *.^
  #Var PlayComputerSound 1;
@@ -299,6 +304,77 @@ Via synchronized text message broadcasts, *^
 The game has ended! The winner is *^
  mrplay;
  MirianiSoundPlay Standard Music\*30~@Ext
+}
+
+#Alias SPTimeToSeconds {
+ #Var SPSeconds 0;
+ #Var TmpTimeNumber 0;
+ #Var TmpTimeLoop 0;
+ #Var TmpTimeLoopEnd {%If(%Length(%1)=0,0,%NumWords(%1, ))};
+ #While {@TmpTimeLoop<@TmpTimeLoopEnd} {
+  #Math TmpTimeLoop {@TmpTimeLoop+1};
+  #Var TmpTimeLoopWord {%Word(%1, ,@TmpTimeLoop)};
+  #If {%IsNumber(@TmpTimeLoopWord)=1} {
+   #Var TmpTimeNumber {@TmpTimeLoopWord}
+  };
+  #If {%IfWord(@TmpTimeLoopWord,hour|hours,|)=1} {
+   #Math SPSeconds {@TmpTimeNumber*3600 + @SPSeconds}
+  };
+  #If {%IfWord(@TmpTimeLoopWord,minute|minutes,|)=1} {
+   #Math SPSeconds {@TmpTimeNumber*60 + @SPSeconds}
+  };
+  #If {%IfWord(@TmpTimeLoopWord,second|seconds,|)=1} {
+   #Math SPSeconds {@TmpTimeNumber + @SPSeconds}
+  }
+ };
+ #UnVar TmpTimeNumber;
+ #UnVar TmpTimeLoopWord;
+ #UnVar TmpTimeLoop;
+ #UnVar TmpTimeLoopEnd
+}
+#Var ShipRepairs 0
+#Alias SPShipRepairs {
+ #Math ShipRepairs {@ShipRepairs+1};
+ #If {%IfWord(%1,Repairing,|)=1} {
+  MRandomPlay Ship\Misc\Repair*11@Ext;
+  #If {@RepairNotifs=1} {
+   #Exec {#Alarm 45 {
+    #If {~@ShipRepairs=@ShipRepairs} {
+     #If {~%Defined(ShipRepairing)=1} {
+      #UnAlarm ShipRepairing;
+      #UnVar ShipRepairing
+     };
+     #Say {Repairs stopped!};
+     MirianiSoundPlay Standard Ship\Computer\RepairComplete@Ext
+    }
+   }}
+  } 
+ } {
+  #If {@RepairNotifs=1} {
+   #Var ShipEngineeringRoom {@RoomName};
+   #If {%Defined(ShipRepairing)=1} {
+    #UnAlarm ShipRepairing;
+    #UnVar ShipRepairing
+   };
+   SPTimeToSeconds {%3};
+   #If {@SPSeconds>0} {
+    #Exec {#Alarm ShipRepairing {%Eval(@SPSeconds+5)} {
+     #UnVar ShipRepairing;
+     #If {~@ShipEngineeringRoom<>~@RoomName} {
+      #Alarm 3 {#Math ShipRepairs {~@ShipRepairs+1}};
+      #Say {Repair complete!};
+      MirianiSoundPlay Standard Ship\Computer\RepairComplete@Ext
+     }
+    }}
+   } {
+    #If {%IfWord(%1,Completed|Aborted,|)=1} {
+     #Exec {#Alarm 4 {
+      #Math ShipRepairs {~@ShipRepairs+1}
+     }}
+    }
+   }
+  }
+ }
 }
 
 #Trigger {* announces, *} {

@@ -140,23 +140,23 @@ notice a faint hum begin to emanate from nowhere in particular as the starship's
  InSpace ~@InSpace
 |
 hear several clinking sounds as the ship is repaired.^
- mrandomplay Ship\Misc\Repair*11~@Ext;
+ SPShipRepairs Repairing;
  #GagLine 1 All
 |
 hear a deafening booming sound as repairs to the ship proceed.^
- mrandomplay Ship\Misc\Repair*11~@Ext;
+ SPShipRepairs Repairing;
  #GagLine 1 All
 |
 hear a shrill screeching sound as repair drones drag replacement components across the hull.^
- mrandomplay Ship\Misc\Repair*11~@Ext;
+ SPShipRepairs Repairing;
  #GagLine 1 All
 |
 hear a buzzing sound from the hull as repairs continue.^
- mrandomplay Ship\Misc\Repair*11~@Ext;
+ SPShipRepairs Repairing;
  #GagLine 1 All
 |
 hear an electrical zapping sound as repairs to the ship continue.^
- mrandomplay Ship\Misc\Repair11~@Ext;
+ SPShipRepairs Repairing;
  #GagLine 1 All
 |
 begin transferring debris to the spaceport.^
@@ -374,8 +374,8 @@ carefully replace a heavy panel back on the wall, concealing the exposed equipme
 lift a heavy panel from the wall, exposing an assortment of wires, switches, and equipment.^msplay Ship\Misc\PanelOpen~@Ext
 |
 hear a piercing sound emanating from deep within the bowels of the ship.^
- #GagLine 1 all;
- mrandomplay Ship\Misc\Repair*11~@Ext
+ SPShipRepairs Repairing;
+ #GagLine 1 All
 |
 pull on a small lever, but it seems to be stuck in the ON position. You fear any further force would snap it right off.^msplay Ship\Misc\Drunk~@Ext
 |
