@@ -1,3 +1,7 @@
+Version 5.10.0, released 2018-11-30:
+* Changed the random pan routine of the sound engine so that it never pans a sound more than 62.5 percent in either direction. This will help for those moments when you have only one functional speaker or earbud in a stereo pair.
+* Added an option in conf ship that lets you enable repair notifications outside the engineering room. These notifications are based on approximations provided by the game and so you shouldn't expect complete accuracy, but nevertheless this feature could be useful.
+
 Version 5.9.56, released 2018-11-29:
 * Changed the wording of a certain repair message, thanks to Patric Avery.
 
