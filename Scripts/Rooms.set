@@ -273,6 +273,92 @@ Apartment
   ~Powered %0
  }
 }
+#Alias InRoom {
+ #If {%Length(%1)>0} {#Var ZoneName {%1}};
+ #If {%Length(%2)>0} {#Var RoomName {%2}};
+ #Exec {#Alarm 0 {
+  #If {~%Defined(ProcessingInRoom)=1} {
+   #If {"%3"<>"Retry"} {#Alarm 1 {InRoom {} {} {Retry}}};
+   #Abort All
+  } {
+   #Var ProcessingInRoom 1
+  };
+  #If {~@ZoneType="starship"} {
+   #Var RoomSound {Ship\Rooms\MiscShipRooms@Rext};
+   #Var InRoomTmp1 {~%Pos(~@LF~@RoomName~@CR,~@ShipRooms)};
+   #If {~%IfWord(~@RoomName,Airlock,|)=1} {MPlanetSounds stop};
+   #If {~@InRoomTmp1>0} {
+    #Var RoomSound {~%Word(~%Copy(~@ShipRooms,~@InRoomTmp1+1),~%CRLF,2)}
+   } {
+    #Math InRoomTmp1 {~%NumWords(~@ShipRoomsW,~@CR)-2};
+    #While {~@InRoomTmp1>0} {
+     #If {~%Replace(~@RoomName,~~",)=*~%Word(~@ShipRoomsW,~%CRLF,~@InRoomTmp1)} {
+      #Var RoomSound {~%Word(~@ShipRoomsW,~%CRLF,~@InRoomTmp1+1)};
+      #Var InRoomTmp1 -1
+     } {
+      #Math InRoomTmp1 {~@InRoomTmp1-2}
+     }
+    }
+   };
+   #If {~@Powered=0} {
+    #Var TempRoomSound {~@RoomSound};
+    #Var RoomSound {Ship\Rooms\NoPower~@Rext};
+    Mrplay ~@RoomSound
+   } {
+    #If {~@InSpace=1 or ~%Pos(Pool,~@RoomName)>0} {
+     mrplay ~@RoomSound Frequency 44100
+    } {
+     mrplay ~@RoomSound Frequency 22050
+    }
+   }
+  } {
+   #If {~@ZoneType="planet"} {
+    #Var RoomSound {General\Rooms\Planet~@Rext};
+    #ForAll {~@PlanetClassifications} {
+     #Var TempClassification {~%Replace(~%Word(~%i,:,1),~%CRLF,)};
+     #If {~@Classification=*~@TempClassification} {
+      #Var RoomSound {~%Replace(~%Word(~%i,:,2),~%CRLF,)}
+     }
+    };
+    #If {~%IfWord(Apartment,~@ZoneName, )=1} {
+     #Var RoomSound {Ship\Rooms\LivingQuarters*3~@Rext}
+    } {
+     #If {~%Pos(Planet,~@ZoneName)=1 and ~%IsNumber(~%Word(~@ZoneName, ,~%NumWords(~@ZoneName, )))=1} {MPlanetSounds}
+    }
+   } {
+    #If {~@ZoneType="station"} {
+     #Var RoomSound {Ship\Rooms\LivingQuarters*3~@Rext}
+    } {
+     #If {~@ZoneType="space"} {
+      #Var RoomSound {General\Rooms\Spacesuit~@Rext}
+     } {
+      #If {~@ZoneType="room" and ~%Pos(~%Word(~@ZoneName, ,1),~@ZoneList)>0} {
+       #Var RoomSound {General\Rooms\Deneii~@Rext}
+      } {
+       #Var RoomSound {}
+      }
+     }
+    }
+   };
+   #Var InRoomTmp1 {~%Pos(~@LF~@RoomName~@CR,~@Rooms)};
+   #If {~@InRoomTmp1>0} {
+    #Var RoomSound {~%Word(~%Copy(~@Rooms,~@InRoomTmp1+1),~%CRLF,2)}
+   } {
+    #Math InRoomTmp1 {~%NumWords(~@RoomsW,~@CR)-2};
+    #While {~@InRoomTmp1>0} {
+     #If {~%replace(~@RoomName,~~",)=*~%Word(~@RoomsW,~%CRLF,~@InRoomTmp1)} {
+      #Var RoomSound {~%Word(~@RoomsW,~%CRLF,~@InRoomTmp1+1)};
+      #Var InRoomTmp1 -1
+     } {
+      #Math InRoomTmp1 {~@InRoomTmp1-2}
+     }
+    }
+   };
+   mrplay ~@RoomSound Frequency 44100
+  };
+  #UnVar ProcessingInRoom
+ }}
+}
 
 #Trigger {[#]$[#]soundpack environment *} {
  #If {@InterruptOnRoom=1 and (@Following=0 or (@InterruptOnFollow=1 and @SpeakRoomTitleFirst=0)) AND @DontStopSpeaking<>1} {speech stop};
@@ -310,6 +396,8 @@ Apartment
  #If {@InterruptOnRoom=1 and @Following=1 and @InterruptOnFollow=1 and @SpeakRoomTitleFirst=1} {speech stop};
  #Var Following 0;
  #Class RoomReader Disable;
+ #Class Walking Disable;
+ #UnVar ProcessingInRoom;
  #Var Sitting {};
  #Var MyXCoord {};
  #Var MyYCoord {};
@@ -342,35 +430,7 @@ Apartment
   #Math RoomTmp1 {@RoomTmp1-1}
  };
  #If {@ZoneType="starship"} {
-  #Var ZoneName {%Word(%1,~",2)};
-  #Var RoomName {%LTrim(%Word(~%1,~~~",3))};
-  #Var RoomSound {Ship\Rooms\MiscShipRooms@Rext};
-  #Var RoomTmp1 {%Pos(@LF@RoomName@CR,@ShipRooms)};
-  #If {%IfWord(@RoomName,Airlock,|)=1} {MPlanetSounds stop};
-  #If {@RoomTmp1>0} {
-   #Var RoomSound {%Word(%Copy(@ShipRooms,@RoomTmp1+1),%CRLF,2)}
-  } {
-   #If {@RoomSounds=1} {#Math RoomTmp1 {%NumWords(@ShipRoomsW,@CR)-2}} {#Var RoomTmp1 0};
-   #While {@RoomTmp1>0} {
-    #If {%Replace(@RoomName,~",)=*%Word(@ShipRoomsW,%CRLF,@RoomTmp1)} {
-     #Var RoomSound {%Word(@ShipRoomsW,%CRLF,@RoomTmp1+1)};
-     #Var RoomTmp1 -1
-    } {
-     #Math RoomTmp1 {@RoomTmp1-2}
-    }
-   }
-  };
-  #If {@Powered=0} {
-   #Var TempRoomSound {@RoomSound};
-   #Var RoomSound {Ship\Rooms\NoPower@Rext};
-   Mrplay @RoomSound
-  } {
-   #If {@InSpace=1 or %Pos(Pool,@RoomName)>0} {
-    mrplay @RoomSound Frequency 44100
-   } {
-    mrplay @RoomSound Frequency 22050
-   }
-  };
+  InRoom {%Word(%1,~",2)} {%LTrim(%Word(~%1,~~~",3))};
   #If {@FormatRoomTitles=1} {
    #Var RoomTmp1 {[@RoomName "@ZoneName"]};
    #If {%Pos( ~(outdoors~),%2)>0} {#Var RoomTmp2 { outdoors}} {#Var RoomTmp2 {}};
@@ -381,8 +441,7 @@ Apartment
   }
  } {
   #If {%Pos("; ",%1)>0} {
-   #Var ZoneName {%Word(%1,"; ",1)};
-   #Var RoomName {%Copy(%1,%Pos("; ",%1)+2)};
+   InRoom {%Word(%1,"; ",1)} {%Copy(%1,%Pos("; ",%1)+2)};
    #If {@FormatRoomTitles=1} {
     #If {%Pos( ~(outdoors~),%2)>0} {#Var RoomTmp2 { outdoors}} {#Var RoomTmp2 {}};
     #If {%IsNumber(@MyXCoord)=1} {
@@ -395,52 +454,8 @@ Apartment
     #Sub {@RoomTmp1}
    }
   } {
-   #Var ZoneName {%1};
-   #Var RoomName {%1}
-  };
-  #If {@ZoneType="planet"} {
-   #Var RoomSound {General\Rooms\Planet@Rext};
-   #ForAll {@PlanetClassifications} {
-    #Var TempClassification {%Replace(%Word(%i,:,1),%CRLF,)};
-    #If {@Classification=*@TempClassification} {
-     #Var RoomSound {%Replace(%Word(%i,:,2),%CRLF,)}
-    }
-   };
-   #If {%IfWord(Apartment,@ZoneName, )=1} {
-    #Var RoomSound {Ship\Rooms\LivingQuarters*3@Rext}
-   } {
-    #If {%Pos(Planet,%1)=1 and %IsNumber(%Word(%1, ,%NumWords(%1, )))=1} {MPlanetSounds}
-   }
-  } {
-   #If {@ZoneType="station"} {
-    #Var RoomSound {Ship\Rooms\LivingQuarters*3@Rext}
-   } {
-    #If {@ZoneType="space"} {
-     #Var RoomSound {General\Rooms\Spacesuit@Rext}
-    } {
-     #If {@ZoneType="room" and %Pos(%Word(@ZoneName, ,1),@ZoneList)>0} {
-      #Var RoomSound {General\Rooms\Deneii@Rext}
-     } {
-      #Var RoomSound {}
-     }
-    }
-   }
-  };
-  #Var RoomTmp1 {%Pos(@LF@RoomName@CR,@Rooms)};
-  #If {@RoomTmp1>0} {
-   #Var RoomSound {%Word(%Copy(@Rooms,@RoomTmp1+1),%CRLF,2)}
-  } {
-   #If {@RoomSounds=1} {#Math RoomTmp1 {%NumWords(@RoomsW,@CR)-2}} {#Var RoomTmp1 0};
-   #While {@RoomTmp1>0} {
-    #If {%replace(@RoomName,~",)=*%Word(@RoomsW,%CRLF,@RoomTmp1)} {
-     #Var RoomSound {%Word(@RoomsW,%CRLF,@RoomTmp1+1)};
-     #Var RoomTmp1 -1
-    } {
-     #Math RoomTmp1 {@RoomTmp1-2}
-    }
-   }
-  };
-  mrplay @RoomSound Frequency 44100
+   InRoom {%1} {%1}
+  }
  }
 } {Main|RoomReader}
 #Trigger {The doors to the pod close and the pod *begins *.} {msplay General\Misc\Pod@Ext} {Main}
@@ -503,5 +518,45 @@ Apartment
 #Trigger {You hitch up * and begin laboriously walking toward *...} {
  #If {@ZoneType="starship"} {#Var WalkTmp1 {"@{ZoneName}" }} {#Var WalkTmp1 {@ZoneName; }};
  #If {%Pos(@WalkTmp1,%2)=1} {#Sub {Walking to %Copy(%2,%Length(@ZoneName)+3+%Pos(starship,@ZoneType)).}} {#Sub {Walking to %2.}};
- #UnVar WalkTmp1
+ #UnVar WalkTmp1;
+ #Class Walking Enable
 } {Main}
+#Trigger {You * to *} {
+ #Var WalkTmp1 {%Word(%1, ,%NumWords(%1, ))};
+ #If {%IfWord(@WalkTmp1,@DirList, )=1} {
+  #GagLine 1 Voice;
+  MStep You Leave {@WalkTmp1};
+  #Var WalkTmp1 {%Left(%2,%Length(%2)-1)};
+  #Say {@WalkTmp1} Incoming|NoDisplay;
+  InRoom {} {@WalkTmp1}
+ };
+ #UnVar WalkTmp1
+} {Walking}
+#Trigger {You've arrived at *} {
+ #Class Walking Disable;
+ #If {@ZoneType="starship"} {#Var WalkTmp1 {"@ZoneName" @RoomName.}} {#Var WalkTmp1 {@ZoneName; @RoomName.}};
+ #If {%IfWord(%1,@WalkTmp1,@CR)=0} {
+  #If {@ZoneType="starship"} {
+   #Var WalkTmp1 {%Word(%1,~",2)};
+   #Math WalkTmp2 {%Length(@WalkTmp1)+4};
+   #Var WalkTmp2 {%Copy(%1,@WalkTmp2,%Length(%1)-@WalkTmp2)}
+  } {
+   #If {%Pos(;,%1)>0} {
+    #Var WalkTmp1 {%Word(%1,;,1)};
+    #Math WalkTmp2 {%Length(@WalkTmp1)+3};
+    #Var WalkTmp2 {%Copy(%1,@WalkTmp2,%Length(%1)-@WalkTmp2)}
+   } {
+    #Var WalkTmp1 {%Left(%1,%Length(%1)-1)};
+    #Var WalkTmp2 {@WalkTmp1}
+   }
+  };
+  InRoom {@WalkTmp1} {@WalkTmp2};
+  #GagLine 1 Voice;
+  #Sub {Arrived at @RoomName.};
+  #Say {@RoomName} Incoming|NoDisplay;
+  #UnVar WalkTmp2
+ } {
+  #GagLine 1 All
+ };
+ #UnVar WalkTmp1
+} {Walking}
