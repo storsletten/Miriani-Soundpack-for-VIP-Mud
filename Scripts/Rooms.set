@@ -528,7 +528,7 @@ Apartment
   MStep You Leave {@WalkTmp1};
   #Var WalkTmp1 {%Left(%2,%Length(%2)-1)};
   #Say {@WalkTmp1} Incoming|NoDisplay;
-  InRoom {} {@WalkTmp1}
+  #If {%IfWord(@WalkTmp1,@RoomName,@CR)=0} {InRoom {} {@WalkTmp1}}
  };
  #UnVar WalkTmp1
 } {Walking}
