@@ -375,6 +375,7 @@ Apartment
    #If {@ZoneType="starship"} {#Class Starship Enable;#Class NotStarship Disable} {#Class Starship Disable;#Class NotStarship Enable};
    #If {@ZoneType="planet"} {#Class Planet Enable} {#Class Planet Disable};
    #If {@ZoneType="station"} {#Class Station Enable} {#Class Station Disable};
+   #If {@ZoneType="space"} {#Class Space Enable} {#Class Space Disable};
    #If {@ZoneType="vehicle"} {#Class Vehicle Enable} {#Class Vehicle Disable};
    #If {@OldZoneType="starship" AND %IsNumber(@AlertSoundHandle)=1 AND @AlertSoundHandle>0} {
     #PC @AlertSoundHandle stop;
@@ -454,7 +455,11 @@ Apartment
     #Sub {@RoomTmp1}
    }
   } {
-   InRoom {%1} {%1}
+   #If {%IfWord(%1,@ZoneName,@CR)=1 and %IfWord(%1,@RoomName,@CR)=1} {
+    #If {@ZoneType="space"} {#GagLine 1 Voice}
+   } {
+    InRoom {%1} {%1}
+   }
   }
  }
 } {Main|RoomReader}
@@ -518,7 +523,7 @@ Apartment
 #Trigger {You hitch up * and begin laboriously walking toward *...} {
  #If {@ZoneType="starship"} {#Var WalkTmp1 {"@{ZoneName}" }} {#Var WalkTmp1 {@ZoneName; }};
  #If {%Pos(@WalkTmp1,%2)=1} {#Sub {Walking to %Copy(%2,%Length(@ZoneName)+3+%Pos(starship,@ZoneType)).}} {#Sub {Walking to %2.}};
- #UnVar WalkTmp1;
+ #Var WalkPrevRoom {@RoomName};
  #Class Walking Enable
 } {Main}
 #Trigger {You * to *} {
@@ -527,14 +532,24 @@ Apartment
   #GagLine 1 Voice;
   MStep You Leave {@WalkTmp1};
   #Var WalkTmp1 {%Left(%2,%Length(%2)-1)};
-  #Say {@WalkTmp1} Incoming|NoDisplay;
-  #If {%IfWord(@WalkTmp1,@RoomName,@CR)=0} {InRoom {} {@WalkTmp1}}
- };
- #UnVar WalkTmp1
+  #If {%IfWord(@WalkTmp1,@RoomName,@CR)=0} {
+   #Var WalkPrevRoom {@RoomName};
+   #Say {@WalkTmp1} Incoming|NoDisplay;
+   InRoom {} {@WalkTmp1}
+  }
+ }
 } {Walking}
 #Trigger {You've arrived at *} {
  #Class Walking Disable;
- #If {@ZoneType="starship"} {#Var WalkTmp1 {"@ZoneName" @RoomName.}} {#Var WalkTmp1 {@ZoneName; @RoomName.}};
+ #If {@ZoneType="starship"} {
+  #Var WalkTmp1 {"@ZoneName" @RoomName.}
+ } {
+  #If {%Pos(;,%1)>0} {
+   #Var WalkTmp1 {@ZoneName; @RoomName.}
+  } {
+   #Var WalkTmp1 {@RoomName.}
+  }
+ };
  #If {%IfWord(%1,@WalkTmp1,@CR)=0} {
   #If {@ZoneType="starship"} {
    #Var WalkTmp1 {%Word(%1,~",2)};
@@ -556,7 +571,11 @@ Apartment
   #Say {@RoomName} Incoming|NoDisplay;
   #UnVar WalkTmp2
  } {
-  #GagLine 1 All
+  #GagLine 1 All;
+  #If {%IfWord(@WalkPrevRoom,@RoomName,@CR)=1} {
+   #Say {@RoomName} Incoming|NoDisplay
+  }
  };
+ #UnVar WalkPrevRoom;
  #UnVar WalkTmp1
 } {Walking}
