@@ -1,3 +1,7 @@
+Version 5.11.1, released 2018-12-02:
+* The soundpack will no longer spend resources trying to figure out what room sound to use if the WALK command takes you to a room with the exact same name as the room you just left.
+* Applied voice gagging for repetition of room titles in certain situations, such as when you use the walk command and several rooms have the same name, or if you spacewalk and the room title obviously remains unchanged.
+
 Version 5.11.0, released 2018-12-01:
 * Implemented a much better way of dealing with room sounds. As a result, partial room sound mode is no longer necessary, and has been removed from conf.
 * Added full support for the WALK command. Now room sounds will update as you walk, and output text should be less verbose.
