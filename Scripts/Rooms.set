@@ -53,8 +53,6 @@ Pool
 Ship\Rooms\PoolRoom*3@Rext
 Starship Docking Bay
 Ship\Rooms\DockingBay1@Rext
-Storage Crawlspace
-Ship\Rooms\Crawlspace@Rext
 Targetting Control Center
 Ship\Rooms\ObservationRoom@Rext
 Vehicle Docking Bay
@@ -77,7 +75,7 @@ Ship\Rooms\Corridors@Rext
 *Deck*
 Ship\Rooms\Deck@Rext
 Engineering*
-Ship\Rooms\Engineering*5@Rext
+Ship\Rooms\Engineering*2@Rext
 *Hangar*
 General\Rooms\Garage@Rext
 Living Quarters*
