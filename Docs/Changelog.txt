@@ -1,3 +1,6 @@
+Version 5.11.3, released 2018-12-03:
+* Removed some of the room sounds for engineering that didn't contain any soft beeps, since the room description refers to occasional soft beeps emanating from consoles. Also fixed storage crawlspaces so they no longer sound like control rooms.
+
 Version 5.11.2, released 2018-12-03:
 * Addressed issues with point unit output. Now it should work with org points as well. Also removed the conf option for showing last known points out of comms range, since this is now a game feature.
 
