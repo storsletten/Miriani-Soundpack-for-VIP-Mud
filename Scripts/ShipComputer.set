@@ -333,13 +333,14 @@ The game has ended! The winner is *^
  #UnVar TmpTimeLoopEnd
 }
 #Var ShipRepairs 0
+#Var ShipEngineeringRoom {}
 #Alias SPShipRepairs {
  #Math ShipRepairs {@ShipRepairs+1};
  #If {%IfWord(%1,Repairing,|)=1} {
   MRandomPlay Ship\Misc\Repair*11@Ext;
   #If {@RepairNotifs=1} {
-   #Exec {#Alarm 60 {
-    #If {~@ShipRepairs=@ShipRepairs} {
+   #Exec {#Alarm 66 {
+    #If {~@ShipRepairs=@ShipRepairs and ~%IfWord(~@RoomName,~@ShipEngineeringRoom,~@CR)=0} {
      #If {~%Defined(ShipRepairing)=1} {
       #UnAlarm ShipRepairing;
       #UnVar ShipRepairing
@@ -360,7 +361,7 @@ The game has ended! The winner is *^
    #If {@SPSeconds>0} {
     #Exec {#Alarm ShipRepairing {%Eval(@SPSeconds+5)} {
      #UnVar ShipRepairing;
-     #If {~@ShipEngineeringRoom<>~@RoomName} {
+     #If {~%IfWord(~@RoomName,~@ShipEngineeringRoom,~@CR)=0} {
       #Alarm 3 {#Math ShipRepairs {~@ShipRepairs+1}};
       #Say {Repair complete!};
       MirianiSoundPlay Standard Ship\Computer\RepairComplete@Ext
