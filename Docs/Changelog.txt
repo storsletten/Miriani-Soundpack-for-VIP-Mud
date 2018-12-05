@@ -1,3 +1,6 @@
+Version 5.11.6, released 2018-12-05:
+* After a little more testing, it turned out that 37.5 percent panning is enough for the random panning routines, and now it should definitely be possible to pick up all sounds even with only one ear.
+
 Version 5.11.5, released 2018-12-05:
 * Removed the pitch adjustment of room sounds when the starship crashes into solar debris, and also changed the random panning of weapon sounds and more so that it never exceeds 62.5 percent panning in either direction.
 
