@@ -84,7 +84,7 @@ station:General\Footsteps\Station*8@Ext
  #math MwplayTmp1 {@MwplayTmp1 + @RelativeCombatVolume};
  MirianiSoundPlay Weapons %1 {@MwplayTmp1@MwplayTmp2} %3;
  #If {@SoundIsPlaying=1 and @RandomiseCombatPan=1 and %mp3loop<>@WeaponSoundHandle and %playhandle>0} {
-  #PC %PlayHandle Pan %Random(-2500,2500)
+  #PC %PlayHandle Pan %Random(-1500,1500)
  }
 }
 
@@ -238,7 +238,7 @@ station:General\Footsteps\Station*8@Ext
 #Alias MRandomPlay {
  MirianiSoundPlay Random %1 %2 %3;
  #If {@SoundIsPlaying=1 and @RandomisePlay=1} {
-  #PC %PlayHandle pan {%Random(-2500,2500)}
+  #PC %PlayHandle pan {%Random(-1500,1500)}
  }
 }
 
