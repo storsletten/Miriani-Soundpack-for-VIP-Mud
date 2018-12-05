@@ -543,11 +543,7 @@ hear a thunk as a chunk of charged weapons-grade bardenium is fired from the shi
 |
 feel a mighty shaking as something seemingly large impacts the hull.^
  mwplay Ship\Combat\YouHit*6~@Ext;
- #GagLine 1 All;
- #If {~@RoomSounds=1 AND ~@RoomSoundHandle>0} {
-  #PC ~@RoomSoundHandle frequency 47100;
-  #Alarm 2 {#If {~@RoomSounds=1 AND ~@RoomSoundHandle>0} {#PC ~@RoomSoundHandle frequency 44100}}
- }
+ #GagLine 1 All
 |
 hear several scraping sounds as bardenium is transferred from the ship's storage to the cannons.^
  msplay Ship\Combat\CannonReload~@Ext;

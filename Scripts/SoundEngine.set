@@ -80,11 +80,11 @@ station:General\Footsteps\Station*8@Ext
   #Var MwplayTmp2 {}
  };
  #If {%IsNumber(@MwplayTmp1)=0} {#Var MwplayTmp1 0};
- #If {@RandomiseCombatVolume=1} {#math MwplayTmp1 {@MwplayTmp1 + %Random(-30,30)}};
+ #If {@RandomiseCombatVolume=1} {#math MwplayTmp1 {@MwplayTmp1 + %Random(-20,20)}};
  #math MwplayTmp1 {@MwplayTmp1 + @RelativeCombatVolume};
  MirianiSoundPlay Weapons %1 {@MwplayTmp1@MwplayTmp2} %3;
  #If {@SoundIsPlaying=1 and @RandomiseCombatPan=1 and %mp3loop<>@WeaponSoundHandle and %playhandle>0} {
-  #PC %PlayHandle Pan %Random(-4000,4000)
+  #PC %PlayHandle Pan %Random(-2500,2500)
  }
 }
 
