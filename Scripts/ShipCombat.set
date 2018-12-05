@@ -119,7 +119,7 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
   }
  } {
   #If {%1="loud rendition of Jingle Bells sounds"} {
-   #If {@SoundsVersion<4 or %Defined(BlockGreenSantaBoxSound)=1} {
+   #If {@MuteAlertContSounds=1 or @SoundsVersion<4 or %Defined(BlockGreenSantaBoxSound)=1} {
     #GagLine 1 All
    } {
     MirianiSoundPlay Standard {Ship\Misc\GreenSantaBox.mp3};
