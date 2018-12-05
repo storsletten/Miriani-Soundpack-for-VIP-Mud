@@ -11,6 +11,8 @@
   MirianiSoundPlay {Startup Music} {Music\*63@Ext};
   #If {@SoundIsPlaying=1} {#Var StartupMusicHandle %PlayHandle}
  }
+} {
+ #Exec {>#$#unregister_soundpack}
 }
 
 #Load {@ScriptPath\Utils.set}
@@ -48,7 +50,8 @@
 #If {%IfWord(Reloading,@SoundpackIsLoading,|)=1} {
  #Ignore Key Off;
  #Ignore Trigger Off;
- #Say {Reloading complete. Please look in the room with your character to let the soundpack know the current environment.}
+ #Say {Reloading complete. Please look in the room with your character to let the soundpack know the current environment.};
+ #Exec {>#$#register_soundpack @SoundpackName | @Version}
 } {
  #If {%Defined(AutoLogin)=1} {login now}
 }
