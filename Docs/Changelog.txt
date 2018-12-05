@@ -1,3 +1,6 @@
+Version 5.11.9, released 2018-12-05:
+* The rendition of Jingle Bells being played by green Santa boxes will now be muted if conf ship 14 is enabled.
+
 Version 5.11.8, released 2018-12-05:
 * For those of you who use the shared Dropbox folder for sounds, there's now a sound for the green Santa boxes. You can type spinfo to see which version of the sounds you're using. It needs to be version 4 for this to work. There will be no difference for those who have an older version of the sounds folder.
 
