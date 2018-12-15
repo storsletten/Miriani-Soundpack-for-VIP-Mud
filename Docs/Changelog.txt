@@ -1,3 +1,6 @@
+Version 5.11.10, released 2018-12-15:
+* Added a sound for indicating that a tactically dangerous praelor ship has entered the sector. A few examples of ships that are classified as dangerous are muzano, potate, and ohaxx. This might be useful when flying random diffs or invasions.
+
 Version 5.11.9, released 2018-12-05:
 * The rendition of Jingle Bells being played by green Santa boxes will now be muted if conf ship 14 is enabled.
 
