@@ -62,10 +62,6 @@ Scans reveal the debris to be a life form.^
  MirianiSoundPlay Standard Ship\Misc\SalvageLifeForm~@Ext;
  #Var ComputerSaid {Lifeform salvaged!}
 |
-Docking complete.^
- #Var PlayComputerSound 1;
- MirianiSoundPlay Standard Ship\Misc\DockingBayDoorClose~@Ext
-|
 Sensors detect an obstacle in the path of the wormhole. Aborting FTL travel...^
  #Var PlayComputerSound 1;
  #If {@SpeakWhenPossible=1} {MirianiSoundPlay Standard Ship\Move\PathBlocked~@Ext}

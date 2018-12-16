@@ -203,6 +203,8 @@ experience abruptly ends as the starship exits from the companion jumpgate and t
 |
 starship rocks gently as the docking ring comes into contact with another starship.^msplay Ship\Move\RingRemove~@Ext
 |
+faint vibration eases off as the starship sets down inside the other ship's docking bay.^msplay Ship\Misc\DockingBayDoorClose~@Ext
+|
 vehicle halts on the asteroid surface.^
  msplay General\Asteroid\RampEnd~@Ext;
  #GagLine 1 All

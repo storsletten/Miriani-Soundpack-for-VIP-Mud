@@ -109,11 +109,6 @@ msplay Ship\Move\QVAContinue@Ext} {Main|Starship}
  #GagLine 1 All;
  msplay Ship\Computer\commchirp@Ext
 } {Main}
-#Trigger {You feel a mild vibration as the ship begins maneuvering into the docking area of the *} {
- msplay Ship\Move\RingStart@Ext;
- #Sub {Docking with the %1};
- #GagLine 1 Voice
-} {Main|Craft}
 #Trigger {The feeling of nausea passes as the starship moves rapidly. *} {
  #GagLine 1 All;
  msplay Ship\Move\BiasEnds@Ext;

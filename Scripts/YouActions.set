@@ -29,17 +29,15 @@ detect a faint thrumming as the ship reorients itself.^
  mrandomplay Ship\Misc\BackgroundHigh*4~@Ext;
  #GagLine 1 All
 |
-elect to remain in space for the time being.^
- msplay Ship\Move\DontLand~@Ext
+elect to remain in space for the time being.^msplay Ship\Move\DontLand~@Ext
 |
-hear a soft clang as another ship's docking ring comes into contact with the hull.^
- msplay Ship\Move\RingEnd~@Ext
+hear a soft clang as another ship's docking ring comes into contact with the hull.^msplay Ship\Move\RingEnd~@Ext
 |
-detect a faint rumbling as the starship begins to orient toward another ship.^
- msplay Ship\Move\RingStart~@Ext
+detect a faint rumbling as the starship begins to orient toward another ship.^msplay Ship\Move\RingStart~@Ext
 |
-are suddenly jarred as the ship begins rapid deceleration.^
- #GagLine 1 All
+feel a mild vibration as the ship begins to enter another ship's docking bay.^msplay {Ship\Misc\DockingBayEnter~@Ext} {} {4}
+|
+are suddenly jarred as the ship begins rapid deceleration.^#GagLine 1 All
 |
 feel the sudden pull of acceleration as the starship's relativity drive kicks in, hurling you through the gate's event horizon.^
  msplay Ship\Move\Jumpgate~@Ext;
