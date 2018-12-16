@@ -1,3 +1,6 @@
+Version 5.11.11, released 2018-12-16:
+* Added a low rumbling sound for docking into another ship. This requires sounds version 4 or later. Also fixed the docking complete sound so that it works throughout the entire ship, not just in the control room.
+
 Version 5.11.10, released 2018-12-15:
 * Added a sound for indicating that a tactically dangerous praelor ship has entered the sector. A few examples of ships that are classified as dangerous are muzano, potate, and ohaxx. This might be useful when flying random diffs or invasions.
 
