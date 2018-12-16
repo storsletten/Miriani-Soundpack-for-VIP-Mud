@@ -1,3 +1,6 @@
+Version 5.11.12, released 2018-12-16:
+* Fixed sound thinggymabob for the starships and the vehicles commands.
+
 Version 5.11.11, released 2018-12-16:
 * Added a low rumbling sound for docking into another ship. This requires sounds version 4 or later. Also fixed the docking complete sound so that it works throughout the entire ship, not just in the control room.
 
