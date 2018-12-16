@@ -473,7 +473,7 @@ The game has ended! The winner is *^
 #Trigger {Total Weight: *} {MirianiSoundPlay Standard Ship\Computer\Display@Ext} {Main}
 #Trigger {There is nothing in the cargo hold.*} {MirianiSoundPlay Standard Ship\Computer\Display@Ext} {Main|Craft}
 #Trigger {*:} {
- #If {%IfWord(%1,Charge Readout|Critical Damage|Light Damage|Moderate Damage|Starship Damage|Starship Security Status|Starship Status|Starship Weapon Configuration|Weapon Information|Weapon Configuration|Weapon Status,|)=1} {
+ #If {%IfWord(%1,Charge Readout|Critical Damage|Docking Bay Status|Light Damage|Moderate Damage|Starship Damage|Starship Security Status|Starship Status|Starship Weapon Configuration|Vehicle Status|Weapon Information|Weapon Configuration|Weapon Status,|)=1} {
   MirianiSoundPlay Standard Ship\Computer\Display@Ext;
   #GagLine 1 Voice
  }
