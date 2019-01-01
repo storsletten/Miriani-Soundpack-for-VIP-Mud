@@ -288,3 +288,7 @@
 #Trigger {*mak* a grab for * electric*.} {msplay General\Combat\StunBatonHit@Ext} {Main}
 #Trigger {You aim a* at * and activate it.} {msplay General\Combat\EMPulse@Ext} {Main}
 #Trigger {You instruct * drone to *.} {msplay General\Misc\InstructDrone@Ext} {Main}
+#Trigger {A gargantuan multi-colored heavily rounded bloated sparkling shiny insectoid creature suddenly jerks spasmodically, causing * grip on it.} {
+ PushMessage Left {%0};
+ msplay General\Misc\LeftPerson@Ext
+} {Main}
