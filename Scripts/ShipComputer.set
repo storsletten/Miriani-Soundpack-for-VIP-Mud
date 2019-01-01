@@ -335,7 +335,7 @@ The game has ended! The winner is *^
  #If {%IfWord(%1,Repairing,|)=1} {
   MRandomPlay Ship\Misc\Repair*11@Ext;
   #If {@RepairNotifs=1} {
-   #Exec {#Alarm 66 {
+   #Exec {#Alarm 75 {
     #If {~@ShipRepairs=@ShipRepairs and ~%IfWord(~@RoomName,~@ShipEngineeringRoom,~@CR)=0} {
      #If {~%Defined(ShipRepairing)=1} {
       #UnAlarm ShipRepairing;
