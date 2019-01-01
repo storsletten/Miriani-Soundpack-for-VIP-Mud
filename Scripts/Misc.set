@@ -354,8 +354,11 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
  }
 } {Main}
 
-#Trigger {You open * lockbox*.} {msplay general\misc\lockboxopen@Ext} {Main}
-#Trigger {You close * lockbox *.} {msplay general\misc\lockboxclose@Ext} {Main}
+#Trigger {You * * lockbox*.} {
+ #If {%IfWord(%1,open close, )=1} {
+  msplay general\misc\lockbox%1@Ext
+ }
+} {Main}
 
 #Trigger {With a gentle jolt, the ferry*} {
  msplay general\misc\ferry@Ext;
