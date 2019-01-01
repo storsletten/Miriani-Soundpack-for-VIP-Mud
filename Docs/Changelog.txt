@@ -1,3 +1,7 @@
+Version 5.11.13, released 2019-01-01:
+* Added sounds for the headdesk social.
+* Fixed lockbox closing sound not working. Thanks to Jason Stone for bringing this to my attention!
+
 Version 5.11.12, released 2018-12-16:
 * Fixed sound thinggymabob for the starships and the vehicles commands.
 
