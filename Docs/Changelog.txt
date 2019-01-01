@@ -1,3 +1,6 @@
+Version 5.11.14, released 2019-01-01:
+* Added a sound alert for when that gargantuan ... insectoid creature in advanced missions wiggles out of your grip.
+
 Version 5.11.13, released 2019-01-01:
 * Added sounds for the headdesk social.
 * Fixed lockbox closing sound not working. Thanks to Jason Stone for bringing this to my attention!
