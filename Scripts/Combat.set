@@ -156,10 +156,16 @@
 
 #Trigger {* insectoid creature scurries in*} {mrandomplay General\Combat\PraelorScurry*2@Ext} {Main}
 #Trigger {*You see * insectoid creature*here*} {msplay General\Combat\PraelorScurry*2@Ext} {Main}
-#Trigger {A* insectoid creature crouches low to the ground and hisses, expelling a large quantity of an acidic compound at *.} {
- msplay General\Combat\PraelorSpit*3@Ext;
- #Sub {%2 is attacked by a%1 insectoid creature.};
- PushMessage Attacks {%2 was attacked by a%1 insectoid creature.}
+#Trigger {A* insectoid creature crouches low to the ground and hisses, expelling a large quantity of an acidic compound at *} {
+ #If {%IfWord(%2,you.|you!,|)=1} {
+  msplay General\Combat\PraelorSpit3@Ext;
+  #Sub {You are attacked by a%1 insectoid creature.};
+  PushMessage Attacks {You are attacked by a%1 insectoid creature.}
+ } {
+  msplay General\Combat\PraelorSpit*2@Ext;
+  #Sub {%Copy(%2,1,%Length(%2)-1) is attacked by a%1 insectoid creature.};
+  PushMessage Attacks {%Copy(%2,1,%Length(%2)-1) is attacked by a%1 insectoid creature.}
+ }
 } {Main}
 #Trigger {A* insectoid creature starts shrieking loudly, the pitch ramping up as it succumbs to the effects of the alkalines. Sections of its exoskeleton begin to swell, tiny bumps forming on the swelling sections*} {
  msplay General\Combat\PraelorDeath@Ext;
