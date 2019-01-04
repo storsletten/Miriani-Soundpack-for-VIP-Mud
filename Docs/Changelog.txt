@@ -1,3 +1,6 @@
+Version 5.11.16, released 2019-01-04:
+* Minor fixes and adjustments for the ground praelor stuff. Now it won't claim that a praelor is dead when it's in fact just dying. Also the sound when your character is being attacked should be slightly more distinct now.
+
 Version 5.11.15, released 2019-01-04:
 * Fixed attacks by insectoid creatures on yourself not being recognized by the soundpack.
 
