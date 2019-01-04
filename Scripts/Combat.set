@@ -158,24 +158,23 @@
 #Trigger {*You see * insectoid creature*here*} {msplay General\Combat\PraelorScurry*2@Ext} {Main}
 #Trigger {A* insectoid creature crouches low to the ground and hisses, expelling a large quantity of an acidic compound at *} {
  #If {%IfWord(%2,you.|you!,|)=1} {
-  msplay General\Combat\PraelorSpit3@Ext;
   #Sub {You are attacked by a%1 insectoid creature.};
+  MirianiSoundPlay Standard General\Combat\PraelorSpit3@Ext;
+  MirianiSoundPlay Standard General\Blades\Stab5@Ext;
   PushMessage Attacks {You are attacked by a%1 insectoid creature.}
  } {
-  msplay General\Combat\PraelorSpit*2@Ext;
+  MirianiSoundPlay Standard General\Combat\PraelorSpit*2@Ext;
   #Sub {%Copy(%2,1,%Length(%2)-1) is attacked by a%1 insectoid creature.};
   PushMessage Attacks {%Copy(%2,1,%Length(%2)-1) is attacked by a%1 insectoid creature.}
  }
 } {Main}
 #Trigger {A* insectoid creature starts shrieking loudly, the pitch ramping up as it succumbs to the effects of the alkalines. Sections of its exoskeleton begin to swell, tiny bumps forming on the swelling sections*} {
  msplay General\Combat\PraelorDeath@Ext;
- #Sub {A%1 is dead.}
+ #Sub {A%1 insectoid creature is dying.}
 } {Main}
 #Trigger {The shot blows a hole in *'s *.} {
  msplay General\Combat\PraelorHit@Ext;
- #If {@MissionMode=1} {
-  #GagLine 1 All
- }
+ #If {@MissionMode=1} {#GagLine 1 Voice}
 } {Main}
 #Trigger {A* lets out a * screech before collapsing to the ground. It lifts its head weakly, staring at * with black, beady, *, completing its life.} {
  mwplay General\Combat\FuzzyDeath@Ext;
