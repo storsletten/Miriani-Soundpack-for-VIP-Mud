@@ -1,3 +1,6 @@
+Version 5.12.4, released 2019-01-05:
+* Fixed shooting sounds for droids not working.
+
 Version 5.12.3, released 2019-01-05:
 * Fixed a few more minor issues with the new ground combat framework. It will now also tell you that person shoots to kill if they fire at a insectoid creature using praelor mags. Remember that mission mode will mute speech for those messages, but you can still see it in the output window.
 
