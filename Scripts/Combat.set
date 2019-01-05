@@ -12,40 +12,6 @@
  } {
   #Var PlayGunSound 1;
   #Class GunFire Disable;
-  #If {%IfWord(%0,The shot misses!,@CR)=1} {
-   MRandomPlay General\Combat\ShotMisses@Ext;
-   #If {%IfWord(@LastShooter,You,|)=1} {
-    #Var GunOutput {You fire at @LastTarget and miss.}
-   } {
-    #Var GunOutput {@LastShooter fires at @LastTarget and misses.}
-   }
-  };
-  #If {%Pos(skillfully dodges the shot,%0)>0} {
-   MRandomPlay General\Combat\ShotMisses@Ext;
-   #If {%IfWord(@LastShooter,You,|)=1} {
-    #Var GunOutput {@LastTarget dodges your shot.}
-   } {
-    #Var GunOutput {@LastTarget dodges the shot fired by @LastShooter.}
-   }
-  };
-  #If {%Pos(The shot is completely absorbed by,%0)>0} {
-   #Var WrongTarget {%Copy(%0,36,%Length(%0)-36)};
-   MRandomPlay General\Combat\ShotMisses@Ext;
-   #If {%IfWord(@LastShooter,You,|)=1} {
-    #Var GunOutput {You shoot @WrongTarget instead.}
-   } {
-    #Var GunOutput {@LastShooter shoots @WrongTarget instead of @LastTarget.}
-   }
-  };
-  #If {%Pos(It must be out of ammo,%0)>0} {
-   #UnVar PlayGunSound;
-   #If {%IfWord(@LastShooter,You,|)=1} {
-    #Var GunOutput {You're out of ammo.};
-    MirianiSoundPlay Standard {General\Misc\Beep2@Ext}
-   } {
-    #Var GunOutput {@LastShooter aims @Gun at @LastTarget and pulls the trigger, but the weapon is empty.}
-   }
-  };
   #If {%IfWord(@LastTarget,luminescent orifice,@CR)=1} {
    #If {%Pos(with no noticeable effect.,%0)>0} {
     MirianiSoundPlay Standard General\Combat\ShotBounces@Ext
@@ -58,35 +24,70 @@
      #If {@MissionMode=1} {#GagLine 1 Voice}
     }
    }
-  };
-  #If {%Pos(insectoid creature,@LastTarget)>0} {
-   #If {@MissionMode=1} {#GagLine 1 Voice}
-  };
-  #If {%Pos(The shot blows a hole in,%0)>0} {
-   MirianiSoundPlay Standard General\Combat\PraelorHit@Ext;
-   #If {@MissionMode=1} {#GagLine 1 Voice}
-  };
-  #If {%Pos(The shot hits,%0)=1} {
-   #If {%IfWord(@LastShooter,You,|)=1} {
-    MirianiSoundPlay Standard General\Combat\YouShot@Ext;
-    #If {%Defined(WrongTarget)=1} {
-     #Var GunOutput {You shoot both @WrongTarget and %Copy(%0,15,%Length(%0)-15) with @Gun.}
+  } {
+   #If {%IfWord(%0,The shot misses!,@CR)=1} {
+    MRandomPlay General\Combat\ShotMisses@Ext;
+    #If {%IfWord(@LastShooter,You,|)=1} {
+     #Var GunOutput {You fire at @LastTarget and miss.}
     } {
-     #Var GunOutput {You shoot %Copy(%0,15,%Length(%0)-15) with @Gun.}
+     #Var GunOutput {@LastShooter fires at @LastTarget and misses.}
     }
-   } {
-    MirianiSoundPlay Standard General\Combat\OtherShot@Ext;
-    #If {%IfWord(@LastShooter,an internal stun turret,|)=1} {
+   };
+   #If {%Pos(skillfully dodges the shot,%0)>0} {
+    MRandomPlay General\Combat\ShotMisses@Ext;
+    #If {%IfWord(@LastShooter,You,|)=1} {
+     #Var GunOutput {@LastTarget dodges your shot.}
+    } {
+     #Var GunOutput {@LastTarget dodges the shot fired by @LastShooter.}
+    }
+   };
+   #If {%Pos(The shot is completely absorbed by,%0)>0} {
+    #Var WrongTarget {%Copy(%0,36,%Length(%0)-36)};
+    MRandomPlay General\Combat\ShotMisses@Ext;
+    #If {%IfWord(@LastShooter,You,|)=1} {
+     #Var GunOutput {You shoot @WrongTarget instead.}
+    } {
+     #Var GunOutput {@LastShooter shoots @WrongTarget instead of @LastTarget.}
+    }
+   };
+   #If {%Pos(It must be out of ammo,%0)>0} {
+    #UnVar PlayGunSound;
+    #If {%IfWord(@LastShooter,You,|)=1} {
+     #Var GunOutput {You're out of ammo.};
+     MirianiSoundPlay Standard {General\Misc\Beep2@Ext}
+    } {
+     #Var GunOutput {@LastShooter aims @Gun at @LastTarget and pulls the trigger, but the weapon is empty.}
+    }
+   };
+   #If {%Pos(insectoid creature,@LastTarget)>0} {
+    #If {@MissionMode=1} {#GagLine 1 Voice}
+   };
+   #If {%Pos(The shot blows a hole in,%0)>0} {
+    MirianiSoundPlay Standard General\Combat\PraelorHit@Ext;
+    #If {@MissionMode=1} {#GagLine 1 Voice}
+   };
+   #If {%Pos(The shot hits,%0)=1} {
+    #If {%IfWord(@LastShooter,You,|)=1} {
+     MirianiSoundPlay Standard General\Combat\YouShot@Ext;
      #If {%Defined(WrongTarget)=1} {
-      #Var GunOutput {%Proper(@LastShooter) shoots both @WrongTarget and %Copy(%0,15,%Length(%0)-15).}
+      #Var GunOutput {You shoot both @WrongTarget and %Copy(%0,15,%Length(%0)-15) with @Gun.}
      } {
-      #Var GunOutput {%Proper(@LastShooter) shoots %Copy(%0,15,%Length(%0)-15).}
+      #Var GunOutput {You shoot %Copy(%0,15,%Length(%0)-15) with @Gun.}
      }
     } {
-     #If {%Defined(WrongTarget)=1} {
-      #Var GunOutput {@LastShooter shoots both @WrongTarget and %Copy(%0,15,%Length(%0)-15) with @Gun.}
+     MirianiSoundPlay Standard General\Combat\OtherShot@Ext;
+     #If {%IfWord(@LastShooter,an internal stun turret,|)=1} {
+      #If {%Defined(WrongTarget)=1} {
+       #Var GunOutput {%Proper(@LastShooter) shoots both @WrongTarget and %Copy(%0,15,%Length(%0)-15).}
+      } {
+       #Var GunOutput {%Proper(@LastShooter) shoots %Copy(%0,15,%Length(%0)-15).}
+      }
      } {
-      #Var GunOutput {@LastShooter shoots %Copy(%0,15,%Length(%0)-15) with @Gun.}
+      #If {%Defined(WrongTarget)=1} {
+       #Var GunOutput {@LastShooter shoots both @WrongTarget and %Copy(%0,15,%Length(%0)-15) with @Gun.}
+      } {
+       #Var GunOutput {@LastShooter shoots %Copy(%0,15,%Length(%0)-15) with @Gun.}
+      }
      }
     }
    }
