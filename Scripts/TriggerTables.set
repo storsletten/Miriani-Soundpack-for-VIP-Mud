@@ -448,6 +448,11 @@ craft comes to a halt, a plume of bubbles surrounding it before dissipating.^
 shot seems to have little effect.^
  #GagLine 1 Voice
 |
+orifice, unable to withstand further fire, begins expanding outward, creating an entry point large enough for a human to fit through.^
+ #Var DisplayString {The orifice is now open.};
+ msplay General\Combat\YouShot~@Ext;
+ msplay General\Combat\PraelorSpit3~@Ext
+|
 large metal doors slide open and allow you to pass through.^msplay Ship\Misc\hatch~@Ext
 |
 nozzles on the floor and ceiling start to spray a thick white gas into the room.^
