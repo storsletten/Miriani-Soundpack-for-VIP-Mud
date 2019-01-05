@@ -6,9 +6,13 @@
  #Class GunFire Enable
 }
 #Trigger {*} {
- #If {%Pos(The shot is partially absorbed by,%0)=1} {
-  #Var WrongTarget {%Copy(%0,35,%Length(%0)-35)};
-  #GagLine 1 All
+ #If {%Pos(The shot is partially absorbed by,%0)=1 or (%Defined(GunWrongTarget)=1 and %Pos(suddenly seems unable to move.,%0)>0)} {
+  #GagLine 1 All;
+  #If {%Pos(The shot is partially absorbed by,%0)=1} {
+   #Var GunWrongTarget {%Copy(%0,35,%Length(%0)-35)}
+  } {
+   #Var GunBufferedOutput {%0}
+  }
  } {
   #Var PlayGunSound 1;
   #Class GunFire Disable;
@@ -46,12 +50,12 @@
     }
    };
    #If {%Pos(The shot is completely absorbed by,%0)>0} {
-    #Var WrongTarget {%Copy(%0,36,%Length(%0)-36)};
+    #Var GunWrongTarget {%Copy(%0,36,%Length(%0)-36)};
     MRandomPlay General\Combat\ShotMisses@Ext;
     #If {%IfWord(@LastShooter,You,|)=1} {
-     #Var GunOutput {You shoot @WrongTarget instead.}
+     #Var GunOutput {You shoot @GunWrongTarget instead.}
     } {
-     #Var GunOutput {@LastShooter shoots @WrongTarget instead of @LastTarget.}
+     #Var GunOutput {@LastShooter shoots @GunWrongTarget instead of @LastTarget.}
     }
    };
    #If {%Pos(It must be out of ammo,%0)>0} {
@@ -77,21 +81,21 @@
    #If {%Pos(The shot hits,%0)=1} {
     MirianiSoundPlay Standard General\Combat\OtherShot@Ext;
     #If {%IfWord(@LastShooter,You,|)=1} {
-     #If {%Defined(WrongTarget)=1} {
-      #Var GunOutput {You shoot both @WrongTarget and %Copy(%0,15,%Length(%0)-15) with @Gun.}
+     #If {%Defined(GunWrongTarget)=1} {
+      #Var GunOutput {You shoot @GunWrongTarget and %Copy(%0,15,%Length(%0)-15) with @Gun.}
      } {
       #Var GunOutput {You shoot %Copy(%0,15,%Length(%0)-15) with @Gun.}
      }
     } {
      #If {%IfWord(@LastShooter,an internal stun turret,|)=1} {
-      #If {%Defined(WrongTarget)=1} {
-       #Var GunOutput {%Proper(@LastShooter) shoots both @WrongTarget and %Copy(%0,15,%Length(%0)-15).}
+      #If {%Defined(GunWrongTarget)=1} {
+       #Var GunOutput {%Proper(@LastShooter) shoots @GunWrongTarget and %Copy(%0,15,%Length(%0)-15).}
       } {
        #Var GunOutput {%Proper(@LastShooter) shoots %Copy(%0,15,%Length(%0)-15).}
       }
      } {
-      #If {%Defined(WrongTarget)=1} {
-       #Var GunOutput {@LastShooter shoots both @WrongTarget and %Copy(%0,15,%Length(%0)-15) with @Gun.}
+      #If {%Defined(GunWrongTarget)=1} {
+       #Var GunOutput {@LastShooter shoots @GunWrongTarget and %Copy(%0,15,%Length(%0)-15) with @Gun.}
       } {
        #Var GunOutput {@LastShooter shoots %Copy(%0,15,%Length(%0)-15) with @Gun.}
       }
@@ -103,14 +107,15 @@
    #UnVar PlayGunSound;
    MGunPlay @Gun @Randomise
   };
-  #If {%Defined(GunOutput)=1} {
-   #Sub {@GunOutput};
-   #UnVar GunOutput
-  } {
-   #Sub {@StandardGunOutput %0}
+  #If {%Defined(GunOutput)=0} {#Var GunOutput {@StandardGunOutput %0}};
+  #If {%Defined(GunBufferedOutput)=1} {
+   #Var GunOutput {@GunOutput%CRLF@GunBufferedOutput};
+   #UnVar GunBufferedOutput
   };
+  #Sub {@GunOutput};
+  #UnVar GunOutput;
   #UnVar StandardGunOutput;
-  #UnVar WrongTarget
+  #UnVar GunWrongTarget
  }
 } {GunFire}
 #Trigger {* point* at * and fire*} {
