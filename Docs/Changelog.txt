@@ -1,3 +1,6 @@
+Version 5.12.2, released 2019-01-05:
+* Fixed incorrect gunshot sound being played when the shot misses or the target dodges the shot.
+
 Version 5.12.1, released 2019-01-05:
 * Fixed an issue where one of the messages from the luminescent orifice were processed incorrectly.
 
