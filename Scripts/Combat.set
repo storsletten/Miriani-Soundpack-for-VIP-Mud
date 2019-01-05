@@ -1,30 +1,151 @@
-#Var OtherTarget {}
-
+#Var LastShooter {}
+#Var LastTarget {}
 #Alias GunFire {
  #Var Gun %1;
  #Var Randomise %2;
- #Class GunFired Enable
-} {}
-#Trigger {* points * at * and fires!} {
- #If  {%Pos(insect,%3)>0 AND @MissionMode=1} {
-  #GagLine 1 Voice
+ #Class GunFire Enable
+}
+#Trigger {*} {
+ #If {%Pos(The shot is partially absorbed by,%0)=1} {
+  #Var WrongTarget {%Copy(%0,35,%Length(%0)-35)};
+  #GagLine 1 All
  } {
-  #Var TargetString {%1 shoots %3 with %2.};
-  #ForAll {@OtherTarget} {
-   #If {%Length(%i)>0 and %Defined(CombatSuccess)=0} {
-    #If {%Word(%i,:,1)=%1 and %Word(%i,:,2)=%3} {
-     #Var TargetString {%1 fires.};
-     #Var CombatSuccess 1;
-     #Var OtherTarget {%DelItem(@OtherTarget,%i)}
+  #Var PlayGunSound 1;
+  #Class GunFire Disable;
+  #If {%IfWord(%0,The shot misses!,@CR)=1} {
+   MRandomPlay General\Combat\ShotMisses@Ext;
+   #If {%IfWord(@LastShooter,You,|)=1} {
+    #Var GunOutput {You fire at @LastTarget and miss.}
+   } {
+    #Var GunOutput {@LastShooter fires at @LastTarget and misses.}
+   }
+  };
+  #If {%Pos(skillfully dodges the shot,%0)>0} {
+   MRandomPlay General\Combat\ShotMisses@Ext;
+   #If {%IfWord(@LastShooter,You,|)=1} {
+    #Var GunOutput {@LastTarget dodges your shot.}
+   } {
+    #Var GunOutput {@LastTarget dodges the shot fired by @LastShooter.}
+   }
+  };
+  #If {%Pos(The shot is completely absorbed by,%0)>0} {
+   #Var WrongTarget {%Copy(%0,36,%Length(%0)-36)};
+   MRandomPlay General\Combat\ShotMisses@Ext;
+   #If {%IfWord(@LastShooter,You,|)=1} {
+    #Var GunOutput {You shoot @WrongTarget instead.}
+   } {
+    #Var GunOutput {@LastShooter shoots @WrongTarget instead of @LastTarget.}
+   }
+  };
+  #If {%Pos(It must be out of ammo,%0)>0} {
+   #UnVar PlayGunSound;
+   #If {%IfWord(@LastShooter,You,|)=1} {
+    #Var GunOutput {You're out of ammo.};
+    MirianiSoundPlay Standard {General\Misc\Beep2@Ext}
+   } {
+    #Var GunOutput {@LastShooter aims @Gun at @LastTarget and pulls the trigger, but the weapon is empty.}
+   }
+  };
+  #If {%IfWord(@LastTarget,luminescent orifice,@CR)=1} {
+   #If {%Pos(with no noticeable effect.,%0)>0} {
+    MirianiSoundPlay Standard General\Combat\ShotBounces@Ext
+   } {
+    #If {%Pos(unable to withstand further fire,%0)>0} {
+     MirianiSoundPlay Standard General\Combat\OtherShot@Ext;
+     MirianiSoundPlay Standard General\Combat\PraelorSpit3@Ext
+    } {
+     MirianiSoundPlay Standard General\Combat\PraelorHit@Ext;
+     #If {@MissionMode=1} {#GagLine 1 Voice}
     }
    }
   };
-  #UnVar CombatSuccess;
-  #Sub {@TargetString};
-  #Var OtherTarget {%1:%3|@OtherTarget}
- };
- GunFire %2 1
+  #If {%Pos(insectoid creature,@LastTarget)>0} {
+   #If {@MissionMode=1} {#GagLine 1 Voice}
+  };
+  #If {%Pos(The shot blows a hole in,%0)>0} {
+   MirianiSoundPlay Standard General\Combat\PraelorHit@Ext;
+   #If {@MissionMode=1} {#GagLine 1 Voice}
+  };
+  #If {%Pos(The shot hits,%0)=1} {
+   #If {%IfWord(@LastShooter,You,|)=1} {
+    MirianiSoundPlay Standard General\Combat\YouShot@Ext;
+    #If {%Defined(WrongTarget)=1} {
+     #Var GunOutput {You shoot both @WrongTarget and %Copy(%0,15,%Length(%0)-15) with @Gun.}
+    } {
+     #Var GunOutput {You shoot %Copy(%0,15,%Length(%0)-15) with @Gun.}
+    }
+   } {
+    MirianiSoundPlay Standard General\Combat\OtherShot@Ext;
+    #If {%IfWord(@LastShooter,an internal stun turret,|)=1} {
+     #If {%Defined(WrongTarget)=1} {
+      #Var GunOutput {%Proper(@LastShooter) shoots both @WrongTarget and %Copy(%0,15,%Length(%0)-15).}
+     } {
+      #Var GunOutput {%Proper(@LastShooter) shoots %Copy(%0,15,%Length(%0)-15).}
+     }
+    } {
+     #If {%Defined(WrongTarget)=1} {
+      #Var GunOutput {@LastShooter shoots both @WrongTarget and %Copy(%0,15,%Length(%0)-15) with @Gun.}
+     } {
+      #Var GunOutput {@LastShooter shoots %Copy(%0,15,%Length(%0)-15) with @Gun.}
+     }
+    }
+   }
+  };
+  #If {%Defined(PlayGunSound)=1} {
+   #UnVar PlayGunSound;
+   MGunPlay @Gun @Randomise
+  };
+  #If {%Defined(GunOutput)=1} {
+   #Sub {@GunOutput};
+   #UnVar GunOutput
+  } {
+   #If {%IfWord(@LastShooter,You,|)=1} {
+    #Sub {You fire at @LastTarget with @Gun. %0}
+   } {
+    #Sub {@LastShooter fires at @LastTarget with @Gun. %0}
+   }
+  };
+  #UnVar WrongTarget
+ }
+} {GunFire}
+#Trigger {* point* at * and fire*} {
+ #If {%IfWord(%Left(%1,1),>| |~(|[,|)=0 and %IfWord(%4,!|s!,|)=1} {
+  #If {%NumWords(%3, )=2 and %IfWord(%Word(%3, ,1),her his its your, )=1 and %Pos(head,%3)>0} {
+   #Var LastShooter {%1};
+   #Var LastTarget {%1};
+   #If {%IfWord(%1,You,|)=1} {
+    msplay General\Combat\YouShot@Ext
+   } {
+    msplay General\Combat\OtherShot@Ext
+   }
+  } {
+   #GagLine 1 All;
+   #Sub {Workaround: %0};
+   #Var LastShooter {%1};
+   #Var LastTarget {%3};
+   #If {%IfWord(%1,You,|)=1} {
+    GunFire {%Copy(%2,2)} 0
+   } {
+    GunFire {%Copy(%2,3)} 1
+   }
+  }
+ }
 } {Main}
+#Trigger {An * stun turret *} {
+ #If {%IfWord(%1,internal,|)=1 and %Pos(orients towards,%2)=1} {
+  #Var LastShooter {an internal stun turret};
+  #Var LastTarget {%Copy(%2,17,%Pos(and fires!,%2)-18)};
+  #GagLine 1 All;
+  #Sub {Workaround: %0};
+  GunFire {an internal stun turret} 0
+ } {
+  #If {%IfWord(%1,automated,|)=1 and %Pos(fires at,%2)=1} {
+   msplay General\Combat\OtherShot@Ext;
+   msplay General\Combat\EMPulse@Ext
+  }
+ }
+} {Main}
+
 #Trigger {A* * to have run out of energy.} {
  msplay General\Combat\EmptyEmitter@Ext
 } {Main}
@@ -93,23 +214,7 @@
  }
 } {Main}
 #Trigger {A* clicks oddly. It must be out of ammo.} {
- msplay General\Combat\EmptyGun@Ext;
- #Sub {A%1 is empty.}
-} {Main}
-#Trigger {The shot hits *'s *.} {
- msplay General\Combat\OtherShot@Ext;
- #If {@MissionMode=1 AND %Pos(insect,%1)>0} {
-  #GagLine 1 All
- };
- #Sub {The shot hits %1's %2}
-} {Main}
-#Trigger {* point* at * head and fire*!} {
- #If {%IfWord(%1,You,|)=1} {
-  msplay General\Combat\YouShot@Ext
- } {
-  msplay General\Combat\OtherShot@Ext;
-  GunFire %2 1
- }
+ msplay General\Combat\EmptyGun@Ext
 } {Main}
 #Trigger {* suddenly begins to power down.} {
  msplay General\Combat\Shutdown*4@Ext;
@@ -144,14 +249,6 @@
   }
  }
 } {Main}
-#Trigger {The shot hits your *} {
- msplay General\Combat\YouShot@Ext;
- #Sub {The shot hits your %1}
-} {Main}
-#Trigger {* skillfully dodges the shot.} {
- msplay General\Combat\ShotMisses@Ext;
- #Sub {%1 dodges the shot.}
-} {Main}
 #Trigger {* takes aim at you*} {msplay General\Combat\DrawEMPulse*3@Ext} {Main}
 
 #Trigger {* insectoid creature scurries in*} {mrandomplay General\Combat\PraelorScurry*2@Ext} {Main}
@@ -171,10 +268,6 @@
 #Trigger {A* insectoid creature starts shrieking loudly, the pitch ramping up as it succumbs to the effects of the alkalines. Sections of its exoskeleton begin to swell, tiny bumps forming on the swelling sections*} {
  msplay General\Combat\PraelorDeath@Ext;
  #Sub {A%1 insectoid creature is dying.}
-} {Main}
-#Trigger {The shot blows a hole in *'s *.} {
- msplay General\Combat\PraelorHit@Ext;
- #If {@MissionMode=1} {#GagLine 1 Voice}
 } {Main}
 #Trigger {A* lets out a * screech before collapsing to the ground. It lifts its head weakly, staring at * with black, beady, *, completing its life.} {
  mwplay General\Combat\FuzzyDeath@Ext;
@@ -256,9 +349,9 @@
 } {Main}
 #Trigger {* the shot disburses harmlessly across * armor.} {
  #If {%2="your"} {
-  Msplay General\Combat\StunArmor@Ext
+  msplay General\Combat\StunArmor@Ext
  } {
-  Mwplay General\Combat\StunArmor@Ext
+  mwplay General\Combat\StunArmor@Ext
  }
 } {Main}
 #Trigger {A bulky stun armor battery pack emits * before suddenly powering down.} {
@@ -268,23 +361,6 @@
 #Trigger {Sparks fly from the ground as an electrical current shocks you painfully!} {Msplay Ship\Combat\Electricity@Ext} {Main}
 #Trigger {* bursts from a duct panel with an incredibly loud howl!} {mrandomplay General\Combat\PraelorScurry*2@Ext} {Main}
 #Trigger {Your power pack beeps alarmingly, indicating that an emergency shutdown failsafe has been triggered.} {msplay Ship\Computer\LowCharge*3@Ext} {Main}
-#Trigger {You point * at * and fire!} {
- GunFire %1 0;
- #Sub {You shoot %2 with %1.};
- #GagLine 1 Voice
-} {Main}
-#Trigger {*} {
- #If {%0=*"A* clicks oddly. It must be out of ammo."} {} {
-  MGunPlay @Gun @Randomise
- };
- #UnVar Gun;
- #UnVar Randomise;
- #Class GunFired Disable
-} {GunFired}
-#Trigger {An automated stun turret fires at *.} {
- msplay General\Combat\OtherShot@Ext;
- msplay General\Combat\EMPulse@Ext
-} {Main}
 
 #Trigger {* remove* spacesuit and neatly place* it in *.} {msplay General\Device\SpacesuitWear@Ext} {Main}
 #Trigger {* retrieve* spacesuit from *.} {msplay General\Device\SpacesuitRem@Ext} {Main}

@@ -71,8 +71,13 @@ small handheld radio receiver beeps twice, indicating the detection of a radio t
 small handheld radio receiver gives a series of beeps and automatically unplugs from the console.^msplay General\Device\CameraOff~@Ext
 |
 loud clicking is followed by the clatter of an empty cartridge to the floor.^
- msplay General\Combat\EmptyGun2~@Ext;
- #Var DisplayString {Empty.};
+ MirianiSoundPlay Standard General\Combat\EmptyGun2~@Ext;
+ #If {~%IfWord(~@LastShooter,You,|)=1} {
+  MirianiSoundPlay Standard {General\Misc\Beep2~@Ext};
+  #Var DisplayString {You're out of ammo.}
+ } {
+  #Var DisplayString {~@LastShooter is out of ammo.}
+ };
  #GagLine 1 Voice
 |
 bulky stun armor battery pack^#Class BatteryPackScanner Enable
@@ -387,24 +392,6 @@ ship must be powered before you can do that.^MainTrigSwitch 1
 |
 ship is not in space.^MainTrigSwitch 1
 |
-shot misses!^
- mrandomplay General\Combat\ShotMisses~@Ext;
- #Var DisplayString {Missed!};
- #GagLine 1 Voice
-|
-shot impacts luminescent orifice with no noticeable effect.^
- msplay General\Combat\YouShot~@Ext;
- #Var DisplayString {No noticeable effect.}
-|
-shot impacts the edge of the orifice, sending a thick stream of acid outward.^msplay General\Combat\PraelorHit~@Ext
-|
-orifice, unable to withstand further fire, begins expanding outward, creating an entry point large enough for a human to fit through.^msplay General\Combat\PraelorSpit*3~@Ext
-|
-shot hits squarely in the center of the orifice with no noticeable effect on the outside.^
- mwplay General\Combat\ShotBounces~@Ext;
- #Var DisplayString {No noticeable effect.};
- #GagLine 1 Voice
-|
 sounds drop in pitch and eventually cease.^
  msplay General\Asteroid\Trickle~@Ext;
  #GagLine 1 All
@@ -457,6 +444,9 @@ craft manages to stabilize itself and break free from the whirlpool.^
 craft comes to a halt, a plume of bubbles surrounding it before dissipating.^
  msplay Atmo\salvagestop~@Ext;
  #GagLine 1 All
+|
+shot seems to have little effect.^
+ #GagLine 1 Voice
 |
 large metal doors slide open and allow you to pass through.^msplay Ship\Misc\hatch~@Ext
 |
