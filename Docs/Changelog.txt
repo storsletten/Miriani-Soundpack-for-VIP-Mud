@@ -1,3 +1,6 @@
+Version 5.12.6, released 2019-01-05:
+* The ground combat framework will now voice gag the output if you fire at the same target with the same weapon, or if the same third person shooter fires at the same target with the same weapon. This helps reducing spam even further.
+
 Version 5.12.5, released 2019-01-05:
 * Fixed an obscure issue where the ground combat framework wouldn't fully detect all events if someone fires at someone else who is taking cover behind yet another somebody who partially absorbs the hit and gets stunned in the process.
 
