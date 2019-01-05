@@ -31,9 +31,9 @@
     #UnVar PlayGunSound;
     MRandomPlay General\Combat\ShotMisses@Ext;
     #If {%IfWord(@LastShooter,You,|)=1} {
-     #Var GunOutput {You fire at @LastTarget and miss.}
+     #Var GunOutput {You shoot at @LastTarget and miss.}
     } {
-     #Var GunOutput {@LastShooter fires at @LastTarget and misses.}
+     #Var GunOutput {@LastShooter shoots at @LastTarget and misses.}
     }
    };
    #If {%Pos(skillfully dodges the shot,%0)>0} {
@@ -377,4 +377,17 @@
 #Trigger {A gargantuan multi-colored heavily rounded bloated sparkling shiny insectoid creature suddenly jerks spasmodically, causing * grip on it.} {
  PushMessage Left {%0};
  msplay General\Misc\LeftPerson@Ext
+} {Main}
+#Trigger {* aim*stun turret attachment* and fire*} {
+ #If {%IfWord(%Left(%1,1),>| |~(|[,|)=0 and %Pos(!,%4)>0} {
+  #If {%Pos(There is no noticeable effect,%4)>0} {
+   msplay General\Combat\ShotBounces@Ext
+  } {
+   #If {%IfWord(%3,s at you| at you,|)=1} {
+    msplay General\Combat\YouShot@Ext
+   } {
+    msplay General\Combat\OtherShot@Ext
+   }
+  }
+ }
 } {Main}
