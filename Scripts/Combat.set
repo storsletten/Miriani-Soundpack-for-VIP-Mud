@@ -1,3 +1,5 @@
+#Var YourLastShot {}
+#Var SomeonesLastShot {}
 #Var LastShooter {}
 #Var LastTarget {}
 #Alias GunFire {
@@ -17,9 +19,15 @@
   #Var PlayGunSound 1;
   #Class GunFire Disable;
   #If {%IfWord(@LastShooter,You,|)=1} {
-   #Var StandardGunOutput {You shoot at @LastTarget with @Gun.}
+   #Var StandardGunOutput {You shoot at @LastTarget with @Gun.};
+   #Var GunTmp1 {@LastTarget:@Gun};
+   #If {%IfWord(@YourLastShot,@GunTmp1,@CR)=1} {#GagLine 1 Voice};
+   #Var YourLastShot {@GunTmp1}
   } {
-   #Var StandardGunOutput {@LastShooter shoots at @LastTarget with @Gun.}
+   #Var StandardGunOutput {@LastShooter shoots at @LastTarget with @Gun.};
+   #Var GunTmp1 {@LastShooter:@LastTarget:@Gun};
+   #If {%IfWord(@SomeonesLastShot,@GunTmp1,@CR)=1} {#GagLine 1 Voice};
+   #Var SomeonesLastShot {@GunTmp1}
   };
   #If {%IfWord(@LastTarget,luminescent orifice,@CR)=1} {
    #If {%Pos(with no noticeable effect.,%0)>0} {
@@ -113,6 +121,7 @@
    #UnVar GunBufferedOutput
   };
   #Sub {@GunOutput};
+  #UnVar GunTmp1;
   #UnVar GunOutput;
   #UnVar StandardGunOutput;
   #UnVar GunWrongTarget
