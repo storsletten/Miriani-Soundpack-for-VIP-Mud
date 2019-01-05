@@ -1,3 +1,6 @@
+Version 5.12.1, released 2019-01-05:
+* Fixed an issue where one of the messages from the luminescent orifice were processed incorrectly.
+
 Version 5.12.0, released 2019-01-05:
 * Rewrote the ground combat framework. One awesome benefit is that most shooting is now compacted to just one line, so ground combat should be less spammy. The soundpack is now also much better at telling you who's gun is out of ammo. And when your gun runs out of ammo, it will even play a little beep to let you know that you need to reload. If something is broken as a result of these changes, please do let me know!
 
