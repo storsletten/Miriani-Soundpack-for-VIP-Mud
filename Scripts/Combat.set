@@ -26,6 +26,7 @@
    }
   } {
    #If {%IfWord(%0,The shot misses!,@CR)=1} {
+    #UnVar PlayGunSound;
     MRandomPlay General\Combat\ShotMisses@Ext;
     #If {%IfWord(@LastShooter,You,|)=1} {
      #Var GunOutput {You fire at @LastTarget and miss.}
@@ -34,6 +35,7 @@
     }
    };
    #If {%Pos(skillfully dodges the shot,%0)>0} {
+    #UnVar PlayGunSound;
     MRandomPlay General\Combat\ShotMisses@Ext;
     #If {%IfWord(@LastShooter,You,|)=1} {
      #Var GunOutput {@LastTarget dodges your shot.}
