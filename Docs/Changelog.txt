@@ -1,3 +1,6 @@
+Version 5.12.7, released 2019-01-06:
+* The ground combat framework will now also recognize stun armor, and properly compact that output into just one single word.
+
 Version 5.12.6, released 2019-01-05:
 * The ground combat framework will now voice gag the output if you fire at the same target with the same weapon, or if the same third person shooter fires at the same target with the same weapon. This helps reducing spam even further.
 
