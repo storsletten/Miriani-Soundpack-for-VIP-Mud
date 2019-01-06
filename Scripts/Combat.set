@@ -343,8 +343,23 @@
   #Var InsectTmp1 {%Copy(@InsectTmp1,%Length(@InsectTmp3)+10)};
   #Var InsectTmp2 {%Pos(insectoid creature,@InsectTmp1)}
  };
+ #Var InsectBlockers {};
+ #Var InsectTmp1 {%0};
+ #Var InsectTmp2 {%Pos(insectoid creature ~(blocking,@InsectTmp1)};
+ #While {@InsectTmp2>0} {
+  #Var InsectTmp1 {%Copy(@InsectTmp1,@InsectTmp2+29)};
+  #AddItem InsectBlockers {%Word(@InsectTmp1,~),1)} NoDuplicates;
+  #Var InsectTmp2 {%Pos(insectoid creature ~(blocking,@InsectTmp1)}
+ };
  #If {@InterruptOnInsectoidCreature=1} {speech stop};
- #Say {@InsectCounter insectoid %If(@InsectCounter=1,creature,creatures) detected:} Incoming
+ #If {%Length(@InsectBlockers)>0} {
+  #Say {@InsectCounter insectoid %If(@InsectCounter=1,creature,creatures), %If(%NumWords(@InsectBlockers,|)=1,direction,directions) %Replace(@InsectBlockers,|, and ) blocked:} Incoming
+ } {
+  #Say {@InsectCounter insectoid %If(@InsectCounter=1,creature,creatures) detected:} Incoming
+ };
+ #UnVar InsectTmp1;
+ #UnVar InsectTmp2;
+ #UnVar InsectTmp3
 } {Main}
 #Trigger {A* insectoid creature crouches low to the ground and hisses, expelling a large quantity of an acidic compound at *} {
  #If {%IfWord(%2,you.|you!,|)=1} {
