@@ -19,15 +19,10 @@
   #Var GunBufferedOutput {%0}
  };
  #If {%Pos(shot disburses harmlessly across,%0)>0} {
+  #Var GunArmor 1;
   #If {%Pos(A portion of the shot disburses harmlessly across,%0)=1} {
    #UnVar PlayGunSound;
    #GagLine 1 All
-  };
-  #Var GunArmor 1;
-  #If {%Pos(across your armor,%0)>0} {
-   msplay General\Combat\StunArmor@Ext
-  } {
-   mwplay General\Combat\StunArmor@Ext
   }
  };
  #If {%Defined(PlayGunSound)=1} {
@@ -110,7 +105,6 @@
     }
    };
    #If {%Pos(The shot hits,%0)=1} {
-    MirianiSoundPlay Standard General\Combat\OtherShot@Ext;
     #Var GunTmp1 {%Copy(%0,15,%Length(%0)-15)};
     #If {%Defined(GunArmor)=1} {
      #If {%Pos('s,@GunTmp1)>0} {
@@ -182,6 +176,13 @@
     GunFire {%Copy(%2,3)} 1
    }
   }
+ }
+} {Main}
+#Trigger {The shot hits *.} {
+ #If {%Pos(your,%1)=1 and %Pos('s,%1)=0} {
+  MirianiSoundPlay Standard General\Combat\YouShot@Ext
+ } {
+  MirianiSoundPlay Standard General\Combat\OtherShot@Ext
  }
 } {Main}
 #Trigger {An * stun turret *} {
@@ -346,8 +347,8 @@
  #Sub {You miss %1.};
  msplay General\Combat\ShotMisses@Ext
 } {Main}
-#Trigger {* shot *ses *across * armor.} {
- #If {%4="your"} {
+#Trigger {* shot disburses harmlessly across * armor.} {
+ #If {%IfWord(%2,your,@CR)=1} {
   msplay General\Combat\StunArmor@Ext
  } {
   mwplay General\Combat\StunArmor@Ext
@@ -418,17 +419,4 @@
 #Trigger {A gargantuan multi-colored heavily rounded bloated sparkling shiny insectoid creature suddenly jerks spasmodically, causing * grip on it.} {
  PushMessage Left {%0};
  msplay General\Misc\LeftPerson@Ext
-} {Main}
-#Trigger {* aim*stun turret attachment* and fire*} {
- #If {%IfWord(%Left(%1,1),>| |~(|[,|)=0 and %Pos(!,%4)>0} {
-  #If {%Pos(There is no noticeable effect,%4)>0} {
-   msplay General\Combat\ShotBounces@Ext
-  } {
-   #If {%IfWord(%3,s at you| at you,|)=1} {
-    msplay General\Combat\YouShot@Ext
-   } {
-    msplay General\Combat\OtherShot@Ext
-   }
-  }
- }
 } {Main}
