@@ -1,3 +1,6 @@
+Version 5.12.12, released 2019-01-06:
+* Added an insectoid creature detector. It counts the number of insectoid creatures in the room. I also added a speech interrupt for this, which is enabled by default. You can disable it if you don't like it, in conf speech.
+
 Version 5.12.11, released 2019-01-06:
 * Added ping-pong sounds for the ping command. Sounds version 5 or greater is required for this to work.
 
