@@ -1,3 +1,6 @@
+Version 5.12.8, released 2019-01-06:
+* Fixed more issues related to the way the ground combat framework handles stun armor.
+
 Version 5.12.7, released 2019-01-06:
 * The ground combat framework will now also recognize stun armor, and properly compact that output into just one single word.
 
