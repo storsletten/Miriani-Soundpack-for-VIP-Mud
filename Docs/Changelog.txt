@@ -1,3 +1,6 @@
+Version 5.12.14, released 2019-01-06:
+* To help reduce ground combat spam, the lines of text about how streams of acid impact you and others will now be gagged if mission mode is enabled. Remember you can easily toggle mission mode by typing conf mission.
+
 Version 5.12.13, released 2019-01-06:
 * The insectoid creature detector will now also detect blocking creatures, and include the blocked directions in the status message.
 
