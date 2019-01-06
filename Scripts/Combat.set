@@ -363,8 +363,8 @@
 } {Main}
 #Trigger {A* insectoid creature crouches low to the ground and hisses, expelling a large quantity of an acidic compound at *} {
  #If {%IfWord(%2,you.|you!,|)=1} {
-  #Sub {You are attacked by a%1 insectoid creature.};
-  MirianiSoundPlay Standard General\Combat\PraelorSpit3@Ext;
+  #Sub {You're attacked by a%1 insectoid creature.};
+  MirianiSoundPlay Standard General\Combat\PraelorSpit3@Ext 10;
   MirianiSoundPlay Standard General\Blades\Stab5@Ext;
   PushMessage Attacks {You are attacked by a%1 insectoid creature.}
  } {
@@ -372,6 +372,9 @@
   #Sub {%Copy(%2,1,%Length(%2)-1) is attacked by a%1 insectoid creature.};
   PushMessage Attacks {%Copy(%2,1,%Length(%2)-1) is attacked by a%1 insectoid creature.}
  }
+} {Main}
+#Trigger {The stream of acid impacts *, *} {
+ #If {@MissionMode=1} {#GagLine 1 All}
 } {Main}
 #Trigger {A* insectoid creature starts shrieking loudly, the pitch ramping up as it succumbs to the effects of the alkalines. Sections of its exoskeleton begin to swell, tiny bumps forming on the swelling sections*} {
  msplay General\Combat\PraelorDeath@Ext;
