@@ -1,3 +1,6 @@
+Version 5.12.9, released 2019-01-06:
+* Fixed incorrect sound being played when you get shot. Now there's a slight difference in sound between you getting shot versus someone else getting shot.
+
 Version 5.12.8, released 2019-01-06:
 * Fixed more issues related to the way the ground combat framework handles stun armor.
 
