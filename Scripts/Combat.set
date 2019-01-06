@@ -92,9 +92,10 @@
     } {
      #Var GunOutput {@LastShooter aims @Gun at @LastTarget and pulls the trigger, but the weapon is empty.}
     }
-   };
-   #If {%Pos(insectoid creature,@LastTarget)>0} {
-    #If {@MissionMode=1} {#GagLine 1 Voice}
+   } {
+    #If {%Pos(insectoid creature,@LastTarget)>0} {
+     #If {@MissionMode=1} {#GagLine 1 Voice}
+    }
    };
    #If {%Pos(The shot blows a hole in,%0)>0} {
     MirianiSoundPlay Standard General\Combat\PraelorHit@Ext;
