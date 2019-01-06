@@ -321,7 +321,31 @@
 #Trigger {* takes aim at you*} {msplay General\Combat\DrawEMPulse*3@Ext} {Main}
 
 #Trigger {* insectoid creature scurries in*} {mrandomplay General\Combat\PraelorScurry*2@Ext} {Main}
-#Trigger {*You see * insectoid creature*here*} {msplay General\Combat\PraelorScurry*2@Ext} {Main}
+#Trigger {*You see * insectoid creature*here*} {
+ msplay General\Combat\PraelorScurry*2@Ext;
+ #Var InsectCounter 0;
+ #Var InsectTmp1 {%0};
+ #Var InsectTmp2 {%Pos(insectoid creature,@InsectTmp1)};
+ #While {@InsectTmp2>0} {
+  #Var InsectTmp3 {%Copy(@InsectTmp1,1,@InsectTmp2)};
+  #Var InsectTmp2 {%NumWords(@InsectTmp3, )};
+  #While {@InsectTmp2>1 and %IfWord(%Word(@InsectTmp3, ,@InsectTmp2),a an two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty, )=0} {
+   #Math InsectTmp2 {@InsectTmp2-1}
+  };
+  #If {@InsectTmp2>1} {
+   #Var InsectTmp2 {%CRLF%Word(@InsectTmp3, ,@InsectTmp2):};
+   #Var InsectTmp2 {%Word(@NumberMap,@InsectTmp2,2)};
+   #Var InsectTmp2 {%Word(@InsectTmp2,%CRLF,1)};
+   #Math InsectCounter {@InsectCounter+@InsectTmp2}
+  } {
+   #Math InsectCounter {@InsectCounter+1}
+  };
+  #Var InsectTmp1 {%Copy(@InsectTmp1,%Length(@InsectTmp3)+10)};
+  #Var InsectTmp2 {%Pos(insectoid creature,@InsectTmp1)}
+ };
+ #If {@InterruptOnInsectoidCreature=1} {speech stop};
+ #Say {@InsectCounter insectoid %If(@InsectCounter=1,creature,creatures) detected:} Incoming
+} {Main}
 #Trigger {A* insectoid creature crouches low to the ground and hisses, expelling a large quantity of an acidic compound at *} {
  #If {%IfWord(%2,you.|you!,|)=1} {
   #Sub {You are attacked by a%1 insectoid creature.};

@@ -77,8 +77,7 @@ loud clicking is followed by the clatter of an empty cartridge to the floor.^
   #Var DisplayString {You're out of ammo.}
  } {
   #Var DisplayString {~@LastShooter is out of ammo.}
- };
- #GagLine 1 Voice
+ }
 |
 bulky stun armor battery pack^#Class BatteryPackScanner Enable
 |
@@ -446,7 +445,7 @@ craft comes to a halt, a plume of bubbles surrounding it before dissipating.^
  #GagLine 1 All
 |
 shot seems to have little effect.^
- #GagLine 1 Voice
+ #If {~%Pos(insectoid creature,~@LastTarget)=1} {#GagLine 1 All} {#GagLine 1 Voice}
 |
 orifice, unable to withstand further fire, begins expanding outward, creating an entry point large enough for a human to fit through.^
  #Var DisplayString {The orifice is now open.};

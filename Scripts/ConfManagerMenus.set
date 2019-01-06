@@ -450,9 +450,10 @@ ScanFormatterForUnknown|S:*
 [7] When following or being dragged, speak the room title first  [~%If(~@SpeakRoomTitleFirst=1,On,Off)].
 [8] Interrupt on message boards  [~%If(~@InterruptOnBoards=1,On,Off)].
 [9] Interrupt on PA  [~%If(~@InterruptOnPa=1,On,Off)].
-[10] Default speech type for incoming text  [~@DefaultSpeechType].
-[11] Default speech type for user specifyable voice  [~@DefaultSpeechTypeForVoiceOnly].
-[12] SAPI settings.
+[10] Interrupt when detecting an insectoid creature in a room  [~%If(~@InterruptOnInsectoidCreature=1,On,Off)].
+[11] Default speech type for incoming text  [~@DefaultSpeechType].
+[12] Default speech type for user specifyable voice  [~@DefaultSpeechTypeForVoiceOnly].
+[13] SAPI settings.
 %Chr(250)
 UseSpeechInterrupts|B
 InterruptOnFocus|B
@@ -463,6 +464,7 @@ InterruptOnRoom|B
 SpeakRoomTitleFirst|B
 InterruptOnBoards|B
 InterruptOnPa|B
+InterruptOnInsectoidCreature|B
 DefaultSpeechType|C:None,No speech^ScreenReader,Screen reader^Sapi,SAPI:Speech set {~@DefaultSpeechType} {~@DefaultSpeechTypeForVoiceOnly} 1
 DefaultSpeechTypeForVoiceOnly|C:None,No speech^ScreenReader,Screen reader^Sapi,SAPI:Speech set {~@DefaultSpeechType} {~@DefaultSpeechTypeForVoiceOnly} 1
 SAPI|M
