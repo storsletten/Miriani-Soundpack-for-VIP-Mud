@@ -77,6 +77,7 @@ Typing^Allows you to type with only one hand, using the number pad}
    #If {%Defined(ShowPong)=1} {
     #UnGagLine;
     #Sub {Pong!};
+    MirianiSoundPlay Standard {General\Misc\Pong@Ext} 30 5;
     #UnVar ShowPong
    }
   }
@@ -116,6 +117,7 @@ Typing^Allows you to type with only one hand, using the number pad}
  #Var ShowPong {};
  #Var ShowPingPongLagReport {};
  #Config DisplayCommandsInOutput False;
+ MirianiSoundPlay Standard {General\Misc\Ping@Ext} 30 5;
  #Exec {>#$#soundpack_ping};
  #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
 }
