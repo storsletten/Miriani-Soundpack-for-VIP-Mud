@@ -1,3 +1,6 @@
+Version 5.12.13, released 2019-01-06:
+* The insectoid creature detector will now also detect blocking creatures, and include the blocked directions in the status message.
+
 Version 5.12.12, released 2019-01-06:
 * Added an insectoid creature detector. It counts the number of insectoid creatures in the room. I also added a speech interrupt for this, which is enabled by default. You can disable it if you don't like it, in conf speech.
 
