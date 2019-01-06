@@ -8,15 +8,27 @@
  #Class GunFire Enable
 }
 #Trigger {*} {
- #If {%Pos(The shot is partially absorbed by,%0)=1 or (%Defined(GunWrongTarget)=1 and %Pos(suddenly seems unable to move.,%0)>0)} {
+ #Var PlayGunSound 1;
+ #If {%Pos(The shot is partially absorbed by,%0)=1} {
+  #UnVar PlayGunSound;
   #GagLine 1 All;
-  #If {%Pos(The shot is partially absorbed by,%0)=1} {
-   #Var GunWrongTarget {%Copy(%0,35,%Length(%0)-35)}
+  #Var GunWrongTarget {%Copy(%0,35,%Length(%0)-35)}
+ };
+ #If {%Defined(GunWrongTarget)=1 and %Pos(suddenly seems unable to move.,%0)>0} {
+  #UnVar PlayGunSound;
+  #Var GunBufferedOutput {%0}
+ };
+ #If {%Pos(the shot disburses harmlessly across,%0)>0} {
+  #UnVar PlayGunSound;
+  #GagLine 1 All;
+  #Var GunArmor 1;
+  #If {%Pos(across your armor,%0)>0} {
+   msplay General\Combat\StunArmor@Ext
   } {
-   #Var GunBufferedOutput {%0}
+   mwplay General\Combat\StunArmor@Ext
   }
- } {
-  #Var PlayGunSound 1;
+ };
+ #If {%Defined(PlayGunSound)=1} {
   #Class GunFire Disable;
   #If {%IfWord(@LastShooter,You,|)=1} {
    #Var StandardGunOutput {You shoot at @LastTarget with @Gun.};
@@ -88,24 +100,34 @@
    };
    #If {%Pos(The shot hits,%0)=1} {
     MirianiSoundPlay Standard General\Combat\OtherShot@Ext;
+    #Var GunTmp1 {%Copy(%0,15,%Length(%0)-15)};
+    #If {%Defined(GunArmor)=1} {
+     #If {%Pos('s,@GunTmp1)>0} {
+      #Var GunTmp1 {%Word(@GunTmp1,'s,1)'s armored%Word(@GunTmp1,'s,2)}
+     } {
+      #If {%Pos(your,@GunTmp1)=1} {
+       #Var GunTmp1 {your armored %Copy(@GunTmp1,6)}
+      }
+     }
+    };
     #If {%IfWord(@LastShooter,You,|)=1} {
      #If {%Defined(GunWrongTarget)=1} {
-      #Var GunOutput {You shoot @GunWrongTarget and %Copy(%0,15,%Length(%0)-15) with @Gun.}
+      #Var GunOutput {You shoot @GunWrongTarget and @GunTmp1 with @Gun.}
      } {
-      #Var GunOutput {You shoot %Copy(%0,15,%Length(%0)-15) with @Gun.}
+      #Var GunOutput {You shoot @GunTmp1 with @Gun.}
      }
     } {
      #If {%IfWord(@LastShooter,an internal stun turret,|)=1} {
       #If {%Defined(GunWrongTarget)=1} {
-       #Var GunOutput {%Proper(@LastShooter) shoots @GunWrongTarget and %Copy(%0,15,%Length(%0)-15).}
+       #Var GunOutput {%Proper(@LastShooter) shoots @GunWrongTarget and @GunTmp1.}
       } {
-       #Var GunOutput {%Proper(@LastShooter) shoots %Copy(%0,15,%Length(%0)-15).}
+       #Var GunOutput {%Proper(@LastShooter) shoots @GunTmp1.}
       }
      } {
       #If {%Defined(GunWrongTarget)=1} {
-       #Var GunOutput {@LastShooter shoots @GunWrongTarget and %Copy(%0,15,%Length(%0)-15) with @Gun.}
+       #Var GunOutput {@LastShooter shoots @GunWrongTarget and @GunTmp1 with @Gun.}
       } {
-       #Var GunOutput {@LastShooter shoots %Copy(%0,15,%Length(%0)-15) with @Gun.}
+       #Var GunOutput {@LastShooter shoots @GunTmp1 with @Gun.}
       }
      }
     }
@@ -124,6 +146,7 @@
   #UnVar GunTmp1;
   #UnVar GunOutput;
   #UnVar StandardGunOutput;
+  #UnVar GunArmor;
   #UnVar GunWrongTarget
  }
 } {GunFire}
@@ -365,13 +388,6 @@
 } {Main}
 #Trigger {* firmly grip* the top of a bulky stun armor battery pack and press* a small release button. *.} {
  msplay General\Misc\Belt1@Ext
-} {Main}
-#Trigger {* the shot disburses harmlessly across * armor.} {
- #If {%2="your"} {
-  msplay General\Combat\StunArmor@Ext
- } {
-  mwplay General\Combat\StunArmor@Ext
- }
 } {Main}
 #Trigger {A bulky stun armor battery pack emits * before suddenly powering down.} {
  msplay Ship\Computer\Abort@Ext

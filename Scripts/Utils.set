@@ -596,6 +596,40 @@ You are currently using version @Version of the @SoundpackName.};
   #Var DontStopSpeaking 1
  }
 }
+#Alias BigAdd {
+ #Var BigAddInt {%Word(%1,.,1)};
+ #Var BigAddInt {%Replace(@BigAddInt,~,,|)};
+ #Var BigAddInt {%ReverseList(@BigAddInt)};
+ #Var BigAddTmpInt {%Word(%2,.,1)};
+ #Var BigAddTmpInt {%Replace(@BigAddTmpInt,~,,|)};
+ #Var BigAddTmpInt {%ReverseList(@BigAddTmpInt)};
+ #Math BigAddTmp1 {%Left(%Word(%1,.,2),2)+%Left(%Word(%2,.,2),2)};
+ #If {@BigAddTmp1>99} {
+  #Var BigAddCarry 1;
+  #Math BigAddTmp1 {@BigAddTmp1-100}
+ } {
+  #Var BigAddCarry 0
+ };
+ #Var BigAddResult {@BigAddTmp1};
+ #Var BigAddSep {.};
+ #Exec {#%Max(%NumWords(@BigAddInt,|),%NumWords(@BigAddTmpInt,|)) {
+  #Var BigAddTmp1 {~%If(~%i>%NumWords(@BigAddInt,|),0,~%Word(~@BigAddInt,|,~%i))};
+  #Var BigAddTmp2 {~%If(~%i>%NumWords(@BigAddTmpInt,|),0,~%Word(~@BigAddTmpInt,|,~%i))};
+  #Math BigAddTmp3 {~@BigAddTmp1+~@BigAddTmp2+~@BigAddCarry};
+  #If {~@BigAddTmp3>999} {
+   #Var BigAddCarry 1;
+   #Math BigAddTmp3 {~@BigAddTmp3-1000}
+  } {
+   #Var BigAddCarry 0
+  };
+  #While {~%Length(~@BigAddTmp3)<3} {#Var BigAddTmp3 {0~@BigAddTmp3}};
+  #Var BigAddResult {~@{BigAddTmp3}~@{BigAddSep}~@BigAddResult};
+  #Var BigAddSep {,}
+ }};
+ #If {@BigAddCarry=1} {#Var BigAddResult {1@BigAddSep@BigAddResult}};
+ #While {%Left(@BigAddResult,1)=0} {#Var BigAddResult {%Copy(@BigAddResult,2,%Eval(%Length(@BigAddResult)-1))}};
+ #ForAll {Int|Carry|Sep|Tmp1|Tmp2|Tmp3|TmpInt} {#UnVar {BigAdd%i}}
+}
 
 #Alias who {
  #Class StartReadingWhoList Disable;
