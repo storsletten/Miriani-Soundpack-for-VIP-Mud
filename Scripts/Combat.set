@@ -14,7 +14,7 @@
   #GagLine 1 All;
   #Var GunWrongTarget {%Copy(%0,35,%Length(%0)-35)}
  };
- #If {%Defined(GunWrongTarget)=1 and %Pos(suddenly seems unable to move.,%0)>0} {
+ #If {%Defined(GunWrongTarget)=1 and %Pos(unable to move.,%0)>0} {
   #UnVar PlayGunSound;
   #Var GunBufferedOutput {%0}
  };
@@ -184,6 +184,17 @@
    MirianiSoundPlay Standard General\Combat\YouShot@Ext
   } {
    MirianiSoundPlay Standard General\Combat\OtherShot@Ext
+  }
+ }
+} {Main}
+#Trigger {* unable to move.} {
+ #If {@SoundsVersion>4 and %Pos(:,%1)=0 and %IfWord(%Left(%1,1),>| |~(|[,|)=0 and %Pos(suddenly,%1)>0} {
+  #If {%IfWord(%1,You are suddenly,@CR)=1} {
+   #GagLine 1 Voice;
+   msplay General\Combat\YouStunned@Ext
+  } {
+   #If {%Length(@LastTarget)>0 and %Pos(@LastTarget,%1)=1 and (%Pos(insectoid creature,%1)=0 or @MissionMode=0)} {#GagLine 1 Voice};
+   #Alarm {0@{DecimalChar}1} {msplay General\Combat\OtherStunned@Ext}
   }
  }
 } {Main}
