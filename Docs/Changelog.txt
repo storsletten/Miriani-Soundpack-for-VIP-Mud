@@ -1,3 +1,6 @@
+Version 5.12.11, released 2019-01-06:
+* Added ping-pong sounds for the ping command. Sounds version 5 or greater is required for this to work.
+
 Version 5.12.10, released 2019-01-06:
 * Fixed issues with sounds when shooting the luminescent orifice.
 * Added a sound to indicate when you get stunned, and also a sound for indicating that someone else gets stunned. This requires sounds version 5 or greater.
