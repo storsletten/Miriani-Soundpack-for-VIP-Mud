@@ -103,7 +103,8 @@
      #Var GunOutput {You shoot to kill @LastTarget with @Gun.}
     } {
      #Var GunOutput {@LastShooter shoots to kill @LastTarget with @Gun.}
-    }
+    };
+    #If {%IfWord(@LastTarget,a gargantuan multi-colored heavily rounded bloated sparkling shiny insectoid creature,@CR)=1} {#UnGagLine}
    };
    #If {%Pos(The shot hits,%0)=1} {
     #Var GunTmp1 {%Copy(%0,15,%Length(%0)-15)};
