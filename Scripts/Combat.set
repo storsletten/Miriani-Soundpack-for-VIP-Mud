@@ -18,9 +18,11 @@
   #UnVar PlayGunSound;
   #Var GunBufferedOutput {%0}
  };
- #If {%Pos(the shot disburses harmlessly across,%0)>0} {
-  #UnVar PlayGunSound;
-  #GagLine 1 All;
+ #If {%Pos(shot disburses harmlessly across,%0)>0} {
+  #If {%Pos(A portion of the shot disburses harmlessly across,%0)=1} {
+   #UnVar PlayGunSound;
+   #GagLine 1 All
+  };
   #Var GunArmor 1;
   #If {%Pos(across your armor,%0)>0} {
    msplay General\Combat\StunArmor@Ext
@@ -31,12 +33,12 @@
  #If {%Defined(PlayGunSound)=1} {
   #Class GunFire Disable;
   #If {%IfWord(@LastShooter,You,|)=1} {
-   #Var StandardGunOutput {You shoot at @LastTarget with @Gun.};
+   #Var StandardGunOutput {You shoot @LastTarget with @Gun.};
    #Var GunTmp1 {@LastTarget:@Gun};
    #If {%IfWord(@YourLastShot,@GunTmp1,@CR)=1} {#GagLine 1 Voice};
    #Var YourLastShot {@GunTmp1}
   } {
-   #Var StandardGunOutput {@LastShooter shoots at @LastTarget with @Gun.};
+   #Var StandardGunOutput {@LastShooter shoots @LastTarget with @Gun.};
    #Var GunTmp1 {@LastShooter:@LastTarget:@Gun};
    #If {%IfWord(@SomeonesLastShot,@GunTmp1,@CR)=1} {#GagLine 1 Voice};
    #Var SomeonesLastShot {@GunTmp1}
@@ -55,9 +57,9 @@
     #UnVar PlayGunSound;
     MRandomPlay General\Combat\ShotMisses@Ext;
     #If {%IfWord(@LastShooter,You,|)=1} {
-     #Var GunOutput {You shoot at @LastTarget and miss.}
+     #Var GunOutput {You shoot at @LastTarget, but miss.}
     } {
-     #Var GunOutput {@LastShooter shoots at @LastTarget and misses.}
+     #Var GunOutput {@LastShooter shoots at @LastTarget, but misses.}
     }
    };
    #If {%Pos(skillfully dodges the shot,%0)>0} {
@@ -76,6 +78,15 @@
      #Var GunOutput {You shoot @GunWrongTarget instead.}
     } {
      #Var GunOutput {@LastShooter shoots @GunWrongTarget instead of @LastTarget.}
+    }
+   };
+   #If {%Pos(The shot disburses harmlessly across,%0)=1} {
+    #UnVar PlayGunSound;
+    #If {%IfWord(@LastTarget,you,@CR)=1} {#Var GunTmp1 {your}} {#Var GunTmp1 {@LastTarget's}};
+    #If {%IfWord(@LastShooter,You,|)=1} {
+     #Var GunOutput {You shoot @GunTmp1 stun armor with @Gun.}
+    } {
+     #Var GunOutput {@LastShooter shoots @GunTmp1 stun armor with @Gun.}
     }
    };
    #If {%Pos(It must be out of ammo,%0)>0} {
