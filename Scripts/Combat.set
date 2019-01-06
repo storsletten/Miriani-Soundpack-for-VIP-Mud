@@ -178,11 +178,13 @@
   }
  }
 } {Main}
-#Trigger {The shot hits *.} {
- #If {%Pos(your,%1)=1 and %Pos('s,%1)=0} {
-  MirianiSoundPlay Standard General\Combat\YouShot@Ext
- } {
-  MirianiSoundPlay Standard General\Combat\OtherShot@Ext
+#Trigger {The shot hits *} {
+ #If {%IfWord(%1,squarely in the center of the orifice with no noticeable effect on the outside.,|)=0} {
+  #If {%Pos(your,%1)=1 and %Pos('s,%1)=0} {
+   MirianiSoundPlay Standard General\Combat\YouShot@Ext
+  } {
+   MirianiSoundPlay Standard General\Combat\OtherShot@Ext
+  }
  }
 } {Main}
 #Trigger {An * stun turret *} {
