@@ -55,15 +55,12 @@ The destination specified is beyond the range of the wormhole drive.  Attempting
 |
 Aborting repair task. Please stand by.^
  MirianiSoundPlay Standard Ship\Computer\Abort~@Ext;
- #Var ComputerSaid {Aborting repair task.}
+ #Var ComputerSaid {Aborting repair task.};
+ SPShipRepairs Aborted
 |
 Scans reveal the debris to be a life form.^
  MirianiSoundPlay Standard Ship\Misc\SalvageLifeForm~@Ext;
  #Var ComputerSaid {Lifeform salvaged!}
-|
-Docking complete.^
- #Var PlayComputerSound 1;
- MirianiSoundPlay Standard Ship\Misc\DockingBayDoorClose~@Ext
 |
 Sensors detect an obstacle in the path of the wormhole. Aborting FTL travel...^
  #Var PlayComputerSound 1;
@@ -259,25 +256,29 @@ I am beginning the repair of *. Estimated time to completion: *.^
  #Var PlayComputerSound 1;
  MirianiSoundPlay Standard Ship\Computer\RepairStart~@Ext 10;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
- #Var ComputerSaid {~@Wildcard2 until ~@Wildcard1 is repaired.}
+ #Var ComputerSaid {~@Wildcard2 for ~@Wildcard1 to be repaired.};
+ SPShipRepairs Started {~@Wildcard1} {~@Wildcard2}
 %Chr(250)
 * will be completely repaired in approximately *.^
  #Var PlayComputerSound 1;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
- #Var ComputerSaid {~@Wildcard2 for ~@Wildcard1 to be repaired.}
+ #Var ComputerSaid {~@Wildcard2 for ~@Wildcard1 to be repaired.};
+ SPShipRepairs ETA {~@Wildcard1} {~@Wildcard2}
 %Chr(250)
 I am currently repairing: *, which is *~% damaged. Estimated time to completion is *.^
  #Var PlayComputerSound 1;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
  #If {~%Pos(the ,~@Wildcard1)=0 and ~%IsNumber(~%Word(~@Wildcard1, ,~%NumWords(~@Wildcard1, )))=0} {#Var Wildcard1 {the ~@Wildcard1}};
  #If {~%Pos(<,~@Wildcard2)=1} {#Var Wildcard2 {Less than ~%Copy(~@Wildcard2,2)}};
- #Var ComputerSaid {~@Wildcard2~% of damage to ~@Wildcard1 will take ~@Wildcard3 to repair.}
+ #Var ComputerSaid {~@Wildcard2~% of damage to ~@Wildcard1 will take ~@Wildcard3 to repair.};
+ SPShipRepairs ETA {~@Wildcard1} {~@Wildcard3}
 %Chr(250)
 I have completed the repair of *.^
  #Var PlayComputerSound 1;
  MirianiSoundPlay Standard Ship\Computer\RepairComplete~@Ext;
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
- #Var ComputerSaid {~@Wildcard1 repaired.}
+ #Var ComputerSaid {~@Wildcard1 repaired.};
+ SPShipRepairs Completed {~@Wildcard1}
 %Chr(250)
 I have aborted the repair of *.^
  #Var PlayComputerSound 1;
@@ -299,6 +300,78 @@ Via synchronized text message broadcasts, *^
 The game has ended! The winner is *^
  mrplay;
  MirianiSoundPlay Standard Music\*30~@Ext
+}
+
+#Alias SPTimeToSeconds {
+ #Var SPSeconds 0;
+ #Var TmpTimeNumber 0;
+ #Var TmpTimeLoop 0;
+ #Var TmpTimeLoopEnd {%If(%Length(%1)=0,0,%NumWords(%1, ))};
+ #While {@TmpTimeLoop<@TmpTimeLoopEnd} {
+  #Math TmpTimeLoop {@TmpTimeLoop+1};
+  #Var TmpTimeLoopWord {%Word(%1, ,@TmpTimeLoop)};
+  #If {%IsNumber(@TmpTimeLoopWord)=1} {
+   #Var TmpTimeNumber {@TmpTimeLoopWord}
+  };
+  #If {%IfWord(@TmpTimeLoopWord,hour|hours,|)=1} {
+   #Math SPSeconds {@TmpTimeNumber*3600 + @SPSeconds}
+  };
+  #If {%IfWord(@TmpTimeLoopWord,minute|minutes,|)=1} {
+   #Math SPSeconds {@TmpTimeNumber*60 + @SPSeconds}
+  };
+  #If {%IfWord(@TmpTimeLoopWord,second|seconds,|)=1} {
+   #Math SPSeconds {@TmpTimeNumber + @SPSeconds}
+  }
+ };
+ #UnVar TmpTimeNumber;
+ #UnVar TmpTimeLoopWord;
+ #UnVar TmpTimeLoop;
+ #UnVar TmpTimeLoopEnd
+}
+#Var ShipRepairs 0
+#Var ShipEngineeringRoom {}
+#Alias SPShipRepairs {
+ #Math ShipRepairs {@ShipRepairs+1};
+ #If {%IfWord(%1,Repairing,|)=1} {
+  MRandomPlay Ship\Misc\Repair*11@Ext;
+  #If {@RepairNotifs=1} {
+   #Exec {#Alarm 75 {
+    #If {~@ShipRepairs=@ShipRepairs and ~%IfWord(~@RoomName,~@ShipEngineeringRoom,~@CR)=0} {
+     #If {~%Defined(ShipRepairing)=1} {
+      #UnAlarm ShipRepairing;
+      #UnVar ShipRepairing
+     };
+     #Say {Repairs stopped!};
+     MirianiSoundPlay Standard Ship\Computer\RepairComplete@Ext
+    }
+   }}
+  } 
+ } {
+  #If {@RepairNotifs=1} {
+   #Var ShipEngineeringRoom {@RoomName};
+   #If {%Defined(ShipRepairing)=1} {
+    #UnAlarm ShipRepairing;
+    #UnVar ShipRepairing
+   };
+   SPTimeToSeconds {%3};
+   #If {@SPSeconds>0} {
+    #Exec {#Alarm ShipRepairing {%Eval(@SPSeconds+5)} {
+     #UnVar ShipRepairing;
+     #If {~%IfWord(~@RoomName,~@ShipEngineeringRoom,~@CR)=0} {
+      #Alarm 3 {#Math ShipRepairs {~@ShipRepairs+1}};
+      #Say {Repair complete!};
+      MirianiSoundPlay Standard Ship\Computer\RepairComplete@Ext
+     }
+    }}
+   } {
+    #If {%IfWord(%1,Completed|Aborted,|)=1} {
+     #Exec {#Alarm 4 {
+      #Math ShipRepairs {~@ShipRepairs+1}
+     }}
+    }
+   }
+  }
+ }
 }
 
 #Trigger {* announces, *} {
@@ -360,15 +433,19 @@ The game has ended! The winner is *^
   mwplay Ship\Combat\OtherDestroyed*11@Ext;
   #Var ComputerSaid {%Copy(%1,6,%Length(%1)-25) destroyed.}
  };
- #If {@ShipComputerTmp1=*"the starship is headed for *. The computer estimates approximately * until arrival at the destination at sublight speeds."} {
+ #If {@ShipComputerTmp1=*"the starship is headed for *. The computer estimates approximately * until arrival at the destination at current relativity drive speed."} {
   #Var ShipComputerTmp3 {%Pos(. The computer estimates approximately ,%1)};
   #Var ShipComputerTmp4 {%Copy(%1,28,@ShipComputerTmp3-28)};
   #Var ShipComputerTmp5 {%Copy(%1,@ShipComputerTmp3+39)};
-  #Var ShipComputerTmp5 {%Copy(@ShipComputerTmp5,1,%Pos(until arrival at the destination at sublight speeds,@ShipComputerTmp5)-2)};
+  #Var ShipComputerTmp5 {%Copy(@ShipComputerTmp5,1,%Pos(until arrival at the destination at current relativity drive speed,@ShipComputerTmp5)-2)};
   #Var ComputerSaid {@ShipComputerTmp5 until arrival at @ShipComputerTmp4.};
   #UnVar ShipComputerTmp3;
   #UnVar ShipComputerTmp4;
   #UnVar ShipComputerTmp5
+ } {
+  #If {@ShipComputerTmp1=*"that the starship is currently headed *"} {
+   #Var ComputerSaid {%Proper(%Copy(%1,39))}
+  }
  };
  #If {%Length(@ShipComputerTmp2)>0} {
   #If {%NumWords(@ShipComputerTmp2,|)>1} {
@@ -396,7 +473,7 @@ The game has ended! The winner is *^
 #Trigger {Total Weight: *} {MirianiSoundPlay Standard Ship\Computer\Display@Ext} {Main}
 #Trigger {There is nothing in the cargo hold.*} {MirianiSoundPlay Standard Ship\Computer\Display@Ext} {Main|Craft}
 #Trigger {*:} {
- #If {%IfWord(%1,Charge Readout|Critical Damage|Light Damage|Moderate Damage|Starship Damage|Starship Security Status|Starship Status|Starship Weapon Configuration|Weapon Information|Weapon Configuration|Weapon Status,|)=1} {
+ #If {%IfWord(%1,Charge Readout|Critical Damage|Docking Bay Status|Light Damage|Moderate Damage|Starship Damage|Starship Security Status|Starship Status|Starship Weapon Configuration|Vehicle Status|Weapon Information|Weapon Configuration|Weapon Status,|)=1} {
   MirianiSoundPlay Standard Ship\Computer\Display@Ext;
   #GagLine 1 Voice
  }

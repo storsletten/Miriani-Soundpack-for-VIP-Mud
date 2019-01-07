@@ -16,7 +16,23 @@ Orta:-15
 Onati:10
 Muzano:20
 Potate:20
+Potateoton:30
 Ohaxx:20
+}
+
+#Var DangerousShips {
+Praelor Bezation
+Praelor Frnalk
+Praelor Frnazalk
+Praelor Kritzn
+Praelor Mugatra
+Praelor Muzano
+Praelor Ohaxx
+Praelor Onnota
+Praelor Potate
+Praelor Potateoton
+Praelor Resa-Onati
+Praelor Ozarti
 }
 
 #Alias {HitCounter} {
@@ -44,7 +60,11 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
 #Trigger {Locked onto coordinates: *} {
  #GagLine 1 Voice;
  #Sub {Locked on %1};
- #If {@UseAlternativeCombatSounds=1 or %IfWord(%1,@FocusShipCoords,%CRLF)=1} {MirianiSoundPlay Standard Ship\Combat\LockedOnOther2@Ext}
+ #If {%IfWord(%1,@FocusShipCoords,%CRLF)=1} {
+  MirianiSoundPlay Standard Ship\Combat\LockedOnOther2@Ext
+ } {
+  #Say {Locked} NoDisplay
+ }
 } {Main|Starship}
 #Trigger {A blinding flash of light suddenly permeates the *.} {
  MirianiSoundPlay Standard Ship\Combat\YouHit*9@Ext;
@@ -53,8 +73,9 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
 #Trigger {Target: *} {
  MirianiSoundPlay Standard Ship\Combat\LockedOnOther@Ext;
  #If {%Pos(Starship ~",%1)=1} {
-  #If {@MissionMode=1 and %Pos(Starship ~"Praelor ,%1)=1} {#GagLine 1 Voice};
-  #Sub {Target %Copy(%1,11,%Length(%1)-11).}
+  #GagLine 1 Voice;
+  #If {@MissionMode=0 or %Pos(Starship ~"Praelor ,%1)=0} {#Say {%Copy(%1,11,%Length(%1)-11)} NoDisplay};
+  #Sub {Target: %Copy(%1,11,%Length(%1)-11)}
  } {
   #Sub {%1 targeted.}
  }
@@ -114,7 +135,14 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
   }
  } {
   #If {%1="loud rendition of Jingle Bells sounds"} {
-   #GagLine 1 All
+   #If {@MuteAlertContSounds=1 or @SoundsVersion<4 or %Defined(BlockGreenSantaBoxSound)=1} {
+    #GagLine 1 All
+   } {
+    MirianiSoundPlay Standard {Ship\Misc\GreenSantaBox.mp3};
+    #If {@SoundIsPlaying=1} {#Var AlertSoundHandle {%PlayHandle}} {#UnVar AlertSoundHandle};
+    #Var BlockGreenSantaBoxSound 1;
+    #Alarm 60 {#UnVar BlockGreenSantaBoxSound}
+   }
   } {
    #If {@WakeOnRed=1 and %IfWord(%2,blue orange purple red, )=1} {
     #If {@GagEverything=1} {GagEverything};
@@ -269,11 +297,16 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
  MirianiSoundPlay Standard Ship\Computer\Keyboard*15@Ext
 } {Main|Starship}
 #Trigger {Praelor * has *.} {
- #Var PraelorActions {launched undocked entered docked jumped};
- #If {%IfWord(%word(%2, ,1),@PraelorActions, )=1} {
-  MirianiSoundPlay {Praelor} Ship\Combat\Praelor@Ext;
-  PushMessage Praelor0Activity {%0}
- }
+ #Var PraelorActionTmp1 {launched undocked entered docked jumped};
+ #If {%IfWord(%word(%2, ,1),@PraelorActionTmp1, )=1} {
+  MirianiSoundPlay Praelor {Ship\Combat\Praelor@Ext};
+  PushMessage Praelor0Activity {%0};
+  #Var PraelorActionTmp1 {Praelor %Word(%1, ,1)};
+  #If {%IfWord(@PraelorActionTmp1,@DangerousShips,%CRLF)=1} {
+   MirianiSoundPlay Standard {Ship\Combat\DangerousEnemyArrived@Ext}
+  }
+ };
+ #UnVar PraelorAction
 } {Main}
 #Trigger {* ha* * from Praelor *.} {
  #Sub {%1 %3 from %4.};

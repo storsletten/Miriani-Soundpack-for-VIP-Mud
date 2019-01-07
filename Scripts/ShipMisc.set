@@ -63,40 +63,6 @@
  };
  #ForAll {Output|TmpAmount|TmpID|TmpVar} {#UnVar {Contrib%i}}
 } {}
-#Alias BigAdd {
- #Var BigAddInt {%Word(%1,.,1)};
- #Var BigAddInt {%Replace(@BigAddInt,~,,|)};
- #Var BigAddInt {%ReverseList(@BigAddInt)};
- #Var BigAddTmpInt {%Word(%2,.,1)};
- #Var BigAddTmpInt {%Replace(@BigAddTmpInt,~,,|)};
- #Var BigAddTmpInt {%ReverseList(@BigAddTmpInt)};
- #Math BigAddTmp1 {%Left(%Word(%1,.,2),2)+%Left(%Word(%2,.,2),2)};
- #If {@BigAddTmp1>99} {
-  #Var BigAddCarry 1;
-  #Math BigAddTmp1 {@BigAddTmp1-100}
- } {
-  #Var BigAddCarry 0
- };
- #Var BigAddResult {@BigAddTmp1};
- #Var BigAddSep {.};
- #Exec {#%Max(%NumWords(@BigAddInt,|),%NumWords(@BigAddTmpInt,|)) {
-  #Var BigAddTmp1 {~%If(~%i>%NumWords(@BigAddInt,|),0,~%Word(~@BigAddInt,|,~%i))};
-  #Var BigAddTmp2 {~%If(~%i>%NumWords(@BigAddTmpInt,|),0,~%Word(~@BigAddTmpInt,|,~%i))};
-  #Math BigAddTmp3 {~@BigAddTmp1+~@BigAddTmp2+~@BigAddCarry};
-  #If {~@BigAddTmp3>999} {
-   #Var BigAddCarry 1;
-   #Math BigAddTmp3 {~@BigAddTmp3-1000}
-  } {
-   #Var BigAddCarry 0
-  };
-  #While {~%Length(~@BigAddTmp3)<3} {#Var BigAddTmp3 {0~@BigAddTmp3}};
-  #Var BigAddResult {~@{BigAddTmp3}~@{BigAddSep}~@BigAddResult};
-  #Var BigAddSep {,}
- }};
- #If {@BigAddCarry=1} {#Var BigAddResult {1@BigAddSep@BigAddResult}};
- #While {%Left(@BigAddResult,1)=0} {#Var BigAddResult {%Copy(@BigAddResult,2,%Eval(%Length(@BigAddResult)-1))}};
- #ForAll {Int|Carry|Sep|Tmp1|Tmp2|Tmp3|TmpInt} {#UnVar {BigAdd%i}}
-} {}
 
 #Trigger {You press a large * reset button on a* starship simulator.} {
  msplay General\Misc\Beep*10@Ext;
@@ -239,8 +205,14 @@
  #Sub {%4 at %5  (%3).}
 } {Main}
 #Trigger {The * is suddenly seized by several robotic arms and hauled into the starship garage.} {mrandomplay Ship\Misc\Garage@Ext} {Main}
-#Trigger {* pull* a series of straps around * and securely buckle* into*} {msplay General\Misc\Buckle*3@Ext} {Main|Starship}
-#Trigger {* release* the buckle of * seatbelt, causing it to retract back into *} {msplay General\Misc\Unbuckle*3@Ext} {Main|Starship}
+#Trigger {* pull* a series of straps around * and securely buckle* into*} {
+ msplay General\Misc\Buckle*3@Ext;
+ PushMessage RP {%0}
+} {Main|Starship}
+#Trigger {* release* the buckle of * seatbelt, causing it to retract back into *} {
+ msplay General\Misc\Unbuckle*3@Ext;
+ PushMessage RP {%0}
+} {Main|Starship}
 #Trigger {The shot is absorbed by a massive loudspeaker on *, which seems to become gloriously silent.} {mwplay Ship\Combat\ExtDisable*2@Ext} {Main}
 #Trigger {A loud burst of static suddenly comes from the loudspeaker on *. You assume it has been reactivated.} {mwplay Ship\Combat\ExtEnable*4@Ext} {Main}
 #Trigger {You suddenly notice the absence of * as the smell of * wafts into the *.} {msplay Ship\Misc\Scent@Ext} {Main}

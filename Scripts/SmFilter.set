@@ -165,6 +165,7 @@ Here is the entire list of SmFilter aliases:
 }
 
 #Trigger {a* starship simulator (Unclaimed)*} {#GagLine 1 All} {SmFilterClass}
+#Trigger {Simulated * (Unclaimed)*} {#GagLine 1 All} {SmFilterClass}
 #Trigger {*: *} {
  #If {%IfWord(%1,Current Coordinates,|)=1} {
   MainTrigSwitch 1;
@@ -173,128 +174,8 @@ Here is the entire list of SmFilter aliases:
    #Var SmShowCoords 0;
    #Var SmCount 0
   } {
-   #Var SmFilterTmp1 {%Replace(%Word(%2,~~~(,2),~),)};
-   #Var MyCoordsX {%Word(@SmFilterTmp1,~, ,1)};
-   #Var MyCoordsY {%Word(@SmFilterTmp1,~, ,2)};
-   #Var MyCoordsZ {%Word(@SmFilterTmp1,~, ,3)};
-   #Var ObjectCoords {};
-   #Var ObjectDirs {};
-   #Var SmSearchTmp1 {@SmSearchString*};
-   #Var SmSearchTmp2 {* @SmSearchTmp1};
-   #Var SmPriorityTmp1 {%NumWords(@SMSPriorityList,|)};
-   #Var SmPriorityTmp5 0;
-   #Var SmRangeTmp1 0;
-   #Var SmFilterTmp2 0;
-   #ForAll {@ObjectList} {
-    #Var SmPriorityTmp2 0;
-    #Var SmPriorityTmp3 {99};
-    #If {@SmShips=1 and %NumWords(%i,])=2} {
-     #Var ObjectTmpString {%Word(%i,],2)};
-     #Var ObjectCoordsX {%Trim(%Word(@ObjectTmpString,~~~,,1))};
-     #Var ObjectCoordsY {%Trim(%Word(@ObjectTmpString,~~~,,2))};
-     #Var ObjectCoordsZ {%Trim(%Word(@ObjectTmpString,~~~,,3))};
-     #Var ObjectTmpString {%Word(%i,],1)] };
-     #If {%IsNumber(@ObjectCoordsX@ObjectCoordsY@ObjectCoordsZ)=1 and (%Length(@SmSearchString)=0 or @ObjectTmpString=*@SmSearchTmp1 or @ObjectTmpString=*@SmSearchTmp2)} {
-      #If {%Length(@SMSPriorityList)=0} {#Var SmPriorityTmp2 {@SmPriorityTmp1}};
-      #While {@SmPriorityTmp2<@SmPriorityTmp1} {
-       #Math SmPriorityTmp2 {@SmPriorityTmp2+1};
-       #Var SmPriorityTmp4 {%Word(@SMSPriorityList,|,@SmPriorityTmp2)};
-       #If {%Pos(@SmPriorityTmp4,@ObjectTmpString)>0} {
-        #If {@SmPriorityTmp2<10} {#Var SmPriorityTmp3 {0@SmPriorityTmp2}} {#Var SmPriorityTmp3 {@SmPriorityTmp2}};
-        #Var SmPriorityTmp2 {@SmPriorityTmp1}
-       }
-      }
-     } {
-      #Var ObjectTmpString {}
-     }
-    } {
-     #Var ObjectTmpString {};
-     #Var ObjectCoordsX {%Word(%i,~,,1)};
-     #Var ObjectCoordsY {%Word(%i,~,,2)};
-     #Var ObjectCoordsZ {%Word(%i,~,,3)}
-    };
-    CalculateRelativeNumericDir @ObjectCoordsX @ObjectCoordsY @ObjectCoordsZ @MyCoordsX @MyCoordsY @MyCoordsZ;
-    #If {@SmShips=0 or %Length(@ObjectTmpString)>0} {
-     #Var SmFilterTmp1 {%Max(@RelativeNumericTmpX,@RelativeNumericTmpY,@RelativeNumericTmpZ)};
-     #If {@SmPriorityTmp2<0} {
-      #Var SmRangeTmp1 {@SmFilterTmp1}
-     };
-     #Math SmFilterTmp2 {@SmFilterTmp2+1};
-     #If {@SmFilterTmp2<10} {
-      #Var SmFilterTmp3 {00@SmFilterTmp2}
-     } {
-      #If {@SmFilterTmp2<100} {
-       #Var SmFilterTmp3 {0@SmFilterTmp2}
-      } {
-       #Var SmFilterTmp3 {@SmFilterTmp2}
-      }
-     };
-     #If {@SmFilterTmp1<10} {#Var SmFilterTmp1 {0@SmFilterTmp1}};
-     #Var ObjectDirs {@ObjectDirs|@{SmFilterTmp1}^@SmPriorityTmp3^@SmFilterTmp3^@ObjectCoordsX,@ObjectCoordsY,@ObjectCoordsZ^@ObjectTmpString@RelativeNumericDir}
-    }
-   };
-   #UnVar SmSearchTmp1;
-   #UnVar SmSearchTmp2;
-   #UnVar SmPriorityTmp1;
-   #UnVar SmPriorityTmp2;
-   #UnVar SmPriorityTmp3;
-   #UnVar SmPriorityTmp4;
-   #If {@SmFilterTmp2=0} {
-    #If {%Length(@SmSearchString)=0} {
-     #Var SmFilterTmp1 {Nothing found}
-    } {
-     #Var SmFilterTmp1 {@SmSearchString not found}
-    }
-   } {
-    #If {@SmCount=1} {
-     #Var SmCount 0;
-     #If {%Length(@SmSearchString)=0} {
-      #Var SmFilterTmp1 {@SmFilterTmp2 @SmFilter}
-     } {
-      #Var SmFilterTmp1 {@SmFilterTmp2 @SmSearchString}
-     }
-    } {
-     #Say {@SmFilter:} NoVoice;
-     #Var ObjectDirs {%Sort(%DelNItem(@ObjectDirs,1),@AtSaSortOrder)};
-     #Var SmFilterTmp1 {%Word(@ObjectDirs,^,4)};
-     #Var SmFilterTmp2 {r%Word(@ObjectDirs,^,1)};
-     #If {@SmFilterTmp2=*"r0#"} {#Var SmFilterTmp2 {%Copy(@SmFilterTmp2,3,1)}} {#Var SmFilterTmp2 {%Copy(@SmFilterTmp2,2,2)}};
-     #If {@SmFilterTmp2<=@SMSRange} {
-      #If {@SmFilterTmp2="0"} {
-       MirianiSoundPlay Standard Ship\Combat\Intruder@Ext
-      } {
-       MirianiSoundPlay Standard General\Misc\Beep10@Ext
-      }
-     };
-     #UnVar SmRangeTmp1;
-     #UnVar SmPriorityTmp5;
-     #Var SmFilterTmp1 {};
-     #ForAll {@ObjectDirs} {
-      #If {@SmShips=1} {
-       #Var SmFilterTmp2 {%Word(%i,^,3)};
-       #If {%Copy(@SmFilterTmp2,1,1)="0"} {#Var SmFilterTmp2 {%Copy(@SmFilterTmp2,2,3)}};
-       #If {%Copy(@SmFilterTmp2,1,1)="0"} {#Var SmFilterTmp2 {%Copy(@SmFilterTmp2,2,3)}};
-       #If {@SmShowCoords=1} {
-        #Var SmFilterTmp3 {%Word(%i,^,4)};
-        #Var SmFilterTmp1 {@SmFilterTmp1%CRLF%Word(@SmFilterTmp3,~,,1) %Word(@SmFilterTmp3,~,,2) %Word(@SmFilterTmp3,~,,3), [@SmFilterTmp2] %Word(%i,^,5).}
-       } {
-        #Var SmFilterTmp1 {@SmFilterTmp1%CRLF [@SmFilterTmp2] %Word(%i,^,5).}
-       }
-      } {
-       #If {@SmShowCoords=1} {
-        #Var SmFilterTmp3 {%Word(%i,^,4)};
-        #Var SmFilterTmp1 {@SmFilterTmp1%CRLF %Word(@SmFilterTmp3,~,,1) %Word(@SmFilterTmp3,~,,2) %Word(@SmFilterTmp3,~,,3), %Word(%i,^,5).}
-       } {
-        #Var SmFilterTmp1 {@SmFilterTmp1  %Word(%i,^,5).}
-       }
-      }
-     };
-     #Var SmFilterTmp1 {%Copy(@SmFilterTmp1,3)}
-    }
-   };
-   #If {@InterruptOnFocus=1} {speech stop};
-   #Var SmShowCoords 0;
-   #Sub {@SmFilterTmp1}
+   #GagLine 1 All;
+   SmFilterProcessData {%2}
   }
  } {
   #If {%IfWord(%1,Accelerators|Artifacts|Asteroids|Blockades|Combat Drones|Control Beacons|Debris|Dry Docks|Interdictors|Jumpgates|Missiles|Mobile Platforms|Moons|Pellets|Planets|Private Space Stations|Proximity Weapons|Relics|Satellites|Space Stations|Stars|Starships|Unknown|Wormholes,|)=1} {
@@ -320,6 +201,136 @@ Here is the entire list of SmFilter aliases:
   }
  }
 } {SmFilterClass}
+#Alias SmFilterProcessData {
+ #Exec {#Alarm 0 {
+  #Var SmFilterTmp1 {%Replace(%Word(%1,~~~(,2),~),)};
+  #Var MyCoordsX {~%Word(~@SmFilterTmp1,~~, ,1)};
+  #Var MyCoordsY {~%Word(~@SmFilterTmp1,~~, ,2)};
+  #Var MyCoordsZ {~%Word(~@SmFilterTmp1,~~, ,3)};
+  #Var ObjectCoords {};
+  #Var ObjectDirs {};
+  #Var SmSearchTmp1 {~@SmSearchString*};
+  #Var SmSearchTmp2 {* ~@SmSearchTmp1};
+  #Var SmPriorityTmp1 {~%NumWords(~@SMSPriorityList,|)};
+  #Var SmPriorityTmp5 0;
+  #Var SmRangeTmp1 0;
+  #Var SmFilterTmp2 0;
+  #ForAll {~@ObjectList} {
+   #Var SmPriorityTmp2 0;
+   #Var SmPriorityTmp3 {99};
+   #If {~@SmShips=1 and ~%NumWords(~%i,])=2} {
+    #Var ObjectTmpString {~%Word(~%i,],2)};
+    #Var ObjectCoordsX {~%Trim(~%Word(~@ObjectTmpString,~~~~~~,,1))};
+    #Var ObjectCoordsY {~%Trim(~%Word(~@ObjectTmpString,~~~~~~,,2))};
+    #Var ObjectCoordsZ {~%Trim(~%Word(~@ObjectTmpString,~~~~~~,,3))};
+    #Var ObjectTmpString {~%Word(~%i,],1)] };
+    #If {~%IsNumber(~@ObjectCoordsX~@ObjectCoordsY~@ObjectCoordsZ)=1 and (~%Length(~@SmSearchString)=0 or ~@ObjectTmpString=*~@SmSearchTmp1 or ~@ObjectTmpString=*~@SmSearchTmp2)} {
+     #If {~%Length(~@SMSPriorityList)=0} {#Var SmPriorityTmp2 {~@SmPriorityTmp1}};
+     #While {~@SmPriorityTmp2<~@SmPriorityTmp1} {
+      #Math SmPriorityTmp2 {~@SmPriorityTmp2+1};
+      #Var SmPriorityTmp4 {~%Word(~@SMSPriorityList,|,~@SmPriorityTmp2)};
+      #If {~%Pos(~@SmPriorityTmp4,~@ObjectTmpString)>0} {
+       #If {~@SmPriorityTmp2<10} {#Var SmPriorityTmp3 {0~@SmPriorityTmp2}} {#Var SmPriorityTmp3 {~@SmPriorityTmp2}};
+       #Var SmPriorityTmp2 {~@SmPriorityTmp1}
+      }
+     }
+    } {
+     #Var ObjectTmpString {}
+    }
+   } {
+    #Var ObjectTmpString {};
+    #Var ObjectCoordsX {~%Word(~%i,~~,,1)};
+    #Var ObjectCoordsY {~%Word(~%i,~~,,2)};
+    #Var ObjectCoordsZ {~%Word(~%i,~~,,3)}
+   };
+   CalculateRelativeNumericDir {~@ObjectCoordsX} {~@ObjectCoordsY} {~@ObjectCoordsZ} {~@MyCoordsX} {~@MyCoordsY} {~@MyCoordsZ};
+   #If {~@SmShips=0 or ~%Length(~@ObjectTmpString)>0} {
+    #Var SmFilterTmp1 {~%Max(~@RelativeNumericTmpX,~@RelativeNumericTmpY,~@RelativeNumericTmpZ)};
+    #If {~@SmPriorityTmp2<0} {
+     #Var SmRangeTmp1 {~@SmFilterTmp1}
+    };
+    #Math SmFilterTmp2 {~@SmFilterTmp2+1};
+    #If {~@SmFilterTmp2<10} {
+     #Var SmFilterTmp3 {00~@SmFilterTmp2}
+    } {
+     #If {~@SmFilterTmp2<100} {
+      #Var SmFilterTmp3 {0~@SmFilterTmp2}
+     } {
+      #Var SmFilterTmp3 {~@SmFilterTmp2}
+     }
+    };
+    #If {~@SmFilterTmp1<10} {#Var SmFilterTmp1 {0~@SmFilterTmp1}};
+    #Var ObjectDirs {~@ObjectDirs|~@{SmFilterTmp1}^~@SmPriorityTmp3^~@SmFilterTmp3^~@ObjectCoordsX,~@ObjectCoordsY,~@ObjectCoordsZ^~@ObjectTmpString~@RelativeNumericDir}
+   }
+  };
+  #UnVar SmSearchTmp1;
+  #UnVar SmSearchTmp2;
+  #UnVar SmPriorityTmp1;
+  #UnVar SmPriorityTmp2;
+  #UnVar SmPriorityTmp3;
+  #UnVar SmPriorityTmp4;
+  #If {~@SmFilterTmp2=0} {
+   #If {~%Length(~@SmSearchString)=0} {
+    #Var SmFilterTmp1 {Nothing found}
+   } {
+    #Var SmFilterTmp1 {~@SmSearchString not found}
+   }
+  } {
+   #If {~@SmCount=1} {
+    #Var SmCount 0;
+    #If {~%Length(~@SmSearchString)=0} {
+     #Var SmFilterTmp1 {~@SmFilterTmp2 ~@SmFilter}
+    } {
+     #Var SmFilterTmp1 {~@SmFilterTmp2 ~@SmSearchString}
+    }
+   } {
+    #Say {~@SmFilter:} NoVoice;
+    #Var ObjectDirs {~%Sort(~%DelNItem(~@ObjectDirs,1),~@AtSaSortOrder)};
+    #Var SmFilterTmp1 {~%Word(~@ObjectDirs,^,4)};
+    #Var SmFilterTmp2 {r~%Word(~@ObjectDirs,^,1)};
+    #If {~@SmFilterTmp2=*"r0#"} {#Var SmFilterTmp2 {~%Copy(~@SmFilterTmp2,3,1)}} {#Var SmFilterTmp2 {~%Copy(~@SmFilterTmp2,2,2)}};
+    #If {~@SmFilterTmp2<=~@SMSRange} {
+     #If {~@SmFilterTmp2="0"} {
+      MirianiSoundPlay Standard Ship\Combat\Intruder~@Ext
+     } {
+      MirianiSoundPlay Standard General\Misc\Beep10~@Ext
+     }
+    };
+    #UnVar SmRangeTmp1;
+    #UnVar SmPriorityTmp5;
+    #Var SmFilterTmp1 {};
+    #ForAll {~@ObjectDirs} {
+     #If {~@SmShips=1} {
+      #If {~%IfWord(~%Word(~%i,^,1),00, )=0} {
+       #Var SmFilterTmp2 {~%Word(~%i,^,3)};
+       #If {~%Copy(~@SmFilterTmp2,1,1)="0"} {#Var SmFilterTmp2 {~%Copy(~@SmFilterTmp2,2,3)}};
+       #If {~%Copy(~@SmFilterTmp2,1,1)="0"} {#Var SmFilterTmp2 {~%Copy(~@SmFilterTmp2,2,3)}};
+       #If {~@SmShowCoords=1} {
+        #Var SmFilterTmp3 {~%Word(~%i,^,4)};
+        #Var SmFilterTmp1 {~@SmFilterTmp1~%CRLF~%Word(~@SmFilterTmp3,~~,,1) ~%Word(~@SmFilterTmp3,~~,,2) ~%Word(~@SmFilterTmp3,~~,,3), [~@SmFilterTmp2] ~%Word(~%i,^,5).}
+       } {
+        #Var SmFilterTmp1 {~@SmFilterTmp1~%CRLF [~@SmFilterTmp2] ~%Word(~%i,^,5).}
+       }
+      }
+     } {
+      #If {~@SmShowCoords=1} {
+       #Var SmFilterTmp3 {~%Word(~%i,^,4)};
+       #Var SmFilterTmp1 {~@SmFilterTmp1~%CRLF ~%Word(~@SmFilterTmp3,~~,,1) ~%Word(~@SmFilterTmp3,~~,,2) ~%Word(~@SmFilterTmp3,~~,,3), ~%Word(~%i,^,5).}
+      } {
+       #Var SmFilterTmp1 {~@SmFilterTmp1  ~%Word(~%i,^,5).}
+      }
+     }
+    };
+    #If {~%Length(~@SmFilterTmp1)>0} {#Var SmFilterTmp1 {~%Copy(~@SmFilterTmp1,3)}}
+   }
+  };
+  #If {~%Length(~@SmFilterTmp1)>0} {
+   #If {~@InterruptOnFocus=1} {speech stop};
+   #Var SmShowCoords 0;
+   #Say {~@SmFilterTmp1}
+  }
+ }}
+}
 #Trigger {Alert: Sensor interference detected.} {
  MirianiSoundPlay Standard Ship\Computer\SensorInterference@Ext;
  #GagLine 1 Voice

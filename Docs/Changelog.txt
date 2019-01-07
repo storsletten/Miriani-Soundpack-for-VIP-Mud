@@ -1,7 +1,181 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 Version 5.9.39, released Tue 05/22/2018:
 * testing
 =======
+=======
+Version 5.12.16, released 2019-01-07:
+* Slight performance improvement for the insectoid creature detector.
+
+Version 5.12.15, released 2019-01-07:
+* The insectoid creature detector will now properly count how many creatures are blocking the exits.
+
+Version 5.12.14, released 2019-01-06:
+* To help reduce ground combat spam, the lines of text about how streams of acid impact you and others will now be gagged if mission mode is enabled. Remember you can easily toggle mission mode by typing conf mission.
+
+Version 5.12.13, released 2019-01-06:
+* The insectoid creature detector will now also detect blocking creatures, and include the blocked directions in the status message.
+
+Version 5.12.12, released 2019-01-06:
+* Added an insectoid creature detector. It counts the number of insectoid creatures in the room. I also added a speech interrupt for this, which is enabled by default. You can disable it if you don't like it, in conf speech.
+
+Version 5.12.11, released 2019-01-06:
+* Added ping-pong sounds for the ping command. Sounds version 5 or greater is required for this to work.
+
+Version 5.12.10, released 2019-01-06:
+* Fixed issues with sounds when shooting the luminescent orifice.
+* Added a sound to indicate when you get stunned, and also a sound for indicating that someone else gets stunned. This requires sounds version 5 or greater.
+* The text indicating that you or someone else is out of ammo will no longer be voice gagged if the mission mode conditions are true.
+* Mission mode will no longer voice gag the output if somebody shoots to kill the gargantuan multi colored ... you know, from advanced missions.
+
+Version 5.12.9, released 2019-01-06:
+* Fixed incorrect sound being played when you get shot. Now there's a slight difference in sound between you getting shot versus someone else getting shot.
+
+Version 5.12.8, released 2019-01-06:
+* Fixed more issues related to the way the ground combat framework handles stun armor.
+
+Version 5.12.7, released 2019-01-06:
+* The ground combat framework will now also recognize stun armor, and properly compact that output into just one single word.
+
+Version 5.12.6, released 2019-01-05:
+* The ground combat framework will now voice gag the output if you fire at the same target with the same weapon, or if the same third person shooter fires at the same target with the same weapon. This helps reducing spam even further.
+
+Version 5.12.5, released 2019-01-05:
+* Fixed an obscure issue where the ground combat framework wouldn't fully detect all events if someone fires at someone else who is taking cover behind yet another somebody who partially absorbs the hit and gets stunned in the process.
+
+Version 5.12.4, released 2019-01-05:
+* Fixed shooting sounds for droids not working.
+
+Version 5.12.3, released 2019-01-05:
+* Fixed a few more minor issues with the new ground combat framework. It will now also tell you that person shoots to kill if they fire at a insectoid creature using praelor mags. Remember that mission mode will mute speech for those messages, but you can still see it in the output window.
+
+Version 5.12.2, released 2019-01-05:
+* Fixed incorrect gunshot sound being played when the shot misses or the target dodges the shot.
+
+Version 5.12.1, released 2019-01-05:
+* Fixed an issue where one of the messages from the luminescent orifice were processed incorrectly.
+
+Version 5.12.0, released 2019-01-05:
+* Rewrote the ground combat framework. One awesome benefit is that most shooting is now compacted to just one line, so ground combat should be less spammy. The soundpack is now also much better at telling you who's gun is out of ammo. And when your gun runs out of ammo, it will even play a little beep to let you know that you need to reload. If something is broken as a result of these changes, please do let me know!
+
+Version 5.11.16, released 2019-01-04:
+* Minor fixes and adjustments for the ground praelor stuff. Now it won't claim that a praelor is dead when it's in fact just dying. Also the sound when your character is being attacked should be slightly more distinct now.
+
+Version 5.11.15, released 2019-01-04:
+* Fixed attacks by insectoid creatures on yourself not being recognized by the soundpack.
+
+Version 5.11.14, released 2019-01-01:
+* Added a sound alert for when that gargantuan ... insectoid creature in advanced missions wiggles out of your grip.
+
+Version 5.11.13, released 2019-01-01:
+* Added sounds for the headdesk social.
+* Fixed lockbox closing sound not working. Thanks to Jason Stone for bringing this to my attention!
+
+Version 5.11.12, released 2018-12-16:
+* Fixed sound thinggymabob for the starships and the vehicles commands.
+
+Version 5.11.11, released 2018-12-16:
+* Added a low rumbling sound for docking into another ship. This requires sounds version 4 or later. Also fixed the docking complete sound so that it works throughout the entire ship, not just in the control room.
+
+Version 5.11.10, released 2018-12-15:
+* Added a sound for indicating that a tactically dangerous praelor ship has entered the sector. A few examples of ships that are classified as dangerous are muzano, potate, and ohaxx. This might be useful when flying random diffs or invasions.
+
+Version 5.11.9, released 2018-12-05:
+* The rendition of Jingle Bells being played by green Santa boxes will now be muted if conf ship 14 is enabled.
+
+Version 5.11.8, released 2018-12-05:
+* For those of you who use the shared Dropbox folder for sounds, there's now a sound for the green Santa boxes. You can type spinfo to see which version of the sounds you're using. It needs to be version 4 for this to work. There will be no difference for those who have an older version of the sounds folder.
+
+Version 5.11.7, released 2018-12-05:
+* From now on, the soundpack will unregister and re-register when you type spreload, ensuring that Miriani knows which version you're using at all times. This is useful in case of version specific restrictions or accommodations on the server side.
+* The babies extra will now play the toddle sound when a baby toddles from one room to another.
+
+Version 5.11.6, released 2018-12-05:
+* After a little more testing, it turned out that 37.5 percent panning is enough for the random panning routines, and now it should definitely be possible to pick up all sounds even with only one ear.
+
+Version 5.11.5, released 2018-12-05:
+* Removed the pitch adjustment of room sounds when the starship crashes into solar debris, and also changed the random panning of weapon sounds and more so that it never exceeds 62.5 percent panning in either direction.
+
+Version 5.11.4, released 2018-12-04:
+* Fixed an issue with SP repair notifications showing up even if you're standing in the engineering room. Thanks to Tristina Cantrell for reporting!
+
+Version 5.11.3, released 2018-12-03:
+* Removed some of the room sounds for engineering that didn't contain any soft beeps, since the room description refers to occasional soft beeps emanating from consoles. Also fixed storage crawlspaces so they no longer sound like control rooms.
+
+Version 5.11.2, released 2018-12-03:
+* Addressed issues with point unit output. Now it should work with org points as well. Also removed the conf option for showing last known points out of comms range, since this is now a game feature.
+
+Version 5.11.1, released 2018-12-02:
+* The soundpack will no longer spend resources trying to figure out what room sound to use if the WALK command takes you to a room with the exact same name as the room you just left.
+* Applied voice gagging for repetition of room titles in certain situations, such as when you use the walk command and several rooms have the same name, or if you spacewalk and the room title obviously remains unchanged.
+
+Version 5.11.0, released 2018-12-01:
+* Implemented a much better way of dealing with room sounds. As a result, partial room sound mode is no longer necessary, and has been removed from conf.
+* Added full support for the WALK command. Now room sounds will update as you walk, and output text should be less verbose.
+* Fixed an issue with repair notifications not working if you used the WALK command to leave the engineering room.
+
+Version 5.10.1, released 2018-12-01:
+* The repair notification thinggy will now wait for 60 seconds before it considers the repairs to have stopped, since 45 seconds weren't enough apparently.
+
+Version 5.10.0, released 2018-11-30:
+* Changed the random pan routine of the sound engine so that it never pans a sound more than 62.5 percent in either direction. This will help for those moments when you have only one functional speaker or earbud in a stereo pair.
+* Added an option in conf ship that lets you enable repair notifications outside the engineering room. These notifications are based on approximations provided by the game and so you shouldn't expect complete accuracy, but nevertheless this feature could be useful.
+
+Version 5.9.56, released 2018-11-29:
+* Changed the wording of a certain repair message, thanks to Patric Avery.
+
+Version 5.9.55, released 2018-11-24:
+* Added support for sooc. Version 4 of the sounds folder has a slightly modified rooc sound for sooc, which is currently only available for those who have access to the shared Dropbox folder for sounds.
+
+Version 5.9.54, released 2018-11-15:
+* Added more ship rooms that the soundpack now will recognize, including Control Center, Bedrooms of all kinds, Cargo Bay, and Combat Stations.
+
+Version 5.9.53, released 2018-11-14:
+* Added a workaround for the bugs that arise as a result of VIP Mud breaking up the lines of text for room exits.
+
+Version 5.9.52, released 2018-10-25:
+* Added sound for when someone else digs up an archaeological artifact. Also added sound when you have no free hands at the time of digging up an artifact.
+
+Version 5.9.51, released 2018-10-05:
+* Hist (and history) have now been changed to SPHB. And to make it more convenient, you can now use spr for SPHB read, spc for SPHB copy, and sps for SPHB switch. Sounds confusing to you? Just type sph to see a quick and dirty command reference for the history buffers.
+
+Version 5.9.50, released 2018-09-25:
+* Added a new beep mode for rel drive in conf ship.
+
+Version 5.9.49, released 2018-09-12:
+* Fixed an issue with SM filters not gagging certain starmap titles.
+
+Version 5.9.48, released 2018-08-18:
+* Fixed duplicate knocking sound when somebody knocks on the hull of the starship you're in.
+
+Version 5.9.47, released 2018-08-13:
+* The soundpack will now say the word locked after starship weapons are locked onto a set of coordinates. Hopefully no more wondering if you're lagging just because you aimed at empty space.
+
+Version 5.9.46, released 2018-08-12:
+* SM filters (like sms and smc) might now be a little more resilient when processing a huge number of ships. A consequence is that the output of these commands won't be added to the output history buffer, because VIP Mud just doesn't want to let me do that when using this workaround. Basically there are at least three serious bugs in VIP Mud that I'm trying to juggle workarounds for here, and it's just not possible to make it perfect. Also, SM filters will no longer show starships that occupy the same coordinates. If you don't like this, then let me know and maybe I can make a conf option for it. I might even be able to make a conf option for the workaround that inadvertently prevents the SM filter output from being reviewed by the history buffer for general output. Oh and lastly, thanks to Cria for making me change this.
+
+Version 5.9.45, released 2018-07-15:
+* Added an option in conf speech to set default speech type for the user specifyable voice in VIP Mud.
+* Fixed a bug that meant speech settings in VIP Mud did not update when you changed them in conf speech.
+* Added acceleration for the Spacepace game. It will now accelerate for every 50th level until you're at level 200, at which point each object exists for only 2 seconds from start to end.
+* Numerous bug fixes for Spacepace.
+
+Version 5.9.44, released 2018-07-13:
+* Added an audio game to the soundpack. It's called Spacepace, and before you can play it you need to enable it through conf x. Just type conf x spacepace, and then type spacepace help to see instructions on how to play. It's a silly little game for those moments when you don't have anything better to do. It uses sounds from the soundpack. I wrote it as a little exercise for myself, but if anyone likes it then feel free to give me feedback. I might even be persuaded to add more features to it if somebody has any suggestions.
+
+Version 5.9.43, released 2018-07-06:
+* Fixed an issue with the NIRP extra where the workaround for one of VIP Mud's annoying division bugs did not kick in under certain conditions, causing VIP Mud's division bug to kick your butt instead.
+
+Version 5.9.42, released 2018-07-04:
+* Changed the trigger for the COURSE command so that it recognizes the new output text.
+
+Version 5.9.41, released 2018-07-01:
+* Added more things to the RP history buffer. Sitting, standing, buckling, unbuckling, and pulling people to their feet.
+
+Version 5.9.40, released 2018-07-01:
+* Added a history buffer for RP stuff. It will include emotes, socials, and other things people say in the room. Remember that you can use Control E for switching between history buffers, and Control W and Control Q for reviewing them. You can also type HIST S RP for printing out the entire RP history buffer.
+
+>>>>>>> 9112d2ba524cda4d01a34be515977c94d47de805
 Version 5.9.39, released 2018-06-01:
 * Added an option for displaying a message when roundtime is over. Thanks Ryan Salvatore for expressing a dire need for this feature.
 >>>>>>> 751f81452a290b93f0e8047156e54f37a50d63ce

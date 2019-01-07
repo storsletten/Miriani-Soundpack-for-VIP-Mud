@@ -6,7 +6,11 @@
  }
 } {}
 #Alias PlayRelDriveStop {
- #If {@RelDriveBeep=1} {msplay Ship\Computer\Beep@Ext};
+ #If {@RelDriveBeep=1} {
+  msplay Ship\Computer\Beep@Ext
+ } {
+  #If {@RelDriveBeep=2} {#Alarm {1@{DecimalChar}5} {msplay Ship\Computer\Beep@Ext}}
+ };
  msplay Ship\Move\Decelerate@RelDriveStyle@Ext @RelDriveVolume;
  #If {@SoundIsPlaying=1 and %IsNumber(@RelDriveFreq)=1} {
   #PC %PlayHandle Frequency @RelDriveFreq
@@ -105,11 +109,6 @@ msplay Ship\Move\QVAContinue@Ext} {Main|Starship}
  #GagLine 1 All;
  msplay Ship\Computer\commchirp@Ext
 } {Main}
-#Trigger {You feel a mild vibration as the ship begins maneuvering into the docking area of the *} {
- msplay Ship\Move\RingStart@Ext;
- #Sub {Docking with the %1};
- #GagLine 1 Voice
-} {Main|Craft}
 #Trigger {The feeling of nausea passes as the starship moves rapidly. *} {
  #GagLine 1 All;
  msplay Ship\Move\BiasEnds@Ext;

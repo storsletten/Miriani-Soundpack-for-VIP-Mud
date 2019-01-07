@@ -118,11 +118,11 @@ CameraPan|N:-4000^4000
 
 #Var ConfMenuGadgets {Gadget options:
 [1] Customize Message Board headers  [~%If(~@FormatMessageBoards=1,On,Off)].
-[2] Format string for Message Board post headers  [~@MessageBoardFormatString].
+[2] Format string for Message Board post headers
 [3] Customize the Lore Shopping Guide  [~%If(~@ModifyShoppingGuide=1,On,Off)].
-[4] Format string for the Lore Shopping Guide  [~@ShoppingGuideFormatString].
-[5] Format string for Point Units  [~@PointUnitOutputString].
-[6] Show last known point values when using a point unit out of comms  [~%If(~@ShowPointsOOLS=1,On,Off)].
+[4] Format string for the Lore Shopping Guide
+[5] Format string for Point Units
+[6] Format string for Point Units with org point output
 [7] Show sector names as numbers in flight control messages  [~%If(~@ShowFCSectorNamesAsNumbers=1,On,Off)].
 [8] Calculate directions when using directional archaeology dig site scanners  [~%If(~@ArchaeologyCalculateDirection=1,On,Off)].
 [9] In archaeology, show digging depth  [~%Case(~%Eval(~@ShowDiggingDepth+1),Off,Always,Only when you should switch from automatic to regular shovel)].
@@ -132,7 +132,7 @@ MessageBoardFormatString|S:*||Use $SENDER for the message sender, $DATE for the 
 ModifyShoppingGuide|B
 ShoppingGuideFormatString|S:*
 PointUnitOutputString|S:*
-ShowPointsOOLS|B
+PointUnitOutputStringWithOrg|S:*
 ShowFCSectorNamesAsNumbers|B
 ArchaeologyCalculateDirection|B
 ShowDiggingDepth|C:0,Off^1,Always^2,Only when you should switch from automatic to regular shovel
@@ -153,7 +153,7 @@ BypassSocialToggles|B
 #Var ConfMenuSounds {Sound configuration
 [1] Master mute  [~%If(~@Silent=1,On,Off)]. (F11).
 [2] Master volume  [~@{Vol}~~~%]. (F9 / F10).
-[3] Room sound configuration.  [Room sounds are ~%Case(~@RoomSounds+1,off,on,partially on)].
+[3] Room sound configuration.  [Room sounds are ~%If(~@RoomSounds>0,on,off)].
 [4] Theme music configuration.  [Theme music is currently ~%If(~@ThemeMusic=1,On,Off)].
 [5] Play a sound when your character is walking  [~%If(~@PlayTreadSound=1,On,Off)].
 [6] Play a sound when other characters are walking  [~%If(~@PlayOtherTreadSound=1,On,Off)].
@@ -177,7 +177,7 @@ SpamAlert|B::#Class SpamAlerts {~%If(~@SpamAlert=1,Enable,Disable)}
 }
 
 #Var ConfMenuRoomSounds {Room sound configuration:
-[1] Global room sounds  [~%Case(~@RoomSounds+1,Off,On,Partially On)]. (Shift F11).
+[1] Global room sounds  [~%If(~@RoomSounds=0,Off,On)]. (Shift F11).
 [2] Room sounds volume offset  [~@{RoomSoundsVolumeDiff}~~~%].
 [3] Room sounds for discovered planets in uncharted space  [~%If(~@PlanetSounds=1,On,Off)].
 [4] Room sounds for rooms named ~@RoomName  [~%If(~%IfWord(~@RoomName,~@SilentRoomNames,|)=0,On,Off)].
@@ -187,7 +187,7 @@ SpamAlert|B::#Class SpamAlerts {~%If(~@SpamAlert=1,Enable,Disable)}
 [8] Clear the list of silenced zone names.
 [9] Clear the list of silenced zone types.
 %Chr(250)
-RoomSounds|C:0,Off^1,On^2,Partially On:mrplay {~@RoomSound};InSpace {~@InSpace}
+RoomSounds|B::mrplay {~@RoomSound};InSpace {~@InSpace}
 RoomSoundsVolumeDiff|N:-100^100:SetRoomSoundVolume
 PlanetSounds|B::mrplay {~@RoomSound};InSpace {~@InSpace}
 RoomName|E::#If {~%IfWord(~@RoomName,~@SilentRoomNames,~%Chr(124))=0} {#AddItem SilentRoomNames {~@RoomName} NoDuplicates;#Say {Disabled room sounds for rooms named ~@RoomName.}} {#Var SilentRoomNames {~%DelItem(~@SilentRoomNames,~@RoomName)};#Say {Enabled room sounds for rooms named ~@RoomName.}};mrplay {~@RoomSound};InSpace {~@InSpace}
@@ -371,10 +371,10 @@ UseAlternativeCombatSounds|B
 [2] Scanning options.
 [3] SCGC options.~%If(~@LoadExtraScriptCGC=0, ~(The CGC extra is currently disabled~).,)
 [4] Focus output formatter string  [~@FocusFormatString].
-[5] Relativity drive sound frequency  [~@RelDriveFreq Hz].
-[6] Relativity drive sound volume offset  [~@{RelDriveVolume}~~~%].
+[5] Frequency for relativity drive sounds  [~@RelDriveFreq Hz].
+[6] Volume offset for relativity drive sounds  [~@{RelDriveVolume}~~~%].
 [7] Relativity drive sound style  [~%Case(~@RelDriveStyle,Standard Miriani,Standard Star Conquest,MonkeyTerm)].
-[8] Play a beep when relativity drive starts and stops  [~%If(~@RelDriveBeep=1,On,Off)].
+[8] Beep mode for relativity drive  [~%Case(~%Eval(~@RelDriveBeep+1),Off,Start and Stop,Delayed After Stop)].
 [9] Gag the name of holographic avatars  [~%If(~@GagAvatars=1,On,Off)].
 [10] PA prefix  [~@PaPrefix].
 [11] External PA prefix  [~@ExtPrefix].
@@ -385,6 +385,7 @@ UseAlternativeCombatSounds|B
 [16] Format string for target patterns  [~@PatternFormatString].
 [17] Enhanced lock alert system  [~%Case(~%Eval(~@EnhancedAimSoundSystem+1),Off,Change lock sound for currently focused target,Mute all lock sounds except for currently focused target)].
 [18] Hit volume depends on praelor ship class  [~%If(~@ClassDependant=1,On,Off)].
+[19] Repair notifications outside Engineering Room  [~%If(~@RepairNotifs=1,On,Off)].
 %Chr(250)
 Missions|M
 Scanning|M
@@ -393,7 +394,7 @@ FocusFormatString|S:*
 RelDriveFreq|C:22050,Half pitch^44100,Normal pitch^88200,Double pitch
 RelDriveVolume|N:-100^100
 RelDriveStyle|C:Standard Miriani^Standard Star Conquest^MonkeyTerm
-RelDriveBeep|B
+RelDriveBeep|C:0,Off^1,Beep when rel drive starts and stops^2,Beep one and a half seconds after rel drive stops
 GagAvatars|B
 PaPrefix|S:*
 ExtPrefix|S:*
@@ -404,6 +405,7 @@ MutePraelorIsEnemySound|B
 PatternFormatString|S:*
 EnhancedAimSoundSystem|C:0,Off^1,Change lock sound for currently focused target^2,Mute all lock sounds except for currently focused target
 ClassDependant|B
+RepairNotifs|B
 }
 
 #Var ConfMenuScanning {Scanning options
@@ -448,8 +450,10 @@ ScanFormatterForUnknown|S:*
 [7] When following or being dragged, speak the room title first  [~%If(~@SpeakRoomTitleFirst=1,On,Off)].
 [8] Interrupt on message boards  [~%If(~@InterruptOnBoards=1,On,Off)].
 [9] Interrupt on PA  [~%If(~@InterruptOnPa=1,On,Off)].
-[10] Default speech type  [~@DefaultSpeechType].
-[11] SAPI settings.
+[10] Interrupt when detecting an insectoid creature in a room  [~%If(~@InterruptOnInsectoidCreature=1,On,Off)].
+[11] Default speech type for incoming text  [~@DefaultSpeechType].
+[12] Default speech type for user specifyable voice  [~@DefaultSpeechTypeForVoiceOnly].
+[13] SAPI settings.
 %Chr(250)
 UseSpeechInterrupts|B
 InterruptOnFocus|B
@@ -460,7 +464,9 @@ InterruptOnRoom|B
 SpeakRoomTitleFirst|B
 InterruptOnBoards|B
 InterruptOnPa|B
-DefaultSpeechType|C:None,No speech^ScreenReader,Screen reader^Sapi,SAPI
+InterruptOnInsectoidCreature|B
+DefaultSpeechType|C:None,No speech^ScreenReader,Screen reader^Sapi,SAPI:Speech set {~@DefaultSpeechType} {~@DefaultSpeechTypeForVoiceOnly} 1
+DefaultSpeechTypeForVoiceOnly|C:None,No speech^ScreenReader,Screen reader^Sapi,SAPI:Speech set {~@DefaultSpeechType} {~@DefaultSpeechTypeForVoiceOnly} 1
 SAPI|M
 }
 
@@ -470,9 +476,9 @@ SAPI|M
 [3] SAPI rate  [~@{SAPIRate}~~~%].
 [4] Speak computer messages through SAPI  [~%If(~@SpeakComputerMessagesThroughSAPI=1,On,Off)].
 %Chr(250)
-SAPIVoice|N:0^100
-SAPIVolume|N:0^100
-SAPIRate|N:0^100
+SAPIVoice|N:0^100:Speech set {~@DefaultSpeechType} {~@DefaultSpeechTypeForVoiceOnly} 1
+SAPIVolume|N:0^100:Speech set {~@DefaultSpeechType} {~@DefaultSpeechTypeForVoiceOnly} 1
+SAPIRate|N:0^100:Speech set {~@DefaultSpeechType} {~@DefaultSpeechTypeForVoiceOnly} 1
 SpeakComputerMessagesThroughSAPI|B
 }
 

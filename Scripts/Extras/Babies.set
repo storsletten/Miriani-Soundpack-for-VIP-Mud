@@ -32,7 +32,11 @@
 #Trigger {* squeaks.} {MirianiSoundPlay Emote baby\babysqueak*6@Ext} {Main|Socials}
 #Trigger {* squeals.} {MirianiSoundPlay Emote baby\babysqueal*7@Ext} {Main|Socials}
 #Trigger {* starts sucking on*toes.} {MirianiSoundPlay Emote baby\babysucking@Ext} {Main|Socials}
-#Trigger {* toddles.} {MirianiSoundPlay Emote baby\babytoddles@Ext} {Main|Socials}
+#Trigger {* toddles*} {
+ #If {%Pos(~[,%1)=0 and %Pos(~#,%1)=0} {
+  MirianiSoundPlay Emote baby\babytoddles@Ext
+ }
+} {Main|Socials}
 #Trigger {* wails loudly.} {MirianiSoundPlay Emote baby\babywail*3@Ext} {Main|Socials}
 #Trigger {* waves*fist around.} {MirianiSoundPlay Emote baby\babywave@Ext} {Main|Socials}
 #Trigger {* waves*hand through the air.} {MirianiSoundPlay Emote baby\babywave@Ext} {Main|Socials}

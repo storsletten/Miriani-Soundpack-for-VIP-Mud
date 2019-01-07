@@ -29,17 +29,15 @@ detect a faint thrumming as the ship reorients itself.^
  mrandomplay Ship\Misc\BackgroundHigh*4~@Ext;
  #GagLine 1 All
 |
-elect to remain in space for the time being.^
- msplay Ship\Move\DontLand~@Ext
+elect to remain in space for the time being.^msplay Ship\Move\DontLand~@Ext
 |
-hear a soft clang as another ship's docking ring comes into contact with the hull.^
- msplay Ship\Move\RingEnd~@Ext
+hear a soft clang as another ship's docking ring comes into contact with the hull.^msplay Ship\Move\RingEnd~@Ext
 |
-detect a faint rumbling as the starship begins to orient toward another ship.^
- msplay Ship\Move\RingStart~@Ext
+detect a faint rumbling as the starship begins to orient toward another ship.^msplay Ship\Move\RingStart~@Ext
 |
-are suddenly jarred as the ship begins rapid deceleration.^
- #GagLine 1 All
+feel a mild vibration as the ship begins to enter another ship's docking bay.^msplay {Ship\Misc\DockingBayEnter~@Ext} {} {4}
+|
+are suddenly jarred as the ship begins rapid deceleration.^#GagLine 1 All
 |
 feel the sudden pull of acceleration as the starship's relativity drive kicks in, hurling you through the gate's event horizon.^
  msplay Ship\Move\Jumpgate~@Ext;
@@ -140,23 +138,23 @@ notice a faint hum begin to emanate from nowhere in particular as the starship's
  InSpace ~@InSpace
 |
 hear several clinking sounds as the ship is repaired.^
- mrandomplay Ship\Misc\Repair*11~@Ext;
+ SPShipRepairs Repairing;
  #GagLine 1 All
 |
 hear a deafening booming sound as repairs to the ship proceed.^
- mrandomplay Ship\Misc\Repair*11~@Ext;
+ SPShipRepairs Repairing;
  #GagLine 1 All
 |
 hear a shrill screeching sound as repair drones drag replacement components across the hull.^
- mrandomplay Ship\Misc\Repair*11~@Ext;
+ SPShipRepairs Repairing;
  #GagLine 1 All
 |
 hear a buzzing sound from the hull as repairs continue.^
- mrandomplay Ship\Misc\Repair*11~@Ext;
+ SPShipRepairs Repairing;
  #GagLine 1 All
 |
 hear an electrical zapping sound as repairs to the ship continue.^
- mrandomplay Ship\Misc\Repair11~@Ext;
+ SPShipRepairs Repairing;
  #GagLine 1 All
 |
 begin transferring debris to the spaceport.^
@@ -374,8 +372,8 @@ carefully replace a heavy panel back on the wall, concealing the exposed equipme
 lift a heavy panel from the wall, exposing an assortment of wires, switches, and equipment.^msplay Ship\Misc\PanelOpen~@Ext
 |
 hear a piercing sound emanating from deep within the bowels of the ship.^
- #GagLine 1 all;
- mrandomplay Ship\Misc\Repair*11~@Ext
+ SPShipRepairs Repairing;
+ #GagLine 1 All
 |
 pull on a small lever, but it seems to be stuck in the ON position. You fear any further force would snap it right off.^msplay Ship\Misc\Drunk~@Ext
 |
@@ -543,11 +541,7 @@ hear a thunk as a chunk of charged weapons-grade bardenium is fired from the shi
 |
 feel a mighty shaking as something seemingly large impacts the hull.^
  mwplay Ship\Combat\YouHit*6~@Ext;
- #GagLine 1 All;
- #If {~@RoomSounds=1 AND ~@RoomSoundHandle>0} {
-  #PC ~@RoomSoundHandle frequency 47100;
-  #Alarm 2 {#If {~@RoomSounds=1 AND ~@RoomSoundHandle>0} {#PC ~@RoomSoundHandle frequency 44100}}
- }
+ #GagLine 1 All
 |
 hear several scraping sounds as bardenium is transferred from the ship's storage to the cannons.^
  msplay Ship\Combat\CannonReload~@Ext;
@@ -579,10 +573,10 @@ hear the distinct hiss of water being pumped through the ship's piping. Moments 
  #Var TTTmp1 {%Replace(%1,~",)};
  #Var TTTmp2 {};
  #Var ActionSuccess 0;
- #If {@RoomReader=1 or @Peers=1} {
+ #If {@RoomReader>0 or @Peers>0} {
   #If {@TTTmp1="see nowhere obvious to go."} {
-   #Var RoomReader 0;
-   #If {@Peers=1} {
+   #Math RoomReader {@RoomReader-1};
+   #If {@Peers>0} {
     #Var Peers 0
    } {
     #Var Exits {None};
@@ -594,7 +588,7 @@ hear the distinct hiss of water being pumped through the ship's piping. Moments 
    }
   } {
    #If {@TTTmp1=*"can go *." or @TTTmp1=*"can navigate *."} {
-    #Var RoomReader 0;
+    #Math RoomReader {@RoomReader-1};
     #If {@Peers=1} {
      #Var Peers 0
     } {
@@ -616,7 +610,7 @@ hear the distinct hiss of water being pumped through the ship's piping. Moments 
     }
    } {
     #If {@ZoneType="space" and @TTTmp1=*"see *"} {
-     #Var RoomReader 0
+     #Math RoomReader {@RoomReader-1}
     }
    }
   };

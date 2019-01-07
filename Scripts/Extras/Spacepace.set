@@ -1,0 +1,179 @@
+#Class Spacepace Disable
+#Var SpacepaceLevel 0
+#Var SpacepaceShots 0
+#Var SpacepaceShipLane 2
+#Var SpacepaceShipSpeed 1
+#Var SpacepaceHeartbeats 0
+#Var SpacepaceObstacles {
+Ship\Combat\AltLaser9.wav
+General\Rooms\Unlock.wav
+General\Rooms\DestroyRoom.wav
+General\Misc\DroneWhirls1.wav
+General\Misc\DroneWhirls2.wav
+General\Misc\DroneWhirls3.wav
+General\Misc\DroneWhirls4.wav
+General\Misc\DroneWhirls5.wav
+}
+
+#Alias Spacepace {
+ #If {%IfWord(%1,h help, )=1} {
+  #Say {The objective is to navigate the starship and avoid colliding with the random obstacles that crop up. Use Numpad4 for left, and Numpad6 for right. Num Lock must be enabled, and headphones are recommended to hear the direction of the objects.
+If you hear the sound used for summoning lifts in Miriani, then that indicates ammunition that you can pick up by flying into it. Once you've collected ammunition, you can use Numpad 5 to fire the weapons. It will blow up any obstacles directly in front of the starship.
+You gain one level for every obstacle you avoid, and it gets increasingly more difficult as you level up.
+To start / pause the game, type spacepace.
+And finally, this game is still a work in progress. Things may change in future versions of the soundpack.
+Good luck and enjoy!};
+  #Abort All
+ };
+ #If {%Defined(SpacepaceShipSoundHandle)=0} {
+  #Say {%If(@SpacepaceLevel=0,Starting,Resuming)!} VoiceOnly;
+  #PlayLoop {@SoundsPath\Ship\Rooms\VehicleBay.wav} {%Max(@Vol-20,3)};
+  #Var SpacepaceShipSoundHandle {%PlayHandle};
+  #PC {@SpacepaceShipSoundHandle} Frequency {%Eval(44100+(11025*@SpacepaceShipSpeed))};
+  #PC {@SpacepaceShipSoundHandle} Pan {%Eval((@SpacepaceShipLane-2)*5000)};
+  #Class Spacepace Enable;
+  SpacepaceHeartbeat;
+  SpacepaceCreateAction {%Random(1,3)}
+ } {
+  SpacepaceStop
+ }
+}
+#Alias SpacepaceStop {
+ #If {%IfWord(GameOver,%1,|)=1} {
+  #Exec {#Alarm {0@{DecimalChar}3} {#Say {Game over! You made it to level @SpacepaceLevel!}}};
+  #Var SpacepaceLevel 0;
+  #Var SpacepaceHeartbeats 0;
+  #Var SpacepaceShots 0;
+  #Var SpacepaceShipLane 2;
+  #Var SpacepaceShipSpeed 1
+ } {
+  #Say {Level @SpacepaceLevel.}
+ };
+ #If {%Defined(SpacepaceHeartbeatHandle)=1} {
+  #UnAlarm {@SpacepaceHeartbeatHandle};
+  #UnVar SpacepaceHeartbeatHandle
+ };
+ #PC {@SpacepaceShipSoundHandle} Stop;
+ #UnVar SpacepaceShipSoundHandle;
+ #If {%Defined(SpacepaceShipAccelerationSoundHandle)=1} {
+  #PC {@SpacepaceShipAccelerationSoundHandle} Stop;
+  #UnVar SpacepaceShipAccelerationSoundHandle
+ };
+ #Class Spacepace Disable
+}
+
+#Alias SpacepaceHeartbeat {
+ #If {%Defined(SpacepaceHeartbeatHandle)=0} {
+  #Alarm SpacepaceHeartbeatHandle {-1} {
+   #Math SpacepaceHeartbeats {@SpacepaceHeartbeats+1};
+   #If {@SpacepaceLevel<3} {
+    #If {%Eval(@SpacepaceHeartbeats\6)=0} {SpacepaceCreateAction {%Random(1,3)} {%If(%Random(0,100)<80,obstacle,boost)}};
+    #Abort all
+   };
+   #If {@SpacepaceLevel<6} {
+    #If {%Eval(@SpacepaceHeartbeats\5)=0} {SpacepaceCreateAction {%Random(1,3)} {%If(%Random(0,100)<80,obstacle,boost)}};
+    #Abort all
+   };
+   #If {@SpacepaceLevel<9} {
+    #If {%Eval(@SpacepaceHeartbeats\4)=0} {SpacepaceCreateAction {%Random(1,3)} {%If(%Random(0,100)<80,obstacle,boost)}};
+    #Abort all
+   };
+   #If {@SpacepaceLevel<15} {
+    #If {%Eval(@SpacepaceHeartbeats\3)=0} {SpacepaceCreateAction {%Random(1,3)} {%If(%Random(0,100)<80,obstacle,boost)}};
+    #Abort all
+   };
+   #If {@SpacepaceLevel<50} {
+    #If {%Random(0,100)<55} {SpacepaceCreateAction {%Random(1,3)} {%If(%Random(0,100)<80,obstacle,boost)}}
+   } {
+    #If {%Random(0,100)<80} {SpacepaceCreateAction {%Random(1,3)} {%If(%Random(0,100)<80,obstacle,boost)}}
+   }
+  }
+ }
+}
+
+#Alias SpacepaceCreateAction {
+ #If {%Defined(SpacepaceHeartbeatHandle)=1} {
+  #If {%2="boost"} {
+   #PlayLoop {@SoundsPath\General\Lift\LiftButton.wav} {1};
+   #PC %PlayHandle Pan {%Eval((%1-2)*5000)};
+   SpacepaceActionLoop {%1} {%PlayHandle} {10} {10} {%2}
+  } {
+   #PlayLoop {@SoundsPath\%Word(@SpacepaceObstacles,%CRLF,%Random(2,%NumWords(@SpacepaceObstacles,@CR)-1))} {1};
+   #PC %PlayHandle Pan {%Eval((%1-2)*5000)};
+   SpacepaceActionLoop {%1} {%PlayHandle} {10} {10} {%2}
+  }
+ }
+}
+
+; Lane, sound handle, distance, original distance, action
+#Alias SpacepaceActionLoop {
+ #If {%Defined(SpacepaceHeartbeatHandle)=1} {
+  #Exec {#Alarm {0@{DecimalChar}%Max(6-@SpacepaceShipSpeed,2)} {
+   #If {%3>0 and (%1<>~@SpacepaceShipLane or ~%Defined(SpacepaceShootingHandle)=0)} {
+    #PC {%2} Volume {%Max(%Min(@Vol+25,100)/%4*(%4-%3),1)};
+    SpacepaceActionLoop {%1} {%2} {%Eval(%3-1)} {%4} {%5}
+   } {
+    #If {%1=~@SpacepaceShipLane} {
+     #If {~%Defined(SpacepaceShootingHandle)=1} {
+      #Play {@SoundsPath\LaserTag\Explode1.wav} {%Max(%Min(@Vol+10,100)/%4*(%4-%3),1)};
+      #PC {~%PlayHandle} Pan {%Eval((%1-2)*5000)}
+     } {
+      #If {"%5"="boost"} {
+       #Math SpacepaceShots {~@SpacepaceShots+1};
+       #Play {@SoundsPath\General\Misc\Chime.wav} {%Min(@Vol+25,100)};
+       #PC {~%PlayHandle} Pan {%Eval((%1-2)*5000)};
+       #Say {~@SpacepaceShots ~%If(~@SpacepaceShots=1,shot,shots).} VoiceOnly
+      } {
+       #Play {@SoundsPath\Ship\Combat\OtherDestroyed1.wav} {%Min(@Vol+25,100)};
+       #PC {~%PlayHandle} Pan {%Eval((%1-2)*5000)};
+       SpacepaceStop GameOver
+      }
+     }
+    } {
+     #Math SpacepaceLevel {~@SpacepaceLevel+1};
+     #Play {@SoundsPath\General\Misc\Beep10.wav} {%Min(@Vol+25,100)};
+     #PC {~%PlayHandle} Pan {%Eval((%1-2)*5000)};
+     #If {~@SpacepaceShipSpeed<5 and ~%Eval(~@SpacepaceLevel\50)=0} {
+      #Math SpacepaceShipSpeed {~@SpacepaceShipSpeed+1};
+      #Play {@SoundsPath\ACV\ACVStart.wav} {~%Min(~@Vol+10,100)};
+      #Var SpacepaceShipAccelerationSoundHandle {~%PlayHandle};
+      #PC {~@SpacepaceShipAccelerationSoundHandle} Pan {~%Eval((~@SpacepaceShipLane-2)*5000)};
+      #PC {~@SpacepaceShipSoundHandle} Frequency {~%Eval(44100+(11025*~@SpacepaceShipSpeed))};
+      #Alarm {2@{DecimalChar}5} {#UnVar SpacepaceShipAccelerationSoundHandle}
+     }
+    };
+    #PC {%2} Stop
+   }
+  }}
+ } {
+  #PC {%2} Stop
+ }
+}
+
+#Key {Numpad4} {
+ #If {%Defined(SpacepaceShootingHandle)=0} {
+  #Var SpacepaceShipLane {%Max(@SpacepaceShipLane-1,1)};
+  #PC {@SpacepaceShipSoundHandle} Pan {%Eval((@SpacepaceShipLane-2)*5000)};
+  #If {%Defined(SpacepaceShipAccelerationSoundHandle)=1} {#PC {@SpacepaceShipAccelerationSoundHandle} Pan {%Eval((@SpacepaceShipLane-2)*5000)}};
+  #Play {@SoundsPath\Ship\Computer\commchirp.wav} {%Min(@Vol+25,100)};
+  #PC {%PlayHandle} Pan {%Eval((@SpacepaceShipLane-2)*5000)}
+ }
+} {Spacepace}
+#Key {Numpad6} {
+ #If {%Defined(SpacepaceShootingHandle)=0} {
+  #Var SpacepaceShipLane {%Min(@SpacepaceShipLane+1,3)};
+  #PC {@SpacepaceShipSoundHandle} Pan {%Eval((@SpacepaceShipLane-2)*5000)};
+  #If {%Defined(SpacepaceShipAccelerationSoundHandle)=1} {#PC {@SpacepaceShipAccelerationSoundHandle} Pan {%Eval((@SpacepaceShipLane-2)*5000)}};
+  #Play {@SoundsPath\Ship\Computer\commchirp.wav} {%Min(@Vol+25,100)};
+  #PC {%PlayHandle} Pan {%Eval((@SpacepaceShipLane-2)*5000)}
+ }
+} {Spacepace}
+#Key {Numpad5} {
+ #If {@SpacepaceShots>0 and %Defined(SpacepaceShootingHandle)=0} {
+  #Math SpacepaceShots {@SpacepaceShots-1};
+  #Say {@SpacepaceShots %If(@SpacepaceShots=1,shot,shots) left.} VoiceOnly;
+  #Alarm SpacepaceShootingHandle {2} {#UnVar SpacepaceShootingHandle};
+  #Play {@SoundsPath\Ship\Combat\MissilesContinue4.wav} {@Vol};
+  #PC {%PlayHandle} Pan {%Eval((@SpacepaceShipLane-2)*5000)}
+ }
+} {Spacepace}

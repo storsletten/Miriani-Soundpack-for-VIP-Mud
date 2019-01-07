@@ -83,80 +83,77 @@
   }
  }
 } {Main}
-#Trigger {That doesn't seem to contain any useful information out here.} {
- #If {@ShowPointsOOLS=1} {
-  #Sub {You have %Replace(@LicensePoints,|,.) LP, and %Replace(@CombatPoints,|,.) CP stored in memory.}
- }
-} {Main}
 #Trigger {Destination *Sector *Coordinates*} {
  #If {%Length(%Trim(%1%2%3))=0} {#GagLine 1 Voice}
 } {Main}
-#Trigger {You access * and note you have *.* license points and *.* combat points.} {
- #If {%NumWords(@LicensePoints,|)<>2} {
-  #If {%IsNumber(@LicensePoints)=1} {#Var LicensePoints {@LicensePoints|0}} {#Var LicensePoints {%2|%3}}
- };
- #If {%NumWords(@CombatPoints,|)<>2} {
-  #If {%IsNumber(@CombatPoints)=1} {#Var CombatPoints {@CombatPoints|0}} {#Var CombatPoints {%4|%5}}
- };
- #Math DevicesTmp2 {%2-%Word(@LicensePoints,|,1)};
- #Math DevicesTmp3 {%3-%Word(@LicensePoints,|,2)};
- #If {@DevicesTmp3<0} {
-  #Math DevicesTmp3 {@DevicesTmp3+100};
-  #If {@DevicesTmp2>0} {#Math DevicesTmp2 {@DevicesTmp2-1}} {
-   #If {@DevicesTmp2=0} {#Var DevicesTmp2 {-@DevicesTmp2}};
-   #Math DevicesTmp3 {100-@DevicesTmp3}
-  }
+#Trigger {You access * and note you have * license points and * combat points.*} {
+ #Var LicensePoints {%If(%Pos(.,%2)>0,%2,%2.0)};
+ #Var CombatPoints {%If(%Pos(.,%3)>0,%3,%3.0)};
+ #Var PointVars {LicensePoints|CombatPoints};
+ #If {%Pos(Your private organization has,%4)=2} {
+  #Var OrgPoints {%Word(%4, ,6)};
+  #If {%Pos(.,@OrgPoints)=0} {#Var OrgPoints {@OrgPoints.0}};
+  #Var PointVars {@PointVars|OrgPoints}
  } {
-  #If {@DevicesTmp2<0} {
-   #If {@DevicesTmp3>0} {
-    #Math DevicesTmp2 {@DevicesTmp2+1};
-    #Math DevicesTmp3 {100-@DevicesTmp3}
+  #Var OrgPoints {}
+ };
+ #Var PointTmp1 {%NumWords(@PointVars,|)};
+ #While {@PointTmp1>0} {
+  #Var PointVar {%Word(@PointVars,|,@PointTmp1)};
+  #Var Points {@{@PointVar}};
+  #Var LastPointVar {Last@PointVar};
+  #If {%Defined(@LastPointVar)=1} {
+   #Var LastPoints {@{@LastPointVar}};
+   #Var {@LastPointVar} {@Points};
+   #If {%Length(%Word(@Points,.,2))<2} {#Var Points {@{Points}0}};
+   #If {%NumWords(@LastPoints,.)=2} {
+    #If {%Length(%Word(@LastPoints,.,2))<2} {#Var LastPoints {@{LastPoints}0}}
    };
-   #If {@DevicesTmp2=0} {#Var DevicesTmp2 {-0}}
-  }
+   #Var Points {%Replace(@Points,.,)};
+   #Var LastPoints {%Replace(@LastPoints,.,)};
+   #If {%IsNumber(@Points)=1 and %IsNumber(@LastPoints)=1} {
+    #Math PointDiff {@Points-@LastPoints};
+    #If {@PointDiff<0} {
+     #While {%Length(@PointDiff)<4} {#Var PointDiff {-0%Copy(@PointDiff,2)}}
+    } {
+     #While {%Length(@PointDiff)<3} {#Var PointDiff {0@PointDiff}}
+    };
+    #Var PointDiff {%Left(@PointDiff,%Length(@PointDiff)-2).%Right(@PointDiff,2)};
+    #If {%Right(@PointDiff,1)="0"} {
+     #Var PointDiff {%Left(@PointDiff,%Length(@PointDiff)-1)}
+    };
+    #If {%IfWord(@PointDiff,0.0,@CR)=1} {
+     #Var {@{PointVar}Diff} {no}
+    } {
+     #Var {@{PointVar}Diff} {@PointDiff}
+    }
+   } {
+    #Var {@{PointVar}Diff} {an unknown amount of}
+   }
+  } {
+   #Var {@{PointVar}Diff} {an unknown amount of};
+   #Var {@LastPointVar} {@Points}
+  };
+  #Math PointTmp1 {@PointTmp1-1}
  };
- #If {%Eval(@DevicesTmp3\10)=0} {#Math DevicesTmp3 {@DevicesTmp3/10}} {
-  #If {@DevicesTmp3<10} {#Var DevicesTmp3 {0@DevicesTmp3}}
- };
- #Var DevicesTmp1 {@DevicesTmp2.@DevicesTmp3};
- #Math DevicesTmp2 {%4-%Word(@CombatPoints,|,1)};
- #Math DevicesTmp3 {%5-%Word(@CombatPoints,|,2)};
- #If {@DevicesTmp3<0} {
-  #Math DevicesTmp3 {@DevicesTmp3+100};
-  #If {@DevicesTmp2>0} {#Math DevicesTmp2 {@DevicesTmp2-1}} {
-   #If {@DevicesTmp2=0} {#Var DevicesTmp2 {-@DevicesTmp2}};
-   #Math DevicesTmp3 {100-@DevicesTmp3}
-  }
- } {
-  #If {@DevicesTmp2<0} {
-   #If {@DevicesTmp3>0} {
-    #Math DevicesTmp2 {@DevicesTmp2+1};
-    #Math DevicesTmp3 {100-@DevicesTmp3}
-   };
-   #If {@DevicesTmp2=0} {#Var DevicesTmp2 {-0}}
-  }
- };
- #If {%Eval(@DevicesTmp3\10)=0} {#Math DevicesTmp3 {@DevicesTmp3/10}} {
-  #If {@DevicesTmp3<10} {#Var DevicesTmp3 {0@DevicesTmp3}}
- };
- #Var DevicesTmp2 {@DevicesTmp2.@DevicesTmp3};
- #Var DevicesTmp3 {%1};
- #Var DevicesTmp4 {%2.%3};
- #Var DevicesTmp5 {%4.%5};
- #Var DevicesTmp6 {%Replace(@PointUnitOutputString,$UNIT,~@DevicesTmp3)};
- #Var DevicesTmp6 {%Replace(@DevicesTmp6,$LP,~@DevicesTmp4)};
- #Var DevicesTmp6 {%Replace(@DevicesTmp6,$CP,~@DevicesTmp5)};
- #Var DevicesTmp6 {%Replace(@DevicesTmp6,$DIFFLP,~@DevicesTmp1)};
- #Var DevicesTmp6 {%Replace(@DevicesTmp6,$DIFFCP,~@DevicesTmp2)};
- #Var DevicesTmp6 {%Replace(@DevicesTmp6,$CRLF,%CRLF)};
- #Sub {%Expand(@DevicesTmp6)};
- #UnVar DevicesTmp2;
- #UnVar DevicesTmp3;
- #UnVar DevicesTmp4;
- #UnVar DevicesTmp5;
- #UnVar DevicesTmp6;
- SetPreservedVariable LicensePoints {%2|%3};
- SetPreservedVariable CombatPoints {%4|%5}
+ #UnVar PointDiff;
+ #UnVar LastPoints;
+ #UnVar LastPointVar;
+ #UnVar Points;
+ #UnVar PointVar;
+ #Var PointUnitOutput {%If(%Length(@OrgPoints)>0,@PointUnitOutputStringWithOrg,@PointUnitOutputString)};
+ #Var PointUnitOutput {%Replace(@PointUnitOutput,$UNIT,~%1)};
+ #Var PointUnitOutput {%Replace(@PointUnitOutput,$LP,~@LicensePoints)};
+ #Var PointUnitOutput {%Replace(@PointUnitOutput,$CP,~@CombatPoints)};
+ #Var PointUnitOutput {%Replace(@PointUnitOutput,$OP,~@OrgPoints)};
+ #Var PointUnitOutput {%Replace(@PointUnitOutput,$DIFFLP,~@LicensePointsDiff)};
+ #Var PointUnitOutput {%Replace(@PointUnitOutput,$DIFFCP,~@CombatPointsDiff)};
+ #Var PointUnitOutput {%Replace(@PointUnitOutput,$DIFFOP,~@OrgPointsDiff)};
+ #Var PointUnitOutput {%Replace(@PointUnitOutput,$CRLF,%CRLF)};
+ #Sub {%Expand(@PointUnitOutput)};
+ SetPreservedVariable LastLicensePoints {@LastLicensePoints};
+ SetPreservedVariable LastCombatPoints {@LastCombatPoints};
+ SetPreservedVariable LastOrgPoints {@LastOrgPoints}
 } {Main}
 #Trigger {* flick* a switch *.} {
  #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {

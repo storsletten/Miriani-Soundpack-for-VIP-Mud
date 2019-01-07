@@ -41,7 +41,7 @@
   }
  };
  #If {@NIRPTmp1>0} {
-  #If {(@NIRPTmp1>32767 and @NIRPSpeed<10) or (@NIRPTmp1>327670 and @NIRPSpeed<100) or (@NIRPTmp1>3276700 and @NIRPSpeed<1000)} {
+  #If {(@NIRPTmp1>327 and @NIRPSpeed<10) or (@NIRPTmp1>3276 and @NIRPSpeed<100) or (@NIRPTmp1>32767 and @NIRPSpeed<1000)} {
    #Math NIRPTmp1 {@NIRPTmp1 / @NIRPSpeed};
    #Var NIRPTmp2 0
   } {

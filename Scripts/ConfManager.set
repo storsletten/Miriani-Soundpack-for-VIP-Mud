@@ -69,13 +69,14 @@ MutePraelorIsEnemySound:1
 PatternFormatString:[$NAME]: $PATTERN. Now at ($COORDS)
 EnhancedAimSoundSystem:1
 ClassDependant:0
+RepairNotifs:0
 WakeOnRed:0
 GagDontUnderstandMessages:0
 NoDescString:You see nothing special.
 GagRoidDesc:0
 Surveying:0
-PointUnitOutputString:You access $UNIT and note you have $LP license points and $CP combat points.$CRLFYou have acquired $DIFFLP license points and $DIFFCP combat points since last check.
-ShowPointsOOLS:0
+PointUnitOutputString:You have $LP license points and $CP combat points.$CRLFYou've gained $DIFFLP license points and $DIFFCP combat points since last check.
+PointUnitOutputStringWithOrg:You have $LP license points and $CP combat points.$CRLFYou've gained $DIFFLP license points and $DIFFCP combat points since last check.$CRLFYour organization has $OP points.$CRLFThat's $DIFFOP org points since last check.
 ShowFCSectorNamesAsNumbers:0
 BypassSocialToggles:0
 BypassActionToggles:0
@@ -103,15 +104,17 @@ RandomisePlay:1
 SpamAlert:1
 ThemeFadeOutValue:5
 UseSpeechInterrupts:0
-InterruptOnFocus:0
-InterruptOnScanningStarships:0
-InterruptOnFilteredScans:0
+InterruptOnFocus:1
+InterruptOnScanningStarships:1
+InterruptOnFilteredScans:1
 InterruptOnFollow:0
-InterruptOnRoom:0
+InterruptOnRoom:1
+InterruptOnInsectoidCreature:1
 SpeakRoomTitleFirst:0
-InterruptOnBoards:0
+InterruptOnBoards:1
 InterruptOnPa:0
 DefaultSpeechType:ScreenReader
+DefaultSpeechTypeForVoiceOnly:Sapi
 SAPIVoice:0
 SAPIVolume:100
 SAPIRate:50
@@ -641,7 +644,7 @@ ShowDiggingDepth:2
   #Class Socials %If(@SocialsOn=1,Enable,Disable);
   #Class Emotes %If(@EmotesOn=1,Enable,Disable);
   #Config DisplayCommandsInOutput %If(@CommandEcho=1,True,False);
-  Speech Set {@DefaultSpeechType} 1;
+  Speech Set {@DefaultSpeechType} {@DefaultSpeechTypeForVoiceOnly} 1;
   SetRoomSoundVolume;
   SetThemeMusicVolume;
   mrplay {@RoomSound};
