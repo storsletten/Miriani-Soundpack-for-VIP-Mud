@@ -282,9 +282,7 @@
   }
  }
 } {Main}
-#Trigger {A* clicks oddly. It must be out of ammo.} {
- msplay General\Combat\EmptyGun@Ext
-} {Main}
+#Trigger {A* clicks oddly. It must be out of ammo.} {msplay General\Combat\EmptyGun@Ext} {Main}
 #Trigger {* suddenly begins to power down.} {
  msplay General\Combat\Shutdown*4@Ext;
  #Sub {%1 powers down.}

@@ -74,9 +74,9 @@ loud clicking is followed by the clatter of an empty cartridge to the floor.^
  MirianiSoundPlay Standard General\Combat\EmptyGun2~@Ext;
  #If {~%IfWord(~@LastShooter,You,|)=1} {
   MirianiSoundPlay Standard {General\Misc\Beep2~@Ext};
-  #Var DisplayString {You're out of ammo.}
+  #Var DisplayString {You run out of ammo.}
  } {
-  #Var DisplayString {~@LastShooter is out of ammo.}
+  #Var DisplayString {~@LastShooter runs out of ammo.}
  }
 |
 bulky stun armor battery pack^#Class BatteryPackScanner Enable
