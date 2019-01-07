@@ -364,7 +364,7 @@
   #If {@InterruptOnInsectoidCreature=1} {speech stop};
   #Say {@InsectCounter insectoid %If(@InsectCounter=1,creature,creatures), %Replace(@InsectTmp1,|,~, ):} Incoming
  } {
-  #If {@InterruptOnInsectoidCreature=1} {speech stop};
+  #If {@InterruptOnInsectoidCreature=1 and (@InsectCounter>1 or %Pos(a gargantuan multi-colored heavily rounded bloated sparkling shiny insectoid creature,%0)=0)} {speech stop};
   #Say {@InsectCounter insectoid %If(@InsectCounter=1,creature,creatures) detected:} Incoming
  };
  #UnVar InsectTmp1;
