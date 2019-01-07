@@ -328,7 +328,7 @@
  #Var InsectTmp1 {%0};
  #Var InsectTmp2 {%Pos(insectoid creature,@InsectTmp1)};
  #While {@InsectTmp2>0} {
-  #Var InsectTmp3 {%Copy(@InsectTmp1,1,@InsectTmp2)};
+  #Var InsectTmp3 {%Copy(@InsectTmp1,1,@InsectTmp2-2)};
   #Var InsectTmp2 {%NumWords(@InsectTmp3, )};
   #While {@InsectTmp2>1 and %IfWord(%Word(@InsectTmp3, ,@InsectTmp2),a an two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty, )=0} {
    #Math InsectTmp2 {@InsectTmp2-1}
@@ -341,7 +341,7 @@
    #Var InsectTmp2 21
   };
   #Math InsectCounter {@InsectCounter+@InsectTmp2};
-  #Var InsectTmp1 {%Copy(@InsectTmp1,%Length(@InsectTmp3)+10)};
+  #Var InsectTmp1 {%Copy(@InsectTmp1,%Length(@InsectTmp3)+12)};
   #If {%IfWord(%Word(@InsectTmp1, ,2),~(blocking,|)=1} {
    #Var InsectTmp3 {%Word(@InsectTmp1, ,3)};
    #Var InsectTmp3 {%Word(@InsectTmp3,~),1)};
