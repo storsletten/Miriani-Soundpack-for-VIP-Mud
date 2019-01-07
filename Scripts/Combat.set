@@ -323,6 +323,7 @@
 #Trigger {* insectoid creature scurries in*} {mrandomplay General\Combat\PraelorScurry*2@Ext} {Main}
 #Trigger {*You see * insectoid creature*here*} {
  msplay General\Combat\PraelorScurry*2@Ext;
+ #Var InsectBlockers {};
  #Var InsectCounter 0;
  #Var InsectTmp1 {%0};
  #Var InsectTmp2 {%Pos(insectoid creature,@InsectTmp1)};
@@ -335,26 +336,37 @@
   #If {@InsectTmp2>1} {
    #Var InsectTmp2 {%CRLF%Word(@InsectTmp3, ,@InsectTmp2):};
    #Var InsectTmp2 {%Word(@NumberMap,@InsectTmp2,2)};
-   #Var InsectTmp2 {%Word(@InsectTmp2,%CRLF,1)};
-   #Math InsectCounter {@InsectCounter+@InsectTmp2}
+   #Var InsectTmp2 {%Word(@InsectTmp2,%CRLF,1)}
   } {
-   #Math InsectCounter {@InsectCounter+1}
+   #Var InsectTmp2 21
   };
+  #Math InsectCounter {@InsectCounter+@InsectTmp2};
   #Var InsectTmp1 {%Copy(@InsectTmp1,%Length(@InsectTmp3)+10)};
+  #If {%IfWord(%Word(@InsectTmp1, ,2),~(blocking,|)=1} {
+   #Var InsectTmp3 {%Word(@InsectTmp1, ,3)};
+   #Var InsectTmp3 {%Word(@InsectTmp3,~),1)};
+   #If {%IfWord(@InsectTmp3,@InsectBlockers,|)=1} {
+    #Math {InsectBlocking@InsectTmp3} {@{InsectBlocking@InsectTmp3}+@InsectTmp2}
+   } {
+    #AddItem InsectBlockers {@InsectTmp3};
+    #Var {InsectBlocking@InsectTmp3} {@InsectTmp2}
+   }
+  };
   #Var InsectTmp2 {%Pos(insectoid creature,@InsectTmp1)}
  };
- #Var InsectBlockers {};
- #Var InsectTmp1 {%0};
- #Var InsectTmp2 {%Pos(insectoid creature ~(blocking,@InsectTmp1)};
- #While {@InsectTmp2>0} {
-  #Var InsectTmp1 {%Copy(@InsectTmp1,@InsectTmp2+29)};
-  #AddItem InsectBlockers {%Word(@InsectTmp1,~),1)} NoDuplicates;
-  #Var InsectTmp2 {%Pos(insectoid creature ~(blocking,@InsectTmp1)}
- };
- #If {@InterruptOnInsectoidCreature=1} {speech stop};
  #If {%Length(@InsectBlockers)>0} {
-  #Say {@InsectCounter insectoid %If(@InsectCounter=1,creature,creatures), %If(%NumWords(@InsectBlockers,|)=1,direction,directions) %Replace(@InsectBlockers,|, and ) blocked:} Incoming
+  #Var InsectTmp1 {};
+  #Var InsectTmp2 {%NumWords(@InsectBlockers,|)};
+  #While {@InsectTmp2>0} {
+   #Var InsectTmp3 {%Word(@InsectBlockers,|,@InsectTmp2)};
+   #AddItem InsectTmp1 {@{InsectBlocking@InsectTmp3} blocking @InsectTmp3};
+   #Exec {#UnVar InsectBlocking@InsectTmp3};
+   #Math InsectTmp2 {@InsectTmp2-1}
+  };
+  #If {@InterruptOnInsectoidCreature=1} {speech stop};
+  #Say {@InsectCounter insectoid %If(@InsectCounter=1,creature,creatures), %Replace(@InsectTmp1,|,~, ):} Incoming
  } {
+  #If {@InterruptOnInsectoidCreature=1} {speech stop};
   #Say {@InsectCounter insectoid %If(@InsectCounter=1,creature,creatures) detected:} Incoming
  };
  #UnVar InsectTmp1;
