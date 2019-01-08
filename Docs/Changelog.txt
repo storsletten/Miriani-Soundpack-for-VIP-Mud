@@ -1,9 +1,15 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 Version 5.9.39, released Tue 05/22/2018:
 * testing
 =======
 =======
+=======
+Version 5.12.17, released 2019-01-07:
+* The speech interrupt for insectoid creatures will no longer be used if the only insectoid creature in the room is the gargantuan Praelor mama from advanceds.
+
+>>>>>>> upstream/master
 Version 5.12.16, released 2019-01-07:
 * Slight performance improvement for the insectoid creature detector.
 
