@@ -280,7 +280,8 @@ gentle hum of the ship's engines momentarily amplifies as the starship moves thr
 |
 are no damaged components.^
  MirianiSoundPlay Standard Ship\Computer\Display~@Ext;
- MainTrigSwitch 1
+ MainTrigSwitch 1;
+ #Math ShipRepairs {~@ShipRepairs+1}
 |
 hull creaks alarmingly around you as the starship is pulled by intense gravitational forces.^
  mrandomplay Ship\Move\BlackHole~@Ext;

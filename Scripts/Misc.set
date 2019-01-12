@@ -159,16 +159,20 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
 #Trigger {* stands up, looking much healthier than before.} {msplay Stand@Ext} {Main}
 #Trigger {You follow *.} {
  #Var Following 1;
- #If {%Pos(@OtherName,%1)=1} {#Var Dir {@OtherDir}};
  #If {%Pos(into the ship,%1)<>0} {
   #If {@RoomName<>"Airlock"} {
    msplay Ship\Misc\AirlockEnter@Ext
-  }
+  };
+  #Var Dir {Enter}
  } {
   #If {%IfWord(%Word(%1, ,%NumWords(%1, )),@DirList, )=1} {
-   MStep You Leave {@OtherDir}
+   #Var Dir {%Word(%1, ,%NumWords(%1, ))};
+   MStep You Leave {@Dir}
+  } {
+   #Var Dir {}
   }
- }
+ };
+ #If {@SoundsVersion>4 and %Length(@Dir)>0} {MirianiSoundPlay Direction {General\Directions\@Dir@Ext} 25 {} 5}
 } {Main}
 #Trigger {*.*} {
  #If {%Length(%2)=0 and %Pos(:,%0)=0 and %Pos(~,,%0)=0 and %IfWord(%Left(%1,1),>| |-|#|~(|[,|)=0} {
