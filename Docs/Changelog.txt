@@ -1,3 +1,6 @@
+Version 5.13.0, released 2019-01-12:
+* Added sounds for directions, which will be used when you follow somebody around. This requires sounds version 5.
+
 Version 5.12.17, released 2019-01-07:
 * The speech interrupt for insectoid creatures will no longer be used if the only insectoid creature in the room is the gargantuan Praelor mama from advanceds.
 
