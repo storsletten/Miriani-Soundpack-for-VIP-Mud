@@ -1,3 +1,7 @@
+Version 5.13.1, released 2019-01-13:
+* Added options for direction announcements in conf room. I also changed conf room to be more than just room sound configuration, and moved room related options from certain other conf menus into conf room.
+* Fixed direction announcements not working if you were stunned.
+
 Version 5.13.0, released 2019-01-12:
 * Added sounds for directions, which will be used when you follow somebody around. This requires sounds version 5.
 
