@@ -172,7 +172,10 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
    #Var Dir {}
   }
  };
- #If {@SoundsVersion>4 and %Length(@Dir)>0} {MirianiSoundPlay Direction {General\Directions\@Dir@Ext} 25 {} 5}
+ #If {@SoundsVersion>4 and @DirAnnouncements=1 and %Length(@Dir)>0} {
+  #GagLine 1 Voice;
+  MirianiSoundPlay Direction {General\Directions\@Dir@Ext} {@DirAnnouncementVolumeDiff} {} 5
+ }
 } {Main}
 #Trigger {*.*} {
  #If {%Length(%2)=0 and %Pos(:,%0)=0 and %Pos(~,,%0)=0 and %IfWord(%Left(%1,1),>| |-|#|~(|[,|)=0} {

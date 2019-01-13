@@ -6,6 +6,8 @@ GagExits:0
 RoundTimeThreshold:1
 GagTreadLine:0
 AlterArmor:1
+DirAnnouncements:1
+DirAnnouncementVolumeDiff:50
 FormatRoomTitles:0
 FormatMessageBoards:0
 MessageBoardFormatString:$Subject.By $Sender.On $Date.$Votes votes.Ref $Reference

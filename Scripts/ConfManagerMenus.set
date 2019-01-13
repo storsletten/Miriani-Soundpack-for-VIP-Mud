@@ -4,8 +4,7 @@ keepalive:General:KeepAlive
 load:Conf:Load
 mission:Missions:MissionMode
 mute:Sounds:Silent
-room:RoomSounds
-rooms:RoomSounds
+rooms:Room
 save:Conf:Save
 sc:Scanning
 scan:Scanning
@@ -19,24 +18,26 @@ x:Extras
 [2] Gag options.
 [3] Sound options.
 [4] Socials.
-[5] Communication options.
-[6] History options.
-[7] Virtual displays.
-[8] Ship options.
-[9] Vehicle options.
-[10] Camera feed options.
-[11] Gadget options
-[12] Speech and interrupts.
-[13] Keystroke configuration.
-[14] Extras.
-[15] Conf Manager.
-[16] Log options.
-[17] Soundpack documentation.
+[5] Room options.
+[6] Communication options.
+[7] History options.
+[8] Virtual displays.
+[9] Ship options.
+[10] Vehicle options.
+[11] Camera feed options.
+[12] Gadget options
+[13] Speech and interrupts.
+[14] Keystroke configuration.
+[15] Extras.
+[16] Conf Manager.
+[17] Log options.
+[18] Soundpack documentation.
 %Chr(250)
 General
 Gag
 Sounds
 Socials
+Room
 Comm
 History
 VD
@@ -53,30 +54,22 @@ Docs
 }
 
 #Var ConfMenuGeneral {General options:
-[1] Room title formatting  [~%If(~@FormatRoomTitles=1,On,Off)].
-[2] Show number of exits when using the Alt Space hotkey  [~%If(~@ShowExpertExits=1,On,Off)].
-[3] Say Go! when roundtime is over  [~%If(~@ShowRoundtimeIsOver=1,On,Off)].
-[4] Beep when roundtime is over  [~%If(~@PlayRoundtimeSound=1,On,Off)].
-[5] Beep when your commands are blocked by roundtime or stuntime  [~%If(~@PlayWhenThwarted=1,On,Off)].
-[6] Alert when anybody other than the person you are following is in the room  [~%If(~@AlertOnPlayers=1,On,Off)].
-[7] Alter the output of the ARMOR command  [~%If(~@AlterArmor=1,On,Off)].
-[8] Disable DND on Red, Blue, Purple, and Orange Alert  [~%If(~@WakeOnRed=1,On,Off)].
-[9] Startup music  [~%If(~@PlayStartupMusic=1,On,Off)].
-[10] Auto select your character after signing in  [~%If(~@BypassLoginMenu=1,On,Off)].
-[11] Auto save soundpack configuration on exit  [~%If(~@AutoSave=1,On,Off)].
-[12] Keep-Alive duration (in seconds)  [~@KeepAlive].
-[13] Keep-Alive responding  [~%If(~@KeepAliveRespond=1,On,Off)].
-[14] Echo commands in the output window  [~%If(~@CommandEcho=1,On,Off)].
-[15] Soundpack update notifications  [~%If(~@AlertOnUpdate=1,On,Off)].
+[1] Say Go! when roundtime is over  [~%If(~@ShowRoundtimeIsOver=1,On,Off)].
+[2] Beep when roundtime is over  [~%If(~@PlayRoundtimeSound=1,On,Off)].
+[3] Beep when your commands are blocked by roundtime or stuntime  [~%If(~@PlayWhenThwarted=1,On,Off)].
+[4] Alter the output of the ARMOR command  [~%If(~@AlterArmor=1,On,Off)].
+[5] Startup music  [~%If(~@PlayStartupMusic=1,On,Off)].
+[6] Auto select your character after signing in  [~%If(~@BypassLoginMenu=1,On,Off)].
+[7] Auto save soundpack configuration on exit  [~%If(~@AutoSave=1,On,Off)].
+[8] Keep-Alive duration (in seconds)  [~@KeepAlive].
+[9] Keep-Alive responding  [~%If(~@KeepAliveRespond=1,On,Off)].
+[10] Echo commands in the output window  [~%If(~@CommandEcho=1,On,Off)].
+[11] Soundpack update notifications  [~%If(~@AlertOnUpdate=1,On,Off)].
 %Chr(250)
-FormatRoomTitles|B
-ShowExpertExits|B
 ShowRoundtimeIsOver|B
 PlayRoundtimeSound|B
 PlayWhenThwarted|B
-AlertOnPlayers|B
 AlterArmor|B
-WakeOnRed|B
 PlayStartupMusic|B
 BypassLoginMenu|B
 AutoSave|B
@@ -96,6 +89,7 @@ AlertOnUpdate|B
 [7] String to replace the line "You see nothing special."  [~@NoDescString].
 [8] Gag the description of asteroid rooms  [~%If(~@GagRoidDesc=1,On,Off)].
 [9] Surveying mode (for use with mineral scanners)  [~%Case(~%Eval(~@Surveying+1),Off,Surveying,Review)].
+[10] Gag the name of holographic avatars  [~%If(~@GagAvatars=1,On,Off)].
 %Chr(250)
 GagTreadLine|B
 GagGenMessages|B
@@ -106,6 +100,7 @@ GagDontUnderstandMessages|B
 NoDescString|S|Enter a new format string for the "You see nothing special" message|Use _gag_ (underscore gag underscore) to gag the line, or a single space to leave it alone.
 GagRoidDesc|B
 Surveying|C:0,Off^1,Surveying mode^2,Reviewing mode
+GagAvatars|B
 }
 
 #Var ConfMenuCameraFeeds {Camera feed options:
@@ -153,19 +148,17 @@ BypassSocialToggles|B
 #Var ConfMenuSounds {Sound configuration
 [1] Master mute  [~%If(~@Silent=1,On,Off)]. (F11).
 [2] Master volume  [~@{Vol}~~~%]. (F9 / F10).
-[3] Room sound configuration.  [Room sounds are ~%If(~@RoomSounds>0,on,off)].
-[4] Theme music configuration.  [Theme music is currently ~%If(~@ThemeMusic=1,On,Off)].
-[5] Play a sound when your character is walking  [~%If(~@PlayTreadSound=1,On,Off)].
-[6] Play a sound when other characters are walking  [~%If(~@PlayOtherTreadSound=1,On,Off)].
-[7] Volume offset of weapons fire  [~@{RelativeCombatVolume}~~~%].
-[8] Randomize the volume of weapons fire  [~%If(~@RandomiseCombatVolume=1,On,Off)].
-[9] Randomly pan weapon sounds  [~%If(~@RandomiseCombatPan=1,On,Off)].
-[10] Randomize the panning of certain events (including cargo transfer)  [~%If(~@RandomisePlay=1,On,Off)].
-[11] Play the spam sound when Miriani indicates that you're spamming commands  [~%If(~@SpamAlert=1,On,Off)].
+[3] Theme music configuration.  [Theme music is currently ~%If(~@ThemeMusic=1,On,Off)].
+[4] Play a sound when your character is walking  [~%If(~@PlayTreadSound=1,On,Off)].
+[5] Play a sound when other characters are walking  [~%If(~@PlayOtherTreadSound=1,On,Off)].
+[6] Volume offset of weapons fire  [~@{RelativeCombatVolume}~~~%].
+[7] Randomize the volume of weapons fire  [~%If(~@RandomiseCombatVolume=1,On,Off)].
+[8] Randomly pan weapon sounds  [~%If(~@RandomiseCombatPan=1,On,Off)].
+[9] Randomize the panning of certain events (including cargo transfer)  [~%If(~@RandomisePlay=1,On,Off)].
+[10] Play the spam sound when Miriani indicates that you're spamming commands  [~%If(~@SpamAlert=1,On,Off)].
 %Chr(250)
 Silent|E::#Alarm 0 {MasterMute {~@ConfOptionValue}}
 Vol|N:0^100:SetMasterVolume
-RoomSounds|M
 Themes|M
 PlayTreadSound|B
 PlayOtherTreadSound|B
@@ -176,19 +169,29 @@ RandomisePlay|B
 SpamAlert|B::#Class SpamAlerts {~%If(~@SpamAlert=1,Enable,Disable)}
 }
 
-#Var ConfMenuRoomSounds {Room sound configuration:
+#Var ConfMenuRoom {Room options:
 [1] Global room sounds  [~%If(~@RoomSounds=0,Off,On)]. (Shift F11).
 [2] Room sounds volume offset  [~@{RoomSoundsVolumeDiff}~~~%].
-[3] Room sounds for discovered planets in uncharted space  [~%If(~@PlanetSounds=1,On,Off)].
-[4] Room sounds for rooms named ~@RoomName  [~%If(~%IfWord(~@RoomName,~@SilentRoomNames,|)=0,On,Off)].
-[5] Room sounds for @ZoneName  [~%If(~%IfWord(~@ZoneName,~@SilentZoneNames,|)=0,On,Off)].
-[6] Room sounds for ~@{ZoneType}s  [~%If(~%IfWord(~@ZoneType,~@SilentZoneTypes,|)=0,On,Off)].
-[7] Clear the list of silenced room names.
-[8] Clear the list of silenced zone names.
-[9] Clear the list of silenced zone types.
+[3] Announce directions when following or being dragged  [~%If(~@DirAnnouncements=1,On,Off)].
+[4] Direction announcement volume when following or being dragged  [~@{DirAnnouncementVolumeDiff}~~~%].
+[5] Alert when anybody other than the person you are following is in the room  [~%If(~@AlertOnPlayers=1,On,Off)].
+[6] Room title formatting  [~%If(~@FormatRoomTitles=1,On,Off)].
+[7] Show number of exits when using the Alt Space hotkey  [~%If(~@ShowExpertExits=1,On,Off)].
+[8] Room sounds for discovered planets in uncharted space  [~%If(~@PlanetSounds=1,On,Off)].
+[9] Room sounds for rooms named ~@RoomName  [~%If(~%IfWord(~@RoomName,~@SilentRoomNames,|)=0,On,Off)].
+[10] Room sounds for @ZoneName  [~%If(~%IfWord(~@ZoneName,~@SilentZoneNames,|)=0,On,Off)].
+[11] Room sounds for ~@{ZoneType}s  [~%If(~%IfWord(~@ZoneType,~@SilentZoneTypes,|)=0,On,Off)].
+[12] Clear the list of silenced room names.
+[13] Clear the list of silenced zone names.
+[14] Clear the list of silenced zone types.
 %Chr(250)
 RoomSounds|B::mrplay {~@RoomSound};InSpace {~@InSpace}
 RoomSoundsVolumeDiff|N:-100^100:SetRoomSoundVolume
+DirAnnouncements|B
+DirAnnouncementVolumeDiff|N:-100^100
+AlertOnPlayers|B
+FormatRoomTitles|B
+ShowExpertExits|B
 PlanetSounds|B::mrplay {~@RoomSound};InSpace {~@InSpace}
 RoomName|E::#If {~%IfWord(~@RoomName,~@SilentRoomNames,~%Chr(124))=0} {#AddItem SilentRoomNames {~@RoomName} NoDuplicates;#Say {Disabled room sounds for rooms named ~@RoomName.}} {#Var SilentRoomNames {~%DelItem(~@SilentRoomNames,~@RoomName)};#Say {Enabled room sounds for rooms named ~@RoomName.}};mrplay {~@RoomSound};InSpace {~@InSpace}
 ZoneName|E::#If {~%IfWord(~@ZoneName,~@SilentZoneNames,~%Chr(124))=0} {#AddItem SilentZoneNames {~@ZoneName} NoDuplicates;#Say {Disabled room sounds for ~@ZoneName.}} {#Var SilentZoneNames {~%DelItem(~@SilentZoneNames,~@ZoneName)};#Say {Enabled room sounds for ~@ZoneName.}};mrplay {~@RoomSound};InSpace {~@InSpace}
@@ -375,11 +378,11 @@ UseAlternativeCombatSounds|B
 [6] Volume offset for relativity drive sounds  [~@{RelDriveVolume}~~~%].
 [7] Relativity drive sound style  [~%Case(~@RelDriveStyle,Standard Miriani,Standard Star Conquest,MonkeyTerm)].
 [8] Beep mode for relativity drive  [~%Case(~%Eval(~@RelDriveBeep+1),Off,Start and Stop,Delayed After Stop)].
-[9] Gag the name of holographic avatars  [~%If(~@GagAvatars=1,On,Off)].
-[10] PA prefix  [~@PaPrefix].
-[11] External PA prefix  [~@ExtPrefix].
-[12] Play recorded computer messages when possible  [~%If(~@SpeakWhenPossible=1,On,Off)].
-[13] Show ship name first when ships enter and exit sectors  [~%If(~@FlipSectorInfo=1,On,Off)].
+[9] PA prefix  [~@PaPrefix].
+[10] External PA prefix  [~@ExtPrefix].
+[11] Play recorded computer messages when possible  [~%If(~@SpeakWhenPossible=1,On,Off)].
+[12] Show ship name first when ships enter and exit sectors  [~%If(~@FlipSectorInfo=1,On,Off)].
+[13] Disable DND on Red, Blue, Purple, and Orange Alert  [~%If(~@WakeOnRed=1,On,Off)].
 [14] Mute the sounds that play when lights continue to flash during red alert  [~%If(~@MuteAlertContSounds=1,On,Off)].
 [15] Mute the sound that indicates hostile praelor when you scan  [~%If(~@MutePraelorIsEnemySound=1,On,Off)].
 [16] Format string for target patterns  [~@PatternFormatString].
@@ -395,11 +398,11 @@ RelDriveFreq|C:22050,Half pitch^44100,Normal pitch^88200,Double pitch
 RelDriveVolume|N:-100^100
 RelDriveStyle|C:Standard Miriani^Standard Star Conquest^MonkeyTerm
 RelDriveBeep|C:0,Off^1,Beep when rel drive starts and stops^2,Beep one and a half seconds after rel drive stops
-GagAvatars|B
 PaPrefix|S:*
 ExtPrefix|S:*
 SpeakWhenPossible|B
 FlipSectorInfo|B
+WakeOnRed|B
 MuteAlertContSounds|B
 MutePraelorIsEnemySound|B
 PatternFormatString|S:*
