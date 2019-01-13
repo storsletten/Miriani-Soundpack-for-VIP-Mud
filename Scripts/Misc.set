@@ -159,22 +159,56 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
 #Trigger {* stands up, looking much healthier than before.} {msplay Stand@Ext} {Main}
 #Trigger {You follow *.} {
  #Var Following 1;
- #If {%Pos(into the ship,%1)<>0} {
-  #If {@RoomName<>"Airlock"} {
+ #If {%Pos(into the ship,%1)>0} {
+  #If {%IfWord(@RoomName,Airlock,@CR)=0} {
    msplay Ship\Misc\AirlockEnter@Ext
   };
-  #Var Dir {Enter}
+  #Var Dir {enter}
  } {
-  #If {%IfWord(%Word(%1, ,%NumWords(%1, )),@DirList, )=1} {
-   #Var Dir {%Word(%1, ,%NumWords(%1, ))};
-   MStep You Leave {@Dir}
+  #If {%Pos(outside the ship,%1)>0} {
+   #Var Dir {out};
+   ThemeMusicFadeOut;
+   msplay Ship\Misc\AirlockExit@Ext
   } {
-   #Var Dir {}
+   #If {%IfWord(%Word(%1, ,%NumWords(%1, )),@DirList, )=1} {
+    #Var Dir {%Word(%1, ,%NumWords(%1, ))};
+    MStep You Leave {@Dir}
+   } {
+    #Var Dir {}
+   }
   }
  };
  #If {@SoundsVersion>4 and @DirAnnouncements=1 and %Length(@Dir)>0} {
   #GagLine 1 Voice;
   MirianiSoundPlay Direction {General\Directions\@Dir@Ext} {@DirAnnouncementVolumeDiff} {} 5
+ }
+} {Main}
+#Trigger {* drags you *.} {
+ #If {%Pos(:,%1)=0 and %Pos(~,,%1)=0 and %IfWord(%Left(%1,1),>| |-|#|~(|[,|)=0 and %IfWord(%Word(%2, ,1),off, )=0} {
+  #Var Following 1;
+  #If {%Pos(into the ship,%2)>0} {
+   #If {%IfWord(@RoomName,Airlock,@CR)=0} {
+    msplay Ship\Misc\AirlockEnter@Ext
+   };
+   #Var Dir {enter}
+  } {
+   #If {%Pos(outside the ship,%2)>0} {
+    #Var Dir {out};
+    ThemeMusicFadeOut;
+    msplay Ship\Misc\AirlockExit@Ext
+   } {
+    #If {%IfWord(%Word(%2, ,%NumWords(%2, )),@DirList, )=1} {
+     #Var Dir {%Word(%2, ,%NumWords(%2, ))};
+     MStep You Leave {@Dir}
+    } {
+     #Var Dir {}
+    }
+   }
+  };
+  #If {@SoundsVersion>4 and @DirAnnouncements=1 and %Length(@Dir)>0} {
+   #GagLine 1 Voice;
+   MirianiSoundPlay Direction {General\Directions\@Dir@Ext} {@DirAnnouncementVolumeDiff} {} 5
+  }
  }
 } {Main}
 #Trigger {*.*} {
@@ -277,11 +311,6 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
 #Trigger {A* drone rushes into the room and begins recharging any nearby drones. Just as quickly as it enters, it vanishes.} {
  #Sub {Drones recharged.};
  msplay General\Misc\DroneRecharge@Ext
-} {Main}
-#Trigger {* drags you *} {
- #If {%Word(%2, ,1)<>"off"} {
-  #Var Following 1
- }
 } {Main}
 #Trigger {You seem to have left * behind!} {
  #Sub {You left %1 behind.};
