@@ -173,7 +173,7 @@ SpamAlert|B::#Class SpamAlerts {~%If(~@SpamAlert=1,Enable,Disable)}
 [1] Global room sounds  [~%If(~@RoomSounds=0,Off,On)]. (Shift F11).
 [2] Room sounds volume offset  [~@{RoomSoundsVolumeDiff}~~~%].
 [3] Announce directions when following or being dragged  [~%If(~@DirAnnouncements=1,On,Off)].
-[4] Direction announcement volume when following or being dragged  [~@{DirAnnouncementVolumeDiff}~~~%].
+[4] Direction announcement volume offset  [~@{DirAnnouncementVolumeDiff}~~~%].
 [5] Alert when anybody other than the person you are following is in the room  [~%If(~@AlertOnPlayers=1,On,Off)].
 [6] Room title formatting  [~%If(~@FormatRoomTitles=1,On,Off)].
 [7] Show number of exits when using the Alt Space hotkey  [~%If(~@ShowExpertExits=1,On,Off)].

@@ -35,10 +35,6 @@ high-pitched, wobbling alarm sounds as the hull begins breaking up around you.^
  msplay Ship\Combat\YouDestroyed*3~@Ext;
  #GagLine 1 All
 |
-faint crackling can be heard as the interdiction field generator continues to power up.^
- msplay Ship\Combat\InterdictStart~@Ext;
- #GagLine 1 All
-|
 sudden instability in the layer of gasses around the ship causes it to rapidly sink deeper into the atmosphere.^msplay ship\misc\wind~@Ext
 |
 you enter, the doors slam shut behind you. A loud click echoes through the room as they lock.^
@@ -381,10 +377,6 @@ sensors have stopped responding due to Praelor jamming.^msplay Ship/Computer/Err
 ship sensors have been subjected to Praelor jamming. The weapon control console is displaying randomly changing coordinates and is not responding to your input.^msplay Ship\Computer\Error~@Ext
 |
 starmap console has been rendered nonfunctional by Praelor sensor jamming. You see nothing but the pattern of a TV tuned to a dead channel.^msplay Ship\Computer\SensorInterference~@Ext
-|
-hum of the interdiction field generator fades completely as it completes the power down sequence.^
- msplay Ship\Combat\InterdictGenStop~@Ext;
- #GagLine 1 All
 |
 sensors detect no objects in range of the long-range scanners.^#Var DisplayString {Nothing detected.}
 |
