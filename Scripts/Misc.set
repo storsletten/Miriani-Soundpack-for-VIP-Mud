@@ -174,7 +174,12 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
     #Var Dir {%Word(%1, ,%NumWords(%1, ))};
     MStep You Leave {@Dir}
    } {
-    #Var Dir {}
+    #If {%Pos(into the airlock,%1)>0} {
+     #Var Dir {out};
+     MStep You Leave {@Dir}
+    } {
+     #Var Dir {}
+    }
    }
   }
  };
@@ -201,7 +206,12 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
      #Var Dir {%Word(%2, ,%NumWords(%2, ))};
      MStep You Leave {@Dir}
     } {
-     #Var Dir {}
+     #If {%Pos(into the airlock,%2)>0} {
+      #Var Dir {out};
+      MStep You Leave {@Dir}
+     } {
+      #Var Dir {}
+     }
     }
    }
   };
