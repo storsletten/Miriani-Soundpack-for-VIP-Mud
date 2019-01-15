@@ -178,7 +178,13 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
      #Var Dir {out};
      MStep You Leave {@Dir}
     } {
-     #Var Dir {}
+     #If {%Pos(through the,%1)>0} {
+      #Var Dir {go};
+      MirianiSoundPlay Standard General\Misc\Door@Ext;
+      MStep You Leave {@Dir}
+     } {
+      #Var Dir {}
+     }
     }
    }
   }
@@ -210,7 +216,13 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
       #Var Dir {out};
       MStep You Leave {@Dir}
      } {
-      #Var Dir {}
+      #If {%Pos(through the,%2)>0} {
+       #Var Dir {go};
+       MirianiSoundPlay Standard General\Misc\Door@Ext;
+       MStep You Leave {@Dir}
+      } {
+       #Var Dir {}
+      }
      }
     }
    }
