@@ -1,3 +1,8 @@
+Version 5.13.2, released 2019-01-15:
+* Removed support for interdiction field generators, since they don't exist in Miriani anymore.
+* Fixed direction announcements and footstep sounds not working when following somebody into an airlock.
+* Fixed sounds and stuffs for following or being dragged through a go exit.
+
 Version 5.13.1, released 2019-01-13:
 * Added options for direction announcements in conf room. I also changed conf room to be more than just room sound configuration, and moved room related options from certain other conf menus into conf room.
 * Fixed direction announcements not working if you were stunned.
