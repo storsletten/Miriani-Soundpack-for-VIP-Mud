@@ -1,3 +1,6 @@
+Version 5.13.3, released 2019-01-16:
+* Fixed message about shots seemingly having no effect not being properly gagged.
+
 Version 5.13.2, released 2019-01-15:
 * Removed support for interdiction field generators, since they don't exist in Miriani anymore.
 * Fixed direction announcements and footstep sounds not working when following somebody into an airlock.
