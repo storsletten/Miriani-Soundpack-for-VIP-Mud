@@ -91,18 +91,6 @@ hear a sharp clank from somewhere on the hull.^
  msplay Ship\Combat\HullClang~@Ext;
  #GagLine 1 All
 |
-hear a dull pulsing sound emanating from the interdiction field generator.^
- msplay Ship\Combat\InterdictGenStart~@Ext;
- #GagLine 1 All
-|
-hear the hum of the interdiction field generator begin to die down as it powers down.^
- msplay Ship\Combat\InterdictPowerDown~@Ext;
- #GagLine 1 All
-|
-watch as a lead screen replaces the transparent window overlooking the interdiction field generator.^
- msplay Ship\Combat\InterdictActive~@Ext;
- #GagLine 1 All
-|
 press a conveniently placed button on the wall.^
  msplay General\Misc\Beep*10~@Ext;
  #GagLine 1 All

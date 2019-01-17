@@ -286,10 +286,12 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
  #If {%1="open"} {MirianiSoundPlay Standard Ship\Move\BCFighterDock@Ext};
  #If {%1="close"} {MirianiSoundPlay Standard Ship\Misc\DockingBayDoorClose@Ext}
 } {Main}
-#Trigger {The lights overhead suddenly flicker as they change from * to green.} {
- ThemeMusicFadeOut;
- MirianiSoundPlay Standard Ship\Combat\GreenAlert*2@Ext;
- #If {%Defined(AlertSoundHandle)=1} {#PC @AlertSoundHandle Stop;#UnVar AlertSoundHandle}
+#Trigger {The lights overhead suddenly flicker as they change from * to *.} {
+ #If {%IfWord(%1,red,|)=1} {
+  ThemeMusicFadeOut;
+  #If {%Defined(AlertSoundHandle)=1} {#PC {@AlertSoundHandle} Stop;#UnVar AlertSoundHandle}
+ };
+ #If {%IfWord(%2,green,|)=1} {MirianiSoundPlay Standard Ship\Combat\GreenAlert*2@Ext}
 } {Main|Starship}
 #Trigger {* damaged beyond repair.} {MirianiSoundPlay Standard Ship\Computer\Error@Ext} {Main|Craft}
 #Trigger {* fiercely inputs commands into a firing control console.} {

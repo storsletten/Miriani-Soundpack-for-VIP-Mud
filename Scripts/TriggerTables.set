@@ -35,10 +35,6 @@ high-pitched, wobbling alarm sounds as the hull begins breaking up around you.^
  msplay Ship\Combat\YouDestroyed*3~@Ext;
  #GagLine 1 All
 |
-faint crackling can be heard as the interdiction field generator continues to power up.^
- msplay Ship\Combat\InterdictStart~@Ext;
- #GagLine 1 All
-|
 sudden instability in the layer of gasses around the ship causes it to rapidly sink deeper into the atmosphere.^msplay ship\misc\wind~@Ext
 |
 you enter, the doors slam shut behind you. A loud click echoes through the room as they lock.^
@@ -280,7 +276,8 @@ gentle hum of the ship's engines momentarily amplifies as the starship moves thr
 |
 are no damaged components.^
  MirianiSoundPlay Standard Ship\Computer\Display~@Ext;
- MainTrigSwitch 1
+ MainTrigSwitch 1;
+ #Math ShipRepairs {~@ShipRepairs+1}
 |
 hull creaks alarmingly around you as the starship is pulled by intense gravitational forces.^
  mrandomplay Ship\Move\BlackHole~@Ext;
@@ -381,10 +378,6 @@ ship sensors have been subjected to Praelor jamming. The weapon control console 
 |
 starmap console has been rendered nonfunctional by Praelor sensor jamming. You see nothing but the pattern of a TV tuned to a dead channel.^msplay Ship\Computer\SensorInterference~@Ext
 |
-hum of the interdiction field generator fades completely as it completes the power down sequence.^
- msplay Ship\Combat\InterdictGenStop~@Ext;
- #GagLine 1 All
-|
 sensors detect no objects in range of the long-range scanners.^#Var DisplayString {Nothing detected.}
 |
 ship must be powered before you can do that.^MainTrigSwitch 1
@@ -445,10 +438,10 @@ craft comes to a halt, a plume of bubbles surrounding it before dissipating.^
  #GagLine 1 All
 |
 shot seems to have little effect.^
- #If {~%Pos(insectoid creature,~@LastTarget)=1} {#GagLine 1 All} {#GagLine 1 Voice}
+ #If {~%Pos(insectoid creature,~@LastTarget)>0} {#GagLine 1 All} {#GagLine 1 Voice}
 |
 orifice, unable to withstand further fire, begins expanding outward, creating an entry point large enough for a human to fit through.^
- #Var DisplayString {The orifice is now open.};
+ #Var DisplayString {The luminescent orifice opened up.};
  msplay General\Combat\YouShot~@Ext;
  msplay General\Combat\PraelorSpit3~@Ext
 |

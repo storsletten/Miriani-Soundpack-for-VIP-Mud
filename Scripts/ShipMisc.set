@@ -222,11 +222,6 @@
  #GagLine 1 All
 } {Main}
 #Trigger {You watch as a* is brought in by several salvage lines.} {msplay Ship\Misc\PanelsOff@Ext} {Main}
-#Trigger {You follow * outside the ship*} {
- #Var Following 1;
- ThemeMusicFadeOut;
- msplay Ship\Misc\AirlockExit@Ext
-} {Main}
 #Trigger {You float out of the ship into space.*} {msplay Ship\Misc\AirlockExit@Ext} {Main}
 #Trigger {You hear somebody knocking on the blast door to the *.} {msplay General\Misc\DoorChime@Ext} {Main}
 #Var ArtifactList {
@@ -305,13 +300,6 @@ a vacuum-sealed packet of frozen food resembling star-shaped cookies:3,000,000:2
   InSpace 1
  } {
   InSpace 0
- }
-} {Main}
-#Trigger {* drags you * the ship.} {
- #If {%IfWord(%2,into|outside,|)=1} {
-  #If {%2="into"} {
-   #If {@RoomName<>"Airlock"} {msplay Ship\Misc\AirlockEnter@Ext}
-  } {ThemeMusicFadeOut}
  }
 } {Main}
 #Trigger {* arrives from outside.} {msplay Ship\Misc\AirlockEnter@Ext} {Main}
