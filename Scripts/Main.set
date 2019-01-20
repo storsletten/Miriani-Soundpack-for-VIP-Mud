@@ -32,6 +32,7 @@
 
 #PC 0 Stop
 #Class LoggingIn Disable
+#Class LookForLoginPrompt Disable
 #Class Main Enable
 #Class MainOff Disable
 #Var Main 1
@@ -40,32 +41,31 @@
 #If {%Defined(Connected)=0} {#Var Connected 0}
 
 #Trigger {Welcome to*} {
- #If {%IfWord(%1,...| Miriani!,|)=1} {
-  #Var Connected 0;
-  #Class LoggingIn Enable;
-  #If {%1="..."} {
-   #GagLine 8 Voice;
-   #Say {Welcome to Miriani!} NoDisplay
+ #If {%IfWord(%1,...| Miriani!,|)=1} {#Class LookForLoginPrompt Enable}
+}
+#Trigger {Username:} {
+ #Class LookForLoginPrompt Disable;
+ #Class LoggingIn Enable;
+ #Var Connected 0;
+ #Config DisplayCommandsInOutput False;
+ #If {%Defined(SoundpackIsLoading)=1} {
+  #Alarm 0 {#Load {@ScriptPath\SoundpackLoader.set}}
+ } {
+  #If {@PlayStartupMusic=1} {
+   MirianiSoundPlay {Startup Music} {Music\*63@Ext};
+   #If {@SoundIsPlaying=1} {#Var StartupMusicHandle %PlayHandle} {#UnVar StartupMusicHandle}
   };
-  #Config DisplayCommandsInOutput False;
-  #If {%Defined(SoundpackIsLoading)=1} {
-   #Alarm 0 {#Load {@ScriptPath\SoundpackLoader.set}}
+  #Exec {>register_soundpack @SoundpackName | @Version};
+  #If {%Defined(AutoLogin)=1} {
+   login now
   } {
-   #If {@PlayStartupMusic=1} {
-    MirianiSoundPlay {Startup Music} {Music\*63@Ext};
-    #If {@SoundIsPlaying=1} {#Var StartupMusicHandle %PlayHandle} {#UnVar StartupMusicHandle}
-   };
-   #Exec {>register_soundpack @SoundpackName | @Version};
-   #If {%Defined(AutoLogin)=1} {
-    login now
-   } {
-    #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True};
-    #Alarm {0@{DecimalChar}5} {#If {%Defined(AutoLogin)=1} {login now}}
-   }
+   #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True};
+   #Alarm {0@{DecimalChar}5} {#If {%Defined(AutoLogin)=1} {login now}}
   }
  }
-}
+} {LookForLoginPrompt}
 #Trigger {Input your selection:} {
+ #Class LookForLoginPrompt Disable;
  #Class LoggingIn Disable;
  #If {@BypassLoginMenu=1} {
   #Sub {The soundpack is configured to auto select your character. You can disable this in conf gen.};
