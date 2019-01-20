@@ -176,9 +176,11 @@ Typing^Allows you to type with only one hand, using the number pad}
      #UnVar KeepAliveHandle;
      #If {@KeepAliveState=0} {
       #Var KeepAliveState 3;
-      #Say {WARNING: The soundpack reports that your connection to the server might be broken!};
-      #Say {You can change the soundpack's keep alive settings by typing SPKeepAlive.};
-      msplay {LaserTag/NoTargets@Ext}
+      #If {%Defined(AutoReconnect)=0} {
+       #Say {WARNING: The soundpack reports that your connection to the server might be broken!};
+       #Say {You can change the soundpack's keep alive settings by typing SPKeepAlive.};
+       msplay {LaserTag/NoTargets@Ext}
+      }
      } {
       SPKeepAlive Start Quiet
      }
