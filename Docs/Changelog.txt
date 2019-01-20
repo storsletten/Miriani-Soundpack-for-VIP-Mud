@@ -1,3 +1,7 @@
+Version 5.13.7, released 2019-01-20:
+* The soundpack's keep alive feature will no longer alert you about broken connection if Proxiani has already notified you that auto reconnect is in progress.
+* Fixed the archaeology thinggymabob saying feet instead of foot when it's exactly one foot.
+
 Version 5.13.6, released 2019-01-20:
 * Fixed issues that the soundpack had with the help file for getting started.
 * The soundpack now knows that it should log you in and select your character automatically as soon as Proxiani has auto reconnected to Miriani after a connection failure.
