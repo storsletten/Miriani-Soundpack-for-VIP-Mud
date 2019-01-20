@@ -58,7 +58,11 @@ Typing^Allows you to type with only one hand, using the number pad}
   #Abort
  };
  #If {@MainTmp1="You have entered a starship simulator. To exit, please type END."} {msplay General\Device\MovieStart@Ext;#Abort};
- #If {@MainTmp1=*"The server will be shut down *"} {msplay General\Misc\Announcement@Ext;#Abort}
+ #If {@MainTmp1=*"The server will be shut down *"} {msplay General\Misc\Announcement@Ext;#Abort};
+ #If {@MainTmp1="Auto reconnect in progress..."} {
+  #Var AutoLogin 1;
+  #Var AutoReconnect 1
+ }
 }
 #Trigger {[#]$[#]*} {
  #Config DisplayCommandsInOutput False;

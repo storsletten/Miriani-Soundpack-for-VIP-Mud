@@ -67,8 +67,12 @@
 #Trigger {Input your selection:} {
  #Class LookForLoginPrompt Disable;
  #Class LoggingIn Disable;
- #If {@BypassLoginMenu=1} {
-  #Sub {The soundpack is configured to auto select your character. You can disable this in conf gen.};
+ #If {@BypassLoginMenu=1 or %Defined(AutoReconnect)=1} {
+  #If {%Defined(AutoReconnect)=1} {
+   #UnVar AutoReconnect
+  } {
+   #Sub {The soundpack is configured to auto select your character. You can disable this in conf gen.}
+  };
   #GagLine 1 Voice;
   #Config DisplayCommandsInOutput False;
   #Exec {1};
