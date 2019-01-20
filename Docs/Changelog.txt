@@ -1,3 +1,7 @@
+Version 5.13.6, released 2019-01-20:
+* Fixed issues that the soundpack had with the help file for getting started.
+* The soundpack now knows that it should log you in and select your character automatically as soon as Proxiani has auto reconnected to Miriani after a connection failure.
+
 Version 5.13.5, released 2019-01-20:
 * Fixed conf room 10. Thanks to Jason Stone for reporting!
 
