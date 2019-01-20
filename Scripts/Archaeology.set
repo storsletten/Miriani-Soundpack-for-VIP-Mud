@@ -23,7 +23,7 @@
   };
   #If {%Pos(indicates that there is an artifact buried approximately ,%2)=1} {
    #Var ArchArtiDepth {%Word(%2, ,9)};
-   #Sub {@ArchArtiDepth feet.};
+   #If {%IfWord(@ArchArtiDepth,1|1.0,|)=1} {#Sub {1 foot.}} {#Sub {@ArchArtiDepth feet.}};
    #If {%Pos(.,@ArchArtiDepth)>0} {
     #If {%Word(@ArchArtiDepth,.,1)=0} {
      #Var ArchArtiDepth {%Left(%Word(@ArchArtiDepth,.,2),1)}
@@ -158,7 +158,11 @@
    #Var ArchTmp1 {%Copy(@ArchTmp1,1,%Length(@ArchTmp1)-1)};
    #If {%IsNumber(@ArchTmp1)=0} {#Var ArchTmp1 {@{ArchTmp1}0}};
    #If {@ArchTmp2<>0} {#Var ArchTmp1 {@ArchTmp1.@ArchTmp2}};
-   #If {@ArchArtiDepth>0} {#Sub {@ArchTmp1 feet left.}} {#Sub {@ArchTmp1 feet.}};
+   #If {@ArchArtiDepth>0} {
+    #If {%IfWord(@ArchTmp1,1|1.0,|)=1} {#Sub {1 foot left.}} {#Sub {@ArchTmp1 feet left.}}
+   } {
+    #If {%IfWord(@ArchTmp1,-1|-1.0,|)=1} {#Sub {-1 foot.}} {#Sub {@ArchTmp1 feet.}}
+   };
    #UnVar ArchTmp1;
    #UnVar ArchTmp2
   } {
@@ -181,7 +185,11 @@
    #Var ArchTmp1 {%Copy(@ArchTmp1,1,%Length(@ArchTmp1)-1)};
    #If {%IsNumber(@ArchTmp1)=0} {#Var ArchTmp1 {@{ArchTmp1}0}};
    #If {@ArchTmp2<>0} {#Var ArchTmp1 {@ArchTmp1.@ArchTmp2}};
-   #If {@ArchArtiDepth>0} {#Sub {@ArchTmp1 feet left.}} {#Sub {@ArchTmp1 feet.}};
+   #If {@ArchArtiDepth>0} {
+    #If {%IfWord(@ArchTmp1,1|1.0,|)=1} {#Sub {1 foot left.}} {#Sub {@ArchTmp1 feet left.}}
+   } {
+    #If {%IfWord(@ArchTmp1,-1|-1.0,|)=1} {#Sub {-1 foot.}} {#Sub {@ArchTmp1 feet.}}
+   };
    #UnVar ArchTmp1;
    #UnVar ArchTmp2
   } {
