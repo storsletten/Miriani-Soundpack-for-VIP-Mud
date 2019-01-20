@@ -179,7 +179,7 @@ SpamAlert|B::#Class SpamAlerts {~%If(~@SpamAlert=1,Enable,Disable)}
 [7] Show number of exits when using the Alt Space hotkey  [~%If(~@ShowExpertExits=1,On,Off)].
 [8] Room sounds for discovered planets in uncharted space  [~%If(~@PlanetSounds=1,On,Off)].
 [9] Room sounds for rooms named ~@RoomName  [~%If(~%IfWord(~@RoomName,~@SilentRoomNames,|)=0,On,Off)].
-[10] Room sounds for @ZoneName  [~%If(~%IfWord(~@ZoneName,~@SilentZoneNames,|)=0,On,Off)].
+[10] Room sounds for ~@ZoneName  [~%If(~%IfWord(~@ZoneName,~@SilentZoneNames,|)=0,On,Off)].
 [11] Room sounds for ~@{ZoneType}s  [~%If(~%IfWord(~@ZoneType,~@SilentZoneTypes,|)=0,On,Off)].
 [12] Clear the list of silenced room names.
 [13] Clear the list of silenced zone names.
