@@ -43,6 +43,85 @@
 #Trigger {Welcome to*} {
  #If {%IfWord(%1,...| Miriani!,|)=1} {#Class LookForLoginPrompt Enable}
 }
+#Trigger {[#]$[#]*} {
+ #GagLine 1 All;
+ #If {%Length(%1)=0} {#Abort};
+ #Config DisplayCommandsInOutput False;
+ #If {%Defined(KeepAliveState)=1} {#Var KeepAliveState 1};
+ #If {%IfWord(%1,soundpack_pong,|)=1} {
+  #If {%Defined(WhoOriginalHeader)=1} {
+   WhoCheck {} {ReadingComplete};
+   #UnGagLine;
+   #Sub {%Copy(@WhoData,3)};
+   #UnVar WhoData
+  } {
+   #Exec {>#$#soundpack_ping_reply ms};
+   #If {%Defined(ShowPong)=1} {
+    #UnGagLine;
+    #Sub {Pong!};
+    MirianiSoundPlay Standard {General\Misc\Pong@Ext} 30 5;
+    #UnVar ShowPong
+   }
+  }
+ };
+ #If {%IfWord(%1,hjelp,|)=1} {
+  #If {@KeepAliveRespond=1 or @KeepAlive>0} {
+   #Exec {>#$#soundpack_ping_reply ms}
+  };
+  SPKeepAlive Start Quiet Replied
+ };
+ #If {%Pos(soundpack_lag,%1)=1} {
+  #If {%Defined(ShowPingPongLagReport)=1} {
+   #Var ShowPingPongLagReport {%Word(%1, ,2)};
+   #Var ShowPingPongLagReport {%Word(@ShowPingPongLagReport,.,1)};
+   #UnGagLine;
+   #Sub {You have @ShowPingPongLagReport ms of local client lag.};
+   #UnVar ShowPingPongLagReport
+  }
+ };
+ #If {%Pos(soundpack echo |,%1)=1} {
+  #If {%Defined(SPPromptAwaitingUserInput)=1} {
+   #If {@SPPromptAcceptBlankUserInput=1 or %Length(%1)>17} {
+    #Exec {#Alarm 0 {SPPrompt Disable;@SPPromptCallback {%Copy(%1,18)} {@SPPromptCallbackLastArg}}}
+   } {
+    MirianiSoundPlay Standard General\Misc\Cancel@Ext;
+    #Say {Aborted.} NoVoice;
+    SPPrompt Disable
+   }
+  } {
+   MirianiSoundPlay Standard General\Misc\Cancel@Ext
+  }
+ };
+ #If {%Pos(proxiani,%1)=1} {#Var LastProxianiMessage {%Copy(%1,10)}};
+ #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
+}
+#Trigger {[*][*][*] * [*][*][*]} {
+ #If {%IfWord(%1,Connected,%CRLF)=1} {
+  #GagLine 1 Voice;
+  SPConnect 1;
+  #Alarm 2 {SPKeepAlive Start Quiet};
+  #Abort
+ };
+ #If {%IfWord(%1,Disconnected,%CRLF)=1} {
+  mrplay stop;
+  #Var Connected 0;
+  #PC 0 Stop;
+  #If {@AutoSave=1 and %Defined(ConfManagerMenusLoaded)=1} {ConfSaveAll Quiet};
+  #Abort
+ };
+ #If {%IfWord(%1,Redirecting old connection to this port,%CRLF)=1} {
+  #GagLine 1 Voice;
+  #Say {Reconnected} NoDisplay;
+  #PC 0 Stop;
+  #UnAlarm -1;
+  SPConnect 1;
+  l;
+  #Abort
+ };
+ #If {%IfWord(%1,You have entered a starship simulator. To exit~, please type END.,%CRLF)=1} {msplay General\Device\MovieStart@Ext;#Abort};
+ #If {%Pos(The server will be shut down,%1)=1} {msplay General\Misc\Announcement@Ext;#Abort};
+ #If {%IfWord(%1,Auto reconnect in progress...,%CRLF)=1} {#Var AutoLogin 1;#Var AutoReconnect 1}
+}
 #Trigger {Username:} {
  #Class LookForLoginPrompt Disable;
  #Class LoggingIn Enable;
