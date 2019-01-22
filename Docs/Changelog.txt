@@ -1,3 +1,8 @@
+Version 5.13.8, released 2019-01-22:
+* Added support for incoming Proxiani command messages.
+* Spreload will now preserve the Proxiani connection state. Also moved spreload into the main script file, which means you can spreload even if the soundpack failed to load the soundpack loader.
+* Added px as an alias for the proxiani command.
+
 Version 5.13.7, released 2019-01-20:
 * The soundpack's keep alive feature will no longer alert you about broken connection if Proxiani has already notified you that auto reconnect is in progress.
 * Fixed the archaeology thinggymabob saying feet instead of foot when it's exactly one foot.
