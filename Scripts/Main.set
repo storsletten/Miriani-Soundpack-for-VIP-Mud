@@ -160,3 +160,34 @@
   MirianiSoundPlay Standard General\Misc\prompt@Ext
  }
 } {LoggingIn}
+
+#Alias SPReload {
+ #If {%IfWord(Quiet,%1,|)=0} {#Say {Reloading...}};
+ #Ignore Key On;
+ #Ignore Trigger On;
+ #If {@AutoSave=1 and %Defined(ConfManagerMenusLoaded)=1} {ConfSaveAll Quiet};
+ #PC 0 Stop;
+ #UnAlarm -1;
+ #Alarm 0 {
+  #If {%Defined(LastProxianiMessage)=1} {#Var LastProxianiMessage {#Var LastProxianiMessage {@LastProxianiMessage};}} {#Var LastProxianiMessage {}};
+  #Exec {
+   #Reload;@LastProxianiMessage
+   #AddItem SoundpackIsLoading Reloading NoDuplicates;
+   #Var Classification {@Classification};
+   #Var Connected {@Connected};
+   #Var Exits {@Exits};
+   #Var Hostile {@Hostile};
+   #Var InSpace {@InSpace};
+   #Var Light {@Light};
+   #Var Outdoors {@Outdoors};
+   #Var HistoryLogBuffer {@HistoryLogBuffer};
+   #Var HistoryLogInitialization {@HistoryLogInitialization};
+   #Var RoomName {@RoomName};
+   #Var RoomSound {@RoomSound};
+   #Var Powered {@Powered};
+   #Var ZoneName {@ZoneName};
+   #Var ZoneType {@ZoneType};
+   #Load {@ScriptPath\SoundpackLoader.set}
+  }
+ }
+}
