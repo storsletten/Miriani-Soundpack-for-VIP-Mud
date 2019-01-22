@@ -524,7 +524,7 @@ You are currently using version @Version of the @SoundpackName.};
  #While {%Left(@BigAddResult,1)=0} {#Var BigAddResult {%Copy(@BigAddResult,2,%Eval(%Length(@BigAddResult)-1))}};
  #ForAll {Int|Carry|Sep|Tmp1|Tmp2|Tmp3|TmpInt} {#UnVar {BigAdd%i}}
 }
-
+#Alias px {#Exec {proxiani%RTrim( %0)}}
 #Alias who {
  #Class StartReadingWhoList Disable;
  #Class ReadWhoList Disable;
