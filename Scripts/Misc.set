@@ -234,7 +234,7 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
  }
 } {Main}
 #Trigger {*.*} {
- #If {%Length(%2)=0 and %Pos(:,%0)=0 and %Pos(~,,%0)=0 and %IfWord(%Left(%1,1),>| |-|#|~(|[,|)=0} {
+ #If {%NumWords(%1, )>1 and %Length(%2)=0 and %Pos(:,%0)=0 and %Pos(~,,%0)=0 and %IfWord(%Left(%1,1),>| |.|-|#|~(|[,|)=0} {
   #Var MovementTestTmp2 {%Word(%1, ,%NumWords(%1, ))};
   #Var MovementTestTmp3 {};
   #If {%IfWord(@MovementTestTmp2,@DirList, )=0} {
