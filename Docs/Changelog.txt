@@ -1,3 +1,9 @@
+Version 5.13.10, released 2019-01-24:
+* Fixed error when a single period is received from Miriani.
+* The sms and smc commands are now disabled if you're using Proxiani, since Proxiani has its own sms and smc commands that are a million times better.
+* Added a framework for processing Proxiani OOB messages.
+* Added speech interrupt and sound indicators for Proxiani sms and smc.
+
 Version 5.13.9, released 2019-01-22:
 * The proxiani command, or px for short, will now give you a slightly more useful response if you're not connected through Proxiani than just, I don't understand that.
 
