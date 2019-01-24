@@ -93,7 +93,7 @@
    MirianiSoundPlay Standard General\Misc\Cancel@Ext
   }
  };
- #If {%Pos(proxiani,%1)=1} {#Class NotProxiani Disable;#Class Proxiani Enable;#Var LastProxianiMessage {%Copy(%1,10)}};
+ #If {%Pos(proxiani,%1)=1} {#Class NotProxiani Disable;#Class Proxiani Enable;#Var LastProxianiMessage {%Copy(%1,10)};#If {%Defined(SoundpackIsLoading)=0} {ProcessProxianiMsg}};
  #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
 }
 #Trigger {[*][*][*] * [*][*][*]} {

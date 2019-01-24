@@ -532,7 +532,12 @@ You are currently using version @Version of the @SoundpackName.};
   #Say {You need to be connected through Proxiani before you can use this command.}
  }
 }
-#Alias px {#Exec {proxiani%RTrim( %0)}}
+#Alias px {#Exec {proxiani%RTrim( %0)}} {Proxiani}
+#Alias pxreload {#Exec {proxiani reload%RTrim( %0)}} {Proxiani}
+#Alias ProcessProxianiMsg {
+ #If {%Pos(speech interrupt,@LastProxianiMessage)=1} {speech stop}
+} {Proxiani}
+
 #Alias who {
  #Class StartReadingWhoList Disable;
  #Class ReadWhoList Disable;
