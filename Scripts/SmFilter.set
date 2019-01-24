@@ -108,7 +108,7 @@ worm:Wormholes
 #Alias smc {
  #Var SmShowCoords 1;
  #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
-}
+} {NotProxiani}
 #Alias smf {
  #Var SmShowCoords 1;
  #If {%0<>""} {#Var SmSearchString {%Trim(%0)}};
@@ -124,7 +124,7 @@ worm:Wormholes
 }
 #Alias sms {
  #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
-}
+} {NotProxiani}
 #Alias sm {
  #Var SmFilter {%Proper(%1)};
  #If {@SmFilter = "Help" or @SmFilter = "H"} {

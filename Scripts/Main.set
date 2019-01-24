@@ -39,6 +39,7 @@
 #Var GagEverything 0
 #Var Idle 0
 #If {%Defined(Connected)=0} {#Var Connected 0}
+#If {%Defined(LastProxianiMessage)=1} {#Exec {#Class Proxiani Enable;#Class NotProxiani Disable}} {#Exec {#Class Proxiani Disable;#Class NotProxiani Enable}}
 
 #Trigger {Welcome to*} {
  #If {%IfWord(%1,...| Miriani!,|)=1} {#Class LookForLoginPrompt Enable}
@@ -92,7 +93,7 @@
    MirianiSoundPlay Standard General\Misc\Cancel@Ext
   }
  };
- #If {%Pos(proxiani,%1)=1} {#Var LastProxianiMessage {%Copy(%1,10)}};
+ #If {%Pos(proxiani,%1)=1} {#Class NotProxiani Disable;#Class Proxiani Enable;#Var LastProxianiMessage {%Copy(%1,10)}};
  #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
 }
 #Trigger {[*][*][*] * [*][*][*]} {
@@ -169,9 +170,13 @@
  #PC 0 Stop;
  #UnAlarm -1;
  #Alarm 0 {
-  #If {%Defined(LastProxianiMessage)=1} {#Var LastProxianiMessage {#Var LastProxianiMessage {@LastProxianiMessage};}} {#Var LastProxianiMessage {}};
+  #If {%Defined(LastProxianiMessage)=1} {
+   #Var Proxiani {#Var LastProxianiMessage {@LastProxianiMessage};#Class Proxiani Enable;#Class NotProxiani Disable}
+  } {
+   #Var Proxiani {#Class Proxiani Disable;#Class NotProxiani Enable}
+  };
   #Exec {
-   #Reload;@LastProxianiMessage
+   #Reload;@Proxiani;
    #AddItem SoundpackIsLoading Reloading NoDuplicates;
    #Var Classification {@Classification};
    #Var Connected {@Connected};

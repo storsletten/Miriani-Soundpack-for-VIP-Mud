@@ -228,6 +228,7 @@ Typing^Allows you to type with only one hand, using the number pad}
    #Say {VIP Mud version: %Version}
   }
  };
+ #If {%Defined(LastProxianiMessage)=1} {#Say {Proxiani enabled.}};
  #Say {Scripts path: @ScriptPath};
  #Say {Sounds path: @SoundsPath};
  #Say {Themes path: @ThemesPath}
