@@ -1,3 +1,6 @@
+Version 5.13.11, released 2019-01-25:
+* Changed the sms and smc commands to accommodate the new smships command in Proxiani. Also added smd for directions. And the smcount command has been changed to smt, for total, I guess.
+
 Version 5.13.10, released 2019-01-24:
 * Fixed error when a single period is received from Miriani.
 * The sms and smc commands are now disabled if you're using Proxiani, since Proxiani has its own sms and smc commands that are a million times better.
