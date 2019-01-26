@@ -535,8 +535,8 @@ You are currently using version @Version of the @SoundpackName.};
 #Alias px {#Exec {proxiani%RTrim( %0)}} {Proxiani}
 #Alias ProcessProxianiMsg {
  #If {%Pos(starmap,@LastProxianiMessage)=1} {
-  #If {%Pos(nearest 1,@LastProxianiMessage)>0} {msplay General\Misc\Beep10@Ext};
-  #If {%Pos(nearest 0,@LastProxianiMessage)>0} {msplay Ship\Combat\Intruder@Ext};
+  #If {%Pos(nearest 1 |,@LastProxianiMessage)>0} {msplay General\Misc\Beep10@Ext};
+  #If {%Pos(nearest 0 |,@LastProxianiMessage)>0} {msplay Ship\Combat\Intruder@Ext};
   speech stop
  }
 } {Proxiani}
