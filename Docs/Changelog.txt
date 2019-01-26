@@ -1,3 +1,6 @@
+Version 5.13.12, released 2019-01-26:
+* Fixed a bug with the way the soundpack interpreted certain smships output from Proxiani.
+
 Version 5.13.11, released 2019-01-25:
 * Changed the sms and smc commands to accommodate the new smships command in Proxiani. Also added smd for directions. And the smcount command has been changed to smt, for total, I guess.
 
