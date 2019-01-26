@@ -1,3 +1,6 @@
+Version 5.13.13, released 2019-01-26:
+* Added sma as an alias for smships assess, which is a brand new Proxiani feature that shows a rundown of how many of each type of praelor there are in the sector, sorted by tactical priority.
+
 Version 5.13.12, released 2019-01-26:
 * Fixed a bug with the way the soundpack interpreted certain smships output from Proxiani.
 
