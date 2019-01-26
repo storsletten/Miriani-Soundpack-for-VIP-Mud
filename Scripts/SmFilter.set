@@ -175,7 +175,7 @@ Here is the entire list of SmFilter aliases:
   MainTrigSwitch 0 SmFilterClass
  };
  ~sm
-}
+} {NotProxiani}
 
 ; Syntax: CalculateRelativeNumericDir TargetX TargetY TargetZ CurrentX CurrentY CurrentZ
 #Alias CalculateRelativeNumericDir {
