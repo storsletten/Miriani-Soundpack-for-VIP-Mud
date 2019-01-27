@@ -179,7 +179,10 @@
 } {Main}
 #Trigger {Coordinate scan for: *:} {#GagLine 1 Voice} {Main}
 #Trigger {The target coordinates lie *} {msplay Ship\Computer\Scan*4@Ext} {Main|Starship}
-#Trigger {General sector report for *: *:} {
+#Trigger {General sector report for *} {
+ #GagLine 1 Voice;
+ #Sub {%1};
  MainTrigSwitch 1;
- #Sub {%1: %2:}
+ msplay Ship\Computer\Scan*4@Ext;
+ speech stop
 } {Main|Scanning}
