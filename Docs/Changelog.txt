@@ -1,3 +1,6 @@
+Version 5.13.17, released 2019-01-28:
+* Addressed an issue that caused camera feeds from droid remotes to be considered internal camera feeds if the droid was located inside a starship. Thanks to Moiraine for reporting this! And also, remember that comm-o 22 must be kept off if you want camera feeds from droids to be categorized as external camera feed by the vd command.
+
 Version 5.13.16, released 2019-01-28:
 * Added sensor interference to the list of things that the soundpack will read from Proxiani starmap OOB messages.
 
