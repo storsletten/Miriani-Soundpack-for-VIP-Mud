@@ -10,7 +10,7 @@
   #Var CameraTmp3 {%2}
  };
  #Var CameraTmp4 {};
- #If {%Pos(~;,%1)>0} {
+ #If {%Pos(~;,%1)>0 or (%Pos(~",%1)=1 and %NumWords(%1,~")=3)} {
   #Var CameraTmp5 {2}
  } {
   #Var CameraTmp5 {1}
