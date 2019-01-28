@@ -537,6 +537,7 @@ You are currently using version @Version of the @SoundpackName.};
  #If {%Pos(starmap,@LastProxianiMessage)=1} {
   #If {%Pos(nearest 1 |,@LastProxianiMessage)>0} {msplay General\Misc\Beep10@Ext};
   #If {%Pos(nearest 0 |,@LastProxianiMessage)>0} {msplay Ship\Combat\Intruder@Ext};
+  #If {%Pos(| sensor interference,@LastProxianiMessage)>0} {msplay Ship\Computer\SensorInterference@Ext};
   speech stop
  }
 } {Proxiani}
