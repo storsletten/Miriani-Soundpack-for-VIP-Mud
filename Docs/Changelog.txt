@@ -1,3 +1,6 @@
+Version 5.13.18, released 2019-01-31:
+* Added a file called Proxiani.txt in the soundpack folder. It has information about Proxiani, including installation instructions.
+
 Version 5.13.17, released 2019-01-28:
 * Addressed an issue that caused camera feeds from droid remotes to be considered internal camera feeds if the droid was located inside a starship. Thanks to Moiraine for reporting this! And also, remember that comm-o 22 must be kept off if you want camera feeds from droids to be categorized as external camera feed by the vd command.
 
