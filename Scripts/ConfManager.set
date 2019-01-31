@@ -28,6 +28,9 @@ CourierCompany:NOCOURIERCOMPANY
 StripMessagePrefix:0
 HideMetafrequency:0
 Encoding:none
+PrivateChannelVolumeDiff:0
+ChatterChannelVolumeDiff:10
+OrgChannelVolumeDiff:15
 HistoryBufferSize:10
 PrintVoiceOnly:0
 HistoryTimeout:0.25

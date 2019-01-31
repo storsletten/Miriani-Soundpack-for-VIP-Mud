@@ -142,7 +142,7 @@ Omega Sector:115
    #Var TmpCommunication1 {}
   };
   #If {@TmpCommunication1="Chatter"} {
-   #Var TmpCommunication5 {Comms Framework|General\Comm\Chatter@Ext|10};
+   #Var TmpCommunication5 {Comms Framework|General\Comm\Chatter@Ext|@ChatterChannelVolumeDiff};
    #Var TmpCommunication2 {[Chatter]};
    #Var TmpCommunication4 {Chatter};
    #Var TmpCommunication1 {}
@@ -160,7 +160,7 @@ Omega Sector:115
    #Var TmpCommunication1 {}
   };
   #If {@TmpCommunication1=@OrgName} {
-   #Var TmpCommunication5 {Comms Framework|General\comm\org@Ext|15};
+   #Var TmpCommunication5 {Comms Framework|General\comm\org@Ext|@OrgChannelVolumeDiff};
    #Var TmpCommunication2 {[Org]};
    #Var TmpCommunication4 {Org0Channel};
    #Var TmpCommunication1 {}
@@ -190,7 +190,7 @@ Omega Sector:115
    #Var TmpCommunication1 {}
   };
   #If {@TmpCommunication1=*"Private | *"} {
-   #Var TmpCommunication5 {Comms Framework|General\Comm\Private@Ext};
+   #Var TmpCommunication5 {Comms Framework|General\Comm\Private@Ext|@PrivateChannelVolumeDiff};
    #Var TmpCommunication2 {%Copy(@TmpCommunication1,11)};
    #Var TmpCommunication3 {%Replace(%2,~~,)};
    #Var TmpCommunication3 {%Replace(@TmpCommunication3,~",)};
