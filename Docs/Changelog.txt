@@ -1,3 +1,6 @@
+Version 5.13.21, released 2019-01-31:
+* Added a period at the end of item 12 in the main conf menu, since there was supposed to be a period there. Thank you Patric Avery for letting me know!
+
 Version 5.13.20, released 2019-01-31:
 * Fixed unclip sound playing unexpectedly in a Charming Existence (AIE Branch) at the Acrylon Spaceport. Thanks Anny Rain for reporting this!
 
