@@ -1,3 +1,6 @@
+Version 5.13.20, released 2019-01-31:
+* Fixed unclip sound playing unexpectedly in a Charming Existence (AIE Branch) at the Acrylon Spaceport. Thanks Anny Rain for reporting this!
+
 Version 5.13.19, released 2019-01-31:
 * Added options for private, chatter, and org channel sound volume offsets in conf com. Thanks to Ryan Salvatore for suggesting this!
 
