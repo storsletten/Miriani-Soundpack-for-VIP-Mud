@@ -445,7 +445,7 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
  }
 } {Main}
 #Trigger {* unclip* from *.} {
- #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0 and %NumWords(%1, )<5} {
   msplay General\Misc\Belt1@Ext
  }
 } {Main}
