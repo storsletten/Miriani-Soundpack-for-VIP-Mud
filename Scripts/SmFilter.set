@@ -128,9 +128,13 @@ worm:Wormholes
  }
 }
 #Alias smf {
- #Var SmShowCoords 1;
- #If {%0<>""} {#Var SmSearchString {%Trim(%0)}};
- #Exec {#Alarm 0 {sm ships {@SmSearchString}}}
+ #If {%Defined(LastProxianiMessage)=1} {
+  #Exec {smships full%RTrim( %0)}
+ } {
+  #Var SmShowCoords 1;
+  #If {%0<>""} {#Var SmSearchString {%Trim(%0)}};
+  #Exec {#Alarm 0 {sm ships {@SmSearchString}}}
+ }
 }
 #Alias sms {
  #If {%Defined(LastProxianiMessage)=1} {
