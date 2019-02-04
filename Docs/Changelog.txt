@@ -1,3 +1,6 @@
+Version 5.13.24, released 2019-02-04:
+* Added more Proxiani OOB messages that the soundpack will understand, such as say, speech interrupt, and session info.
+
 Version 5.13.23, released 2019-02-02:
 * Added smf for smships full when connected to Proxiani.
 
