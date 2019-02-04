@@ -525,22 +525,14 @@ You are currently using version @Version of the @SoundpackName.};
  #While {%Left(@BigAddResult,1)=0} {#Var BigAddResult {%Copy(@BigAddResult,2,%Eval(%Length(@BigAddResult)-1))}};
  #ForAll {Int|Carry|Sep|Tmp1|Tmp2|Tmp3|TmpInt} {#UnVar {BigAdd%i}}
 }
-#Alias proxiani {
+#Alias px {
  #If {%Defined(LastProxianiMessage)=1} {
-  #Exec {>proxiani%RTrim( %0)}
+  #Exec {>px%RTrim( %0)}
  } {
   #Say {You need to be connected through Proxiani before you can use this command.}
  }
 }
-#Alias px {#Exec {proxiani%RTrim( %0)}} {Proxiani}
-#Alias ProcessProxianiMsg {
- #If {%Pos(starmap,@LastProxianiMessage)=1} {
-  #If {%Pos(nearest 1 |,@LastProxianiMessage)>0} {msplay General\Misc\Beep10@Ext};
-  #If {%Pos(nearest 0 |,@LastProxianiMessage)>0} {msplay Ship\Combat\Intruder@Ext};
-  #If {%Pos(| sensor interference,@LastProxianiMessage)>0} {msplay Ship\Computer\SensorInterference@Ext};
-  speech stop
- }
-} {Proxiani}
+#Alias proxiani {#Exec {px%RTrim( %0)}} {Proxiani}
 
 #Alias who {
  #Class StartReadingWhoList Disable;

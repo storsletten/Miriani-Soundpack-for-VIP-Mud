@@ -93,9 +93,29 @@
    MirianiSoundPlay Standard General\Misc\Cancel@Ext
   }
  };
- #If {%Pos(proxiani,%1)=1} {#Class NotProxiani Disable;#Class Proxiani Enable;#Var LastProxianiMessage {%Copy(%1,10)};#If {%Defined(SoundpackIsLoading)=0} {ProcessProxianiMsg}};
+ #If {%Pos(proxiani,%1)=1} {ProcessProxianiMsg {%Copy(%1,10)}};
  #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
 }
+
+#Alias ProcessProxianiMsg {
+ #Class NotProxiani Disable;
+ #Class Proxiani Enable;
+ #Var LastProxianiMessage {%1};
+ #Var LastProxianiMessageCategory {%Word(%1, ,1)};
+ #If {%IfWord(starmap,@LastProxianiMessageCategory, )=1} {
+  #If {%Pos(nearest 1 |,@LastProxianiMessage)>0} {msplay General\Misc\Beep10@Ext};
+  #If {%Pos(nearest 0 |,@LastProxianiMessage)>0} {msplay Ship\Combat\Intruder@Ext};
+  #If {%Pos(| sensor interference,@LastProxianiMessage)>0} {msplay Ship\Computer\SensorInterference@Ext};
+  speech stop
+ };
+ #If {%IfWord(say,@LastProxianiMessageCategory, )=1} {#Say {%Copy(%1,5)} NoDisplay};
+ #If {%IfWord(interrupt,@LastProxianiMessageCategory, )=1} {speech stop;#Say {%Copy(%1,11)} NoDisplay};
+ #If {%IfWord(session,@LastProxianiMessageCategory, )=1} {
+  #If {%IfWord(%Word(%1, ,2),version, )=1} {#Var ProxianiVersion {%Word(%1, ,3)}};
+  #If {%Pos(| token,%1)>0} {#Var ProxianiProposedToken {%Copy(%1,%Pos(| token,%1)+8,8)}}
+ }
+}
+
 #Trigger {[*][*][*] * [*][*][*]} {
  #If {%IfWord(%1,Connected,%CRLF)=1} {
   #GagLine 1 Voice;
@@ -160,7 +180,8 @@
   #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
  } {
   MirianiSoundPlay Standard General\Misc\prompt@Ext
- }
+ };
+ #If {%Defined(ProxianiProposedToken)=1} {#Var ProxianiToken {@ProxianiProposedToken}}
 } {LoggingIn}
 
 #Alias SPReload {
@@ -172,7 +193,7 @@
  #UnAlarm -1;
  #Alarm 0 {
   #If {%Defined(LastProxianiMessage)=1} {
-   #Var Proxiani {#Var LastProxianiMessage {@LastProxianiMessage};#Class Proxiani Enable;#Class NotProxiani Disable}
+   #Var Proxiani {#Var ProxianiVersion {@ProxianiVersion};#Var LastProxianiMessage {@LastProxianiMessage};#Var ProxianiToken {@ProxianiToken};#Var ProxianiProposedToken {@ProxianiProposedToken};#Class Proxiani Enable;#Class NotProxiani Disable}
   } {
    #Var Proxiani {#Class Proxiani Disable;#Class NotProxiani Enable}
   };
