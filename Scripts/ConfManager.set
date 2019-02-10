@@ -329,11 +329,8 @@ ShowDiggingDepth:2
     };
     #If {%Length(@ConfTmp3)>0} {#Var ConfOptionDefaultValue {@ConfTmp3}}
    }
-  } {
-   #Var ConfOptionDefaultValue {%Replace(@ConfOptionDefaultValue,$CRLF,~%CRLF)};
-   #Var ConfOptionDefaultValue {%Replace(@ConfOptionDefaultValue,$SPC, )}
   };
-  #Var ConfOptionValueOutput {@ConfOptionValueOutput%{CRLF}Default value: @ConfOptionDefaultValue.}
+  #Var ConfOptionValueOutput {@ConfOptionValueOutput%{CRLF}Default value: @ConfOptionDefaultValue}
  } {
   #UnVar ConfOptionDefaultValue
  };
@@ -346,7 +343,7 @@ ShowDiggingDepth:2
    };
    #If {%Length(@ConfTmp3)>0} {#Var ConfOptionCurrentValue {@ConfTmp3}}
   };
-  #Var ConfOptionValueOutput {@ConfOptionValueOutput%{CRLF}Current value: @ConfOptionCurrentValue.}
+  #Var ConfOptionValueOutput {@ConfOptionValueOutput%{CRLF}Current value: @ConfOptionCurrentValue}
  } {
   #UnVar ConfOptionCurrentValue
  };
