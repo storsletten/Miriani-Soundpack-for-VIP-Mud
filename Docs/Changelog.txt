@@ -1,3 +1,6 @@
+Version 5.13.25, released 2019-02-10:
+* Fixed issues with default conf values not showing correctly.
+
 Version 5.13.24, released 2019-02-04:
 * Added more Proxiani OOB messages that the soundpack will understand, such as say, speech interrupt, and session info.
 
