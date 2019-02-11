@@ -12,9 +12,17 @@
 #Var AtSaInformationVars {X:CurXCoord|Y:CurYCoord|Dist:DistanceToShip|Power:PowerTotal|PowerEst:Power|Cargo:CargoFilled|CargoRem:RemainingStorageCapacity|CargoTotal:TotalStorageCapacity}
 
 #Alias atsm {
- #Exec {>sm};
- MainTrigSwitch 0 AtSaStarmap
-} {}
+ #If {@ZoneType="vehicle"} {
+  #If {%Defined(LastProxianiMessage)=1} {
+   #Exec {>atsm%RTrim( %0)}
+  } {
+   #Exec {>sm};
+   MainTrigSwitch 0 AtSaStarmap
+  }
+ } {
+  #Say {You need to be in an atmospheric salvager before using the atsm command.}
+ }
+}
 
 #Trigger {Atmosphere of *} {#GagLine 4 All} {AtSaStarmap}
 #Trigger {Power Remaining: &{AtSaPowerTotal}%} {} {AtSaStarmap}
