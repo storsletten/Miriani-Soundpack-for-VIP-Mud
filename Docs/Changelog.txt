@@ -1,3 +1,6 @@
+Version 5.13.28, released 2019-02-12:
+* A few more atmo messages will now be gagged, such as the gust of fierce wind thing.
+
 Version 5.13.27, released 2019-02-12:
 * Added a bell sound for indicating Proxiani error. This works with Proxiani 1.0.20 and newer.
 
