@@ -1,3 +1,6 @@
+Version 5.13.29, released 2019-02-12:
+* On a second thought, it is useful to know whether or not the vehicle is ascending or descending when it hits a pocket of fierce wind. So now the soundpack will indicate whether or not the vehicle is descending or ascending.
+
 Version 5.13.28, released 2019-02-12:
 * A few more atmo messages will now be gagged, such as the gust of fierce wind thing.
 
