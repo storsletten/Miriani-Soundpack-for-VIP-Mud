@@ -1,3 +1,6 @@
+Version 5.13.27, released 2019-02-12:
+* Added a bell sound for indicating Proxiani error. This works with Proxiani 1.0.20 and newer.
+
 Version 5.13.26, released 2019-02-11:
 * The soundpack will now send atsm to Proxiani if you're connected to Proxiani. This requires Proxiani version 1.0.17 or newer.
 
