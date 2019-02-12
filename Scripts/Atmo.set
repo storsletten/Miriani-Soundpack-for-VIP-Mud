@@ -155,7 +155,7 @@
  msplay ship\misc\wind@Ext
 } {Main|Vehicle}
 #Trigger {The vehicle suddenly hits a pocket of fierce wind*} {
- #GagLine 1 All;
+ #If {%Pos(descent.,%1)>0} {#Sub {Descending.}} {#Sub {Ascending.}};
  msplay ship\misc\wind@Ext
 } {Main|Vehicle}
 #Trigger {The vehicle shudders violently as it makes contact with the topmost gas clouds. *} {
@@ -178,7 +178,7 @@
  #If {%IfWord(%Word(%1, ,%Numwords(%1, )),@EntryStyles,%CRLF)=1} {msplay Ship\Misc\Hatch@Ext}
 } {Main}
 #Trigger {A whirlpool forms nearby, sucking the craft downward into its swirling vortex*} {
- #GagLine 1 Voice;
+ #Sub {Descending.};
  msplay Atmo\whirlpool@Ext;
  msplay Atmo\wave@Ext
 } {Main|Vehicle}
