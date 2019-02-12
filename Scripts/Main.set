@@ -110,6 +110,7 @@
  };
  #If {%IfWord(say,@LastProxianiMessageCategory, )=1} {#Say {%Copy(%1,5)} NoDisplay};
  #If {%IfWord(interrupt,@LastProxianiMessageCategory, )=1} {speech stop;#Say {%Copy(%1,11)} NoDisplay};
+ #If {%IfWord(error,@LastProxianiMessageCategory, )=1} {#Bell};
  #If {%IfWord(session,@LastProxianiMessageCategory, )=1} {
   #If {%IfWord(%Word(%1, ,2),version, )=1} {#Var ProxianiVersion {%Word(%1, ,3)}};
   #If {%Pos(| token,%1)>0} {#Var ProxianiProposedToken {%Copy(%1,%Pos(| token,%1)+8,8)}}
