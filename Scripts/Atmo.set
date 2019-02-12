@@ -150,8 +150,14 @@
  msplay Atmo\salvagestop@Ext;
  #GagLine 1 All
 } {Main|Craft}
-#Trigger {A gust of atmospheric wind suddenly buffets the ship*} {msplay ship\misc\wind@Ext} {Main|Craft}
-#Trigger {The vehicle suddenly hits a pocket of fierce wind*} {msplay ship\misc\wind@Ext} {Main|Vehicle}
+#Trigger {A gust of atmospheric wind suddenly buffets the ship*} {
+ #GagLine 1 All;
+ msplay ship\misc\wind@Ext
+} {Main|Vehicle}
+#Trigger {The vehicle suddenly hits a pocket of fierce wind*} {
+ #GagLine 1 All;
+ msplay ship\misc\wind@Ext
+} {Main|Vehicle}
 #Trigger {The vehicle shudders violently as it makes contact with the topmost gas clouds. *} {
  msplay Atmo\Contact@Ext;
  #GagLine 1 All
@@ -169,9 +175,10 @@
  msplay Ship\Misc\Salvage*3@Ext
 } {Main|Vehicle}
 #Trigger {* in from the salvager bay.} {
- #If {%ifword(%Word(%1, ,%Numwords(%1, )),@EntryStyles,%CRLF)=1} {msplay Ship\Misc\Hatch@Ext}
+ #If {%IfWord(%Word(%1, ,%Numwords(%1, )),@EntryStyles,%CRLF)=1} {msplay Ship\Misc\Hatch@Ext}
 } {Main}
 #Trigger {A whirlpool forms nearby, sucking the craft downward into its swirling vortex*} {
+ #GagLine 1 Voice;
  msplay Atmo\whirlpool@Ext;
  msplay Atmo\wave@Ext
 } {Main|Vehicle}
@@ -187,5 +194,5 @@
 #Trigger {*The craft has slammed into a massive life form. A breach in the outer hull has been detected*} {msplay Atmo\fishcrash@Ext} {Main|Vehicle}
 #Trigger {You hear a sharp whine as the vehicle accelerates through the*} {
  msplay ship\misc\descent@Ext;
- #gagline 1 all
+ #GagLine 1 All
 } {Main|Vehicle}
