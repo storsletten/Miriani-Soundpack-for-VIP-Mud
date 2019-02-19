@@ -1,3 +1,6 @@
+Version 5.13.30, released 2019-02-19:
+* Fixed status display sound not working when using the status command in a standard atmospheric salvager.
+
 Version 5.13.29, released 2019-02-12:
 * On a second thought, it is useful to know whether or not the vehicle is ascending or descending when it hits a pocket of fierce wind. So now the soundpack will indicate whether or not the vehicle is descending or ascending.
 
