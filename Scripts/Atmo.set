@@ -141,9 +141,21 @@
  };
  MainTrigSwitch 1
 } {AtSaStarmap}
+
+#Trigger {Remaining Power: *.*[%]} {
+ #If {%IsNumber(%1)=1 and %IsNumber(%2)=1} {
+  #Say {Status:} NoVoice;
+  #Var ReadingVehicleStatus 1;
+  msplay Ship\Computer\Display@Ext
+ }
+} {Main|Vehicle}
 #Trigger {Vehicle Status: *} {
- msplay Ship\Computer\Display@Ext;
- #Sub {%1}
+ #If {%Defined(ReadingVehicleStatus)=1} {
+  #UnVar ReadingVehicleStatus
+ } {
+  #Sub {%Trim(%1)};
+  msplay Ship\Computer\Display@Ext
+ }
 } {Main|Vehicle}
 
 #Trigger {The pull of acceleration eases off as the ship ceases its *.} {
