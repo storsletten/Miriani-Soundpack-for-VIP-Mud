@@ -1,3 +1,6 @@
+Version 5.13.31, released 2019-02-27:
+* Disabled the soundpack's character encoding if Proxiani is in use, since the latest version of Proxiani (v1.0.43 or later) has a much better character encoding system. The soundpack will still decode stuff encoded by other non Proxiani Vip soundpacks, though.
+
 Version 5.13.30, released 2019-02-19:
 * Fixed status display sound not working when using the status command in a standard atmospheric salvager.
 
