@@ -77,17 +77,20 @@ Omega Sector:115
   #UnVar CharEncoderTmp2;
   #UnVar CharEncoderTmp3
  } {
-  #Var CharEncoderTmp1 {CharEncoder@Encoding};
-  #If {%Defined(@CharEncoderTmp1)=1} {
-   #ForAll {@{CharEncoder@Encoding}} {
-    #Var CharEncoderTmp1 {~%~{%Word(%i,:,2)};
-    #Var CharEncoderTmp1 {@{CharEncoderTmp1}~}};
-    #Var {%1} {%Replace(@{%1},%Word(%i,:,1),@CharEncoderTmp1)}
-   }
+  #If {%Defined(LastProxianiMessage)=0} {
+   #Var CharEncoderTmp1 {CharEncoder@Encoding};
+   #If {%Defined(@CharEncoderTmp1)=1} {
+    #ForAll {@{CharEncoder@Encoding}} {
+     #Var CharEncoderTmp1 {~%~{%Word(%i,:,2)};
+     #Var CharEncoderTmp1 {@{CharEncoderTmp1}~}};
+     #Var {%1} {%Replace(@{%1},%Word(%i,:,1),@CharEncoderTmp1)}
+    }
+   };
+   #UnVar CharEncoderTmp1
   }
- };
- #UnVar CharEncoderTmp1
-} {}
+ }
+}
+
 #Alias pa {
  CharEncoder TrTmp {%Trim(%0)} encode;
  #Exec {>pa @TrTmp}
