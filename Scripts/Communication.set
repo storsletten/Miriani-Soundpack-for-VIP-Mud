@@ -51,63 +51,6 @@ Vetus Fragminis:40
 Omega Sector:115
 }
 
-; Lists of special characters for different languages:
-#Var CharEncoderNO {æ:230|Æ:198|ø:248|Ø:216|å:229|Å:197}
-#Var CharEncoderDE {ä:228|Ä:196|ö:246|Ö:214|ü:252|Ü:220|ß:223}
-#Var CharEncoderFR {Œ:140|œ:156|À:192|Á:193|Â:194|Æ:198|Ç:199|È:200|É:201|Ê:202|Ë:203|Î:206|Ï:207|Ó:211|Ô:212|Ù:217|Û:219|à:224|á:225|â:226|æ:230|ç:231|è:232|é:233|ê:234|ë:235|î:238|ï:239|ó:243|ô:244|ù:249|û:251}
-#Var CharEncoderES {¡:161|¿:191|Á:193|É:201|Í:205|Ï:207|Ñ:209|Ó:211|Ú:218|Ü:220|Ý:221|á:225|é:233|í:237|ï:239|ñ:241|ó:243|ú:250|ü:252|ý:253}
-#Var CharEncoderTR {ý:253|ç:231|þ:254|ö:246|ü:252|ð:240|Ý:221|Ç:199|Þ:222|Ö:214|Ü:220|Ð:208}
-; CharEncoder syntax: {Variable name} {Message} {encode/decode}
-#Alias CharEncoder {
- #Var {%1} {%2};
- #If {%3="decode"} {
-  #Var CharEncoderTmp2 {@{%1}};
-  #Var CharEncoderTmp1 {%Pos(~%~{,@CharEncoderTmp2)};
-  #While {@CharEncoderTmp1>0} {
-   #Var CharEncoderTmp2 {%Copy(@CharEncoderTmp2,@CharEncoderTmp1+2)};
-   #If {%Pos(~},@CharEncoderTmp2)>0} {#Var CharEncoderTmp1 {%Word(@CharEncoderTmp2,~},1)}};
-   #If {%IsNumber(@CharEncoderTmp1)=1} {
-    #Var CharEncoderTmp3 {%Chr(@CharEncoderTmp1)};
-    #Var CharEncoderTmp1 {~%~{@{CharEncoderTmp1}~}};
-    #Var {%1} {%Replace(@{%1},@CharEncoderTmp1,@CharEncoderTmp3)};
-    #Var CharEncoderTmp2 {%Replace(@CharEncoderTmp2,@CharEncoderTmp1,@CharEncoderTmp3)}
-   };
-   #Var CharEncoderTmp1 {%Pos(~%~{,@CharEncoderTmp2)}
-  };
-  #UnVar CharEncoderTmp2;
-  #UnVar CharEncoderTmp3
- } {
-  #If {%Defined(LastProxianiMessage)=0} {
-   #Var CharEncoderTmp1 {CharEncoder@Encoding};
-   #If {%Defined(@CharEncoderTmp1)=1} {
-    #ForAll {@{CharEncoder@Encoding}} {
-     #Var CharEncoderTmp1 {~%~{%Word(%i,:,2)};
-     #Var CharEncoderTmp1 {@{CharEncoderTmp1}~}};
-     #Var {%1} {%Replace(@{%1},%Word(%i,:,1),@CharEncoderTmp1)}
-    }
-   };
-   #UnVar CharEncoderTmp1
-  }
- }
-}
-
-#Alias pa {
- CharEncoder TrTmp {%Trim(%0)} encode;
- #Exec {>pa @TrTmp}
-} {Comm}
-#Alias say {
- CharEncoder TrTmp {%Trim(%0)} encode;
- #Exec {>' @TrTmp}
-} {Comm}
-#Alias tr {
- CharEncoder TrTmp {%Trim(%0)} encode;
- #Exec {>tr @TrTmp}
-} {Comm}
-#Alias reply {
- CharEncoder TrTmp {%Trim(%0)} encode;
- #Exec {>reply @TrTmp}
-} {Comm}
-
 #Trigger {[[]*] *} {
  #Var TmpCommunication1 {%Replace(%1,~~,)};
  #Var TmpCommunication1 {%Replace(@TmpCommunication1,~",)};
@@ -285,7 +228,6 @@ Omega Sector:115
      }
     }
    };
-   CharEncoder {TmpCommunication1} {@TmpCommunication1} decode;
    #If {%NumWords(@TmpCommunication5,|)>2} {#Var TmpCommunication6 {%Word(@TmpCommunication5,|,3)}} {#Var TmpCommunication6 0};
    #If {%IfWord(@TmpCommunication4,Beta0Channel|Design0Channel|Newbie|Tradesman0Market,|)=0} {
     #If {@TmpCommunication4="Metafrequency0Channels"} {#Var TmpCommunication6 {@TmpCommunication6:5}} {#Var TmpCommunication6 {@TmpCommunication6:6}};
@@ -321,7 +263,7 @@ Omega Sector:115
     #Var TmpCommunication1 {You say: }
    };
    #If {%Length(%2)>1} {
-    CharEncoder TmpCommunication3 {%Copy(%2,1,%Length(%2)-3)} decode
+    #Var TmpCommunication3 {%Copy(%2,1,%Length(%2)-3)}
    } {
     #Var TmpCommunication3 {}
    };
@@ -346,7 +288,7 @@ Omega Sector:115
     #Var TmpCommunication1 {@TmpCommunication1 says}
    };
    #If {%Length(%2)>1} {
-    CharEncoder TmpCommunication3 {%Copy(%2,1,%Length(%2)-3)} decode
+    #Var TmpCommunication3 {%Copy(%2,1,%Length(%2)-3)}
    } {
     #Var TmpCommunication3 {}
    };
@@ -365,7 +307,7 @@ Omega Sector:115
     } {
      #Var PaString 0
     };
-    CharEncoder PaString {%Copy(%1,1,%Length(%1)-@PaString): %Copy(%2,1,%Length(%2)-46)} decode;
+    #Var PaString {%Copy(%1,1,%Length(%1)-@PaString): %Copy(%2,1,%Length(%2)-46)};
     MirianiSoundPlay {Comms Framework} Ship\Comm\pa*9@Ext;
     #Sub {@PaPrefix@PaString};
     PushMessage PA {@PaPrefix@PaString};
@@ -377,7 +319,7 @@ Omega Sector:115
     } {
      #Var TmpCommunication1 {%1: }
     };
-    CharEncoder TmpCommunication3 {%Copy(%2,1,%Length(%2)-84)} decode;
+    #Var TmpCommunication3 {%Copy(%2,1,%Length(%2)-84)};
     MirianiSoundPlay {Comms Framework} Ship\Comm\PA*9@Ext;
     #Sub {@ExtPrefix@TmpCommunication1@TmpCommunication3};
     PushMessage PA {@ExtPrefix@TmpCommunication1@TmpCommunication3};
@@ -395,7 +337,7 @@ Omega Sector:115
      #Var TmpCommunication1 {You %Copy(%1,@TmpCommunication1+5): }
     };
     MirianiSoundPlay {Comms Framework} General\Rooms\Beep9@RExt;
-    CharEncoder TmpCommunication3 {[Dead PA] @TmpCommunication1%Left(%2,%Length(%2)-97)} decode;
+    #Var TmpCommunication3 {[Dead PA] @TmpCommunication1%Left(%2,%Length(%2)-97)};
     #Sub {@TmpCommunication3};
     PushMessage PA {@TmpCommunication3};
     #Var TmpCommunication1 {}
@@ -404,7 +346,7 @@ Omega Sector:115
    #If {%Length(%2)<=1} {
     #Var TmpCommunication3 {}
    } {
-    CharEncoder TmpCommunication3 {%Copy(%2,1,%Length(%2)-1)} decode
+    #Var TmpCommunication3 {%Copy(%2,1,%Length(%2)-1)}
    };
    #If {@TmpCommunication1=*"* flight control scanner announce*"} {
     #If {@ShowFCSectorNamesAsNumbers=1 and %NumWords(@TmpCommunication3,~,)>1} {
@@ -547,7 +489,7 @@ Omega Sector:115
      #Var TmpCommunication1 {You %Copy(%1,@TmpCommunication1+5): }
     };
     MirianiSoundPlay {Comms Framework} Ship\Comm\pa*9@Ext;
-    CharEncoder TmpCommunication3 {@PaPrefix@TmpCommunication1@TmpCommunication3} decode;
+    #Var TmpCommunication3 {@PaPrefix@TmpCommunication1@TmpCommunication3};
     #Sub {@TmpCommunication3};
     PushMessage PA {@TmpCommunication3};
     #Var TmpCommunication1 {}
@@ -728,11 +670,5 @@ Omega Sector:115
  msplay General\Comm\AdminPrivateMessage@ext;
  PushMessage Admin0Messages {%0}
 } {Main}
-#Alias ro {#Exec {rooc%RTrim( %0)}} {}
-#Alias rooc {
- CharEncoder ROOCTmp1 {%0} encode;
- #Exec {>rooc%RTrim( @ROOCTmp1)};
- #UnVar ROOCTmp1
-} {}
 #Trigger {* beeps quietly for your attention and flashes: "Blast door compromise. Return to ship immediately."} {msplay General\Comm\BlastDoorIntrusionAlert@Ext} {Main}
 #Trigger {A pleasant * voice announces, "*"} {msplay General\Socials\DroidSpeak@Ext} {Main}

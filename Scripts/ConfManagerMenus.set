@@ -250,16 +250,14 @@ ModifyAcvOutput|B
 [2] Courier company  [~@CourierCompany]. (Use the score command).
 [3] Strip the words "say" and "transmit" from spoken and transmitted messages  [~%If(~@StripMessagePrefix=1,On,Off)].
 [4] Hide the frequency number in metafrequency communications  [~%If(~@HideMetafrequency=1,On,Off)].
-[5] Character encoding  [~@Encoding].
-[6] Private link volume offset  [~@{PrivateChannelVolumeDiff}~~~%].
-[7] Chatter channel volume offset  [~@{ChatterChannelVolumeDiff}~~~%].
-[8] Org channel volume offset  [~@{OrgChannelVolumeDiff}~~~%].
+[5] Private link volume offset  [~@{PrivateChannelVolumeDiff}~~~%].
+[6] Chatter channel volume offset  [~@{ChatterChannelVolumeDiff}~~~%].
+[7] Org channel volume offset  [~@{OrgChannelVolumeDiff}~~~%].
 %Chr(250)
 OrgName|S
 CourierCompany|S
 StripMessagePrefix|B
 HideMetafrequency|B
-Encoding|C:None,Off^FR,French^DE,German^NO,Norwegian^ES,Spanish^TR,Turkish
 PrivateChannelVolumeDiff|N:-100^100
 ChatterChannelVolumeDiff|N:-100^100
 OrgChannelVolumeDiff|N:-100^100
