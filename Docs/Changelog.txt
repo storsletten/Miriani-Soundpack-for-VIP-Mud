@@ -1,3 +1,6 @@
+Version 5.13.32, released 2019-02-27:
+* On a second thought, I removed character encoding from the soundpack entirely. Proxiani is so much better at handling that kind of stuff, so if you still would like to transmit non-english letters in Miriani, then you'll need to use Proxiani from now on. Benefits of removing this from the soundpack include, faster processing of comm messages, and you can now send super long rooc and say messages without triggering errors.
+
 Version 5.13.31, released 2019-02-27:
 * Disabled the soundpack's character encoding if Proxiani is in use, since the latest version of Proxiani (v1.0.43 or later) has a much better character encoding system. The soundpack will still decode stuff encoded by other non Proxiani Vip soundpacks, though.
 
