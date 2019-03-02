@@ -247,7 +247,7 @@ Omega Sector:115
  #Var TmpCommunication1 {%Replace(@TmpCommunication1,~",)};
  #If {@TmpCommunication1=*"[[(]*"} {
   #If {@TmpCommunication1=*"[[] You shatter immersion *and say"} {
-   #If {%Pos(You shatter immersion ship-wide and say,@TmpCommunication1)>0} {
+   #If {%Pos(You shatter immersion ship-wide and say,@TmpCommunication1)>0 or %Pos(You shatter immersion structure-wide and say,@TmpCommunication1)>0} {
     #Var TmpCommunication2 {sooc}
    } {
     #Var TmpCommunication2 {rooc}
@@ -276,8 +276,13 @@ Omega Sector:115
     #Var TmpCommunication1 {%Copy(@TmpCommunication1,3,%Length(@TmpCommunication1)-40)};
     #Var TmpCommunication2 {sooc}
    } {
-    #Var TmpCommunication1 {%Copy(@TmpCommunication1,3,%Length(@TmpCommunication1)-30)};
-    #Var TmpCommunication2 {rooc}
+    #If {%Pos(shatters immersion structure-wide and says,@TmpCommunication1)>0} {
+     #Var TmpCommunication1 {%Copy(@TmpCommunication1,3,%Length(@TmpCommunication1)-45)};
+     #Var TmpCommunication2 {sooc}
+    } {
+     #Var TmpCommunication1 {%Copy(@TmpCommunication1,3,%Length(@TmpCommunication1)-30)};
+     #Var TmpCommunication2 {rooc}
+    }
    };
    #If {@SoundsVersion>3} {
     msplay General\Comm\@TmpCommunication2@ext
@@ -651,7 +656,7 @@ Omega Sector:115
 } {Main}
 #Trigger {[[] * shatters immersion*and * ]} {
  #If {%Word(%3,~",1) <> "says, " or %NumWords(%3,~")<3} {
-  #If {%2=" ship-wide "} {
+  #If {%2=" ship-wide " or %2=" structure-wide "} {
    #If {@SoundsVersion>3} {
     msplay General\Comm\Sooc@ext
    } {
