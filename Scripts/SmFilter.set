@@ -105,58 +105,24 @@ worm:Wormholes
 
 #Var SmShowCoords 0
 #Var SmCount 0
-#Alias sma {
- #If {%Defined(LastProxianiMessage)=1} {
-  #Exec {smships assess%RTrim( %0)}
- } {
-  #Say {This feature is only available when using Proxiani.}
- }
-}
+#Alias sma {#Say {This feature is only available when using Proxiani.}} {NotPX}
 #Alias smc {
- #If {%Defined(LastProxianiMessage)=1} {
-  #Exec {smships coords%RTrim( %0)}
- } {
-  #Var SmShowCoords 1;
-  #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
- }
-}
-#Alias smd {
- #If {%Defined(LastProxianiMessage)=1} {
-  #Exec {smships dir%RTrim( %0)}
- } {
-  #Say {This feature is only available when using Proxiani.}
- }
-}
+ #Var SmShowCoords 1;
+ #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
+} {NotPX}
+#Alias smd {#Say {This feature is only available when using Proxiani.}} {NotPX}
 #Alias smf {
- #If {%Defined(LastProxianiMessage)=1} {
-  #Exec {smships full%RTrim( %0)}
- } {
-  #Var SmShowCoords 1;
-  #If {%0<>""} {#Var SmSearchString {%Trim(%0)}};
-  #Exec {#Alarm 0 {sm ships {@SmSearchString}}}
- }
-}
-#Alias sms {
- #If {%Defined(LastProxianiMessage)=1} {
-  #Exec {smships name%RTrim( %0)}
- } {
-  #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
- }
-}
+ #Var SmShowCoords 1;
+ #If {%0<>""} {#Var SmSearchString {%Trim(%0)}};
+ #Exec {#Alarm 0 {sm ships {@SmSearchString}}}
+} {NotPX}
+#Alias sms {#Exec {#Alarm 0 {sm ships {%Trim(%0)}}}} {NotPX}
 #Alias smt {
- #If {%Defined(LastProxianiMessage)=1} {
-  #Exec {smships count%RTrim( %0)}
- } {
-  #Var SmCount 1;
-  #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
- }
-}
-#Alias SMCo {
- #Say {Please use the smt command instead.}
-}
-#Alias SMCount {
- #Say {Please use the smt command instead.}
-}
+ #Var SmCount 1;
+ #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
+} {NotPX}
+#Alias SMCo {#Say {Please use the smt command instead.}}
+#Alias SMCount {#Say {Please use the smt command instead.}}
 #Alias sm {
  #Var SmFilter {%Proper(%1)};
  #If {@SmFilter = "Help" or @SmFilter = "H"} {
@@ -179,7 +145,7 @@ Here is the entire list of SmFilter aliases:
   MainTrigSwitch 0 SmFilterClass
  };
  ~sm
-} {NotProxiani}
+} {NotPX}
 
 ; Syntax: CalculateRelativeNumericDir TargetX TargetY TargetZ CurrentX CurrentY CurrentZ
 #Alias CalculateRelativeNumericDir {

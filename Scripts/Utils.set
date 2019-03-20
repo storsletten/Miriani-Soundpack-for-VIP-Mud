@@ -228,7 +228,7 @@ Typing^Allows you to type with only one hand, using the number pad}
    #Say {VIP Mud version: %Version}
   }
  };
- #If {%Defined(LastProxianiMessage)=1} {#Say {Proxiani enabled.}};
+ #If {%Defined(LastPXMessage)=1} {#Say {PX enabled.}};
  #Say {Scripts path: @ScriptPath};
  #Say {Sounds path: @SoundsPath};
  #Say {Themes path: @ThemesPath}
@@ -526,13 +526,13 @@ You are currently using version @Version of the @SoundpackName.};
  #ForAll {Int|Carry|Sep|Tmp1|Tmp2|Tmp3|TmpInt} {#UnVar {BigAdd%i}}
 }
 #Alias px {
- #If {%Defined(LastProxianiMessage)=1} {
+ #If {%Defined(LastPXMessage)=1} {
   #Exec {>px%RTrim( %0)}
  } {
   #Say {You need to be connected through Proxiani before you can use this command.}
  }
 }
-#Alias proxiani {#Exec {px%RTrim( %0)}} {Proxiani}
+#Alias proxiani {#Exec {px%RTrim( %0)}} {PX}
 
 #Alias who {
  #Class StartReadingWhoList Disable;

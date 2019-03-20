@@ -13,7 +13,7 @@
 
 #Alias atsm {
  #If {@ZoneType="vehicle"} {
-  #If {%Defined(LastProxianiMessage)=1} {
+  #If {%Defined(LastPXMessage)=1} {
    #Exec {>atsm%RTrim( %0)}
   } {
    #Exec {>sm};
