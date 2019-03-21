@@ -140,7 +140,7 @@
  #If {%IfWord(%1,You have entered a starship simulator. To exit~, please type END.,%CRLF)=1} {msplay General\Device\MovieStart@Ext;#Abort};
  #If {%Pos(The server will be shut down,%1)=1} {msplay General\Misc\Announcement@Ext;#Abort};
  #If {%IfWord(%1,Auto reconnect in progress...,%CRLF)=1} {#Var AutoLogin 1;#Var AutoReconnect 1};
- #If {%Pos(update for PX,%1)>0} {msplay {General\Misc\MOTD@Ext}}
+ #If {%Pos(update for Proxiani,%1)>0} {msplay {General\Misc\MOTD@Ext}}
 }
 #Trigger {Username:} {
  #Class LookForLoginPrompt Disable;
