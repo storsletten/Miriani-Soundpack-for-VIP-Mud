@@ -69,17 +69,14 @@
  }
 } {Main}
 #TRIGGER {* presses a small button on a compact black video camera, deactivating it.} {msplay General\Device\CameraOff@Ext} {Main}
-#Trigger {* indicates that the scan *.} {
+#Trigger {* indicates that the scan *} {
  #If {%NumWords(%0,~")=1} {
-  #Var DevicesTmp1 {%Word(%2, ,%NumWords(%2, ))};
-  #If {@DevicesTmp1="successful"} {
-   msplay General\Device\SurveyComplete@Ext;
-   #GagLine 1 All
+  #If {%IfWord(%2,failed.,|)=1} {
+   msplay General\Device\ScanFailed@Ext;
+   #GagLine 1 Voice
   } {
-   #If {@DevicesTmp1="failed"} {
-    msplay General\Device\ScanFailed@Ext;
-    #GagLine 1 Voice
-   }
+   #If {%Pos(successful,%2)>0} {msplay General\Device\SurveyComplete@Ext};
+   #If {%Pos(interest,%2)>0} {#Sub {Dig site!};msplay General\Archaeology\practice@Ext} {#GagLine 1 All}
   }
  }
 } {Main}
