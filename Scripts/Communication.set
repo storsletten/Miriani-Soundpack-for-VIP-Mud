@@ -123,6 +123,12 @@ Omega Sector:115
    #Var TmpCommunication4 Beta0Channel;
    #Var TmpCommunication1 {}
   };
+  #If {@TmpCommunication1="High Guard"} {
+   #Var TmpCommunication5 {Beta Channel|General\Comm\h12@Ext};
+   #Var TmpCommunication2 {[HG]};
+   #Var TmpCommunication4 HG0Channel;
+   #Var TmpCommunication1 {}
+  };
   #If {@TmpCommunication1="Design"} {
    #Var TmpCommunication5 {Design Channel|General\Comm\Beta@Ext};
    #Var TmpCommunication2 {[Design]};
