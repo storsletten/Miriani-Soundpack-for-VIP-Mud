@@ -5,6 +5,7 @@
 #Config SlowWalk True
 
 #Var StabilizedSoundsPath {%Replace(@SoundsPath,~@,~~~@)}
+#If {%Defined(AutoSelectCharacter)=0} {#Var AutoSelectCharacter 1}
 
 #GUnAlias login
 #GUnAlias sc
@@ -174,7 +175,7 @@
   };
   #GagLine 1 Voice;
   #Config DisplayCommandsInOutput False;
-  #Exec {1};
+  #Exec {@AutoSelectCharacter};
   #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
  } {
   MirianiSoundPlay Standard General\Misc\prompt@Ext
