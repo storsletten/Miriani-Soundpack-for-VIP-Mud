@@ -69,7 +69,11 @@ small handheld radio receiver gives a series of beeps and automatically unplugs 
 loud clicking is followed by the clatter of an empty cartridge to the floor.^
  MirianiSoundPlay Standard General\Combat\EmptyGun2~@Ext;
  #If {~%IfWord(~@LastShooter,You,|)=1} {
-  MirianiSoundPlay Standard {General\Misc\Beep2~@Ext};
+  #If {~@PlayEmptyAmmoAlert=1} {
+   MirianiSoundPlay Standard {General\Device\CameraOff~@Ext}
+  } {
+   MirianiSoundPlay Standard {General\Misc\Beep2~@Ext}
+  };
   #Var DisplayString {You run out of ammo.}
  } {
   #Var DisplayString {~@LastShooter runs out of ammo.}

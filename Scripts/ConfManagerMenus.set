@@ -156,6 +156,8 @@ BypassSocialToggles|B
 [8] Randomly pan weapon sounds  [~%If(~@RandomiseCombatPan=1,On,Off)].
 [9] Randomize the panning of certain events (including cargo transfer)  [~%If(~@RandomisePlay=1,On,Off)].
 [10] Play the spam sound when Miriani indicates that you're spamming commands  [~%If(~@SpamAlert=1,On,Off)].
+[11] Alternative combat sounds  [~%If(~@UseAlternativeCombatSounds=1,On,Off)].
+[12] Play empty ammo alert sound  [~%If(~@PlayEmptyAmmoAlert=1,On,Off)].
 %Chr(250)
 Silent|E::#Alarm 0 {MasterMute {~@ConfOptionValue}}
 Vol|N:0^100:SetMasterVolume
@@ -167,6 +169,8 @@ RandomiseCombatVolume|B
 RandomiseCombatPan|B
 RandomisePlay|B
 SpamAlert|B::#Class SpamAlerts {~%If(~@SpamAlert=1,Enable,Disable)}
+UseAlternativeCombatSounds|B
+PlayEmptyAmmoAlert|B
 }
 
 #Var ConfMenuRoom {Room options:
@@ -365,12 +369,10 @@ HistoryLoggingInterval|N:5^100
 [1] Mission mode  [~%If(~@MissionMode=1,On,Off)].
 [2] Use hit counter  [~%If(~@UseHitCounter=1,On,Off)].
 [3] Hit counter formatter string  [~@HitCounterFormatString].
-[4] Alternative combat sounds  [~%If(~@UseAlternativeCombatSounds=1,On,Off)].
 %Chr(250)
 MissionMode|B
 UseHitCounter|B
 HitCounterFormatString|S:*
-UseAlternativeCombatSounds|B
 }
 
 #Var ConfMenuShip {Ship options

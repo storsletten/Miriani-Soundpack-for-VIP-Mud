@@ -44,6 +44,7 @@ MissionMode:1
 UseHitCounter:0
 HitCounterFormatString:Total hits: $TOTALHITS ($DIRECTHITS direct, $PARTIALHITS partial). $DESTROYEDSHIPS ships, and $DESTROYEDDEBRIS debris were destroyed
 UseAlternativeCombatSounds:0
+PlayEmptyAmmoAlert:0
 RelDriveFreq:44100
 RelDriveVolume:0
 RelDriveStyle:1
