@@ -1,3 +1,6 @@
+Version 5.13.38, released 2019-04-14:
+* Added an option in conf sound for a more prominent empty ammo alert sound. Thanks Yara Yobi for requesting this!
+
 Version 5.13.37, released 2019-04-14:
 * Added sound and history buffer for the High Guard channel.
 
