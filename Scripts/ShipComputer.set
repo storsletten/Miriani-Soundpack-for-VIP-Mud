@@ -377,7 +377,7 @@ The game has ended! The winner is *^
 #Trigger {* announces, *} {
  #If {%Pos(:,%1)=0 and %Pos(~, ~",%1)=0 and %IfWord(%Left(%1,1),>| |#|-|[|~(,|)=0} {
   #If {%Pos(A computerized voice on ,%1)=1} {MirianiSoundPlay Standard Ship\Computer\LFD@Ext;#Abort};
-  #If {%Pos( flickers ,%1)>0} {#Var ComputerName {%Copy(%1,1,%Pos( flickers ,%1)-1)}} {#Var ComputerName {Computer}};
+  #If {%Pos( flickers ,%1)>0} {#Var ComputerName {%Copy(%1,1,%Pos( flickers ,%1)-1)}} {#Var ComputerName {%1}};
   #Var ComputerSaid {%Copy(%2,1)};
   #If {%Pos(Control room reports: ,@ComputerSaid)=1} {#Var ComputerPiped 1;#Var ComputerSaid {%Copy(@ComputerSaid,23)}} {#Var ComputerPiped 0};
   #Var ComputerTmp1 {%CRLF@ComputerSaid^};
