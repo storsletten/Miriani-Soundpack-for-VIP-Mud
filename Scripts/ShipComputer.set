@@ -406,7 +406,7 @@ The game has ended! The winner is *^
     #UnVar PlayComputerSound
    }
   } {MirianiSoundPlay Standard {Ship\Computer\%If(@ComputerPiped=1,LFD@Ext,Announce*4@Ext)}};
-  #If {@GagAvatars=0 and @ComputerName<>"Computer"} {#Var ComputerSaid {@ComputerName: @ComputerSaid}};
+  #If {@GagAvatars=0 and %IfWord(@ComputerName,A holographic representation of the ship's computer|Computer|The computer|The ship's computer,|)=0} {#Var ComputerSaid {@ComputerName: @ComputerSaid}};
   PushMessage Computer {@ComputerSaid};
   #If {@SpeakComputerMessagesThroughSAPI=1 AND @ComputerSpoken<>1} {
    SSpeak {@ComputerSaid};
