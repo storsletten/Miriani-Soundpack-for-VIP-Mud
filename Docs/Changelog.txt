@@ -1,3 +1,6 @@
+Version 5.13.43, released 2019-09-15:
+* Added support for the new game-wide OOC channel.
+
 Version 5.13.42, released 2019-09-15:
 * The soundpack now uses the CONNECT command for logging in. This reduces the spam when auto logging in and auto selecting character, which can be configured in conf gen.
 * Fixed the conf command so it doesn't send a blank line to the server if you use Proxiani, which means that conf won't abort Miriani menus etc.
