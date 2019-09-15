@@ -1,3 +1,7 @@
+Version 5.13.42, released 2019-09-15:
+* The soundpack now uses the CONNECT command for logging in. This reduces the spam when auto logging in and auto selecting character, which can be configured in conf gen.
+* Fixed the conf command so it doesn't send a blank line to the server if you use Proxiani, which means that conf won't abort Miriani menus etc.
+
 Version 5.13.41, released 2019-07-03:
 * Now the soundpack will gag the ship computer avatar if the avatar is just the standard ship computer, even when conf gag 10 is disabled.
 
