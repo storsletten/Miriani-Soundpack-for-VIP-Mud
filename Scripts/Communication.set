@@ -117,6 +117,12 @@ Omega Sector:115
    #Var TmpCommunication4 {General0Channel};
    #Var TmpCommunication1 {}
   };
+  #If {@TmpCommunication1="OOC"} {
+   #Var TmpCommunication5 {OOC Channel|General\Comm\Beta@Ext};
+   #Var TmpCommunication2 {[OOC]};
+   #Var TmpCommunication4 OOC0Channel;
+   #Var TmpCommunication1 {}
+  };
   #If {@TmpCommunication1="Beta"} {
    #Var TmpCommunication5 {Beta Channel|General\Comm\Beta@Ext};
    #Var TmpCommunication2 {[Beta]};
