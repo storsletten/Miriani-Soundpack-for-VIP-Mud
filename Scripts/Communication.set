@@ -255,6 +255,7 @@ Omega Sector:115
  }
 } {}
 #Trigger {*, "*} {
+ #If {%IfWord(%Left(%1,1), ,|)=1} {#Abort};
  #Var TmpCommunication1 {%Replace(%1,~~,)};
  #Var TmpCommunication1 {%Replace(@TmpCommunication1,~",)};
  #If {@TmpCommunication1=*"[[(]*"} {
