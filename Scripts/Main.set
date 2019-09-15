@@ -19,8 +19,20 @@
    #UnVar AutoLogin;
    #GUnVar AutoLogin;
    #Config DisplayCommandsInOutput False;
-   #Exec {>%CharInfo(Name)};
-   #If {%Length(%CharInfo(Password))>0} {#Exec {>%CharInfo(Password)}};
+   #If {%Length(%CharInfo(Password))>0} {
+    #If {@BypassLoginMenu=1 or %Defined(AutoReconnect)=1} {
+     #If {%Defined(AutoReconnect)=1} {
+      #UnVar AutoReconnect
+     } {
+      #Say {The soundpack is configured to automatically select your character. You can disable this in conf gen.}
+     };
+     #Exec {>connect %Replace(%CharInfo(Name), ,_) %CharInfo(Password) @AutoSelectCharacter}
+    } {
+     #Exec {>connect %Replace(%CharInfo(Name), ,_) %CharInfo(Password)}
+    }
+   } {
+    #Exec {>%Replace(%CharInfo(Name), ,_)}
+   };
    #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
   } {#Var AutoLogin 1}
  }
@@ -32,7 +44,6 @@
 }
 
 #PC 0 Stop
-#Class LoggingIn Disable
 #Class LookForLoginPrompt Disable
 #Class Main Enable
 #Class MainOff Disable
@@ -145,7 +156,6 @@
 }
 #Trigger {Username:} {
  #Class LookForLoginPrompt Disable;
- #Class LoggingIn Enable;
  #Var Connected 0;
  #Config DisplayCommandsInOutput False;
  #If {%Defined(SoundpackIsLoading)=1} {
@@ -164,24 +174,7 @@
   }
  }
 } {LookForLoginPrompt}
-#Trigger {Input your selection:} {
- #Class LookForLoginPrompt Disable;
- #Class LoggingIn Disable;
- #If {@BypassLoginMenu=1 or %Defined(AutoReconnect)=1} {
-  #If {%Defined(AutoReconnect)=1} {
-   #UnVar AutoReconnect
-  } {
-   #Sub {The soundpack is configured to auto select your character. You can disable this in conf gen.}
-  };
-  #GagLine 1 Voice;
-  #Config DisplayCommandsInOutput False;
-  #Exec {@AutoSelectCharacter};
-  #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
- } {
-  MirianiSoundPlay Standard General\Misc\prompt@Ext
- };
- #If {%Defined(PXProposedToken)=1} {#Var PXToken {@PXProposedToken}}
-} {LoggingIn}
+#Trigger {Input your selection:} {MirianiSoundPlay Standard General\Misc\prompt@Ext} {Main}
 
 #Alias SPReload {
  #If {%IfWord(Quiet,%1,|)=0} {#Say {Reloading...}};

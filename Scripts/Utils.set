@@ -299,7 +299,7 @@ Typing^Allows you to type with only one hand, using the number pad}
   #UnVar SPPromptAwaitingUserInput;
   #Class ShowSPPrompt Enable;
   #Config DisplayCommandsInOutput False;
-  #Exec { };
+  #If {%Defined(LastPXMessage)=0} {#Exec { }};
   #Exec {>secho};
   #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
  }
