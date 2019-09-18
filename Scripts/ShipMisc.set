@@ -342,3 +342,14 @@ a vacuum-sealed packet of frozen food resembling star-shaped cookies:3,000,000:2
 msplay Ship\misc\hatchenter@Ext} {Main|Starship}
 #Trigger {An electromagnetic field suddenly snaps into place as a large docking bay door opens above you. *.} {msplay Ship\Misc\PanelsOn@Ext} {Main|Starship}
 #Trigger {You bang* on the hatch*.} {msplay General\Misc\Knock1@Ext} {Main|Starship}
+#Trigger {You hear * thunks as salvage lines are simultaneously deployed into space.} {
+ #GagLine 1 All
+} {Main}
+#Trigger {You watch as the salvage lines slowly wind their way to what might be several pieces of debris, projecting an energy net around them before carefully making their way back to the ship.} {
+ msplay Ship\Misc\Salvage*3@Ext;
+ #GagLine 1 All
+} {Main}
+#Trigger {You watch as the salvage line slowly winds its way to a piece of debris, projecting an energy net around it before carefully making its way back to the ship.} {
+ msplay Ship\Misc\Salvage*3@Ext;
+ #GagLine 1 All
+} {Main}

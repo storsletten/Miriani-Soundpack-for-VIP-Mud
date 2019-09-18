@@ -58,10 +58,6 @@ Aborting repair task. Please stand by.^
  #Var ComputerSaid {Aborting repair task.};
  SPShipRepairs Aborted
 |
-Scans reveal the debris to be a life form.^
- MirianiSoundPlay Standard Ship\Misc\SalvageLifeForm~@Ext;
- #Var ComputerSaid {Lifeform salvaged!}
-|
 Sensors detect an obstacle in the path of the wormhole. Aborting FTL travel...^
  #Var PlayComputerSound 1;
  #If {@SpeakWhenPossible=1} {MirianiSoundPlay Standard Ship\Move\PathBlocked~@Ext}
@@ -127,6 +123,8 @@ There is no target at those coordinates. Aborting.^MirianiSoundPlay Standard Gen
 Warning, projectile approaching on automatically guided vector. Brace for impact.^mwplay Ship\Combat\Projectile*3~@Ext
 |
 Combat drone launch failed. NO valid targets detected.^MirianiSoundPlay Standard Ship\Computer\Error~@Ext
+|
+Salvage line energy emitters linked. Beginning salvage sweep...^#GagLine 1 All
 |
 Activate.^MirianiSoundPlay Standard Ship\Move\QVAActivate~@Ext
 |
@@ -217,13 +215,14 @@ Warning, power level has dropped to *~%.^
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
  #If {~%IsNumber(~@WildCard1)=1 AND ~@WildCard1>5} {MirianiSoundPlay Standard Atmo\SalvageLow~@Ext} {MirianiSoundPlay Standard Atmo\SalvageCritical~@Ext}
 %Chr(250)
-Scans reveal the debris to be a lifeform*.^
+*Scans reveal the debris to be *.^
  GetWildcardValues {~@ComputerAction} {~@ComputerSaid};
- MirianiSoundPlay Standard Ship\Misc\Lifeform~@Ext;
+ #Var PlayComputerSound 1;
+ #If {~%Pos(lifeform,~@Wildcard2)>0 or ~%Pos(life form,~@Wildcard2)>0} {MirianiSoundPlay Standard Ship\Misc\Lifeform~@Ext};
  #If {~%Length(~@Wildcard1)=0} {
-  #Var ComputerSaid {Lifeform salvaged!}
+  #Var ComputerSaid {Salvaged ~@Wildcard2.}
  } {
-  #Var ComputerSaid {Salvaged a lifeform~@Wildcard1}
+  #Var ComputerSaid {~%Word(~@Wildcard1, ,1) ~%Word(~@Wildcard1, ,2): ~@Wildcard2.}
  }
 %Chr(250)
 * pulse is locking *...^MirianiSoundPlay Standard Ship\Combat\PulseLock*2~@Ext

@@ -562,7 +562,9 @@ are no ships here.^
 |
 focused ship is no longer in the sector.^MainTrigSwitch 1
 |
-is insufficient sensor bandwidth for additional debris scanning.^#GagLine 1 All
+is insufficient sensor bandwidth for additional debris scanning.^
+ msplay {General\Misc\vollimit~@Ext} 10;
+ #GagLine 1 All
 |
 display goes dark moments later.^#Var DisplayString {-- End of post --}
 }
