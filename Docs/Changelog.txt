@@ -1,3 +1,6 @@
+Version 5.13.45, released 2019-09-18:
+* Added support for the salvage net upgrade. Also fixed lifeform sound for salvaging with that net.
+
 Version 5.13.44, released 2019-09-15:
 * Fixed chi ooc inadvertently triggering the say sound.
 
