@@ -1,3 +1,6 @@
+Version 5.13.46, released 2019-09-20:
+* Added conf gag 11, for gagging messages about people inputting navigation commands etc. Might be useful for those who enjoy out of local space gridding.
+
 Version 5.13.45, released 2019-09-18:
 * Added support for the salvage net upgrade. Also fixed lifeform sound for salvaging with that net.
 
