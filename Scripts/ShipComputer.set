@@ -1,12 +1,12 @@
 #Var ComputerActions {
 Autopilot engaged.^
- #If {@SpeakWhenPossible=1} {
+ #If {@SpeakWhenPossible=1 or @GagManNav>0} {
   #GagLine 1 Voice;
   MirianiSoundPlay Standard Ship\Move\AutopilotEngaged~@Ext
  } {#Var PlayComputerSound 1}
 |
 Autopilot disengaged.^
- #If {@SpeakWhenPossible=1} {
+ #If {@SpeakWhenPossible=1 or @GagManNav>0} {
   #GagLine 1 Voice;
   MirianiSoundPlay Standard Ship\Move\AutopilotDisengaged~@Ext
  } {#Var PlayComputerSound 1}

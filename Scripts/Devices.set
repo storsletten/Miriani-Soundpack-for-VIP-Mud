@@ -149,12 +149,18 @@
  SetPreservedVariable LastIndustryPoints {@LastIndustryPoints};
  SetPreservedVariable LastOrgPoints {@LastOrgPoints}
 } {Main}
-#Trigger {* flick* a switch *.} {
+#Trigger {* flick* a switch*} {
  #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
-  #If {%IfWord(%1,You,|)=1} {
-   msplay General\Device\Switch@Ext
+  #If {%IfWord(%3,.,|)=1} {
+   #If {@GagManNav>0 and %IfWord(%1,You,|)=0} {
+    #GagLine 1 Voice
+   }
   } {
-   msplay General\Device\Switch@Ext -20
+   #If {%IfWord(%1,You,|)=1} {
+    msplay General\Device\Switch@Ext
+   } {
+    msplay General\Device\Switch@Ext -20
+   }
   }
  }
 } {Main}

@@ -76,9 +76,12 @@ msplay Ship\Move\QVAContinue@Ext} {Main|Starship}
  msplay Ship\Move\ArrayLight@Ext;
  #GagLine 1 All
 } {Main|Starship}
-#Trigger {* inputs a series of commands into a navigation console.} {
- msplay Ship\Computer\Keyboard*15@Ext;
- #Var SomeoneElseMoved 1
+#Trigger {* inputs a se* of co* into * navigation console.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  msplay Ship\Computer\Keyboard*15@Ext;
+  #Var SomeoneElseMoved 1;
+  #If {@GagManNav>0} {#GagLine 1 Voice}
+ }
 } {Main|Starship}
 #Trigger {Sensors register an anomalous event as * appears on scans.} {Msplay Ship\Move\EnterSector*2@Ext} {Main}
 #Trigger {Flashes of color dominate the window as you peer out, swirling into one another until they collide and explode into new, even more vibrant colors. Looking through the wall of colors, you can make out the dim shine of a star and, occasionally, what looks to be a larger celestial body flashing by. A surge of blue energy is intermittently thrown into the mix from the ship's wormhole drive, seemingly fueling the show of color outside.} {#Var Peers 0} {Main}

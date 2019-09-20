@@ -65,6 +65,7 @@ ScanFormatterForBlockade:$DistanceRaw $DistanceUnits distant.$LaunchedBy.$Everyt
 ScanFormatterForUnknown:$DistanceRaw $DistanceUnits away, at $CoordinatesRaw.$EverythingElse.
 FocusFormatString:$X $Y $Z, $Name
 GagAvatars:0
+GagManNav:0
 PaPrefix:[PA]&SPC;
 ExtPrefix:[Ext]&SPC;
 SpeakWhenPossible:0

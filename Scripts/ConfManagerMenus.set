@@ -90,6 +90,7 @@ AlertOnUpdate|B
 [8] Gag the description of asteroid rooms  [~%If(~@GagRoidDesc=1,On,Off)].
 [9] Surveying mode (for use with mineral scanners)  [~%Case(~%Eval(~@Surveying+1),Off,Surveying,Review)].
 [10] Gag the name of holographic avatars  [~%If(~@GagAvatars=1,On,Off)].
+[11] Voice gag navigation commands by others  [~%If(~@GagManNav=1,On,Off)].
 %Chr(250)
 GagTreadLine|B
 GagGenMessages|B
@@ -101,6 +102,7 @@ NoDescString|S|Enter a new format string for the "You see nothing special" messa
 GagRoidDesc|B
 Surveying|C:0,Off^1,Surveying mode^2,Reviewing mode
 GagAvatars|B
+GagManNav|B
 }
 
 #Var ConfMenuCameraFeeds {Camera feed options:
