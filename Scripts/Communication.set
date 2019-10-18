@@ -118,13 +118,13 @@ Omega Sector:115
    #Var TmpCommunication1 {}
   };
   #If {@TmpCommunication1="OOC"} {
-   #Var TmpCommunication5 {OOC Channel|General\Comm\Beta@Ext};
+   #Var TmpCommunication5 {OOC Channel|General\Comm\Beta@Ext|@OOCChannelVolumeDiff};
    #Var TmpCommunication2 {[OOC]};
    #Var TmpCommunication4 OOC0Channel;
    #Var TmpCommunication1 {}
   };
   #If {@TmpCommunication1="Beta"} {
-   #Var TmpCommunication5 {Beta Channel|General\Comm\Beta@Ext};
+   #Var TmpCommunication5 {Beta Channel|General\Comm\Beta@Ext|@OOCChannelVolumeDiff};
    #Var TmpCommunication2 {[Beta]};
    #Var TmpCommunication4 Beta0Channel;
    #Var TmpCommunication1 {}

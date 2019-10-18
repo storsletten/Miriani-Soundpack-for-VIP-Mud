@@ -255,6 +255,7 @@ ModifyAcvOutput|B
 [5] Private link volume offset  [~@{PrivateChannelVolumeDiff}~~~%].
 [6] Chatter channel volume offset  [~@{ChatterChannelVolumeDiff}~~~%].
 [7] Org channel volume offset  [~@{OrgChannelVolumeDiff}~~~%].
+[8] OOC and Beta channels volume offset  [~@{OOCChannelVolumeDiff}~~~%].
 %Chr(250)
 OrgName|S
 CourierCompany|S
@@ -263,6 +264,7 @@ HideMetafrequency|B
 PrivateChannelVolumeDiff|N:-100^100
 ChatterChannelVolumeDiff|N:-100^100
 OrgChannelVolumeDiff|N:-100^100
+OOCChannelVolumeDiff|N:-100^100
 }
 
 #Var ConfMenuConf {Configuration Manager options:

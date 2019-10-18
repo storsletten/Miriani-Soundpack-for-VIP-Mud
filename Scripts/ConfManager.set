@@ -30,6 +30,7 @@ HideMetafrequency:0
 PrivateChannelVolumeDiff:0
 ChatterChannelVolumeDiff:10
 OrgChannelVolumeDiff:15
+OOCChannelVolumeDiff:15
 HistoryBufferSize:10
 PrintVoiceOnly:0
 HistoryTimeout:0.25
