@@ -1,3 +1,6 @@
+Version 5.13.48, released 2019-11-29:
+* Added support for the new smd command in Proxiani.
+
 Version 5.13.47, released 2019-10-18:
 * Added a new option for OOC and Beta channels volume offset in conf com. It's set to +15 by default, so the volume of the sound for those channels should be a little bit louder now, and you can make it even louder yourself if you prefer! Thanks to Alicia Snow for suggesting this!
 
