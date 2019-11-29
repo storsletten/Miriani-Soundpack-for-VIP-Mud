@@ -210,21 +210,42 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
  #If {%IfWord(%1,Coordinates|Current coordinates|Current galactic coordinates,|)=1} {
   MainTrigSwitch 1
  } {
-  #Var ShipCombatTmp1 {%Replace(%2,~, ,)};
-  #If {%IsNumber(@ShipCombatTmp1)=1} {
-   #If {@InterruptOnFocus=1} {speech stop};
-   #If {%IfWord(%2,@FocusShipCoords,%CRLF)=0} {
-    #Var FocusShipCoords {%2};
-    MirianiSoundPlay Standard Ship\Computer\Beep@Ext 10
-   };
-   #Var FocusShip {$};
-   #Var FocusShipName {%1};
-   #Var FocusShipX {%Word(%2,~, ,1)};
-   #Var FocusShipY {%Word(%2,~, ,2)};
-   #Var FocusShipZ {%Word(%2,~, ,3)};
-   #Var ShipCombatTmp1 {%Replace(@FocusFormatString,$,~@FocusShip)};
-   #Sub {%Expand(@ShipCombatTmp1)};
-   MainTrigSwitch 1
+  #If {%Pos(~(,%2)>1} {
+   #Var ShipCombatTmp1 {%Word(%2,~(,2)};
+   #Var ShipCombatTmp1 {%Word(@ShipCombatTmp1,~),1)};
+   #Var ShipCombatTmp2 {%Replace(@ShipCombatTmp1,~, ,)};
+   #If {%IsNumber(@ShipCombatTmp2)=1} {
+    #If {@InterruptOnFocus=1} {speech stop};
+    #If {%IfWord(@ShipCombatTmp1,@FocusShipCoords,%CRLF)=0} {
+     #Var FocusShipCoords {@ShipCombatTmp1};
+     MirianiSoundPlay Standard Ship\Computer\Beep@Ext 10
+    };
+    #Var FocusShip {$};
+    #Var FocusShipName {%1};
+    #Var FocusShipX {%Word(@ShipCombatTmp1,~, ,1)};
+    #Var FocusShipY {%Word(@ShipCombatTmp1,~, ,2)};
+    #Var FocusShipZ {%Word(@ShipCombatTmp1,~, ,3)};
+    #Var ShipCombatTmp1 {%Word(%2,~(,1)};
+    #Sub {%Trim(@ShipCombatTmp1)};
+    MainTrigSwitch 1
+   }
+  } {
+   #Var ShipCombatTmp1 {%Replace(%2,~, ,)};
+   #If {%IsNumber(@ShipCombatTmp1)=1} {
+    #If {@InterruptOnFocus=1} {speech stop};
+    #If {%IfWord(%2,@FocusShipCoords,%CRLF)=0} {
+     #Var FocusShipCoords {%2};
+     MirianiSoundPlay Standard Ship\Computer\Beep@Ext 10
+    };
+    #Var FocusShip {$};
+    #Var FocusShipName {%1};
+    #Var FocusShipX {%Word(%2,~, ,1)};
+    #Var FocusShipY {%Word(%2,~, ,2)};
+    #Var FocusShipZ {%Word(%2,~, ,3)};
+    #Var ShipCombatTmp1 {%Replace(@FocusFormatString,$,~@FocusShip)};
+    #Sub {%Expand(@ShipCombatTmp1)};
+    MainTrigSwitch 1
+   }
   }
  }
 } {Focus}

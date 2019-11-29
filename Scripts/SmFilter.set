@@ -110,7 +110,15 @@ worm:Wormholes
  #Var SmShowCoords 1;
  #Exec {#Alarm 0 {sm ships {%Trim(%0)}}}
 } {NotPX}
-#Alias smd {#Say {This feature is only available when using Proxiani.}} {NotPX}
+#Alias smd {
+ #If {%Defined(LastPXMessage)=1} {
+  #If {@InterruptOnFocus=1} {speech stop};
+  MainTrigSwitch 0 Focus;
+  #Exec {>smd%RTrim( %0)}
+ } {
+  #Say {This feature is only available when using Proxiani.}
+ }
+} {}
 #Alias smf {
  #Var SmShowCoords 1;
  #If {%0<>""} {#Var SmSearchString {%Trim(%0)}};
