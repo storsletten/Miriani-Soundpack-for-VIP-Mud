@@ -40,12 +40,12 @@ if "!InputString!"=="" (
  pause
  exit /b 1
 ) else (
- set "NewRelease=%InputString%"
+ set "NewVersion=%InputString%"
 )
 
 if exist "!tempZipFile!" del /q "!tempZipFile!"
 if exist "!NewCommitsFile!" (
- echo Version %NewRelease%, released %date%:>"%ChangelogFile%.tmp"
+ echo Version !NewVersion!, released %date%:>"%ChangelogFile%.tmp"
  type "%NewCommitsFile%" >>"%ChangelogFile%.tmp"
  del /q "%NewCommitsFile%" >nul
  echo.>>"%ChangelogFile%.tmp"
@@ -57,11 +57,11 @@ echo #Var Version {!NewVersion!}>"%devDir%Scripts\Version.set"
 echo #Var RequiredSoundsVersion {!RequiredSoundsVersion!}>>"%devDir%Scripts\Version.set"
 
 if not "%pubDir%"=="" (
- robocopy "%devDir%\" "%pubDir%" /E /PURGE /R:1 /W:10 /NJH /COPY:D /DCOPY:D /XJ /XF .gitignore .npmignore Commit.bat desktop.ini "New commits.txt" Publish.bat Publish.default.bat /XD .git node_modules
+ robocopy "%devDir%\" "%pubDir%" /E /PURGE /R:1 /W:10 /NJH /COPY:D /DCOPY:D /XJ /XF .gitignore .npmignore Commit.bat desktop.ini "New commits.txt" Publish.bat Publish.default.bat /XD .git node_modules Proxiani
  if not "%pubZipDir%"=="" (
   call "!zipApp!" a "!tempZipFile!" "!pubDir!" -xr^^!.* -xr^^!desktop.ini -mx5
-  del /q "!pubZipDir!Miriani Soundpack for VIP Mud, version *.zip">nul
-  move /y "!tempZipFile!" "!pubZipDir!Miriani Soundpack for VIP Mud, version !NewVersion!.zip">nul
+  del /q "!pubZipDir!\Miriani Soundpack for VIP Mud, version *.zip">nul
+  move /y "!tempZipFile!" "!pubZipDir!\Miriani Soundpack for VIP Mud, version !NewVersion!.zip">nul
  )
 )
 
