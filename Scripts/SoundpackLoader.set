@@ -42,11 +42,6 @@
 
 #Exec {ConfActivate}
 
-#If {@AlertOnUpdate=1 and @RequiredSoundsVersion>@SoundsVersion} {
- #Say {Warning: You are not using the latest version of the Miriani Soundpack Sounds. Some sounds may not work until you upgrade to the most recent sounds folder.};
- MirianiSoundPlay Standard {General\Misc\MOTD@Ext}
-}
-
 #If {%IfWord(Reloading,@SoundpackIsLoading,|)=1} {
  #Ignore Key Off;
  #Ignore Trigger Off;
@@ -71,5 +66,18 @@ Rewritten, updated, and maintained by @SoundpackCreators.
 Please use the OOC / Soundpacks board in Miriani for questions and stuffs.}
   };
   #Key Shift-F1 {spabout}
+ };
+ #Alarm 1 {
+  #If {~%Defined(aaah)=1} {
+   #Say {WARNING! It looks like you have the Keep Variable Values option enabled for your character in VIP Mud. The soundpack works best when VIP Mud does not save variables.};
+   #Var aaah 1;
+   MirianiSoundPlay Standard {General\Misc\MOTD@Ext}
+  } {
+   #Var aaah 0
+  };
+  #If {~@AlertOnUpdate=1 and ~@RequiredSoundsVersion>~@SoundsVersion} {
+   #Say {Warning: You are not using the latest version of the Miriani Soundpack Sounds. Some sounds may not work until you upgrade to the most recent sounds folder.};
+   MirianiSoundPlay Standard {General\Misc\MOTD@Ext}
+  }
  }
 }

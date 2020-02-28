@@ -12,6 +12,13 @@ Spacepace^A little audio game that you can play directly in VIP Mud. After enabl
 Socials^Sounds for kitchen appliances, swimming, campfires, swings, showers, punching bags, and much more
 Typing^Allows you to type with only one hand, using the number pad}
 
+#Alias SPFix {
+ #Exec {#Alarm 0 {
+  #Load {@ScriptPath\Archaeology.set};
+  #Load {@ScriptPath\Atmo.set};
+  #Say {Fixed soundpack, maybe.}
+ }}
+}
 #Alias LoadExtras {
  #ForAll {%Replace(@ExtraScriptFiles,%CRLF,|)} {
   #If {%Pos(^,%i)>0} {LoadExtra {%Word(%i,^,1)} {%1}}
@@ -209,6 +216,11 @@ Typing^Allows you to type with only one hand, using the number pad}
  };
  #If {@RequiredSoundsVersion>@SoundsVersion} {
   #Say {Warning: You are not using the most recent Miriani Soundpack Sounds. Certain sounds might not work until you upgrade to version @RequiredSoundsVersion of the sounds folder.}
+ };
+ #If {%Defined(aaah)=1} {
+  #If {@aaah=1} {
+   #Say {WARNING! It looks like you have the Keep Variable Values option enabled for your character in VIP Mud. The soundpack works best when VIP Mud does not save variables.}
+  }
  };
  #Say {Soundpack version: @Version};
  #Say {Sounds version: @SoundsVersion};
