@@ -2,6 +2,7 @@
 setlocal EnableExtensions EnableDelayedExpansion
 
 rem devDir MUST end with trailing backslash!
+rem The default value %~dp0 contains trailing backslash so no need to add it if you use that default value.
 set "devDir=%~dp0"
 
 rem pubDir MUST NOT end with trailing backslash!
