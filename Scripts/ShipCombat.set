@@ -283,7 +283,7 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
 #Alias dam {MainTrigSwitch 0 DamageReader;#Exec {>dam%RTrim( %0)}} {Craft}
 #Alias damage {MainTrigSwitch 0 DamageReader;#Exec {>damage%RTrim( %0)}} {Craft}
 #Trigger {*: *~%*} {
- #If {%Pos(~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0 and %NumWords(%0,~%)<8} {
+ #If {%Pos(~",%0)=0 and %Pos([,%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0 and %NumWords(%0,~%)<8} {
   #ForAll {%Replace(%0,~%,|)} {
    #If {%Defined(DamageReader)=1 and %NumWords(%i,:)=2} {
     #Var DamageReader {%Trim(%Word(%i,:,2))};
