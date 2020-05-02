@@ -1,3 +1,6 @@
+Version 5.13.50, released 2020-05-02:
+* Fixed critical damage sound sometimes going off when using droid remote. Thanks to Emily Williams for reporting this!
+
 Version 5.13.49, released 2020-02-28:
 * Added an SPFix command that will attempt to fix various soundpack issues automatically. For now, it will force loading of sounds for atmospheric salvaging and archaeology.
 * Added a warning for the Keep Variable Values option in VIP Mud. The soundpack works best when that option is disabled.
