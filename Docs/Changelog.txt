@@ -1,3 +1,7 @@
+Version 5.13.51, released 2020-05-10:
+* Fixed join sound not playing when someone takes control of your group. Thanks to Emily Williams and Elissa Meligan for helping with testing!
+* Fixed clip sound playing when you try to clip something to a belt that you can't clip to a belt. Cheers Emily Williams for reporting this issue!
+
 Version 5.13.50, released 2020-05-02:
 * Fixed critical damage sound sometimes going off when using droid remote. Thanks to Emily Williams for reporting this!
 
