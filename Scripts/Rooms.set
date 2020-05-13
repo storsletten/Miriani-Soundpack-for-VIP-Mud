@@ -370,22 +370,47 @@ Apartment
   #Var ZoneType {%Word(%1, ,1)};
   #If {@OldZoneType<>@ZoneType} {
    #If {@ZoneType="starship" or @ZoneType="vehicle"} {#Class Craft Enable;#Class Ground Disable} {#Class Craft Disable;#Class Ground Enable};
-   #If {@ZoneType="starship"} {#Class Starship Enable;#Class NotStarship Disable} {#Class Starship Disable;#Class NotStarship Enable};
-   #If {@ZoneType="planet"} {#Class Planet Enable} {#Class Planet Disable};
-   #If {@ZoneType="station"} {#Class Station Enable} {#Class Station Disable};
-   #If {@ZoneType="space"} {#Class Space Enable} {#Class Space Disable};
-   #If {@ZoneType="vehicle"} {#Class Vehicle Enable} {#Class Vehicle Disable};
    #If {@OldZoneType="starship" AND %IsNumber(@AlertSoundHandle)=1 AND @AlertSoundHandle>0} {
     #PC @AlertSoundHandle stop;
     #Var AlertSoundHandle 0
    }
   };
-  #If {%Pos( hostile,%1)>0} {#Var Hostile 1} {#Var Hostile 0};
-  #If {%Pos( light,%1)>0} {#Var Light 1} {#Var Light 0};
-  #If {%Pos( outdoors,%1)>0} {#Var Outdoors 1} {#Var Outdoors 0};
-  #If {%Pos( landed,%1)>0} {#Var Landed 1} {#Var Landed 0};
-  #If {%Pos( unpowered,%1)>0} {#Var Powered 0} {#Var Powered 1};
-  #If {@ZoneType="planet"} {#Var Classification {%Copy(%1,8,%Pos(|,%1)-9)}} {#Var Classification {}}
+  #If {@ZoneType="starship"} {#Class Starship Enable;#Class NotStarship Disable;
+   #Var Landed {%IfWord(%Word(%1, | ,1),starship landed,%CRLF)};
+   #Var Powered {%IfWord(%Word(%1, | ,2),powered,%CRLF)};
+   #Var Hostile {%IfWord(%Word(%1, | ,3),hostile,%CRLF)};
+   #Var Light {%IfWord(%Word(%1, | ,4),light,%CRLF)};
+   #Var Outdoors {%IfWord(%Word(%1, | ,5),outdoors,%CRLF)};
+   #Var RoomTypes {%Word(%1, | ,6)}
+  } {#Class Starship Disable;#Class NotStarship Enable};
+  #If {@ZoneType="planet"} {#Class Planet Enable;
+   #Var Classification {%Copy(%1,8,%Pos(|,%1)-9)};
+   #Var Hostile {%IfWord(%Word(%1, | ,2),hostile,%CRLF)};
+   #Var Light {%IfWord(%Word(%1, | ,3),light,%CRLF)};
+   #Var Outdoors {%IfWord(%Word(%1, | ,4),outdoors,%CRLF)};
+   #Var RoomTypes {%Word(%1, | ,5)}
+  } {#Class Planet Disable};
+  #If {@ZoneType="station"} {#Class Station Enable;
+   #Var Hostile {%IfWord(%Word(%1, | ,2),hostile,%CRLF)};
+   #Var Light {%IfWord(%Word(%1, | ,3),light,%CRLF)};
+   #Var Outdoors {%IfWord(%Word(%1, | ,4),outdoors,%CRLF)};
+   #Var RoomTypes {%Word(%1, | ,5)}
+  } {#Class Station Disable};
+  #If {@ZoneType="space"} {#Class Space Enable;
+   #Var Hostile 1;
+   #Var Light {%IfWord(%Word(%1, | ,3),light,%CRLF)};
+   #Var Outdoors 1
+  } {#Class Space Disable};
+  #If {@ZoneType="vehicle"} {#Class Vehicle Enable;
+   #Var Landed {%IfWord(%Word(%1, | ,1),vehicle landed,%CRLF)};
+   #Var Classification {%Word(%1, | ,2)}
+  } {#Class Vehicle Disable};
+  #If {@ZoneType="room"} {
+   #Var Hostile {%IfWord(%Word(%1, | ,2),hostile,%CRLF)};
+   #Var Light {%IfWord(%Word(%1, | ,3),light,%CRLF)};
+   #Var Outdoors {%IfWord(%Word(%1, | ,4),outdoors,%CRLF)};
+   #Var RoomTypes {%Word(%1, | ,5)}
+  }
  };
  #Var RoomReader {%Max(@RoomReader+1,1)};
  #Class RoomReader Enable;
