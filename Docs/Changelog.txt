@@ -1,3 +1,6 @@
+Version 5.13.52, released 2020-06-22:
+* Added some sound support for the two new advanced missions.
+
 Version 5.13.51, released 2020-05-10:
 * Fixed join sound not playing when someone takes control of your group. Thanks to Emily Williams and Elissa Meligan for helping with testing!
 * Fixed clip sound playing when you try to clip something to a belt that you can't clip to a belt. Cheers Emily Williams for reporting this issue!
