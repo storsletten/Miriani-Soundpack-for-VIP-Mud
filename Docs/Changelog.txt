@@ -1,3 +1,6 @@
+Version 5.13.53, released 2020-06-22:
+* The join sound now plays when you join someone's group. Thanks to Emily Williams for reporting!
+
 Version 5.13.52, released 2020-06-22:
 * Added some sound support for the two new advanced missions.
 
