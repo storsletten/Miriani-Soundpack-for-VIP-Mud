@@ -487,3 +487,8 @@
  PushMessage Left {%0};
  msplay General\Misc\LeftPerson@Ext
 } {Main}
+
+#Trigger {As the hull explodes around you, you find yourself jarred loose from the magnetic plate and hurtled into space.} {msplay Ship\Misc\InternalExpl*4@Ext} {Main}
+#Trigger {*A flash of white light briefly illuminates the surroundings as a massive explosion in the distance sends a cloud of debris into the air.} {msplay Ship\Misc\InternalExpl*12@Ext} {Main}
+#Trigger {* explodes with a blinding flash of white light!} {msplay Ship\Misc\InternalExpl*4@Ext} {Main}
+#Trigger {* carefully attach* a dull gray explosive device to *.} {msplay General\Asteroid\WireAttach@Ext} {Main}

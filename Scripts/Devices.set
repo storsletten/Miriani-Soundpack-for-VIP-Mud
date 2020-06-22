@@ -40,10 +40,27 @@
   } {
    #Var DevicesTmp1 {%Trim(%1)};
    #If {@DevicesTmp1=""} {
-    msplay General\Device\Activate@Ext
+    #If {%Pos(spacesuit jet,%2)>0} {
+     #GagLine 1 All;
+     msplay General\Device\JetStart@Ext
+    } {
+     msplay General\Device\Activate@Ext;
+     #If {%Pos(and begin scanning,%2)} {#GagLine 1 All}
+    }
    } {
     #If {@DevicesTmp1="de"} {
-     msplay General\Device\Deactivate@Ext
+     #If {%Pos(spacesuit jet,%2)>0} {
+      #GagLine 1 All;
+      msplay General\Device\JetEnd@Ext
+     } {
+      msplay General\Device\Deactivate@Ext
+     }
+    } {
+     #If {%Pos(press a button,@DevicesTmp1)=1} {
+      #Var DevicesTmp1 {%If(%Pos(deactivate,%0),deactivate,activate)};
+      msplay {General\Device\@DevicesTmp1@Ext};
+      #GagLine 1 Voice
+     }
     }
    }
   }
@@ -168,7 +185,6 @@
 #Trigger {You press a small button on * and watch as * fades into nothing.} {msplay General\Device\ForceFieldSuitOff@Ext} {Main}
 #Trigger {You press a small button on * and watch as * around you and slowly fades into a barely noticeable haze.} {msplay General\Device\ForceFieldSuitOn@Ext} {Main}
 #Trigger {You press a large * button.} {msplay General\Misc\Beep*10@Ext} {Main}
-#Trigger {You activate a* handheld planetary surveyor and begin scanning the area.} {#GagLine 1 All} {Main|Ground}
 
 #Var Tracked 0
 #Trigger {* makes a selection on a* Lore computer.} {
@@ -330,3 +346,26 @@
  #UnVar Votes;
  #UnVar MsgBoardTmp1
 } {MessageBoard}
+
+#Trigger {No weak points detected.} {msplay General\Archaeology\NothingFound@Ext} {Main}
+#Trigger {There is a weak point *} {
+ #If {%IfWord(%1,in the immediate area.|very near here.|close by.,|)=1} {
+  #If {%Pos(immediate area,%1)>0} {
+   #Sub {Immediate area.}
+  } {
+   #Sub {%Proper(%1)}
+  };
+  msplay General\Archaeology\ArtifactNear@Ext
+ } {
+  #If {%IfWord(%1,right here!,|)=1} {
+   #Sub {%Proper(%1)};
+   #GagLine 1 Voice;
+   msplay General\Archaeology\ArtifactHere@Ext
+  }
+ }
+} {Main}
+#Trigger {You carefully set * down and press a small button.} {#GagLine 1 Voice;msplay General\Asteroid\TubingAttach@Ext} {Main}
+#Trigger {Three tiny spikes in * extend into the surface, locking it in place.} {#GagLine 1 Voice;msplay General\Device\SurveyComplete@Ext} {Main}
+#Trigger {* beeps three times in rapid succession. It doesn't seem to have had the desired effect.} {msplay General\Device\ScanFailed@Ext} {Main}
+#Trigger {With the surface rapidly approaching, you instruct your jet to begin slowing you down for landing. When you're as close to the surface as you can comfortably get, you immediately cut the thruster and activate your magnetic boots.} {#GagLine 1 All;msplay General\Device\JetEnd@Ext} {Main}
+#Trigger {You release your magnetic lock and kick off from the surface, activating your spacesuit jet to propel you back into open space.} {#GagLine 1 All;msplay General\Device\JetStart@Ext} {Main}
