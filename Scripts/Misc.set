@@ -126,6 +126,9 @@
   #If {%Pos(You request,%1)=0} {msplay General\Misc\joins@Ext}
  }
 } {Main}
+#Trigger {You join *'s group.} {
+ #If {%NumWords(%1, )<5} {msplay General\Misc\joins@Ext}
+} {Main}
 
 #Trigger {*A small lock destroying explosive suddenly explodes, *.} {msplay Ship\Misc\HatchBomb@Ext} {Main}
 #Trigger {*You carefully place * along the edge of * hatch. You press a small button and step back as the charge begins its * second countdown*} {msplay Ship\Misc\HatchBombPlace@Ext} {Main}
