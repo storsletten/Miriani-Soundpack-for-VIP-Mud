@@ -1,3 +1,7 @@
+Version 5.13.54, released 2020-06-24:
+* Fixed the error message that would appear occasionally when people use the external PA, hopefully without breaking anything else in the process.
+* Landing and launching on the hull of the Praelor station in one of the new advanced missions will now use the ACVStart and ACVStop sounds instead of spacesuit jet sounds.
+
 Version 5.13.53, released 2020-06-22:
 * The join sound now plays when you join someone's group. Thanks to Emily Williams for reporting!
 
