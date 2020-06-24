@@ -42,7 +42,7 @@
    #If {@DevicesTmp1=""} {
     #If {%Pos(spacesuit jet,%2)>0} {
      #GagLine 1 All;
-     msplay General\Device\JetStart@Ext
+     msplay ACV\ACVStart@Ext
     } {
      msplay General\Device\Activate@Ext;
      #If {%Pos(and begin scanning,%2)} {#GagLine 1 All}
@@ -51,7 +51,7 @@
     #If {@DevicesTmp1="de"} {
      #If {%Pos(spacesuit jet,%2)>0} {
       #GagLine 1 All;
-      msplay General\Device\JetEnd@Ext
+      msplay ACV\ACVStop@Ext
      } {
       msplay General\Device\Deactivate@Ext
      }
@@ -367,5 +367,5 @@
 #Trigger {You carefully set * down and press a small button.} {#GagLine 1 Voice;msplay General\Asteroid\TubingAttach@Ext} {Main}
 #Trigger {Three tiny spikes in * extend into the surface, locking it in place.} {#GagLine 1 Voice;msplay General\Device\SurveyComplete@Ext} {Main}
 #Trigger {* beeps three times in rapid succession. It doesn't seem to have had the desired effect.} {msplay General\Device\ScanFailed@Ext} {Main}
-#Trigger {With the surface rapidly approaching, you instruct your jet to begin slowing you down for landing. When you're as close to the surface as you can comfortably get, you immediately cut the thruster and activate your magnetic boots.} {#GagLine 1 All;msplay General\Device\JetEnd@Ext} {Main}
-#Trigger {You release your magnetic lock and kick off from the surface, activating your spacesuit jet to propel you back into open space.} {#GagLine 1 All;msplay General\Device\JetStart@Ext} {Main}
+#Trigger {With the surface rapidly approaching, you instruct your jet to begin slowing you down for landing. When you're as close to the surface as you can comfortably get, you immediately cut the thruster and activate your magnetic boots.} {#GagLine 1 All;msplay ACV\ACVStop@Ext} {Main}
+#Trigger {You release your magnetic lock and kick off from the surface, activating your spacesuit jet to propel you back into open space.} {#GagLine 1 All;msplay ACV\ACVStart@Ext} {Main}
