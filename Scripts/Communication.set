@@ -454,7 +454,7 @@ Omega Sector:115
     MirianiSoundPlay {Comms Framework} Ship\Comm\PA*9@Ext;
     #Math TmpCommunication1 {%Pos(" is piped through the ship",%1)-16};
     #Var TmpCommunication1 {%Copy(%1,16,@TmpCommunication1)};
-    #Var TmpCommunication2 {%Copy(%1,%Length(@TmpCommunication1)+%Length(@TmpCommunication1)+76)};
+    #Var TmpCommunication2 {%Copy(%1,%Length(@TmpCommunication1)+85)};
     #Var TmpCommunication2 {%Copy(@TmpCommunication2,%Length(%Word(@TmpCommunication2, ,1))+2)};
     #If {@StripMessagePrefix=1 and @TmpCommunication2="say"} {
      #Var TmpCommunication2 {@TmpCommunication1: }
