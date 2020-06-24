@@ -1,3 +1,6 @@
+Version 5.13.55, released 2020-06-24:
+* Added a sound for fuzzy creatures and tunnel rats slinking into the room. Thanks to Yara Yobi for suggesting it!
+
 Version 5.13.54, released 2020-06-24:
 * Fixed the error message that would appear occasionally when people use the external PA, hopefully without breaking anything else in the process.
 * Landing and launching on the hull of the Praelor station in one of the new advanced missions will now use the ACVStart and ACVStop sounds instead of spacesuit jet sounds.
