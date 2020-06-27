@@ -476,9 +476,9 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
  msplay General\PMining\store@Ext;
  #GagLine 1 All
 } {Main|Ground}
-#Trigger {A recorded voice on a large planetary mining drone whispers, "A pocket of valuable minerals has been detected." You set it on the ground and *} {
+#Trigger {A recorded voice on a large planetary mining drone whispers, "A pocket of * has been detected." You set it on the ground and watch as it begins carefully digging.} {
  msplay General\PMining\detected@Ext;
- #Sub {Starting dig.}
+ #Sub {Mining %1.}
 } {Main|Ground}
 #Trigger {The transport, wasting no time, lifts off and*} {msplay General\PMining\Transport@Ext} {Main|Ground}
 #Trigger {With a barely noticeable jolt, the mining transport *} {msplay General\PMining\TRExit@Ext} {Main|Ground}
