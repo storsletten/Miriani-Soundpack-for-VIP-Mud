@@ -143,6 +143,8 @@ Establishing computer link with a quantum vacuum accelerator...^MirianiSoundPlay
 Link established. Proceeding with stage one checklist...^MirianiSoundPlay Standard Ship\Move\PreciseFTL~@Ext
 |
 Safety check complete. Telemetry handshake complete. Wormhole drive interlink confirmed. System sanity checks complete. Checklist confirmed green.^MirianiSoundPlay Standard Ship\Move\QVAFinalise~@Ext
+|
+Fatal hit has been received. Emergency evacuation in progress. Prepare for ejection.^msplay Ship\Combat\YouDestroyed*3~@Ext
 }
 
 #Var ComputerActionsW {
