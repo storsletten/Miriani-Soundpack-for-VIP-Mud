@@ -37,15 +37,15 @@
 #Trigger {Weapon launch sequence initiated. Bomb's away!} {
  #GagLine 1 All;
  msplay ACV\Bomb*4@Ext
-} {Main}
+} {Main|Vehicle}
 #Trigger {The vehicle * pelted by automatic weapon fire from *} {
  #If {@MissionMode=1} {#GagLine 1 Voice};
  #Sub {Hit by %2};
  mwplay Ship\Combat\YouHit*11@Ext
-} {Main}
+} {Main|Vehicle}
 #Trigger {Current coordinates: &{AcvCoordX}, &{AcvCoordY}, &{AcvCoordZ}} {
  #Sub {@AcvCoordX @AcvCoordY @AcvCoordZ}
-} {Main|ACVMoveMode}
+} {Main|Vehicle|ACVMoveMode}
 #Trigger {Coordinates: *, *, *} {
  #Var AcvObjectX %1;
  #Var AcvObjectY %2;
@@ -54,17 +54,17 @@
   CalculateRelativeNumericDir @AcvObjectX @AcvObjectY @AcvObjectZ @AcvCoordX @AcvCoordY @AcvCoordZ;
   #Sub {@RelativeNumericDir}
  }
-} {Main|ACVMoveMode}
+} {Main|Vehicle|ACVMoveMode}
 #Trigger {* Airspace; Grid *, *} {
  #GagLine 1 Voice;
  #Class ACVAirspace Enable
-} {Main}
+} {Main|Vehicle}
 #Trigger {Current Coordinates: &{ACVCoordX}, &{ACVCoordY}, &{ACVCoordZ}} {
- #gagline 1 all;
- #Class ACVAirspace disable
-} {Main|ACVAirspace}
+ #GagLine 1 All;
+ #Class ACVAirspace Disable
+} {Main|Vehicle|ACVAirspace}
 #Trigger {You are suddenly pressed against your seat as the vehicle is catapulted out of the docking bay and into space. *} {
- #gagline 1 all;
+ #GagLine 1 All;
  msplay ACV\ACVLaunch@Ext;
  msplay Ship\Move\Subwarp@Ext
 } {Main|Vehicle}
