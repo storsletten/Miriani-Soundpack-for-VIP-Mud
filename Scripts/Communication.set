@@ -400,11 +400,15 @@ Omega Sector:115
     #Sub {@DisplayString};
     MirianiSoundPlay {Flight Control Scanner} {General\Comm\FlightScanner@Ext} {0:3};
     #Var TmpCommunication1 {%Replace(@TmpCommunication3,~",)};
-    #If {@TmpCommunication1=*"* Praelor starship* inbound!"} {
+    #If {@TmpCommunication1=*"* Praelor starship* inbound!" or @TmpCommunication1=*"* Ontanka starship* inbound!" or @TmpCommunication1=*"* Frnalk starship* inbound!"} {
      MirianiSoundPlay {FC Scanner Alert} General\Comm\PraelorInbound@Ext
     };
-    #If {@TmpCommunication1=*"* Ontanka starship* inbound!"} {
+    #If {@TmpCommunication1=*"* Praelor starship* inbound!" or @TmpCommunication1=*"* Ontanka starship* inbound!" or @TmpCommunication1=*"* Frnalk starship* inbound!"} {
      MirianiSoundPlay {FC Scanner Alert} General\Comm\PraelorInbound@Ext
+    } {
+     #If {@TmpCommunication1=*"* Praelor starship* jumping out*" or @TmpCommunication1=*"* Ontanka starship* jumping out*" or @TmpCommunication1=*"* Frnalk starship* jumping out*"} {
+      MirianiSoundPlay {FC Scanner Alert} {Ship\Comm\RelayJoin@Ext} 25
+     }
     };
     #Var TmpCommunication1 {};
     #Var TmpCommunication2 {}
