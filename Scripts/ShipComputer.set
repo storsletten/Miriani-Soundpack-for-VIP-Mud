@@ -98,6 +98,10 @@ NAVI was unable to continue due to sensor interference.^MirianiSoundPlay Standar
 |
 NAVI program has been interrupted. Autopilot is unable to continue.^MirianiSoundPlay Standard Ship/Computer/Error~@Ext
 |
+GATE was unable to continue due to sensor interference.^MirianiSoundPlay Standard Ship\Computer\Anomaly~@Ext
+|
+GATE program has been interrupted. Autopilot is unable to continue.^MirianiSoundPlay Standard Ship/Computer/Error~@Ext
+|
 Warning, avian lifeform in processing chamber. Expelling...^
  #Var PlayComputerSound 1;
  MirianiSoundPlay Standard Ship\Misc\SalvageLifeForm~@Ext;
