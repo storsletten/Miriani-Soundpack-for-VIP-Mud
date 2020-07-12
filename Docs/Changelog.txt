@@ -1,3 +1,7 @@
+Version 5.13.57, released 2020-07-12:
+* The GATE upgrade will now trigger the same interruption sounds as NAVI.
+* Fixed invasion sound not playing when FC announces inbound Frnalk starships. Also added a little sound for FC announcing Praelor jumping out.
+
 Version 5.13.56, released 2020-06-27:
 * Fixed missing sound for planetary miners starting to dig. Thanks to Yara Skye for reporting!
 
