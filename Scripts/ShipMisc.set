@@ -334,12 +334,18 @@ a vacuum-sealed packet of frozen food resembling star-shaped cookies:3,000,000:2
  #If {%1="begins"} {msplay Music\*30@Ext};
  #GagLine 1 All
 } {Main|Starship}
-#Trigger {You open the hatch of a* and climb inside.} {#if {%Pos(atmospheric combat vehicle,%1)>0} {
-#class ACVMoveMode enable;
-#If {@ACVPromptNavig=1} {#Class ACVPromptNavig Enable} {#Class ACVPromptNavig Disable}
-};
-#var AllowEnhancedNumpad  0;
-msplay Ship\misc\hatchenter@Ext} {Main|Starship}
+#Trigger {You open the hatch of * and climb inside.} {
+ #If {%Pos(atmospheric combat vehicle,%1)>0} {
+  #Class ACVMoveMode Enable;
+  #If {@ACVPromptNavig=1} {#Class ACVPromptNavig Enable} {#Class ACVPromptNavig Disable}
+ };
+ #GagLine 1 All;
+ #If {%Pos(-person,%1)>0} {
+  msplay Ship\Misc\AirlockEnter@Ext
+ } {
+  msplay Ship\misc\hatchenter@Ext
+ }
+} {Main|Starship}
 #Trigger {An electromagnetic field suddenly snaps into place as a large docking bay door opens above you. *.} {msplay Ship\Misc\PanelsOn@Ext} {Main|Starship}
 #Trigger {You bang* on the hatch*.} {msplay General\Misc\Knock1@Ext} {Main|Starship}
 #Trigger {You hear * thunks as salvage lines are simultaneously deployed into space.} {

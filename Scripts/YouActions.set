@@ -280,10 +280,10 @@ feel the pull of acceleration as the craft navigates through the atmosphere.^
  msplay Atmo\Salvagemove~@Ext
 |
 climb out of the vehicle.^
- #class ACVMoveMode disable;
- #class ACVPromptNavig disable;
- msplay ship\misc\hatchexit~@Ext;
- #var AllowEnhancedNumpad 1
+ #Class ACVMoveMode Disable;
+ #Class ACVPromptNavig Disable;
+ #GagLine 1 All;
+ msplay ship\misc\hatchexit~@Ext
 |
 carefully pilot the vehicle into a small chamber above the docking bay.^
  #GagLine 1 all;
