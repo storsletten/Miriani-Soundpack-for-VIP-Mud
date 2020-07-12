@@ -1,3 +1,6 @@
+Version 5.13.58, released 2020-07-12:
+* Hatch sound for entering and exiting support fighters should work now. Thanks to Devante McKenzie for persistently reporting this!
+
 Version 5.13.57, released 2020-07-12:
 * The GATE upgrade will now trigger the same interruption sounds as NAVI.
 * Fixed invasion sound not playing when FC announces inbound Frnalk starships. Also added a little sound for FC announcing Praelor jumping out.
