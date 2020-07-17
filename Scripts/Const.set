@@ -32,10 +32,14 @@ Triggers and extra sounds provided by the retired David Kieran, bringing more li
 #Var WalkStyles {
 amble
 ambles
+boogie
+boogies
 bounce
 bounces
 canter
 canters
+climb
+climbs
 clomp
 clomps
 crawl
