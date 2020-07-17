@@ -1,3 +1,6 @@
+Version 5.13.60, released 2020-07-17:
+* Added support for boogie walk style. Thanks to whoever sent me the suggestion anonymously!
+
 Version 5.13.59, released 2020-07-12:
 * The soundpack will now play the destruction sound when you blow up in an atmo combat vehicle. Cheers to Emily Calaway for her sacrifice and for subsequently providing me with the text I needed to make this change!
 * Hopefully fixed issue with scanning after doing ACV. Again thanks to Emily Calaway for reporting issues like a champ!
