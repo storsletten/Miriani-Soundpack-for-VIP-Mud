@@ -694,3 +694,12 @@ Omega Sector:115
 } {Main}
 #Trigger {* beeps quietly for your attention and flashes: "Blast door compromise. Return to ship immediately."} {msplay General\Comm\BlastDoorIntrusionAlert@Ext} {Main}
 #Trigger {A pleasant * voice announces, "*"} {msplay General\Socials\DroidSpeak@Ext} {Main}
+
+; Proxiani Chat Server
+#Trigger {[[]* | *] *} {
+ #If {%IfWord(%1,CM|PM,|)=1} {
+  #Sub {[%1 %2] %3};
+  msplay {PCS\%1@Ext} {0} {6};
+  PushMessage {%1} {[%1 %2] %3}
+ }
+} {Main}
