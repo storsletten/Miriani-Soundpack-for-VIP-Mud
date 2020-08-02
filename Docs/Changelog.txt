@@ -1,3 +1,6 @@
+Version 5.13.61, released 2020-08-02:
+* Added sounds and history buffers for Proxiani Chat Server channels and private messages. The sounds require sounds version 6 or newer, which is currently only available in the shared Dropbox folder for sounds.
+
 Version 5.13.60, released 2020-07-17:
 * Added support for boogie walk style. Thanks to whoever sent me the suggestion anonymously!
 
