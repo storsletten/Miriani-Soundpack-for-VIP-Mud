@@ -699,7 +699,19 @@ Omega Sector:115
 #Trigger {[[]* | *] *} {
  #If {%IfWord(%1,CM|PM,|)=1} {
   #Sub {[%1 %2] %3};
-  msplay {PCS\%1@Ext} {0} {6};
+  #If {%1="CM"} {
+   #If {%IfWord(%2,admin|administrator|administrators,|)=1} {
+    msplay {PCS\admin@Ext} {0} {6}
+   } {
+    #If {%IfWord(%2,error|debug,|)=1} {
+     #If {%2="error"} {msplay {PCS\error@Ext} {0} {6}} {msplay {PCS\debug@Ext} {0} {6}}
+    } {
+     #If {%IfWord(%2,connected|disconnected,|)=1} {msplay {PCS\%2@Ext} {0} {6}} {msplay {PCS\cm@Ext} {0} {6}}
+    }
+   }
+  } {
+   msplay {PCS\pm@Ext} {0} {6}
+  };
   PushMessage {%1} {[%1 %2] %3}
  }
 } {Main}
