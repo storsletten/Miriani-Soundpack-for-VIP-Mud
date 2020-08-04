@@ -1,3 +1,6 @@
+Version 5.13.62, released 2020-08-04:
+* Added chat server sounds for channels connected, disconnected, admin, error, and debug. Requires sounds version 6, which is only available in the shared Dropbox folder at this time of writing.
+
 Version 5.13.61, released 2020-08-02:
 * Added sounds and history buffers for Proxiani Chat Server channels and private messages. The sounds require sounds version 6 or newer, which is currently only available in the shared Dropbox folder for sounds.
 
