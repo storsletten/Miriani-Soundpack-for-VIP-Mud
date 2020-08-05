@@ -269,6 +269,7 @@ station:General\Footsteps\Station*8@Ext
 ; Is used when entering a sector, just chuck it the entire computer string.
 #Alias MObject {
  #Var MObjectFound {};
+ #If {%Pos(anomal,%1)>0} {#AddItem MObjectFound {Anomaly};MirianiSoundPlay {Sector Alerts} Ship\Computer\Anomaly@Ext};
  #If {%Pos(artifact,%1)>0} {#AddItem MObjectFound {Artifact};MirianiSoundPlay {Sector Alerts} Ship\Computer\Artifact@Ext};
  #If {%Pos(starship,%1)>0} {#AddItem MObjectFound {Starship};MirianiSoundPlay {Sector Alerts} Ship\Computer\ShipHere@Ext -10};
  #If {%Pos(planet,%1)>0} {#AddItem MObjectFound {Planet};MirianiSoundPlay {Sector Alerts} Ship\Computer\PlanetHere@Ext};
