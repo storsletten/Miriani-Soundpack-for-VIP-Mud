@@ -1,3 +1,7 @@
+Version 5.13.64, released 2020-08-09:
+* The soundpack now recognizes elganamu, muzation, and urtra as dangerous ships.
+* Added an alert sound when an insectoid creature attacks and sends you (or someone else in the room) sprawling to the ground.
+
 Version 5.13.63, released 2020-08-05:
 * Anomaly sound should now play when sector notifications announce the presence of anomaly in the sector. Thanks to Emily Calaway for nudging me into making this change!
 
