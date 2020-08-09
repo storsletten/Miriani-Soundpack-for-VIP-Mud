@@ -383,6 +383,7 @@
   PushMessage Attacks {%Copy(%2,1,%Length(%2)-1) is attacked by a%1 insectoid creature.}
  }
 } {Main}
+#Trigger {The force of the attack sends * sprawling to the *!} {msplay General\Misc\LeftPerson@Ext} {Main}
 #Trigger {The stream of acid impacts *, *} {
  #If {@MissionMode=1} {#GagLine 1 All}
 } {Main}
