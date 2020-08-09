@@ -22,17 +22,21 @@ Ohaxx:20
 
 #Var DangerousShips {
 Praelor Bezation
+Praelor Elganamu
 Praelor Frnalk
 Praelor Frnazalk
 Praelor Kritzn
 Praelor Mugatra
 Praelor Muzano
+Praelor Muzation
 Praelor Ohaxx
 Praelor Onnota
+Praelor Ozarti
 Praelor Potate
 Praelor Potateoton
 Praelor Resa-Onati
-Praelor Ozarti
+Praelor Ur-Potate
+Praelor Urtra
 }
 
 #Alias {HitCounter} {
