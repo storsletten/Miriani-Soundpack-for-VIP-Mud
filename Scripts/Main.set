@@ -54,7 +54,7 @@
 #If {%Defined(LastPXMessage)=1} {#Exec {#Class PX Enable;#Class NotPX Disable}} {#Exec {#Class PX Disable;#Class NotPX Enable}}
 
 #Trigger {Welcome to*} {
- #If {%IfWord(%1,...| Miriani!,|)=1} {#Class LookForLoginPrompt Enable}
+ #If {%IfWord(%1,...| Miriani!| Stellaris!,|)=1} {#Class LookForLoginPrompt Enable}
 }
 #Trigger {[#]$[#]*} {
  #GagLine 1 All;
