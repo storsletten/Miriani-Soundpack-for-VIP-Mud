@@ -1,3 +1,5 @@
+#Var LastLoreName {}
+
 #Trigger {A* alliance * beeps, notifying you *.} {msplay General\Device\AllianceComputer@Ext} {Main}
 #Trigger {A* beeps quietly, indicating to you that there is a n*. It was p*} {
  #Var DevicesTmp1 {%Trim(%Word(%Delete(%2,1,14),/,1))};
@@ -190,7 +192,13 @@
 #Trigger {* makes a selection on a* Lore computer.} {
  #If {%Pos([,%1)=0 and %Pos(~(,%1)=0} {#Sub {%1 uses a%2 Lore.}}
 } {Main}
-#Trigger {You make a selection on a* Lore computer.} {#GagLine 1 All} {Main}
+#Trigger {[#]$[#]soundpack lore | *} {#Var LastLoreName {%1};#Class Lore Enable} {Main}
+#Trigger {You make a selection on *} {
+ #If {%Length(@LastLoreName)>0 and %Pos(@LastLoreName,%1)=1} {
+  #Class Lore Disable;
+  #GagLine 1 All
+ }
+} {Main|Lore}
 #Trigger {Your * Lore computer suddenly beeps quietly, indicating a new incoming *.} {
  msplay General\Lore\Import@Ext;
  #Sub {New %2 in your %1 Lore.}

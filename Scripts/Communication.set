@@ -50,6 +50,7 @@ Lucksburg:39
 Vetus Fragminis:40
 Omega Sector:115
 }
+#Var LastFCScanner {}
 
 #Trigger {[[]*] *} {
  #Var TmpCommunication1 {%Replace(%1,~~,)};
@@ -366,7 +367,8 @@ Omega Sector:115
    } {
     #Var TmpCommunication3 {%Copy(%2,1,%Length(%2)-1)}
    };
-   #If {@TmpCommunication1=*"* flight control scanner announce*"} {
+   #If {%Length(@LastFCScanner)>0 and @TmpCommunication1=*"* announce*"} {
+    #Var LastFCScanner {};
     #If {@ShowFCSectorNamesAsNumbers=1 and %NumWords(@TmpCommunication3,~,)>1} {
      #Var TmpCommunication1 {%Word(@TmpCommunication3,~,,1)};
      #If {%Pos(Flight control in ,@TmpCommunication1)=1} {
@@ -715,3 +717,4 @@ Omega Sector:115
   PushMessage {%1} {[%1 %2] %3}
  }
 } {Main}
+#Trigger {[#]$[#]soundpack fc | *} {#Var LastFCScanner {%1}} {Main}
