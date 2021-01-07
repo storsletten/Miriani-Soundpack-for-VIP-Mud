@@ -507,3 +507,11 @@
   }
  }
 } {Main}
+#Trigger {* violently throws a flat shimmering rock at you. The massive pain makes you shriek in agony.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  #Sub {%1 throws a rock at you!};
+  msplay General\Socials\Headdesk*3@Ext;
+  msplay General\Misc\LeftPerson@Ext;
+  PushMessage Attacks {%1 throws a rock at you!}
+ }
+} {Main}
