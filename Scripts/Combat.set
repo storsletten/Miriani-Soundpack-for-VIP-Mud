@@ -500,6 +500,10 @@
 } {Main}
 #Trigger {* simultaneously aim their *stun turret attachments at * and fire!} {
  #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
-  msplay General\Combat\YouShot@Ext
+  #If {%IfWord(You,%3,|)=1} {
+   msplay General\Combat\YouShot@Ext
+  } {
+   msplay General\Combat\OtherShot@Ext
+  }
  }
 } {Main}
