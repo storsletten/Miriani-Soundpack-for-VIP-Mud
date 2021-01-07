@@ -1,3 +1,10 @@
+Version 5.13.65, released 2021-01-07:
+* The soundpack will now recognize custom Lore computers and custom flight control scanners.
+* Added a tiny sound for resa-onati firing.
+* Added sound for simultaneous drone and droid firing. There is a chance it results in double firing sounds in some cases, but then at least you'll hear it! And I guess double firing sound makes sense if there's simultaneous firing going on at any rate.
+* Added a new history buffer called Ship Comms. It holds intrasector ship messages as well as ship broadcast messages.
+* Added sounds for someone throwing a rock at you. It also adds that message to the Attacks buffer.
+
 Version 5.13.64, released 2020-08-09:
 * The soundpack now recognizes elganamu, muzation, and urtra as dangerous ships.
 * Added an alert sound when an insectoid creature attacks and sends you (or someone else in the room) sprawling to the ground.
