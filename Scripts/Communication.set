@@ -614,7 +614,8 @@ Omega Sector:115
 #Trigger {Via long-range communication, * broadcasts: "*"} {
  #Sub {%1 broadcasts: "%2"};
  MirianiSoundPlay {Comms Framework} Ship\Comm\Broadcast@Ext;
- PushMessage COMM {%0}
+ PushMessage COMM {%1 broadcasts: "%2"};
+ PushMessage Ship0Comms {%1 broadcasts: "%2"}
 } {Main}
 #Trigger {* doesn't * to be working.} {
  #If {%IfWord(%2,seem|appear,|)=1} {
@@ -634,7 +635,8 @@ Omega Sector:115
   #Sub {[Gen] %1}
  };
  PushMessage Comm {[Gen] %1};
- MirianiSoundPlay {Comms Framework} Ship\Comm\Sector@Ext
+ MirianiSoundPlay {Comms Framework} Ship\Comm\Sector@Ext;
+ PushMessage {Ship0Comms} {[Gen] %1}
 } {Main}
 #Trigger {*You receive a transmission from*: *} {
  MirianiSoundPlay {Comms Framework} Ship\Comm\pa*9@Ext;
