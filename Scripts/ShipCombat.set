@@ -387,3 +387,4 @@ Note: You have use hit counter disabled. You can enable this in Conf Ship.}
  MirianiSoundPlay Standard Ship\Combat\interrupt@Ext;
  #Sub {Sensor interruption pulse fired.}
 } {Main}
+#Trigger {Praelor * has fired unidentified weaponry.} {msplay LaserTag\Gun*3@Ext} {Main}
