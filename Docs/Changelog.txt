@@ -1,3 +1,6 @@
+Version 5.13.66, released 2021-01-08:
+* Fixed more issues related to custom lore computers. Now sounds should work even on lores that don't have Lore computer in the title at all.
+
 Version 5.13.65, released 2021-01-07:
 * The soundpack will now recognize custom Lore computers and custom flight control scanners.
 * Added a tiny sound for resa-onati firing.
