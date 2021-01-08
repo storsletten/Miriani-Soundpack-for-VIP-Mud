@@ -199,17 +199,17 @@
   #GagLine 1 All
  }
 } {Main|Lore}
-#Trigger {Your * Lore computer suddenly beeps quietly, indicating a new incoming *.} {
+#Trigger {Your * suddenly beeps quietly, indicating a new incoming *.} {
  msplay General\Lore\Import@Ext;
- #Sub {New %2 in your %1 Lore.}
+ #Sub {New %2 in your %Replace(%1,Lore computer,Lore).}
 } {Main}
-#Trigger {A* Lore computer beeps quietly, indicating that there * to import.} {
+#Trigger {A* beeps quietly, indicating that there * to import.} {
  msplay General\Lore\FilesWaiting@Ext;
- #Sub {New %Word(%2, ,%NumWords(%2, )) to import in a%1 Lore.}
+ #Sub {New %Word(%2, ,%NumWords(%2, )) to import in a%Replace(%1,Lore computer,Lore).}
 } {Main}
-#Trigger {Several short bleeps emit from a* Lore computer, followed by a* "*"*.} {
+#Trigger {Several short bleeps emit from a*, followed by a* "*"*.} {
  msplay General\Lore\Print@Ext;
- #Sub {A%1 Lore prints a %2 %3.};
+ #Sub {A%Replace(%1,Lore computer,Lore) prints a %2 %3.};
  #GagLine 1 Voice
 } {Main}
 #Trigger {Enter a name for the new file:} {
@@ -293,7 +293,7 @@
 #Trigger {A* beeps quietly, indicating that its TransLink tracking functionality has been activated*.} {
  #Math Tracked {@Tracked+1};
  msplay General\Lore\Tracked@Ext;
- #Sub {A%1 has been tracked%2.};
+ #Sub {A%Replace(%1,Lore computer,Lore) has been tracked%2.};
  #GagLine 1 Voice
 } {Main}
 #Alias {tracked} {
