@@ -720,3 +720,8 @@ Omega Sector:115
  }
 } {Main}
 #Trigger {[#]$[#]soundpack fc | *} {#Var LastFCScanner {%1}} {Main}
+#Trigger {From speakers overhead, you hear *} {
+ #Sub {[Commentary] You hear %1};
+ MirianiSoundPlay {Comms Framework} {Ship\Comm\PA*9@Ext};
+ PushMessage {Commentary} {You hear %1}
+} {Main}
