@@ -48,12 +48,12 @@
  }
 } {Main}
 #Trigger {* has exited from *.} {
- #If {%IfWord(%Word(%1, ,1),the an a, )=1} {
+ #If {%IfWord(%Word(%1, ,1),the an a, )=1 and (%pos(Jumpgate,%2)>0 or %Pos(Wormhole,%2))} {
   msplay Ship\Move\EnterSector*2@Ext
  }
 } {Main}
 #Trigger {* has entered *.} {
- #If {%IfWord(%Word(%1, ,1),the an a, )=1} {
+ #If {%IfWord(%Word(%1, ,1),the an a, )=1 and (%pos(Jumpgate,%2)>0 or %Pos(Wormhole,%2))} {
   msplay Ship\Move\ExitSector*2@Ext
  }
 } {Main}
