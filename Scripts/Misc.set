@@ -474,6 +474,11 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
   MirianiSoundPlay Reward {General\Misc\Credits%If(%Pos(earn,%1)=1,4@Ext,*3@Ext)}
  }
 } {Main}
+#Trigger {* gives you *.* credit*.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  MirianiSoundPlay CashYo {General\Misc\Credits*3@Ext}
+ }
+} {Main}
 #Trigger {You are seated in a chair with several syringes on robotic arms around it.  *} {msplay General\Misc\MedicalOpperation@Ext} {Main}
 
 #Trigger {A large planetary mining drone beeps quietly*} {
