@@ -1,3 +1,6 @@
+Version 5.13.69, released 2021-01-24:
+* Fixed airlock chimes triggering ship exiting sector sound. Whoops?
+
 Version 5.13.68, released 2021-01-23:
 * Fixed sounds for GADZOOKS starships jumping in and out of the sector, and also fixed sounds for any starship entering or exiting from wormholes.
 * Gen and broadcast messages sent from the ship you're in will now also be added to comm and ship comm buffers.
