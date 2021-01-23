@@ -383,10 +383,14 @@ msplay Ship\Misc\Door@{DoorTmp1}Stateroom@Ext
   #Var ShipMiscTmp1 {%Replace(@ShipMiscTmp1,~~,)};
   #Var ShipMiscTmp1 {%Replace(@ShipMiscTmp1,~,,)};
   #If {%IfWord(@ShipMiscTmp1,demands transmits surrenders, )=1} {
-   msplay Ship\Comm\Sector@Ext
+   PushMessage Comm {%0};
+   MirianiSoundPlay {Comms Framework} Ship\Comm\Sector@Ext;
+   PushMessage {Ship0Comms} {%0}
   };
   #If {%IfWord(@ShipMiscTmp1,broadcasts, )=1} {
-   msplay Ship\Comm\Broadcast@Ext
+   PushMessage Comm {%0};
+   MirianiSoundPlay {Comms Framework} Ship\Comm\Broadcast@Ext;
+   PushMessage {Ship0Comms} {%0}
   }
  }
 } {Main}
