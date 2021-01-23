@@ -1,3 +1,9 @@
+Version 5.13.68, released 2021-01-23:
+* Fixed sounds for GADZOOKS starships jumping in and out of the sector, and also fixed sounds for any starship entering or exiting from wormholes.
+* Gen and broadcast messages sent from the ship you're in will now also be added to comm and ship comm buffers.
+* Added the money earned sound for message when someone gives you credits.
+* Fixed docking bay door sounds triggering when people copy paste it on comms, and also shortened the text so it's less verbose.
+
 Version 5.13.67, released 2021-01-23:
 * Added support for commentary messages from a commentator's booth. There is also a history buffer for it, named Commentary.
 
