@@ -136,8 +136,11 @@
 #Trigger {*You hear what sounds like an explosion coming from the general area of the airlock*} {msplay Ship\Misc\HatchBombHere@Ext} {Main}
 
 #Trigger {* hear a deep rumbling as the docking bay door *s.*} {
- #If {%IfWord(%2,open|close,|)=1} {
-  msplay Ship\Misc\DockingBayDoor%{2}@Ext
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|,|)=0} {
+  #If {%IfWord(%2,open|close,|)=1} {
+   #Sub {Docking bay %{2}s.};
+   msplay Ship\Misc\DockingBayDoor%{2}@Ext
+  }
  }
 } {Main}
 #Trigger {* to the * slides *.} {
