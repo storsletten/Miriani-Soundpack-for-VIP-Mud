@@ -1,3 +1,6 @@
+Version 5.13.67, released 2021-01-23:
+* Added support for commentary messages from a commentator's booth. There is also a history buffer for it, named Commentary.
+
 Version 5.13.66, released 2021-01-08:
 * Fixed more issues related to custom lore computers. Now sounds should work even on lores that don't have Lore computer in the title at all.
 
