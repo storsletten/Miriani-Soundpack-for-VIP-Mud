@@ -38,9 +38,25 @@
   #Sub {%Copy(%1,%Eval(@ShipMovementTmp1+1),%Eval(%Pos(%CRLF,%1%CRLF)-@ShipMovementTmp1-3)) (%Copy(%1,1,%Eval(@ShipMovementTmp1-2))) has launched from %2}
  }
 } {Main}
-#Trigger {The*has exited from*.} {msplay Ship\Move\EnterSector*2@Ext} {Main}
-#Trigger {The*has entered Jumpgate to*.} {msplay Ship\Move\ExitSector*2@Ext} {Main}
-#Trigger {The*has entered Mission Jumpgate.} {msplay Ship\Move\ExitSector*2@Ext} {Main}
+#Trigger {* has jumped * the sector.} {
+ #If {%IfWord(%Word(%1, ,1),the an a, )=1 and %IfWord(%2,into|out of,|)=1} {
+  #If {%2="into"} {
+   msplay Ship\Move\EnterSector*2@Ext
+  } {
+   msplay Ship\Move\ExitSector*2@Ext
+  }
+ }
+} {Main}
+#Trigger {* has exited from *.} {
+ #If {%IfWord(%Word(%1, ,1),the an a, )=1} {
+  msplay Ship\Move\EnterSector*2@Ext
+ }
+} {Main}
+#Trigger {* has entered *.} {
+ #If {%IfWord(%Word(%1, ,1),the an a, )=1} {
+  msplay Ship\Move\ExitSector*2@Ext
+ }
+} {Main}
 #Trigger {* rises smoothly off the ground and hovers for a brief moment before rapidly accelerating towards space.} {
  mrandomplay Ship\Move\OtherLaunch*3@Ext
 } {Main}
@@ -71,7 +87,6 @@ msplay Ship\Move\FTL@Ext} {Main|Starship}
 #Trigger {Without warning, the overhead lights suddenly increase to maximum illumination as the windows darken to complete black. * announces, "Realspace transition in progress."} {#GagLine 1 All;
 msplay Ship\Move\QVAContinue@Ext} {Main|Starship}
 #Trigger {Water from the pool suddenly sloshes over the side and covers the floor of the room.} {mwplay General\Misc\WaterSplash@Ext} {Main|Starship}
-#Trigger {* has jumped out of the sector.} {msplay Ship\Move\ExitSector*2@Ext} {Main}
 #Trigger {The windows automatically darken as an intense burst of light radiates outward from *.} {
  msplay Ship\Move\ArrayLight@Ext;
  #GagLine 1 All
