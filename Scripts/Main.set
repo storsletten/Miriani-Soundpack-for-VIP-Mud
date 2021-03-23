@@ -45,6 +45,9 @@
 
 #PC 0 Stop
 #Class LookForLoginPrompt Disable
+#Class MUDMixer Disable
+#Class NotMUDMixer Enable
+#Var UsingMUDMixer 0
 #Class Main Enable
 #Class MainOff Disable
 #Var Main 1
@@ -54,8 +57,8 @@
 #If {%Defined(LastPXMessage)=1} {#Exec {#Class PX Enable;#Class NotPX Disable}} {#Exec {#Class PX Disable;#Class NotPX Enable}}
 
 #Trigger {Welcome to*} {
- #If {%IfWord(%1,...| Miriani!| Stellaris!,|)=1} {#Class LookForLoginPrompt Enable}
-}
+ #If {%IfWord(%1,...| Miriani!| Stellaris!,|)=1} {#Class LookForLoginPrompt Enable; #Alarm 3 {#Class LookForLoginPrompt Disable}}
+} {NotMUDMixer}
 #Trigger {[#]$[#]*} {
  #GagLine 1 All;
  #If {%Length(%1)=0} {#Abort};
@@ -174,6 +177,28 @@
   }
  }
 } {LookForLoginPrompt}
+#Trigger {  MUDMixer Login} {
+ #Class MUDMixer Enable;
+ #Class NotMUDMixer Disable;
+ #Var UsingMUDMixer 1;
+ #Var Connected 0;
+ #Config DisplayCommandsInOutput False;
+ #If {%Defined(SoundpackIsLoading)=1} {
+  #Alarm 0 {#Load {@ScriptPath\SoundpackLoader.set}}
+ } {
+  #If {@PlayStartupMusic=1} {
+   MirianiSoundPlay {Startup Music} {Music\*63@Ext};
+   #If {@SoundIsPlaying=1} {#Var StartupMusicHandle %PlayHandle} {#UnVar StartupMusicHandle}
+  };
+  #Exec {>#$#register_soundpack @SoundpackName | @Version};
+  #If {%Defined(AutoLogin)=1} {
+   login now
+  } {
+   #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True};
+   #Alarm {0@{DecimalChar}5} {#If {%Defined(AutoLogin)=1} {login now}}
+  }
+ }
+}
 #Trigger {Input your selection:} {MirianiSoundPlay Standard General\Misc\prompt@Ext} {Main}
 
 #Alias SPReload {
@@ -206,6 +231,7 @@
    #Var Powered {@Powered};
    #Var ZoneName {@ZoneName};
    #Var ZoneType {@ZoneType};
+   #Var UsingMUDMixer {@UsingMUDMixer};
    #Load {@ScriptPath\SoundpackLoader.set}
   }
  }

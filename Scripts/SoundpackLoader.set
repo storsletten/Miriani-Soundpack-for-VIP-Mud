@@ -6,7 +6,11 @@
 #Load {@ScriptPath\ConfManager.set}
 
 #If {%IfWord(Reloading,@SoundpackIsLoading,|)=0} {
- #Exec {>register_soundpack @SoundpackName | @Version};
+ #If {@UsingMUDMixer <> 0} {
+  #Exec {>#$#register_soundpack @SoundpackName | @Version}
+ } {
+  #Exec {>register_soundpack @SoundpackName | @Version}
+ };
  #If {@PlayStartupMusic=1} {
   MirianiSoundPlay {Startup Music} {Music\*63@Ext};
   #If {@SoundIsPlaying=1} {#Var StartupMusicHandle %PlayHandle}
