@@ -1,3 +1,6 @@
+Version 5.13.71, released 2021-03-28:
+* The soundpack's keep-alive feature will now be disabled while you are connected to MUDMixer. This is to prevent those Miriani-specific keep-alive messages from being inadvertently mixed into other game environments where they are not recognized. Furthermore, MUDMixer is far more capable of keeping connections alive than the soundpack ever was.
+
 Version 5.13.70, released 2021-03-24:
 * Added support for MUDMixer.
 
