@@ -80,7 +80,7 @@
    }
   }
  };
- #If {%IfWord(%1,hjelp,|)=1} {
+ #If {@UsingMUDMixer=0 and %IfWord(%1,hjelp,|)=1} {
   #If {@KeepAliveRespond=1 or @KeepAlive>0} {
    #Exec {>#$#soundpack_ping_reply ms}
   };
