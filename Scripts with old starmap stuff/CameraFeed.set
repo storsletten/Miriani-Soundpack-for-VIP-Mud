@@ -1,0 +1,237 @@
+#Trigger {(*) *} {
+ #Var CameraTmp1 {%Replace(%2,~~,)};
+ #Var CameraTmp1 {%Replace(@CameraTmp1,~",)};
+ #If {@CameraTmp1=*"(*) *"} {
+  #Var CameraTmp2 {(%1, %Copy(%2,2,%Pos(~~~),%2)-1)};
+  #Var CameraTmp3 {%Copy(%2,%Pos(~~~),%2)+2)};
+  #Var CameraTmp1 {%Replace(@CameraTmp3,~",)}
+ } {
+  #Var CameraTmp2 {(%1)};
+  #Var CameraTmp3 {%2}
+ };
+ #Var CameraTmp4 {};
+ #If {%Pos(~;,%1)>0 or (%Pos(~",%1)=1 and %NumWords(%1,~")=3)} {
+  #Var CameraTmp5 {2}
+ } {
+  #Var CameraTmp5 {1}
+ };
+ #If {@CameraTmp1="A loud clicking is followed by the clatter of an empty cartridge to the floor."} {#Var CameraTmp4 {Ground Combat|General\Combat\EmptyGun2@Ext}};
+ #If {@CameraTmp1="The shot misses!"} {#Var CameraTmp4 {Ground Combat|General\Combat\ShotMisses@Ext}};
+ #If {@CameraTmp1=*"A* clicks oddly. It must be out of ammo."} {#Var CameraTmp4 {Ground Combat|General\Combat\EmptyGun@Ext}};
+ #If {@CameraTmp1=*"The shot hits *'s *."} {#Var CameraTmp4 {Ground Combat|General\Combat\OtherShot@Ext}};
+ #If {@CameraTmp1=*"* has fired at *"} {
+  #Var CameraTmp4 {Space Combat|Ship\Combat\OtherFired*6@Ext};
+  #Var CameraTmp3 { has fired at Praelor };
+  #If {@MissionMode=1 and %Pos(@CameraTmp3,@CameraTmp1)>0} {
+   #GagLine 1 Voice
+  };
+  #Math CameraTmp3 {%Length(@CameraTmp1)-1};
+  #Var CameraTmp1 {%Copy(@CameraTmp1,1,@CameraTmp3)};
+  #Var CameraTmp3 { has fired at };
+  #Var CameraTmp3 {%Pos(@CameraTmp3,@CameraTmp1)};
+  #Var CameraTmp3 {%Copy(@CameraTmp1,@CameraTmp3+14) hit by %Copy(@CameraTmp1,1,@CameraTmp3)}
+ };
+ #If {@CameraTmp1=*"You notice a bright flash of light*a starship must be coming in*"} {
+  #Var CameraTmp4 {Starship|Ship\Move\OtherLanding*3@Ext};
+  #Gagline 1 Voice;
+  #Var CameraTmp3 {Starship coming in for landing.}
+ };
+ #If {@CameraTmp1=*"* says, *"} {
+  #Var CameraTmp4 {Comms Framework|General\Socials\say@Ext};
+  PushMessage Say {@CameraTmp3}
+ };
+ #If {@CameraTmp1=*"* has initiated an intrasector *"} {
+  #Var CameraTmp4 {Starship Movement|Ship\Move\DriveAlert@Ext}
+ };
+ PushMessage Camera {@CameraTmp3 @CameraTmp2};
+ DisplayPrint {@CameraTmp5} {@CameraTmp3 @CameraTmp2} {%0};
+ MirianiSoundPlay {Camera} {General\Device\CameraFeed@Ext} {0:@CameraTmp5};
+ #If {@CameraTmp4<>""} {
+  #If {%NumWords(@CameraTmp4,|)>2} {
+   mcplay {%Word(@CameraTmp4,|,2)} {%Word(@CameraTmp4,|,3):@CameraTmp5}
+  } {
+   mcplay {%Word(@CameraTmp4,|,2)} {0:@CameraTmp5}
+  }
+ };
+ #If {%Replace(@DisplayString,~",)=""} {
+  #Sub {@DisplayString}
+ } {
+  #Sub {  @DisplayString}
+ }
+} {Main}
+#Trigger {[[]From Outside] *} {
+ #Var CameraTmp1 {%Replace(%1,~~,)};
+ #Var CameraTmp1 {%Replace(@CameraTmp1,~",)};
+ #Var CameraTmp2 {};
+ #Var CameraTmp4 {};
+ #Var CameraTmp5 {2};
+ #If {@CameraTmp1="A loud clicking is followed by the clatter of an empty cartridge to the floor."} {#Var CameraTmp4 {Ground Combat|General\Combat\EmptyGun2@Ext}};
+ #If {@CameraTmp1="The shot misses!"} {#Var CameraTmp4 {Ground Combat|General\Combat\ShotMisses@Ext}};
+ #If {@CameraTmp1=*"A* clicks oddly. It must be out of ammo."} {#Var CameraTmp4 {Ground Combat|General\Combat\EmptyGun@Ext}};
+ #If {@CameraTmp1=*"The shot hits *'s *."} {#Var CameraTmp4 {Ground Combat|General\Combat\OtherShot@Ext}};
+ #If {@CameraTmp1=*"You notice a bright flash of light*a starship must be coming in*"} {
+  #Var CameraTmp4 {Starship|Ship\Move\OtherLanding*3@Ext};
+  #GagLine 1 Voice;
+  #Var CameraTmp2 {Starship coming in for landing.}
+ };
+ #If {@CameraTmp1=*"* says, *"} {
+  #Var CameraTmp4 {Comms Framework|General\Socials\say@Ext};
+  PushMessage Say {@CameraTmp1}
+ };
+ #If {@CameraTmp1=*"From a large speaker on *, you hear * say, *"} {
+  #Var CameraTmp2 {From a large speaker on @ZoneName, you hear * say, *};
+  #If {@CameraTmp1=*@CameraTmp2} {
+   #GagLine 1 All;
+   #Abort All
+  };
+  GetWildcardValues {From a large speaker on *, you hear * say, *} {%1};
+  #Var CameraTmp2 {@Wildcard1, @Wildcard2: @Wildcard3}
+ };
+ #If {%Replace(@CameraTmp2,~",)=""} {
+  #Var CameraTmp2 {%1}
+ };
+ PushMessage Camera {@CameraTmp2};
+ DisplayPrint {@CameraTmp5} {@CameraTmp2} {%0};
+ MirianiSoundPlay {Camera} {General\Device\CameraFeed@Ext} {0:@CameraTmp5};
+ #If {@CameraTmp4<>""} {
+  #If {%NumWords(@CameraTmp4,|)>2} {
+   mcplay {%Word(@CameraTmp4,|,2)} {%Word(@CameraTmp4,|,3):@CameraTmp5}
+  } {
+   mcplay {%Word(@CameraTmp4,|,2)} {0:@CameraTmp5}
+  }
+ };
+ #If {%Replace(@DisplayString,~",)=""} {
+  #Sub {@DisplayString}
+ } {
+  #Sub {  @DisplayString}
+ }
+} {Main}
+#Trigger {The holographic projection abruptly ends as * shuts down.} {msplay General\Device\MovieEnd@Ext} {Main}
+#Trigger {*, you suddenly find yourself immersed in a realistic holographic projection that makes you feel as if reality has actually been altered.} {
+ #Sub {A holographic projection begins.};
+ msplay General\Device\MovieStart@Ext
+} {Main}
+#Trigger {> *} {
+ #Var CameraTmp1 {%Replace(%1,~~,)};
+ #Var CameraTmp1 {%Replace(@CameraTmp1,~",)};
+ #Var CameraTmp5 {1};
+ #If {@CameraTmp1="The sounds of the relativity drive slowly cease as the starship comes to a halt."} {
+  #Var CameraTmp4 {Starship Movement|Ship\Move\Decelerate@RelDriveStyle@Ext};
+  #If {%IsNumber(@RelDriveFreq) AND @RelDriveFreq<>44100} {
+   #pc %playhandle frequency @RelDriveFreq
+  };
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="The deck beneath you vibrates slightly as the relativity drive begins accelerating the starship through space."} {
+  #Var CameraTmp4 {Starship Movement|Ship\Move\Accelerate@RelDriveStyle@Ext};
+  #if {%IsNumber(@RelDriveFreq) AND @RelDriveFreq<>44100} {
+   #pc %playhandle frequency @RelDriveFreq
+  };
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="The sound of the relativity drive echoes through the room as it propels the ship towards space."} {
+  #Var CameraTmp4 {Starship Movement|Ship\Move\YouLaunch*5@Ext};
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="The sounds of the relativity drive calm as the starship completes its final maneuver into space."} {
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="You hear a deep hum as the starship begins an intrasector subwarp."} {
+  #Var CameraTmp4 {Starship Movement|Ship\Move\Subwarp@Ext};
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="The vibration diminishes as the starship completes its subwarp."} {
+  #Var CameraTmp4 {Starship Movement|Ship\Misc\Background*5@Ext};
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="You hear a sharp whine as the starship begins an intrasector slip."} {
+  #Var CameraTmp4 {Starship Movement|Ship\Move\Slip@Ext};
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="The starship shudders beneath your feet. It feels like the hull is breaking apart around you."} {
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="With a sharp lurch, the starship completes its intrasector slip."} {
+  #Var CameraTmp4 {Starship Movement|Ship\Misc\Background*5@Ext};
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="You hear a gentle pulsing sound as the starship begins an intrasector wavewarp."} {
+  #Var CameraTmp4 {Starship Movement|Ship\Move\wavewarp@Ext};
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="The starship shudders beneath your feet as it continues propelling itself forward."} {
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="With a sharp lurch, the starship completes its intrasector wavewarp. The pulsing sound stops as the wavewarp drive powers down."} {
+  #Var CameraTmp4 {Starship Movement|Ship\Misc\Background*5@Ext};
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="You hear a low rumbling sound as the wormhole drive opens a wormhole."} {
+  #Var CameraTmp4 {Starship Movement|Ship\Move\FTL@Ext};
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="The starship vibrates violently as it nears the wormhole's event horizon."} {
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="The bright light vanishes as the starship emerges at the other side of the wormhole."} {
+  #Var CameraTmp4 {Starship Movement|Ship\Misc\Background*5@Ext};
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="You feel a mild vibration as the ship nears the active jumpgate."} {
+  #Var CameraTmp4 {Starship Movement|Ship\Move\Accelerate@Ext};
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="You feel the sudden pull of acceleration as the starship's relativity drive kicks in, hurling you through the gate's event horizon."} {
+  #Var CameraTmp4 {Starship Movement|Ship\Move\Jumpgate@Ext};
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="The windows automatically dim as gate after gate becomes visible, each causing a brilliant flash of light as it redirects the wormhole."} {
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="You are suddenly jarred as the ship begins rapid deceleration."} {
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1="The experience abruptly ends as the starship exits from the companion jumpgate and the relativity drive takes over to slow the ship to a stop."} {
+  #Var CameraTmp4 {Starship Movement|Ship\Misc\Background*5@Ext};
+  #GagLine 1 All;
+  #Abort All
+ };
+ #If {@CameraTmp1=*"You feel mild acceleration as the ship *."} {
+  #Var CameraTmp4 {Starship Movement|Ship\Move\YouLanding@Ext};
+  #GagLine 1 All;
+  #Abort All
+ };
+ DisplayPrint {@CameraTmp5} { %1} {%0};
+ MirianiSoundPlay {Camera} {General\Device\CameraFeed@Ext} {0:@CameraTmp5};
+ #If {@CameraTmp4<>""} {
+  #If {%NumWords(@CameraTmp4,|)>2} {
+   mcplay {%Word(@CameraTmp4,|,2)} {%Word(@CameraTmp4,|,3):@CameraTmp5}
+  } {
+   mcplay {%Word(@CameraTmp4,|,2)} {0:@CameraTmp5}
+  }
+ };
+ #Sub {@DisplayString}
+} {Main}
+#Trigger {From your droid's camera, you see...} {
+ #Var Peers 1;
+ DontStopSpeaking
+} {Main}

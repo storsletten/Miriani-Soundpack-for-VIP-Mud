@@ -1,0 +1,726 @@
+#If {%Defined(ConfManagerMenusLoaded)=0} {#Var ConfOptionVars {
+ConfName:My Soundpack Configuration
+GagDashes:0
+GagGenMessages:0
+GagExits:0
+RoundTimeThreshold:1
+GagTreadLine:0
+AlterArmor:1
+DirAnnouncements:1
+DirAnnouncementVolumeDiff:50
+FormatRoomTitles:0
+FormatMessageBoards:0
+MessageBoardFormatString:$Subject.By $Sender.On $Date.$Votes votes.Ref $Reference
+ShowExpertExits:0
+ShowRoundtimeIsOver:0
+PlayRoundtimeSound:0
+PlayWhenThwarted:0
+AlertOnPlayers:0
+PlayStartupMusic:1
+BypassLoginMenu:0
+AutoSave:1
+CommandEcho:1
+KeepAlive:120
+KeepAliveRespond:0
+AlertOnUpdate:1
+OrgName:NOORG
+CourierCompany:NOCOURIERCOMPANY
+StripMessagePrefix:0
+HideMetafrequency:0
+PrivateChannelVolumeDiff:0
+ChatterChannelVolumeDiff:10
+OrgChannelVolumeDiff:15
+OOCChannelVolumeDiff:15
+HistoryBufferSize:10
+PrintVoiceOnly:0
+HistoryTimeout:0.25
+BuffersForReview:Output,Comm,Say,Flight,PA
+SuppressDuplicateEntries:0
+PlaySoundsOnReview:1
+HistoryVolumeOffset:20
+HistoryPanning:0
+ModifyShoppingGuide:0
+ShoppingGuideFormatString:[$ITEM ($PRICE)] $POINTS,$COMBATPOINTS at $STORE on $LOCATION
+MissionMode:1
+UseHitCounter:0
+HitCounterFormatString:Total hits: $TOTALHITS ($DIRECTHITS direct, $PARTIALHITS partial). $DESTROYEDSHIPS ships, and $DESTROYEDDEBRIS debris were destroyed
+UseAlternativeCombatSounds:0
+PlayEmptyAmmoAlert:0
+RelDriveFreq:44100
+RelDriveVolume:0
+RelDriveStyle:1
+RelDriveBeep:0
+ScanFilters:1
+DisplayOriginalScanOutput:0
+ScanFormatterForStarship:$New.$NameRaw is $DistanceRaw $DistanceUnits away.Damage $HullDamageRaw, $AverageComponentDamageRaw.Ship $PowerRaw, Weapons $WeaponsRaw.$NumberOfOccupants.$Occupancy.$Type.$Alliance.$Organization.$Cargo.$EverythingElse.$Coordinates.
+ScanFormatterForPlanet:$ClassificationRaw planet $DistanceRaw $DistanceUnits away, at $CoordinatesRaw.$EverythingElse.
+ScanFormatterForMoon:$ClassificationRaw moon $DistanceRaw $DistanceUnits away, orbiting $OrbitingRaw.$EverythingElse.$Coordinates.
+ScanFormatterForStation:Station $DistanceRaw $DistanceUnits away, at $CoordinatesRaw.$EverythingElse
+ScanFormatterForAsteroid:$SizeRaw asteroid $DistanceRaw $DistanceUnits away.$Starships.$LandingBeacons.$EverythingElse.$Coordinates.
+ScanFormatterForStar:Class $ClassificationRaw star $DistanceRaw $DistanceUnits away, at $CoordinatesRaw.$EverythingElse.
+ScanFormatterForDebris:$TypeRaw $DistanceRaw $DistanceUnits away, at $CoordinatesRaw.$EverythingElse.
+ScanFormatterForWeapon:$DistanceRaw $DistanceUnits distant.$Damage.$AvailableCharge.$LaunchedBy.$EverythingElse.$Coordinates.
+ScanFormatterForProbe:$DistanceRaw $DistanceUnits distant.$LaunchedBy.$EverythingElse.$Coordinates.
+ScanFormatterForInterdictor:$DistanceRaw $DistanceUnits distant.$LaunchedBy.$EverythingElse.$Coordinates.
+ScanFormatterForBlockade:$DistanceRaw $DistanceUnits distant.$LaunchedBy.$EverythingElse.$Coordinates.
+ScanFormatterForUnknown:$DistanceRaw $DistanceUnits away, at $CoordinatesRaw.$EverythingElse.
+FocusFormatString:$X $Y $Z, $Name
+GagAvatars:0
+GagManNav:0
+PaPrefix:[PA]&SPC;
+ExtPrefix:[Ext]&SPC;
+SpeakWhenPossible:0
+FlipSectorInfo:0
+MuteAlertContSounds:0
+MutePraelorIsEnemySound:1
+PatternFormatString:[$NAME]: $PATTERN. Now at ($COORDS)
+EnhancedAimSoundSystem:1
+ClassDependant:0
+RepairNotifs:0
+WakeOnRed:0
+GagDontUnderstandMessages:0
+NoDescString:You see nothing special.
+GagRoidDesc:0
+Surveying:0
+ShowFCSectorNamesAsNumbers:0
+BypassSocialToggles:0
+BypassActionToggles:0
+Silent:0
+Vol:60
+RoomSounds:1
+SilentZoneTypes:abcdefghijklmnopqrstuvwxyz
+SilentZoneNames:abcdefghijklmnopqrstuvwxyz
+SilentRoomNames:abcdefghijklmnopqrstuvwxyz
+RoomSoundsVolumeDiff:-20
+SocialsOn:1
+EmotesOn:1
+PlayTreadSound:1
+PlayOtherTreadSound:1
+PlanetSounds:0
+CameraVolumeDiff:-10
+CameraPan:2000
+ThemeMusic:0
+ThemeSoundVolumeDiff:0
+NumOfThemes:31
+RandomiseCombatPan:1
+RandomiseCombatVolume:0
+RelativeCombatVolume:0
+RandomisePlay:1
+SpamAlert:1
+ThemeFadeOutValue:5
+UseSpeechInterrupts:0
+InterruptOnFocus:1
+InterruptOnScanningStarships:1
+InterruptOnFilteredScans:1
+InterruptOnFollow:0
+InterruptOnRoom:1
+InterruptOnInsectoidCreature:1
+SpeakRoomTitleFirst:0
+InterruptOnBoards:1
+InterruptOnPa:0
+DefaultSpeechType:ScreenReader
+DefaultSpeechTypeForVoiceOnly:Sapi
+SAPIVoice:0
+SAPIVolume:100
+SAPIRate:50
+SpeakComputerMessagesThroughSAPI:0
+AtSaBetweenObjects:.&SPC;
+AtSaObjectString:$XD$R $R$YD
+AtSaInformationString:Estimated $PowerEst~% of power left for scooping, $Dist unit$sDist to the ship, and $CargoRem remaining cargo
+AtSaSortOrder:0
+ModifyAcvOutput:0
+SCGCList:Sector 15. Miriani:-603126, 40, 507
+ShowGalcoords:1
+SendCommandDirectly:1
+UseSMStyle:0
+ConfEchoMode:0
+LogHistory:0
+HistoryLoggingInterval:100
+LoadSoundKeys:1
+LoadHistoryReviewKeys:1
+ExcludeAltGRNumrow:1
+LoadMiscKeys:1
+UserLanguage:EN
+NumberOfConnections:0
+LoadExtraScriptBabies:1
+LoadExtraScriptGames:1
+LoadExtraScriptLaserTag:1
+LoadExtraScriptSocials:1
+ArchaeologyCalculateDirection:0
+ShowDiggingDepth:2
+}}
+
+#Alias ConfOpenMenu {
+ #If {%Length(%1)=0} {
+  #Var ConfTmp1 {ConfMenus};
+  #Var ConfTmp2 {{:00@ConfPreviousMenus}}
+ } {
+  #Var ConfTmp1 {ConfMenu%1};
+  #Var ConfTmp2 {{:10@ConfPreviousMenus} {%1}}
+ };
+ #Var ConfTmp1 {%Word(@{@ConfTmp1},%Chr(250),1)};
+ #Var ConfTmp1 {%Expand(@ConfTmp1)};
+ #If {%Length(@ConfPreviousMenus)>0} {#Var ConfTmp1 {@ConfTmp1[0] Go back.%{CRLF}}};
+ #Var ConfTmp3 {%Pos(%CRLF,@ConfTmp1)};
+ SPPrompt {%Copy(@ConfTmp1,1,@ConfTmp3-1)} {%Copy(@ConfTmp1,@ConfTmp3+2,%Length(@ConfTmp1)-@ConfTmp3-3)} {conf @ConfTmp2};
+ #ForAll {MenuSetByAlias|MenuSetByPrompt|MenuVar|Tmp1|Tmp2|Tmp3} {#Exec {#UnVar {Conf%i}}}
+} {}
+
+#Alias conf {
+ #If {%Length(%1)=0} {
+  #Var ConfPreviousMenus {};
+  ConfOpenMenu;
+  #Abort
+ };
+ #Var ConfTriggeredByPrompt {%If(%Pos(:,%1)=1,1,0)};
+ #Var ConfMenuSetByPrompt {%If(@ConfTriggeredByPrompt=1,%Copy(%1,2,1),0)};
+ #Var ConfOptionSetByPrompt {%If(@ConfTriggeredByPrompt=1,%Copy(%1,3,1),0)};
+ #If {@ConfTriggeredByPrompt=1} {#Var ConfPreviousMenus {%Copy(%1,4,%Length(%1)-3)}} {#Var ConfPreviousMenus {}};
+ #Var ConfMenuSetByAlias 0;
+ #Var ConfOptionSetByAlias 0;
+ #Var ConfTmp1 {%If(@ConfTriggeredByPrompt=1,2,1)};
+ #Var ConfMenu {%{@ConfTmp1}};
+ #Var ConfOption {%{%Eval(@ConfTmp1+1)}};
+ #Var ConfOptionValue {%{%Eval(@ConfTmp1+2)}};
+ #If {@ConfTriggeredByPrompt=0} {
+  #Var ConfTmp1 {%Pos(%CRLF@ConfMenu:,@ConfAliases)};
+  #If {@ConfTmp1>0} {
+   #Var ConfTmp1 {%Copy(@ConfAliases,@ConfTmp1+2)};
+   #Var ConfTmp1 {%Word(@ConfTmp1,%CRLF,1)};
+   #Var ConfMenu {%Word(@ConfTmp1,:,2)};
+   #Var ConfMenuSetByAlias 1;
+   #If {%NumWords(@ConfTmp1,:)>2} {
+    #Var ConfOptionSetByAlias 1;
+    #Var ConfOptionValue {@ConfOption};
+    #Var ConfOption {%Word(@ConfTmp1,:,3)};
+    #Var ConfTmp1 {%Word(@{ConfMenu@ConfMenu},%Chr(250),2)};
+    #Var ConfTmp2 {%Pos(%CRLF@ConfOption|,@ConfTmp1)};
+    #Var ConfTmp1 {%Copy(@ConfTmp1,1,@ConfTmp2)};
+    #Math ConfOption {%NumWords(@ConfTmp1,@CR)-1}
+   }
+  } {
+   #Var ConfTmp1 {ConfMenu@ConfMenu};
+   #If {%Defined(@ConfTmp1)=1} {#Var ConfMenuSetByAlias 1}
+  }
+ };
+ #If {@ConfMenuSetByPrompt=0 and @ConfMenuSetByAlias=0} {
+  #If {%IsNumber(@ConfMenu)=1} {
+   #Var ConfTmp1 {%Word(@ConfMenus,%Chr(250),1)};
+   #Math ConfTmp1 {%NumWords(@ConfTmp1,@CR)-2};
+   #If {@ConfMenu>@ConfTmp1} {
+    #Say {That conf menu does not exist.};
+    #Var ConfMenu {}
+   }
+  } {
+   #Var ConfTmp1 {%Pos(] @ConfMenu,@ConfMenus)};
+   #If {@ConfTmp1=0} {
+    #Var ConfTmp1 {%Word(@ConfMenus,%Chr(250),2)};
+    #Var ConfTmp2 {%Pos(%CRLF@ConfMenu,@ConfTmp1)};
+    #If {@ConfTmp2>0} {
+     #Var ConfTmp1 {%Copy(@ConfTmp1,1,@ConfTmp2)};
+     #Math ConfMenu {%NumWords(@ConfTmp1,@CR)-1}
+    } {
+     #Var ConfTmp1 {ConfMenu@ConfMenu};
+     #If {%Defined(@ConfTmp1)=0} {
+      #Say {That conf menu does not exist.};
+      #Var ConfMenu {}
+     }
+    }
+   } {
+    #Var ConfTmp1 {%Copy(@ConfMenus,1,@ConfTmp1)};
+    #Math ConfMenu {%NumWords(@ConfTmp1,@CR)-1}
+   }
+  }
+ };
+ #If {%IsNumber(@ConfMenu)=1} {
+  #If {@ConfMenu<1} {
+   #If {@ConfMenu=0} {
+    #Var ConfMenu {%Pop(ConfPreviousMenus)}
+   } {
+    #Var ConfMenu {};
+    #Var ConfPreviousMenus {}
+   }
+  } {
+   #Var ConfTmp1 {%Word(@ConfMenus,%Chr(250),2)};
+   #Var ConfMenu {%Word(@ConfTmp1,%CRLF,@ConfMenu+1)}
+  }
+ };
+ #If {%Length(@ConfMenu)=0} {
+  ConfOpenMenu;
+  #Abort
+ };
+ #Var ConfMenuVar {ConfMenu@ConfMenu};
+ #If {%Defined(@ConfMenuVar)=0} {
+  #Say {~@@ConfMenuVar is missing.};
+  ConfOpenMenu;
+  #Abort
+ };
+ #If {%Length(@ConfOption)=0} {
+  #Var ConfPreviousMenus {|};
+  ConfOpenMenu {@ConfMenu};
+  #Abort
+ };
+ #If {@ConfOptionSetByPrompt=0 and @ConfOptionSetByAlias=0} {
+  #Var ConfTmp1 {%Word(@{@ConfMenuVar},%Chr(250),1)};
+  #If {%IsNumber(@ConfOption)=1} {
+   #If {@ConfOption<1} {
+    #If {@ConfOption=0} {
+     #Var ConfMenu {%Pop(ConfPreviousMenus)}
+    } {
+     #Var ConfMenu {};
+     #Var ConfPreviousMenus {}
+    };
+    #UnVar ConfOption
+   } {
+    #Math ConfTmp1 {%NumWords(@ConfTmp1,@CR)-2};
+    #If {@ConfOption>@ConfTmp1} {
+     #Say {That option does not exist.};
+     #UnVar ConfOption
+    }
+   }
+  } {
+   #Var ConfTmp1 {%Pos(] @ConfOption,@{@ConfMenuVar})};
+   #If {@ConfTmp1=0} {
+    #Say {That option does not exist.};
+    #UnVar ConfOption
+   } {
+    #Var ConfTmp1 {%Copy(@{@ConfMenuVar},1,@ConfTmp1)};
+    #Math ConfOption {%NumWords(@ConfTmp1,@CR)-1}
+   }
+  }
+ };
+ #If {%Defined(ConfOption)=0} {
+  ConfOpenMenu {@ConfMenu};
+  #Abort
+ };
+ #Var ConfTmp1 {%Word(@{@ConfMenuVar},%Chr(250),2)};
+ #Var ConfOptionData {%Word(@ConfTmp1,%CRLF,@ConfOption+1)};
+ #Var ConfOptionVar {%Word(@ConfOptionData,|,1)};
+ #Var ConfOptionType {%Word(@ConfOptionData,|,2)};
+ #Var ConfTmp1 {%NumWords(@ConfOptionType,:)};
+ #If {@ConfTmp1>2} {#Var ConfOptionCallback {%Word(@ConfOptionType,:,3)}} {#UnVar ConfOptionCallback};
+ #If {@ConfTmp1>1} {
+  #Var ConfOptionValues {%Word(@ConfOptionType,:,2)};
+  #Var ConfOptionType {%Word(@ConfOptionType,:,1)}
+ } {
+  #Var ConfOptionValues {}
+ };
+ #Var ConfTmp1 {%NumWords(@ConfOptionData,|)};
+ #Var ConfOptionCaption {%If(@ConfTmp1>2,%Word(@ConfOptionData,|,3),)};
+ #Var ConfOptionHint {%If(@ConfTmp1>3,%Word(@ConfOptionData,|,4),)};
+ #Var ConfTmp1 {%Word(@{@ConfMenuVar},%Chr(250),1)};
+ #Var ConfTmp1 {%Word(@ConfTmp1,%CRLF,@ConfOption+1)};
+ #Var ConfOptionLabel {%Word(@ConfTmp1,],2)};
+ #Var ConfOptionLabel {%Word(@ConfOptionLabel,[,1)};
+ #Var ConfOptionLabel {%Trim(@ConfOptionLabel)};
+ #If {%Length(@ConfOptionCaption)=0} {#Var ConfOptionCaption {@ConfOptionLabel}};
+ #Var ConfOptionValueOutput {};
+ #Var ConfTmp1 {%Pos(%CRLF@ConfOptionVar:,@ConfOptionVars)};
+ #If {@ConfTmp1>0} {
+  #Var ConfOptionDefaultValue {%Copy(@ConfOptionVars,@ConfTmp1+1)};
+  #Math ConfTmp1 {%Pos(:,@ConfOptionDefaultValue)+1};
+  #Var ConfOptionDefaultValue {%Copy(@ConfOptionDefaultValue,@ConfTmp1,%Length(@ConfOptionDefaultValue)+1-@ConfTmp1)};
+  #Var ConfOptionDefaultValue {%Word(@ConfOptionDefaultValue,%CRLF,1)};
+  #If {%IsNumber(@ConfOptionDefaultValue)=1} {
+   #If {@ConfOptionType="C"} {
+    #Var ConfTmp3 {};
+    #ForAll {%Replace(@ConfOptionValues,^,|)} {
+     #If {%Pos(~,,%i)>0 and %Word(%i,~,,1)=@ConfOptionDefaultValue} {#Var ConfTmp3 {%Word(%i,~,,2)}}
+    };
+    #If {%Length(@ConfTmp3)>0} {#Var ConfOptionDefaultValue {@ConfTmp3}}
+   }
+  };
+  #Var ConfOptionValueOutput {@ConfOptionValueOutput%{CRLF}Default value: @ConfOptionDefaultValue}
+ } {
+  #UnVar ConfOptionDefaultValue
+ };
+ #If {%Defined(@ConfOptionVar)=1} {
+  #Var ConfOptionCurrentValue {@{@ConfOptionVar}};
+  #If {@ConfOptionType="C" and %IsNumber(@ConfOptionCurrentValue)=1} {
+   #Var ConfTmp3 {};
+   #ForAll {%Replace(@ConfOptionValues,^,|)} {
+    #If {%Pos(~,,%i)>0 and %Word(%i,~,,1)=@ConfOptionCurrentValue} {#Var ConfTmp3 {%Word(%i,~,,2)}}
+   };
+   #If {%Length(@ConfTmp3)>0} {#Var ConfOptionCurrentValue {@ConfTmp3}}
+  };
+  #Var ConfOptionValueOutput {@ConfOptionValueOutput%{CRLF}Current value: @ConfOptionCurrentValue}
+ } {
+  #UnVar ConfOptionCurrentValue
+ };
+ #Var ConfOptionSuccess 0;
+ #If {@ConfOptionType="B"} {
+  #If {%Length(@ConfOptionValue)=0} {
+   #Var {@ConfOptionVar} {%If(Not @{@ConfOptionVar},1,0)}
+  } {
+   #Var {@ConfOptionVar} {%IfWord(@ConfOptionValue,on 1 enable enabled, )}
+  };
+  #Var ConfOptionSuccess 1;
+  #If {%Length(@ConfOptionCallback)>0} {#Exec {@ConfOptionCallback}};
+  #If {@ConfOptionSuccess=1} {
+   #If {@ConfMenuSetByPrompt=1} {
+    #Say {It's now %If(@{@ConfOptionVar}=0,off,on).};
+    ConfOpenMenu {@ConfMenu}
+   } {
+    #Say {%If(@{@ConfOptionVar}=0,Disabled,Enabled): @ConfOptionLabel.}
+   }
+  }
+ };
+ #If {@ConfOptionType="C"} {
+  #Var ConfTmpOptionValueWithWildcards {%If(%Length(@ConfOptionValue)>0 and %IsNumber(@ConfOptionValue)=0,@ConfOptionValue*,)};
+  #Var ConfTmp1 0;
+  #ForAll {%Replace(@ConfOptionValues,^,|)} {
+   #Math ConfTmp1 {@ConfTmp1+1};
+   #Var ConfTmp2 {%Pos(~,,%i)};
+   #If {@ConfTmp2>0} {
+    #If {@ConfTmp2=1} {
+     #Var ConfTmpOptionValue {%Copy(%i,2,%Length(%i)-2)};
+     #Var ConfTmpOptionValueLabel {@ConfTmpOptionValue}
+    } {
+     #Var ConfTmpOptionValue {%Copy(%i,1,@ConfTmp2-1)};
+     #Var ConfTmpOptionValueLabel {%Copy(%i,@ConfTmp2+1,%Length(%i)-@ConfTmp2)}
+    }
+   } {
+    #Var ConfTmpOptionValue {@ConfTmp1};
+    #Var ConfTmpOptionValueLabel {%i}
+   };
+   #If {@ConfTmpOptionValue=@{@ConfOptionVar}} {
+    #Var ConfOptionHint {@ConfOptionHint%CRLF[@ConfTmp1]*@ConfTmpOptionValueLabel.}
+   } {
+    #Var ConfOptionHint {@ConfOptionHint%CRLF[@ConfTmp1] @ConfTmpOptionValueLabel.}
+   };
+   #If {@ConfOptionSuccess=0} {
+    #If {%IsNumber(@ConfOptionValue)=1} {
+     #If {@ConfOptionValue=@ConfTmp1} {
+      #Var {@ConfOptionVar} {@ConfTmpOptionValue};
+      #Var ConfOptionSuccess 1;
+      #Var ConfOptionSuccessMessage {It's now set to @ConfTmpOptionValueLabel.}
+     }
+    } {
+     #If {%Length(@ConfTmpOptionValueWithWildcards)>0 and @ConfTmpOptionValueLabel=*@ConfTmpOptionValueWithWildcards} {
+      #Var {@ConfOptionVar} {@ConfTmpOptionValue};
+      #Var ConfOptionSuccess 1;
+      #Var ConfOptionSuccessMessage {It's now set to @ConfTmpOptionValueLabel.}
+     }
+    }
+   }
+  };
+  #If {%Left(@ConfOptionHint,2)=%CRLF} {#Var ConfOptionHint {%Copy(@ConfOptionHint,3)}};
+  #If {@ConfOptionSuccess=1 and %Length(@ConfOptionCallback)>0} {#Exec {@ConfOptionCallback}};
+  #If {@ConfOptionSuccess=0} {
+   #If {%Length(@ConfOptionValue)>0 or @ConfOptionSetByPrompt=1} {
+    #Say {Invalid choice.}
+   };
+   SPPrompt {@ConfOptionCaption} {@ConfOptionHint@ConfOptionValueOutput} {conf {:@{ConfMenuSetByPrompt}1@ConfPreviousMenus} {@ConfMenu} {@ConfOption}}
+  } {
+   #Say {@ConfOptionSuccessMessage};
+   #If {@ConfMenuSetByPrompt=1} {
+    ConfOpenMenu {@ConfMenu}
+   }
+  }
+ };
+ #If {@ConfOptionType="E" and %Length(@ConfOptionCallback)>0} {
+  #Var ConfOptionSuccess 1;
+  #Exec {@ConfOptionCallback};
+  #If {@ConfOptionSuccess=1 and @ConfMenuSetByPrompt=1} {ConfOpenMenu {@ConfMenu}}
+ };
+ #If {@ConfOptionType="M"} {
+  #Var ConfOptionSuccess 1;
+  #If {%Length(@ConfOptionCallback)>0} {#Exec {@ConfOptionCallback}};
+  #If {@ConfOptionSuccess=1} {
+   #Var ConfPreviousMenus {@ConfMenu|@ConfPreviousMenus};
+   ConfOpenMenu {@ConfOptionVar}
+  }
+ };
+ #If {@ConfOptionType="N"} {
+  #If {%Length(@ConfOptionValue)>0 or @ConfOptionSetByPrompt=1} {
+   #If {%Length(@ConfOptionValues)>0} {
+    #If {%Pos(^,@ConfOptionValues)>0} {
+     #Var ConfTmpMin {%Word(@ConfOptionValues,^,1)};
+     #Var ConfTmpMax {%Word(@ConfOptionValues,^,2)}
+    } {
+     #Var ConfTmpMin {@ConfOptionValues};
+     #Var ConfTmpMax {1000000000}
+    }
+   } {
+    #Var ConfTmpMin {-1000000000};
+    #Var ConfTmpMax {1000000000}
+   };
+   #If {%IsNumber(@ConfOptionValue)=1} {
+    #If {@ConfOptionValue>=@ConfTmpMin and @ConfOptionValue<=@ConfTmpMax} {
+     #Var {@ConfOptionVar} {@ConfOptionValue};
+     #Var ConfOptionSuccess 1
+    }
+   };
+   #If {@ConfOptionSuccess=0} {
+    #Say {The number must be %If(@ConfTmpMax=1000000000,equal to or greater than @ConfTmpMin,between @ConfTmpMin and @ConfTmpMax).}
+   } {
+    #If {%Length(@ConfOptionCallback)>0} {#Exec {@ConfOptionCallback}}
+   };
+   #If {@ConfOptionSuccess=0} {
+    SPPrompt {@ConfOptionCaption} {@ConfOptionHint@ConfOptionValueOutput} {conf {:@{ConfMenuSetByPrompt}1@ConfPreviousMenus} {@ConfMenu} {@ConfOption}}
+   } {
+    #Say {It's now set to @{@ConfOptionVar}.};
+    #If {@ConfMenuSetByPrompt=1} {ConfOpenMenu {@ConfMenu}}
+   }
+  } {
+   SPPrompt {@ConfOptionCaption} {@ConfOptionHint@ConfOptionValueOutput} {conf {:@{ConfMenuSetByPrompt}1@ConfPreviousMenus} {@ConfMenu} {@ConfOption}}
+  }
+ };
+ #If {@ConfOptionType="S"} {
+  #If {%Length(@ConfOptionValue)>0 or @ConfOptionSetByPrompt=1} {
+   #If {%Length(@ConfOptionValues)>0} {
+    #If {%Length(@ConfOptionValue)>0 and %Replace(@ConfOptionValue,~",)=*@ConfOptionValues} {#Var ConfOptionSuccess 1}
+   } {
+    #Var ConfOptionSuccess 1
+   };
+   #If {@ConfOptionSuccess=1} {
+    #Var {@ConfOptionVar} {@ConfOptionValue}
+   } {
+    #Say {Invalid value.};
+    SPPrompt {@ConfOptionCaption} {@ConfOptionHint@ConfOptionValueOutput} {:conf {:@{ConfMenuSetByPrompt}1@ConfPreviousMenus} {@ConfMenu} {@ConfOption}}
+   };
+   #If {@ConfOptionSuccess=1 and %Length(@ConfOptionCallback)>0} {#Exec {@ConfOptionCallback}};
+   #If {@ConfOptionSuccess=1} {
+    #If {%Length(@{@ConfOptionVar})>0} {
+     #Say {Set!}
+    } {
+     #Say {Value cleared.}
+    };
+    #If {@ConfMenuSetByPrompt=1} {ConfOpenMenu {@ConfMenu}}
+   }
+  } {
+   SPPrompt {@ConfOptionCaption} {@ConfOptionHint@ConfOptionValueOutput} {:conf {:@{ConfMenuSetByPrompt}1@ConfPreviousMenus} {@ConfMenu} {@ConfOption}}
+  }
+ };
+ #ForAll {MenuSetByAlias|MenuSetByPrompt|MenuVar|Tmp1|Tmp2|Tmp3} {#Exec {#UnVar {Conf%i}}}
+} {}
+
+#Var ConfEchoText {}
+#Var ConfEchoTmp {}
+#Var ConfPrintQuietly 0
+#Alias ConfPrint {
+ #If {%CharInfo(Connected)=1 and @Connected=1 and @ConfEchoMode=1 and @ConfEchoText=""} {
+  #Conf DisplayCommandsInOutput False;
+  #If {%2=1} {
+   #Var ConfEchoTmp {@ConfEchoTmp%1%CRLF};
+   #Abort All
+  };
+  #Var ConfEchoText {@ConfEchoTmp%1};
+  #Var ConfEchoTmp {};
+  #If {%Pos(%CRLF,@ConfEchoText)=0} {
+   Echo @ConfEchoText;
+   #Var ConfEchoText {}
+  } {
+   #Class ConfEcho Enable;
+   #Var ConfPrintLines {%NumWords(@ConfEchoText,%Chr(13))};
+   #Exec {Echo;#%Min(@ConfPrintLines,10) {~%Eval(~%i-1)};.}
+  };
+  #If {@CommandEcho=1} {#Conf DisplayCommandsInOutput True}
+ } {
+  #Var ConfPrintQuietly 0;
+  #Say {%1}
+ }
+} {}
+
+#Alias ConfLoad {
+ #If {%IfWord(%1,def default factory standard, )=1} {
+  #ForAll {%Replace(@ConfOptionVars,%CRLF,|)} {
+   #If {%Length(%i)>0} {
+    #Var ConfTmp6 {%Word(%i,:,1)};
+    #If {%NumWords(%i,:)>2} {
+     #Var {@ConfTmp6} {%Copy(%i,%Length(@ConfTmp6)+2,%Length(%i)-%Length(@ConfTmp6)-1)}
+    } {
+     #Var {@ConfTmp6} {%Word(%i,:,2)}
+    };
+    #Var {@ConfTmp6} {%Replace(%Replace(@{@ConfTmp6},&CRLF;,%CRLF),&SPC;, )}
+   }
+  };
+  #Say {Default settings loaded.}
+ } {
+  #Load {%MudName/Conf%If(%Length(%1)>0,.%1,).set};
+  #If {%IfWord(Quiet,%2,|)=0} {#Say {%If(%Length(%1)>0,Loaded from %1:,Loaded) @ConfName.}}
+ };
+ ConfActivate
+} {}
+#Alias ConfSave {
+ #If {%IfWord(%1,def default factory standard, )=1} {
+  #Say {Sorry, you can't overwrite the default configuration.};
+  #Abort
+ };
+ #If {%Defined(ConfManagerMenusLoaded)=0} {
+  #Say {Can't save the configuration, because the conf manager menus aren't loaded.};
+  #Abort
+ };
+ #If {%Length(%1)>0} {
+  #Var ConfTmpFile {%MudName/Conf.%1.set};
+  #File 3 {@ConfTmpFile};
+  #Write 3 {#Var Dummy {}};
+  #Close 3
+ } {
+  #Var ConfTmpFile {%MudName/Conf.set}
+ };
+ #Var ConfTmp6 {};
+ #ForAll {ScriptPath|SoundsPath|ThemesPath%Replace(@ConfOptionVars,%CRLF,|)} {
+  #If {%Length(%i)>0} {
+   #Var ConfTmp7 {%Word(%i,:,1)};
+   #If {%IsNumber(@{@ConfTmp7})=1} {
+    #Var ConfTmp6 {@ConfTmp6#Var @ConfTmp7 @{@ConfTmp7}%CRLF}
+   } {
+    #Var ConfTmp8 {%Replace(@{@ConfTmp7},~%,~~~%)};
+    #Var ConfTmp8 {%Replace(@ConfTmp8,~@,~~~@)};
+    #Var ConfTmp8 {%Replace(@ConfTmp8,~{,~~~{)};
+    #Var ConfTmp6 {@ConfTmp6#Var @ConfTmp7 {%Replace(@ConfTmp8,~},~~~})}%CRLF}
+   }
+  }
+ };
+ #DelFile {@ConfTmpFile};
+ #File 3 {@ConfTmpFile};
+ #Write 3 {@ConfTmp6} NoReturn;
+ #Close 3;
+ #If {%IfWord(Quiet,%2,|)=0} {#Say {%If(%Length(%1)>0,Saved to %1:,Saved) @ConfName.}};
+ #UnVar ConfTmpFile
+} {}
+#Alias ConfSaveAll {
+ ConfSave {} {Quiet};
+ #Var ConfTmp6 {};
+ #ForAll {@PreservedVariables|PreservedVariables} {
+  #If {%Length(%i)>0} {
+   #If {%IsNumber(@{%i})=1} {
+    #Var ConfTmp6 {@ConfTmp6#Var %i @{%i}%CRLF}
+   } {
+    #Var ConfTmp7 {%Replace(@{%i},~~,~~~~)};
+    #Var ConfTmp7 {%Replace(@ConfTmp7,~@,~~~@)};
+    #Var ConfTmp7 {%Replace(@ConfTmp7,~%,~~~%)};
+    #Var ConfTmp6 {@ConfTmp6#Var %i {%Replace(@ConfTmp7,~},~~~})}%CRLF}
+   }
+  }
+ };
+ #DelFile {%MudName/Variables.set};
+ #File 3 {%MudName/Variables.set};
+ #Write 3 {@ConfTmp6} NoReturn;
+ #Close 3;
+ #If {@LogHistory=1 and %Defined(HistorySoundHandle)=1} {#Alarm 0 {WriteToLogFile}};
+ #If {%IfWord(Quiet,%1,|)=0} {#Say {Settings saved.}}
+} {}
+
+#Alias ConfFix {
+ #ForAll {%Replace(@ConfOptionVars,%CRLF,|)} {
+  #If {%Length(%i)>0} {
+   #Var ConfTmp6 {%Word(%i,:,1)};
+   #If {%Defined(@ConfTmp6)=0} {
+    #If {%NumWords(%i,:)>2} {
+     #Var {@ConfTmp6} {%Copy(%i,%Length(@ConfTmp6)+2,%Length(%i)-%Length(@ConfTmp6)-1)}
+    } {
+     #Var {@ConfTmp6} {%Word(%i,:,2)}
+    };
+    #Var {@ConfTmp6} {%Replace(%Replace(@{@ConfTmp6},&CRLF;,%CRLF),&SPC;, )}
+   }
+  }
+ };
+ #If {%1<>"quick"} {ConfSaveAll}
+} {}
+
+#Trigger {What text would you like repeated back to you[?]} {
+ #GagLine 2 All
+} {ConfEcho}
+#Trigger {#} {
+ #If {%1=0 and @ConfPrintLines>10} {
+  #Var ConfTmp6 {};
+  #Exec {#%Eval(@ConfPrintLines-10) {#Var ConfTmp6 {~@ConfTmp6~%Word(~@ConfEchoText,%CRLF,~%i)%CRLF}}};
+  #Say @ConfTmp6 NoReturn
+ };
+ #Sub {%Word(@ConfEchoText,%CRLF,1+@ConfPrintLines-(%Min(@ConfPrintLines,10)-%1))};
+ #If {%Min(@ConfPrintLines,10)=%Eval(%1+1)} {
+  #Class ConfEcho Disable;
+  #Var ConfEchoText {}
+ }
+} {ConfEcho}
+
+#Alias ConfActivate {
+ #Exec {#Alarm 0 {
+  #Class SpamAlerts %If(@SpamAlert=1,Enable,Disable);
+  #Class SoundKeys %If(@LoadSoundKeys=1,Enable,Disable);
+  #Class HistoryReviewKeys %If(@LoadHistoryReviewKeys=1,Enable,Disable);
+  #Class AltGRNumrow %If(@ExcludeAltGRNumrow=0,Enable,Disable);
+  #Class MiscKeys %If(@LoadMiscKeys=1,Enable,Disable);
+  #Class Socials %If(@SocialsOn=1,Enable,Disable);
+  #Class Emotes %If(@EmotesOn=1,Enable,Disable);
+  #Config DisplayCommandsInOutput %If(@CommandEcho=1,True,False);
+  Speech Set {@DefaultSpeechType} {@DefaultSpeechTypeForVoiceOnly} 1;
+  SetRoomSoundVolume;
+  SetThemeMusicVolume;
+  mrplay {@RoomSound};
+  #If {%Defined(SoundpackIsLoading)=0} {
+   SPKeepAlive {@KeepAlive} Quiet;
+   LoadExtras Quiet
+  } {
+   #If {%IfWord(Reloading,@SoundpackIsLoading,|)=1} {
+    SPKeepAlive Start Quiet
+   }
+  }
+ }}
+} {}
+#Alias VD {
+ #Var NumberOfDisplays {%NumWords(@VirtualDisplays,|)};
+ #Var vdError {};
+ #Var vdSuccess {};
+ #If {%Length(%1)>0} {
+  #If {%IsNumber(%1)=1} {
+   #If {%1<1 or %1>@NumberOfDisplays} {
+    #Var vdError {Number out of range. @NumberOfDisplays virtual displays are currently implemented.}
+   } {
+    #Var {HideDisplay%1} {%If(Not @{HideDisplay%1},1,0)};
+    #If {%2="SPPrompt"} {
+     #Var vdSuccess {Now %If(@{HideDisplay%1}=1,hiding,showing) it.}
+    } {
+     #Var vdSuccess {Now %If(@{HideDisplay%1}=1,hiding,showing) Virtual Display %1: %Word(@VirtualDisplays,|,%1).}
+    }
+   }
+  } {
+   #Var vdTmp1 {%Pos(|%1,|@VirtualDisplays)};
+   #If {@vdTmp1=0} {
+    #Var vdError {Couldn't find that virtual display.}
+   } {
+    #Var vdTmp1 {%Copy(@VirtualDisplays,1,@vdTmp1)};
+    #Var vdTmp1 {%NumWords(@vdTmp1,|)};
+    #Var {HideDisplay@vdTmp1} {%If(Not @{HideDisplay@vdTmp1},1,0)};
+    #Var vdSuccess {Now %If(@{HideDisplay@vdTmp1}=1,hiding,showing) %Word(@VirtualDisplays,|,@vdTmp1).}
+   }
+  }
+ };
+ #If {%Length(@vdSuccess)>0} {#Say {@vdSuccess}};
+ #If {%Length(@vdError)>0} {#Say {@vdError}};
+ #If {%Length(%1)=0 or %2="SPPrompt"} {
+  #Var vdTmp1 0;
+  #Var vdTmp2 {};
+  #Var vdTmp3 {};
+  #Var HiddenDisplays 0;
+  #While {@vdTmp1<@NumberOfDisplays} {
+   #Math vdTmp1 {@vdTmp1 + 1};
+   #If {@{HideDisplay@vdTmp1}=1} {
+    #Var vdTmp3 {%Replace(@{Display@{vdTmp1}Filter},~",~%0x22~%)};
+    #Var vdTmp3 {%Replace(@vdTmp3,~~,~%0x7e~%)};
+    #If {@vdTmp3="*"} {
+     #Var vdTmp3 {hidden.}
+    } {
+     #Var vdTmp3 {hidden (when matching with: @{Display@{vdTmp1}Filter}).}
+    };
+    #Math HiddenDisplays {@HiddenDisplays + 1}
+   } {
+    #Var vdTmp3 {visible.}
+   };
+   #Var vdTmp2 {@vdTmp2[@vdTmp1] %Word(@VirtualDisplays,|,@vdTmp1): @vdTmp3%CRLF}
+  };
+  #Var vdTmp2 {@vdTmp2    Hidden displays: @HiddenDisplays.};
+  SPPrompt {} {@vdTmp2} {VD} {SPPrompt};
+  #UnVar vdTmp2;
+  #UnVar vdTmp3;
+  #UnVar HiddenDisplays
+ };
+ #UnVar vdError;
+ #UnVar vdSuccess;
+ #UnVar vdTmp1;
+ #UnVar NumberOfDisplays
+} {}
+
+#Exec {ConfFix quick}

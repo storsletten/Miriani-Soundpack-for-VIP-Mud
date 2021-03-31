@@ -1,0 +1,179 @@
+#Var Surveying 0
+#Trigger {Upon finding a suitable location, you press a small button on the side of an asteroid anchor, which forcefully buries itself into the ground.} {
+ #GagLine 1 ALL;
+ msplay General\Asteroid\AnchorEnd@Ext
+} {Main|Ground}
+#Trigger {*Lifting anchor and establishing standard dock*} {
+ msplay {General\Asteroid\ShipAnchorEnd@Ext};
+ #GagLine 1 All
+} {Main|Starship}
+#Trigger {You accelerate the vehicle *. Navigation instruments instruct you that your coordinates are now *.} {
+ DontStopSpeaking;
+ #If {%IfWord(%1,@DirList, )=1} {#Sub {[%2]}}
+} {Main}
+
+#Alias {surveying} {
+ #If {@Surveying=0} {
+  #Var Surveying 1;
+  #Say {Surveying mode enabled. Discovered minerals will now be gagged.};
+  #Abort
+ };
+ #If {@Surveying=1} {
+  #Var Surveying 2;
+  #Say {Review mode enabled. Undiscovered objects will now be gagged.};
+  #Abort
+ };
+ #Var Surveying 0;
+ #Say {Surveying mode disabled. All objectes will be shown.}
+} {Main}
+#Trigger {[{]*, *} (*)} {#If {@Surveying = 1} {#GagLine 1 all}} {Main|NotStarship}
+#Trigger {You pull a cord out of a bulky diagnostic device and plug it into an available port on *.} {
+ msplay General\Asteroid\Diag@Ext;
+ #GagLine 1 All
+} {Main|Ground}
+#Trigger {You unplug the cord from * and retract it back into a bulky diagnostic device.} {#GagLine 1 All} {Main|Ground}
+#Trigger {Mineral Pocket Detected: *} {
+ #GagLine 1 All;
+ #Var MineralPocket {%1}
+} {Main|Ground}
+#Trigger {Mineral Concentration: *} {
+ #Sub {[@MineralPocket]: %1};
+ #UnVar MineralPocket
+} {Main|Ground}
+#Trigger {The ground shudders underfoot as materials are moved by *.} {
+ msplay General\Asteroid\Drill*9@Ext;
+ #GagLine 1 All
+} {Main|Ground}
+#Trigger {A cloud of particulate matter floats up from the drilling area of * as it extracts * from a nearby source.} {
+ msplay General\Asteroid\Drill*9@Ext;
+ #GagLine 1 All
+} {Main|Ground}
+#Trigger {A small light on * suddenly *.} {
+ #If {%IfWord(%2,begins to glow as power pours into the unit|fades as power to the unit is severed,|)=1} {
+  #If {%Pos(begins,%2)=1} {
+   msplay General\Asteroid\Power@Ext
+  } {
+   msplay General\Asteroid\ReactorDisable@Ext
+  }
+ }
+} {Main|Ground}
+#Trigger {You orient the business end of * away from your face and activate it. A brilliant blue energy beam, carefully controlled to lose energy after about an inch of exposure, begins to issue forth from the barrel. You lean toward * and apply the beam to the nearest tear and begin sealing it.} {
+ msplay General\Asteroid\MicroSealer*4@Ext;
+ #Sub {You use %1 on %2.}
+} {Main}
+#Trigger {The drill bit of * suddenly catches, seizing up for a moment before drilling resumes.} {msplay General\Asteroid\ShakyDrillBit@Ext} {Main|Ground}
+#Trigger {The rover shudders violently as the arm * and begins rotating.} {
+ msplay General\Asteroid\Rotating@Ext;
+ #GagLine 1 All
+} {Main}
+#Trigger {* input* command into *.} {
+ #If {%IfWord(%2, an activation| a deactivation|s an activation|s a deactivation,|)=1} {
+  #If {%Pos(deactivation,%2)>0} {
+   msplay General\Asteroid\ReactorDisable@Ext
+  } {
+   msplay General\Asteroid\ReactorEnable@Ext
+  }
+ }
+} {Main|Ground}
+#Trigger {*You watch as a small ramp is extended from outside the hull to the asteroid surface.} {
+ msplay General\Asteroid\RampDown@Ext;
+ #GagLine 1 All
+} {Main}
+#Trigger {Several loud banging sounds emanate from the cargo area behind you.} {
+ msplay General\Asteroid\CargoBangs@Ext;
+ #GagLine 1 All
+} {Main}
+#Trigger {* carefully * the end of a *.} {
+ #If {%IfWord(%2,disconnect|disconnects|secure|secures,|)=0 or %Pos(:,%0)>0 or %Pos(~, ~",%0)>0 or %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=1} {#Abort};
+ #Var AsteroidTmp1 {%Word(%3, ,3)};
+ #If {%IfWord(@AsteroidTmp1,cable tubing, )=1} {
+  #If {%Pos(secure,%2)=1} {
+   #If {%IfWord(%1,You,|)=1} {
+    #Sub {%Proper(@AsteroidTmp1) secured %Delete(%3,1,%Pos( to ,%3)).}
+   };
+   #If {@AsteroidTmp1="cable"} {
+    msplay General\Asteroid\WireAttach@Ext
+   } {
+    msplay General\Asteroid\TubingAttach@Ext -15
+   }
+  } {
+   #If {%IfWord(%1,You,|)=1} {
+    #Sub {%Proper(@AsteroidTmp1) disconnected %Delete(%3,1,%Pos( from ,%3)).}
+   };
+   msplay General\Asteroid\CableDetach@Ext -20
+  }
+ };
+ #UnVar AsteroidTmp1
+} {Main|Ground}
+#Trigger {[{]*, *}} {#If {@Surveying = 2} {#GagLine 1 all}} {Main}
+#Trigger {A large panel on the bottom of * slowly opens, causing a cascade of * to come tumbling out.} {msplay General\Asteroid\Dump@Ext} {Main}
+#Trigger {A small amount of * trickles out of a tear in *.} {msplay General\Asteroid\Trickle@Ext} {Main|Ground}
+
+#Alias AMap {
+ #If {%Pos(Asteroid,@ZoneName)>0} {
+  #Class AMap enable;
+  map
+ } {
+  #Say {You must be on an asteroid to use that command.}
+ };
+ #alarm 1 {#class amap disable}
+} {}
+#Trigger {Current Coordinates: *} {#GagLine 1 All} {Amap}
+#Trigger {Objects have been detected at (*).} {
+ #Var Tmp1 {and};
+ #Var AsteroidObjectList {};
+ #Var AsteroidObjects {%Replace(%1,@Tmp1,"")};
+ #Var AsteroidObjects {%Replace(@AsteroidObjects, ~(,"")};
+ #Var AsteroidObjects {%Replace(@AsteroidObjects,~),|)};
+ #Var AsteroidObjects {%Replace(@AsteroidObjects,~,,"")};
+ #Var AsteroidObjects {%Replace(@AsteroidObjects,| ,|)};
+ #ForAll {@AsteroidObjects} {
+  #Var ObjectXCoord {%Word(%i, ,1)};
+  #Var ObjectYCoord {%Word(%i, ,2)};
+  #Var AsteroidTmp1 0;
+  #Var AsteroidTmp2 0;
+  #Var AsteroidTmp3 {};
+  #Var AsteroidTmp4 {};
+  #If {@ObjectXCoord<>@MyXCoord} {
+   #If {@ObjectXcoord>@MyXCoord} {
+    #Math AsteroidTmp1 {@ObjectXCoord-@MyXCoord};
+    #Var AsteroidTmp3 {e}
+   } {
+    #Math AsteroidTmp1 {@MyXCoord-@ObjectXCoord};
+    #Var AsteroidTmp3 {w}
+   }
+  };
+  #If {@ObjectYCoord<>@MyYCoord} {
+   #If {@ObjectYCoord>@MyYCoord} {
+    #Math AsteroidTmp2 {@ObjectYCoord-@MyYCoord};
+    #Var AsteroidTmp4 {s}
+   } {
+    #Math AsteroidTmp2 {@MyYCoord-@ObjectYCoord};
+    #Var AsteroidTmp4 {n}
+   }
+  };
+  #If {@AsteroidTmp1=0} {
+   #Var AsteroidObjectDirs {@AsteroidTmp2 %Proper(@AsteroidTmp4)}
+  } {
+   #If {@AsteroidTmp2=0} {
+    #Var AsteroidObjectDirs {@AsteroidTmp1 %Proper(@AsteroidTmp3)}
+   } {
+    #Var AsteroidObjectDirs {@AsteroidTmp1%Proper(@AsteroidTmp3), @AsteroidTmp2%Proper(@AsteroidTmp4)}
+   }
+  };
+  #If {@AsteroidObjectList=""} {
+   #Var AsteroidObjectList {Objects: @AsteroidObjectDirs}
+  } {
+   #Var AsteroidObjectList {@@AsteroidObjectList@AtSaBetweenObjects@AsteroidObjectDirs}
+  }
+ };
+ #Sub {@AsteroidObjectList.};
+ #Class AMap disable
+} {AMap}
+#Trigger {You input a command into a docking console and watch as a ramp begins to extend from *.} {msplay General\Asteroid\RampDown@Ext} {Main}
+#Trigger {You manage to seal the breach you were working on and deactivate *.} {msplay General\Asteroid\MicroSealerEnd@Ext} {Main|Ground}
+#Trigger {You instruct the rover to begin *.} {msplay General\Asteroid\RoverCommand@Ext} {Main|Vehicle}
+#Trigger {You begin accelerating the vehicle * the ramp.} {
+ msplay General\Asteroid\RampStart@Ext;
+ #GagLine 1 All
+} {Main|Vehicle}

@@ -1,0 +1,548 @@
+#Var ConfAliases {
+cgc:SCGC
+keepalive:General:KeepAlive
+load:Conf:Load
+mission:Missions:MissionMode
+mute:Sounds:Silent
+rooms:Room
+save:Conf:Save
+sc:Scanning
+scan:Scanning
+starship:Ship
+vol:Sounds:Vol
+wake:General:WakeOnRed
+x:Extras
+}
+#Var ConfMenus {Soundpack configuration - Main menu:
+[1] General options.
+[2] Gag options.
+[3] Sound options.
+[4] Socials.
+[5] Room options.
+[6] Communication options.
+[7] History options.
+[8] Virtual displays.
+[9] Ship options.
+[10] Vehicle options.
+[11] Camera feed options.
+[12] Gadget options.
+[13] Speech and interrupts.
+[14] Keystroke configuration.
+[15] Extras.
+[16] Conf Manager.
+[17] Log options.
+[18] Soundpack documentation.
+%Chr(250)
+General
+Gag
+Sounds
+Socials
+Room
+Comm
+History
+VD
+Ship
+Vehicles
+CameraFeeds
+Gadgets
+Speech
+Keystrokes
+Extras
+Conf
+Logs
+Docs
+}
+
+#Var ConfMenuGeneral {General options:
+[1] Say Go! when roundtime is over  [~%If(~@ShowRoundtimeIsOver=1,On,Off)].
+[2] Beep when roundtime is over  [~%If(~@PlayRoundtimeSound=1,On,Off)].
+[3] Beep when your commands are blocked by roundtime or stuntime  [~%If(~@PlayWhenThwarted=1,On,Off)].
+[4] Alter the output of the ARMOR command  [~%If(~@AlterArmor=1,On,Off)].
+[5] Startup music  [~%If(~@PlayStartupMusic=1,On,Off)].
+[6] Auto select your character after signing in  [~%If(~@BypassLoginMenu=1,On,Off)].
+[7] Auto save soundpack configuration on exit  [~%If(~@AutoSave=1,On,Off)].
+[8] Keep-Alive duration (in seconds)  [~@KeepAlive].
+[9] Keep-Alive responding  [~%If(~@KeepAliveRespond=1,On,Off)].
+[10] Echo commands in the output window  [~%If(~@CommandEcho=1,On,Off)].
+[11] Soundpack update notifications  [~%If(~@AlertOnUpdate=1,On,Off)].
+%Chr(250)
+ShowRoundtimeIsOver|B
+PlayRoundtimeSound|B
+PlayWhenThwarted|B
+AlterArmor|B
+PlayStartupMusic|B
+BypassLoginMenu|B
+AutoSave|B
+KeepAlive|N:0:#Alarm 0 {SPKeepAlive {~%If(~@KeepAlive>0,Start,0)} Quiet}
+KeepAliveRespond|B
+CommandEcho|B::#Config DisplayCommandsInOutput {~%If(~@CommandEcho=1,True,False)}
+AlertOnUpdate|B
+}
+
+#Var ConfMenuGag {Soundpack gag options:
+[1] Gag your character's walk message  [~%If(~@GagTreadLine=1,On,Off)].
+[2] Gag messages sent over the general channel  [~%If(~@GagGenMessages=1,On,Off)].
+[3] Gag separators (such as long series of dash symbols)  [~%If(~@GagDashes=1,On,Off)].
+[4] Gag exits  [~%If(~@GagExits=1,On,Off)].
+[5] Gag roundtime announcements which are less than  [~@RoundTimeThreshold seconds].
+[6] Gag "I don't understand that" messages  [~%If(~@GagDontUnderstandMessages=1,On,Off)].
+[7] String to replace the line "You see nothing special."  [~@NoDescString].
+[8] Gag the description of asteroid rooms  [~%If(~@GagRoidDesc=1,On,Off)].
+[9] Surveying mode (for use with mineral scanners)  [~%Case(~%Eval(~@Surveying+1),Off,Surveying,Review)].
+[10] Gag the name of holographic avatars  [~%If(~@GagAvatars=1,On,Off)].
+[11] Voice gag navigation commands by others  [~%If(~@GagManNav=1,On,Off)].
+%Chr(250)
+GagTreadLine|B
+GagGenMessages|B
+GagDashes|B
+GagExits|B
+RoundTimeThreshold|N:1
+GagDontUnderstandMessages|B
+NoDescString|S|Enter a new format string for the "You see nothing special" message|Use _gag_ (underscore gag underscore) to gag the line, or a single space to leave it alone.
+GagRoidDesc|B
+Surveying|C:0,Off^1,Surveying mode^2,Reviewing mode
+GagAvatars|B
+GagManNav|B
+}
+
+#Var ConfMenuCameraFeeds {Camera feed options:
+[1] Camera volume offset  [~@{CameraVolumeDiff}~~~%].
+[2] Camera sound panning  [~@CameraPan].
+%Chr(250)
+CameraVolumeDiff|N:-100^100
+CameraPan|N:-4000^4000
+}
+
+#Var ConfMenuGadgets {Gadget options:
+[1] Customize Message Board headers  [~%If(~@FormatMessageBoards=1,On,Off)].
+[2] Format string for Message Board post headers.
+[3] Customize the Lore Shopping Guide  [~%If(~@ModifyShoppingGuide=1,On,Off)].
+[4] Format string for the Lore Shopping Guide.
+[5] Show sector names as numbers in flight control messages  [~%If(~@ShowFCSectorNamesAsNumbers=1,On,Off)].
+[6] Calculate directions when using directional archaeology dig site scanners  [~%If(~@ArchaeologyCalculateDirection=1,On,Off)].
+[7] In archaeology, show digging depth  [~%Case(~%Eval(~@ShowDiggingDepth+1),Off,Always,Only when you should switch from automatic to regular shovel)].
+%Chr(250)
+FormatMessageBoards|B
+MessageBoardFormatString|S:*||Use $SENDER for the message sender, $DATE for the date, $REFERENCE for the message reference, $SUBJECT for the subject line, and $VOTES for the votes (if any).
+ModifyShoppingGuide|B
+ShoppingGuideFormatString|S:*
+ShowFCSectorNamesAsNumbers|B
+ArchaeologyCalculateDirection|B
+ShowDiggingDepth|C:0,Off^1,Always^2,Only when you should switch from automatic to regular shovel
+}
+
+#Var ConfMenuSocials {Configure socials:
+[1] Socials  [~%If(~@SocialsOn=1,On,Off)]. (Control F11).
+[2] Emotes  [~%If(~@EmotesOn=1,On,Off)].
+[3] Toggle individual socials.
+[4] Ignore individual social toggles  [~%If(~@BypassSocialToggles=1,On,Off)].
+%Chr(250)
+SocialsOn|E::SocialsToggle {~@ConfOptionValue}
+EmotesOn|E::EmotesToggle {~@ConfOptionValue}
+SpecificSocials|M
+BypassSocialToggles|B
+}
+
+#Var ConfMenuSounds {Sound configuration
+[1] Master mute  [~%If(~@Silent=1,On,Off)]. (F11).
+[2] Master volume  [~@{Vol}~~~%]. (F9 / F10).
+[3] Theme music configuration.  [Theme music is currently ~%If(~@ThemeMusic=1,On,Off)].
+[4] Play a sound when your character is walking  [~%If(~@PlayTreadSound=1,On,Off)].
+[5] Play a sound when other characters are walking  [~%If(~@PlayOtherTreadSound=1,On,Off)].
+[6] Volume offset of weapons fire  [~@{RelativeCombatVolume}~~~%].
+[7] Randomize the volume of weapons fire  [~%If(~@RandomiseCombatVolume=1,On,Off)].
+[8] Randomly pan weapon sounds  [~%If(~@RandomiseCombatPan=1,On,Off)].
+[9] Randomize the panning of certain events (including cargo transfer)  [~%If(~@RandomisePlay=1,On,Off)].
+[10] Play the spam sound when Miriani indicates that you're spamming commands  [~%If(~@SpamAlert=1,On,Off)].
+[11] Alternative combat sounds  [~%If(~@UseAlternativeCombatSounds=1,On,Off)].
+[12] Play empty ammo alert sound  [~%If(~@PlayEmptyAmmoAlert=1,On,Off)].
+%Chr(250)
+Silent|E::#Alarm 0 {MasterMute {~@ConfOptionValue}}
+Vol|N:0^100:SetMasterVolume
+Themes|M
+PlayTreadSound|B
+PlayOtherTreadSound|B
+RelativeCombatVolume|N:-100^100
+RandomiseCombatVolume|B
+RandomiseCombatPan|B
+RandomisePlay|B
+SpamAlert|B::#Class SpamAlerts {~%If(~@SpamAlert=1,Enable,Disable)}
+UseAlternativeCombatSounds|B
+PlayEmptyAmmoAlert|B
+}
+
+#Var ConfMenuRoom {Room options:
+[1] Global room sounds  [~%If(~@RoomSounds=0,Off,On)]. (Shift F11).
+[2] Room sounds volume offset  [~@{RoomSoundsVolumeDiff}~~~%].
+[3] Announce directions when following or being dragged  [~%If(~@DirAnnouncements=1,On,Off)].
+[4] Direction announcement volume offset  [~@{DirAnnouncementVolumeDiff}~~~%].
+[5] Alert when anybody other than the person you are following is in the room  [~%If(~@AlertOnPlayers=1,On,Off)].
+[6] Room title formatting  [~%If(~@FormatRoomTitles=1,On,Off)].
+[7] Show number of exits when using the Alt Space hotkey  [~%If(~@ShowExpertExits=1,On,Off)].
+[8] Room sounds for discovered planets in uncharted space  [~%If(~@PlanetSounds=1,On,Off)].
+[9] Room sounds for rooms named ~@RoomName  [~%If(~%IfWord(~@RoomName,~@SilentRoomNames,|)=0,On,Off)].
+[10] Room sounds for ~@ZoneName  [~%If(~%IfWord(~@ZoneName,~@SilentZoneNames,|)=0,On,Off)].
+[11] Room sounds for ~@{ZoneType}s  [~%If(~%IfWord(~@ZoneType,~@SilentZoneTypes,|)=0,On,Off)].
+[12] Clear the list of silenced room names.
+[13] Clear the list of silenced zone names.
+[14] Clear the list of silenced zone types.
+%Chr(250)
+RoomSounds|B::mrplay {~@RoomSound};InSpace {~@InSpace}
+RoomSoundsVolumeDiff|N:-100^100:SetRoomSoundVolume
+DirAnnouncements|B
+DirAnnouncementVolumeDiff|N:-100^100
+AlertOnPlayers|B
+FormatRoomTitles|B
+ShowExpertExits|B
+PlanetSounds|B::mrplay {~@RoomSound};InSpace {~@InSpace}
+RoomName|E::#If {~%IfWord(~@RoomName,~@SilentRoomNames,~%Chr(124))=0} {#AddItem SilentRoomNames {~@RoomName} NoDuplicates;#Say {Disabled room sounds for rooms named ~@RoomName.}} {#Var SilentRoomNames {~%DelItem(~@SilentRoomNames,~@RoomName)};#Say {Enabled room sounds for rooms named ~@RoomName.}};mrplay {~@RoomSound};InSpace {~@InSpace}
+ZoneName|E::#If {~%IfWord(~@ZoneName,~@SilentZoneNames,~%Chr(124))=0} {#AddItem SilentZoneNames {~@ZoneName} NoDuplicates;#Say {Disabled room sounds for ~@ZoneName.}} {#Var SilentZoneNames {~%DelItem(~@SilentZoneNames,~@ZoneName)};#Say {Enabled room sounds for ~@ZoneName.}};mrplay {~@RoomSound};InSpace {~@InSpace}
+ZoneType|E::#If {~%IfWord(~@ZoneType,~@SilentZoneTypes,~%Chr(124))=0} {#AddItem SilentZoneTypes {~@ZoneType} NoDuplicates;#Say {Disabled room sounds for ~@{ZoneType}s.}} {#Var SilentZoneTypes {~%DelItem(~@SilentZoneTypes,~@ZoneType)};#Say {Enabled room sounds for ~@{ZoneType}s.}};mrplay {~@RoomSound};InSpace {~@InSpace}
+ClearRoomNames|E::#Var SilentRoomNames {};#Say {Cleared the list of silenced room names.};mrplay {~@RoomSound};InSpace {~@InSpace}
+ClearZoneNames|E::#Var SilentZoneNames {};#Say {Cleared the list of silenced zone names.};mrplay {~@RoomSound};InSpace {~@InSpace}
+ClearZoneTypes|E::#Var SilentZoneTypes {};#Say {Cleared the list of silenced zone types.};mrplay {~@RoomSound};InSpace {~@InSpace}
+}
+
+#Var ConfMenuThemes {
+[1] Red Alert Theme music  [~%If(~@ThemeMusic=1,On,Off)]. (Alt Shift F11). (Requires the themes to be installed with the soundpack).
+[2] Theme music volume offset  [~@{ThemeSoundVolumeDiff}~~~%]. (Shift Control Alt F9 / Shift Control Alt F10).
+[3] Number of theme music files  [~@NumOfThemes].
+[4] Theme music fadeout rate  [~@{ThemeFadeOutValue}].
+%Chr(250)
+ThemeMusic|B
+ThemeSoundVolumeDiff|N:-100^100
+NumOfThemes|N:0^10000
+ThemeFadeOutValue|N:0^100
+}
+
+#Var ConfMenuKeystrokes {Keystroke configuration:
+[1] Sound keystrokes  [~%If(~@LoadSoundKeys=1,On,Off)].
+[2] History review keystrokes  [~%If(~@LoadHistoryReviewKeys=1,On,Off)].
+[3] Exclude Control Alt (AltGR) from the history review keys  [~%If(~@ExcludeAltGRNumrow=1,On,Off)].
+[4] Miscellaneous keystrokes  [~%If(~@LoadMiscKeys=1,On,Off)].
+%Chr(250)
+LoadSoundKeys|B::#Class SoundKeys {~%If(~@LoadSoundKeys=1,Enable,Disable)}
+LoadHistoryReviewKeys|B::#Class HistoryReviewKeys {~%If(~@LoadHistoryReviewKeys=1,Enable,Disable)}
+ExcludeAltGRNumrow|B::#Class AltGRNumrow {~%If(~@ExcludeAltGRNumrow=0,Enable,Disable)}
+LoadMiscKeys|B::#Class MiscKeys {~%If(~@LoadMiscKeys=1,Enable,Disable)}
+}
+
+#Var ConfMenuAtSM {Options for the atsm command:
+[1] Object separator string  [~@AtSaBetweenObjects].
+[2] Objects formatting string  [~@AtSaObjectString].
+[3] Info formatting string  [~@AtSaInformationString].
+[4] Sort order for objects  [~%Case(~%Eval(~@AtSaSortOrder+2),Default,Ascending,Descending) order].
+%Chr(250)
+AtSaBetweenObjects|S:*
+AtSaObjectString|S:*
+AtSaInformationString|S:*
+AtSaSortOrder|C:-1,Default order^0,Ascending order^1,Descending order
+}
+
+#Var ConfMenuVehicles {Vehicle configuration:
+[1] Options for the atsm command in atmospheric salvagers.
+[2] Show firing solutions when available while in an atmospheric combat vehicle  [~%If(~@ModifyAcvOutput=1,On,Off)].
+%Chr(250)
+AtSM|M
+ModifyAcvOutput|B
+}
+
+#Var ConfMenuComm {Communication options:
+[1] Org name  [~@OrgName]. (Use the score command).
+[2] Courier company  [~@CourierCompany]. (Use the score command).
+[3] Strip the words "say" and "transmit" from spoken and transmitted messages  [~%If(~@StripMessagePrefix=1,On,Off)].
+[4] Hide the frequency number in metafrequency communications  [~%If(~@HideMetafrequency=1,On,Off)].
+[5] Private link volume offset  [~@{PrivateChannelVolumeDiff}~~~%].
+[6] Chatter channel volume offset  [~@{ChatterChannelVolumeDiff}~~~%].
+[7] Org channel volume offset  [~@{OrgChannelVolumeDiff}~~~%].
+[8] OOC and Beta channels volume offset  [~@{OOCChannelVolumeDiff}~~~%].
+%Chr(250)
+OrgName|S
+CourierCompany|S
+StripMessagePrefix|B
+HideMetafrequency|B
+PrivateChannelVolumeDiff|N:-100^100
+ChatterChannelVolumeDiff|N:-100^100
+OrgChannelVolumeDiff|N:-100^100
+OOCChannelVolumeDiff|N:-100^100
+}
+
+#Var ConfMenuConf {Configuration Manager options:
+[1] Name of the currently loaded settings  [~@ConfName].
+[2] Load settings from the primary configuration file.
+[3] Load settings from the first backup file.
+[4] Load settings from the second backup file.
+[5] Load default settings.
+[6] Save current settings to the primary configuration file.
+[7] Save current settings to the first backup file.
+[8] Save current settings to the second backup file.
+%Chr(250)
+ConfName|S:*
+Load|E::ConfLoad {~%If(~%IsNumber(~@ConfOptionValue)=1,backup~@ConfOptionValue,~@ConfOptionValue)}
+LoadFirstBackup|E::ConfLoad backup1
+LoadSecondBackup|E::ConfLoad backup2
+LoadDefault|E::ConfLoad default
+Save|E::ConfSave {~%If(~%IsNumber(~@ConfOptionValue)=1,backup~@ConfOptionValue,~@ConfOptionValue)}
+SaveFirstBackup|E::ConfSave backup1
+SaveSecondBackup|E::ConfSave backup2
+}
+
+#Var ConfMenuVD {Virtual displays:
+}
+#Var ConfTmp1 0
+#Var ConfTmp2 {%Chr(250)
+}
+#ForAll {@VirtualDisplays} {
+ #Math ConfTmp1 {@ConfTmp1+1};
+ #Var ConfTmp4 {%{CRLF}HideDisplay@ConfTmp1:};
+ #If {%Pos(@ConfTmp4,@ConfOptionVars)=0} {
+  #Var ConfOptionVars {@{ConfOptionVars}HideDisplay@ConfTmp1:0
+Display@{ConfTmp1}VolumeDiff:-20
+Display@{ConfTmp1}GagType:All
+Display@{ConfTmp1}Filter:*
+};
+  #If {%IsNumber(@{HideDisplay@ConfTmp1})=0} {#Var {HideDisplay@ConfTmp1} 0};
+  #If {%IsNumber(@{Display@{ConfTmp1}VolumeDiff})=0} {#Var {Display@{ConfTmp1}VolumeDiff} {-20}};
+  #If {%Length(@{Display@{ConfTmp1}GagType})=0} {#Var {Display@{ConfTmp1}GagType} {All}};
+  #If {%Length(@{Display@{ConfTmp1}Filter})=0} {#Var {Display@{ConfTmp1}Filter} {*}}
+ };
+ #Var ConfMenuVD {@ConfMenuVD[@ConfTmp1] %i  [~%If(~@HideDisplay@ConfTmp1=1,hidden,not hidden)].%CRLF};
+ #Var ConfTmp2 {@{ConfTmp2}VD@ConfTmp1|M%CRLF};
+ #Var {ConfMenuVD@ConfTmp1} {Options for Virtual Display @ConfTmp1, %i:
+[1] Hide  [~%If(~@HideDisplay@ConfTmp1=1,On,Off)].
+[2] Filter string  [~@Display@{ConfTmp1}Filter].
+[3] Gag type  [~@Display@{ConfTmp1}GagType].
+[4] Volume offset  [~@{Display@{ConfTmp1}VolumeDiff}~~~%].
+%Chr(250)
+HideDisplay@ConfTmp1|B
+Display@{ConfTmp1}Filter|S:*||Use a single * to match with everything.
+Display@{ConfTmp1}GagType|C:Voice,Don't speak^Display,Don't show in output window^All,Don't speak or show in output window
+Display@{ConfTmp1}VolumeDiff|N:-100^100
+}}
+#Var ConfMenuVD {@ConfMenuVD@ConfTmp2}
+
+#Var ConfMenuDocs {Soundpack documentation:
+[1] View version and contact information (Shift F1).
+[2] View Readme file.
+[3] View Changelog file.
+[4] View help file.
+[5] View a list of available shortcut keys.
+[6] View developer documentation.
+%Chr(250)
+AboutScripts|E::spabout {~@ConfOptionValue}
+ReadMe|E::#Edit {~@DocsPath\..\Readme.txt}
+Changelog|E::wn {~@ConfOptionValue}
+Help|E::#Edit {~@DocsPath\Help.txt}
+Keystrokes|E::#Edit {~@DocsPath\Keys.txt}
+Dev|E::#Edit {~@DocsPath\Developer.txt}
+}
+
+#Var ConfMenuHistory {History options:
+[1] Max number of messages in each history buffer  [~@HistoryBufferSize].
+[2] Print Voice-Only messages to the output window  [~%If(~@PrintVoiceOnly=1,On,Off)].
+[3] Keystrokes for reviewing history buffers.
+[4] Timeframe for double clicking a history review keystroke for copying  [This needs fixing, please remind me someday].
+[5] Suppress duplicate entries  [~%Case(~%Eval(~@SuppressDuplicateEntries+1),Off,Suppress entries that are present at the start of the buffer,Suppress entries that are present anywhere in the buffer)].
+[6] Play sounds as you review the history buffer for played sounds  [~%If(~@PlaySoundsOnReview=1,On,Off)].
+[7] Volume offset for reviewing played sounds  [~@{HistoryVolumeOffset}~~~%].
+[8] Pan for reviewing played sounds  [~@HistoryPanning].
+%Chr(250)
+HistoryBufferSize|N:5^100
+PrintVoiceOnly|B
+BufferConfig|E::#Var ConfOptionSuccess 0;#Say {Entering the BufferConfig command.};BufferConfig
+HistoryTimeout|S:*
+SuppressDuplicateEntries|C:0,Off^1,Suppress entries that are present at the start of the buffer^2,Suppress entries that are present anywhere in the buffer
+PlaySoundsOnReview|B
+HistoryVolumeOffset|N:-100^100
+HistoryPanning|N:-4000^4000
+}
+
+#Var ConfMenuLogs {Logging options:
+[1] Log history  [~%If(~@LogHistory=1,On,Off)].
+[2] Number of messages between each buffer dump  [~@HistoryLoggingInterval].
+%Chr(250)
+LogHistory|B
+HistoryLoggingInterval|N:5^100
+}
+
+#Var ConfMenuMissions {Mission options:
+[1] Mission mode  [~%If(~@MissionMode=1,On,Off)].
+[2] Use hit counter  [~%If(~@UseHitCounter=1,On,Off)].
+[3] Hit counter formatter string  [~@HitCounterFormatString].
+%Chr(250)
+MissionMode|B
+UseHitCounter|B
+HitCounterFormatString|S:*
+}
+
+#Var ConfMenuShip {Ship options
+[1] Mission configuration.
+[2] Scanning options.
+[3] SCGC options.~%If(~@LoadExtraScriptCGC=0, ~(The CGC extra is currently disabled~).,)
+[4] Focus output formatter string  [~@FocusFormatString].
+[5] Frequency for relativity drive sounds  [~@RelDriveFreq Hz].
+[6] Volume offset for relativity drive sounds  [~@{RelDriveVolume}~~~%].
+[7] Relativity drive sound style  [~%Case(~@RelDriveStyle,Standard Miriani,Standard Star Conquest,MonkeyTerm)].
+[8] Beep mode for relativity drive  [~%Case(~%Eval(~@RelDriveBeep+1),Off,Start and Stop,Delayed After Stop)].
+[9] PA prefix  [~@PaPrefix].
+[10] External PA prefix  [~@ExtPrefix].
+[11] Play recorded computer messages when possible  [~%If(~@SpeakWhenPossible=1,On,Off)].
+[12] Show ship name first when ships enter and exit sectors  [~%If(~@FlipSectorInfo=1,On,Off)].
+[13] Disable DND on Red, Blue, Purple, and Orange Alert  [~%If(~@WakeOnRed=1,On,Off)].
+[14] Mute the sounds that play when lights continue to flash during red alert  [~%If(~@MuteAlertContSounds=1,On,Off)].
+[15] Mute the sound that indicates hostile praelor when you scan  [~%If(~@MutePraelorIsEnemySound=1,On,Off)].
+[16] Format string for target patterns  [~@PatternFormatString].
+[17] Enhanced lock alert system  [~%Case(~%Eval(~@EnhancedAimSoundSystem+1),Off,Change lock sound for currently focused target,Mute all lock sounds except for currently focused target)].
+[18] Hit volume depends on praelor ship class  [~%If(~@ClassDependant=1,On,Off)].
+[19] Repair notifications outside Engineering Room  [~%If(~@RepairNotifs=1,On,Off)].
+%Chr(250)
+Missions|M
+Scanning|M
+SCGC|M
+FocusFormatString|S:*
+RelDriveFreq|C:22050,Half pitch^44100,Normal pitch^88200,Double pitch
+RelDriveVolume|N:-100^100
+RelDriveStyle|C:Standard Miriani^Standard Star Conquest^MonkeyTerm
+RelDriveBeep|C:0,Off^1,Beep when rel drive starts and stops^2,Beep one and a half seconds after rel drive stops
+PaPrefix|S:*
+ExtPrefix|S:*
+SpeakWhenPossible|B
+FlipSectorInfo|B
+WakeOnRed|B
+MuteAlertContSounds|B
+MutePraelorIsEnemySound|B
+PatternFormatString|S:*
+EnhancedAimSoundSystem|C:0,Off^1,Change lock sound for currently focused target^2,Mute all lock sounds except for currently focused target
+ClassDependant|B
+RepairNotifs|B
+}
+
+#Var ConfMenuScanning {Scanning options
+[1] Scan filters  [~%If(~@ScanFilters=1,On,Off)].
+[2] Always show original scan output in the output window  [~%If(~@DisplayOriginalScanOutput=1,On,Off)].
+[3] Starship format string  [~@ScanFormatterForStarship].
+[4] Planet format string  [~@ScanFormatterForPlanet].
+[5] Moon format string  [~@ScanFormatterForMoon].
+[6] Station format string  [~@ScanFormatterForStation].
+[7] Asteroid format string  [~@ScanFormatterForAsteroid].
+[8] Star format string  [~@ScanFormatterForStar].
+[9] Debris format string  [~@ScanFormatterForDebris].
+[10] Proximity weapons format string  [~@ScanFormatterForWeapon].
+[11] Video probe format string  [~@ScanFormatterForProbe].
+[12] Interdictor format string  [~@ScanFormatterForInterdictor].
+[13] Blockade format string  [~@ScanFormatterForBlockade].
+[14] Unknown objects format string  [~@ScanFormatterForUnknown].
+%Chr(250)
+ScanFilters|B
+DisplayOriginalScanOutput|B
+ScanFormatterForStarship|S:*
+ScanFormatterForPlanet|S:*
+ScanFormatterForMoon|S:*
+ScanFormatterForStation|S:*
+ScanFormatterForAsteroid|S:*
+ScanFormatterForStar|S:*
+ScanFormatterForDebris|S:*
+ScanFormatterForWeapon|S:*
+ScanFormatterForProbe|S:*
+ScanFormatterForInterdictor|S:*
+ScanFormatterForBlockade|S:*
+ScanFormatterForUnknown|S:*
+}
+
+#Var ConfMenuSpeech {Speech and interrupts:
+[1] Speech interrupts  [~%If(~@UseSpeechInterrupts=1,On,Off)]. (usually only useful for people who have typing interrupt disabled).
+[2] Interrupt on focus  [~%If(~@InterruptOnFocus=1,On,Off)].
+[3] Interrupt on scanning of starships  [~%If(~@InterruptOnScanningStarships=1,On,Off)].
+[4] Interrupt on filtered scan commands (such as scc, scd, sca, ...)  [~%If(~@InterruptOnFilteredScans=1,On,Off)].
+[5] Interrupt when following or being dragged  [~%If(~@InterruptOnFollow=1,On,Off)]. (Alt Backspace).
+[6] Interrupt when entering a room  [~%If(~@InterruptOnRoom=1,On,Off)]. (Control Alt Backspace).
+[7] When following or being dragged, speak the room title first  [~%If(~@SpeakRoomTitleFirst=1,On,Off)].
+[8] Interrupt on message boards  [~%If(~@InterruptOnBoards=1,On,Off)].
+[9] Interrupt on PA  [~%If(~@InterruptOnPa=1,On,Off)].
+[10] Interrupt when detecting an insectoid creature in a room  [~%If(~@InterruptOnInsectoidCreature=1,On,Off)].
+[11] Default speech type for incoming text  [~@DefaultSpeechType].
+[12] Default speech type for user specifyable voice  [~@DefaultSpeechTypeForVoiceOnly].
+[13] SAPI settings.
+%Chr(250)
+UseSpeechInterrupts|B
+InterruptOnFocus|B
+InterruptOnScanningStarships|B
+InterruptOnFilteredScans|B
+InterruptOnFollow|B
+InterruptOnRoom|B
+SpeakRoomTitleFirst|B
+InterruptOnBoards|B
+InterruptOnPa|B
+InterruptOnInsectoidCreature|B
+DefaultSpeechType|C:None,No speech^ScreenReader,Screen reader^Sapi,SAPI:Speech set {~@DefaultSpeechType} {~@DefaultSpeechTypeForVoiceOnly} 1
+DefaultSpeechTypeForVoiceOnly|C:None,No speech^ScreenReader,Screen reader^Sapi,SAPI:Speech set {~@DefaultSpeechType} {~@DefaultSpeechTypeForVoiceOnly} 1
+SAPI|M
+}
+
+#Var ConfMenuSAPI {SAPI settings:
+[1] SAPI voice  [~@SAPIVoice]. (0 to the number of installed voices minus one).
+[2] SAPI volume  [~@{SAPIVolume}~~~%].
+[3] SAPI rate  [~@{SAPIRate}~~~%].
+[4] Speak computer messages through SAPI  [~%If(~@SpeakComputerMessagesThroughSAPI=1,On,Off)].
+%Chr(250)
+SAPIVoice|N:0^100:Speech set {~@DefaultSpeechType} {~@DefaultSpeechTypeForVoiceOnly} 1
+SAPIVolume|N:0^100:Speech set {~@DefaultSpeechType} {~@DefaultSpeechTypeForVoiceOnly} 1
+SAPIRate|N:0^100:Speech set {~@DefaultSpeechType} {~@DefaultSpeechTypeForVoiceOnly} 1
+SpeakComputerMessagesThroughSAPI|B
+}
+
+#Var ConfMenuSCGC {SCGC configuration:
+[1] Raw list string that holds galcoords for SCGC  [~%If(~%Length(~@SCGCList)=0,0,~%NumWords(~@SCGCList,|)) entries].
+[2] Show galactic coordinates in the SCGC list  [~%If(~@ShowGalcoords=1,On,Off)].
+[3] SCGC sends commands directly to the mud instead of using the entry window  [~%If(~@SendCommandDirectly=1,On,Off)].
+[4] Use the SM filters backend instead of the default CGC one  [~%If(~@UseSmStyle=1,On,Off)].
+%Chr(250)
+SCGCList|S
+ShowGalcoords|B
+SendCommandDirectly|B
+UseSmStyle|B
+}
+
+#Var ConfMenuExtras {Soundpack Extras}
+#Var ConfTmp1 0
+#Var ConfTmp2 {%Chr(250)
+}
+#Var ConfTmp5 {}
+#Var ConfTmp6 {}
+#ForAll {%Replace(@ExtraScriptFiles,%CRLF,|)} {
+ #If {%Pos(^,%i)>0} {
+  #Math ConfTmp1 {@ConfTmp1+1};
+  #Var ConfTmp3 {%Word(%i,^,1)};
+  #Var ConfTmp4 {%{CRLF}LoadExtraScript@ConfTmp3:};
+  #If {%Pos(@ConfTmp4,@ConfOptionVars)=0} {
+   #Var ConfOptionVars {@{ConfOptionVars}LoadExtraScript@ConfTmp3:0%CRLF};
+   #If {%IsNumber(@{LoadExtraScript@ConfTmp3})=0} {#Var {LoadExtraScript@ConfTmp3} 0}
+  };
+  #Var ConfTmp5 {@ConfTmp5[@ConfTmp1] @ConfTmp3  [~%If(~@LoadExtraScript@ConfTmp3=1,Enabled,Disabled)]. %Word(%i,^,2).%CRLF};
+  #Var ConfTmp6 {@{ConfTmp6}+~@LoadExtraScript@ConfTmp3};
+  #Var ConfTmp2 {@{ConfTmp2}LoadExtraScript@ConfTmp3|B::LoadExtra {@ConfTmp3} {Quiet}%CRLF}
+ }
+}
+#Var ConfMenuExtras {@ConfMenuExtras (~%Eval(%Delete(@ConfTmp6,1,1)) enabled):%CRLF@ConfTmp5@ConfTmp2}
+
+#Var ConfMenuSpecificSocials {List of social toggles:
+}
+#Var ConfTmp1 0
+#Var ConfTmp2 {%Chr(250)
+}
+#ForAll {%Replace(@Socials,%CRLF,|)} {
+ #If {%NumWords(%i,:)>1} {
+  #Math ConfTmp1 {@ConfTmp1+1};
+  #Var ConfTmp3 {%Proper(%Word(%i,:,1))};
+  #Var ConfTmp4 {%{CRLF}SocialToggle@ConfTmp3:};
+  #If {%Pos(@ConfTmp4,@ConfOptionVars)=0} {
+   #Var ConfOptionVars {@{ConfOptionVars}SocialToggle@ConfTmp3:1%CRLF};
+   #If {%IsNumber(@{SocialToggle@ConfTmp3})=0} {#Var {SocialToggle@ConfTmp3} 1}
+  };
+  #Var ConfMenuSpecificSocials {@ConfMenuSpecificSocials[@ConfTmp1] @ConfTmp3  [~%If(~@SocialToggle@ConfTmp3=1,On,Off)].%CRLF};
+  #Var ConfTmp2 {@{ConfTmp2}SocialToggle@ConfTmp3|B%CRLF}
+ }
+}
+#Var ConfMenuSpecificSocials {@ConfMenuSpecificSocials@ConfTmp2}
+
+#Var ConfManagerMenusLoaded 1

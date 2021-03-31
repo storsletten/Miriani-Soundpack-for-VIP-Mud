@@ -1,0 +1,604 @@
+#Var PlanetClassifications {
+Class *:General\Rooms\Rocky*5@Rext|
+EXTREMELY HOSTILE:General\Rooms\Rocky*5@Rext|
+Gas Giant:General\Rooms\Planet@Rext|
+Ice:General\Rooms\Ice@Rext|
+Marine:General\Rooms\Ocean@Rext|
+*Rocky:General\Rooms\Rocky*5@Rext|
+Terrestrial:General\Rooms\Planet@Rext|
+Transterrestrial:General\Rooms\Planet@Rext
+}
+#Var ShipRooms {
+Airlock
+Ship\Rooms\Airlock@Rext
+Bias Drive Housing
+Ship\Rooms\BiasHousing@Rext
+Brig
+Ship\Rooms\Brig@Rext
+Bridge
+Ship\Rooms\Control*3@Rext
+Bzzr Oton Bznit Gran
+Ship\Rooms\Potate*5@Rext
+Cafeteria
+Ship\Rooms\StateRoom@Rext
+Cargo Bay
+Ship\Rooms\Storage@Rext
+Combat Drone Bay
+Ship\Rooms\CombatDroneBay@Rext
+Common Area
+Ship\Rooms\CommonArea@Rext
+Control Center
+Ship\Rooms\Control*3@Rext
+Control Room
+Ship\Rooms\Control*3@Rext
+Docking Bay
+Ship\Rooms\DockingBay1@Rext
+Duct
+Ship\Rooms\Duct@Rext
+Fighter Bay
+Ship\Rooms\VehicleFighterDock@Rext
+Fighter Rearm
+Ship\Rooms\MiscShipRooms@Rext
+Fighter's Lounge
+Ship\Rooms\MiscShipRooms@Rext
+Gym
+Ship\Rooms\StateRoom@Rext
+Hallway
+Ship\Rooms\Corridors@Rext
+Hydroponics Bay
+Ship\Rooms\DockingBay1@Rext
+Library
+Ship\Rooms\LivingQuarters*3@Rext
+Pool
+Ship\Rooms\PoolRoom*3@Rext
+Starship Docking Bay
+Ship\Rooms\DockingBay1@Rext
+Targetting Control Center
+Ship\Rooms\ObservationRoom@Rext
+Vehicle Docking Bay
+Ship\Rooms\VehicleBay@Rext
+Wellness Center
+Ship\Rooms\Medical*2@Rext
+}
+
+#Var ShipRoomsW {
+*Battery *
+Ship\Rooms\WeaponsRoom@Rext
+Battle*
+Ship\Rooms\WeaponsRoom@Rext
+*Bedroom*
+Ship\Rooms\LivingQuarters*3@Rext
+Combat*
+Ship\Rooms\WeaponsRoom@Rext
+*Corridor*
+Ship\Rooms\Corridors@Rext
+*Deck*
+Ship\Rooms\Deck@Rext
+Engineering*
+Ship\Rooms\Engineering*2@Rext
+*Hangar*
+General\Rooms\Garage@Rext
+Living Quarters*
+Ship\Rooms\LivingQuarters*3@Rext
+Medical *
+Ship\Rooms\Medical*2@Rext
+Observation *
+Ship\Rooms\ObservationRoom@Rext
+Room *
+Ship\Rooms\LivingQuarters*3@Rext
+Stateroom *
+Ship\Rooms\StateRoom@Rext
+Storage*
+Ship\Rooms\Storage@Rext
+Weapons*
+Ship\Rooms\WeaponsRoom@Rext
+*Repair and Rearm*
+Ship\Rooms\RepAndRearm@Rext
+}
+
+#Var Rooms {
+A Suborbital Pod
+General\Rooms\ITPN@Rext
+Transport Pod
+General\Rooms\ITPN@Rext
+Artificial Garden
+General\Rooms\Planet@Rext
+Asteroid Rover Control Center
+General\Rooms\AsteroidRover@Rext
+Asteroid Surface
+General\Rooms\AsteroidSurface@Rext
+Atmospheric Combat Vehicle Control Room
+General\Rooms\ACV@Rext
+Atmospheric Salvager Cockpit
+Ship\Rooms\Salvager@Rext
+Beach
+General\Rooms\Ocean@Rext
+Clearing
+General\Rooms\Planet@Rext
+Crater Rim
+General\Rooms\Volcano@Rext
+Decontamination Chamber
+General\Rooms\DecontaminationRoom@Rext
+Dig Site
+General\Rooms\DigSite@Rext
+Empty Space
+General\Rooms\SpaceSuit@Rext
+Escalator
+General\Rooms\Escalator*2@Rext
+Gas giant Salvager Cockpit
+Atmo\GasGiantCockpit@Rext
+Idyllic Park
+General\Rooms\Planet@Rext
+Large Wooden Dock
+General\Rooms\Ocean@Rext
+Lower Walkway
+General\Rooms\Deneii@Rext
+Moon Surface
+General\Rooms\Volcano@Rext
+Operating Room
+Ship\Rooms\Medical*2@Rext
+Petunia's Proximity Weapons
+General\Rooms\Shadius@Rext
+Pilot's Lounge
+General\Rooms\PilotsLounge@Rext
+The Gift Garage
+General\Rooms\Planet@Rext
+Pitch Black
+General\Rooms\Cave@Rext
+Pool
+Ship\Rooms\PoolRoom*3@Rext
+Indoor Pool
+Ship\Rooms\PoolRoom*3@Rext
+Outdoor Pool
+Ship\Rooms\PoolRoom*3@Rext
+Swimming Pool
+Ship\Rooms\PoolRoom*3@Rext
+Public Docking Bay
+General\Rooms\LandingPad@Rext
+Recovery Room
+Ship\Rooms\LivingQuarters*3@Rext
+Sandy Clearing
+General\Rooms\Planet@Rext
+Starship Computer Services
+General\Rooms\Shadius@Rext
+Twisty Corridor
+General\Rooms\Shadius@Rext
+Uncle Lyle's Lock Liquidation
+General\Rooms\Shadius@Rext
+}
+#Var RoomsW {
+*Cave*
+General\Rooms\Cave@Rext
+Cell Block *
+Ship\Rooms\Brig@Rext
+* Cockpit
+Ship\Rooms\Salvager@Rext
+*Docking*
+General\Rooms\LandingPad@Rext
+*Lake*
+General\Rooms\Lake@Rext
+*Launch Pad*
+General\Rooms\LandingPad@Rext
+*River*
+General\Rooms\Lake@Rext
+*Escape Pod
+Ship\Rooms\EscapePod@Rext
+*Garage*
+General\Rooms\Garage@Rext
+*Starship Storage*
+General\Rooms\Garage@Rext
+*Parking*
+General\Rooms\Garage@Rext
+*Hangar*
+General\Rooms\Garage@Rext
+*Landing*
+General\Rooms\LandingPad@Rext
+*Mission*
+General\Rooms\Mission@Rext
+Sector *: Central Jumpgate Hub
+General\Rooms\SpaceSuit@Rext
+*Shady*
+General\Rooms\Shadius@Rext
+*Starship Simulators*
+General\Rooms\SimShop@Rext
+Transport Pod * to *
+General\Rooms\ITPN@Rext
+*Tunnel*
+General\Rooms\Cave@Rext
+*Pilo* Lounge
+General\Rooms\PilotsLounge@Rext
+}
+
+#Var ZoneList {
+Deneii
+Apartment
+}
+
+#If {%Defined(TempRoomSound)=0} {#Var TempRoomSound {Ship\Rooms\Control*3.wav}}
+#If {%Defined(SoundpackEnvironment)=0} {#Var SoundpackEnvironment {}}
+#If {%Defined(Classification)=0} {#Var Classification {}}
+#If {%Defined(Hostile)=0} {#Var Hostile 0}
+#If {%Defined(InSpace)=0} {#Var InSpace 0}
+#If {%Defined(Light)=0} {#Var Light 1}
+#If {%Defined(RoomReader)=0} {#Var RoomReader 0}
+#If {%Defined(RoomName)=0} {#Var RoomName {}}
+#If {%Defined(RoomSound)=0} {#Var RoomSound {}}
+#If {%Defined(ZoneName)=0} {#Var ZoneName {}}
+#If {%Defined(ZoneType)=0} {#Var ZoneType {}}
+#If {%Defined(GagRoom)=0} {#Var GagRoom 0}
+#If {%Defined(Peers)=0} {#Var Peers 0}
+#If {%Defined(Following)=0} {#Var Following 0}
+
+#Class Starship Enable
+#Class NotStarship Enable
+#Class Vehicle Enable
+#Class Craft Enable
+#Class Ground Enable
+#Class Planet Enable
+#Class Station Enable
+
+#Alias InSpace {
+ #If {%1=*"[01]"} {
+  #Var InSpace %1;
+  #If {@ZoneType="starship"} {
+   #If {@InSpace=1 OR %Pos(Pool,@RoomName)>0} {
+    mrplay Change Frequency 44100
+   } {
+    mrplay Change Frequency 22050
+   }
+  }
+ } {
+  ~InSpace %0
+ }
+}
+#Alias Powered {
+ #If {%1=*"[01]"} {
+  #If {%1<>@Powered} {
+   #Var Powered %1;
+   #If {@ZoneType="starship"} {
+    #If {@Powered=1} {
+     #If {@InSpace=1 OR %Pos(Pool,@RoomName)>0} {
+      mrplay @RoomSound Frequency 44100
+     } {
+      mrplay @RoomSound Frequency 22050
+     }
+    } {
+     mrplay stop
+    }
+   }
+  }
+ } {
+  ~Powered %0
+ }
+}
+#Alias InRoom {
+ #If {%Length(%1)>0} {#Var ZoneName {%1}};
+ #If {%Length(%2)>0} {#Var RoomName {%2}};
+ #Exec {#Alarm 0 {
+  #If {~%Defined(ProcessingInRoom)=1} {
+   #If {"%3"<>"Retry"} {#Alarm 1 {InRoom {} {} {Retry}}};
+   #Abort All
+  } {
+   #Var ProcessingInRoom 1
+  };
+  #If {~@ZoneType="starship"} {
+   #Var RoomSound {Ship\Rooms\MiscShipRooms@Rext};
+   #Var InRoomTmp1 {~%Pos(~@LF~@RoomName~@CR,~@ShipRooms)};
+   #If {~%IfWord(~@RoomName,Airlock,|)=1} {MPlanetSounds stop};
+   #If {~@InRoomTmp1>0} {
+    #Var RoomSound {~%Word(~%Copy(~@ShipRooms,~@InRoomTmp1+1),~%CRLF,2)}
+   } {
+    #Math InRoomTmp1 {~%NumWords(~@ShipRoomsW,~@CR)-2};
+    #While {~@InRoomTmp1>0} {
+     #If {~%Replace(~@RoomName,~~",)=*~%Word(~@ShipRoomsW,~%CRLF,~@InRoomTmp1)} {
+      #Var RoomSound {~%Word(~@ShipRoomsW,~%CRLF,~@InRoomTmp1+1)};
+      #Var InRoomTmp1 -1
+     } {
+      #Math InRoomTmp1 {~@InRoomTmp1-2}
+     }
+    }
+   };
+   #If {~@Powered=0} {
+    #Var TempRoomSound {~@RoomSound};
+    #Var RoomSound {Ship\Rooms\NoPower~@Rext};
+    Mrplay ~@RoomSound
+   } {
+    #If {~@InSpace=1 or ~%Pos(Pool,~@RoomName)>0} {
+     mrplay ~@RoomSound Frequency 44100
+    } {
+     mrplay ~@RoomSound Frequency 22050
+    }
+   }
+  } {
+   #If {~@ZoneType="planet"} {
+    #Var RoomSound {General\Rooms\Planet~@Rext};
+    #ForAll {~@PlanetClassifications} {
+     #Var TempClassification {~%Replace(~%Word(~%i,:,1),~%CRLF,)};
+     #If {~@Classification=*~@TempClassification} {
+      #Var RoomSound {~%Replace(~%Word(~%i,:,2),~%CRLF,)}
+     }
+    };
+    #If {~%IfWord(Apartment,~@ZoneName, )=1} {
+     #Var RoomSound {Ship\Rooms\LivingQuarters*3~@Rext}
+    } {
+     #If {~%Pos(Planet,~@ZoneName)=1 and ~%IsNumber(~%Word(~@ZoneName, ,~%NumWords(~@ZoneName, )))=1} {MPlanetSounds}
+    }
+   } {
+    #If {~@ZoneType="station"} {
+     #Var RoomSound {Ship\Rooms\LivingQuarters*3~@Rext}
+    } {
+     #If {~@ZoneType="space"} {
+      #Var RoomSound {General\Rooms\Spacesuit~@Rext}
+     } {
+      #If {~@ZoneType="room" and ~%Pos(~%Word(~@ZoneName, ,1),~@ZoneList)>0} {
+       #Var RoomSound {General\Rooms\Deneii~@Rext}
+      } {
+       #Var RoomSound {}
+      }
+     }
+    }
+   };
+   #Var InRoomTmp1 {~%Pos(~@LF~@RoomName~@CR,~@Rooms)};
+   #If {~@InRoomTmp1>0} {
+    #Var RoomSound {~%Word(~%Copy(~@Rooms,~@InRoomTmp1+1),~%CRLF,2)}
+   } {
+    #Math InRoomTmp1 {~%NumWords(~@RoomsW,~@CR)-2};
+    #While {~@InRoomTmp1>0} {
+     #If {~%replace(~@RoomName,~~",)=*~%Word(~@RoomsW,~%CRLF,~@InRoomTmp1)} {
+      #Var RoomSound {~%Word(~@RoomsW,~%CRLF,~@InRoomTmp1+1)};
+      #Var InRoomTmp1 -1
+     } {
+      #Math InRoomTmp1 {~@InRoomTmp1-2}
+     }
+    }
+   };
+   mrplay ~@RoomSound Frequency 44100
+  };
+  #UnVar ProcessingInRoom
+ }}
+}
+
+#Trigger {[#]$[#]soundpack environment *} {
+ #If {@InterruptOnRoom=1 and (@Following=0 or (@InterruptOnFollow=1 and @SpeakRoomTitleFirst=0)) AND @DontStopSpeaking<>1} {speech stop};
+ #Var DontStopSpeaking 0;
+ #If {@Peers=1} {#Abort All};
+ #If {%0<>@SoundpackEnvironment} {
+  #Var SoundpackEnvironment {%0};
+  #Var ZoneName {Unknown};
+  #Var RoomName {Unknown};
+  #Var OldZoneType {@ZoneType};
+  #Var ZoneType {%Word(%1, ,1)};
+  #If {@OldZoneType<>@ZoneType} {
+   #If {@ZoneType="starship" or @ZoneType="vehicle"} {#Class Craft Enable;#Class Ground Disable} {#Class Craft Disable;#Class Ground Enable};
+   #If {@OldZoneType="starship" AND %IsNumber(@AlertSoundHandle)=1 AND @AlertSoundHandle>0} {
+    #PC @AlertSoundHandle stop;
+    #Var AlertSoundHandle 0
+   }
+  };
+  #If {@ZoneType="starship"} {#Class Starship Enable;#Class NotStarship Disable;
+   #Var Landed {%IfWord(%Word(%1, | ,1),starship landed,%CRLF)};
+   #Var Powered {%IfWord(%Word(%1, | ,2),powered,%CRLF)};
+   #Var Hostile {%IfWord(%Word(%1, | ,3),hostile,%CRLF)};
+   #Var Light {%IfWord(%Word(%1, | ,4),light,%CRLF)};
+   #Var Outdoors {%IfWord(%Word(%1, | ,5),outdoors,%CRLF)};
+   #Var RoomTypes {%Word(%1, | ,6)}
+  } {#Class Starship Disable;#Class NotStarship Enable};
+  #If {@ZoneType="planet"} {#Class Planet Enable;
+   #Var Classification {%Copy(%1,8,%Pos(|,%1)-9)};
+   #Var Hostile {%IfWord(%Word(%1, | ,2),hostile,%CRLF)};
+   #Var Light {%IfWord(%Word(%1, | ,3),light,%CRLF)};
+   #Var Outdoors {%IfWord(%Word(%1, | ,4),outdoors,%CRLF)};
+   #Var RoomTypes {%Word(%1, | ,5)}
+  } {#Class Planet Disable};
+  #If {@ZoneType="station"} {#Class Station Enable;
+   #Var Hostile {%IfWord(%Word(%1, | ,2),hostile,%CRLF)};
+   #Var Light {%IfWord(%Word(%1, | ,3),light,%CRLF)};
+   #Var Outdoors {%IfWord(%Word(%1, | ,4),outdoors,%CRLF)};
+   #Var RoomTypes {%Word(%1, | ,5)}
+  } {#Class Station Disable};
+  #If {@ZoneType="space"} {#Class Space Enable;
+   #Var Hostile 1;
+   #Var Light {%IfWord(%Word(%1, | ,3),light,%CRLF)};
+   #Var Outdoors 1
+  } {#Class Space Disable};
+  #If {@ZoneType="vehicle"} {#Class Vehicle Enable;
+   #Var Landed {%IfWord(%Word(%1, | ,1),vehicle landed,%CRLF)};
+   #Var Classification {%Word(%1, | ,2)}
+  } {#Class Vehicle Disable};
+  #If {@ZoneType="room"} {
+   #Var Hostile {%IfWord(%Word(%1, | ,2),hostile,%CRLF)};
+   #Var Light {%IfWord(%Word(%1, | ,3),light,%CRLF)};
+   #Var Outdoors {%IfWord(%Word(%1, | ,4),outdoors,%CRLF)};
+   #Var RoomTypes {%Word(%1, | ,5)}
+  }
+ };
+ #Var RoomReader {%Max(@RoomReader+1,1)};
+ #Class RoomReader Enable;
+ #Alarm {0@{DecimalChar}3} {#Math RoomReader {@RoomReader-1}}
+} {Main}
+#Trigger {[[]*]*} {
+ #If {@InterruptOnRoom=1 and @Following=1 and @InterruptOnFollow=1 and @SpeakRoomTitleFirst=1} {speech stop};
+ #Var Following 0;
+ #Class RoomReader Disable;
+ #Class Walking Disable;
+ #UnVar ProcessingInRoom;
+ #Var Sitting {};
+ #Var MyXCoord {};
+ #Var MyYCoord {};
+ #Var MyZCoord {};
+ #Var RoomTmp1 {%NumWords(%2,~()};
+ #While {@RoomTmp1>1} {
+  #Var RoomTmp2 {%Word(%2,~(,@RoomTmp1)};
+  #Var RoomTmp2 {%Word(@RoomTmp2,~),1)};
+  #If {%Pos(~, ,@RoomTmp2)>0 and %NumWords(@RoomTmp2, )<4} {
+   #Var MyXCoord {%Word(@RoomTmp2,~, ,1)};
+   #Var MyYCoord {%Word(@RoomTmp2,~, ,2)};
+   #If {%NumWords(@RoomTmp2,~,)=3} {#Var MyZCoord {%Word(@RoomTmp2,~, ,3)}} {#Var MyZCoord {}};
+   #If {%IfWord(%1,Asteroid Surface,|)=0} {
+    #If {%Defined(ArchDigDepth)=0} {
+     #Var RoomLoadScripts {@ScriptPath\Archaeology.set}
+    } {
+     #If {@MyXCoord=@ArchArtiXCoord and @MyYCoord=@ArchArtiYCoord and @MyZCoord=@ArchArtiZCoord} {msplay General\Archaeology\ArtifactHere@Ext}
+    }
+   }
+  } {
+   #If {%IfWord(%Word(@RoomTmp2, ,1),buckled flying lying riding sitting soaking swimming, )=1} {
+    #Var Sitting {@RoomTmp2};
+    #Var RoomTmp2 {%Pos( ,@RoomTmp2)};
+    #If {@RoomTmp2>0} {
+     #Var RoomTmp2 {%Copy(@Sitting,@RoomTmp2+1)};
+     #If {%IfWord(@RoomTmp2,on the floor|on the ground,|)=1} {#Var Sitting {%Word(@Sitting, ,1)}}
+    }
+   }
+  };
+  #Math RoomTmp1 {@RoomTmp1-1}
+ };
+ #If {@ZoneType="starship"} {
+  InRoom {%Word(%1,~",2)} {%LTrim(%Word(~%1,~~~",3))};
+  #If {@FormatRoomTitles=1} {
+   #Var RoomTmp1 {[@RoomName "@ZoneName"]};
+   #If {%Pos( ~(outdoors~),%2)>0} {#Var RoomTmp2 { outdoors}} {#Var RoomTmp2 {}};
+   #If {@Hostile=1} {#Var RoomTmp1 {@RoomTmp1 (Hostile)}};
+   #If {@Powered=0} {#Var RoomTmp1 {@RoomTmp1 (Unpowered)}};
+   #If {%Length(@Sitting)>0} {#Var RoomTmp1 {@RoomTmp1 @Sitting@RoomTmp2}} {#If {%Length(@RoomTmp2)>0} {#Var RoomTmp1 {@RoomTmp1 (%Trim(@RoomTmp2))}}};
+   #Sub {@RoomTmp1}
+  }
+ } {
+  #If {%Pos("; ",%1)>0} {
+   InRoom {%Word(%1,"; ",1)} {%Copy(%1,%Pos("; ",%1)+2)};
+   #If {@FormatRoomTitles=1} {
+    #If {%Pos( ~(outdoors~),%2)>0} {#Var RoomTmp2 { outdoors}} {#Var RoomTmp2 {}};
+    #If {%IsNumber(@MyXCoord)=1} {
+     #Var RoomTmp1 {[@MyXCoord, @MyYCoord%If(%IsNumber(@MyZCoord)=1,~, @MyZCoord,): @RoomName (@ZoneName)]}
+    } {
+     #Var RoomTmp1 {[@RoomName (@ZoneName)]}
+    };
+    #If {%Length(@Sitting)>0} {#Var RoomTmp1 {@RoomTmp1 @Sitting@RoomTmp2}} {#If {%Length(@RoomTmp2)>0} {#Var RoomTmp1 {@RoomTmp1 (%Trim(@RoomTmp2))}}};
+    #If {@Hostile=1} {#Var RoomTmp1 {@RoomTmp1 (Hostile)}};
+    #Sub {@RoomTmp1}
+   }
+  } {
+   #If {%IfWord(%1,@ZoneName,@CR)=1 and %IfWord(%1,@RoomName,@CR)=1} {
+    #If {@ZoneType="space"} {#GagLine 1 Voice}
+   } {
+    InRoom {%1} {%1}
+   }
+  }
+ }
+} {Main|RoomReader}
+#Trigger {The doors to the pod close and the pod *begins *.} {msplay General\Misc\Pod@Ext} {Main}
+#Trigger {The red light above the door to the * turns on. A pair of ominous-looking stun turrets lower from the ceiling, suggesting that this isn't a regular decontamination.} {
+ msplay Ship\Combat\WeaponsOn@Ext
+} {Main}
+#Trigger {A puff of smoke is suddenly expelled from *.} {mrandomplay General\Misc\Smoke*7@Ext} {Main}
+#Trigger {[[]"*" Escape Pod]} {mrplay Ship\Rooms\EscapePod@Rext} {Main}
+#Trigger {The pod's suicidal pace  slows as it reaches *, gently touching down. *} {
+ msplay ACV\ACVStop@Ext;
+ #GagLine 1 All
+} {Main}
+#Trigger {The pod quickly slows as it reaches *.*} {DontStopSpeaking} {Main}
+#Trigger {* is closed.} {
+ msplay General\Misc\CantGo*5@Ext
+} {Main}
+#Trigger {Noticing a* Commoveo membership ring, the guard waves you through.} {DontStopSpeaking} {Main}
+#Trigger {You step on to a small platform on the floor. Sensing your presence, a ring of lights along the perimeter of the circle light up as the platform *.} {
+ msplay General\Misc\HGLift.wav;
+ #GagLine 1 All
+} {Main|Ground}
+#Trigger {You hear a loud creak as you * the rusted gate open, stepping through it.} {msplay General\Rooms\Gate*3@Rext} {Main|Ground}
+#Trigger {You hear a sudden rumbling as the walls of the room start to crumble and the floor shakes violently. *} {msplay General\Rooms\DestroyRoom@Rext} {Main}
+#Trigger {You step into a pod*.} {DontStopSpeaking} {Main|Ground}
+#Trigger {You set a new access code for a * door and lock it.} {msplay Ship\Misc\DoorLocked@Ext} {Main}
+#Trigger {You peer * and see...} {
+ #Var Peers 1;
+ #GagLine 1 All
+} {Main}
+#Trigger {You pass through *.} {#var Following 1} {Main}
+#Trigger {You see the walls begin to crumble and the floor cracking. *} {msplay General\Rooms\DestroyRoom@Rext} {Main}
+#Trigger {You are forced off of the stairs as the * reaches its destination.} {msplay General\Rooms\EscalatorEnd@Rext} {Main}
+#Trigger {You are escorted to * by *.} {
+ msplay General\Misc\Door@Ext;
+ DontStopSpeaking
+} {Main}
+#Trigger {* press* a button on the wall to summon the lift.} {msplay general/lift/LiftButton@Ext} {Main}
+#Trigger {With a gentle rock, the pod sets down *.} {
+ msplay General\Misc\ITPNArrive@Ext;
+ #GagLine 1 Voice
+} {Main|NotStarship}
+#Trigger {You hear the sound of the pod's engines as it accelerates *.} {
+ #If {%Pos(toward,%1)=1} {
+  msplay Ship\Move\YouLanding@Ext;
+  #Sub {The pod accelerates %1.};
+  #GagLine 1 Voice
+ } {
+  msplay ACV\ACVStart@Ext;
+  #GagLine 1 All
+ }
+} {Main|NotStarship}
+#Trigger {*The sound of the pod's engine suddenly fills the area as the pod begins moving toward its destination*} {
+ #GagLine 1 All;
+ msplay general\misc\podgo@Ext
+} {Main}
+#Trigger {*You feel the mild pull of acceleration as the pod begins to set down*} {
+ #GagLine 1 All;
+ msplay general\misc\podstop@Ext
+} {Main}
+#Trigger {You hitch up * and begin laboriously walking toward *...} {
+ #If {@ZoneType="starship"} {#Var WalkTmp1 {"@{ZoneName}" }} {#Var WalkTmp1 {@ZoneName; }};
+ #If {%Pos(@WalkTmp1,%2)=1} {#Sub {Walking to %Copy(%2,%Length(@ZoneName)+3+%Pos(starship,@ZoneType)).}} {#Sub {Walking to %2.}};
+ #Var WalkPrevRoom {@RoomName};
+ #Class Walking Enable
+} {Main}
+#Trigger {You * to *} {
+ #Var WalkTmp1 {%Word(%1, ,%NumWords(%1, ))};
+ #If {%IfWord(@WalkTmp1,@DirList, )=1} {
+  #GagLine 1 Voice;
+  MStep You Leave {@WalkTmp1};
+  #Var WalkTmp1 {%Left(%2,%Length(%2)-1)};
+  #If {%IfWord(@WalkTmp1,@RoomName,@CR)=0} {
+   #Var WalkPrevRoom {@RoomName};
+   #Say {@WalkTmp1} Incoming|NoDisplay;
+   InRoom {} {@WalkTmp1}
+  }
+ }
+} {Walking}
+#Trigger {You've arrived at *} {
+ #Class Walking Disable;
+ #If {@ZoneType="starship"} {
+  #Var WalkTmp1 {"@ZoneName" @RoomName.}
+ } {
+  #If {%Pos(;,%1)>0} {
+   #Var WalkTmp1 {@ZoneName; @RoomName.}
+  } {
+   #Var WalkTmp1 {@RoomName.}
+  }
+ };
+ #If {%IfWord(%1,@WalkTmp1,@CR)=0} {
+  #If {@ZoneType="starship"} {
+   #Var WalkTmp1 {%Word(%1,~",2)};
+   #Math WalkTmp2 {%Length(@WalkTmp1)+4};
+   #Var WalkTmp2 {%Copy(%1,@WalkTmp2,%Length(%1)-@WalkTmp2)}
+  } {
+   #If {%Pos(;,%1)>0} {
+    #Var WalkTmp1 {%Word(%1,;,1)};
+    #Math WalkTmp2 {%Length(@WalkTmp1)+3};
+    #Var WalkTmp2 {%Copy(%1,@WalkTmp2,%Length(%1)-@WalkTmp2)}
+   } {
+    #Var WalkTmp1 {%Left(%1,%Length(%1)-1)};
+    #Var WalkTmp2 {@WalkTmp1}
+   }
+  };
+  InRoom {@WalkTmp1} {@WalkTmp2};
+  #GagLine 1 Voice;
+  #Sub {Arrived at @RoomName.};
+  #Say {@RoomName} Incoming|NoDisplay;
+  #UnVar WalkTmp2
+ } {
+  #GagLine 1 All;
+  #If {%IfWord(@WalkPrevRoom,@RoomName,@CR)=1} {
+   #Say {@RoomName} Incoming|NoDisplay
+  }
+ };
+ #UnVar WalkPrevRoom;
+ #UnVar WalkTmp1
+} {Walking}

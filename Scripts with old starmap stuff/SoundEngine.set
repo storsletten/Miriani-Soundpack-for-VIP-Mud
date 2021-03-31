@@ -1,0 +1,306 @@
+#If {%Defined(SoundIsPlaying)=0} {#Var SoundIsPlaying 0}
+#If {%Defined(CurrentRoomSound)=0} {#Var CurrentRoomSound {}}
+#If {%Defined(Ext)=0} {#Var Ext {.wav}}
+#If {%Defined(RExt)=0} {#Var RExt {.wav}}
+#Var DontStopSpeaking 0
+
+#Var FootstepsList {
+planet:General\Footsteps\Planet*8@Ext
+room:General\Footsteps\Room*4@Ext
+starship.Duct:General\Footsteps\Duct*7@Ext
+starship:General\Footsteps\Ship*8@Ext
+station:General\Footsteps\Station*8@Ext
+}
+
+#Alias MirianiSoundPlay {
+ #Var SoundIsPlaying {%If(@Silent=1,0,1)};
+ #If {%IsNumber(%4)=1} {
+  #If {%4>@SoundsVersion} {#Var SoundIsPlaying 0}
+ };
+ #If {@SoundIsPlaying=1} {
+  #If {%3=*"*:*"} {
+   #Var SoundTmp1 {%Word(%3,:,1)};
+   #Var SoundTmp4 {Display%Word(%3,:,2)IsHidden};
+   #If {%Defined(@SoundTmp4)=1} {
+    #If {@{@SoundTmp4}=1} {
+     #Var SoundTmp4 {Display%Word(%3,:,2)VolumeDiff};
+     #Math SoundTmp1 {@SoundTmp1+@{@SoundTmp4}}
+    }
+   }
+  } {
+   #Var SoundTmp1 {%If(%IsNumber(%3)=1,%3,0)}
+  };
+  #Math SoundTmp1 {@SoundTmp1*@Vol/100+@Vol};
+  #Var SoundTmp1 {%Min(100,%Max(0,@SoundTmp1))};
+  #If {%Pos(:,%2)>1} {#Var SoundTmp4 {}} {#Var SoundTmp4 {@StabilizedSoundsPath\}};
+  #If {%Copy(%2,1,2)="l^"} {
+   #Var SoundTmp2 {#PlayLoop^%Word(%2,^,2)};
+   #Var SoundTmp3 {Looping}
+  } {
+   #Var SoundTmp2 {#Play^%2};
+   #Var SoundTmp3 {Playing}
+  };
+  #Exec {%Word(@SoundTmp2,^,1) {@SoundTmp4%Word(@SoundTmp2,^,2)} @SoundTmp1};
+  #If {%Defined(HistoryBuffers)=1 and @Connected=1} {
+   #Var SoundTmpString {[%1]: @SoundTmp3 %Word(@SoundTmp2,^,2) at @{SoundTmp1}~~~% volume.};
+   #Exec {#Alarm 0 {PushMessage Played0Sounds {@SoundTmpString}}}
+  }
+ }
+}
+
+#Alias msplay {MirianiSoundPlay Standard %1 %2 %3}
+
+; McPlay
+; For use with camera output:
+#Alias mcplay {
+ #If {%2=*"*:*"} {
+  #Var McplayTmp1 {%Word(%2,:,1)};
+  #Var McplayTmp2 {:%Word(%2,:,2)}
+ } {
+  #Var McplayTmp1 {%1};
+  #Var McplayTmp2 {}
+ };
+ #If {%IsNumber(@McplayTmp1)=0} {
+  #Var McplayTmp1 0
+ };
+ #Math McplayTmp1 {@McplayTmp1 + @CameraVolumeDiff};
+ MirianiSoundPlay {Camera} {%1} {@McplayTmp1@McplayTmp2} {%3};
+ #If {@SoundIsPlaying=1} {#pc %playhandle pan @CameraPan}
+}
+
+; Mwplay:
+; For use with weapon fire etc.
+; Respects the pan and volume stuff in Conf Sound.
+#Alias mwplay {
+ #If {%2=*"*:*"} {
+  #Var MwplayTmp1 {%Word(%2,:,1)};
+  #Var MwplayTmp2 {:%Word(%2,:,2)}
+ } {
+  #Var MwplayTmp1 %2;
+  #Var MwplayTmp2 {}
+ };
+ #If {%IsNumber(@MwplayTmp1)=0} {#Var MwplayTmp1 0};
+ #If {@RandomiseCombatVolume=1} {#math MwplayTmp1 {@MwplayTmp1 + %Random(-20,20)}};
+ #math MwplayTmp1 {@MwplayTmp1 + @RelativeCombatVolume};
+ MirianiSoundPlay Weapons %1 {@MwplayTmp1@MwplayTmp2} %3;
+ #If {@SoundIsPlaying=1 and @RandomiseCombatPan=1 and %mp3loop<>@WeaponSoundHandle and %playhandle>0} {
+  #PC %PlayHandle Pan %Random(-1500,1500)
+ }
+}
+
+; SetRoomSoundVolume:
+; Simply sets the room sounds volume, used with the master volume faders.
+#Alias SetRoomSoundVolume {
+ #Math RoomVol {@Vol+@RoomSoundsVolumeDiff};
+ #If {@RoomVol<0} {#Var RoomVol 0} {#If {@RoomVol>100} {#Var RoomVol 100}};
+ #If {%Defined(RoomSoundHandle)=1} {#PC @RoomSoundHandle Volume @RoomVol}
+}
+
+; Mrplay:
+; Loop plays room sounds.
+#Alias mrplay {
+ #Exec {
+  #If {"%1"<>"Change" and (@RoomSounds=0 or %IfWord(@ZoneType,@SilentZoneTypes,|)=1 or %IfWord(@ZoneName,@SilentZoneNames,|)=1 or %IfWord(@RoomName,@SilentRoomNames,|)=1)} {
+   #Alarm 0 {MrplayOriginal}
+  } {
+   #Alarm 0 {mrplayOriginal {%1} {%2} {%3} {%4} {%5} {%6} {%7} {%8} {%9}}
+  }
+ }
+}
+#Alias mrplayOriginal {
+ #If {%1="" or %1="stop"} {
+  #If {%Defined(RoomSoundHandle)=1} {#PC @RoomSoundHandle Stop;#UnVar RoomSoundHandle};
+  #Var CurrentRoomSound {}
+ } {
+  #If {@Silent=0 and @RoomSounds>0} {
+   #If {%1<>@CurrentRoomSound and %1<>"change"} {
+    #If {%Defined(RoomSoundHandle)=1} {#PC @RoomSoundHandle Stop;#UnVar RoomSoundHandle};
+    MirianiSoundPlay {Room sounds} {l^%1} @RoomSoundsVolumeDiff;
+    #If {@SoundIsPlaying=1} {#Var RoomSoundHandle %PlayHandle};
+    #Var CurrentRoomSound {%1}
+   };
+   #If {%Defined(RoomSoundHandle)=1} {
+    #Var SoundTmp5 2;
+    #While {%{@SoundTmp5}<>""} {
+     #PC @RoomSoundHandle {%{@SoundTmp5}} {%{%Eval(@SoundTmp5+1)}};
+     #Math SoundTmp5 {@SoundTmp5+2}
+    }
+   }
+  }
+ }
+}
+
+; MPlanetSounds
+; Play sounds on randomly generated planets.
+#Alias MPlanetSounds {
+ #If {%1="stop"} {
+  #If {%Defined(PlanetSoundsAlarm)=1} {#UnAlarm PlanetSoundsAlarm;#UnVar PlanetSoundsAlarm}
+ } {
+  #If {@PlanetSounds>0} {
+   #Alarm PlanetSoundsAlarm {-5} {
+    #If {%Random(0,3)=3} {MirianiSoundPlay Planet Random\*24@Ext -50}
+   }
+  }
+ }
+}
+
+; Mtplay:
+; Plays the theme music.
+#Alias mtplay {
+ #If {@ThemeMusic=1} {
+  ThemeMusicStop;
+  #If {%Defined(FadeOut)=1} {#UnAlarm FadeOut;#UnVar FadeOut};
+  MirianiSoundPlay Themes {l^@ThemesPath\Theme (*@{NumOfThemes}).mp3};
+  SetThemeMusicVolume
+ }
+}
+#Alias ThemeMusicStop {
+ #If {%Mp3Loop>0} {#PC %Mp3Loop stop}
+}
+
+; setthememusicvolume:
+; Use this alias with no arguments to set the volume of the
+; theme music.
+#Alias SetThemeMusicVolume {
+ #If {%Mp3Loop>0} {
+  #Math ThemeVol {@Vol-@ThemeSoundVolumeDiff};
+  #PC %Mp3Loop Volume @ThemeVol
+ }
+}
+
+#Alias ThemeMusicFadeout {
+ #If {%Mp3Loop>0} {
+  #Var FadeoutCounter {-0@{DecimalChar}25};
+  #Alarm FadeOut {@FadeoutCounter} {
+   #If {@ThemeVol>0} {
+    #Math ThemeVol {@ThemeVol-@ThemeFadeOutValue};
+    #If {@Silent<>1} {#PC %Mp3Loop Volume @ThemeVol} {#Var ThemeVol 0}
+   } {
+    #UnAlarm FadeOut;
+    #UnVar FadeOut;
+    ThemeMusicStop
+   }
+  }
+ }
+}
+
+#Alias MasterMute {
+ #If {%Length(%1)>0} {
+  #Var Silent {%IfWord(%1,on 1 enable enabled, )}
+ } {
+  #Var Silent {%Eval(NOT @Silent)}
+ };
+ #If {@Silent=1} {
+  ThemeMusicFadeout;
+  mrplayOriginal Stop;
+  #pc 0 stop
+ } {
+  InSpace @InSpace;
+  mrplayOriginal @RoomSound
+ };
+ #If {%IfWord(Quiet,%2,|)=0} {#Say {Sounds %If(@Silent=1,off,on).}}
+}
+
+; SetMasterVolume:
+; Sets the overall volume fader.
+#Alias SetMasterVolume {
+ #If {%IsNumber(%1)=1} {
+  #Var Vol %1
+ } {
+  #If {%1="up"} {
+   #Math Vol {@Vol+5}
+  } {
+   #If {%1="down"} {
+    #Math Vol {@Vol-5}
+   }
+  }
+ };
+ #If {@Vol<0 or @Vol>100} {
+  #If {@Vol<0} {
+   #Var Vol 0
+  } {
+   #Var Vol 100
+  };
+  MirianiSoundPlay {Volume Limit} General\Misc\Vollimit@Ext
+ } {
+  MirianiSoundPlay {Volume Change} General\Misc\Beep*10@Ext
+ };
+ #If {%2=""} {
+  Speech Stop;
+  #Say {@Vol percent.} VoiceOnly
+ };
+ #If {@RoomSounds>0} {SetRoomSoundVolume};
+ SetThemeMusicVolume
+}
+
+; Mrandomplay:
+; Does what it says on the tin. Is used for random events, like cargo transfer sounds etc.
+#Alias MRandomPlay {
+ MirianiSoundPlay Random %1 %2 %3;
+ #If {@SoundIsPlaying=1 and @RandomisePlay=1} {
+  #PC %PlayHandle pan {%Random(-1500,1500)}
+ }
+}
+
+#Alias MStep {
+ #If {%Pos( ,@RoomName)>0} {
+  #Var FootstepTmp1 {%CRLF@ZoneType.%Word(@RoomName, ,1):}
+ } {
+  #Var FootstepTmp1 {%CRLF@ZoneType.@RoomName:}
+ };
+ #If {%Pos(@FootstepTmp1,@FootstepsList)>0} {
+  #Var FootstepTmp1 {%Word(@FootstepsList,@FootstepTmp1,2)};
+  #Var FootstepTmp1 {%Word(@FootstepTmp1,%CRLF,1)}
+ } {
+  #Var FootstepTmp1 {%CRLF@ZoneType:};
+  #If {%Pos(@FootstepTmp1,@FootstepsList)>0} {
+   #Var FootstepTmp1 {%Word(@FootstepsList,@FootstepTmp1,2)};
+   #Var FootstepTmp1 {%Word(@FootstepTmp1,%CRLF,1)}
+  } {
+   #Var FootstepTmp1 {}
+  }
+ };
+ #If {%Length(@FootstepTmp1)>0 and ((%1="Other" and @PlayOtherTreadSound=1) or (%1="You" and @PlayTreadSound=1))} {MirianiSoundPlay Footstep {@FootstepTmp1}};
+ #UnVar FootstepTmp1
+}
+
+
+; Mobject:
+; Is used when entering a sector, just chuck it the entire computer string.
+#Alias MObject {
+ #Var MObjectFound {};
+ #If {%Pos(anomal,%1)>0} {#AddItem MObjectFound {Anomaly};MirianiSoundPlay {Sector Alerts} Ship\Computer\Anomaly@Ext};
+ #If {%Pos(artifact,%1)>0} {#AddItem MObjectFound {Artifact};MirianiSoundPlay {Sector Alerts} Ship\Computer\Artifact@Ext};
+ #If {%Pos(starship,%1)>0} {#AddItem MObjectFound {Starship};MirianiSoundPlay {Sector Alerts} Ship\Computer\ShipHere@Ext -10};
+ #If {%Pos(planet,%1)>0} {#AddItem MObjectFound {Planet};MirianiSoundPlay {Sector Alerts} Ship\Computer\PlanetHere@Ext};
+ #If {%Pos(wormhole,%1)>0} {#AddItem MObjectFound {Wormhole};MirianiSoundPlay {Sector Alerts} Ship\Computer\WormholeHere@Ext};
+ #If {%Pos(space station,%1)>0} {#AddItem MObjectFound {Station};MirianiSoundPlay {Sector Alerts} Ship\Computer\Station@Ext};
+ #If {@SoundsVersion>2} {
+  #If {%Pos(asteroid,%1)>0} {#AddItem MObjectFound {Asteroid};MirianiSoundPlay {Sector Alerts} Ship\Computer\AsteroidHere@Ext};
+  #If {%Pos(star ,%1)>0 or %Pos(star~,,%1)>0} {#AddItem MObjectFound {Star};MirianiSoundPlay {Sector Alerts} Ship\Computer\StarHere@Ext}
+ }
+}
+
+; MGunPlay:
+; Used when firing a gun.
+; Syntax:
+; MGunPlay {Name of gun} random
+; Where random is either a 1 or a 0, for whether or not to randomise the panning
+; of the sound.
+#Alias MGunPlay {
+ #Var GunCommand {%If(%2<>1,msplay,mrandomplay)};
+ #Var GunSound {};
+ #ForAll {%Replace(@GunList,%CRLF,|)} {
+  #If {%Length(%i)>0 and %Length(@GunSound)=0} {
+   #If {%1=*%Word(%i,:,1)} {#Var GunSound {%Word(%i,:,2)}}
+  }
+ };
+ #Exec {@GunCommand @GunSoundsPath\%If(%Length(@GunSound)>0,@GunSound,@DefaultGunSound)}
+}
+
+; Syntax: SSpeak {String to be spoken through SAPI.}
+#Alias SSpeak {
+ #SetSpeech VoiceOnly SAPI @SAPIVoice @SAPIVolume @SAPIRate;
+ #Say {%1} VoiceOnly;
+ #If {@DefaultSpeechType<>"Sapi"} {#SetSpeech VoiceOnly @DefaultSpeechType}
+}

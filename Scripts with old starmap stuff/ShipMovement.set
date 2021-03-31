@@ -1,0 +1,134 @@
+#Alias PlayRelDriveStart {
+ #If {@RelDriveBeep=1} {msplay Ship\Computer\Beep@Ext};
+ msplay Ship\Move\Accelerate@RelDriveStyle@Ext @RelDriveVolume;
+ #If {@SoundIsPlaying=1 and %IsNumber(@RelDriveFreq)=1} {
+  #PC %PlayHandle Frequency @RelDriveFreq
+ }
+} {}
+#Alias PlayRelDriveStop {
+ #If {@RelDriveBeep=1} {
+  msplay Ship\Computer\Beep@Ext
+ } {
+  #If {@RelDriveBeep=2} {#Alarm {1@{DecimalChar}5} {msplay Ship\Computer\Beep@Ext}}
+ };
+ msplay Ship\Move\Decelerate@RelDriveStyle@Ext @RelDriveVolume;
+ #If {@SoundIsPlaying=1 and %IsNumber(@RelDriveFreq)=1} {
+  #PC %PlayHandle Frequency @RelDriveFreq
+ }
+} {}
+
+#Trigger {That space is occupied.} {
+ msplay Ship\Move\Blocked@Ext;
+ #GagLine 1 All
+} {Main|Starship}
+#Trigger {The * "*" has * the sector.} {
+ #If {%3="left"} {
+  msplay Ship\Move\ExitSector*2@Ext
+ } {
+  msplay Ship\Move\EnterSector*2@Ext
+ };
+ #If {@FlipSectorInfo=1} {
+  #Var ShipMovementTmp1 {%Pos(~",%1)};
+  #Sub {%2 has %3 the sector (%1).}
+ }
+} {Main}
+#Trigger {The * has launched from *} {
+ #If {@FlipSectorInfo=1 and %NumWords(%1,~")>2} {
+  #Var ShipMovementTmp1 {%Pos(~",%1)};
+  #Sub {%Copy(%1,%Eval(@ShipMovementTmp1+1),%Eval(%Pos(%CRLF,%1%CRLF)-@ShipMovementTmp1-3)) (%Copy(%1,1,%Eval(@ShipMovementTmp1-2))) has launched from %2}
+ }
+} {Main}
+#Trigger {* has jumped * the sector.} {
+ #If {%IfWord(%Word(%1, ,1),the an a, )=1 and %IfWord(%2,into|out of,|)=1} {
+  #If {%2="into"} {
+   msplay Ship\Move\EnterSector*2@Ext
+  } {
+   msplay Ship\Move\ExitSector*2@Ext
+  }
+ }
+} {Main}
+#Trigger {* has exited from *.} {
+ #If {%IfWord(%Word(%1, ,1),the an a, )=1 and (%pos(Jumpgate,%2)>0 or %Pos(Wormhole,%2))} {
+  msplay Ship\Move\EnterSector*2@Ext
+ }
+} {Main}
+#Trigger {* has entered *.} {
+ #If {%IfWord(%Word(%1, ,1),the an a, )=1 and (%pos(Jumpgate,%2)>0 or %Pos(Wormhole,%2))} {
+  msplay Ship\Move\ExitSector*2@Ext
+ }
+} {Main}
+#Trigger {* rises smoothly off the ground and hovers for a brief moment before rapidly accelerating towards space.} {
+ mrandomplay Ship\Move\OtherLaunch*3@Ext
+} {Main}
+#Trigger {Uninhabited landing is not supported at this time.} {msplay Ship\Move\DontLand@Ext} {Main|Starship}
+#Trigger {The mild vibration of acceleration eases off *.} {
+ msplay General\Misc\Beep*10@Ext;
+ #Sub {Landed.};
+ #GagLine 1 Voice;
+ InSpace 0;
+ #If {%IfWord(%1,and is replaced by the firm pull of gravity as the ship touches down smoothly on the moon's surface|and is replaced by the firm pull of gravity as the ship touches down smoothly on the planet's surface|and is replaced by the firm pull of the space station's local artificial gravity,|)=1} {
+  #Var DirectHits 0;
+  #Var PartialHits 0;
+  #Var TotalHits 0;
+  #Var TotalHitsOnThisShip 0;
+  #Var DestroyedShips 0;
+  #Var DestroyedDebris 0;
+  #Var TotalShips 0
+ }
+} {Main|Starship}
+#Trigger {The * drive is still recharging. Time remaining: *.} {
+ #Sub {%2 until %1 is recharged.}
+} {Main}
+#Trigger {The * is nonfunctional due to high levels of sensor interference.} {msplay Ship\Computer\DriveError@Ext} {Main}
+#Trigger {Cruise Control detects no possible destinations.} {msplay Ship\Computer\NothingToScan@Ext} {Main}
+#Trigger {Swirls of magenta and cyan light flicker on the walls as the starship continues its transition through the very fabric of the universe.} {#GagLine 1 All;
+msplay Ship\Move\QVAFlicker@Ext;
+msplay Ship\Move\FTL@Ext} {Main|Starship}
+#Trigger {Without warning, the overhead lights suddenly increase to maximum illumination as the windows darken to complete black. * announces, "Realspace transition in progress."} {#GagLine 1 All;
+msplay Ship\Move\QVAContinue@Ext} {Main|Starship}
+#Trigger {Water from the pool suddenly sloshes over the side and covers the floor of the room.} {mwplay General\Misc\WaterSplash@Ext} {Main|Starship}
+#Trigger {The windows automatically darken as an intense burst of light radiates outward from *.} {
+ msplay Ship\Move\ArrayLight@Ext;
+ #GagLine 1 All
+} {Main|Starship}
+#Trigger {* inputs a se* of co* into * navigation console.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  msplay Ship\Computer\Keyboard*15@Ext;
+  #Var SomeoneElseMoved 1;
+  #If {@GagManNav>0} {#GagLine 1 Voice}
+ }
+} {Main|Starship}
+#Trigger {Sensors register an anomalous event as * appears on scans.} {Msplay Ship\Move\EnterSector*2@Ext} {Main}
+#Trigger {Flashes of color dominate the window as you peer out, swirling into one another until they collide and explode into new, even more vibrant colors. Looking through the wall of colors, you can make out the dim shine of a star and, occasionally, what looks to be a larger celestial body flashing by. A surge of blue energy is intermittently thrown into the mix from the ship's wormhole drive, seemingly fueling the show of color outside.} {#Var Peers 0} {Main}
+#Trigger {A series of Praelor hisses and squelches come over the starship's speakers. The computer's translation matrix activates and the starship's viewscreen flashes: *} {
+ msplay Ship\Comm\CommLink@Ext -30;
+ #Sub {%1}
+} {Main|Starship}
+#Trigger {* has initiated an intrasector *.} {
+ #If {%Pos(~(,%1)<>1} {
+  mrandomplay Ship/Move/DriveAlert@Ext;
+  #Sub {%1 initiates %2.}
+ }
+} {Main}
+#Trigger {You decide not to travel through *.} {msplay Ship\Move\DontLand@Ext} {Main|Starship}
+#Trigger {You feel mild acceleration as the ship *.} {
+ msplay Ship\Move\YouLanding.wav;
+ #GagLine 1 All
+} {Main|Starship}
+#Trigger {You begin the * sequence.} {
+ #GagLine 1 All;
+ msplay General\Misc\Beep*10.wav
+} {Main|Craft}
+#Trigger {You notice a bright flash of light*a starship must be coming in*} {
+ mrandomplay Ship\Move\OtherLanding*4@Ext;
+ #GagLine 1 All
+} {Main}
+#Trigger {You notify flight control of your desire to *.} {
+ #GagLine 1 All;
+ msplay Ship\Computer\commchirp@Ext
+} {Main}
+#Trigger {The feeling of nausea passes as the starship moves rapidly. *} {
+ #GagLine 1 All;
+ msplay Ship\Move\BiasEnds@Ext;
+ msplay General\Misc\Beep*10@Ext
+} {Main|Starship}

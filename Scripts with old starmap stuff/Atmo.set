@@ -1,0 +1,210 @@
+#Class AtSaStarmap Disable
+
+#Var AtSaCurXCoord 0
+#Var AtSaCurYCoord 0
+#Var AtSaDistanceToShip 0
+#Var AtSaPower 0
+#Var AtSaPowerTotal 0
+#Var AtSaCargoFilled 0
+#Var AtSaRemainingStorageCapacity 0
+#Var AtSaTotalStorageCapacity 0
+#Var AtSaObjects {}
+#Var AtSaInformationVars {X:CurXCoord|Y:CurYCoord|Dist:DistanceToShip|Power:PowerTotal|PowerEst:Power|Cargo:CargoFilled|CargoRem:RemainingStorageCapacity|CargoTotal:TotalStorageCapacity}
+
+#Alias atsm {
+ #If {@ZoneType="vehicle"} {
+  #If {%Defined(LastPXMessage)=1} {
+   #Exec {>atsm%RTrim( %0)}
+  } {
+   #Exec {>sm};
+   MainTrigSwitch 0 AtSaStarmap
+  }
+ } {
+  #Say {You need to be in an atmospheric salvager before using the atsm command.}
+ }
+}
+
+#Trigger {Atmosphere of *} {#GagLine 4 All} {AtSaStarmap}
+#Trigger {Power Remaining: &{AtSaPowerTotal}%} {} {AtSaStarmap}
+#Trigger {Cargo Capacity: */*} {
+ #If {%IsNumber(%1%2)} {
+  #Math AtSaRemainingStorageCapacity {%2-%1};
+  #Var AtSaCargoFilled %1;
+  #Var AtSaTotalStorageCapacity %2
+ }
+} {AtSaStarmap}
+#Trigger {Distance to Ship: &{AtSaDistanceToShip} unit*} {
+ #Math AtSaPower {@AtSaPowerTotal-(@AtSaDistanceToShip*3+2)}
+} {AtSaStarmap}
+#Trigger {Current Coordinates: *, *} {
+ #If {%IsNumber(%1%2)} {
+  #Var AtSaCurXCoord %1;
+  #Var AtSaCurYCoord %2;
+  #Var AtSaTmp1 {@AtSaInformationString};
+  #Var AtSaTmp2 %NumWords(@AtSaInformationVars,|);
+  #Var AtSaTmp5 {s};
+  #While {@AtSaTmp2>0} {
+   #Var AtSaTmp3 {%Word(@AtSaInformationVars,|,@AtSaTmp2)};
+   #Var AtSaTmp4 {@{AtSa%Word(@AtSaTmp3,:,2)}};
+   #Var AtSaTmp3 {%Word(@AtSaTmp3,:,1)};
+   #If {@AtSaTmp4=1} {
+    #Var AtSaTmp1 {%Replace(%Replace(@AtSaTmp1,$@AtSaTmp5@AtSaTmp3,),$@AtSaTmp3,@AtSaTmp4)}
+   } {
+    #Var AtSaTmp1 {%Replace(%Replace(@AtSaTmp1,$@AtSaTmp5@AtSaTmp3,@AtSaTmp5),$@AtSaTmp3,@AtSaTmp4)}
+   };
+   #Math AtSaTmp2 {@AtSaTmp2-1}
+  };
+  #Sub {@AtSaTmp1}
+ }
+} {AtSaStarmap}
+#Trigger {Objects: *} {
+ #Var AtSaObjects {};
+ #Var AtSaTmp3 1;
+ #Var AtSaTmp4 1;
+ #Var AtSaTmp5 %NumWords(%1,~();
+ #While {@AtSaTmp4<@AtSaTmp5} {
+  #Math AtSaTmp4 {@AtSaTmp4+1};
+  #Var AtSaTmp1 {%Word(%1,"(",@AtSaTmp4)};
+  #Math AtSaTmp2 {%Pos(")",@AtSaTmp1)-1};
+  #Var AtSaTmp1 {%Replace(%Left(@AtSaTmp1,@AtSaTmp2),~,,)};
+  #If {%IsNumber(%Replace(@AtSaTmp1, ,))} {
+   #Var AtSaTmp2 {%Word(@AtSaTmp1, ,2)};
+   #Var AtSaTmp1 {%Word(@AtSaTmp1, ,1)};
+   #If {@AtSaTmp1<>@AtSaCurXCoord or @AtSaTmp2<>@AtSaCurYCoord} {
+    #Var AtSaTmp8 {%Replace(%Replace(@AtSaObjectString,$XC,@AtSaTmp1),$YC,@AtSaTmp2)};
+    #If {@AtSaTmp3>1} {#Var AtSaObjects {@AtSaObjects|}};
+    #If {@AtSaTmp1<>@AtSaCurXCoord} {
+     #If {@AtSaTmp1>@AtSaCurXCoord} {
+      #Math AtSaTmp6 {@AtSaTmp1-@AtSaCurXCoord};
+      #Var AtSaTmp8 {%Replace(@AtSaTmp8,$XD,@{AtSaTmp6}E)}
+     } {
+      #Math AtSaTmp6 {@AtSaCurXCoord-@AtSaTmp1};
+      #Var AtSaTmp8 {%Replace(@AtSaTmp8,$XD,@{AtSaTmp6}W)}
+     }
+    } {
+     #Var AtSaTmp6 0;
+     #Var AtSaTmp8 {%Replace(@AtSaTmp8,$XD,)}
+    };
+    #If {@AtSaTmp2<>@AtSaCurYCoord} {
+     #If {@AtSaTmp2>@AtSaCurYCoord} {
+      #Math AtSaTmp7 {@AtSaTmp2-@AtSaCurYCoord};
+      #Var AtSaTmp8 {%Replace(@AtSaTmp8,$YD,@{AtSaTmp7}S)}
+     } {
+      #Math AtSaTmp7 {@AtSaCurYCoord-@AtSaTmp2};
+      #Var AtSaTmp8 {%Replace(@AtSaTmp8,$YD,@{AtSaTmp7}N)}
+     }
+    } {
+     #Var AtSaTmp7 0;
+     #Var AtSaTmp8 {%Replace(@AtSaTmp8,$YD,)}
+    };
+    #If {%Min(@AtSaTmp6,@AtSaTmp7)=0} {
+     #Var AtSaTmp9 %Pos($R,@AtSaTmp8);
+     #While {@AtSaTmp9>0} {
+      #Var AtSaTmp10 %Pos($R,%Delete(@AtSaTmp8,1,@AtSaTmp9));
+      #If {@AtSaTmp10>0} {
+       #Var AtSaTmp8 {%Delete(@AtSaTmp8,@AtSaTmp9,%Eval(@AtSaTmp10+2))};
+       #Var AtSaTmp9 %Pos($R,@AtSaTmp8)
+      } {
+       #Var AtSaTmp8 {%Left(@AtSaTmp8,%Eval(@AtSaTmp9-1))};
+       #Var AtSaTmp9 0
+      }
+     }
+    } {
+     #Var AtSaTmp8 {%Replace(@AtSaTmp8,$R,)}
+    };
+    #If {%Max(@AtSaTmp6,@AtSaTmp7)>9} {
+     #Var AtSaObjects {@AtSaObjects%Max(@AtSaTmp6,@AtSaTmp7) @AtSaTmp8}
+    } {
+     #Var AtSaObjects {@{AtSaObjects}0%Max(@AtSaTmp6,@AtSaTmp7) @AtSaTmp8}
+    };
+    #Math AtSaTmp3 {@AtSaTmp3+1}
+   }
+  }
+ };
+ #If {@AtSaTmp3>1 and @AtSaSortOrder>-1} {
+  #Var AtSaObjects {%Sort(@AtSaObjects,@AtSaSortOrder)};
+  #Var AtSaTmp4 1;
+  #Var AtSaTmp5 {};
+  #While {@AtSaTmp3>@AtSaTmp4} {
+   #If {@AtSaTmp4=1} {
+    #Var AtSaTmp5 {@AtSaTmp5%Delete(%Word(@AtSaObjects,|,@AtSaTmp4),1,3)}
+   } {
+    #Var AtSaTmp5 {@AtSaTmp5@AtSaBetweenObjects%Delete(%Word(@AtSaObjects,|,@AtSaTmp4),1,3)}
+   };
+   #Math AtSaTmp4 {@AtSaTmp4+1}
+  };
+  #GagLine 1 All;
+  #Var ConfPrintQuietly 1;
+  ConfPrint {@AtSaTmp5}
+ } {
+  #Sub {No objects}
+ };
+ MainTrigSwitch 1
+} {AtSaStarmap}
+
+#Trigger {Remaining Power: *.*[%]} {
+ #If {%IsNumber(%1)=1 and %IsNumber(%2)=1} {
+  #Say {Status:} NoVoice;
+  #Var ReadingVehicleStatus 1;
+  msplay Ship\Computer\Display@Ext
+ }
+} {Main|Vehicle}
+#Trigger {Vehicle Status: *} {
+ #If {%Defined(ReadingVehicleStatus)=1} {
+  #UnVar ReadingVehicleStatus
+ } {
+  #Sub {%Trim(%1)};
+  msplay Ship\Computer\Display@Ext
+ }
+} {Main|Vehicle}
+
+#Trigger {The pull of acceleration eases off as the ship ceases its *.} {
+ msplay Atmo\salvagestop@Ext;
+ #GagLine 1 All
+} {Main|Craft}
+#Trigger {A gust of atmospheric wind suddenly buffets the ship*} {
+ #GagLine 1 All;
+ msplay ship\misc\wind@Ext
+} {Main|Vehicle}
+#Trigger {The vehicle suddenly hits a pocket of fierce wind*} {
+ #If {%Pos(descent.,%1)>0} {#Sub {Descending.}} {#Sub {Ascending.}};
+ msplay ship\misc\wind@Ext
+} {Main|Vehicle}
+#Trigger {The vehicle shudders violently as it makes contact with the topmost gas clouds. *} {
+ msplay Atmo\Contact@Ext;
+ #GagLine 1 All
+} {Main|Vehicle}
+#Trigger {The heavy vibration of the running engine ceases as the vehicle glides out of the top levels of the atmosphere and into space. The sound of the thrusters can be heard as the craft orients itself toward the *.} {
+ msplay Atmo\Stop@Ext;
+ #GagLine 1 All
+} {Main|Vehicle}
+#Trigger {Without any warning sign, the ship tilts over and the engine section is quickly detached through a short series of explosions just behind the cockpit, giving what remains a great upwards speed.} {
+ msplay Ship\Combat\YouDestroyed*3@Ext;
+ #GagLine 1 All
+} {Main|Vehicle}
+#Trigger {The clouds of gas get thinner and the haze of violent purple and yellow is replaced by the view of space. Having drained the last of their emergency power, the thrusters burn out and are released through two more short explosions, sending your capsule forward and leaving it in a sickening spin while slowly falling back towards the planet. Moments later the entire cockpit shakes violently as it is caught by a set of salvage lines that abruptly stop the tumbling and rapidly hauled back to *.} {
+ #Sub {You are hauled back to %1.};
+ msplay Ship\Misc\Salvage*3@Ext
+} {Main|Vehicle}
+#Trigger {* in from the salvager bay.} {
+ #If {%IfWord(%Word(%1, ,%Numwords(%1, )),@EntryStyles,%CRLF)=1} {msplay Ship\Misc\Hatch@Ext}
+} {Main}
+#Trigger {A whirlpool forms nearby, sucking the craft downward into its swirling vortex*} {
+ #Sub {Descending.};
+ msplay Atmo\whirlpool@Ext;
+ msplay Atmo\wave@Ext
+} {Main|Vehicle}
+#Trigger {A bubble in the vicinity bursts and you hear the engines strain to keep the craft on course*} {
+ msplay Atmo\bubble@Ext;
+ #GagLine 1 All
+} {Main|Vehicle}
+#Trigger {*A disruption in the water near the craft has caused a massive wave which has resulted in the current trajectory being rerouted. Please stand by*} {msplay Atmo\wave@Ext} {Main|Vehicle}
+#Trigger {The craft makes a tremendous splash as it lands in the planet's watery atmosphere. It turns a few times and then the stabilizers kick in, righting the craft*} {
+ msplay Atmo\landingsplash@Ext;
+ #GagLine 1 All
+} {Main|Vehicle}
+#Trigger {*The craft has slammed into a massive life form. A breach in the outer hull has been detected*} {msplay Atmo\fishcrash@Ext} {Main|Vehicle}
+#Trigger {You hear a sharp whine as the vehicle accelerates through the*} {
+ msplay ship\misc\descent@Ext;
+ #GagLine 1 All
+} {Main|Vehicle}

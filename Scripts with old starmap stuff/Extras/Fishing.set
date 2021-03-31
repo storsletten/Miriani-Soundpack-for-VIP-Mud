@@ -1,0 +1,7 @@
+#Trigger {* carefully attach* worm to * fishing pole*} {MirianiSoundPlay {Fishing} General\Fishing\FishWorm@Ext} {Main}
+#Trigger {* suddenly glances around, seemingly rather embarrassed that the fish got away.} {MirianiSoundPlay {Fishing} General\Fishing\FishEscape@Ext} {Main}
+#Trigger {You feel a mighty lurch and realize in disappointment that the fish got away.*} {MirianiSoundPlay {Fishing} General\Fishing\FishEscape@Ext} {Main}
+#Trigger {* lazily cast* line of * into the water*} {MirianiSoundPlay {Fishing} General\Fishing\FishCast@Ext} {Main}
+#Trigger {* carefully remove* from *fishing pole*} {MirianiSoundPlay {Fishing} General\Fishing\FishCatch@Ext} {Main}
+#Trigger {* suddenly begin* to reel * line in*} {MirianiSoundPlay {Fishing} General\Fishing\FishReel@Ext} {Main}
+#Trigger {You suddenly feel a mighty tug on the end of your line.*} {MirianiSoundPlay {Fishing} General\Fishing\FishReel@Ext} {Main}

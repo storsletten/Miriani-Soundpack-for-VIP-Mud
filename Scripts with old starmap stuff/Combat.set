@@ -1,0 +1,517 @@
+#Var YourLastShot {}
+#Var SomeonesLastShot {}
+#Var LastShooter {}
+#Var LastTarget {}
+#Alias GunFire {
+ #Var Gun %1;
+ #Var Randomise %2;
+ #Class GunFire Enable
+}
+#Trigger {*} {
+ #Var PlayGunSound 1;
+ #If {%Pos(The shot is partially absorbed by,%0)=1} {
+  #UnVar PlayGunSound;
+  #GagLine 1 All;
+  #Var GunWrongTarget {%Copy(%0,35,%Length(%0)-35)}
+ };
+ #If {%Defined(GunWrongTarget)=1 and %Pos(unable to move.,%0)>0} {
+  #UnVar PlayGunSound;
+  #Var GunBufferedOutput {%0}
+ };
+ #If {%Pos(shot disburses harmlessly across,%0)>0} {
+  #Var GunArmor 1;
+  #If {%Pos(A portion of the shot disburses harmlessly across,%0)=1} {
+   #UnVar PlayGunSound;
+   #GagLine 1 All
+  }
+ };
+ #If {%Defined(PlayGunSound)=1} {
+  #Class GunFire Disable;
+  #If {%IfWord(@LastShooter,You,|)=1} {
+   #Var StandardGunOutput {You shoot @LastTarget with @Gun.};
+   #Var GunTmp1 {@LastTarget:@Gun};
+   #If {%IfWord(@YourLastShot,@GunTmp1,@CR)=1} {#GagLine 1 Voice};
+   #Var YourLastShot {@GunTmp1}
+  } {
+   #Var StandardGunOutput {@LastShooter shoots @LastTarget with @Gun.};
+   #Var GunTmp1 {@LastShooter:@LastTarget:@Gun};
+   #If {%IfWord(@SomeonesLastShot,@GunTmp1,@CR)=1} {#GagLine 1 Voice};
+   #Var SomeonesLastShot {@GunTmp1}
+  };
+  #If {%IfWord(@LastTarget,luminescent orifice,@CR)=1} {
+   #If {%Pos(with no noticeable effect.,%0)>0} {
+    #Var GunOutput {@StandardGunOutput There is no noticeable effect.};
+    MirianiSoundPlay Standard General\Combat\ShotBounces@Ext
+   } {
+    #Var GunOutput {@StandardGunOutput};
+    MirianiSoundPlay Standard General\Combat\PraelorHit@Ext;
+    #If {@MissionMode=1} {#GagLine 1 Voice}
+   }
+  } {
+   #If {%IfWord(%0,The shot misses!,@CR)=1} {
+    #UnVar PlayGunSound;
+    MRandomPlay General\Combat\ShotMisses@Ext;
+    #If {%IfWord(@LastShooter,You,|)=1} {
+     #Var GunOutput {You shoot at @LastTarget, but miss.}
+    } {
+     #Var GunOutput {@LastShooter shoots at @LastTarget, but misses.}
+    }
+   };
+   #If {%Pos(skillfully dodges the shot,%0)>0} {
+    #UnVar PlayGunSound;
+    MRandomPlay General\Combat\ShotMisses@Ext;
+    #If {%IfWord(@LastShooter,You,|)=1} {
+     #Var GunOutput {@LastTarget dodges your shot.}
+    } {
+     #Var GunOutput {@LastTarget dodges the shot fired by @LastShooter.}
+    }
+   };
+   #If {%Pos(The shot is completely absorbed by,%0)>0} {
+    #Var GunWrongTarget {%Copy(%0,36,%Length(%0)-36)};
+    MRandomPlay General\Combat\ShotMisses@Ext;
+    #If {%IfWord(@LastShooter,You,|)=1} {
+     #Var GunOutput {You shoot @GunWrongTarget instead.}
+    } {
+     #Var GunOutput {@LastShooter shoots @GunWrongTarget instead of @LastTarget.}
+    }
+   };
+   #If {%Pos(The shot disburses harmlessly across,%0)=1} {
+    #UnVar PlayGunSound;
+    #If {%IfWord(@LastTarget,you,@CR)=1} {#Var GunTmp1 {your}} {#Var GunTmp1 {@LastTarget's}};
+    #If {%IfWord(@LastShooter,You,|)=1} {
+     #Var GunOutput {You shoot @GunTmp1 stun armor with @Gun.}
+    } {
+     #Var GunOutput {@LastShooter shoots @GunTmp1 stun armor with @Gun.}
+    }
+   };
+   #If {%Pos(It must be out of ammo,%0)>0} {
+    #UnVar PlayGunSound;
+    #If {%IfWord(@LastShooter,You,|)=1} {
+     #Var GunOutput {You aim @Gun at @LastTarget and pull the trigger, but the weapon is out of ammo.};
+     MirianiSoundPlay Standard {General\Misc\Beep2@Ext}
+    } {
+     #Var GunOutput {@LastShooter aims @Gun at @LastTarget and pulls the trigger, but the weapon is empty.}
+    }
+   } {
+    #If {%Pos(insectoid creature,@LastTarget)>0} {
+     #If {@MissionMode=1} {#GagLine 1 Voice}
+    }
+   };
+   #If {%Pos(The shot blows a hole in,%0)>0} {
+    MirianiSoundPlay Standard General\Combat\PraelorHit@Ext;
+    #If {%IfWord(@LastShooter,You,|)=1} {
+     #Var GunOutput {You shoot to kill @LastTarget with @Gun.}
+    } {
+     #Var GunOutput {@LastShooter shoots to kill @LastTarget with @Gun.}
+    };
+    #If {%IfWord(@LastTarget,a gargantuan multi-colored heavily rounded bloated sparkling shiny insectoid creature,@CR)=1} {#UnGagLine}
+   };
+   #If {%Pos(The shot hits,%0)=1} {
+    #Var GunTmp1 {%Copy(%0,15,%Length(%0)-15)};
+    #If {%Defined(GunArmor)=1} {
+     #If {%Pos('s,@GunTmp1)>0} {
+      #Var GunTmp1 {%Word(@GunTmp1,'s,1)'s armored%Word(@GunTmp1,'s,2)}
+     } {
+      #If {%Pos(your,@GunTmp1)=1} {
+       #Var GunTmp1 {your armored %Copy(@GunTmp1,6)}
+      }
+     }
+    };
+    #If {%IfWord(@LastShooter,You,|)=1} {
+     #If {%Defined(GunWrongTarget)=1} {
+      #Var GunOutput {You shoot @GunWrongTarget and @GunTmp1 with @Gun.}
+     } {
+      #Var GunOutput {You shoot @GunTmp1 with @Gun.}
+     }
+    } {
+     #If {%IfWord(@LastShooter,an internal stun turret,|)=1} {
+      #If {%Defined(GunWrongTarget)=1} {
+       #Var GunOutput {%Proper(@LastShooter) shoots @GunWrongTarget and @GunTmp1.}
+      } {
+       #Var GunOutput {%Proper(@LastShooter) shoots @GunTmp1.}
+      }
+     } {
+      #If {%Defined(GunWrongTarget)=1} {
+       #Var GunOutput {@LastShooter shoots @GunWrongTarget and @GunTmp1 with @Gun.}
+      } {
+       #Var GunOutput {@LastShooter shoots @GunTmp1 with @Gun.}
+      }
+     }
+    }
+   }
+  };
+  #If {%Defined(PlayGunSound)=1} {
+   #UnVar PlayGunSound;
+   MGunPlay @Gun @Randomise
+  };
+  #If {%Defined(GunOutput)=0} {#Var GunOutput {@StandardGunOutput %0}};
+  #If {%Defined(GunBufferedOutput)=1} {
+   #Var GunOutput {@GunOutput%CRLF@GunBufferedOutput};
+   #UnVar GunBufferedOutput
+  };
+  #Sub {@GunOutput};
+  #UnVar GunTmp1;
+  #UnVar GunOutput;
+  #UnVar StandardGunOutput;
+  #UnVar GunArmor;
+  #UnVar GunWrongTarget
+ }
+} {GunFire}
+#Trigger {* point* at * and fire*} {
+ #If {%IfWord(%Left(%1,1),>| |~(|[,|)=0 and %IfWord(%4,!|s!,|)=1} {
+  #If {%NumWords(%3, )=2 and %IfWord(%Word(%3, ,1),her his its your, )=1 and %Pos(head,%3)>0} {
+   #Var LastShooter {%1};
+   #Var LastTarget {%1};
+   #If {%IfWord(%1,You,|)=1} {
+    msplay General\Combat\YouShot@Ext
+   } {
+    msplay General\Combat\OtherShot@Ext
+   }
+  } {
+   #GagLine 1 All;
+   #Sub {Workaround: %0};
+   #Var LastShooter {%1};
+   #Var LastTarget {%3};
+   #If {%IfWord(%1,You,|)=1} {
+    GunFire {%Copy(%2,2)} 0
+   } {
+    GunFire {%Copy(%2,3)} 1
+   }
+  }
+ }
+} {Main}
+#Trigger {The shot hits *} {
+ #If {%IfWord(%1,squarely in the center of the orifice with no noticeable effect on the outside.,|)=0} {
+  #If {%Pos(your,%1)=1 and %Pos('s,%1)=0} {
+   MirianiSoundPlay Standard General\Combat\YouShot@Ext
+  } {
+   MirianiSoundPlay Standard General\Combat\OtherShot@Ext
+  }
+ }
+} {Main}
+#Trigger {* unable to move.} {
+ #If {@SoundsVersion>4 and %Pos(:,%1)=0 and %IfWord(%Left(%1,1),>| |~(|[,|)=0 and %Pos(suddenly,%1)>0} {
+  #If {%IfWord(%1,You are suddenly,@CR)=1} {
+   #GagLine 1 Voice;
+   msplay General\Combat\YouStunned@Ext
+  } {
+   #If {%Length(@LastTarget)>0 and %Pos(@LastTarget,%1)=1 and (%Pos(insectoid creature,%1)=0 or @MissionMode=0)} {#GagLine 1 Voice};
+   #Alarm {0@{DecimalChar}1} {msplay General\Combat\OtherStunned@Ext}
+  }
+ }
+} {Main}
+#Trigger {An * stun turret *} {
+ #If {%IfWord(%1,internal,|)=1 and %Pos(orients towards,%2)=1} {
+  #Var LastShooter {an internal stun turret};
+  #Var LastTarget {%Copy(%2,17,%Pos(and fires!,%2)-18)};
+  #GagLine 1 All;
+  #Sub {Workaround: %0};
+  GunFire {an internal stun turret} 0
+ } {
+  #If {%IfWord(%1,automated,|)=1 and %Pos(fires at,%2)=1} {
+   msplay General\Combat\OtherShot@Ext;
+   msplay General\Combat\EMPulse@Ext
+  }
+ }
+} {Main}
+
+#Trigger {A* * to have run out of energy.} {
+ msplay General\Combat\EmptyEmitter@Ext
+} {Main}
+#Trigger {* slide* out of a pulse emitter clip.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  #Sub {%1 draw%2.};
+  #If {%IfWord(%1,You,|)=1} {
+   msplay General\Combat\DrawEMPulse*3@Ext
+  } {
+   msplay General\Combat\DrawEMPulse*3@Ext -10
+  }
+ }
+} {Main}
+#Trigger {* deftly draw* from a*.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  #Sub {%1 draw%2 from a%3.};
+  #If {%IfWord(%1,You,|)=1} {
+   msplay General\Combat\DrawGun*3@Ext
+  } {
+   msplay General\Combat\DrawGun*3@Ext -10
+  }
+ }
+} {Main}
+#Trigger {* aims a* at * and activates it.} {
+ msplay General\Combat\EMPulse@Ext;
+ #Sub {%1 aims a%2 at %3 and activates it}
+} {Main}
+#Trigger {* deftly insert* into a*.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  #Sub {%1 insert%2 into a%3.};
+  #If {%IfWord(%1,You,|)=1} {
+   msplay General\Combat\HolsterGun@Ext
+  } {
+   msplay General\Combat\HolsterGun@Ext -10
+  }
+ }
+} {Main}
+#Trigger {* slide* into a*, where it * into place with a *click.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  #Sub {%1 slide%2 into a%3.};
+  #If {%IfWord(%1,You,|)=1} {
+   msplay General\Combat\HolsterEMPulse@Ext
+  } {
+   msplay General\Combat\HolsterEMPulse@Ext -10
+  }
+ }
+} {Main}
+#Trigger {* carefully discharge* into a*.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  #Sub {%1 discharge%2 into a%3.};
+  #If {%IfWord(%1,You,|)=1} {
+   msplay General\Combat\LoadEMPulse*3@Ext
+  } {
+   msplay General\Combat\LoadEMPulse*3@Ext -10
+  }
+ }
+} {Main}
+#Trigger {* hastily slam* into the open ammo slot of a*.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  #Sub {%1 load%2 into a%3.};
+  #If {%IfWord(%1,You,|)=1} {
+   msplay General\Combat\LoadGun*3@Ext
+  } {
+   msplay General\Combat\LoadGun*3@Ext -10
+  }
+ }
+} {Main}
+#Trigger {A* clicks oddly. It must be out of ammo.} {msplay General\Combat\EmptyGun@Ext} {Main}
+#Trigger {* suddenly begins to power down.} {
+ msplay General\Combat\Shutdown*4@Ext;
+ #Sub {%1 powers down.}
+} {Main}
+#Trigger {* suddenly slumps over as * mechanical systems begin to shut down.} {
+ msplay General\Combat\Shutdown*5@Ext;
+ #Sub {%1 shuts down.}
+} {Main}
+#Trigger {A* falls to the ground, disabled.} {
+ msplay General\Combat\Shutdown*4@Ext;
+ #Sub {A%1 disabled.}
+} {Main}
+#Trigger {You crouch behind *, using * for cover.} {
+ msplay General\Combat\crouch@Ext;
+ #Sub {You use %1 for cover.}
+} {Main}
+#Trigger {You stop using * for cover.} {msplay General\Combat\uncrouch@Ext} {Main}
+#Trigger {* unload* from *} {
+ #If {%Pos(.,%0)=%Length(%0) and %Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  msplay General\Combat\UnloadAmmo*5@Ext
+ }
+} {Main}
+#Trigger {* depress* the cartridge release lever on *, causing the loaded cartridge to slide out of the weapon and into * hand.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  #If {%IfWord(%1,You,|)=1} {
+   msplay General\Combat\UnloadGun*2@Ext;
+   #Sub {You unload %3.}
+  } {
+   msplay General\Combat\UnloadGun*2@Ext -10;
+   #Sub {%1 unloads %3.}
+  }
+ }
+} {Main}
+#Trigger {* takes aim at you*} {msplay General\Combat\DrawEMPulse*3@Ext} {Main}
+
+#Trigger {* insectoid creature scurries in*} {mrandomplay General\Combat\PraelorScurry*2@Ext} {Main}
+#Trigger {*You see * insectoid creature*here*} {
+ msplay General\Combat\PraelorScurry*2@Ext;
+ #Var InsectBlockers {};
+ #Var InsectCounter 0;
+ #Var InsectTmp1 {%0};
+ #Var InsectTmp2 {%Pos(insectoid creature,@InsectTmp1)};
+ #While {@InsectTmp2>0} {
+  #Var InsectTmp3 {%Copy(@InsectTmp1,1,@InsectTmp2-2)};
+  #Var InsectTmp2 {%NumWords(@InsectTmp3, )};
+  #While {@InsectTmp2>1 and %IfWord(%Word(@InsectTmp3, ,@InsectTmp2),a an two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty, )=0} {
+   #Math InsectTmp2 {@InsectTmp2-1}
+  };
+  #If {@InsectTmp2>1} {
+   #Var InsectTmp2 {%CRLF%Word(@InsectTmp3, ,@InsectTmp2):};
+   #Var InsectTmp2 {%Word(@NumberMap,@InsectTmp2,2)};
+   #Var InsectTmp2 {%Word(@InsectTmp2,%CRLF,1)}
+  } {
+   #Var InsectTmp2 21
+  };
+  #Math InsectCounter {@InsectCounter+@InsectTmp2};
+  #Var InsectTmp1 {%Copy(@InsectTmp1,%Length(@InsectTmp3)+12)};
+  #If {%IfWord(%Word(@InsectTmp1, ,2),~(blocking,|)=1} {
+   #Var InsectTmp3 {%Word(@InsectTmp1, ,3)};
+   #Var InsectTmp3 {%Word(@InsectTmp3,~),1)};
+   #If {%IfWord(@InsectTmp3,@InsectBlockers,|)=1} {
+    #Math {InsectBlocking@InsectTmp3} {@{InsectBlocking@InsectTmp3}+@InsectTmp2}
+   } {
+    #AddItem InsectBlockers {@InsectTmp3};
+    #Var {InsectBlocking@InsectTmp3} {@InsectTmp2}
+   }
+  };
+  #Var InsectTmp2 {%Pos(insectoid creature,@InsectTmp1)}
+ };
+ #If {%Length(@InsectBlockers)>0} {
+  #Var InsectTmp1 {};
+  #Var InsectTmp2 {%NumWords(@InsectBlockers,|)};
+  #While {@InsectTmp2>0} {
+   #Var InsectTmp3 {%Word(@InsectBlockers,|,@InsectTmp2)};
+   #AddItem InsectTmp1 {@{InsectBlocking@InsectTmp3} blocking @InsectTmp3};
+   #Exec {#UnVar InsectBlocking@InsectTmp3};
+   #Math InsectTmp2 {@InsectTmp2-1}
+  };
+  #If {@InterruptOnInsectoidCreature=1} {speech stop};
+  #Say {@InsectCounter insectoid %If(@InsectCounter=1,creature,creatures), %Replace(@InsectTmp1,|,~, ):} Incoming
+ } {
+  #If {@InterruptOnInsectoidCreature=1 and (@InsectCounter>1 or %Pos(a gargantuan multi-colored heavily rounded bloated sparkling shiny insectoid creature,%0)=0)} {speech stop};
+  #Say {@InsectCounter insectoid %If(@InsectCounter=1,creature,creatures) detected:} Incoming
+ };
+ #UnVar InsectTmp1;
+ #UnVar InsectTmp2;
+ #UnVar InsectTmp3
+} {Main}
+#Trigger {A* insectoid creature crouches low to the ground and hisses, expelling a large quantity of an acidic compound at *} {
+ #If {%IfWord(%2,you.|you!,|)=1} {
+  #Sub {You're attacked by a%1 insectoid creature.};
+  MirianiSoundPlay Standard General\Combat\PraelorSpit3@Ext 10;
+  MirianiSoundPlay Standard General\Blades\Stab5@Ext;
+  PushMessage Attacks {You are attacked by a%1 insectoid creature.}
+ } {
+  MirianiSoundPlay Standard General\Combat\PraelorSpit*2@Ext;
+  #Sub {%Copy(%2,1,%Length(%2)-1) is attacked by a%1 insectoid creature.};
+  PushMessage Attacks {%Copy(%2,1,%Length(%2)-1) is attacked by a%1 insectoid creature.}
+ }
+} {Main}
+#Trigger {The force of the attack sends * sprawling to the *!} {msplay General\Misc\LeftPerson@Ext} {Main}
+#Trigger {The stream of acid impacts *, *} {
+ #If {@MissionMode=1} {#GagLine 1 All}
+} {Main}
+#Trigger {A* insectoid creature starts shrieking loudly, the pitch ramping up as it succumbs to the effects of the alkalines. Sections of its exoskeleton begin to swell, tiny bumps forming on the swelling sections*} {
+ msplay General\Combat\PraelorDeath@Ext;
+ #Sub {A%1 insectoid creature is dying.}
+} {Main}
+#Trigger {A* lets out a * screech before collapsing to the ground. It lifts its head weakly, staring at * with black, beady, *, completing its life.} {
+ mwplay General\Combat\FuzzyDeath@Ext;
+ #Sub {A%1 is dead.}
+} {Main}
+#Trigger {  *: * (*.*~%)} {
+ #If {@AlterArmor=1} {
+  #Sub {  %1: %3  (%2)}
+ }
+} {Main}
+#Trigger {* suddenly powers back up.} {mwplay General\Combat\PowerUp@Ext} {Main}
+#Trigger {* suddenly rises back into the air.} {mwplay General\Combat\PowerUp@Ext} {Main}
+#Trigger {You take a quick glance at a* *, noting that the effective stun power is * and that it is loaded with a* * and has * left.} {
+ speech stop;
+ #Sub {%5 with %6 left (Power: %3).}
+} {Main}
+#Trigger {* conjure* up some mighty force and slam* into *} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  msplay General\Combat\StunBatonHit@Ext
+ }
+} {Main}
+#Trigger {You seem to have difficulty steadying your hand. You watch in dismay as your shot shoots wildly past *.} {
+ #Sub {You miss %1.};
+ msplay General\Combat\ShotMisses@Ext
+} {Main}
+#Trigger {* shot disburses harmlessly across * armor.} {
+ #If {%IfWord(%2,your,@CR)=1} {
+  msplay General\Combat\StunArmor@Ext
+ } {
+  mwplay General\Combat\StunArmor@Ext
+ }
+} {Main}
+#Trigger {* begin* carefully *ing pieces of armor * bulky stun armor battery pack.} {
+ #If {%Word(%1, ,1)="You"} {
+  Msplay General\Combat\ArmorConnectStart@Ext
+ } {
+  mwplay General\Combat\ArmorConnectStart@Ext
+ }
+} {Main}
+#Trigger {* finish* *ing armor * bulky stun armor battery pack.} {
+ #If {%Word(%1, ,1)="You"} {
+  msplay General\Combat\ArmorConnectFinish@Ext
+ } {
+  mwplay General\Combat\ArmorConnectFinish@Ext
+ }
+} {Main}
+#Trigger {* press* a small * button on the top of * stun armor battery pack.} {
+ #If {%3="red"} {
+  Msplay General\Combat\BatteryPackOff@Ext;
+  #If {%1="You"} {
+   #Sub {Battery disabled.}
+  } {
+   #Sub {%1 disables %4 stun armor battery.}
+  }
+ } {
+  Msplay General\Combat\BatteryPackOn@Ext;
+  #If {%1="You"} {
+   #Sub {Battery enabled.}
+  } {
+   #Sub {%1 enables %4 stun armor battery.}
+  }
+ }
+} {Main}
+#Trigger {It appears to be *.} {
+ #Class BatteryPackScanner Disable;
+ #Class BatteryPack Enable;
+ #Var BatteryPackTmp1 {%Proper(%1)};
+ #GagLine 1 All
+} {Main|BatteryPackScanner}
+#Trigger {The charge indicator reads *.} {
+ #sub {@BatteryPackTmp1, with %1 power remaining.};
+ #Class BatteryPack disable
+} {Main|BatteryPack}
+#Trigger {* carefully place* a bulky stun armor battery pack on a stun armor power pack recharging station, *.} {
+ msplay General\Misc\Belt2@Ext
+} {Main}
+#Trigger {* firmly grip* the top of a bulky stun armor battery pack and press* a small release button. *.} {
+ msplay General\Misc\Belt1@Ext
+} {Main}
+#Trigger {A bulky stun armor battery pack emits * before suddenly powering down.} {
+ msplay Ship\Computer\Abort@Ext
+} {Main}
+#Trigger {Nothing happens. The batteries must be dead.} {Msplay General\Rooms\Beep9@Ext} {Main}
+#Trigger {Sparks fly from the ground as an electrical current shocks you painfully!} {Msplay Ship\Combat\Electricity@Ext} {Main}
+#Trigger {* bursts from a duct panel with an incredibly loud howl!} {mrandomplay General\Combat\PraelorScurry*2@Ext} {Main}
+#Trigger {Your power pack beeps alarmingly, indicating that an emergency shutdown failsafe has been triggered.} {msplay Ship\Computer\LowCharge*3@Ext} {Main}
+
+#Trigger {* remove* spacesuit and neatly place* it in *.} {msplay General\Device\SpacesuitWear@Ext} {Main}
+#Trigger {* retrieve* spacesuit from *.} {msplay General\Device\SpacesuitRem@Ext} {Main}
+#Trigger {* remove* from a* bag and put* it on.} {msplay General\Socials\ArmorWear@Ext} {Main}
+#Trigger {* remove* and place* each piece in the designated area in *.} {msplay General\Socials\ArmorRem@Ext} {Main}
+#Trigger {*mak* a grab for * electric*.} {msplay General\Combat\StunBatonHit@Ext} {Main}
+#Trigger {You aim a* at * and activate it.} {msplay General\Combat\EMPulse@Ext} {Main}
+#Trigger {You instruct * drone to *.} {msplay General\Misc\InstructDrone@Ext} {Main}
+#Trigger {A gargantuan multi-colored heavily rounded bloated sparkling shiny insectoid creature suddenly jerks spasmodically, causing * grip on it.} {
+ PushMessage Left {%0};
+ msplay General\Misc\LeftPerson@Ext
+} {Main}
+
+#Trigger {As the hull explodes around you, you find yourself jarred loose from the magnetic plate and hurtled into space.} {msplay Ship\Misc\InternalExpl*4@Ext} {Main}
+#Trigger {*A flash of white light briefly illuminates the surroundings as a massive explosion in the distance sends a cloud of debris into the air.} {msplay Ship\Misc\InternalExpl*12@Ext} {Main}
+#Trigger {* explodes with a blinding flash of white light!} {msplay Ship\Misc\InternalExpl*4@Ext} {Main}
+#Trigger {* carefully attach* a dull gray explosive device to *.} {msplay General\Asteroid\WireAttach@Ext} {Main}
+#Trigger {A* slinks in.} {
+ #If {%Pos(fuzzy creature,%1)>0 or %Pos(tunnel rat,%1)>0} {
+  msplay random\6@Ext
+ }
+} {Main}
+#Trigger {* simultaneously aim their *stun turret attachments at * and fire!} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  #If {%IfWord(You,%3,|)=1} {
+   msplay General\Combat\YouShot@Ext
+  } {
+   msplay General\Combat\OtherShot@Ext
+  }
+ }
+} {Main}
+#Trigger {* violently throws a flat shimmering rock at you. The massive pain makes you shriek in agony.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  #Sub {%1 throws a rock at you!};
+  msplay General\Socials\Headdesk*3@Ext;
+  msplay General\Misc\LeftPerson@Ext;
+  PushMessage Attacks {%1 throws a rock at you!}
+ }
+} {Main}

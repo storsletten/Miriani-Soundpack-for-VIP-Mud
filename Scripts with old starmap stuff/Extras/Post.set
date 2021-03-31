@@ -1,0 +1,30 @@
+#Alias post {
+ #Var PostFile {%CharInfo(MudName)/Post.txt};
+ #Var PostFileIsEmpty 1;
+ #File 2 {@PostFile};
+ #Write 2 {} NoReturn;
+ #Close 2;
+ #File 2 {@PostFile};
+ #Read 2 PostFileIsEmpty;
+ #If {(%Length(@PostFileIsEmpty)=0 or %IfWord(@PostFileIsEmpty,[EOF],%CRLF)=1) and %EndOfFile(2)=1} {#Var PostFileIsEmpty 1} {#Var PostFileIsEmpty 0};
+ #Close 2;
+ #If {%IfWord(now,%0, )=1} {
+  #If {@PostFileIsEmpty=0} {
+   #Exec {#Send {@PostFile}};
+   #Say {Posted.}
+  } {
+   #Say {Nothing to send. Remember that you need to save the message in your text editor first, typically by pressing Control S.}
+  }
+ } {
+  #If {%IfWord(new,%0, )=1 and @PostFileIsEmpty=0} {
+   #DelFile {@PostFile};
+   #File 2 {@PostFile};
+   #Write 2 {} NoReturn;
+   #Close 2
+  };
+  #Edit {@PostFile};
+  #Say {When you are ready to post your message, switch back to VIP Mud and type POST NOW. Don't forget to save the file in your text editor first.}
+ };
+ #UnVar PostFile;
+ #UnVar PostFileIsEmpty
+}

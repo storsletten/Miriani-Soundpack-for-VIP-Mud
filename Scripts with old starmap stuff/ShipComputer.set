@@ -538,7 +538,3 @@ MirianiSoundPlay Standard Ship\Computer\PipeOff@Ext
  #Sub {%2};
  PushMessage Computer {%2}
 } {Main|Starship}
-#Trigger {Alert: Sensor interference detected.} {
- MirianiSoundPlay Standard Ship\Computer\SensorInterference@Ext;
- #GagLine 1 Voice
-} {Main|Starship}

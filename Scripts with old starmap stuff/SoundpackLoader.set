@@ -33,6 +33,7 @@
 #Load {@ScriptPath\ShipCombat.set}
 #Load {@ScriptPath\ShipMisc.set}
 #Load {@ScriptPath\ShipMovement.set}
+#Load {@ScriptPath\SmFilter.set}
 #Load {@ScriptPath\Socials.set}
 #Load {@ScriptPath\TriggerTables.set}
 #Load {@ScriptPath\YouActions.set}

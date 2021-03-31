@@ -1,0 +1,727 @@
+#Class Comm Enable
+#Var CommSocialsExceptionList {
+ bark barks beatbox beatboxes bellow bellows
+ chant chants growl growls mumble mumbles
+ purr purrs rant rants roar roars sing sings yelp yelps
+ loudly
+}
+
+#Var NumberedSectors {
+Central Jumpgate Hub:0
+Satus:1
+Ono:2
+Harboria:3
+Savius:4
+Stallax:5
+Ascension:6
+Narth Polus:7
+Intrepid:8
+Autumn:9
+Shivaldi:10
+Universal End:11
+Bellerophon:12
+Triskaideka:13
+Interlition:14
+Miriani:15
+Expedocious:16
+Groombridge:17
+Omnivincere:18
+Venitia:19
+Tartarus:20
+Solaris:21
+Barnard's Star:22
+Apophyllite:23
+Alliance High Guard Command:24
+Pegasus:25
+Polaris:26
+Ophiuchus:27
+Kerensky:28
+Malta:29
+Outreach:30
+Porta:31
+Infinitus Astrum:32
+Adaukerisicka:33
+Strages:34
+Casus:35
+Dombrowski:36
+Perspicuus Astrum:37
+Lacuna:38
+Lucksburg:39
+Vetus Fragminis:40
+Omega Sector:115
+}
+#Var LastFCScanner {}
+
+#Trigger {[[]*] *} {
+ #Var TmpCommunication1 {%Replace(%1,~~,)};
+ #Var TmpCommunication1 {%Replace(@TmpCommunication1,~",)};
+ #If {@Main<1 or @TmpCommunication1=""} {} {
+  #Var TmpCommunication2 {};
+  #Var TmpCommunication3 {};
+  #Var TmpCommunication4 {};
+  #Var TmpCommunication5 {};
+  #If {@TmpCommunication1=*"Frequency *.*"} {
+   #Var TmpCommunication5 {Comms Framework|General\Comm\Metaf@Ext};
+   #Var TmpCommunication2 {%Copy(@TmpCommunication1,11)};
+   #If {%Word(@TmpCommunication2,.,2)="0"} {
+    #Var TmpCommunication2 {%Word(@TmpCommunication2,.,1)}
+   } {
+    #Var TmpCommunication2 {@TmpCommunication2}
+   };
+   #If {@HideMetafrequency=1 and %NumWords(@TmpCommunication2,|)=2} {
+    #Var TmpCommunication2 {[Metaf%Word(@TmpCommunication2,|,2)]}
+   } {
+    #Var TmpCommunication2 {[@TmpCommunication2]}
+   };
+   #Var TmpCommunication4 {Metafrequency0Channels};
+   #Var TmpCommunication1 {}
+  };
+  #If {@TmpCommunication1=*"AIE | *" or @TmpCommunication1=*"Commonwealth | *" or @TmpCommunication1=*"Hale | *"} {
+   #Var TmpCommunication5 {Comms Framework|General\Comm\Alliance@Ext};
+   #Var TmpCommunication2 {[%Copy(@TmpCommunication1,%Pos(|,@TmpCommunication1)+2)]};
+   #Var TmpCommunication4 {Alliance0Channel};
+   #Var TmpCommunication1 {}
+  };
+  #If {@TmpCommunication1=*"* Alliance"} {
+   #Var TmpCommunication5 {Comms Framework|General\Comm\Alliance@Ext};
+   #Var TmpCommunication2 {[%Copy(@TmpCommunication1,1,%Pos( Alliance,@TmpCommunication1)-1)]};
+   #Var TmpCommunication4 {Interalliance0Channel};
+   #Var TmpCommunication1 {}
+  };
+  #If {@TmpCommunication1="Chatter"} {
+   #Var TmpCommunication5 {Comms Framework|General\Comm\Chatter@Ext|@ChatterChannelVolumeDiff};
+   #Var TmpCommunication2 {[Chatter]};
+   #Var TmpCommunication4 {Chatter};
+   #Var TmpCommunication1 {}
+  };
+  #If {@TmpCommunication1="Newbie"} {
+   #Var TmpCommunication5 {Newbie Channel|General\Comm\Newbie@Ext};
+   #Var TmpCommunication2 {[Newbie]};
+   #Var TmpCommunication3 {:};
+   #Var TmpCommunication4 {Newbie};
+   #Var TmpCommunication1 {}
+  };
+  #If {@TmpCommunication1=@CourierCompany} {
+   #Var TmpCommunication5 {Comms Framework|General\Comm\Courier@Ext};
+   #Var TmpCommunication2 {[Courier]};
+   #Var TmpCommunication1 {}
+  };
+  #If {@TmpCommunication1=@OrgName} {
+   #Var TmpCommunication5 {Comms Framework|General\comm\org@Ext|@OrgChannelVolumeDiff};
+   #Var TmpCommunication2 {[Org]};
+   #Var TmpCommunication4 {Org0Channel};
+   #Var TmpCommunication1 {}
+  } ;
+  #If {@TmpCommunication1="General Communication"} {
+   #Var TmpCommunication5 {Comms Framework|General\Comm\General@Ext};
+   #Var TmpCommunication2 {[General]};
+   #Var TmpCommunication4 {General0Channel};
+   #Var TmpCommunication1 {}
+  };
+  #If {@TmpCommunication1="OOC"} {
+   #Var TmpCommunication5 {OOC Channel|General\Comm\Beta@Ext|@OOCChannelVolumeDiff};
+   #Var TmpCommunication2 {[OOC]};
+   #Var TmpCommunication4 OOC0Channel;
+   #Var TmpCommunication1 {}
+  };
+  #If {@TmpCommunication1="Beta"} {
+   #Var TmpCommunication5 {Beta Channel|General\Comm\Beta@Ext|@OOCChannelVolumeDiff};
+   #Var TmpCommunication2 {[Beta]};
+   #Var TmpCommunication4 Beta0Channel;
+   #Var TmpCommunication1 {}
+  };
+  #If {@TmpCommunication1="High Guard"} {
+   #Var TmpCommunication5 {Beta Channel|General\Comm\h12@Ext};
+   #Var TmpCommunication2 {[HG]};
+   #Var TmpCommunication4 HG0Channel;
+   #Var TmpCommunication1 {}
+  };
+  #If {@TmpCommunication1="Design"} {
+   #Var TmpCommunication5 {Design Channel|General\Comm\Beta@Ext};
+   #Var TmpCommunication2 {[Design]};
+   #Var TmpCommunication4 Design0Channel;
+   #Var TmpCommunication1 {}
+  };
+  #If {@TmpCommunication1="Tradesman Market"} {
+   #Var TmpCommunication5 {Tradesman Marketplace|General/Comm/CM@Ext};
+   #Var TmpCommunication2 {[CM]};
+   #Var TmpCommunication4 Tradesman0Market;
+   #Var TmpCommunication1 {}
+  };
+  #If {@TmpCommunication1=*"Private | *"} {
+   #Var TmpCommunication5 {Comms Framework|General\Comm\Private@Ext|@PrivateChannelVolumeDiff};
+   #Var TmpCommunication2 {%Copy(@TmpCommunication1,11)};
+   #Var TmpCommunication3 {%Replace(%2,~~,)};
+   #Var TmpCommunication3 {%Replace(@TmpCommunication3,~",)};
+   #Var TmpCommunication1 {@TmpCommunication2*};
+   #If {%IfWord(@TmpCommunication2,Auction Service|Combat Mission Notification Service|Communication Loopback Recipient|Reminder Service,|)=1} {
+    #If {@SoundsVersion>2} {#Var TmpCommunication5 {Comms Framework|General\Comm\Services@Ext}};
+    #Var TmpCommunication4 {Services}
+   } {
+    #Var TmpCommunication4 {Private0Comm}
+   };
+   #If {@TmpCommunication3=*@TmpCommunication1} {
+    #Var TmpCommunication2 {[@TmpCommunication2]};
+    #Math TmpCommunication1 {%Pos(*,@TmpCommunication1)+1};
+    #Math TmpCommunication3 {%Pos(~",%2)+1};
+    #If {@TmpCommunication1>@TmpCommunication3} {
+     #Var TmpCommunication3 {:%Copy(%2,@TmpCommunication1)}
+    } {
+     #Var TmpCommunication3 {:%Copy(%2,@TmpCommunication1,@TmpCommunication3-@TmpCommunication1-3): %Copy(%2,@TmpCommunication3,%Length(%2)-@TmpCommunication3)}
+    }
+   } {
+    #Var TmpCommunication2 {[@TmpCommunication2]};
+    #Math TmpCommunication1 {%Pos(~",%2)+1};
+    #If {@TmpCommunication1=1} {
+     #Var TmpCommunication3 {:}
+    } {
+     #Var TmpCommunication3 {:%Copy(%2,1,@TmpCommunication1-4): %Copy(%2,@TmpCommunication1,%Length(%2)-@TmpCommunication1)}
+    }
+   };
+   #Var TmpCommunication1 {}
+  };
+  #If {@TmpCommunication1="Short-range Communication"} {
+   #Var TmpCommunication5 {Comms Framework|General\Comm\short@Ext};
+   #Var TmpCommunication2 {[Short]};
+   #Var TmpCommunication4 {Short0Range0Channel};
+   #Var TmpCommunication1 {}
+  };
+  #If {@TmpCommunication1=*"Starship | *"} {
+   #Var TmpCommunication5 {Comms Framework|Ship\Comm\Relay@Ext};
+   #Var TmpCommunication2 {[Ship]};
+   #Var TmpCommunication4 {Ship0Channel};
+   #Var TmpCommunication1 {}
+  };
+  #If {@TmpCommunication1=""} {
+   #If {%Pos(:,@TmpCommunication3)=1} {
+    #Var TmpCommunication3 {%Copy(@TmpCommunication3,2)};
+    #If {%Length(@TmpCommunication3)=0} {
+     #Var TmpCommunication3 {%2}
+    };
+    #Var TmpCommunication1 {@TmpCommunication3}
+   } {
+    #If {%Length(@TmpCommunication3)=0} {
+     #Var TmpCommunication3 {%2}
+    };
+    #If {%NumWords(%2,~")>2 and %Replace(%Right(%2,1),~",)=""} {
+     #Math TmpCommunication1 {%Pos(~",%2)+1};
+     #Var TmpCommunication3 {%Copy(%2,1,@TmpCommunication1-4): %Copy(%2,@TmpCommunication1,%Length(%2)-@TmpCommunication1)};
+     #Var TmpCommunication1 {%Pos(:,@TmpCommunication3)};
+     #If {@StripMessagePrefix=1 and @TmpCommunication1>9} {
+      #Var TmpCommunication1 {%Replace(%Copy(@TmpCommunication3,1,@TmpCommunication1+1),~",)};
+      #Var TmpCommunication1 {%Replace(@TmpCommunication1,~~,)};
+      #If {@TmpCommunication1=*"*transmits: "} {
+       #If {@TmpCommunication1=*"* and transmits: "} {
+        #Var TmpCommunication1 {@TmpCommunication3}
+       } {
+        #Var TmpCommunication1 {%Delete(@TmpCommunication3,%Pos(:,@TmpCommunication3)-10,10)}
+       }
+      } {
+       #Var TmpCommunication1 {@TmpCommunication3}
+      }
+     } {
+      #Var TmpCommunication1 {@TmpCommunication3}
+     }
+    } {
+     #Var TmpCommunication1 {%Pos(~,,@TmpCommunication3)};
+     #If {@TmpCommunication1>9} {
+      #Var TmpCommunication1 {%Replace(%Copy(@TmpCommunication3,1,@TmpCommunication1+1),~",)};
+      #Var TmpCommunication1 {%Replace(@TmpCommunication1,~~,)};
+      #If {@StripMessagePrefix=1 and @TmpCommunication1=*"*transmits, "} {
+       #If {@TmpCommunication1=*"* and transmits, "} {
+        #Var TmpCommunication1 {@TmpCommunication3}
+       } {
+        #Var TmpCommunication1 {%Delete(@TmpCommunication3,%Pos(~~,,@TmpCommunication3)-10,10)}
+       }
+      } {
+       #Var TmpCommunication1 {@TmpCommunication3}
+      }
+     } {
+      #Var TmpCommunication1 {@TmpCommunication3}
+     }
+    }
+   };
+   #If {%NumWords(@TmpCommunication5,|)>2} {#Var TmpCommunication6 {%Word(@TmpCommunication5,|,3)}} {#Var TmpCommunication6 0};
+   #If {%IfWord(@TmpCommunication4,Beta0Channel|Design0Channel|Newbie|Tradesman0Market,|)=0} {
+    #If {@TmpCommunication4="Metafrequency0Channels"} {#Var TmpCommunication6 {@TmpCommunication6:5}} {#Var TmpCommunication6 {@TmpCommunication6:6}};
+    DisplayPrint {%Word(@TmpCommunication6,:,2)} {@TmpCommunication2 @TmpCommunication1} {%0};
+    #Sub {@DisplayString};
+    PushMessage Comm {@TmpCommunication2 @TmpCommunication1}
+   } {
+    #Sub {@TmpCommunication2 @TmpCommunication1}
+   };
+   #If {@TmpCommunication4<>""} {PushMessage {@TmpCommunication4} {@TmpCommunication2 @TmpCommunication1}};
+   #If {@TmpCommunication5<>""} {MirianiSoundPlay {%Word(@TmpCommunication5,|,1)} {%Word(@TmpCommunication5,|,2)} {@TmpCommunication6}}
+  }
+ }
+} {}
+#Trigger {*, "*} {
+ #If {%IfWord(%Left(%1,1), ,|)=1} {#Abort};
+ #Var TmpCommunication1 {%Replace(%1,~~,)};
+ #Var TmpCommunication1 {%Replace(@TmpCommunication1,~",)};
+ #If {@TmpCommunication1=*"[[(]*"} {
+  #If {@TmpCommunication1=*"[[] You shatter immersion *and say"} {
+   #If {%Pos(You shatter immersion ship-wide and say,@TmpCommunication1)>0 or %Pos(You shatter immersion structure-wide and say,@TmpCommunication1)>0} {
+    #Var TmpCommunication2 {sooc}
+   } {
+    #Var TmpCommunication2 {rooc}
+   };
+   #If {@SoundsVersion>3} {
+    msplay General\Comm\@TmpCommunication2@ext
+   } {
+    msplay General\Comm\Rooc@ext
+   };
+   #If {@StripMessagePrefix=1} {
+    #Var TmpCommunication1 {}
+   } {
+    #Var TmpCommunication1 {You say: }
+   };
+   #If {%Length(%2)>1} {
+    #Var TmpCommunication3 {%Copy(%2,1,%Length(%2)-3)}
+   } {
+    #Var TmpCommunication3 {}
+   };
+   #Sub {[@TmpCommunication2] @TmpCommunication1@TmpCommunication3};
+   PushMessage {@TmpCommunication2} {[@TmpCommunication2] @TmpCommunication1@TmpCommunication3};
+   #Var TmpCommunication1 {}
+  };
+  #If {@TmpCommunication1=*"[[] * shatters immersion *and says"} {
+   #If {%Pos(shatters immersion ship-wide and says,@TmpCommunication1)>0} {
+    #Var TmpCommunication1 {%Copy(@TmpCommunication1,3,%Length(@TmpCommunication1)-40)};
+    #Var TmpCommunication2 {sooc}
+   } {
+    #If {%Pos(shatters immersion structure-wide and says,@TmpCommunication1)>0} {
+     #Var TmpCommunication1 {%Copy(@TmpCommunication1,3,%Length(@TmpCommunication1)-45)};
+     #Var TmpCommunication2 {sooc}
+    } {
+     #Var TmpCommunication1 {%Copy(@TmpCommunication1,3,%Length(@TmpCommunication1)-30)};
+     #Var TmpCommunication2 {rooc}
+    }
+   };
+   #If {@SoundsVersion>3} {
+    msplay General\Comm\@TmpCommunication2@ext
+   } {
+    msplay General\Comm\Rooc@ext
+   };
+   #If {@StripMessagePrefix=0} {
+    #Var TmpCommunication1 {@TmpCommunication1 says}
+   };
+   #If {%Length(%2)>1} {
+    #Var TmpCommunication3 {%Copy(%2,1,%Length(%2)-3)}
+   } {
+    #Var TmpCommunication3 {}
+   };
+   #Sub {[@TmpCommunication2] @TmpCommunication1: @TmpCommunication3};
+   PushMessage {@TmpCommunication2} {[@TmpCommunication2] @TmpCommunication1: @TmpCommunication3};
+   #Var TmpCommunication1 {}
+  }
+ } {
+  #Var TmpCommunication2 {%Word(@TmpCommunication1, ,%NumWords(@TmpCommunication1, ))};
+  #Var TmpCommunication4 {%Word(%2,~",%NumWords(%2,~~~"))};
+  #If {%Length(@TmpCommunication4)>0} {
+   #Var TmpCommunication4 {%Replace(@TmpCommunication4,~~,)};
+   #If {@TmpCommunication4=" into a small microphone mounted on the wall."} {
+    #If {@StripMessagePrefix=1 and @TmpCommunication2="says" and %Right(%1,9)<>" and says"} {
+     #Var PaString 5
+    } {
+     #Var PaString 0
+    };
+    #Var PaString {%Copy(%1,1,%Length(%1)-@PaString): %Copy(%2,1,%Length(%2)-46)};
+    MirianiSoundPlay {Comms Framework} Ship\Comm\pa*9@Ext;
+    #Sub {@PaPrefix@PaString};
+    PushMessage PA {@PaPrefix@PaString};
+    #Var TmpCommunication1 {}
+   };
+   #If {@TmpCommunication4=" into a small microphone and listen as it is played through the ship's external PA."} {
+    #If {@StripMessagePrefix=1 and @TmpCommunication2="say" and %Right(%1,8)<>" and say"} {
+     #Var TmpCommunication1 {}
+    } {
+     #Var TmpCommunication1 {%1: }
+    };
+    #Var TmpCommunication3 {%Copy(%2,1,%Length(%2)-84)};
+    MirianiSoundPlay {Comms Framework} Ship\Comm\PA*9@Ext;
+    #Sub {@ExtPrefix@TmpCommunication1@TmpCommunication3};
+    PushMessage PA {@ExtPrefix@TmpCommunication1@TmpCommunication3};
+    #Var TmpCommunication1 {}
+   };
+   #If {@TmpCommunication4=" (A quick note of the power level reveals that your message did not carry outside of this room.)"} {
+    #Var TmpCommunication1 {%Pos(" and ",%1)};
+    #Math TmpCommunication1 {@TmpCommunication1+3};
+    #Var TmpCommunication1 {%Copy(%1,@TmpCommunication1+1)};
+    #If {@StripMessagePrefix=1 and @TmpCommunication2="say" and %Pos(" and ",@TmpCommunication1)=0} {
+     #Var TmpCommunication1 {}
+    } {
+     #Var TmpCommunication1 { and };
+     #Var TmpCommunication1 {%Pos(@TmpCommunication1,%1)};
+     #Var TmpCommunication1 {You %Copy(%1,@TmpCommunication1+5): }
+    };
+    MirianiSoundPlay {Comms Framework} General\Rooms\Beep9@RExt;
+    #Var TmpCommunication3 {[Dead PA] @TmpCommunication1%Left(%2,%Length(%2)-97)};
+    #Sub {@TmpCommunication3};
+    PushMessage PA {@TmpCommunication3};
+    #Var TmpCommunication1 {}
+   }
+  } {
+   #If {%Length(%2)<=1} {
+    #Var TmpCommunication3 {}
+   } {
+    #Var TmpCommunication3 {%Copy(%2,1,%Length(%2)-1)}
+   };
+   #If {%Length(@LastFCScanner)>0 and @TmpCommunication1=*"* announce*"} {
+    #Var LastFCScanner {};
+    #If {@ShowFCSectorNamesAsNumbers=1 and %NumWords(@TmpCommunication3,~,)>1} {
+     #Var TmpCommunication1 {%Word(@TmpCommunication3,~,,1)};
+     #If {%Pos(Flight control in ,@TmpCommunication1)=1} {
+      #Var TmpCommunication1 {%Copy(@TmpCommunication1,19)}
+     } {
+      #If {%Replace(@TmpCommunication1,~",)=*"* to * flight control"} {
+       #Var TmpCommunication1 {%Copy(@TmpCommunication1,%Pos( to ,@TmpCommunication1)+4)};
+       #Var TmpCommunication1 {%Copy(@TmpCommunication1,1,%Length(@TmpCommunication1)-15)}
+      } {
+       #Var TmpCommunication1 {}
+      }
+     };
+     #If {%Length(@TmpCommunication1)>0} {
+      #Var TmpCommunication2 {%CRLF@TmpCommunication1:};
+      #Var TmpCommunication2 {%Pos(@TmpCommunication2,@NumberedSectors)};
+      #If {@TmpCommunication2>0} {
+       #Var TmpCommunication2 {%Copy(@NumberedSectors,@TmpCommunication2+1)};
+       #Var TmpCommunication2 {%Word(@TmpCommunication2,:,2)};
+       #Var TmpCommunication2 {sector %Word(@TmpCommunication2,%CRLF,1)};
+       #If {%Pos(Flight control in ,@TmpCommunication3)=1} {
+        #Var TmpCommunication3 {Flight control in @TmpCommunication2,%Copy(@TmpCommunication3,%Pos(~~~,,@TmpCommunication3)+1)}
+       } {
+        #Var TmpCommunication2 {%Replace(%Word(@TmpCommunication3,~~~,,1), to @TmpCommunication1 flight control, to @TmpCommunication2 flight control)};
+        #Var TmpCommunication3 {@TmpCommunication2,%Copy(@TmpCommunication3,%Pos(~~~,,@TmpCommunication3)+1)}
+       }
+      }
+     }
+    };
+    PushMessage Flight {@TmpCommunication3};
+    DisplayPrint 3 {@TmpCommunication3} {%0};
+    #Sub {@DisplayString};
+    MirianiSoundPlay {Flight Control Scanner} {General\Comm\FlightScanner@Ext} {0:3};
+    #Var TmpCommunication1 {%Replace(@TmpCommunication3,~",)};
+    #If {@TmpCommunication1=*"* Praelor starship* inbound!" or @TmpCommunication1=*"* Ontanka starship* inbound!" or @TmpCommunication1=*"* Frnalk starship* inbound!"} {
+     MirianiSoundPlay {FC Scanner Alert} General\Comm\PraelorInbound@Ext
+    };
+    #If {@TmpCommunication1=*"* Praelor starship* inbound!" or @TmpCommunication1=*"* Ontanka starship* inbound!" or @TmpCommunication1=*"* Frnalk starship* inbound!"} {
+     MirianiSoundPlay {FC Scanner Alert} General\Comm\PraelorInbound@Ext
+    } {
+     #If {@TmpCommunication1=*"* Praelor starship* jumping out*" or @TmpCommunication1=*"* Ontanka starship* jumping out*" or @TmpCommunication1=*"* Frnalk starship* jumping out*"} {
+      MirianiSoundPlay {FC Scanner Alert} {Ship\Comm\RelayJoin@Ext} 25
+     }
+    };
+    #Var TmpCommunication1 {};
+    #Var TmpCommunication2 {}
+   };
+   #If {%Length(@TmpCommunication1)>0 and (@TmpCommunication2="says" or @TmpCommunication2="exclaims" or @TmpCommunication2="asks")} {
+    #If {@TmpCommunication1="A voice comes over the speaker and says"} {
+     MirianiSoundPlay {Standard} {Ship\Computer\commchirp2@Ext};
+     #Sub {@TmpCommunication3};
+     #If {@SpeakComputerMessagesThroughSAPI=1} {
+      SSpeak {@TmpCommunication3};
+      #GagLine 1 Voice
+     };
+     #Var TmpCommunication1 {}
+    };
+    #If {%Length(@TmpCommunication1)>0 and (%Pos(option name~=~",@TmpCommunication3)=0 or @GetConfWaiting=0)} {
+     MirianiSoundPlay {Comms Framework} General\Socials\say@Ext;
+     #If {@TmpCommunication2<>"says" or @StripMessagePrefix=0 or @TmpCommunication1=*"* and says"} {
+      #Var TmpCommunication1 {%1}
+     } {
+      #Var TmpCommunication1 {%Copy(%1,1,%Length(%1)-5)}
+     };
+     #Sub {@TmpCommunication1: @TmpCommunication3};
+     PushMessage Say {@TmpCommunication1: @TmpCommunication3};
+     PushMessage RP {%0};
+     #Var TmpCommunication1 {}
+    }
+   };
+   #If {@TmpCommunication1=*"*'s voice comes over the intercom, *"} {
+    MirianiSoundPlay {Comms Framework} Ship\Comm\PA*9@Ext;
+    #Var TmpCommunication1 {%Word(%1,~,,2) };
+    #Var TmpPAWorkaround1 {ing };
+    #Var TmpPAWorkaround2 {s };
+    #Var TmpCommunication1 {%Replace(@TmpCommunication1,@TmpPAWorkaround1,@TmpPAWorkaround2)};
+    #Var TmpCommunication1 {%Trim(@TmpCommunication1)};
+    #If {@StripMessagePrefix=1 and @TmpCommunication1="says"} {
+     #Var TmpCommunication1 {%Word(%1,',1): @TmpCommunication3}
+    } {
+     #Var TmpCommunication1 {%Word(%1,',1) @TmpCommunication1: @TmpCommunication3}
+    };
+    #UnVar TmpPAWorkaround1;
+    #UnVar TmpPAWorkaround2;
+    #Sub {@PaPrefix@TmpCommunication1};
+    PushMessage PA {@PaPrefix@TmpCommunication1};
+    #Var TmpCommunication1 {}
+   };
+   #If {@TmpCommunication1=*"A message from * is piped through the ship's intercom from the external PA. You hear *"} {
+    MirianiSoundPlay {Comms Framework} Ship\Comm\PA*9@Ext;
+    #Math TmpCommunication1 {%Pos(" is piped through the ship",%1)-16};
+    #Var TmpCommunication1 {%Copy(%1,16,@TmpCommunication1)};
+    #Var TmpCommunication2 {%Copy(%1,%Length(@TmpCommunication1)+85)};
+    #Var TmpCommunication2 {%Copy(@TmpCommunication2,%Length(%Word(@TmpCommunication2, ,1))+2)};
+    #If {@StripMessagePrefix=1 and @TmpCommunication2="say"} {
+     #Var TmpCommunication2 {@TmpCommunication1: }
+    } {
+     #Var TmpCommunication2 {You hear @TmpCommunication1 @TmpCommunication2: }
+    };
+    #Sub {@ExtPrefix@TmpCommunication2@TmpCommunication3};
+    PushMessage PA {@ExtPrefix@TmpCommunication2@TmpCommunication3};
+    #Var TmpCommunication1 {};
+    #Var TmpCommunication2 {}
+   };
+   #If {@TmpCommunication1=*"From a large speaker on *, you hear *"} {
+    MirianiSoundPlay {Comms Framework} Ship\Comm\PA*9@Ext;
+    #Var TmpCommunication1 {%Pos(", you hear ",%1)};
+    #Var TmpCommunication1 {From %Copy(%1,25,@TmpCommunication1-25), you hear %Copy(%1,@TmpCommunication1+11): };
+    #Sub {@ExtPrefix@TmpCommunication1@TmpCommunication3};
+    PushMessage PA {@ExtPrefix@TmpCommunication1@TmpCommunication3};
+    #Var TmpCommunication1 {}
+   };
+   #If {@TmpCommunication1<>"" and @TmpCommunication2="transmits"} {
+    #If {@TmpCommunication1=%Trim(@TmpCommunication1) and %Word(@TmpCommunication1, ,1)<>"This"} {
+     MirianiSoundPlay {Comms Framework} General\Socials\Transmit@Ext;
+     #If {@StripMessagePrefix=1} {
+      #Var TmpCommunication1 {%Copy(%1,1,%Length(%1)-10)}
+     } {
+      #Var TmpCommunication1 {%1}
+     };
+     #Sub {@TmpCommunication1: @TmpCommunication3};
+     PushMessage Say {@TmpCommunication1: @TmpCommunication3};
+     PushMessage RP {%0};
+     #Var TmpCommunication1 {}
+    }
+   };
+   #If {@TmpCommunication1=*"* says in a* voice"} {
+    MirianiSoundPlay {Comms Framework} General\Socials\DroidSpeak@Ext;
+    #Sub {%1, @TmpCommunication3};
+    PushMessage Say {%1, @TmpCommunication3};
+    PushMessage RP {%0};
+    #Var TmpCommunication1 {}
+   };
+   #If {@TmpCommunication1=*"You press a small button * the wall and *" or @TmpCommunication1=*"You patch your suit radio through the ship's PA system and *"} {
+    #Var TmpCommunication1 {%Pos(" and ",%1)};
+    #Math TmpCommunication1 {@TmpCommunication1+3};
+    #Var TmpCommunication1 {%Copy(%1,@TmpCommunication1+1)};
+    #If {@StripMessagePrefix=1 and @TmpCommunication2="say" and %Pos(" and ",@TmpCommunication1)=0} {
+     #Var TmpCommunication1 {}
+    } {
+     #Var TmpCommunication1 { and };
+     #Var TmpCommunication1 {%Pos(@TmpCommunication1,%1)};
+     #Var TmpCommunication1 {You %Copy(%1,@TmpCommunication1+5): }
+    };
+    MirianiSoundPlay {Comms Framework} Ship\Comm\pa*9@Ext;
+    #Var TmpCommunication3 {@PaPrefix@TmpCommunication1@TmpCommunication3};
+    #Sub {@TmpCommunication3};
+    PushMessage PA {@TmpCommunication3};
+    #Var TmpCommunication1 {}
+   };
+   #If {@TmpCommunication1<>"" and @TmpCommunication2=*"shout*"} {
+    PushMessage Shout {%0};
+    #Var TmpCommunication1 {}
+   };
+   #If {@TmpCommunication1<>"" and @TmpCommunication2=*"whisper*"} {
+    PushMessage Whisper {%0};
+    #Var TmpCommunication1 {}
+   };
+   #If {@TmpCommunication1="You transmit"} {
+    MirianiSoundPlay {Comms Framework} {General\Socials\Transmit@Ext} -30;
+    #Sub {%1: @TmpCommunication3};
+    #Var TmpCommunication1 {}
+   };
+   #If {@TmpCommunication1=*"You *"} {
+    #If {@TmpCommunication1=*"* say*" or @TmpCommunication1=*"* ask*" or @TmpCommunication1=*"* exclaim*" or %IfWord(@TmpCommunication2,@CommSocialsExceptionList, )=1} {
+     MirianiSoundPlay {Comms Framework} {General\Socials\say@Ext} -30;
+     #Sub {%1: @TmpCommunication3};
+     PushMessage Say {%1: @TmpCommunication3};
+     PushMessage RP {%0}
+    };
+    #Var TmpCommunication1 {}
+   };
+   #If {@TmpCommunication1<>""} {
+    #If {@TmpCommunication1=*"*[[(]*"} {} {
+     #If {@TmpCommunication1=*"* says*" or @TmpCommunication1=*"* asks*" or @TmpCommunication1=*"* exclaims*" or %IfWord(@TmpCommunication2,@CommSocialsExceptionList, )=1} {
+      MirianiSoundPlay {Comms Framework} General\Socials\say@Ext;
+      #Sub {%1: @TmpCommunication3};
+      PushMessage Say {%1: @TmpCommunication3};
+      PushMessage RP {%0};
+      #Var TmpCommunication1 {}
+     }
+    }
+   }
+  }
+ }
+} {Main|Comm}
+
+#Trigger {* into a small microphone mounted on the wall.} {
+ #If {%NumWords(%1,~")<3} {
+  MirianiSoundPlay {Comms Framework} Ship\Comm\pa*9@Ext;
+  #Sub {@PaPrefix%1.};
+  PushMessage PA {@PaPrefix%1}
+ }
+} {Main}
+#Trigger {* over the intercom.} {
+ #If {%NumWords(%1,~")<3} {
+  MirianiSoundPlay {Comms Framework} Ship\Comm\pa*9@Ext;
+  #Sub {@PaPrefix%1.};
+  PushMessage PA {@PaPrefix%1}
+ }
+} {Main}
+#Trigger {You press a small button mounted on the wall and *.*} {
+ #If {%NumWords(%0,~")<3} {
+  #If {%2=" (A quick note of the power level reveals that your message did not carry outside of this room.)"} {
+   MirianiSoundPlay {Comms Framework} General\Rooms\Beep9@RExt;
+   #Var PaString {[Dead PA] You %1.}
+  } {
+   MirianiSoundPlay {Comms Framework} Ship\Comm\pa*9@Ext;
+   #Var PaString {@{PaPrefix}You %1.}
+  };
+  #Sub {@PaString};
+  PushMessage PA {@PaString}
+ }
+} {Main}
+#Trigger {A* from * is piped through the ship's intercom from the external PA.} {
+ MirianiSoundPlay {Comms Framework} Ship\Comm\PA*9@Ext;
+ #Sub {@{ExtPrefix}You hear a%1 from %2.};
+ PushMessage PA {@{ExtPrefix}You hear a%1 from %2}
+} {Main}
+#Trigger {You * into a small microphone and listen as it's played through the ship's external PA.} {
+ #If {%NumWords(%1,~")<3} {
+  MirianiSoundPlay {Comms Framework} Ship\Comm\PA*9@Ext;
+  #Sub {@{ExtPrefix}You %1.};
+  PushMessage PA {@{ExtPrefix}You %1}
+ }
+} {Main}
+#Trigger {From a large speaker on *, you hear *} {
+ #If {%NumWords(%2,~")<3} {
+  msplay Ship\Comm\PA*9@Ext;
+  #Sub {@{ExtPrefix}From %1, you hear %2};
+  PushMessage PA {@{ExtPrefix}From %1, you hear %2}
+ }
+} {Main}
+
+#Trigger {* [[]to *]: *} {
+ #If {%Pos([,%1)=0 and %Pos(~,,%1)=0 and %Pos(%Chr(62),%1)=0} {
+  #If {%Replace(%1,~",)<>"You"} {
+   MirianiSoundPlay {Comms Framework} General\Socials\say@Ext;
+   PushMessage Say {%0};
+   PushMessage RP {%0}
+  }
+ }
+} {Main}
+#Trigger {Via long-range communication, * broadcasts: "*"} {
+ #Sub {%1 broadcasts: "%2"};
+ MirianiSoundPlay {Comms Framework} Ship\Comm\Broadcast@Ext;
+ PushMessage COMM {%1 broadcasts: "%2"};
+ PushMessage Ship0Comms {%1 broadcasts: "%2"}
+} {Main}
+#Trigger {* doesn't * to be working.} {
+ #If {%IfWord(%2,seem|appear,|)=1} {
+  MirianiSoundPlay {Comms Framework} General\Comm\CommInactive@Ext
+ }
+} {Main}
+#Trigger {* commlink with an unknown starship.} {
+ msplay Ship\Comm\CommLink@Ext -30
+} {Main}
+#Trigger {The PA microphone in this area appears to have been disabled.} {
+ MirianiSoundPlay {Comms Framework} General\Comm\CommInactive@Ext
+} {Main}
+#Trigger {Via general sector communication, *} {
+ #If {@GagGenMessages=1} {
+  #GagLine 1 All
+ } {
+  #Sub {[Gen] %1}
+ };
+ PushMessage Comm {[Gen] %1};
+ MirianiSoundPlay {Comms Framework} Ship\Comm\Sector@Ext;
+ PushMessage {Ship0Comms} {[Gen] %1}
+} {Main}
+#Trigger {*You receive a transmission from*: *} {
+ MirianiSoundPlay {Comms Framework} Ship\Comm\pa*9@Ext;
+ #If {%Pos([,%1)>0 or %Pos(~(,%1)=0} {
+  #Sub {@{ExtPrefix}[%2]: %1 transmits, "%3"}
+ };
+ PushMessage PA {%0}
+} {Main}
+#Trigger {[[]* ago] * transmitted: "*"} {
+ PushMessage Comm {%2, "%3" (%1 ago)}
+} {Main}
+#Trigger {*(* ago) [[]*] * transmits, "*"} {
+ PushMessage Comm {[%3] %4 transmits, "%5" (%2 ago)}
+} {Main}
+#Trigger {   [[]Newbie] *} {
+ PushMessage Newbie {[Newbie] %1}
+} {Main}
+#Trigger {You ask * if * wishes to establish a secure communications link with you.  Note that this link can be used from a distance once it is established.} {
+ #Sub {You ask %1 for a link.}
+} {Main}
+#Trigger {Your communicator flashes a series of cryptic looking numbers before confirming the secure link with *.} {
+ #Sub {Secure link with %1 established.}
+} {Main}
+#Trigger {Private Organization: * (*)} {
+ #If {@OrgName<>%2} {
+  #Sub {Private Organization: %1 (Org name set to %2)}
+ };
+ #Var OrgName %2
+} {Main}
+#Trigger {Courier Company: *} {
+ #if {%Pos(  ,%1)<>0} {
+  #Abort All
+ };
+ #If {@CourierCompany<>%1} {
+  #Sub {Courier Company: Courier Company set to %1}
+ };
+ #Var CourierCompany %1
+} {Main}
+#Trigger {[[] * shatters immersion*and * ]} {
+ #If {%Word(%3,~",1) <> "says, " or %NumWords(%3,~")<3} {
+  #If {%2=" ship-wide " or %2=" structure-wide "} {
+   #If {@SoundsVersion>3} {
+    msplay General\Comm\Sooc@ext
+   } {
+    msplay General\Comm\Rooc@ext
+   };
+   #Sub {[sooc] %1 %3};
+   PushMessage sooc {[sooc] %1 %3}
+  } {
+   msplay General\Comm\Rooc@ext;
+   #Sub {[rooc] %1 %3};
+   PushMessage rooc {[rooc] %1 %3}
+  }
+ }
+} {Main}
+#Trigger {[[]Admin Message]: *} {
+ msplay General\Comm\AdminPrivateMessage@ext;
+ PushMessage Admin0Messages {%0}
+} {Main}
+#Trigger {* beeps quietly for your attention and flashes: "Blast door compromise. Return to ship immediately."} {msplay General\Comm\BlastDoorIntrusionAlert@Ext} {Main}
+#Trigger {A pleasant * voice announces, "*"} {msplay General\Socials\DroidSpeak@Ext} {Main}
+
+; Proxiani Chat Server
+#Trigger {[[]* | *] *} {
+ #If {%IfWord(%1,CM|PM,|)=1} {
+  #Sub {[%1 %2] %3};
+  #If {%1="CM"} {
+   #If {%IfWord(%2,admin|administrator|administrators,|)=1} {
+    msplay {PCS\admin@Ext} {0} {6}
+   } {
+    #If {%IfWord(%2,error|debug,|)=1} {
+     #If {%2="error"} {msplay {PCS\error@Ext} {0} {6}} {msplay {PCS\debug@Ext} {0} {6}}
+    } {
+     #If {%IfWord(%2,connected|disconnected,|)=1} {msplay {PCS\%2@Ext} {0} {6}} {msplay {PCS\cm@Ext} {0} {6}}
+    }
+   }
+  } {
+   msplay {PCS\pm@Ext} {0} {6}
+  };
+  PushMessage {%1} {[%1 %2] %3}
+ }
+} {Main}
+#Trigger {[#]$[#]soundpack fc | *} {#Var LastFCScanner {%1}} {Main}
+#Trigger {From speakers overhead, you hear *} {
+ #Sub {[Commentary] You hear %1};
+ MirianiSoundPlay {Comms Framework} {Ship\Comm\PA*9@Ext};
+ PushMessage {Commentary} {You hear %1}
+} {Main}

@@ -1,0 +1,219 @@
+#Var ArchArtiDepth 0
+#Var ArchDigDepth 0
+
+#Alias MArchPlay {mrandomplay General\Archaeology\Random*9@Ext} {}
+
+#Trigger {You press a small button on the side of a level * archaeological dig site scanner and begin directing it toward several likely locations.} {
+ #Var ArchDigDepth 0;
+ #Var ArchArtiDepth 0;
+ msplay general\archaeology\scanner*4@Ext;
+ #GagLine 1 Voice;
+ #Sub {Scanning...}
+} {Main|Ground}
+#Trigger {A level * archaeological dig site scanner *} {
+ #If {%IfWord(%Word(%2, ,1),indicates reports, )=1} {
+  #If {%IfWord(%2,indicates that nothing is buried nearby.|reports nothing nearby.,|)=1} {
+   #If {%Pos(reports,%2)=1} {
+    #Sub {Nothing nearby.}
+   } {
+    #Sub {Nothing buried in this dig site.}
+   };
+   msplay General\Archaeology\NothingFound@Ext;
+   #Abort
+  };
+  #If {%Pos(indicates that there is an artifact buried approximately ,%2)=1} {
+   #Var ArchArtiDepth {%Word(%2, ,9)};
+   #If {%IfWord(@ArchArtiDepth,1|1.0,|)=1} {#Sub {1 foot.}} {#Sub {@ArchArtiDepth feet.}};
+   #If {%Pos(.,@ArchArtiDepth)>0} {
+    #If {%Word(@ArchArtiDepth,.,1)=0} {
+     #Var ArchArtiDepth {%Left(%Word(@ArchArtiDepth,.,2),1)}
+    } {
+     #Var ArchArtiDepth {%Copy(@ArchArtiDepth,1,%Eval(%Pos(.,@ArchArtiDepth)+1))};
+     #Var ArchArtiDepth {%Replace(@ArchArtiDepth,.,)}
+    }
+   } {
+    #Var ArchArtiDepth {@{ArchArtiDepth}0}
+   };
+   #If {%IsNumber(@ArchArtiDepth)=0} {#Var ArchArtiDepth 0};
+   msplay General\Archaeology\ArtifactHere@Ext;
+   #Abort
+  };
+  #If {%Pos(indicates that you should move to ~(,%2)=1 and %Right(%2,2)=")."} {
+   #Var ArchTmp1 {%Word(%2,~(,2)};
+   #Var ArchTmp1 {%Word(@ArchTmp1,~),1)};
+   #If {%Pos(~, ,@ArchTmp1)>0 and %NumWords(@ArchTmp1, )<4} {
+    #Var ArchArtiXCoord {%Word(@ArchTmp1,~, ,1)};
+    #Var ArchArtiYCoord {%Word(@ArchTmp1,~, ,2)};
+    #If {%NumWords(@ArchTmp1,~,)=3} {#Var ArchArtiZCoord {%Word(@ArchTmp1,~, ,3)}} {#Var ArchArtiZCoord {@MyZCoord}};
+    #If {@ArchaeologyCalculateDirection=1 and %Defined(MyXCoord)=1 and %Defined(MyYCoord)=1 and %Defined(MyZCoord)=1} {
+     #Var ArchTmp1 0;
+     #Var ArchTmp2 {};
+     #If {@ArchArtiXCoord<>@MyXCoord} {
+      #If {@ArchArtiXcoord>@MyXCoord} {
+       #Math ArchTmp1 {@ArchArtiXCoord-@MyXCoord};
+       #Var ArchTmp2 {@{ArchTmp2}, @{ArchTmp1}E}
+      } {
+       #Math ArchTmp1 {@MyXCoord-@ArchArtiXCoord};
+       #Var ArchTmp2 {@{ArchTmp2}, @{ArchTmp1}W}
+      }
+     };
+     #If {@ArchArtiYCoord<>@MyYCoord} {
+      #If {@ArchArtiYCoord>@MyYCoord} {
+       #Math ArchTmp1 {@ArchArtiYCoord-@MyYCoord};
+       #Var ArchTmp2 {@{ArchTmp2}, @{ArchTmp1}S}
+      } {
+       #Math ArchTmp1 {@MyYCoord-@ArchArtiYCoord};
+       #Var ArchTmp2 {@{ArchTmp2}, @{ArchTmp1}N}
+      }
+     };
+     #If {@ArchArtiZCoord<>@MyZCoord} {
+      #If {@ArchArtiZCoord>@MyZCoord} {
+       #Math ArchTmp1 {@ArchArtiZCoord-@MyZCoord};
+       #Var ArchTmp2 {@{ArchTmp2}, @{ArchTmp1}D}
+      } {
+       #Math ArchTmp1 {@MyZCoord-@ArchArtiZCoord};
+       #Var ArchTmp2 {@{ArchTmp2}, @{ArchTmp1}U}
+      }
+     };
+     #If {%Length(@ArchTmp2)>0} {#Sub {%Copy(@ArchTmp2,3,%Eval(%Length(@ArchTmp2)-2))}};
+     #UnVar ArchTmp2
+    } {
+     #Sub {@ArchTmp1}
+    }
+   };
+   #UnVar ArchTmp1;
+   msplay General\Archaeology\ArtifactNear@Ext;
+   #Abort
+  };
+  #If {%Pos( object ,%2)>0} {
+   #Sub {Object %Word(%2, object ,2)};
+   msplay General\Archaeology\ArtifactNear@Ext;
+   #Abort
+  };
+  #If {%Word(%2, ,2)="that"} {
+   #Sub {%Proper(%Delete(%2,1,%Eval(%Pos( ,%2)+5)))}
+  };
+  msplay General\Archaeology\ArtifactNear@Ext
+ }
+} {Main|Ground}
+#Trigger {Your digging reveals *. *} {
+ #Var ArchArtiDepth 0;
+ #Var ArchaeologyHelperArtifactName %1;
+ #If {%Pos(Having no free hands,%2)>0} {
+  #Var ArchArtiMessage {You dig up %1, but having no free hands, you leave it lying on the ground.};
+  msplay General\Archaeology\ArtifactHere@Ext
+ } {
+  #Var ArchArtiMessage {You get %1.};
+  msplay General\Archaeology\ArtifactGet@Ext
+ };
+ #If {@ArchaeologyHelperCountArtifacts=1} {
+  #If {%IsNumber(@ArchaeologyHelperNumberOfArtifacts)=1} {
+   #Math ArchaeologyHelperNumberOfArtifacts {@ArchaeologyHelperNumberOfArtifacts + 1}
+  } {
+   #Var ArchaeologyHelperNumberOfArtifacts 1
+  };
+  #Sub {[@ArchaeologyHelperNumberOfArtifacts]: @ArchArtiMessage}
+ } {
+  #Sub {@ArchArtiMessage}
+ };
+ #UnVar ArchArtiMessage
+} {Main|Ground}
+#Trigger {* stoops down and retrieves *} {
+ #Var ArchArtiDepth 0;
+ #Var ArchaeologyHelperArtifactName %2;
+ #Sub {%1 digs up %2};
+ msplay General\Archaeology\ArtifactGet@Ext
+} {Main|Ground}
+#Trigger {* steps back and admires *} {
+ msplay General\Archaeology\ArtifactHere@Ext
+} {Main|Ground}
+
+#Trigger {A clump of loose soil comes free from * and plops back to the ground.} {
+ msplay General\Archaeology\Soil@Ext;
+ MArchPlay;
+ #GagLine 1 Voice
+} {Main|Ground}
+#Trigger {A furry animal burrows deeper into the ground as * threatens to fully expose it.} {
+ MArchPlay;
+ #GagLine 1 Voice
+} {Main|Ground}
+#Trigger {A plump red insect burrows deeper into the dirt as * comes near.} {
+ MArchPlay;
+ #GagLine 1 Voice
+} {Main|Ground}
+
+#Trigger {The hud on a* flashes alarmingly, indicating the oxygen supply has dropped below *.} {
+ msplay {General\Misc\Warning@Ext};
+ #Sub {Oxygen supply is below %2.}
+} {Main}
+#Trigger {* thrust* a small shovel into the ground and begin* methodically removing large chunks of dirt.} {
+ #Var ArchLastDigAmount 5;
+ #Math ArchDigDepth {@ArchDigDepth+@ArchLastDigAmount};
+ #If {%IfWord(%1,You,%CRLF)=1} {
+  msplay general\archaeology\shovel*14@Ext;
+  #If {@ShowDiggingDepth=1} {
+   #Var ArchTmp1 {};
+   #If {@ArchArtiDepth>0} {#Math ArchTmp1 {@ArchArtiDepth-@ArchDigDepth}} {#Var ArchTmp1 {@ArchDigDepth}};
+   #Var ArchTmp2 {%Right(@ArchTmp1,1)};
+   #Var ArchTmp1 {%Copy(@ArchTmp1,1,%Length(@ArchTmp1)-1)};
+   #If {%IsNumber(@ArchTmp1)=0} {#Var ArchTmp1 {@{ArchTmp1}0}};
+   #If {@ArchTmp2<>0} {#Var ArchTmp1 {@ArchTmp1.@ArchTmp2}};
+   #If {@ArchArtiDepth>0} {
+    #If {%IfWord(@ArchTmp1,1|1.0,|)=1} {#Sub {1 foot left.}} {#Sub {@ArchTmp1 feet left.}}
+   } {
+    #If {%IfWord(@ArchTmp1,-1|-1.0,|)=1} {#Sub {-1 foot.}} {#Sub {@ArchTmp1 feet.}}
+   };
+   #UnVar ArchTmp1;
+   #UnVar ArchTmp2
+  } {
+   #GagLine 1 All
+  }
+ } {
+  #Sub {%1 digs.};
+  #GagLine 1 Voice;
+  msplay general\archaeology\shovel*14@Ext -10
+ }
+} {Main|Ground}
+#Trigger {* firmly wedge* a sleek metallic digging apparatus into the ground and press* a trigger on the handle. The attached shovel immediately goes to work, sending debris *.} {
+ #Var ArchLastDigAmount 20;
+ #Math ArchDigDepth {@ArchDigDepth+@ArchLastDigAmount};
+ #If {%Pos(You,%1)=1 and %Length(%1)=3} {
+  #If {@ShowDiggingDepth=1 or (@ShowDiggingDepth=2 and @ArchDigDepth<=@ArchArtiDepth and %Eval(@ArchDigDepth+20)>=@ArchArtiDepth)} {
+   #Var ArchTmp1 {};
+   #If {@ArchArtiDepth>0} {#Math ArchTmp1 {@ArchArtiDepth-@ArchDigDepth}} {#Var ArchTmp1 {@ArchDigDepth}};
+   #Var ArchTmp2 {%Right(@ArchTmp1,1)};
+   #Var ArchTmp1 {%Copy(@ArchTmp1,1,%Length(@ArchTmp1)-1)};
+   #If {%IsNumber(@ArchTmp1)=0} {#Var ArchTmp1 {@{ArchTmp1}0}};
+   #If {@ArchTmp2<>0} {#Var ArchTmp1 {@ArchTmp1.@ArchTmp2}};
+   #If {@ArchArtiDepth>0} {
+    #If {%IfWord(@ArchTmp1,1|1.0,|)=1} {#Sub {1 foot left.}} {#Sub {@ArchTmp1 feet left.}}
+   } {
+    #If {%IfWord(@ArchTmp1,-1|-1.0,|)=1} {#Sub {-1 foot.}} {#Sub {@ArchTmp1 feet.}}
+   };
+   #UnVar ArchTmp1;
+   #UnVar ArchTmp2
+  } {
+   #GagLine 1 All
+  };
+  msplay general\archaeology\shovel*14@Ext
+ } {
+  #Sub {%1 digs with auto shovel.};
+  #GagLine 1 Voice;
+  msplay general\archaeology\shovel*14@Ext -10
+ }
+} {Main|Ground}
+#Trigger {* digging.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0 and %IfWord(%Word(%1, ,%NumWords(%1, )),cease ceases stop stops, )=1} {
+  #If {%Pos(You ,%1)=1} {
+   #GagLine 1 All;
+   msplay General\Archaeology\Cease@Ext
+  } {
+   #If {%Defined(ArchLastDigAmount)=1} {#GagLine 1 All};
+   msplay General\Archaeology\Cease@Ext -10
+  };
+  #If {%Defined(ArchLastDigAmount)=1} {
+   #If {@ArchDigDepth=0} {#Math ArchDigDepth {@ArchDigDepth+@ArchLastDigAmount}};
+   #UnVar ArchLastDigAmount
+  }
+ }
+} {Main|Ground}

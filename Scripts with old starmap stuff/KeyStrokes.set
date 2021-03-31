@@ -1,0 +1,152 @@
+#GUnKey Numpad2
+#GUnKey Numpad4
+#GUnKey Numpad5
+#GUnKey Numpad6
+#GUnKey Numpad8
+#GUnKey Numpad9
+#GUnKey NumPad*
+#GUnKey NumPad/
+#GUnKey Control-1
+#GUnKey Control-2
+#GUnKey Control-3
+#GUnKey Control-4
+#GUnKey Control-5
+#GUnKey Control-6
+#GUnKey Control-7
+#GUnKey Control-8
+#GUnKey Control-9
+#GUnKey Shift-Control-2
+#GUnKey Shift-Control-3
+#GUnKey Shift-Control-4
+#GUnKey Shift-Control-5
+#GUnKey Alt-space
+#GUnKey control-A
+#GUnKey control-e
+#GUnKey control-q
+#GUnKey shift-PageUp
+#GUnKey shift-PageDown
+
+#Var LastReviewKeyPressed {}
+#Alias ReviewKeyPressed {
+ #If {%IsNumber(%2)=1} {
+  #If {%NumWords(@BuffersForReview,~,)<%2} {
+   Speech Stop;
+   #Say {The list of review buffers must have more items than just %2 for this to work. Please see conf history.};
+   #Abort All
+  } {
+   #Var ReviewKeyTmp2 {%Word(@BuffersForReview,~,,%2)}
+  }
+ } {
+  #Var ReviewKeyTmp2 {%2}
+ };
+ #If {@LastReviewKeyPressed=%1} {
+  #Var ReviewKeyTmp1 {copy};
+  #Var LastReviewKeyPressed {}
+ } {
+  #Var ReviewKeyTmp1 {read};
+  #Var LastReviewKeyPressed %1;
+  #If {%NumWords(@HistoryTimeout,.)<>2 or %IsNumber(%Replace(@HistoryTimeout,.,))=0} {
+   #Var HistoryTimeout {0.25}
+  };
+  #Exec {#Alarm {%Replace(@HistoryTimeout,.,@DecimalChar)} {#If {~@LastReviewKeyPressed="%1"} {#Var LastReviewKeyPressed {}}}}
+ };
+ SPHB {@ReviewKeyTmp1} {@ReviewKeyTmp2} {%3};
+ #UnVar ReviewKeyTmp1;
+ #UnVar ReviewKeyTmp2
+} {HistoryReviewKeys}
+
+#Var HistoryReviewNumber 0
+#While {@HistoryReviewNumber<10} {
+ #Math HistoryReviewNumber {@HistoryReviewNumber+1};
+ #Var ReviewKeyNumber {%If(@HistoryReviewNumber=10,0,@HistoryReviewNumber)};
+ #Exec {
+  #Key Alt-@ReviewKeyNumber {ReviewKeyPressed {Alt-@ReviewKeyNumber} {1} {@HistoryReviewNumber}} {HistoryReviewKeys};
+  #Key Alt-Shift-@ReviewKeyNumber {ReviewKeyPressed {Alt-Shift-@ReviewKeyNumber} {2} {@HistoryReviewNumber}} {HistoryReviewKeys};
+  #Key Control-@ReviewKeyNumber {ReviewKeyPressed {Control-@ReviewKeyNumber} {~@CurrentHistoryBuffer} {@HistoryReviewNumber}} {HistoryReviewKeys};
+  #Key Control-Shift-@ReviewKeyNumber {ReviewKeyPressed {Control-Shift-@ReviewKeyNumber} {3} {@HistoryReviewNumber}} {HistoryReviewKeys};
+  #Key Alt-Control-@ReviewKeyNumber {ReviewKeyPressed {Alt-Control-@ReviewKeyNumber} {4} {@HistoryReviewNumber}} {HistoryReviewKeys|AltGRNumrow};
+  #Key Alt-Control-Shift-@ReviewKeyNumber {ReviewKeyPressed {Alt-Control-Shift-@ReviewKeyNumber} {5} {@HistoryReviewNumber}} {HistoryReviewKeys}
+ }
+}
+#UnVar ReviewKeyNumber
+#UnVar HistoryReviewNumber
+
+#Key Control-E {SPHB switch forward} {HistoryReviewKeys}
+#Key Control-Shift-E {SPHB switch back} {HistoryReviewKeys}
+#Key Control-Q {SPHB back} {HistoryReviewKeys}
+#Key Control-W {SPHB forward} {HistoryReviewKeys}
+#Key Shift-Control-Q {SPHB back all} {HistoryReviewKeys}
+#Key Shift-Control-W {SPHB forward all} {HistoryReviewKeys}
+#key Alt-Control-Shift-E {SPHB copy {@CurrentHistoryBuffer}} {HistoryReviewKeys}
+#Key Alt-Control-Shift-Q {SPHB copy {@CurrentHistoryBuffer} {@CurrentHistoryBufferPosition} 1} {HistoryReviewKeys}
+#Key Alt-Control-Shift-W {SPHB copy {@CurrentHistoryBuffer} {@CurrentHistoryBufferPosition}} {HistoryReviewKeys}
+
+#Key Control-Shift-Backspace {
+ #Var InterruptOnScanningStarships {%Eval(NOT @InterruptOnScanningStarships)};
+ #Say {%If(@InterruptOnScanningStarships=1,Enabled,Disabled) speech interrupt when scanning starships.}
+} {MiscKeys}
+#Key Alt-Backspace {
+ #Var InterruptOnFollow {%Eval(NOT @InterruptOnFollow)};
+ #Say {Interrupt on follow %If(@InterruptOnFollow = 1,enabled,disabled).}
+} {MiscKeys}
+#Key Control-Alt-Backspace {Conf Speech {Interrupt when entering a room}} {MiscKeys}
+
+#Key F9 {SetMasterVolume down} {SoundKeys}
+#Key F10 {SetMasterVolume up} {SoundKeys}
+#Key F11 {MasterMute} {SoundKeys}
+#key Shift-F11 {conf room 1} {SoundKeys}
+#Key Shift-Alt-F11 {
+ #If {@ThemeMusic <> 0} {
+  thememusicfadeout;
+  #Var ThemeMusic 0
+ } {
+  #Var ThemeMusic 1
+ };
+ #Say {Theme music %If(@ThemeMusic = 1,enabled,disabled).}
+} {SoundKeys}
+#Key Shift-Control-Alt-F9 {
+ #If {%Mp3Loop > 0 and %Defined(FadeOut)=0} {
+  #If {@ThemeSoundVolumeDiff < @Vol} {
+   #Math ThemeSoundVolumeDiff {@ThemeSoundVolumeDiff + 5}
+  } {
+   #Var ThemeSoundVolumeDiff {@Vol}
+  };
+  setthememusicvolume;
+  #Say {@ThemeVol percent.} VoiceOnly
+ } {
+  #Say {Theme music is not playing.}
+ }
+} {SoundKeys}
+#Key Shift-Control-Alt-F10 {
+ #If {%Mp3Loop > 0 and %Defined(FadeOut)=0} {
+  #If {@ThemeSoundVolumeDiff > %Eval(@Vol - 100)} {
+   #Math ThemeSoundVolumeDiff {@ThemeSoundVolumeDiff - 5}
+  } {
+   #Math ThemeSoundVolumeDiff {@Vol - 100}
+  };
+  setthememusicvolume;
+  #Say {@ThemeVol percent.} VoiceOnly
+ } {
+  #Say {Theme music is not playing.}
+ }
+} {SoundKeys}
+#Key Control-F12 {GagEverything} {MiscKeys}
+#Key Shift-Control-F12 {mtplay} {SoundKeys}
+#Key Shift-Control-Alt-F12 {thememusicfadeout} {SoundKeys}
+
+#Key Control-S {#SetSpeech Incoming Stop;ConfSaveAll}
+#Key Control-Alt-Shift-F12 {
+ #Var GagExits {%Eval(NOT @GagExits)};
+ #Say {Exits will now be %If(@GagExits = 1,gagged,shown).}
+}
+#Key Alt-Space {
+ Speech Stop;
+ #Say {@exits};
+ #If {@ShowExpertExits=1} {
+  #Var AndString {and };
+  #Say {(%if(%ifword(@Exits,None),0,%numwords(%replace(@Exits,@AndString,""), )) exits.)};
+  #UnVar AndString
+ }
+}
+#Key Shift-Control-Alt-F11 {BufferConfig}
+#Key Control-F11 {SocialsToggle}

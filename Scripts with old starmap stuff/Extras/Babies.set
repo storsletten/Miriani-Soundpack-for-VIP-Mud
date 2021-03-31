@@ -1,0 +1,44 @@
+#Trigger {* cries softly.} {MirianiSoundPlay Emote baby\babysoftcry@Ext} {Main|Socials}
+#Trigger {* starts crying loudly*} {MirianiSoundPlay Emote baby\babycry*6@Ext} {Main|Socials}
+#Trigger {* coos*} {MirianiSoundPlay Emote baby\babycoo@Ext} {Main|Socials}
+#Trigger {* babbles*} {MirianiSoundPlay Emote baby\babybabble*2@Ext} {Main|Socials}
+#Trigger {* bubbles.} {MirianiSoundPlay Emote baby\babybubble*6@Ext} {Main|Socials}
+#Trigger {* begin* to feed * a sucking sound as*} {MirianiSoundPlay Emote baby\babyeats@Ext} {Main|Socials}
+#Trigger {You pat * on the back and * lets out a small burp.} {MirianiSoundPlay Emote baby\babyburps@Ext} {Main|Socials}
+#Trigger {You offer * a * to *} {MirianiSoundPlay Emote baby\babyeats@Ext} {Main|Socials}
+#Trigger {* starts fussing.} {MirianiSoundPlay Emote baby\babyfuss*14@Ext} {Main|Socials}
+#Trigger {* groans*} {
+ #If {%Pos(~[,%1)=0 AND %Pos(~#,%1)=0} {
+  MirianiSoundPlay Emote baby\babygroan*3@Ext
+ }
+} {Main|Socials}
+#Trigger {* giggles softly.} {MirianiSoundPlay Emote baby\babygiggle*9@Ext} {Main|Socials}
+#Trigger {* giggles loudly.} {MirianiSoundPlay Emote baby\babygiggle*9@Ext} {Main|Socials}
+#Trigger {* laughs loudly.} {MirianiSoundPlay Emote baby\babylaugh*3@Ext} {Main|Socials}
+#Trigger {* grunts loudly.} {MirianiSoundPlay Emote baby\babygrunt*2@Ext} {Main|Socials}
+#Trigger {* flails*limbs..} {MirianiSoundPlay Emote baby\babywave@Ext} {Main|Socials}
+#Trigger {* hiccups.} {MirianiSoundPlay Emote baby\babyhiccups@Ext} {Main|Socials}
+#Trigger {* kicks*feet and waves*arms.} {MirianiSoundPlay Emote baby\babywave@Ext} {Main|Socials}
+#Trigger {* kicks one foot.} {MirianiSoundPlay Emote baby\babywave@Ext} {Main|Socials}
+#Trigger {* nibbles on*.} {MirianiSoundPlay Emote baby\babysucking@Ext} {Main|Socials}
+#Trigger {* rolls over.} {MirianiSoundPlay Emote baby\babyrolls@Ext} {Main|Socials}
+#Trigger {* screams loudly.} {MirianiSoundPlay Emote baby\babyscreams@Ext} {Main|Socials}
+#Trigger {* shrieks loudly.} {MirianiSoundPlay Emote baby\babyscreams@Ext} {Main|Socials}
+#Trigger {* sneezes.} {MirianiSoundPlay Emote baby\babysneeze@Ext} {Main|Socials}
+#Trigger {* sucks*thumb.} {MirianiSoundPlay Emote baby\babysucking@Ext} {Main|Socials}
+#Trigger {* spits.} {MirianiSoundPlay Emote baby\babyspit@Ext} {Main|Socials}
+#Trigger {* spits up.} {MirianiSoundPlay Emote baby\babyspitup@Ext} {Main|Socials}
+#Trigger {* sputters.} {MirianiSoundPlay Emote baby\babysputter@Ext} {Main|Socials}
+#Trigger {* squeaks.} {MirianiSoundPlay Emote baby\babysqueak*6@Ext} {Main|Socials}
+#Trigger {* squeals.} {MirianiSoundPlay Emote baby\babysqueal*7@Ext} {Main|Socials}
+#Trigger {* starts sucking on*toes.} {MirianiSoundPlay Emote baby\babysucking@Ext} {Main|Socials}
+#Trigger {* toddles*} {
+ #If {%Pos(~[,%1)=0 and %Pos(~#,%1)=0} {
+  MirianiSoundPlay Emote baby\babytoddles@Ext
+ }
+} {Main|Socials}
+#Trigger {* wails loudly.} {MirianiSoundPlay Emote baby\babywail*3@Ext} {Main|Socials}
+#Trigger {* waves*fist around.} {MirianiSoundPlay Emote baby\babywave@Ext} {Main|Socials}
+#Trigger {* waves*hand through the air.} {MirianiSoundPlay Emote baby\babywave@Ext} {Main|Socials}
+#Trigger {* whimpers.} {MirianiSoundPlay Emote baby\babywhimper*2@Ext} {Main|Socials}
+#Trigger {* whines.} {MirianiSoundPlay Emote baby\babywhine*5@Ext} {Main|Socials}

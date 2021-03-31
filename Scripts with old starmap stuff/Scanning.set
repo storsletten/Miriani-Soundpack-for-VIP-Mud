@@ -1,0 +1,188 @@
+#Class Scanning Disable
+#Var ScanOutputLabels {Atmospheric Composition|Available charge|Average Component Damage|Cargo|Classification|Composition|Coordinates|Courier ship status|Damage|Discernable Aircraft|Distance|Hull Damage|Identifiable Power Sources|IFF|Integrity|Landing beacons|Launched by|Natural Resources|Occupancy|Orbiting|Pilot status|Power|Power sources|Size|Starships|Surface Conditions|Type|Weapons}
+#Var ScanFormatVarLabels {@ScanOutputLabels|Alliance|Name|New|Number of Occupants|Object Type|Organization}
+#Var ScanFormatVarLabels {%Sort(@ScanFormatVarLabels,0)}
+#Var ScanFormatVars {%Replace(@ScanFormatVarLabels, ,)}
+
+#Alias sc {shipscan sc {%0}} {Starship}
+#Alias scan {shipscan scan {%0}} {Starship}
+#Alias shipscan {
+ #Var ScanTarget {%Trim(%2)};
+ #Var ScanFilter {%Trim(%3)};
+ #If {%Length(@ScanFilter)>0} {
+  #Var ScanFilterVar {%Replace(@ScanFilter, ,)}
+ } {
+  #UnVar ScanFilter;
+  #UnVar ScanFilterVar
+ };
+ #ForAll {@ScanFormatVars} {
+  #Var {ScanObject%i} {};
+  #Var {ScanObject%{i}Raw} {}
+ };
+ MainTrigSwitch 0 Scanning;
+ #Var ScanOutputLabelsDetected 0;
+ #Exec {>%1%RTrim( @ScanTarget)}
+}
+
+#Trigger {* (*)*} {
+ #If {%IfWord(%2,AIE|Blue|CHRISTMAS|Combat Drone|Commonwealth|Courier|CTN|Green|Hale|High Guard|Krenelia|Observer|Ontanka|Pink|Praelor|Red|Unknown,|)=1 and %Pos(:,%1)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  #If {@ScanFilters>0 or %Defined(ScanFilter)=1} {
+   #If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}
+  } {
+   #If {@InterruptOnScanningStarships=1} {Speech Stop}
+  };
+  #Var ScanObjectAllianceRaw {%2};
+  #Var ScanObjectNameRaw {%1};
+  #If {%Pos( [Organization: ,%3)=1} {#Var ScanObjectOrganizationRaw {%Copy(%3,17,%Length(%3)-17)}};
+  #If {%IfWord(%2,Krenelia|Ontanka|Praelor,|)=1} {
+   #If {%2="Krenelia"} {msplay Ship\Computer\PraelorIsFriend@Ext};
+   #If {%IfWord(%2,Ontanka|Praelor,|)=1 and @MutePraelorIsEnemySound=0} {msplay Ship\Computer\PraelorIsEnemy@Ext};
+   #If {%Pos(Praelor ,%1)=1} {
+    #If {%IsNumber(%Word(%1, ,%NumWords(%1, )))=1} {
+     #Var ScanObjectTypeRaw {%Word(%1, ,%NumWords(%1, )-1)}
+    };
+    #Var ScanObjectNameRaw {%Copy(%1,9)}
+   }
+  } {
+   #If {%IfWord(%2,AIE|Blue|CHRISTMAS|Commonwealth|Courier|CTN|Green|Hale|High Guard|Observer|Pink|Red,|)=1 and %NumWords(%1,~")=3} {
+    #If {%Pos(The ,%1)=1 and %Pos(-person ,%1)>0} {
+     #Var ScanObjectTypeRaw {%Word(%1,~",1)};
+     #Var ScanObjectTypeRaw {%Copy(@ScanObjectTypeRaw,5,%Length(@ScanObjectTypeRaw)-5)};
+     #Var ScanObjectNameRaw {%Word(%1,~",2)}
+    }
+   }
+  }
+ }
+} {Main|Scanning}
+#Trigger {*: *} {
+ #If {%IfWord(%1,@ScanOutputLabels,|)=1} {
+  #Math ScanOutputLabelsDetected {@ScanOutputLabelsDetected + 1};
+  #Var {ScanObject%Replace(%1, ,)Raw} {%2};
+  #If {@ScanFilters>0 or %Defined(ScanFilter)=1} {
+   #If {@DisplayOriginalScanOutput=1} {#GagLine 1 Voice} {#GagLine 1 All}
+  };
+  #If {%1="Starships" and %IsNumber(%2)=1} {MirianiSoundPlay {Standard} Ship\Computer\ShipHere@Ext -25}
+ }
+} {Main|Scanning}
+#Trigger {[ABDIPSV]*} {
+ #If {%IfWord(%0,Asteroid|Automated Laser Turret|Blockade|Debris|Interdictor|Push Pulse|Space Mine|Video Probe,|)=1} {
+  #GagLine 1 Voice;
+  #If {%IfWord(%0,Interdictor|Video Probe,|)=1} {#Var ScanObjectObjectTypeRaw {%Word(%0, ,%NumWords(%0, ))}}
+ } {
+  #If {%IfWord(%Word(%0, ,1),Asteroid Planet Sector Space Star, )=1} {
+   #Var ScanTmp1 {%Word(%0, ,%NumWords(%0, ))};
+   #If {%IsNumber(@ScanTmp1)=1 or %IfWord(@ScanTmp1,Star, )=1} {#Var ScanObjectNameRaw {%0};#GagLine 1 Voice}
+  }
+ }
+} {Main|Scanning}
+
+#Alias ScanProcessOutput {
+ MainTrigSwitch 1;
+ #If {@ScanObjectDistanceRaw=1} {#Var ScanObjectDistanceUnits {unit}} {#Var ScanObjectDistanceUnits {units}};
+ #If {%Left(@ScanObjectCoordinatesRaw,1)="("} {#Var ScanObjectCoordinatesRaw {%Copy(@ScanObjectCoordinatesRaw,2,%Length(@ScanObjectCoordinatesRaw)-2)}};
+ #Var ScanObjectCoordinatesRaw {%Replace(@ScanObjectCoordinatesRaw,~,,)};
+ #If {%Length(@ScanObjectObjectTypeRaw)=0} {
+  #If {%Length(@ScanObjectWeaponsRaw)>0} {#Var ScanObjectObjectTypeRaw {Starship};#Abort};
+  #If {%IfWord(@ScanObjectClassificationRaw,O B A F G K M, )=1} {#Var ScanObjectObjectTypeRaw {Star};#Abort};
+  #If {%Length(@ScanObjectOrbitingRaw)>0} {#Var ScanObjectObjectTypeRaw {Moon};#Abort};
+  #If {%Length(@ScanObjectAtmosphericCompositionRaw)>0} {#Var ScanObjectObjectTypeRaw {Planet};#Abort};
+  #If {%Length(@ScanObjectIntegrityRaw)>0} {#Var ScanObjectObjectTypeRaw {Station};#Abort};
+  #If {%Length(@ScanObjectCompositionRaw)>0} {#Var ScanObjectObjectTypeRaw {Asteroid};#Abort};
+  #If {%Length(@ScanObjectSizeRaw)>0} {#Var ScanObjectObjectTypeRaw {Debris};#Abort};
+  #If {%Length(@ScanObjectDamageRaw)>0} {#Var ScanObjectObjectTypeRaw {Weapon};#Abort};
+  #If {%Length(@ScanObjectObjectTypeRaw)=0} {#Var ScanObjectObjectTypeRaw {Unknown}}
+ };
+ #If {@ScanObjectObjectTypeRaw="Starship"} {
+  #If {@ScanObjectPilotstatusRaw="New"} {#Var ScanObjectNewRaw {@ScanObjectNewRaw|New pilot}};
+  #If {@ScanObjectCouriershipstatusRaw="New"} {#Var ScanObjectNewRaw {@ScanObjectNewRaw|New courier ship}};
+  #If {%Length(@ScanObjectNewRaw)>0} {
+   #Var ScanObjectNewRaw {%DelItem(@ScanObjectNewRaw,)};
+   #Var ScanObjectNewRaw {%Replace(@ScanObjectNewRaw,|,~, )}
+  };
+  #If {%IfWord(Unknown,@ScanObjectPowerRaw,%CRLF)=1} {#Var ScanObjectPowerRaw {Charge Unknown}};
+  #If {%IfWord(Indeterminate,@ScanObjectCargoRaw,%CRLF)=1} {#Var ScanObjectCargoRaw {}};
+  #If {%Length(@ScanObjectOccupancyRaw)>0 and %IfWord(@ScanObjectOccupancyRaw,Empty|Filled|Invalid reading|Underfilled,|)=0} {
+   #Var ScanObjectNumberOfOccupantsRaw {%NumWords(@ScanObjectOccupancyRaw,~,)};
+   #If {@ScanObjectNumberOfOccupantsRaw=1 and %Pos( and ,@ScanObjectOccupancyRaw)>0} {#Var ScanObjectNumberOfOccupantsRaw 2}
+  }
+ } {
+  #If {@ScanObjectObjectTypeRaw="Debris"} {
+   #If {%Length(@ScanObjectTypeRaw)=0} {
+    #Var ScanObjectTypeRaw {@ScanObjectSizeRaw debris};
+    #Var ScanObjectSizeRaw {}
+   }
+  }
+ };
+ #Var ScanTmp1 {1};
+ #Var ScanTmp2 {};
+ #Var ScanObjectEverythingElse {};
+ #ForAll {@ScanFormatVars} {
+  #If {%Length(@{ScanObject%{i}Raw})>0} {
+   #Var {ScanObject%i} {%Word(@ScanFormatVarLabels,|,@ScanTmp1): @{ScanObject%{i}Raw}};
+   #Var ScanTmp2 {$%i};
+   #If {%i<>"ObjectType" and %Pos(@ScanTmp2,@{ScanFormatterFor@ScanObjectObjectTypeRaw})=0} {
+    #Var ScanObjectEverythingElse {@ScanObjectEverythingElse%CRLF@{ScanObject%i}.}
+   }
+  };
+  #Math ScanTmp1 {@ScanTmp1 + 1}
+ };
+ #If {%Length(@ScanObjectEverythingElse)>0} {#Var ScanObjectEverythingElse {%Copy(@ScanObjectEverythingElse,3,%Length(@ScanObjectEverythingElse)-3)}};
+ #UnVar ScanTmp1;
+ #UnVar ScanTmp2;
+ msplay Ship\Computer\Scan*4@Ext;
+ #If {@ScanObjectDistanceRaw=1} {msplay General\Misc\Beep10@Ext};
+ InSpace 1
+}
+#Alias ScanFormat {
+ #If {%Length(%1)=0} {#Var ScanFormatOutput {@{ScanFormatterFor@ScanObjectObjectTypeRaw}}} {#Var ScanFormatOutput {@{ScanFormatterFor%1}}};
+ #Var ScanObject {$};
+ #Var ScanFormatOutput {%Replace(@ScanFormatOutput,.,.%CRLF)};
+ #Var ScanFormatOutput {%Replace(@ScanFormatOutput,@ScanObject,~@ScanObject)};
+ #Var ScanFormatOutput {%Expand(@ScanFormatOutput)};
+ #Var ScanTmp1 {%Length(@ScanFormatOutput)};
+ #Var ScanFormatOutput {%Replace(@ScanFormatOutput,%CRLF.%CRLF,%CRLF)};
+ #Var ScanFormatOutput {%Replace(@ScanFormatOutput,%CRLF%CRLF,%CRLF)};
+ #While {@ScanTmp1>%Length(@ScanFormatOutput)} {
+  #Var ScanTmp1 {%Length(@ScanFormatOutput)};
+  #Var ScanFormatOutput {%Replace(@ScanFormatOutput,%CRLF.%CRLF,%CRLF)};
+  #Var ScanFormatOutput {%Replace(@ScanFormatOutput,%CRLF%CRLF,%CRLF)}
+ };
+ #If {%Pos(.,@ScanFormatOutput)=1} {#Var ScanFormatOutput {%Copy(@ScanFormatOutput,2)}};
+ #If {%Pos(%CRLF,@ScanFormatOutput)=1} {#Var ScanFormatOutput {%Copy(@ScanFormatOutput,3)}};
+ #If {%Replace(%Right(@ScanFormatOutput,2),~",)=%CRLF} {#Var ScanFormatOutput {%Copy(@ScanFormatOutput,1,%Length(@ScanFormatOutput)-2)}};
+ #UnVar ScanTmp1;
+ #UnVar ScanObject
+}
+
+#Trigger {Nothing was detected at those coordinates.} {
+ msplay Ship\Computer\NothingToScan@Ext;
+ MainTrigSwitch 1
+} {Scanning}
+#Trigger {That object was not found.} {
+ msplay Ship\Computer\NothingToScan@Ext;
+ MainTrigSwitch 1
+} {Main|Starship}
+#Trigger {You'll have better results scanning in space.} {MainTrigSwitch 1} {Main|Starship}
+
+#Alias sca {shipscan sc {%RTrim( %0)} {Average Component Damage}}
+#Alias scc {shipscan sc {%RTrim( %0)} {Coordinates}}
+#Alias scd {shipscan sc {%RTrim( %0)} {Distance}}
+#Alias sch {shipscan sc {%RTrim( %0)} {Hull Damage}}
+#Alias sco {shipscan sc {%RTrim( %0)} {Occupancy}}
+#Alias scp {shipscan sc {%RTrim( %0)} {Power}}
+#Alias scs {shipscan sc {%RTrim( %0)} {Cargo}}
+#Alias scw {shipscan sc {%RTrim( %0)} {Weapons}}
+
+#Trigger {Objects*Direction*Lightyears*Coordinates*} {
+ msplay Ship\Computer\LRScan*4@Ext;
+ #GagLine 1 Voice
+} {Main}
+#Trigger {Coordinate scan for: *:} {#GagLine 1 Voice} {Main}
+#Trigger {The target coordinates lie *} {msplay Ship\Computer\Scan*4@Ext} {Main|Starship}
+#Trigger {General sector report for *} {
+ #GagLine 1 Voice;
+ #Sub {%1};
+ MainTrigSwitch 1;
+ msplay Ship\Computer\Scan*4@Ext;
+ speech stop
+} {Main|Scanning}

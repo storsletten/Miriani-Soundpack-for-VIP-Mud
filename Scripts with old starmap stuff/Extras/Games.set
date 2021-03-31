@@ -1,0 +1,15 @@
+#Trigger {You neatly shuffle a deck of classic Assault cards and set them down as you wait for the second player*} {MirianiSoundPlay {Games} general\misc\cardshuffle@Ext} {Main}
+#Trigger {* neatly stacks a deck of classic Assault cards and waits patiently for another player to arrive*} {MirianiSoundPlay {Games} general\misc\cardshuffle@Ext} {Main}
+#Trigger {* The siege begins!} {msplay music\*30@Ext} {Main}
+#Trigger {*, having no army remaining, has failed to defeat *!} {msplay music*30@Ext} {Main}
+#Trigger {You wind up and send a ball down the lane*} {MirianiSoundPlay {Games} general\misc\skeeballrolls@Ext} {Main}
+#Trigger {Game over.  Your final score is*} {MirianiSoundPlay {Games} general\misc\skeeballscore@Ext} {Main}
+#Trigger {The table beeps quietly as it resets*} {MirianiSoundPlay {Games} airhocky\beep@Ext} {Main}
+#Trigger {*the puck down the center of the table*} {MirianiSoundPlay {Games} airhocky\hitpuck@Ext} {Main}
+#Trigger {The puck slides into the goal with a quiet clinking sound*} {MirianiSoundPlay {Games} airhocky\goal@Ext} {Main}
+#Trigger {The puck bounces against the edge of the table slightly*} {MirianiSoundPlay {Games} airhocky\hitside@Ext} {Main}
+#Trigger {*hit* the puck*} {MirianiSoundPlay {Games} airhocky\hitpuck@Ext} {Main}
+#Trigger {*lines up a shot from*} {MirianiSoundPlay {Games} airhocky\hitpuck@Ext} {Main}
+#Trigger {*sends the puck flying*} {MirianiSoundPlay {Games} airhocky\hitpuck@Ext} {Main}
+#Trigger {You hit the puck at an angle from one corner, aiming it at the goal.} {MirianiSoundPlay {Games} airhocky\hitpuck@Ext} {Main}
+#Trigger {You hit the puck at an angle, hoping to deflect it into the goal.} {MirianiSoundPlay {Games} airhocky\hitpuck@Ext} {Main}

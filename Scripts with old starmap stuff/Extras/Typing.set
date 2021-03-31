@@ -1,0 +1,171 @@
+#Var NumpadTypingLetters {
+1:.^,^?^!^'^:
+2:a^b^c
+3:d^e^f
+4:g^h^i
+5:j^k^l
+6:m^n^o
+7:p^q^r^s
+8:t^u^v
+9:w^x^y^z
+0: ^£^$^%^+^-^*^/
+}
+
+#Var NumpadTypingKeys {
+Numpad1:1,7
+Numpad2:2,8
+Numpad3:3,9
+Numpad4:4,4
+Numpad5:5,5
+Numpad6:6,6
+Numpad7:7,1
+Numpad8:8,2
+Numpad9:9,3
+Numpad0:0,0
+Numpad.:Print,Print
+Numpad+:Caps,Speech
+Numpaddash:Speech,Caps
+Numpad*:Flip,Flip
+}
+
+; Uncomment the below lines if you want
+; to use this script with a laptop.
+; 
+; #Var NumpadTypingKeys {@NumpadTypingKeys
+; Alt-z:1,7
+; Alt-x:2,8
+; Alt-c:3,9
+; Alt-s:4,4
+; Alt-d:5,5
+; Alt-f:6,6
+; Alt-w:7,1
+; Alt-e:8,2
+; Alt-r:9,3
+; Alt-t:Caps,Caps
+; Alt-q:Print,Print
+; Alt-v:Flip,Flip
+; Alt-\:0,0
+; }
+
+#ForAll {%Replace(@NumpadTypingKeys,%CRLF,|)} {
+ #If {%i=*"*:*"} {
+  #Exec {
+   #Key {%Word(%i,:,1)} {NumpadTyping {~%If(~@NumpadTypingFlip <> 1,%Word(%i,:,2))}} {NumpadTyping}
+  }
+ }
+}
+#Key {Numpad/} {
+ #Var NumpadTyping {%Eval(NOT @NumpadTyping)};
+ #Exec {#Class NumpadTyping %If(@NumpadTyping = 1,Enable,Disable)};
+ #SetSpeech Incoming Stop;
+ #Say {SMS style typing mode %IF(@NumpadTyping = 1,enabled,disabled).} VoiceOnly
+} {}
+
+#If {%Defined(NumpadTypingSpeech)=0} {
+ #Var NumpadTypingSpeech 1
+} {
+ #If {@NumpadTypingSpeech=3} {
+  #SetSpeech Entry Off
+ }
+}
+
+#If {%Defined(NumpadTypingFlip)=0} {#Var NumpadTypingFlip 0}
+#Var NumpadTyping 1
+#Class NumpadTyping Enable
+
+#Var NumpadTypingCapitalise 0
+#Var NumpadTypingIndex 0
+#Var NumpadTypingKey {}
+#Var NumpadTypingLetter {}
+#Var NumpadTypingSuccess 0
+
+#Alias NumpadTyping {
+ #Var NumpadTypingCommands {Speech|Caps|Flip|Print};
+ #If {%1="Speech"} {
+  #If {@NumpadTypingSpeech>2} {
+   #Var NumpadTypingSpeech 1;
+   #Var NumpadTypingSuccess {You will now hear each letter as you type it};
+   #SetSpeech Entry On
+  } {
+   #If {@NumpadTypingSpeech=1} {
+    #Var NumpadTypingSpeech 2;
+    #Var NumpadTypingSuccess {You will now hear each letter after it has been typed};
+    #SetSpeech Entry On
+   } {
+    #If {@NumpadTypingSpeech=2} {
+     #Var NumpadTypingSpeech 3;
+     #Var NumpadTypingSuccess {You will receive no speech output};
+     #SetSpeech Entry Off
+    }
+   }
+  };
+  #Say {@NumpadTypingSuccess.}
+ };
+ #If {%1="caps"} {
+  #Var NumpadTypingCapitalise {%Eval(NOT @NumpadTypingCapitalise)};
+  #say {%If(@NumpadTypingCapitalise = 1,Caps,Lower case)}
+ };
+ #If {%1="Flip"} {
+  #Var NumpadTypingFlip {%Eval(NOT @NumpadTypingFlip)};
+  #Say {%If(@NumpadTypingFlip = 1,Keypad style,Number pad style).}
+ };
+ #If {%1="" OR %1="Print"} {
+  NumpadTypingPrint
+ };
+ #if {%Pos(%1,@NumpadTypingCommands)=0 AND %1<>""} {
+  #Var NumpadTypingSuccess {%1:};
+  #if {%Pos(@NumpadTypingSuccess,@NumpadTypingLetters)=0} {
+   #Bell
+  } {
+   #Var NumpadTypingSuccess {%Word(%Word(@NumpadTypingLetters,@NumpadTypingSuccess,2),%CRLF,1)}
+  };
+  #If {@NumpadTypingKey<>%1 AND @NumpadTypingLetter<>""} {
+   NumpadTypingPrint
+  };
+  #Var NumpadTypingKey %1;
+  #Math NumpadTypingIndex {@NumpadTypingIndex+1};
+  #If {@NumpadTypingIndex>%NumWords(@NumpadTypingSuccess,^)} {
+   #Var NumpadTypingIndex 0;
+   #Var NumpadTypingLetter {%1}
+  } {
+   #if {%NumWords(@NumpadTypingSuccess,^)=1} {
+    #Var NumpadTypingLetter {@NumpadTypingSuccess}
+   } {
+    #Var NumpadTypingLetter {%Word(@NumpadTypingSuccess,^,@NumpadTypingIndex)}
+   }
+  };
+  #if {@NumpadTypingCapitalise=1} {
+   #Var NumpadTypingLetter {%Proper(@NumpadTypingLetter)}
+  };
+  #If {@NumpadTypingSpeech=1} {#say @NumpadTypingLetter VoiceOnly}
+ }
+} {}
+
+#Alias NumpadTypingPrint {
+ #Say {@NumpadTypingLetter} Entry|NoReturn;
+ #Var NumpadTypingIndex 0;
+ #Var NumpadTypingLetter {}
+} {}
+
+#Alias typespeed {
+ #Var TypeSpeedTmp1 {%Trim(%0)};
+ #Var TypeSpeedTmp1 {%Replace(@TypeSpeedTmp1,~",)};
+ #Var TypeSpeedTmp1 {%Replace(@TypeSpeedTmp1,~~,)};
+ #If {@TypeSpeedTmp1=""} {
+  #UnAlarm -1;
+  #Alarm 60 {
+   #Say {Time's up! Hit enter to see your result.};
+   msplay {LaserTag\NoTargets@Ext}
+  };
+  #Say {typespeed } Entry|NoReturn;
+  #Say {Start typing!}
+ } {
+  #Var TypeSpeedTmp2 {%Pos(%CRLF,%0%CRLF)};
+  #Math TypeSpeedTmp2 {@TypeSpeedTmp2-2};
+  #Math TypeSpeedTmp3 {@TypeSpeedTmp2/5};
+  #Say {Approximately @TypeSpeedTmp3 words per minute!};
+  #UnVar TypeSpeedTmp2;
+  #UnVar TypeSpeedTmp3
+ };
+ #UnVar TypeSpeedTmp1
+} {}

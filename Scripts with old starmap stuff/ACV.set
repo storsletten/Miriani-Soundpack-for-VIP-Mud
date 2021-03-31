@@ -1,0 +1,85 @@
+; Configuration
+;
+; Should the ACV move up and down by using the direction prompt?
+#Var ACVPromptNavig 0
+
+#Var AcvCoordX {}
+#Var AcvCoordY {}
+#Var AcvCoordZ {}
+
+; Syntax: CalculateRelativeNumericDir TargetX TargetY TargetZ CurrentX CurrentY CurrentZ
+#Alias CalculateRelativeNumericDir {
+ #Var RelativeNumericDir {};
+ #Math RelativeNumericTmpX {%Max(%1,%4)-%Min(%1,%4)};
+ #Math RelativeNumericTmpY {%Max(%2,%5)-%Min(%2,%5)};
+ #Math RelativeNumericTmpZ {%Max(%3,%6)-%Min(%3,%6)};
+ #If {@RelativeNumericTmpX>0} {#Var RelativeNumericDir {@RelativeNumericTmpX%If(%1>%4,e,w)}};
+ #If {@RelativeNumericTmpY>0} {#Var RelativeNumericDir {@RelativeNumericDir @RelativeNumericTmpY%If(%2>%5,s,n)}};
+ #If {@RelativeNumericTmpZ>0} {#Var RelativeNumericDir {@RelativeNumericDir @RelativeNumericTmpZ%If(%3>%6,d,u)}};
+ #If {%Length(@RelativeNumericDir)>0} {
+  #Var RelativeNumericDir {%LTrim(@RelativeNumericDir)};
+  #If {@RelativeNumericTmpX<2 and @RelativeNumericTmpY<2 and @RelativeNumericTmpZ<2} {#Var RelativeNumericDir {%Replace(@RelativeNumericDir,1,)}}
+ } {#Var RelativeNumericDir C}
+}
+
+#Alias ACVMove {
+ #If {%IsNumber(%Left(%1,1))=1} {
+  #Var ACVTmp1 {%1};
+  #Var ACVTmp2 {}
+ } {
+  #Var ACVTmp1 {%Right(%1,1)};
+  #Var ACVTmp2 {%Left(%1,1)}
+ };
+ #If {@ACVNextMoveXY=""} {#Var ACVNextMoveXY {@ACVTmp1}} {#Var ACVNextMoveXY {@ACVNextMoveXY|@ACVTmp1}};
+ #If {@ACVNextMoveZ=""} {#Var ACVNextMoveZ {@ACVTmp2}} {#Var ACVNextMoveZ {@ACVNextMoveZ|@ACVTmp2}};
+ #If {@ACVTmp2<>""} {
+  #If {@ACVPromptNavig=0} {
+   #Exec {>@ACVTmp2@ACVTmp1}
+  } {
+   #Exec {>@ACVTmp2};
+   #Exec {>@ACVTmp1}
+  }
+ } {
+  #Exec {>@ACVTmp1}
+ }
+} {}
+; Use the following code for all occurrences when your movement command fails:
+#Trigger {This vehicle cannot land here.} {
+ %Pop(ACVNextMoveXY);
+ %Pop(ACVNextMoveZ)
+} {Main}
+
+#Trigger {Weapon launch sequence initiated. Bomb's away!} {
+ #GagLine 1 All;
+ msplay ACV\Bomb*4@Ext
+} {Main|Vehicle}
+#Trigger {The vehicle * pelted by automatic weapon fire from *} {
+ #If {@MissionMode=1} {#GagLine 1 Voice};
+ #Sub {Hit by %2};
+ mwplay Ship\Combat\YouHit*11@Ext
+} {Main|Vehicle}
+#Trigger {Current coordinates: &{AcvCoordX}, &{AcvCoordY}, &{AcvCoordZ}} {
+ #Sub {@AcvCoordX @AcvCoordY @AcvCoordZ}
+} {Main|Vehicle|ACVMoveMode}
+#Trigger {Coordinates: *, *, *} {
+ #Var AcvObjectX %1;
+ #Var AcvObjectY %2;
+ #Var AcvObjectZ %3;
+ #If {@ModifyAcvOutput=1} {
+  CalculateRelativeNumericDir @AcvObjectX @AcvObjectY @AcvObjectZ @AcvCoordX @AcvCoordY @AcvCoordZ;
+  #Sub {@RelativeNumericDir}
+ }
+} {Main|Vehicle|ACVMoveMode}
+#Trigger {* Airspace; Grid *, *} {
+ #GagLine 1 Voice;
+ #Class ACVAirspace Enable
+} {Main|Vehicle}
+#Trigger {Current Coordinates: &{ACVCoordX}, &{ACVCoordY}, &{ACVCoordZ}} {
+ #GagLine 1 All;
+ #Class ACVAirspace Disable
+} {Main|Vehicle|ACVAirspace}
+#Trigger {You are suddenly pressed against your seat as the vehicle is catapulted out of the docking bay and into space. *} {
+ #GagLine 1 All;
+ msplay ACV\ACVLaunch@Ext;
+ msplay Ship\Move\Subwarp@Ext
+} {Main|Vehicle}

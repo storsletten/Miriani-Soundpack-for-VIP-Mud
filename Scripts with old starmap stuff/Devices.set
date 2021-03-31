@@ -1,0 +1,379 @@
+#Var LastLoreName {}
+
+#Trigger {A* alliance * beeps, notifying you *.} {msplay General\Device\AllianceComputer@Ext} {Main}
+#Trigger {A* beeps quietly, indicating to you that there is a n*. It was p*} {
+ #Var DevicesTmp1 {%Trim(%Word(%Delete(%2,1,14),/,1))};
+ #Var DevicesTmp2 {%Trim(%Word(%Delete(%2,1,14),/,2))};
+ #If {@DevicesTmp1="General"} {
+  #If {@DevicesTmp2="Name Changes"} {
+   msplay {General\Device\New Post1@Ext}
+  } {
+   msplay {General\Device\New Post2@Ext}
+  }
+ } {
+  #If {@DevicesTmp1="OOC"} {
+   msplay {General\Device\New Post3@Ext}
+  } {
+   msplay {General\Device\New Post4@Ext}
+  }
+ };
+ #Var DevicesTmp1 {%Pos(~",%3)};
+ #Var DevicesTmp2 {%Copy(%3,1,%Eval(@DevicesTmp1-2)): %Copy(%3,%Eval(@DevicesTmp1+1),%Eval(%Length(%3)-@DevicesTmp1-2))};
+ #Sub {N%2, p@DevicesTmp2};
+ PushMessage Posts {[%Delete(%2,1,14)] P@DevicesTmp2}
+} {Main}
+#Trigger {A* briefly flashes the content of the streamed thread (*) to the screen:} {#Sub {Streaming post %2:}} {Main}
+#Trigger {* take* a snapshot of *.} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  msplay General\Device\Snapshot*5@Ext
+ }
+} {Main}
+#Trigger {You tune a* metafrequency * to *.*.} {
+ msplay General\Comm\Tune@Ext
+} {Main}
+#Trigger {Your communicator reports an error sending *.} {msplay General\Comm\CommInactive@Ext} {Main}
+#Trigger {Your communicator reports that the target is unavailable. They might not be awake to hear your transmission or they may have private communications disabled.} {
+ #Sub {Not available.}
+} {Main}
+#Trigger {You*activate *.} {
+ #If {%NumWords(%0,~")=1} {
+  #If {%2="a blast door control"} {
+   #GagLine 1 All
+  } {
+   #Var DevicesTmp1 {%Trim(%1)};
+   #If {@DevicesTmp1=""} {
+    #If {%Pos(spacesuit jet,%2)>0} {
+     #GagLine 1 All;
+     msplay ACV\ACVStart@Ext
+    } {
+     msplay General\Device\Activate@Ext;
+     #If {%Pos(and begin scanning,%2)} {#GagLine 1 All}
+    }
+   } {
+    #If {@DevicesTmp1="de"} {
+     #If {%Pos(spacesuit jet,%2)>0} {
+      #GagLine 1 All;
+      msplay ACV\ACVStop@Ext
+     } {
+      msplay General\Device\Deactivate@Ext
+     }
+    } {
+     #If {%Pos(press a button,@DevicesTmp1)=1} {
+      #Var DevicesTmp1 {%If(%Pos(deactivate,%0),deactivate,activate)};
+      msplay {General\Device\@DevicesTmp1@Ext};
+      #GagLine 1 Voice
+     }
+    }
+   }
+  }
+ }
+} {Main}
+#Trigger {You turn *.*} {
+ #Var DevicesTmp1 {%Word(%1, ,%NumWords(%1, ))};
+ #Var DevicesTmp1 {%Replace(@DevicesTmp1,~",)};
+ #Var DevicesTmp1 {%Replace(@DevicesTmp1,~,,)};
+ #Var DevicesTmp2 {%Replace(%2,~",)};
+ #If {%IsNumber(@DevicesTmp1)=1} {
+  #If {@DevicesTmp2="00 credits."} {
+   msplay {General\Misc\Credits*4@Ext}
+  }
+ } {
+  #If {@DevicesTmp1="on"} {
+   msplay {General\Device\activate@Ext}
+  } {
+   #If {@DevicesTmp1="off"} {
+    msplay {General\Device\deactivate@Ext}
+   }
+  }
+ }
+} {Main}
+#TRIGGER {* presses a small button on a compact black video camera, deactivating it.} {msplay General\Device\CameraOff@Ext} {Main}
+#Trigger {* indicates that the scan *} {
+ #If {%NumWords(%0,~")=1} {
+  #If {%IfWord(%2,failed.,|)=1} {
+   msplay General\Device\ScanFailed@Ext;
+   #GagLine 1 Voice
+  } {
+   #If {%Pos(successful,%2)>0} {msplay General\Device\SurveyComplete@Ext};
+   #If {%Pos(interest,%2)>0} {#Sub {Dig site!};msplay General\Archaeology\practice@Ext} {#GagLine 1 All}
+  }
+ }
+} {Main}
+#Trigger {Destination *Sector *Coordinates*} {
+ #If {%Length(%Trim(%1%2%3))=0} {#GagLine 1 Voice}
+} {Main}
+#Trigger {You access * and note you have * license points and * combat points. * of those points have come from industry.*} {
+ #Var LicensePoints {%If(%Pos(.,%2)>0,%2,%2.0)};
+ #Var CombatPoints {%If(%Pos(.,%3)>0,%3,%3.0)};
+ #Var IndustryPoints {%If(%Pos(.,%4)>0,%4,%4.0)};
+ #Var PointVars {LicensePoints|CombatPoints|IndustryPoints};
+ #If {%Pos(Your private organization has,%5)=2} {
+  #Var OrgPoints {%Word(%5, ,6)};
+  #If {%Pos(.,@OrgPoints)=0} {#Var OrgPoints {@OrgPoints.0}};
+  #Var PointVars {@PointVars|OrgPoints}
+ } {
+  #Var OrgPoints {}
+ };
+ #Var PointTmp1 {%NumWords(@PointVars,|)};
+ #While {@PointTmp1>0} {
+  #Var PointVar {%Word(@PointVars,|,@PointTmp1)};
+  #Var Points {@{@PointVar}};
+  #Var LastPointVar {Last@PointVar};
+  #If {%Defined(@LastPointVar)=1} {
+   #Var LastPoints {@{@LastPointVar}};
+   #Var {@LastPointVar} {@Points};
+   #If {%Length(%Word(@Points,.,2))<2} {#Var Points {@{Points}0}};
+   #If {%NumWords(@LastPoints,.)=2} {
+    #If {%Length(%Word(@LastPoints,.,2))<2} {#Var LastPoints {@{LastPoints}0}}
+   };
+   #Var Points {%Replace(@Points,.,)};
+   #Var LastPoints {%Replace(@LastPoints,.,)};
+   #If {%IsNumber(@Points)=1 and %IsNumber(@LastPoints)=1} {
+    #Math PointDiff {@Points-@LastPoints};
+    #If {@PointDiff<0} {
+     #While {%Length(@PointDiff)<4} {#Var PointDiff {-0%Copy(@PointDiff,2)}}
+    } {
+     #While {%Length(@PointDiff)<3} {#Var PointDiff {0@PointDiff}}
+    };
+    #Var PointDiff {%Left(@PointDiff,%Length(@PointDiff)-2).%Right(@PointDiff,2)};
+    #If {%Right(@PointDiff,1)="0"} {
+     #Var PointDiff {%Left(@PointDiff,%Length(@PointDiff)-1)}
+    };
+    #If {%IfWord(@PointDiff,0.0,@CR)=1} {
+     #Var {@{PointVar}Diff} {no}
+    } {
+     #Var {@{PointVar}Diff} {@PointDiff}
+    }
+   } {
+    #Var {@{PointVar}Diff} {an unknown amount of}
+   }
+  } {
+   #Var {@{PointVar}Diff} {an unknown amount of};
+   #Var {@LastPointVar} {@Points}
+  };
+  #Math PointTmp1 {@PointTmp1-1}
+ };
+ #UnVar PointDiff;
+ #UnVar LastPoints;
+ #UnVar LastPointVar;
+ #UnVar Points;
+ #UnVar PointVar;
+ #If {%Length(@OrgPoints)>0} {
+  #Sub {@LicensePoints license points, @IndustryPoints industry points, @CombatPoints combat points, and @OrgPoints org points.%{CRLF}The difference since last check is @LicensePointsDiff license points, @IndustryPointsDiff industry points, @CombatPointsDiff combat points, and @OrgPointsDiff org points.}
+ } {
+  #Sub {@LicensePoints license points, @IndustryPoints industry points, and @CombatPoints combat points.%{CRLF}The difference since last check is @LicensePointsDiff license points, @IndustryPointsDiff industry points, and @CombatPointsDiff combat points.}
+ };
+ SetPreservedVariable LastLicensePoints {@LastLicensePoints};
+ SetPreservedVariable LastCombatPoints {@LastCombatPoints};
+ SetPreservedVariable LastIndustryPoints {@LastIndustryPoints};
+ SetPreservedVariable LastOrgPoints {@LastOrgPoints}
+} {Main}
+#Trigger {* flick* a switch*} {
+ #If {%Pos(:,%0)=0 and %Pos(~, ~",%0)=0 and %IfWord(%Left(%0,1),>| |#|-|[|~(,|)=0} {
+  #If {%IfWord(%3,.,|)=1} {
+   #If {@GagManNav>0 and %IfWord(%1,You,|)=0} {
+    #GagLine 1 Voice
+   }
+  } {
+   #If {%IfWord(%1,You,|)=1} {
+    msplay General\Device\Switch@Ext
+   } {
+    msplay General\Device\Switch@Ext -20
+   }
+  }
+ }
+} {Main}
+#Trigger {You carefully replace the film in * camera.} {msplay General\Device\LoadFilm@Ext} {Main}
+#Trigger {You press a small button on * and watch as * fades into nothing.} {msplay General\Device\ForceFieldSuitOff@Ext} {Main}
+#Trigger {You press a small button on * and watch as * around you and slowly fades into a barely noticeable haze.} {msplay General\Device\ForceFieldSuitOn@Ext} {Main}
+#Trigger {You press a large * button.} {msplay General\Misc\Beep*10@Ext} {Main}
+
+#Var Tracked 0
+#Trigger {* makes a selection on a* Lore computer.} {
+ #If {%Pos([,%1)=0 and %Pos(~(,%1)=0} {#Sub {%1 uses a%2 Lore.}}
+} {Main}
+#Trigger {[#]$[#]soundpack lore | *} {#Var LastLoreName {%1};#Class Lore Enable} {Main}
+#Trigger {You make a selection on *} {
+ #If {%Length(@LastLoreName)>0 and %Pos(@LastLoreName,%1)=1} {
+  #Class Lore Disable;
+  #GagLine 1 All
+ }
+} {Main|Lore}
+#Trigger {Your * suddenly beeps quietly, indicating a new incoming *.} {
+ msplay General\Lore\Import@Ext;
+ #Sub {New %2 in your %Replace(%1,Lore computer,Lore).}
+} {Main}
+#Trigger {A* beeps quietly, indicating that there * to import.} {
+ msplay General\Lore\FilesWaiting@Ext;
+ #Sub {New %Word(%2, ,%NumWords(%2, )) to import in a%Replace(%1,Lore computer,Lore).}
+} {Main}
+#Trigger {Several short bleeps emit from a*, followed by a* "*"*.} {
+ msplay General\Lore\Print@Ext;
+ #Sub {A%Replace(%1,Lore computer,Lore) prints a %2 %3.};
+ #GagLine 1 Voice
+} {Main}
+#Trigger {Enter a name for the new file:} {
+ msplay General\Lore\Name@Ext;
+ #Sub {Filename:};
+ #GagLine 1 Voice
+} {Main}
+#Trigger {File "*" exported.} {
+ msplay General\Lore\Export@Ext;
+ #Sub {%1 exported.};
+ #GagLine 1 Voice
+} {Main}
+#Trigger {Via the TransLink network, the LoreTech device "*" reports current location pinpointed *} {
+ msplay General\Lore\Track@Ext;
+ #If {%Word(%2, ,1)="aboard" and %NumWords(%2,~")=3} {
+  #If {%Word(%2,~",2)=%1} {
+   #Sub {T%Copy(%2,9)}
+  } {
+   #Sub {%1 %2}
+  }
+ } {
+  #Sub {%1 %2}
+ }
+} {Main}
+#Trigger {The LoreTech device "*" could not be located.} {
+ #Sub {%1 could not be located.}
+} {Main}
+#Trigger {No LoreTech devices located on TransLink network with the ID tag of "*."} {
+ #Sub {%1 doesn't exist.}
+} {Main}
+#Trigger {File "*" successfully transmitted to "*."} {
+ msplay General\Lore\Transmit@Ext;
+ #Sub {%1 transmitted to %2.}
+} {Main}
+#Trigger {LoreTech Personal Lore Computer - [[]*]} {
+ #If {%IfWord(%1,Root Folder,|)=1 or %Pos(File:,%1)>0 or %Pos(Folder:,%1)>0} {
+  #Sub {%1}
+ } {
+  #GagLine 1 All
+ }
+} {Main}
+#Trigger {The display blurs suddenly as the current time and date, * * * *:*:* * GST, fades in, shimmers briefly and fades out, letting the display return to normal.} {
+ #Sub {%4:%5:%6, %1 %2 %3, %7}
+} {Main}
+#Trigger {*. A barely visible grid of red and green lights runs along * for the briefest of moments*} {msplay General\Lore\SuccessfulImage@Ext} {Main}
+#Trigger {The result of your equation, *, briefly appears on the display.} {#Sub {%1}} {Main}
+#Trigger {Item: *} {
+ #If {@ModifyShoppingGuide=1} {
+  #GagLine 1 All;
+  #Var LoreTmpItem %1;
+  #Class Shopping Enable
+ }
+} {Main}
+#Trigger {Price: *} {
+ #Var LoreTmpPrice %1;
+ #GagLine 1 All
+} {Main|Shopping}
+#Trigger {Points: *} {
+ #Var LoreTmpPoints %1;
+ #GagLine 1 All
+} {Main|Shopping}
+#Trigger {Combat points: *} {
+ #Var LoreTmpCombatPoints %1;
+ #GagLine 1 All
+} {Main|Shopping}
+#Trigger {Location*: *} {
+ #Var LoreTmpLocation %2;
+ #GagLine 1 All
+} {Main|Shopping}
+#Trigger {Store*: *} {
+ #Var LoreTmpStore %2;
+ #Var LoreTmp1 {%Replace(@ShoppingGuideFormatString,$ITEM,@LoreTmpItem)};
+ #Var LoreTmp1 {%Replace(@LoreTmp1,$PRICE,@LoreTmpPrice)};
+ #Var LoreTmp1 {%Replace(@LoreTmp1,$POINTS,@LoreTmpPoints)};
+ #Var LoreTmp1 {%Replace(@LoreTmp1,$COMBATPOINTS,@LoreTmpCombatPoints)};
+ #Var LoreTmp1 {%Replace(@LoreTmp1,$LOCATION,@LoreTmpLocation)};
+ #Var LoreTmp1 {%Replace(@LoreTmp1,$STORE,@LoreTmpStore)};
+ #Sub {@LoreTmp1};
+ #Class Shopping Disable
+} {Main|Shopping}
+#Trigger {A* beeps quietly, indicating that its TransLink tracking functionality has been activated*.} {
+ #Math Tracked {@Tracked+1};
+ msplay General\Lore\Tracked@Ext;
+ #Sub {A%Replace(%1,Lore computer,Lore) has been tracked%2.};
+ #GagLine 1 Voice
+} {Main}
+#Alias {tracked} {
+ #If {%1="Clear"} {
+  #variable tracked 0;
+  ConfPrint {Track count cleared.}
+ } {
+  ConfPrint {Track count: @tracked}
+ }
+} {}
+
+#Class MessageBoard Disable
+
+#Trigger {Message Board Network - *} {
+ MainTrigSwitch -10;
+ #If {@InterruptOnBoards=1} {speech stop};
+ #Var Board %1;
+ #If {@FormatMessageBoards=1} {
+  #Sub {%1}
+ }
+} {Main}
+#Trigger {Subject: *} {
+ #If {@Main<>-10} {#Abort};
+ #If {@FormatMessageBoards=1} {
+  MainTrigSwitch 0 MessageBoard;
+  #Var Subject %1;
+  #GagLine 1 All
+ }
+} {MainOff}
+#Trigger {Sender: *} {
+ #Var Sender %1;
+ #GagLine 1 All
+} {MessageBoard}
+#Trigger {Date: *} {
+ #Var Date %1;
+ #GagLine 1 All
+} {MessageBoard}
+#Trigger {Reference: *} {
+ #If {%Pos(|,%1)>0} {
+  #Var Reference {%Trim(%Word(%1,|,1))};
+  #If {%Pos(Votes: 0  /  0,%1)>0} {
+   #Var Votes {0}
+  } {
+   #Var Votes {%Trim(%Word(%1,:,2))}
+  }
+ } {
+  #Var Reference {%1};
+  #Var Votes {0}
+ };
+ #Var MsgBoardTmp1 {%Replace(@MessageBoardFormatString,.,.%CRLF)};
+ #Var MsgBoardTmp1 {%Replace(@MsgBoardTmp1,$,~@)};
+ #Sub {%Expand(@MsgBoardTmp1)};
+ #UnVar Board;
+ #UnVar Subject;
+ #UnVar Sender;
+ #UnVar Date;
+ #UnVar Reference;
+ #UnVar Votes;
+ #UnVar MsgBoardTmp1
+} {MessageBoard}
+
+#Trigger {No weak points detected.} {msplay General\Archaeology\NothingFound@Ext} {Main}
+#Trigger {There is a weak point *} {
+ #If {%IfWord(%1,in the immediate area.|very near here.|close by.,|)=1} {
+  #If {%Pos(immediate area,%1)>0} {
+   #Sub {Immediate area.}
+  } {
+   #Sub {%Proper(%1)}
+  };
+  msplay General\Archaeology\ArtifactNear@Ext
+ } {
+  #If {%IfWord(%1,right here!,|)=1} {
+   #Sub {%Proper(%1)};
+   #GagLine 1 Voice;
+   msplay General\Archaeology\ArtifactHere@Ext
+  }
+ }
+} {Main}
+#Trigger {You carefully set * down and press a small button.} {#GagLine 1 Voice;msplay General\Asteroid\TubingAttach@Ext} {Main}
+#Trigger {Three tiny spikes in * extend into the surface, locking it in place.} {#GagLine 1 Voice;msplay General\Device\SurveyComplete@Ext} {Main}
+#Trigger {* beeps three times in rapid succession. It doesn't seem to have had the desired effect.} {msplay General\Device\ScanFailed@Ext} {Main}
+#Trigger {With the surface rapidly approaching, you instruct your jet to begin slowing you down for landing. When you're as close to the surface as you can comfortably get, you immediately cut the thruster and activate your magnetic boots.} {#GagLine 1 All;msplay ACV\ACVStop@Ext} {Main}
+#Trigger {You release your magnetic lock and kick off from the surface, activating your spacesuit jet to propel you back into open space.} {#GagLine 1 All;msplay ACV\ACVStart@Ext} {Main}

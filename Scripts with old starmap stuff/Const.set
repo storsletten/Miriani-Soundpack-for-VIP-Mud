@@ -1,0 +1,211 @@
+#Var MajorVersion {%Word(@Version,.,1)}
+#Var MinorVersion {%Word(@Version,.,2)}
+#Var PatchVersion {%Word(@Version,.,3)}
+
+#Var SoundpackName {Miriani Soundpack for VIP Mud}
+#Var SoundpackCreators {Ash Henderson, Josh Westen, and Erik Yobi}
+#Var SoundpackContributors {
+Sound contributions by Hector Salvatore, Leon Thomas, Salazar Clayton, and others.
+Special thanks to Kendall Gideon for awesome help with debugging, code snippets, beta testing, motivation boosters, and more!
+Triggers and extra sounds provided by the retired David Kieran, bringing more life than ever before to all the beloved babies!
+}
+#Var Ext {.wav}
+#Var CExt {.mp3}
+#Var RExt {.wav}
+#If {%Defined(IgnoredScriptFiles)=0} {#Var IgnoredScriptFiles {Dummy}}
+#Var CR {%Chr(13)}
+#Var LF {%Chr(10)}
+
+#Var GunSoundsPath {General\Combat\Guns}
+#Var DefaultGunSound {GunDefault*2@Ext}
+#Var GunList {
+* turret:StunTurret@Ext
+* rifle:BulkyAssaultRifle*2@Ext
+*CTN *stun*:Blaster@Ext
+*hollow cylindrical device:HollowDevice@Ext
+* shotgun*:Shotgun@Ext
+* pistol*:Pistol@Ext
+}
+
+#Var DirList {north east south west northeast northwest southeast southwest up down out outside}
+
+#Var WalkStyles {
+amble
+ambles
+boogie
+boogies
+bounce
+bounces
+canter
+canters
+climb
+climbs
+clomp
+clomps
+crawl
+crawls
+creep
+creeps
+dart
+darts
+dash
+dashes
+drag your feet
+drags her feet
+drags his feet
+drags its feet
+drags their feet
+drive
+drives
+float
+floats
+fly
+flies
+glide
+glides
+go
+goes
+head
+heads
+hop
+hops
+hover
+hovers
+jog
+jogs
+leap
+leaps
+leave
+leaves
+limp
+limps
+lumber
+lumbers
+march
+marches
+meander
+meanders
+moonwalk
+moonwalks
+mosey
+moseys
+parade
+parades
+perambulate
+perambulates
+pirouette
+pirouettes
+prance
+prances
+race
+races
+ride
+rides
+run
+runs
+rush
+rushes
+sashay
+sashays
+saunter
+saunters
+scamper
+scampers
+scurry
+scurries
+scuttle
+scuttles
+shuffle
+shuffles
+skate
+skates
+skip
+skips
+slink
+slinks
+slouch
+slouches
+sneak
+sneaks
+sprint
+sprints
+stagger
+staggers
+stagger drunkenly
+staggers drunkenly
+stalk
+stalks
+stomp
+stomps
+storm
+storms
+stride
+strides
+stroll
+strolls
+strut
+struts
+stumble
+stumbles
+surf
+surfs
+swagger
+swaggers
+swim
+swims
+tiptoe
+tiptoes
+traipse
+traipses
+tramp
+tramps
+trot
+trots
+trudge
+trudges
+twirl
+twirls
+waddle
+waddles
+walk
+walks
+}
+#Var NumberMap {
+a:1
+an:1
+one:1
+two:2
+three:3
+four:4
+five:5
+six:6
+seven:7
+eight:8
+nine:9
+ten:10
+eleven:11
+twelve:12
+thirteen:13
+fourteen:14
+fifteen:15
+sixteen:16
+seventeen:17
+eighteen:18
+nineteen:19
+twenty:20
+thirty:30
+fourty:40
+fifty:50
+sixty:60
+seventy:70
+eighty:80
+ninety:90
+hundred:100
+thousand:1000
+}
+
+#Var ChangelogFilePath {/Scripts}
+#Var DocsPath {%replace(%replace(@ScriptPath,\,/),@ChangelogFilePath,"")/Docs}
+#Var ChangelogFilePath {@DocsPath/Changelog.txt}
+#Var DecimalChar {%If(%IsNumber(1.4)=1,.,~,)}
+#Var VirtualDisplays {Internal camera feeds|External camera feeds|Flight control scanners|Intrasector combat messages|Metafrequency messages|Communicator messages}

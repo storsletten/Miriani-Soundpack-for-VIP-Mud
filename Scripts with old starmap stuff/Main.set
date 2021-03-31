@@ -1,0 +1,238 @@
+#Config ScriptReadOnly True
+#Config AutoSave False
+#Config ExpandCommandLineVars False
+#Config Explicit False
+#Config SlowWalk True
+
+#Var StabilizedSoundsPath {%Replace(@SoundsPath,~@,~~~@)}
+#If {%Defined(AutoSelectCharacter)=0} {#Var AutoSelectCharacter 1}
+
+#GUnAlias login
+#GUnAlias sc
+#GUnAlias music
+#GUnAlias StopMusic
+#GUnAlias capture
+
+#Alias login {
+ #If {%Length(%CharInfo(Name))>0} {
+  #If {%IfWord(now,%1,|)=1 or (%Defined(SoundpackIsLoading)=0 and %IfWord(Username:,%LastLine(1),%CRLF)=1)} {
+   #UnVar AutoLogin;
+   #GUnVar AutoLogin;
+   #Config DisplayCommandsInOutput False;
+   #If {%Length(%CharInfo(Password))>0} {
+    #If {@BypassLoginMenu=1 or %Defined(AutoReconnect)=1} {
+     #If {%Defined(AutoReconnect)=1} {
+      #UnVar AutoReconnect
+     } {
+      #Say {The soundpack is configured to automatically select your character. You can disable this in conf gen.}
+     };
+     #Exec {>connect %Replace(%CharInfo(Name), ,_) %CharInfo(Password) @AutoSelectCharacter}
+    } {
+     #Exec {>connect %Replace(%CharInfo(Name), ,_) %CharInfo(Password)}
+    }
+   } {
+    #Exec {>%Replace(%CharInfo(Name), ,_)}
+   };
+   #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
+  } {#Var AutoLogin 1}
+ }
+}
+
+#If {%Defined(SoundpackIsLoading)=0} {#Var SoundpackIsLoading {}}
+#If {%IsNumber(%Version)=0} {
+ #Say {WARNING! You seem to be running VIP Mud 1.1, and therefore you'll need to install the 1.1 compatible version of this soundpack.}
+}
+
+#PC 0 Stop
+#Class LookForLoginPrompt Disable
+#Class MUDMixer Disable
+#Class NotMUDMixer Enable
+#Var UsingMUDMixer 0
+#Class Main Enable
+#Class MainOff Disable
+#Var Main 1
+#Var GagEverything 0
+#Var Idle 0
+#If {%Defined(Connected)=0} {#Var Connected 0}
+#If {%Defined(LastPXMessage)=1} {#Exec {#Class PX Enable;#Class NotPX Disable}} {#Exec {#Class PX Disable;#Class NotPX Enable}}
+
+#Trigger {Welcome to*} {
+ #If {%IfWord(%1,...| Miriani!| Stellaris!,|)=1} {#Class LookForLoginPrompt Enable; #Alarm 3 {#Class LookForLoginPrompt Disable}}
+} {NotMUDMixer}
+#Trigger {[#]$[#]*} {
+ #GagLine 1 All;
+ #If {%Length(%1)=0} {#Abort};
+ #Config DisplayCommandsInOutput False;
+ #If {%Defined(KeepAliveState)=1} {#Var KeepAliveState 1};
+ #If {%IfWord(%1,soundpack_pong,|)=1} {
+  #If {%Defined(WhoOriginalHeader)=1} {
+   WhoCheck {} {ReadingComplete};
+   #UnGagLine;
+   #Sub {%Copy(@WhoData,3)};
+   #UnVar WhoData
+  } {
+   #Exec {>#$#soundpack_ping_reply ms};
+   #If {%Defined(ShowPong)=1} {
+    #UnGagLine;
+    #Sub {Pong!};
+    MirianiSoundPlay Standard {General\Misc\Pong@Ext} 30 5;
+    #UnVar ShowPong
+   }
+  }
+ };
+ #If {@UsingMUDMixer=0 and %IfWord(%1,hjelp,|)=1} {
+  #If {@KeepAliveRespond=1 or @KeepAlive>0} {
+   #Exec {>#$#soundpack_ping_reply ms}
+  };
+  SPKeepAlive Start Quiet Replied
+ };
+ #If {%Pos(soundpack_lag,%1)=1} {
+  #If {%Defined(ShowPingPongLagReport)=1} {
+   #Var ShowPingPongLagReport {%Word(%1, ,2)};
+   #Var ShowPingPongLagReport {%Word(@ShowPingPongLagReport,.,1)};
+   #UnGagLine;
+   #Sub {You have @ShowPingPongLagReport ms of local client lag.};
+   #UnVar ShowPingPongLagReport
+  }
+ };
+ #If {%Pos(soundpack echo |,%1)=1} {
+  #If {%Defined(SPPromptAwaitingUserInput)=1} {
+   #If {@SPPromptAcceptBlankUserInput=1 or %Length(%1)>17} {
+    #Exec {#Alarm 0 {SPPrompt Disable;@SPPromptCallback {%Copy(%1,18)} {@SPPromptCallbackLastArg}}}
+   } {
+    MirianiSoundPlay Standard General\Misc\Cancel@Ext;
+    #Say {Aborted.} NoVoice;
+    SPPrompt Disable
+   }
+  } {
+   MirianiSoundPlay Standard General\Misc\Cancel@Ext
+  }
+ };
+ #If {%Pos(px,%1)=1} {ProcessPXMsg {%Copy(%1,4)}};
+ #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True}
+}
+
+#Alias ProcessPXMsg {
+ #Class NotPX Disable;
+ #Class PX Enable;
+ #Var LastPXMessage {%1};
+ #Var LastPXMessageCategory {%Word(%1, ,1)};
+ #If {%IfWord(starmap,@LastPXMessageCategory, )=1} {
+  #If {%Pos(nearest 1 |,@LastPXMessage)>0} {msplay General\Misc\Beep10@Ext};
+  #If {%Pos(nearest 0 |,@LastPXMessage)>0} {msplay Ship\Combat\Intruder@Ext};
+  #If {%Pos(| sensor interference,@LastPXMessage)>0} {msplay Ship\Computer\SensorInterference@Ext};
+  speech stop
+ };
+ #If {%IfWord(say,@LastPXMessageCategory, )=1} {#Say {%Copy(%1,5)} NoDisplay};
+ #If {%IfWord(interrupt,@LastPXMessageCategory, )=1} {speech stop;#Say {%Copy(%1,11)} NoDisplay};
+ #If {%IfWord(error,@LastPXMessageCategory, )=1} {#Bell};
+ #If {%IfWord(version,@LastPXMessageCategory, )=1} {#Var pxVersion {%Word(%1, ,2)}}
+}
+
+#Trigger {[*][*][*] * [*][*][*]} {
+ #If {%IfWord(%1,Connected,%CRLF)=1} {
+  #GagLine 1 Voice;
+  SPConnect 1;
+  #Alarm 2 {SPKeepAlive Start Quiet};
+  #Abort
+ };
+ #If {%IfWord(%1,Disconnected,%CRLF)=1} {
+  mrplay stop;
+  #Var Connected 0;
+  #PC 0 Stop;
+  #If {@AutoSave=1 and %Defined(ConfManagerMenusLoaded)=1} {ConfSaveAll Quiet};
+  #Abort
+ };
+ #If {%IfWord(%1,Redirecting old connection to this port,%CRLF)=1} {
+  #GagLine 1 Voice;
+  #Say {Reconnected} NoDisplay;
+  #PC 0 Stop;
+  #UnAlarm -1;
+  SPConnect 1;
+  l;
+  #Abort
+ };
+ #If {%IfWord(%1,You have entered a starship simulator. To exit~, please type END.,%CRLF)=1} {msplay General\Device\MovieStart@Ext;#Abort};
+ #If {%Pos(The server will be shut down,%1)=1} {msplay General\Misc\Announcement@Ext;#Abort};
+ #If {%IfWord(%1,Auto reconnect in progress...,%CRLF)=1} {#Var AutoLogin 1;#Var AutoReconnect 1};
+ #If {%Pos(update for Proxiani,%1)>0} {msplay {General\Misc\MOTD@Ext}}
+}
+#Trigger {Username:} {
+ #Class LookForLoginPrompt Disable;
+ #Var Connected 0;
+ #Config DisplayCommandsInOutput False;
+ #If {%Defined(SoundpackIsLoading)=1} {
+  #Alarm 0 {#Load {@ScriptPath\SoundpackLoader.set}}
+ } {
+  #If {@PlayStartupMusic=1} {
+   MirianiSoundPlay {Startup Music} {Music\*63@Ext};
+   #If {@SoundIsPlaying=1} {#Var StartupMusicHandle %PlayHandle} {#UnVar StartupMusicHandle}
+  };
+  #Exec {>register_soundpack @SoundpackName | @Version};
+  #If {%Defined(AutoLogin)=1} {
+   login now
+  } {
+   #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True};
+   #Alarm {0@{DecimalChar}5} {#If {%Defined(AutoLogin)=1} {login now}}
+  }
+ }
+} {LookForLoginPrompt}
+#Trigger {  MUDMixer Login} {
+ #Class MUDMixer Enable;
+ #Class NotMUDMixer Disable;
+ #Var UsingMUDMixer 1;
+ #Var Connected 0;
+ #Config DisplayCommandsInOutput False;
+ #If {%Defined(SoundpackIsLoading)=1} {
+  #Alarm 0 {#Load {@ScriptPath\SoundpackLoader.set}}
+ } {
+  #If {@PlayStartupMusic=1} {
+   MirianiSoundPlay {Startup Music} {Music\*63@Ext};
+   #If {@SoundIsPlaying=1} {#Var StartupMusicHandle %PlayHandle} {#UnVar StartupMusicHandle}
+  };
+  #Exec {>#$#register_soundpack @SoundpackName | @Version};
+  #If {%Defined(AutoLogin)=1} {
+   login now
+  } {
+   #If {@CommandEcho=1} {#Config DisplayCommandsInOutput True};
+   #Alarm {0@{DecimalChar}5} {#If {%Defined(AutoLogin)=1} {login now}}
+  }
+ }
+}
+#Trigger {Input your selection:} {MirianiSoundPlay Standard General\Misc\prompt@Ext} {Main}
+
+#Alias SPReload {
+ #If {%IfWord(Quiet,%1,|)=0} {#Say {Reloading...}};
+ #Ignore Key On;
+ #Ignore Trigger On;
+ #If {@AutoSave=1 and %Defined(ConfManagerMenusLoaded)=1} {ConfSaveAll Quiet};
+ #PC 0 Stop;
+ #UnAlarm -1;
+ #Alarm 0 {
+  #If {%Defined(LastPXMessage)=1} {
+   #Var PX {#Var PXVersion {@PXVersion};#Var LastPXMessage {@LastPXMessage};#Var PXToken {@PXToken};#Var PXProposedToken {@PXProposedToken};#Class PX Enable;#Class NotPX Disable}
+  } {
+   #Var PX {#Class PX Disable;#Class NotPX Enable}
+  };
+  #Exec {
+   #Reload;@PX;
+   #AddItem SoundpackIsLoading Reloading NoDuplicates;
+   #Var Classification {@Classification};
+   #Var Connected {@Connected};
+   #Var Exits {@Exits};
+   #Var Hostile {@Hostile};
+   #Var InSpace {@InSpace};
+   #Var Light {@Light};
+   #Var Outdoors {@Outdoors};
+   #Var HistoryLogBuffer {@HistoryLogBuffer};
+   #Var HistoryLogInitialization {@HistoryLogInitialization};
+   #Var RoomName {@RoomName};
+   #Var RoomSound {@RoomSound};
+   #Var Powered {@Powered};
+   #Var ZoneName {@ZoneName};
+   #Var ZoneType {@ZoneType};
+   #Var UsingMUDMixer {@UsingMUDMixer};
+   #Load {@ScriptPath\SoundpackLoader.set}
+  }
+ }
+}
