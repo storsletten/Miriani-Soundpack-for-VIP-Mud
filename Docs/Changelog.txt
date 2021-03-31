@@ -1,3 +1,7 @@
+Version 5.14.2, released 2021-03-31:
+* Removed PX and Proxiani aliases from the soundpack, since Proxiani really doesn't need them to be present.
+* Removed more code pertaining to PX support that is no longer needed.
+
 Version 5.14.1, released 2021-03-31:
 * This version marks the beginning of a new path forward where features found in Proxiani and/or MUDMixer will no longer be included in the soundpack.
   The goal of this is to reduce complexity and improve stability, which may still take more future versions to achieve.
