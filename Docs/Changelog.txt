@@ -1,3 +1,11 @@
+Version 5.14.1, released 2021-03-31:
+* This version marks the beginning of a new path forward where features found in Proxiani and/or MUDMixer will no longer be included in the soundpack.
+  The goal of this is to reduce complexity and improve stability, which may still take more future versions to achieve.
+  For now, starmap filters and the atsm code have been removed from the soundpack.
+  If you are still not using Proxiani and/or MUDMixer, then this might be the time to start looking into those options.
+  You can read more about Proxiani here:
+  https://github.com/tms88/Proxiani
+
 Version 5.13.71, released 2021-03-28:
 * The soundpack's keep-alive feature will now be disabled while you are connected to MUDMixer. This is to prevent those Miriani-specific keep-alive messages from being inadvertently mixed into other game environments where they are not recognized. Furthermore, MUDMixer is far more capable of keeping connections alive than the soundpack ever was.
 
