@@ -54,7 +54,7 @@
 #Var GagEverything 0
 #Var Idle 0
 #If {%Defined(Connected)=0} {#Var Connected 0}
-#If {%Defined(LastPXMessage)=1} {#Exec {#Class PX Enable;#Class NotPX Disable}} {#Exec {#Class PX Disable;#Class NotPX Enable}}
+#If {%Defined(LastPXMessage)=1} {#Class PX Enable} {#Class PX Disable}
 
 #Trigger {Welcome to*} {
  #If {%IfWord(%1,...| Miriani!| Stellaris!,|)=1} {#Class LookForLoginPrompt Enable; #Alarm 3 {#Class LookForLoginPrompt Disable}}
@@ -113,8 +113,7 @@
 }
 
 #Alias ProcessPXMsg {
- #Class NotPX Disable;
- #Class PX Enable;
+ #If {%Defined(LastPXMessage)=0} {#Class PX Enable};
  #Var LastPXMessage {%1};
  #Var LastPXMessageCategory {%Word(%1, ,1)};
  #If {%IfWord(starmap,@LastPXMessageCategory, )=1} {
@@ -210,9 +209,9 @@
  #UnAlarm -1;
  #Alarm 0 {
   #If {%Defined(LastPXMessage)=1} {
-   #Var PX {#Var PXVersion {@PXVersion};#Var LastPXMessage {@LastPXMessage};#Var PXToken {@PXToken};#Var PXProposedToken {@PXProposedToken};#Class PX Enable;#Class NotPX Disable}
+   #Var PX {#Var PXVersion {@PXVersion};#Var LastPXMessage {@LastPXMessage};#Var PXToken {@PXToken};#Var PXProposedToken {@PXProposedToken};#Class PX Enable}
   } {
-   #Var PX {#Class PX Disable;#Class NotPX Enable}
+   #Var PX {#Class PX Disable}
   };
   #Exec {
    #Reload;@PX;
