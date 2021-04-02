@@ -1,3 +1,6 @@
+Version 5.14.3, released 2021-04-02:
+* Fixed MX login and connected state issues.
+
 Version 5.14.2, released 2021-03-31:
 * Removed PX and Proxiani aliases from the soundpack, since Proxiani really doesn't need them to be present.
 * Removed more code pertaining to PX support that is no longer needed.
