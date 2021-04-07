@@ -1,6 +1,6 @@
 #Var ComputerActions {
 Autopilot engaged.^
- #If {@SpeakWhenPossible=1} {
+ #If {~@SpeakWhenPossible=1} {
   #GagLine 1 Voice;
   MirianiSoundPlay Standard Ship\Move\AutopilotEngaged~@Ext
  } {
@@ -9,7 +9,7 @@ Autopilot engaged.^
  }
 |
 Autopilot disengaged.^
- #If {@SpeakWhenPossible=1} {
+ #If {~@SpeakWhenPossible=1} {
   #GagLine 1 Voice;
   MirianiSoundPlay Standard Ship\Move\AutopilotDisengaged~@Ext
  } {
@@ -66,7 +66,7 @@ Aborting repair task. Please stand by.^
 |
 Sensors detect an obstacle in the path of the wormhole. Aborting FTL travel...^
  #Var PlayComputerSound 1;
- #If {@SpeakWhenPossible=1} {MirianiSoundPlay Standard Ship\Move\PathBlocked~@Ext}
+ #If {~@SpeakWhenPossible=1} {MirianiSoundPlay Standard Ship\Move\PathBlocked~@Ext}
 |
 There is insufficient weapons-grade bardenium available for firing.^
  MirianiSoundPlay Standard Ship\Combat\NoBard~@Ext;
