@@ -1,3 +1,6 @@
+Version 5.14.4, released 2021-04-07:
+* Fixed conf ship 11 not working as expected, maybe.
+
 Version 5.14.3, released 2021-04-02:
 * Fixed MX login and connected state issues.
 
